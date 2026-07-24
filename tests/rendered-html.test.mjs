@@ -62,6 +62,7 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /autoFocus=\{index === 0\}/);
   assert.match(page, /index === selectedLesson\.tokens\.length - 1/);
   assert.match(page, /最後一格按 Enter 檢查答案/);
+  assert.match(page, /id="dictation-answer"[\s\S]{0,180}autoFocus/);
   assert.match(data, /would like to/);
   assert.match(data, /courseUnits/);
   assert.match(layout, /lang="zh-Hant"/);

@@ -1165,6 +1165,7 @@ export default function Home() {
               className="answer-input sentence-input"
               rows={3}
               value={dictationValue}
+              autoFocus
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
