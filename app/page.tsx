@@ -887,7 +887,16 @@ export default function Home() {
               <span><small>文法重點</small><strong>{selectedLesson.grammar}</strong></span>
               <span><small>預估時間</small><strong>{selectedLesson.minutes} 分鐘</strong></span>
             </div>
-            <button className="primary-button big-button full-button" onClick={beginRecall}>▶ 從發音與中文提示開始</button>
+            <button
+              className="primary-button big-button full-button detail-next-button"
+              onClick={beginRecall}
+              autoFocus
+              aria-keyshortcuts="Enter"
+              title="按 Enter 開始"
+            >
+              <span>▶ 從發音與中文提示開始</span>
+              <kbd>Enter</kbd>
+            </button>
           </section>
         </div>
       );
@@ -1089,6 +1098,7 @@ export default function Home() {
                   <input
                     id={`rebuild-${index}`}
                     value={rebuildValues[index] ?? ""}
+                    autoFocus={index === 0}
                     autoComplete="off"
                     autoCorrect="off"
                     spellCheck={false}
