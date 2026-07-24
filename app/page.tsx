@@ -183,7 +183,7 @@ export default function Home() {
   const [selectedLesson, setSelectedLesson] = useState<Lesson>(courseUnits[0].lessons[0]);
   const [stage, setStage] = useState<LearningStage>("intro");
   const [tokenIndex, setTokenIndex] = useState(0);
-  const [recallValue, setRecallValue] = useState("");
+  const [recallValues, setRecallValues] = useState<string[]>([""]);
   const [recallAttempts, setRecallAttempts] = useState(0);
   const [hintLevel, setHintLevel] = useState(0);
   const [answerRevealed, setAnswerRevealed] = useState(false);
@@ -202,7 +202,7 @@ export default function Home() {
   const [adminUnit, setAdminUnit] = useState("all");
   const [toast, setToast] = useState("");
   const [loaded, setLoaded] = useState(false);
-  const recallInput = useRef<HTMLInputElement>(null);
+  const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -263,6 +263,8 @@ export default function Home() {
   });
 
   const currentToken = getToken(selectedLesson, selectedLesson.tokens[tokenIndex]);
+  const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
+  const recallAnswer = recallValues.join(" ");
 
   const isUnitAvailable = (unitIndex: number) =>
     unitIndex === 0 || progress.passedUnitIds.includes(courseUnits[unitIndex - 1].id);
@@ -315,7 +317,9 @@ export default function Home() {
     setSelectedLesson(item);
     setStage("intro");
     setTokenIndex(0);
-    setRecallValue("");
+    setRecallValues(
+      Array(getToken(item, item.tokens[0]).answer.trim().split(/\s+/).filter(Boolean).length).fill(""),
+    );
     setRecallAttempts(0);
     setHintLevel(0);
     setAnswerRevealed(false);
@@ -333,11 +337,13 @@ export default function Home() {
   const beginRecall = () => {
     setStage("recall");
     setStartedAt(timestamp());
-    window.setTimeout(() => recallInput.current?.focus(), 0);
+    window.setTimeout(() => recallInputs.current[0]?.focus(), 0);
   };
 
-  const resetRecallForNext = () => {
-    setRecallValue("");
+  const resetRecallForNext = (nextToken: LearningToken) => {
+    setRecallValues(
+      Array(getToken(selectedLesson, nextToken).answer.trim().split(/\s+/).filter(Boolean).length).fill(""),
+    );
     setRecallAttempts(0);
     setHintLevel(0);
     setAnswerRevealed(false);
@@ -347,9 +353,11 @@ export default function Home() {
 
   const advanceFromDetail = () => {
     if (tokenIndex < selectedLesson.tokens.length - 1) {
-      setTokenIndex((value) => value + 1);
-      resetRecallForNext();
+      const nextIndex = tokenIndex + 1;
+      resetRecallForNext(selectedLesson.tokens[nextIndex]);
+      setTokenIndex(nextIndex);
       setStage("recall");
+      window.setTimeout(() => recallInputs.current[0]?.focus(), 0);
     } else {
       setRebuildValues(selectedLesson.tokens.map(() => ""));
       setRebuildStatus(selectedLesson.tokens.map(() => ""));
@@ -373,7 +381,7 @@ export default function Home() {
 
   const checkRecall = () => {
     const accepted = [currentToken.answer, ...(currentToken.accepted ?? [])].map(clean);
-    const isCorrect = accepted.includes(clean(recallValue));
+    const isCorrect = accepted.includes(clean(recallAnswer));
     const elapsed = Math.round((timestamp() - startedAt) / 1000);
     if (isCorrect) {
       setProgress((value) => ({
@@ -400,8 +408,8 @@ export default function Home() {
       pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
     }));
     if (
-      clean(recallValue).length > 1 &&
-      editDistance(clean(recallValue), clean(currentToken.answer)) <= 2
+      clean(recallAnswer).length > 1 &&
+      editDistance(clean(recallAnswer), clean(currentToken.answer)) <= 2
     ) {
       setFeedback("拼字很接近，再檢查一次。");
     } else if (nextAttempt === 1) {
@@ -939,20 +947,87 @@ export default function Home() {
               <button className="audio-button" onClick={() => speak(currentToken.answer, settings.slowRate)}>◁ 慢速</button>
               <small>{audioMessage || "題目開始時會自動播放一次"}</small>
             </div>
-            <label className="field-label" htmlFor="recall-answer">英文答案</label>
-            <input
-              id="recall-answer"
-              ref={recallInput}
-              className="answer-input"
-              value={recallValue}
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck={false}
-              onPaste={() => setUsedPaste(true)}
-              onChange={(event) => setRecallValue(event.target.value)}
-              onKeyDown={(event) => event.key === "Enter" && checkRecall()}
-              placeholder={answerRevealed ? currentToken.answer : "輸入你聽到、想到的英文"}
-            />
+            <label className="field-label" htmlFor="recall-answer-0">英文答案</label>
+            <div
+              className={`recall-word-grid ${currentTokenWords.length > 1 ? "multiword" : ""}`}
+              style={{ "--recall-word-count": currentTokenWords.length } as React.CSSProperties}
+            >
+              {currentTokenWords.map((word, index) => (
+                <label className="recall-word-field" key={`${currentToken.id}-word-${index}`}>
+                  {currentTokenWords.length > 1 && <span>第 {index + 1} 詞</span>}
+                  <input
+                    id={`recall-answer-${index}`}
+                    ref={(element) => {
+                      recallInputs.current[index] = element;
+                    }}
+                    className="answer-input recall-word-input"
+                    value={recallValues[index] ?? ""}
+                    aria-label={`第 ${index + 1} 個英文詞，共 ${currentTokenWords.length} 個`}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    onPaste={(event) => {
+                      setUsedPaste(true);
+                      const pastedWords = event.clipboardData.getData("text").trim().split(/\s+/).filter(Boolean);
+                      if (pastedWords.length <= 1 || currentTokenWords.length === 1) return;
+                      event.preventDefault();
+                      setRecallValues((values) => {
+                        const nextValues = [...values];
+                        pastedWords.forEach((pastedWord, offset) => {
+                          if (index + offset < currentTokenWords.length) {
+                            nextValues[index + offset] = pastedWord;
+                          }
+                        });
+                        return nextValues;
+                      });
+                      const nextIndex = Math.min(index + pastedWords.length, currentTokenWords.length - 1);
+                      window.setTimeout(() => recallInputs.current[nextIndex]?.focus(), 0);
+                    }}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value.includes(" ") && currentTokenWords.length > 1) {
+                        const enteredWords = value.trim().split(/\s+/).filter(Boolean);
+                        setRecallValues((values) => {
+                          const nextValues = [...values];
+                          enteredWords.forEach((enteredWord, offset) => {
+                            if (index + offset < currentTokenWords.length) {
+                              nextValues[index + offset] = enteredWord;
+                            }
+                          });
+                          return nextValues;
+                        });
+                        const nextIndex = Math.min(index + enteredWords.length, currentTokenWords.length - 1);
+                        window.setTimeout(() => recallInputs.current[nextIndex]?.focus(), 0);
+                        return;
+                      }
+                      setRecallValues((values) => {
+                        const nextValues = [...values];
+                        nextValues[index] = value;
+                        return nextValues;
+                      });
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") checkRecall();
+                      if (event.key === "Backspace" && !recallValues[index] && index > 0) {
+                        recallInputs.current[index - 1]?.focus();
+                      }
+                    }}
+                    placeholder={
+                      answerRevealed
+                        ? word
+                        : currentTokenWords.length > 1
+                          ? `第 ${index + 1} 詞`
+                          : "輸入你聽到、想到的英文"
+                    }
+                  />
+                </label>
+              ))}
+            </div>
+            {currentTokenWords.length > 1 && (
+              <p className="chunk-input-note">
+                這是一個 {currentTokenWords.length} 詞語塊，請每格輸入一個英文詞。
+              </p>
+            )}
             <div className={`feedback ${answerRevealed ? "warning" : ""}`} aria-live="polite">
               {feedback || "大小寫與頭尾空格會寬鬆判定，拼字仍需正確。"}
             </div>

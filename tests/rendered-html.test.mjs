@@ -51,6 +51,8 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /localStorage/);
   assert.match(page, /exportContentXlsx/);
   assert.match(page, /checkDictation/);
+  assert.match(page, /recall-word-grid/);
+  assert.match(page, /這是一個 \{currentTokenWords\.length\} 詞語塊/);
   assert.match(data, /would like to/);
   assert.match(data, /courseUnits/);
   assert.match(layout, /lang="zh-Hant"/);
