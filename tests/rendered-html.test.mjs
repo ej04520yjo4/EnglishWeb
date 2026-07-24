@@ -73,6 +73,13 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /key=\{assessment\.checked \? "assessment-next" : "assessment-submit"\}/);
   assert.match(page, /title=\{assessment\.checked \? "按 Enter 繼續"/);
   assert.match(page, /KK 音標/);
+  assert.match(page, /const renderPhonetics/);
+  assert.match(page, /17 個母音・24 個子音/);
+  const alphabetSection = page.slice(
+    page.indexOf("const renderAlphabet"),
+    page.indexOf("const renderPhonetics"),
+  );
+  assert.doesNotMatch(alphabetSection, /entry\.kk|entry\.ipa/);
   assert.match(page, /美式 IPA/);
   assert.match(page, /advancedCoursePlans/);
   assert.match(data, /would like to/);

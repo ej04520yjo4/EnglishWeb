@@ -11,6 +11,7 @@ import {
   recordLearningEntityCompletion,
 } from "../app/learning-progress.ts";
 import { evaluateRebuildAttempt } from "../app/rebuild-flow.ts";
+import { kkPhoneticGroups } from "../app/kk-phonetics.ts";
 
 const csvUrl = new URL(
   "../public/data/A1課程內容_QA_corrected_v3.csv",
@@ -136,4 +137,16 @@ test("reveals the correct sentence and unlocks the next step after three rebuild
     "revealed",
     "revealed",
   ]);
+});
+
+test("provides a separate complete 41-symbol KK phonetic practice set", () => {
+  const vowels = kkPhoneticGroups.find((group) => group.id === "vowels");
+  const consonants = kkPhoneticGroups.find((group) => group.id === "consonants");
+  const entries = kkPhoneticGroups.flatMap((group) => group.entries);
+
+  assert.equal(vowels.entries.length, 17);
+  assert.equal(consonants.entries.length, 24);
+  assert.equal(entries.length, 41);
+  assert.equal(new Set(entries.map((entry) => entry.symbol)).size, 41);
+  assert.ok(entries.every((entry) => entry.example && entry.translation && entry.tip));
 });

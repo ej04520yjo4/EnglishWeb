@@ -1061,7 +1061,7 @@ progress::-webkit-progress-value {
 }
 
 .alphabet-grid button {
-  min-height: 156px;
+  min-height: 116px;
   display: grid;
   place-items: center;
   align-content: center;
@@ -1089,24 +1089,163 @@ progress::-webkit-progress-value {
   font-size: 19px;
 }
 
-.alphabet-grid small {
-  color: #aaa49d;
-  font-size: 9px;
-}
-
-.alphabet-grid .alphabet-phonetic {
-  width: 100%;
+.kk-summary {
+  min-width: 180px;
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  align-items: center;
-  margin-top: 4px;
-  color: #6f7480;
-  text-align: left;
+  gap: 3px;
+  padding: 18px 22px;
+  border: 1px solid #f2c3b3;
+  border-radius: 16px;
+  background: var(--coral-soft);
+  text-align: center;
 }
 
-.alphabet-phonetic b {
+.kk-summary strong {
+  color: var(--coral);
+  font-size: 34px;
+}
+
+.kk-summary span {
+  color: #7d5e54;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.phonetic-guide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 20px;
+  border: 1px solid #e8ddd3;
+  border-radius: 14px;
+  background: #fffdf9;
+}
+
+.phonetic-guide div {
+  display: grid;
+  gap: 4px;
+}
+
+.phonetic-guide span,
+.phonetic-guide small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.phonetic-section {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgb(255 253 249 / 86%);
+  box-shadow: 0 10px 26px rgb(76 59 40 / 4%);
+}
+
+.phonetic-section-heading {
+  margin-bottom: 18px;
+}
+
+.phonetic-section-heading h2 {
+  margin: 0 0 4px;
+}
+
+.phonetic-section-heading small {
+  color: var(--muted);
+}
+
+.phonetic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.phonetic-card {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e8dfd6;
+  border-radius: 15px;
+  background: white;
+}
+
+.phonetic-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.phonetic-card-top strong {
+  color: var(--coral);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 30px;
+}
+
+.phonetic-card-top span {
+  padding: 4px 8px;
+  color: #8d675b;
+  border-radius: 99px;
+  background: var(--coral-soft);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.phonetic-example {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.phonetic-example b {
+  color: var(--navy);
+  font-size: 19px;
+}
+
+.phonetic-example small {
+  color: var(--muted);
+}
+
+.phonetic-card p {
+  flex: 1;
+  margin: 0;
+  color: #716861;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.phonetic-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.phonetic-actions button {
+  min-height: 36px;
+  color: #546078;
+  border: 1px solid #ded8d1;
+  border-radius: 9px;
+  background: #fffdfb;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.phonetic-actions button:hover {
   color: var(--coral-dark);
-  font-size: 8px;
+  border-color: #f0b19c;
+  background: var(--coral-soft);
+}
+
+.phonetic-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.phonetic-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
 }
 
 .learning-shell {
@@ -1895,6 +2034,10 @@ progress::-webkit-progress-value {
     grid-template-columns: repeat(5, minmax(90px, 1fr));
   }
 
+  .phonetic-grid {
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
+  }
+
   .unit-progress-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1974,6 +2117,20 @@ progress::-webkit-progress-value {
     grid-template-columns: repeat(4, minmax(68px, 1fr));
   }
 
+  .kk-summary {
+    width: 100%;
+  }
+
+  .phonetic-guide,
+  .phonetic-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .phonetic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .detail-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2028,6 +2185,10 @@ progress::-webkit-progress-value {
 
   .alphabet-grid {
     grid-template-columns: repeat(3, minmax(70px, 1fr));
+  }
+
+  .phonetic-grid {
+    grid-template-columns: 1fr;
   }
 
   .detail-grid,

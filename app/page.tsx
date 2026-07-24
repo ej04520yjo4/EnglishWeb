@@ -20,11 +20,13 @@ import {
   evaluateRebuildAttempt,
   RebuildStatus,
 } from "./rebuild-flow";
+import { kkPhoneticGroups } from "./kk-phonetics";
 
 type Screen =
   | "home"
   | "map"
   | "alphabet"
+  | "phonetics"
   | "review"
   | "progress"
   | "admin"
@@ -120,6 +122,7 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "home", label: "首頁", icon: "⌂" },
   { screen: "map", label: "課程地圖", icon: "◉" },
   { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
+  { screen: "phonetics", label: "KK 音標", icon: "KK" },
   { screen: "review", label: "待複習", icon: "↻" },
   { screen: "progress", label: "學習進度", icon: "▥" },
   { screen: "admin", label: "內容管理", icon: "≡" },
@@ -1227,11 +1230,89 @@ export default function Home() {
           <button key={entry.letter} onClick={() => speak(entry.letter)}>
             <strong>{entry.letter}</strong>
             <span>{entry.letter.toLowerCase()}</span>
-            <small className="alphabet-phonetic"><b>KK</b>{entry.kk}</small>
-            <small className="alphabet-phonetic"><b>IPA</b>{entry.ipa}</small>
           </button>
         ))}
       </section>
+    </div>
+  );
+
+  const renderPhonetics = () => (
+    <div className="page-stack">
+      <section className="page-title kk-page-title">
+        <div>
+          <span className="eyebrow">獨立練習，不與 A–Z 字母名稱混在一起</span>
+          <h1>KK 音標發音</h1>
+          <p>點選每個音標的美式例字，從真實單字中聽辨目標音。</p>
+        </div>
+        <div className="kk-summary">
+          <strong>41</strong>
+          <span>17 個母音・24 個子音</span>
+        </div>
+      </section>
+      <section className="phonetic-guide">
+        <div>
+          <strong>怎麼使用？</strong>
+          <span>先看音標與嘴型提示，再播放正常與慢速例字並跟讀。</span>
+        </div>
+        <small aria-live="polite">
+          {!speechSupported
+            ? "此瀏覽器不支援語音播放，請改用最新版 Chrome。"
+            : audioMessage || "目前使用免費的瀏覽器美式語音播放例字。"}
+        </small>
+      </section>
+      {kkPhoneticGroups.map((group) => (
+        <section className="phonetic-section" key={group.id}>
+          <div className="section-heading phonetic-section-heading">
+            <div>
+              <h2>{group.title}</h2>
+              <small>{group.subtitle}</small>
+            </div>
+            <button
+              className="secondary-button"
+              disabled={!speechSupported}
+              onClick={() =>
+                speak(group.entries.map((entry) => entry.example).join(". "), 0.75)
+              }
+            >
+              ▶ 依序播放例字
+            </button>
+          </div>
+          <div className="phonetic-grid">
+            {group.entries.map((entry) => (
+              <article className="phonetic-card" key={entry.symbol}>
+                <div className="phonetic-card-top">
+                  <strong>[{entry.symbol}]</strong>
+                  <span>{group.id === "vowels" ? "母音" : "子音"}</span>
+                </div>
+                <div className="phonetic-example">
+                  <b>{entry.example}</b>
+                  <small>{entry.translation}</small>
+                </div>
+                <p>{entry.tip}</p>
+                <div className="phonetic-actions">
+                  <button
+                    disabled={!speechSupported}
+                    onClick={() => speak(entry.example)}
+                    aria-label={`正常播放例字 ${entry.example}`}
+                  >
+                    ▶ 正常
+                  </button>
+                  <button
+                    disabled={!speechSupported}
+                    onClick={() => speak(entry.example, settings.slowRate)}
+                    aria-label={`慢速播放例字 ${entry.example}`}
+                  >
+                    ◁ 慢速
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+      <p className="phonetic-note">
+        KK 符號用來記錄聲音，不等於英文字母名稱；實際發音會因單字重音與語流稍有變化。
+      </p>
     </div>
   );
 
@@ -1909,6 +1990,7 @@ export default function Home() {
     if (screen === "home") return renderHome();
     if (screen === "map") return renderMap();
     if (screen === "alphabet") return renderAlphabet();
+    if (screen === "phonetics") return renderPhonetics();
     if (screen === "review") return renderReview();
     if (screen === "progress") return renderProgress();
     if (screen === "admin") return renderAdmin();
