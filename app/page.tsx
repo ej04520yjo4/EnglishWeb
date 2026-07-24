@@ -1089,7 +1089,7 @@ export default function Home() {
             <span className="eyebrow">依中文提示，照順序重組句子</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
             <p className="chunk-input-note">
-              輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。
+              輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。最後一格按 Enter 檢查答案。
             </p>
             <div className="rebuild-grid">
               {selectedLesson.tokens.map((token, index) => (
@@ -1130,7 +1130,11 @@ export default function Home() {
                       }
                       if (event.key === "Enter") {
                         event.preventDefault();
-                        document.getElementById(`rebuild-${index + 1}`)?.focus();
+                        if (index === selectedLesson.tokens.length - 1) {
+                          checkRebuild();
+                        } else {
+                          document.getElementById(`rebuild-${index + 1}`)?.focus();
+                        }
                       }
                     }}
                   />
