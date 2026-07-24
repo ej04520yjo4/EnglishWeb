@@ -562,6 +562,38 @@ export default function Home() {
     setScreen("map");
   };
 
+  const continueAfterLesson = () => {
+    const unitIndex = courseUnits.findIndex((unit) => unit.id === selectedUnit.id);
+    const lessonIndex = selectedUnit.lessons.findIndex((item) => item.id === selectedLesson.id);
+    if (lessonIndex < selectedUnit.lessons.length - 1) {
+      startLesson(selectedUnit.lessons[lessonIndex + 1]);
+      return;
+    }
+    if (!progress.passedUnitIds.includes(selectedUnit.id)) {
+      startAssessment("unit", selectedUnit);
+      return;
+    }
+    if (unitIndex < courseUnits.length - 1) {
+      startLesson(courseUnits[unitIndex + 1].lessons[0]);
+      return;
+    }
+    if (!progress.levelPassed) {
+      startAssessment("level");
+      return;
+    }
+    setScreen("map");
+  };
+
+  const afterLessonLabel = () => {
+    const unitIndex = courseUnits.findIndex((unit) => unit.id === selectedUnit.id);
+    const lessonIndex = selectedUnit.lessons.findIndex((item) => item.id === selectedLesson.id);
+    if (lessonIndex < selectedUnit.lessons.length - 1) return "前往下一課 →";
+    if (!progress.passedUnitIds.includes(selectedUnit.id)) return "進入單元測驗 →";
+    if (unitIndex < courseUnits.length - 1) return "前往下一單元 →";
+    if (!progress.levelPassed) return "進入 A1 程度測驗 →";
+    return "回課程地圖";
+  };
+
   const updateFamiliarity = (item: ReviewItem, familiarity: Familiarity) => {
     const days = familiarity === "熟悉" ? Math.min(60, Math.max(3, item.intervalDays * 2)) : familiarity === "不熟" ? 1 : 0;
     setProgress((value) => ({
@@ -707,7 +739,43 @@ export default function Home() {
   };
 
   const renderHome = () => {
-    const nextUnit = courseUnits.find((unit) => unit.lessons.some((item) => item.id === nextLesson.id))!;
+    const pendingUnitTest = courseUnits.find(
+      (unit, index) =>
+        isUnitAvailable(index) &&
+        unit.lessons.every((item) => progress.completedLessonIds.includes(item.id)) &&
+        !progress.passedUnitIds.includes(unit.id),
+    );
+    const pendingLevelTest =
+      progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed;
+    const nextUnit =
+      pendingUnitTest ??
+      courseUnits.find((unit) => unit.lessons.some((item) => item.id === nextLesson.id))!;
+    const recommendation = pendingUnitTest
+      ? {
+          kicker: `下一個建議課程・單元 ${pendingUnitTest.number}`,
+          title: `${pendingUnitTest.title}・單元測驗`,
+          preview: "完成測驗後即可解鎖下一個單元。",
+          chips: [`${pendingUnitTest.lessons.length} 個句子`, "約 8 分鐘", "通過門檻 80%"],
+          action: () => startAssessment("unit", pendingUnitTest),
+          buttonLabel: "開始單元測驗",
+        }
+      : pendingLevelTest
+        ? {
+            kicker: "下一個建議課程・A1",
+            title: "A1 程度總測驗",
+            preview: "完成總測驗，確認 A1 的句子輸入能力。",
+            chips: [`${courseUnits.length} 個句子`, "約 15 分鐘", "通過門檻 85%"],
+            action: () => startAssessment("level"),
+            buttonLabel: "開始程度測驗",
+          }
+        : {
+            kicker: `下一個建議課程・單元 ${nextUnit.number}`,
+            title: nextLesson.title,
+            preview: nextLesson.sentence,
+            chips: [`${nextLesson.tokens.length} 個學習單位`, `約 ${nextLesson.minutes} 分鐘`, nextLesson.grammar],
+            action: () => startLesson(nextLesson),
+            buttonLabel: "開始這一課",
+          };
     return (
       <div className="page-stack">
         <section className="welcome-row">
@@ -721,18 +789,23 @@ export default function Home() {
 
         <section className="continue-card">
           <div className="continue-copy">
-            <span className="lesson-kicker">下一個建議課程・單元 {nextUnit.number}</span>
-            <h2>{nextLesson.title}</h2>
-            <p className="english-preview">{nextLesson.sentence}</p>
+            <span className="lesson-kicker">{recommendation.kicker}</span>
+            <h2>{recommendation.title}</h2>
+            <p className="english-preview">{recommendation.preview}</p>
             <div className="chip-row">
-              <span className="chip">{nextLesson.tokens.length} 個學習單位</span>
-              <span className="chip">約 {nextLesson.minutes} 分鐘</span>
-              <span className="chip">{nextLesson.grammar}</span>
+              {recommendation.chips.map((chip) => <span className="chip" key={chip}>{chip}</span>)}
             </div>
           </div>
-          <button className="primary-button big-button" onClick={() => startLesson(nextLesson)}>
+          <button
+            className="primary-button big-button detail-next-button"
+            onClick={recommendation.action}
+            autoFocus
+            aria-keyshortcuts="Enter"
+            title={`按 Enter：${recommendation.buttonLabel}`}
+          >
             <span className="play-dot">▶</span>
-            開始這一課
+            <span>{recommendation.buttonLabel}</span>
+            <kbd>Enter</kbd>
           </button>
         </section>
 
@@ -813,6 +886,8 @@ export default function Home() {
                         key={item.id}
                         className={`lesson-row ${done ? "done" : available ? "available" : "locked"}`}
                         disabled={!available && !done}
+                        autoFocus={available && !done && item.id === nextLesson.id}
+                        aria-keyshortcuts="Enter"
                         onClick={() => startLesson(item)}
                       >
                         <span className="lesson-number">{done ? "✓" : item.number}</span>
@@ -824,6 +899,8 @@ export default function Home() {
                   <button
                     className={`lesson-row test-row ${unitDone ? "available" : "locked"}`}
                     disabled={!unitDone}
+                    autoFocus={unitDone && !unitPassed}
+                    aria-keyshortcuts="Enter"
                     onClick={() => startAssessment("unit", unit)}
                   >
                     <span className="lesson-number">◆</span>
@@ -841,6 +918,8 @@ export default function Home() {
           <button
             className="secondary-button"
             disabled={progress.passedUnitIds.length < courseUnits.length}
+            autoFocus={progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed}
+            aria-keyshortcuts="Enter"
             onClick={() => startAssessment("level")}
           >
             {progress.levelPassed ? "重新挑戰" : "開始總測驗"}
@@ -931,7 +1010,16 @@ export default function Home() {
             </section>
             <div className="button-row">
               <button className="secondary-button" onClick={() => setScreen("map")}>回課程地圖</button>
-              <button className="primary-button" onClick={() => startLesson(nextLesson)}>前往下一課 →</button>
+              <button
+                className="primary-button detail-next-button"
+                onClick={continueAfterLesson}
+                autoFocus
+                aria-keyshortcuts="Enter"
+                title={`按 Enter：${afterLessonLabel()}`}
+              >
+                <span>{afterLessonLabel()}</span>
+                <kbd>Enter</kbd>
+              </button>
             </div>
           </section>
         </div>
@@ -1217,7 +1305,20 @@ export default function Home() {
             </article>
           ))}
           {!Object.keys(progress.reviewItems).length && (
-            <div className="empty-state"><strong>還沒有複習資料</strong><span>完成第一課後，系統會依表現建立複習排程。</span><button className="primary-button" onClick={() => startLesson(courseUnits[0].lessons[0])}>開始第一課</button></div>
+            <div className="empty-state">
+              <strong>還沒有複習資料</strong>
+              <span>完成第一課後，系統會依表現建立複習排程。</span>
+              <button
+                className="primary-button detail-next-button"
+                onClick={() => startLesson(courseUnits[0].lessons[0])}
+                autoFocus
+                aria-keyshortcuts="Enter"
+                title="按 Enter 開始第一課"
+              >
+                <span>開始第一課</span>
+                <kbd>Enter</kbd>
+              </button>
+            </div>
           )}
         </div>
       </section>
@@ -1334,9 +1435,39 @@ export default function Home() {
           <span className="eyebrow">完整句子輸入測驗</span>
           <h1 className="chinese-prompt">{item.translation}</h1>
           <button className="audio-button centered-audio" onClick={() => speak(item.sentence)}>▶ 播放完整句子</button>
-          <textarea className="answer-input sentence-input" rows={3} value={assessmentValue} disabled={assessment.checked} onChange={(event) => setAssessmentValue(event.target.value)} spellCheck={false} autoComplete="off" />
+          <textarea
+            key={item.id}
+            className="answer-input sentence-input"
+            rows={3}
+            value={assessmentValue}
+            disabled={assessment.checked}
+            autoFocus={!assessment.checked}
+            onChange={(event) => setAssessmentValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                checkAssessment();
+              }
+            }}
+            spellCheck={false}
+            autoComplete="off"
+          />
           {assessment.checked && <div className={`assessment-result ${assessment.lastScore >= 80 ? "pass" : ""}`}><strong>本題正確率 {assessment.lastScore}%</strong><span>正確句子：{item.sentence}</span></div>}
-          <button className="primary-button full-button" onClick={assessment.checked ? nextAssessment : checkAssessment}>{assessment.checked ? (assessment.index === assessment.lessons.length - 1 ? "查看測驗結果" : "下一題 →") : "送出答案"}</button>
+          <button
+            key={assessment.checked ? "assessment-next" : "assessment-submit"}
+            className="primary-button full-button detail-next-button"
+            onClick={assessment.checked ? nextAssessment : checkAssessment}
+            autoFocus={assessment.checked}
+            aria-keyshortcuts="Enter"
+            title={assessment.checked ? "按 Enter 繼續" : "在輸入框按 Enter 送出"}
+          >
+            <span>
+              {assessment.checked
+                ? (assessment.index === assessment.lessons.length - 1 ? "查看測驗結果" : "下一題 →")
+                : "送出答案"}
+            </span>
+            <kbd>Enter</kbd>
+          </button>
           {!!finalScores.length && <small className="center-note">目前平均 {Math.round(finalScores.reduce((sum, score) => sum + score, 0) / finalScores.length)}%</small>}
         </section>
       </div>
