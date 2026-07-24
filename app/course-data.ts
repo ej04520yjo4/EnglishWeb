@@ -1,15 +1,34 @@
 export type LearningToken = {
   id: string;
+  tokenId?: string;
+  occurrenceId?: string;
   answer: string;
   prompt: string;
+  promptType?: "meaning" | "grammar" | "context";
   partOfSpeech: string;
+  dictionaryPos?: string;
+  contextPos?: string;
+  semanticRole?: string;
+  lexemeId?: string;
+  senseId?: string;
   kk: string;
   ipa: string;
+  ipaStandalone?: string;
+  ipaInSentence?: string;
   syllables?: string;
   stress?: string;
   lemma?: string;
   note?: string;
   accepted?: string[];
+  chunk?: {
+    id: string;
+    text: string;
+    translation: string;
+    order: number;
+    note: string;
+  };
+  audioStatus?: "pending" | "fallback" | "ready" | "error";
+  wordAudioSource?: string;
 };
 
 export type Lesson = {
@@ -21,6 +40,16 @@ export type Lesson = {
   grammar: string;
   minutes: number;
   tokens: LearningToken[];
+  passageId?: string;
+  passageOrder?: number;
+  sentenceId?: string;
+  sentenceOrder?: number;
+  sentencePatternId?: string;
+  patternName?: string;
+  patternCefr?: string;
+  sentenceAudioSource?: string;
+  audioStatus?: "pending" | "fallback" | "ready" | "error";
+  sourceVersion?: string;
 };
 
 export type CourseUnit = {

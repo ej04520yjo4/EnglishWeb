@@ -491,11 +491,14 @@ progress::-webkit-progress-value {
 }
 
 .primary-button:disabled,
-.secondary-button:disabled {
+.secondary-button:disabled,
+.audio-button:disabled {
   color: #aaa6a0;
   border-color: #e5e0d9;
   background: #efebe5;
   box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .text-button,
@@ -1170,7 +1173,7 @@ progress::-webkit-progress-value {
 
 .intro-facts {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1px;
   overflow: hidden;
   margin-bottom: 26px;
@@ -1197,6 +1200,12 @@ progress::-webkit-progress-value {
   font-size: 13px;
 }
 
+.data-source-note {
+  margin: -12px 0 22px;
+  color: #6f625b;
+  font-size: 12px;
+}
+
 .exercise-card {
   text-align: center;
 }
@@ -1213,6 +1222,12 @@ progress::-webkit-progress-value {
 }
 
 .audio-row small {
+  color: var(--muted);
+}
+
+.audio-unavailable-message {
+  display: block;
+  margin-top: 12px;
   color: var(--muted);
 }
 
@@ -1358,6 +1373,30 @@ progress::-webkit-progress-value {
   background: var(--green-soft);
 }
 
+.prompt-type-badge {
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 5px 10px;
+  color: #675746;
+  border: 1px solid #ead7bd;
+  border-radius: 999px;
+  background: #fff8e9;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.prompt-type-badge.grammar {
+  color: #5b5a8d;
+  border-color: #d9d6f2;
+  background: #f5f3ff;
+}
+
+.prompt-type-badge.context {
+  color: #39765d;
+  border-color: #cce4d8;
+  background: #f0faf5;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1403,6 +1442,29 @@ progress::-webkit-progress-value {
   background: #fff8e9;
   font-size: 13px;
   line-height: 1.65;
+}
+
+.chunk-meaning-card {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 18px;
+  padding: 17px 19px;
+  color: #3d6654;
+  border: 1px solid #c8e0d4;
+  border-radius: 13px;
+  background: #f1faf5;
+}
+
+.chunk-meaning-card span {
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.chunk-meaning-card p {
+  margin: 0;
+  color: #5d7168;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .rebuild-grid {

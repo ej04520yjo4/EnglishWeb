@@ -10,6 +10,12 @@ import {
   Lesson,
 } from "./course-data";
 import { advancedCoursePlans } from "./course-roadmap";
+import { loadPilotLesson, PILOT_LESSON_ID } from "./a1-mvp-data";
+import {
+  LearningEntityProgressMap,
+  recordLearningEntityAttempt,
+  recordLearningEntityCompletion,
+} from "./learning-progress";
 
 type Screen =
   | "home"
@@ -44,6 +50,7 @@ type ReviewItem = {
 };
 
 type ProgressState = {
+  schemaVersion: 2;
   completedLessonIds: string[];
   passedUnitIds: string[];
   levelPassed: boolean;
@@ -53,6 +60,9 @@ type ProgressState = {
   pasteCount: number;
   studyDates: string[];
   reviewItems: Record<string, ReviewItem>;
+  lexemeProgress: LearningEntityProgressMap;
+  senseProgress: LearningEntityProgressMap;
+  sentencePatternProgress: LearningEntityProgressMap;
 };
 
 type SettingsState = {
@@ -71,6 +81,7 @@ const STORAGE = {
 };
 
 const emptyProgress: ProgressState = {
+  schemaVersion: 2,
   completedLessonIds: [],
   passedUnitIds: [],
   levelPassed: false,
@@ -80,7 +91,20 @@ const emptyProgress: ProgressState = {
   pasteCount: 0,
   studyDates: [],
   reviewItems: {},
+  lexemeProgress: {},
+  senseProgress: {},
+  sentencePatternProgress: {},
 };
+
+const normalizeProgress = (value: Partial<ProgressState>): ProgressState => ({
+  ...emptyProgress,
+  ...value,
+  schemaVersion: 2,
+  reviewItems: value.reviewItems ?? {},
+  lexemeProgress: value.lexemeProgress ?? {},
+  senseProgress: value.senseProgress ?? {},
+  sentencePatternProgress: value.sentencePatternProgress ?? {},
+});
 
 const defaultSettings: SettingsState = {
   phonetic: "KK",
@@ -155,6 +179,15 @@ const saveFile = (content: BlobPart, name: string, type: string) => {
 
 const csvEscape = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`;
 
+const activateButtonOnEnter = (
+  event: KeyboardEvent<HTMLButtonElement>,
+  action: () => void,
+) => {
+  if (event.key !== "Enter") return;
+  event.preventDefault();
+  action();
+};
+
 function ProgressRing({ value, label }: { value: number; label: string }) {
   return (
     <div className="progress-ring" style={{ "--progress": `${value * 3.6}deg` } as React.CSSProperties}>
@@ -203,7 +236,31 @@ export default function Home() {
   const [adminUnit, setAdminUnit] = useState("all");
   const [toast, setToast] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [pilotLesson, setPilotLesson] = useState<Lesson | null>(null);
+  const [pilotDataStatus, setPilotDataStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [speechSupported, setSpeechSupported] = useState(
+    () => typeof window === "undefined" || "speechSynthesis" in window,
+  );
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
+
+  useEffect(() => {
+    let active = true;
+    loadPilotLesson()
+      .then((lesson) => {
+        if (!active) return;
+        setPilotLesson(lesson);
+        setSelectedLesson((current) => current.id === PILOT_LESSON_ID ? lesson : current);
+        setPilotDataStatus("ready");
+      })
+      .catch(() => {
+        if (!active) return;
+        setPilotDataStatus("error");
+        setToast("A1 第一課資料暫時無法載入，請重新整理後再試。");
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -211,7 +268,7 @@ export default function Home() {
         const storedProgress = localStorage.getItem(STORAGE.progress);
         const storedSettings = localStorage.getItem(STORAGE.settings);
         const storedOverrides = localStorage.getItem(STORAGE.overrides);
-        if (storedProgress) setProgress({ ...emptyProgress, ...JSON.parse(storedProgress) });
+        if (storedProgress) setProgress(normalizeProgress(JSON.parse(storedProgress)));
         if (storedSettings) setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
         if (storedOverrides) setOverrides(JSON.parse(storedOverrides));
       } catch {
@@ -266,6 +323,12 @@ export default function Home() {
   const currentToken = getToken(selectedLesson, selectedLesson.tokens[tokenIndex]);
   const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
   const recallAnswer = recallValues.join(" ");
+  const tokenAudioAvailable =
+    speechSupported ||
+    (currentToken.audioStatus === "ready" && Boolean(currentToken.wordAudioSource?.trim()));
+  const sentenceAudioAvailable =
+    speechSupported ||
+    (selectedLesson.audioStatus === "ready" && Boolean(selectedLesson.sentenceAudioSource?.trim()));
 
   const isUnitAvailable = (unitIndex: number) =>
     unitIndex === 0 || progress.passedUnitIds.includes(courseUnits[unitIndex - 1].id);
@@ -292,7 +355,8 @@ export default function Home() {
 
   const speak = (text: string, rate = 1, countReplay = true) => {
     if (!("speechSynthesis" in window)) {
-      setAudioMessage("這台裝置暫時無法播放語音。");
+      setSpeechSupported(false);
+      setAudioMessage("此瀏覽器不支援語音播放，請改用最新版 Chrome。");
       return;
     }
     window.speechSynthesis.cancel();
@@ -307,26 +371,68 @@ export default function Home() {
     setAudioMessage(rate < 1 ? "正在播放慢速發音" : "正在播放美式發音");
   };
 
+  const playAudio = (
+    text: string,
+    audioStatus: LearningToken["audioStatus"] | Lesson["audioStatus"],
+    source: string | undefined,
+    rate = 1,
+    countReplay = true,
+  ) => {
+    if (audioStatus === "ready" && source?.trim()) {
+      const audio = new Audio(source);
+      audio.playbackRate = rate;
+      audio.play()
+        .then(() => {
+          if (countReplay) setAudioReplays((value) => value + 1);
+          setAudioMessage(rate < 1 ? "正在播放慢速課程音訊" : "正在播放課程音訊");
+        })
+        .catch(() => speak(text, rate, countReplay));
+      return;
+    }
+    speak(text, rate, countReplay);
+  };
+
+  const playTokenAudio = (token: LearningToken, rate = 1, countReplay = true) =>
+    playAudio(token.answer, token.audioStatus, token.wordAudioSource, rate, countReplay);
+
+  const playSentenceAudio = (lessonItem: Lesson, rate = 1, countReplay = true) =>
+    playAudio(
+      lessonItem.sentence,
+      lessonItem.audioStatus,
+      lessonItem.sentenceAudioSource,
+      rate,
+      countReplay,
+    );
+
   useEffect(() => {
     if (screen !== "learning" || !settings.autoplay || stage !== "recall") return;
-    const timer = window.setTimeout(() => speak(currentToken.answer, 1, false), 120);
+    const timer = window.setTimeout(() => playTokenAudio(currentToken, 1, false), 120);
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, stage, tokenIndex, selectedLesson.id]);
 
   const startLesson = (item: Lesson) => {
-    setSelectedLesson(item);
+    if (item.id === PILOT_LESSON_ID && pilotDataStatus !== "ready") {
+      setToast(
+        pilotDataStatus === "error"
+          ? "第一課資料載入失敗，請重新整理後再試。"
+          : "第一課資料準備中，請稍候一秒。",
+      );
+      return;
+    }
+    const lessonItem = item.id === PILOT_LESSON_ID ? pilotLesson ?? item : item;
+    setSelectedLesson(lessonItem);
     setStage("intro");
     setTokenIndex(0);
     setRecallValues(
-      Array(getToken(item, item.tokens[0]).answer.trim().split(/\s+/).filter(Boolean).length).fill(""),
+      Array(getToken(lessonItem, lessonItem.tokens[0]).answer.trim().split(/\s+/).filter(Boolean).length).fill(""),
     );
     setRecallAttempts(0);
     setHintLevel(0);
     setAnswerRevealed(false);
     setFeedback("");
-    setRebuildValues(item.tokens.map(() => ""));
-    setRebuildStatus(item.tokens.map(() => ""));
+    setRebuildValues(lessonItem.tokens.map(() => ""));
+    setRebuildStatus(lessonItem.tokens.map(() => ""));
     setDictationValue("");
     setDictationAttempts(0);
     setAudioReplays(0);
@@ -372,7 +478,7 @@ export default function Home() {
     if (level === 1) setFeedback(`字母數：${patternFor(currentToken.answer)}`);
     if (level === 2) {
       setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
-      speak(currentToken.answer, 1, false);
+      playTokenAudio(currentToken, 1, false);
     }
     if (level === 3) {
       setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
@@ -391,6 +497,18 @@ export default function Home() {
         correctAnswers: value.correctAnswers + (answerRevealed ? 0 : 1),
         totalSeconds: value.totalSeconds + elapsed,
         pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+        lexemeProgress: recordLearningEntityAttempt(
+          value.lexemeProgress,
+          currentToken.lexemeId ?? currentToken.tokenId ?? currentToken.id,
+          selectedLesson.id,
+          true,
+        ),
+        senseProgress: recordLearningEntityAttempt(
+          value.senseProgress,
+          currentToken.senseId,
+          selectedLesson.id,
+          true,
+        ),
       }));
       setFeedback("");
       setStage("detail");
@@ -407,6 +525,18 @@ export default function Home() {
       totalAttempts: value.totalAttempts + 1,
       totalSeconds: value.totalSeconds + elapsed,
       pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+      lexemeProgress: recordLearningEntityAttempt(
+        value.lexemeProgress,
+        currentToken.lexemeId ?? currentToken.tokenId ?? currentToken.id,
+        selectedLesson.id,
+        false,
+      ),
+      senseProgress: recordLearningEntityAttempt(
+        value.senseProgress,
+        currentToken.senseId,
+        selectedLesson.id,
+        false,
+      ),
     }));
     if (
       clean(recallAnswer).length > 1 &&
@@ -417,7 +547,7 @@ export default function Home() {
       setFeedback(`字母數：${patternFor(currentToken.answer)}`);
     } else if (nextAttempt === 2) {
       setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
-      speak(currentToken.answer, 1, false);
+      playTokenAudio(currentToken, 1, false);
     } else {
       setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
       setAnswerRevealed(true);
@@ -436,7 +566,11 @@ export default function Home() {
     setRebuildStatus(statuses);
     if (statuses.every((status) => status === "correct")) {
       setFeedback("順序與拼字都正確！完成格式如下：");
-      window.setTimeout(() => setStage("dictation"), 850);
+      if (selectedLesson.sourceVersion === "A1課程內容_QA_corrected_v3.csv") {
+        window.setTimeout(() => finishLesson(), 650);
+      } else {
+        window.setTimeout(() => setStage("dictation"), 850);
+      }
     } else {
       const labels = { order: "順序不對", spelling: "檢查拼字", missing: "尚未填寫", correct: "正確" };
       setFeedback(statuses.map((status, index) => `第 ${index + 1} 格：${labels[status as keyof typeof labels]}`).join("；"));
@@ -458,6 +592,8 @@ export default function Home() {
     const today = dateKey();
     setProgress((value) => {
       const reviewItems = { ...value.reviewItems };
+      let lexemeProgress = value.lexemeProgress;
+      let senseProgress = value.senseProgress;
       selectedLesson.tokens.forEach((token) => {
         const resolved = getToken(selectedLesson, token);
         reviewItems[`${selectedLesson.id}:${token.id}`] = {
@@ -469,15 +605,32 @@ export default function Home() {
           intervalDays: interval,
           successfulDays: 0,
         };
+        lexemeProgress = recordLearningEntityCompletion(
+          lexemeProgress,
+          resolved.lexemeId ?? resolved.tokenId ?? resolved.id,
+          selectedLesson.id,
+        );
+        senseProgress = recordLearningEntityCompletion(
+          senseProgress,
+          resolved.senseId,
+          selectedLesson.id,
+        );
       });
       return {
         ...value,
         completedLessonIds: Array.from(new Set([...value.completedLessonIds, selectedLesson.id])),
         studyDates: Array.from(new Set([...value.studyDates, today])),
         reviewItems,
+        lexemeProgress,
+        senseProgress,
+        sentencePatternProgress: recordLearningEntityCompletion(
+          value.sentencePatternProgress,
+          selectedLesson.sentencePatternId,
+          selectedLesson.id,
+        ),
       };
     });
-    speak(selectedLesson.sentence, 1, false);
+    playSentenceAudio(selectedLesson, 1, false);
     setStage("result");
   };
 
@@ -717,7 +870,7 @@ export default function Home() {
 
   const exportProgress = () => {
     saveFile(
-      JSON.stringify({ schemaVersion: 1, exportedAt: new Date().toISOString(), progress, settings }, null, 2),
+      JSON.stringify({ schemaVersion: 2, exportedAt: new Date().toISOString(), progress, settings }, null, 2),
       "英句練習_完整學習進度.json",
       "application/json",
     );
@@ -729,7 +882,7 @@ export default function Home() {
     try {
       const value = JSON.parse(await file.text());
       if (!value.progress) throw new Error("missing progress");
-      setProgress({ ...emptyProgress, ...value.progress });
+      setProgress(normalizeProgress(value.progress));
       if (value.settings) setSettings({ ...defaultSettings, ...value.settings });
       setToast("完整學習進度已還原。");
     } catch {
@@ -800,6 +953,7 @@ export default function Home() {
           <button
             className="primary-button big-button detail-next-button"
             onClick={recommendation.action}
+            onKeyDown={(event) => activateButtonOnEnter(event, recommendation.action)}
             autoFocus
             aria-keyshortcuts="Enter"
             title={`按 Enter：${recommendation.buttonLabel}`}
@@ -890,6 +1044,9 @@ export default function Home() {
                         autoFocus={available && !done && item.id === nextLesson.id}
                         aria-keyshortcuts="Enter"
                         onClick={() => startLesson(item)}
+                        onKeyDown={(event) =>
+                          activateButtonOnEnter(event, () => startLesson(item))
+                        }
                       >
                         <span className="lesson-number">{done ? "✓" : item.number}</span>
                         <span><strong>{item.title}</strong><small>{item.sentence}</small></span>
@@ -903,6 +1060,9 @@ export default function Home() {
                     autoFocus={unitDone && !unitPassed}
                     aria-keyshortcuts="Enter"
                     onClick={() => startAssessment("unit", unit)}
+                    onKeyDown={(event) =>
+                      activateButtonOnEnter(event, () => startAssessment("unit", unit))
+                    }
                   >
                     <span className="lesson-number">◆</span>
                     <span><strong>單元測驗</strong><small>正確率達 80% 即通過</small></span>
@@ -922,6 +1082,9 @@ export default function Home() {
             autoFocus={progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed}
             aria-keyshortcuts="Enter"
             onClick={() => startAssessment("level")}
+            onKeyDown={(event) =>
+              activateButtonOnEnter(event, () => startAssessment("level"))
+            }
           >
             {progress.levelPassed ? "重新挑戰" : "開始總測驗"}
           </button>
@@ -1032,10 +1195,22 @@ export default function Home() {
               <span><small>學習單位</small><strong>{selectedLesson.tokens.length}</strong></span>
               <span><small>文法重點</small><strong>{selectedLesson.grammar}</strong></span>
               <span><small>預估時間</small><strong>{selectedLesson.minutes} 分鐘</strong></span>
+              {selectedLesson.sentencePatternId && (
+                <span>
+                  <small>本課句型</small>
+                  <strong>{selectedLesson.patternName}</strong>
+                </span>
+              )}
             </div>
+            {selectedLesson.sourceVersion && (
+              <p className="data-source-note">
+                使用 A1 MVP v3 正式資料・逐字輸入模式
+              </p>
+            )}
             <button
               className="primary-button big-button full-button detail-next-button"
               onClick={beginRecall}
+              onKeyDown={(event) => activateButtonOnEnter(event, beginRecall)}
               autoFocus
               aria-keyshortcuts="Enter"
               title="按 Enter 開始"
@@ -1080,6 +1255,7 @@ export default function Home() {
               <button
                 className="primary-button detail-next-button"
                 onClick={continueAfterLesson}
+                onKeyDown={(event) => activateButtonOnEnter(event, continueAfterLesson)}
                 autoFocus
                 aria-keyshortcuts="Enter"
                 title={`按 Enter：${afterLessonLabel()}`}
@@ -1105,11 +1281,39 @@ export default function Home() {
         {stage === "recall" && (
           <section className="exercise-card">
             <span className="eyebrow">聽發音，依中文提示輸入英文</span>
+            {currentToken.promptType && (
+              <span className={`prompt-type-badge ${currentToken.promptType}`}>
+                {currentToken.promptType === "grammar"
+                  ? "文法提示"
+                  : currentToken.promptType === "context"
+                    ? "語境提示"
+                    : "中文提示"}
+              </span>
+            )}
             <h1 className="chinese-prompt">{currentToken.prompt}</h1>
             <div className="audio-row">
-              <button className="audio-button" onClick={() => speak(currentToken.answer)}>▶ 正常</button>
-              <button className="audio-button" onClick={() => speak(currentToken.answer, settings.slowRate)}>◁ 慢速</button>
-              <small>{audioMessage || "題目開始時會自動播放一次"}</small>
+              <button
+                className="audio-button"
+                disabled={!tokenAudioAvailable}
+                onClick={() => playTokenAudio(currentToken)}
+              >
+                ▶ 正常
+              </button>
+              <button
+                className="audio-button"
+                disabled={!tokenAudioAvailable}
+                onClick={() => playTokenAudio(currentToken, settings.slowRate)}
+              >
+                ◁ 慢速
+              </button>
+              <small>
+                {!tokenAudioAvailable
+                  ? "此瀏覽器不支援語音播放，播放按鈕已停用。"
+                  : audioMessage ||
+                  (currentToken.audioStatus === "ready"
+                    ? "使用課程音訊"
+                    : "課程音訊待製作，目前使用瀏覽器美式語音")}
+              </small>
             </div>
             <label className="field-label" htmlFor="recall-answer-0">英文答案</label>
             <div
@@ -1211,8 +1415,23 @@ export default function Home() {
                 <p>{currentToken.prompt}</p>
               </div>
               <div className="audio-row">
-                <button className="audio-button" onClick={() => speak(currentToken.answer)}>▶ 正常</button>
-                <button className="audio-button" onClick={() => speak(currentToken.answer, settings.slowRate)}>◁ 慢速</button>
+                <button
+                  className="audio-button"
+                  disabled={!tokenAudioAvailable}
+                  onClick={() => playTokenAudio(currentToken)}
+                >
+                  ▶ 正常
+                </button>
+                <button
+                  className="audio-button"
+                  disabled={!tokenAudioAvailable}
+                  onClick={() => playTokenAudio(currentToken, settings.slowRate)}
+                >
+                  ◁ 慢速
+                </button>
+                {!tokenAudioAvailable && (
+                  <small>此瀏覽器不支援語音播放，播放按鈕已停用。</small>
+                )}
               </div>
             </div>
             <div className="detail-grid">
@@ -1224,16 +1443,32 @@ export default function Home() {
                 <small>美式 IPA{settings.phonetic === "IPA" ? "・預設" : ""}</small>
                 <strong>{currentToken.ipa}</strong>
               </div>
-              <div><small>詞性</small><strong>{currentToken.partOfSpeech}</strong></div>
+              <div><small>句中詞性</small><strong>{currentToken.contextPos || currentToken.partOfSpeech}</strong></div>
+              {currentToken.dictionaryPos && (
+                <div><small>字典詞性</small><strong>{currentToken.dictionaryPos}</strong></div>
+              )}
               <div><small>音節</small><strong>{currentToken.syllables || "單音節／語塊"}</strong></div>
               <div><small>重音</small><strong>{currentToken.stress || "依語句自然重讀"}</strong></div>
               <div><small>原形或變化</small><strong>{currentToken.lemma || currentToken.answer}</strong></div>
-              <div><small>學習單位</small><strong>{currentToken.answer.includes(" ") ? "語塊 chunk" : "單字 word"}</strong></div>
+              <div><small>單字本體</small><strong>{currentToken.lexemeId || currentToken.tokenId || currentToken.id}</strong></div>
+              {currentToken.senseId && (
+                <div><small>句中用法</small><strong>{currentToken.senseId}</strong></div>
+              )}
+              <div><small>學習單位</small><strong>單字 word</strong></div>
             </div>
             {currentToken.note && <div className="usage-note"><strong>用法提醒</strong><span>{currentToken.note}</span></div>}
+            {currentToken.chunk &&
+              selectedLesson.tokens[tokenIndex + 1]?.chunk?.id !== currentToken.chunk.id && (
+                <div className="chunk-meaning-card">
+                  <span>語塊整體理解</span>
+                  <strong>{currentToken.chunk.text}＝{currentToken.chunk.translation}</strong>
+                  <p>{currentToken.chunk.note}</p>
+                </div>
+              )}
             <button
               className="primary-button full-button detail-next-button"
               onClick={advanceFromDetail}
+              onKeyDown={(event) => activateButtonOnEnter(event, advanceFromDetail)}
               autoFocus
               aria-keyshortcuts="Enter"
               title="按 Enter 繼續"
@@ -1251,7 +1486,9 @@ export default function Home() {
             <span className="eyebrow">依中文提示，照順序重組句子</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
             <p className="chunk-input-note">
-              輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。最後一格按 Enter 檢查答案。
+              {selectedLesson.sourceVersion
+                ? "每格只輸入一個英文單字；按空白鍵換到下一格，最後一格按 Enter 檢查答案。"
+                : "輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。最後一格按 Enter 檢查答案。"}
             </p>
             <div className="rebuild-grid">
               {selectedLesson.tokens.map((token, index) => (
@@ -1307,9 +1544,20 @@ export default function Home() {
             <div className="feedback" aria-live="polite">{feedback}</div>
             {rebuildStatus.every((status) => status === "correct") && <div className="correct-format">{selectedLesson.sentence}</div>}
             <div className="button-row">
-              <button className="secondary-button" onClick={() => speak(selectedLesson.sentence)}>▶ 聽完整句子</button>
+              <button
+                className="secondary-button"
+                disabled={!sentenceAudioAvailable}
+                onClick={() => playSentenceAudio(selectedLesson)}
+              >
+                ▶ 聽完整句子
+              </button>
               <button className="primary-button" onClick={checkRebuild}>檢查順序與拼字</button>
             </div>
+            {!sentenceAudioAvailable && (
+              <small className="audio-unavailable-message">
+                此瀏覽器不支援語音播放，完整句子播放按鈕已停用。
+              </small>
+            )}
           </section>
         )}
 
@@ -1318,9 +1566,26 @@ export default function Home() {
             <span className="eyebrow">隱藏英文，聽完整句子後輸入</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
             <div className="audio-row">
-              <button className="audio-button" onClick={() => speak(selectedLesson.sentence)}>▶ 正常</button>
-              <button className="audio-button" onClick={() => speak(selectedLesson.sentence, settings.slowRate)}>◁ 慢速</button>
+              <button
+                className="audio-button"
+                disabled={!sentenceAudioAvailable}
+                onClick={() => playSentenceAudio(selectedLesson)}
+              >
+                ▶ 正常
+              </button>
+              <button
+                className="audio-button"
+                disabled={!sentenceAudioAvailable}
+                onClick={() => playSentenceAudio(selectedLesson, settings.slowRate)}
+              >
+                ◁ 慢速
+              </button>
             </div>
+            {!sentenceAudioAvailable && (
+              <small className="audio-unavailable-message">
+                此瀏覽器不支援語音播放，完整句子播放按鈕已停用。
+              </small>
+            )}
             <label className="field-label" htmlFor="dictation-answer">完整英文句子</label>
             <textarea
               id="dictation-answer"
@@ -1385,6 +1650,9 @@ export default function Home() {
               <button
                 className="primary-button detail-next-button"
                 onClick={() => startLesson(courseUnits[0].lessons[0])}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, () => startLesson(courseUnits[0].lessons[0]))
+                }
                 autoFocus
                 aria-keyshortcuts="Enter"
                 title="按 Enter 開始第一課"
@@ -1531,6 +1799,12 @@ export default function Home() {
             key={assessment.checked ? "assessment-next" : "assessment-submit"}
             className="primary-button full-button detail-next-button"
             onClick={assessment.checked ? nextAssessment : checkAssessment}
+            onKeyDown={(event) =>
+              activateButtonOnEnter(
+                event,
+                assessment.checked ? nextAssessment : checkAssessment,
+              )
+            }
             autoFocus={assessment.checked}
             aria-keyshortcuts="Enter"
             title={assessment.checked ? "按 Enter 繼續" : "在輸入框按 Enter 送出"}
