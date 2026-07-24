@@ -1070,6 +1070,9 @@ export default function Home() {
           <section className="exercise-card">
             <span className="eyebrow">依中文提示，照順序重組句子</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
+            <p className="chunk-input-note">
+              輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。
+            </p>
             <div className="rebuild-grid">
               {selectedLesson.tokens.map((token, index) => (
                 <label key={`${token.id}-${index}`} className={`rebuild-field ${rebuildStatus[index]}`}>
@@ -1087,6 +1090,25 @@ export default function Home() {
                       setRebuildValues(values);
                     }}
                     onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
+                      if (event.key === " ") {
+                        const enteredWordCount = (rebuildValues[index] ?? "")
+                          .trim()
+                          .split(/\s+/)
+                          .filter(Boolean).length;
+                        const expectedWordCount = getToken(selectedLesson, token).answer
+                          .trim()
+                          .split(/\s+/)
+                          .filter(Boolean).length;
+                        if (enteredWordCount === 0) {
+                          event.preventDefault();
+                          return;
+                        }
+                        if (enteredWordCount >= expectedWordCount) {
+                          event.preventDefault();
+                          document.getElementById(`rebuild-${index + 1}`)?.focus();
+                          return;
+                        }
+                      }
                       if (event.key === "Enter") {
                         event.preventDefault();
                         document.getElementById(`rebuild-${index + 1}`)?.focus();
