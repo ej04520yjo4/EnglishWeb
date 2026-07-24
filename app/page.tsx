@@ -1060,8 +1060,17 @@ export default function Home() {
               <div><small>學習單位</small><strong>{currentToken.answer.includes(" ") ? "語塊 chunk" : "單字 word"}</strong></div>
             </div>
             {currentToken.note && <div className="usage-note"><strong>用法提醒</strong><span>{currentToken.note}</span></div>}
-            <button className="primary-button full-button" onClick={advanceFromDetail}>
-              {tokenIndex < selectedLesson.tokens.length - 1 ? "下一個學習單位 →" : "進入完整句子重組 →"}
+            <button
+              className="primary-button full-button detail-next-button"
+              onClick={advanceFromDetail}
+              autoFocus
+              aria-keyshortcuts="Enter"
+              title="按 Enter 繼續"
+            >
+              <span>
+                {tokenIndex < selectedLesson.tokens.length - 1 ? "下一個學習單位 →" : "進入完整句子重組 →"}
+              </span>
+              <kbd>Enter</kbd>
             </button>
           </section>
         )}

@@ -1125,6 +1125,24 @@ progress::-webkit-progress-value {
   font-size: 38px;
 }
 
+.detail-next-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+}
+
+.detail-next-button kbd {
+  padding: 3px 8px;
+  border: 1px solid rgb(255 255 255 / 65%);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 14%);
+  color: white;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+}
+
 .detail-head p {
   margin-bottom: 0;
   color: var(--muted);

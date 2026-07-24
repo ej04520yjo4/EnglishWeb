@@ -56,6 +56,8 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /event\.key === " "/);
   assert.match(page, /expectedWordCount/);
   assert.match(page, /按空白鍵可換格/);
+  assert.match(page, /aria-keyshortcuts="Enter"/);
+  assert.match(page, /detail-next-button/);
   assert.match(data, /would like to/);
   assert.match(data, /courseUnits/);
   assert.match(layout, /lang="zh-Hant"/);
