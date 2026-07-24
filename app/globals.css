@@ -1510,6 +1510,17 @@ progress::-webkit-progress-value {
   background: var(--yellow-soft);
 }
 
+.rebuild-field.revealed input {
+  color: #9a4529;
+  border-color: #f2a37f;
+  background: #fff2eb;
+}
+
+.rebuild-field.revealed > small {
+  color: #b15434;
+  font-weight: 800;
+}
+
 .correct-format {
   margin-bottom: 18px;
   color: #317e48;

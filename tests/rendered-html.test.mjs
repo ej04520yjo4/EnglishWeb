@@ -60,9 +60,11 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /aria-keyshortcuts="Enter"/);
   assert.match(page, /detail-next-button/);
   assert.match(page, /title="按 Enter 開始"/);
-  assert.match(page, /autoFocus=\{index === 0\}/);
+  assert.match(page, /autoFocus=\{index === 0 && !rebuildAnswerRevealed\}/);
   assert.match(page, /index === selectedLesson\.tokens\.length - 1/);
   assert.match(page, /最後一格按 Enter 檢查答案/);
+  assert.match(page, /已嘗試 3 次，正確答案已放入各格/);
+  assert.match(page, /rebuildAnswerRevealed \? "下一步 →"/);
   assert.match(page, /id="dictation-answer"[\s\S]{0,180}autoFocus/);
   assert.match(page, /continueAfterLesson/);
   assert.match(page, /進入單元測驗/);

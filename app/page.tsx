@@ -16,6 +16,10 @@ import {
   recordLearningEntityAttempt,
   recordLearningEntityCompletion,
 } from "./learning-progress";
+import {
+  evaluateRebuildAttempt,
+  RebuildStatus,
+} from "./rebuild-flow";
 
 type Screen =
   | "home"
@@ -223,7 +227,9 @@ export default function Home() {
   const [answerRevealed, setAnswerRevealed] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [rebuildValues, setRebuildValues] = useState<string[]>([]);
-  const [rebuildStatus, setRebuildStatus] = useState<string[]>([]);
+  const [rebuildStatus, setRebuildStatus] = useState<RebuildStatus[]>([]);
+  const [rebuildAttempts, setRebuildAttempts] = useState(0);
+  const [rebuildAnswerRevealed, setRebuildAnswerRevealed] = useState(false);
   const [dictationValue, setDictationValue] = useState("");
   const [dictationAttempts, setDictationAttempts] = useState(0);
   const [audioReplays, setAudioReplays] = useState(0);
@@ -438,6 +444,8 @@ export default function Home() {
     setAudioReplays(0);
     setUsedPaste(false);
     setStartedAt(timestamp());
+    setRebuildAttempts(0);
+    setRebuildAnswerRevealed(false);
     setScreen("learning");
   };
 
@@ -468,6 +476,8 @@ export default function Home() {
     } else {
       setRebuildValues(selectedLesson.tokens.map(() => ""));
       setRebuildStatus(selectedLesson.tokens.map(() => ""));
+      setRebuildAttempts(0);
+      setRebuildAnswerRevealed(false);
       setStage("rebuild");
     }
   };
@@ -556,25 +566,52 @@ export default function Home() {
   };
 
   const checkRebuild = () => {
-    const answers = selectedLesson.tokens.map((token) => clean(getToken(selectedLesson, token).answer));
-    const values = rebuildValues.map(clean);
-    const statuses = values.map((value, index) => {
-      if (value === answers[index]) return "correct";
-      if (answers.includes(value)) return "order";
-      return value ? "spelling" : "missing";
-    });
-    setRebuildStatus(statuses);
-    if (statuses.every((status) => status === "correct")) {
+    const answers = selectedLesson.tokens.map(
+      (token) => getToken(selectedLesson, token).answer,
+    );
+    const result = evaluateRebuildAttempt(
+      rebuildValues,
+      answers,
+      rebuildAttempts,
+    );
+    setRebuildAttempts(result.attempts);
+    setRebuildStatus(result.statuses);
+    setProgress((value) => ({
+      ...value,
+      totalAttempts: value.totalAttempts + 1,
+      correctAnswers: value.correctAnswers + (result.correct ? 1 : 0),
+    }));
+    if (result.correct) {
       setFeedback("順序與拼字都正確！完成格式如下：");
       if (selectedLesson.sourceVersion === "A1課程內容_QA_corrected_v3.csv") {
         window.setTimeout(() => finishLesson(), 650);
       } else {
         window.setTimeout(() => setStage("dictation"), 850);
       }
-    } else {
-      const labels = { order: "順序不對", spelling: "檢查拼字", missing: "尚未填寫", correct: "正確" };
-      setFeedback(statuses.map((status, index) => `第 ${index + 1} 格：${labels[status as keyof typeof labels]}`).join("；"));
+      return;
     }
+    if (result.revealed) {
+      setRebuildValues(result.displayValues);
+      setRebuildAnswerRevealed(true);
+      setFeedback(
+        `已嘗試 3 次，正確答案已放入各格。請閱讀「${selectedLesson.sentence}」後按下一步。`,
+      );
+      return;
+    }
+    const labels = {
+      "": "",
+      order: "順序不對",
+      spelling: "檢查拼字",
+      missing: "尚未填寫",
+      correct: "正確",
+      revealed: "正確答案",
+    };
+    setFeedback(
+      `第 ${result.attempts} 次未通過，還可以再試 ${3 - result.attempts} 次。` +
+      result.statuses
+        .map((status, index) => `第 ${index + 1} 格：${labels[status]}`)
+        .join("；"),
+    );
   };
 
   const sentenceDifference = () => {
@@ -588,7 +625,15 @@ export default function Home() {
   };
 
   const finishLesson = () => {
-    const interval = answerRevealed || recallAttempts >= 2 ? 1 : recallAttempts ? 1 : 3;
+    const interval =
+      answerRevealed ||
+      rebuildAnswerRevealed ||
+      recallAttempts >= 2 ||
+      rebuildAttempts >= 2
+        ? 1
+        : recallAttempts || rebuildAttempts
+          ? 1
+          : 3;
     const today = dateKey();
     setProgress((value) => {
       const reviewItems = { ...value.reviewItems };
@@ -632,6 +677,15 @@ export default function Home() {
     });
     playSentenceAudio(selectedLesson, 1, false);
     setStage("result");
+  };
+
+  const continueAfterRebuild = () => {
+    if (selectedLesson.sourceVersion === "A1課程內容_QA_corrected_v3.csv") {
+      finishLesson();
+      return;
+    }
+    setFeedback("");
+    setStage("dictation");
   };
 
   const checkDictation = () => {
@@ -1224,7 +1278,14 @@ export default function Home() {
     }
 
     if (stage === "result") {
-      const score = Math.max(0, 100 - recallAttempts * 8 - hintLevel * 5 - dictationAttempts * 7);
+      const score = Math.max(
+        0,
+        100 -
+        recallAttempts * 8 -
+        hintLevel * 5 -
+        rebuildAttempts * 7 -
+        dictationAttempts * 7,
+      );
       return (
         <div className="learning-shell">
           <section className="result-card">
@@ -1497,10 +1558,11 @@ export default function Home() {
                   <input
                     id={`rebuild-${index}`}
                     value={rebuildValues[index] ?? ""}
-                    autoFocus={index === 0}
+                    autoFocus={index === 0 && !rebuildAnswerRevealed}
                     autoComplete="off"
                     autoCorrect="off"
                     spellCheck={false}
+                    readOnly={rebuildAnswerRevealed}
                     onPaste={() => setUsedPaste(true)}
                     onChange={(event) => {
                       const values = [...rebuildValues];
@@ -1508,6 +1570,7 @@ export default function Home() {
                       setRebuildValues(values);
                     }}
                     onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
+                      if (rebuildAnswerRevealed) return;
                       if (event.key === " ") {
                         const enteredWordCount = (rebuildValues[index] ?? "")
                           .trim()
@@ -1537,12 +1600,15 @@ export default function Home() {
                       }
                     }}
                   />
-                  <small>{rebuildStatus[index] === "correct" ? "正確" : rebuildStatus[index] === "order" ? "順序不對" : rebuildStatus[index] === "spelling" ? "檢查拼字" : rebuildStatus[index] === "missing" ? "尚未填寫" : " "}</small>
+                  <small>{rebuildStatus[index] === "correct" ? "正確" : rebuildStatus[index] === "order" ? "順序不對" : rebuildStatus[index] === "spelling" ? "檢查拼字" : rebuildStatus[index] === "missing" ? "尚未填寫" : rebuildStatus[index] === "revealed" ? "正確答案" : " "}</small>
                 </label>
               ))}
             </div>
             <div className="feedback" aria-live="polite">{feedback}</div>
-            {rebuildStatus.every((status) => status === "correct") && <div className="correct-format">{selectedLesson.sentence}</div>}
+            {(rebuildAnswerRevealed ||
+              rebuildStatus.every((status) => status === "correct")) && (
+              <div className="correct-format">{selectedLesson.sentence}</div>
+            )}
             <div className="button-row">
               <button
                 className="secondary-button"
@@ -1551,7 +1617,24 @@ export default function Home() {
               >
                 ▶ 聽完整句子
               </button>
-              <button className="primary-button" onClick={checkRebuild}>檢查順序與拼字</button>
+              <button
+                key={rebuildAnswerRevealed ? "rebuild-next" : "rebuild-check"}
+                className="primary-button detail-next-button"
+                onClick={rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(
+                    event,
+                    rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild,
+                  )
+                }
+                autoFocus={rebuildAnswerRevealed}
+                aria-keyshortcuts="Enter"
+              >
+                <span>
+                  {rebuildAnswerRevealed ? "下一步 →" : "檢查順序與拼字"}
+                </span>
+                {rebuildAnswerRevealed && <kbd>Enter</kbd>}
+              </button>
             </div>
             {!sentenceAudioAvailable && (
               <small className="audio-unavailable-message">

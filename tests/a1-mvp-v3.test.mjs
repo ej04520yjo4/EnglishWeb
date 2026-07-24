@@ -10,6 +10,7 @@ import {
   recordLearningEntityAttempt,
   recordLearningEntityCompletion,
 } from "../app/learning-progress.ts";
+import { evaluateRebuildAttempt } from "../app/rebuild-flow.ts";
 
 const csvUrl = new URL(
   "../public/data/A1課程內容_QA_corrected_v3.csv",
@@ -108,4 +109,31 @@ test("records lexeme, sense, sentence-pattern, and completion progress", async (
     [lesson.id],
   );
   assert.deepEqual(restored.completedLessonIds, [PILOT_LESSON_ID]);
+});
+
+test("reveals the correct sentence and unlocks the next step after three rebuild errors", () => {
+  const expected = ["That", "is", "my", "bag"];
+  const first = evaluateRebuildAttempt(["this", "is", "my", "bag"], expected, 0);
+  const second = evaluateRebuildAttempt(
+    ["this", "is", "my", "bag"],
+    expected,
+    first.attempts,
+  );
+  const third = evaluateRebuildAttempt(
+    ["this", "is", "my", "bag"],
+    expected,
+    second.attempts,
+  );
+
+  assert.equal(first.revealed, false);
+  assert.equal(second.revealed, false);
+  assert.equal(third.attempts, 3);
+  assert.equal(third.revealed, true);
+  assert.deepEqual(third.displayValues, expected);
+  assert.deepEqual(third.statuses, [
+    "revealed",
+    "revealed",
+    "revealed",
+    "revealed",
+  ]);
 });
