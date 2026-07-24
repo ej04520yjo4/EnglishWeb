@@ -9,6 +9,7 @@ import {
   LearningToken,
   Lesson,
 } from "./course-data";
+import { advancedCoursePlans } from "./course-roadmap";
 
 type Screen =
   | "home"
@@ -926,6 +927,71 @@ export default function Home() {
           </button>
         </section>
       </div>
+      <section className="advanced-roadmap-section">
+        <div className="advanced-roadmap-head">
+          <div>
+            <span className="eyebrow">A2–C2 後續課程藍圖</span>
+            <h2>從日常溝通走向精準、流暢的進階表達</h2>
+            <p>每個程度維持「預習 → 回想 → 重組 → 聽寫 → 文章重建」，但會逐步加長文本、減少中文提示。</p>
+          </div>
+          <span className="status-pill">已完成架構規劃</span>
+        </div>
+        <div className="advanced-level-list">
+          {advancedCoursePlans.map((plan) => (
+            <details
+              className="advanced-level-card"
+              key={plan.code}
+              style={{ "--level-accent": plan.accent } as React.CSSProperties}
+              open={plan.code === "A2"}
+            >
+              <summary>
+                <span className="advanced-level-code">{plan.code}</span>
+                <span>
+                  <strong>{plan.name}</strong>
+                  <small>{plan.role}</small>
+                </span>
+                <span className="roadmap-status">課程規劃</span>
+              </summary>
+              <div className="advanced-level-content">
+                <div className="can-do-note">
+                  <small>程度完成後能做到</small>
+                  <strong>{plan.canDo}</strong>
+                </div>
+                <div className="roadmap-spec-grid">
+                  <span><small>課程規模</small><strong>{plan.lessonModel}</strong></span>
+                  <span><small>句子長度</small><strong>{plan.sentenceWords}</strong></span>
+                  <span><small>文章長度</small><strong>{plan.passageSentences}</strong></span>
+                  <span><small>新舊比例</small><strong>{plan.knowledgeRatio}</strong></span>
+                  <span><small>中文提示</small><strong>{plan.promptPolicy}</strong></span>
+                  <span><small>音訊難度</small><strong>{plan.audioPolicy}</strong></span>
+                </div>
+                <div className="roadmap-subsection">
+                  <small>文法與表達重點</small>
+                  <div className="chip-row">
+                    {plan.grammarFocus.map((item) => <span className="chip" key={item}>{item}</span>)}
+                  </div>
+                </div>
+                <div className="roadmap-subsection">
+                  <small>八個單元</small>
+                  <ol className="planned-unit-grid">
+                    {plan.units.map((unit) => <li key={unit}>{unit}</li>)}
+                  </ol>
+                </div>
+                <div className="unlock-note">解鎖條件：{plan.unlock}</div>
+              </div>
+            </details>
+          ))}
+        </div>
+        <p className="roadmap-source-note">
+          程度能力依
+          {" "}
+          <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale" target="_blank" rel="noreferrer">
+            歐洲理事會 CEFR 六級架構
+          </a>
+          {" "}
+          規劃；實際英文詞彙、文法與台灣繁中提示仍需逐課人工審核。
+        </p>
+      </section>
     </div>
   );
 
@@ -940,11 +1006,12 @@ export default function Home() {
         <button className="secondary-button" onClick={() => speak("A B C D E F G", 0.85)}>▶ 播放一段</button>
       </section>
       <section className="alphabet-grid">
-        {alphabet.map((letter) => (
-          <button key={letter} onClick={() => speak(letter)}>
-            <strong>{letter}</strong>
-            <span>{letter.toLowerCase()}</span>
-            <small>點一下聽發音</small>
+        {alphabet.map((entry) => (
+          <button key={entry.letter} onClick={() => speak(entry.letter)}>
+            <strong>{entry.letter}</strong>
+            <span>{entry.letter.toLowerCase()}</span>
+            <small className="alphabet-phonetic"><b>KK</b>{entry.kk}</small>
+            <small className="alphabet-phonetic"><b>IPA</b>{entry.ipa}</small>
           </button>
         ))}
       </section>
@@ -1149,7 +1216,14 @@ export default function Home() {
               </div>
             </div>
             <div className="detail-grid">
-              <div><small>{settings.phonetic} 音標</small><strong>{settings.phonetic === "KK" ? currentToken.kk : currentToken.ipa}</strong></div>
+              <div className={settings.phonetic === "KK" ? "preferred-phonetic" : ""}>
+                <small>KK 音標{settings.phonetic === "KK" ? "・預設" : ""}</small>
+                <strong>{currentToken.kk}</strong>
+              </div>
+              <div className={settings.phonetic === "IPA" ? "preferred-phonetic" : ""}>
+                <small>美式 IPA{settings.phonetic === "IPA" ? "・預設" : ""}</small>
+                <strong>{currentToken.ipa}</strong>
+              </div>
               <div><small>詞性</small><strong>{currentToken.partOfSpeech}</strong></div>
               <div><small>音節</small><strong>{currentToken.syllables || "單音節／語塊"}</strong></div>
               <div><small>重音</small><strong>{currentToken.stress || "依語句自然重讀"}</strong></div>

@@ -41,9 +41,10 @@ test("server-renders the Traditional Chinese learning experience", async () => {
 });
 
 test("keeps course data and product metadata ready for the MVP", async () => {
-  const [page, data, layout, packageJson] = await Promise.all([
+  const [page, data, roadmap, layout, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/course-data.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/course-roadmap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
@@ -69,8 +70,17 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /autoFocus=\{!assessment\.checked\}/);
   assert.match(page, /key=\{assessment\.checked \? "assessment-next" : "assessment-submit"\}/);
   assert.match(page, /title=\{assessment\.checked \? "按 Enter 繼續"/);
+  assert.match(page, /KK 音標/);
+  assert.match(page, /美式 IPA/);
+  assert.match(page, /advancedCoursePlans/);
   assert.match(data, /would like to/);
   assert.match(data, /courseUnits/);
+  assert.match(data, /\{ letter: "A", kk: "\/e\/", ipa: "\/eɪ\/" \}/);
+  for (const level of ["A2", "B1", "B2", "C1", "C2"]) {
+    assert.match(roadmap, new RegExp(`code: "${level}"`));
+  }
+  assert.match(roadmap, /一般過去式/);
+  assert.match(roadmap, /C2 綜合真實任務/);
   assert.match(layout, /lang="zh-Hant"/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await assert.rejects(access(new URL("../app/_sites-preview", root)));

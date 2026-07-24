@@ -620,4 +620,37 @@ export const allLessons = courseUnits.flatMap((unit) =>
   unit.lessons.map((item) => ({ ...item, unit })),
 );
 
-export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+export type AlphabetEntry = {
+  letter: string;
+  kk: string;
+  ipa: string;
+};
+
+export const alphabet: AlphabetEntry[] = [
+  { letter: "A", kk: "/e/", ipa: "/eɪ/" },
+  { letter: "B", kk: "/bi/", ipa: "/biː/" },
+  { letter: "C", kk: "/si/", ipa: "/siː/" },
+  { letter: "D", kk: "/di/", ipa: "/diː/" },
+  { letter: "E", kk: "/i/", ipa: "/iː/" },
+  { letter: "F", kk: "/ɛf/", ipa: "/ef/" },
+  { letter: "G", kk: "/dʒi/", ipa: "/dʒiː/" },
+  { letter: "H", kk: "/etʃ/", ipa: "/eɪtʃ/" },
+  { letter: "I", kk: "/aɪ/", ipa: "/aɪ/" },
+  { letter: "J", kk: "/dʒe/", ipa: "/dʒeɪ/" },
+  { letter: "K", kk: "/ke/", ipa: "/keɪ/" },
+  { letter: "L", kk: "/ɛl/", ipa: "/el/" },
+  { letter: "M", kk: "/ɛm/", ipa: "/em/" },
+  { letter: "N", kk: "/ɛn/", ipa: "/en/" },
+  { letter: "O", kk: "/o/", ipa: "/oʊ/" },
+  { letter: "P", kk: "/pi/", ipa: "/piː/" },
+  { letter: "Q", kk: "/kju/", ipa: "/kjuː/" },
+  { letter: "R", kk: "/ɑr/", ipa: "/ɑːr/" },
+  { letter: "S", kk: "/ɛs/", ipa: "/es/" },
+  { letter: "T", kk: "/ti/", ipa: "/tiː/" },
+  { letter: "U", kk: "/ju/", ipa: "/juː/" },
+  { letter: "V", kk: "/vi/", ipa: "/viː/" },
+  { letter: "W", kk: "/ˈdʌbəlju/", ipa: "/ˈdʌbəl.juː/" },
+  { letter: "X", kk: "/ɛks/", ipa: "/eks/" },
+  { letter: "Y", kk: "/waɪ/", ipa: "/waɪ/" },
+  { letter: "Z", kk: "/zi/", ipa: "/ziː/" },
+];
