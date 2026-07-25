@@ -33,17 +33,17 @@ test("server-renders the Traditional Chinese learning experience", async () => {
   const html = await response.text();
   assert.match(html, /<html lang="zh-Hant">/);
   assert.match(html, /<title>英句練習｜互動式英文句子學習<\/title>/);
-  assert.match(html, /把英文從「看得懂」練成「說得出來」/);
   assert.match(html, /課程地圖/);
   assert.match(html, /A–Z 基礎/);
-  assert.match(html, /I am Amy\./);
+  assert.match(html, /正在載入 A1 正式課程資料/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/);
 });
 
 test("keeps course data and product metadata ready for the MVP", async () => {
-  const [page, data, roadmap, layout, packageJson] = await Promise.all([
+  const [page, data, a1Data, roadmap, layout, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/course-data.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/a1-mvp-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/course-roadmap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
@@ -56,7 +56,7 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /這是一個 \{currentTokenWords\.length\} 詞語塊/);
   assert.match(page, /event\.key === " "/);
   assert.match(page, /expectedWordCount/);
-  assert.match(page, /按空白鍵可換格/);
+  assert.match(page, /按空白鍵換到下一格/);
   assert.match(page, /aria-keyshortcuts="Enter"/);
   assert.match(page, /detail-next-button/);
   assert.match(page, /title="按 Enter 開始"/);
@@ -66,6 +66,8 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /已嘗試 3 次，正確答案已放入各格/);
   assert.match(page, /rebuildAnswerRevealed \? "下一步 →"/);
   assert.match(page, /id="dictation-answer"[\s\S]{0,180}autoFocus/);
+  assert.match(page, /stage === "passage-rebuild"/);
+  assert.match(page, /checkPassageRebuild/);
   assert.match(page, /continueAfterLesson/);
   assert.match(page, /進入單元測驗/);
   assert.match(page, /autoFocus=\{unitDone && !unitPassed\}/);
@@ -85,8 +87,9 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.doesNotMatch(alphabetSection, /entry\.kk|entry\.ipa/);
   assert.match(page, /美式 IPA/);
   assert.match(page, /advancedCoursePlans/);
-  assert.match(data, /would like to/);
-  assert.match(data, /courseUnits/);
+  assert.doesNotMatch(data, /export const courseUnits/);
+  assert.match(a1Data, /buildCourseUnitsFromRows/);
+  assert.match(a1Data, /\/data\/a1-course-v3\.csv/);
   assert.match(data, /\{ letter: "A", kk: "\/e\/", ipa: "\/eɪ\/" \}/);
   for (const level of ["A2", "B1", "B2", "C1", "C2"]) {
     assert.match(roadmap, new RegExp(`code: "${level}"`));

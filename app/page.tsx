@@ -2,25 +2,44 @@
 
 import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
-  allLessons,
   alphabet,
-  courseUnits,
   CourseUnit,
   LearningToken,
   Lesson,
 } from "./course-data";
 import { advancedCoursePlans } from "./course-roadmap";
-import { loadPilotLesson, PILOT_LESSON_ID } from "./a1-mvp-data";
+import {
+  A1CourseCsvRow,
+  A1_V3_HEADERS,
+  buildCourseUnitsFromRows,
+  CourseValidationReport,
+  flattenCourseLessons,
+  loadA1CourseData,
+  normalizeA1CourseRows,
+  OFFICIAL_A1_SOURCE_VERSION,
+  parseA1MvpCsv,
+  serializeA1MvpCsv,
+  validateA1CourseRows,
+} from "./a1-mvp-data";
 import {
   LearningEntityProgressMap,
   recordLearningEntityAttempt,
   recordLearningEntityCompletion,
+  reviewIntervalForToken,
+  TokenLearningProgressMap,
+  updateTokenLearningProgress,
 } from "./learning-progress";
 import {
   evaluateRebuildAttempt,
   RebuildStatus,
 } from "./rebuild-flow";
 import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
+import { wordAccuracy } from "./assessment-scoring";
+import {
+  evaluatePassageRebuild,
+  lessonsForPassage,
+  PassageSentenceEvaluation,
+} from "./passage-flow";
 
 type Screen =
   | "home"
@@ -33,7 +52,14 @@ type Screen =
   | "settings"
   | "learning"
   | "assessment";
-type LearningStage = "intro" | "recall" | "detail" | "rebuild" | "dictation" | "result";
+type LearningStage =
+  | "intro"
+  | "recall"
+  | "detail"
+  | "rebuild"
+  | "dictation"
+  | "passage-rebuild"
+  | "result";
 type Familiarity = "熟悉" | "不熟" | "完全不會";
 type Assessment = {
   kind: "unit" | "level";
@@ -56,7 +82,7 @@ type ReviewItem = {
 };
 
 type ProgressState = {
-  schemaVersion: 2;
+  schemaVersion: 3;
   completedLessonIds: string[];
   passedUnitIds: string[];
   levelPassed: boolean;
@@ -69,6 +95,7 @@ type ProgressState = {
   lexemeProgress: LearningEntityProgressMap;
   senseProgress: LearningEntityProgressMap;
   sentencePatternProgress: LearningEntityProgressMap;
+  tokenProgress: TokenLearningProgressMap;
 };
 
 type SettingsState = {
@@ -77,17 +104,14 @@ type SettingsState = {
   slowRate: number;
 };
 
-type TokenOverride = Pick<LearningToken, "answer" | "prompt" | "kk" | "ipa" | "partOfSpeech" | "note">;
-type Overrides = Record<string, Partial<TokenOverride>>;
-
 const STORAGE = {
   progress: "yingju-progress-v1",
   settings: "yingju-settings-v1",
-  overrides: "yingju-content-overrides-v1",
+  courseRows: "yingju-course-rows-v3",
 };
 
 const emptyProgress: ProgressState = {
-  schemaVersion: 2,
+  schemaVersion: 3,
   completedLessonIds: [],
   passedUnitIds: [],
   levelPassed: false,
@@ -100,16 +124,18 @@ const emptyProgress: ProgressState = {
   lexemeProgress: {},
   senseProgress: {},
   sentencePatternProgress: {},
+  tokenProgress: {},
 };
 
 const normalizeProgress = (value: Partial<ProgressState>): ProgressState => ({
   ...emptyProgress,
   ...value,
-  schemaVersion: 2,
+  schemaVersion: 3,
   reviewItems: value.reviewItems ?? {},
   lexemeProgress: value.lexemeProgress ?? {},
   senseProgress: value.senseProgress ?? {},
   sentencePatternProgress: value.sentencePatternProgress ?? {},
+  tokenProgress: value.tokenProgress ?? {},
 });
 
 const defaultSettings: SettingsState = {
@@ -159,13 +185,6 @@ const editDistance = (a: string, b: string) => {
   return rows[a.length][b.length];
 };
 
-const wordAccuracy = (given: string, expected: string) => {
-  const actualWords = cleanSentence(given).split(" ").filter(Boolean);
-  const expectedWords = cleanSentence(expected).split(" ").filter(Boolean);
-  const correct = expectedWords.filter((word, index) => actualWords[index] === word).length;
-  return expectedWords.length ? Math.round((correct / expectedWords.length) * 100) : 0;
-};
-
 const dateKey = () => new Date().toISOString().slice(0, 10);
 const timestamp = () => Date.now();
 
@@ -184,8 +203,6 @@ const saveFile = (content: BlobPart, name: string, type: string) => {
   URL.revokeObjectURL(url);
 };
 
-const csvEscape = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`;
-
 const activateButtonOnEnter = (
   event: KeyboardEvent<HTMLButtonElement>,
   action: () => void,
@@ -193,6 +210,71 @@ const activateButtonOnEnter = (
   if (event.key !== "Enter") return;
   event.preventDefault();
   action();
+};
+
+const EMPTY_TOKEN: LearningToken = {
+  id: "",
+  tokenId: "",
+  occurrenceId: "",
+  answer: "",
+  prompt: "",
+  promptType: "meaning",
+  partOfSpeech: "",
+  dictionaryPos: "",
+  contextPos: "",
+  semanticRole: "",
+  lexemeId: "",
+  senseId: "",
+  kk: "",
+  ipa: "",
+  ipaStandalone: "",
+  ipaInSentence: "",
+  syllables: "",
+  stress: "",
+  lemma: "",
+  note: "",
+  patternId: "",
+  audioMethod: "",
+  audioStatus: "pending",
+  wordAudioSource: "",
+  audioSource: "",
+  license: "",
+  isNewWord: false,
+  isNewPattern: false,
+  isNewCombination: false,
+  isNewContent: false,
+  qaStatus: "",
+};
+
+const EMPTY_LESSON: Lesson = {
+  id: "",
+  number: 0,
+  title: "",
+  sentence: "",
+  translation: "",
+  grammar: "",
+  minutes: 0,
+  tokens: [EMPTY_TOKEN],
+  passageId: "",
+  passageOrder: 0,
+  sentenceId: "",
+  sentenceOrder: 0,
+  sentencePatternId: "",
+  patternName: "",
+  patternCefr: "",
+  isNewSentencePattern: false,
+  sentenceAudioSource: "",
+  audioStatus: "pending",
+  sourceVersion: OFFICIAL_A1_SOURCE_VERSION,
+};
+
+const EMPTY_UNIT: CourseUnit = {
+  id: "",
+  number: 0,
+  title: "",
+  description: "",
+  accent: "#f47b5b",
+  lessons: [],
 };
 
 function ProgressRing({ value, label }: { value: number; label: string }) {
@@ -220,8 +302,9 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>("home");
   const [progress, setProgress] = useState<ProgressState>(emptyProgress);
   const [settings, setSettings] = useState<SettingsState>(defaultSettings);
-  const [overrides, setOverrides] = useState<Overrides>({});
-  const [selectedLesson, setSelectedLesson] = useState<Lesson>(courseUnits[0].lessons[0]);
+  const [courseRows, setCourseRows] = useState<A1CourseCsvRow[]>([]);
+  const [courseUnits, setCourseUnits] = useState<CourseUnit[]>([]);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson>(EMPTY_LESSON);
   const [stage, setStage] = useState<LearningStage>("intro");
   const [tokenIndex, setTokenIndex] = useState(0);
   const [recallValues, setRecallValues] = useState<string[]>([""]);
@@ -244,10 +327,16 @@ export default function Home() {
   const [assessmentValue, setAssessmentValue] = useState("");
   const [adminSearch, setAdminSearch] = useState("");
   const [adminUnit, setAdminUnit] = useState("all");
+  const [importReport, setImportReport] =
+    useState<CourseValidationReport | null>(null);
   const [toast, setToast] = useState("");
   const [loaded, setLoaded] = useState(false);
-  const [pilotLesson, setPilotLesson] = useState<Lesson | null>(null);
-  const [pilotDataStatus, setPilotDataStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [courseDataStatus, setCourseDataStatus] =
+    useState<"loading" | "ready" | "error">("loading");
+  const [passageValues, setPassageValues] = useState<string[]>([]);
+  const [passageEvaluation, setPassageEvaluation] =
+    useState<PassageSentenceEvaluation[]>([]);
+  const [passageAttempts, setPassageAttempts] = useState(0);
   const [speechSupported, setSpeechSupported] = useState(
     () => typeof window === "undefined" || "speechSynthesis" in window,
   );
@@ -257,17 +346,38 @@ export default function Home() {
 
   useEffect(() => {
     let active = true;
-    loadPilotLesson()
-      .then((lesson) => {
+    loadA1CourseData()
+      .then(({ rows: officialRows, courseUnits: officialUnits }) => {
         if (!active) return;
-        setPilotLesson(lesson);
-        setSelectedLesson((current) => current.id === PILOT_LESSON_ID ? lesson : current);
-        setPilotDataStatus("ready");
+        let rows = officialRows;
+        let units = officialUnits;
+        const storedRows = localStorage.getItem(STORAGE.courseRows);
+        if (storedRows) {
+          try {
+            const restoredRows = normalizeA1CourseRows(JSON.parse(storedRows));
+            const report = validateA1CourseRows(
+              restoredRows,
+              officialRows.map((row) => row.occurrence_id),
+            );
+            if (report.valid) {
+              rows = restoredRows;
+              units = buildCourseUnitsFromRows(restoredRows);
+            } else {
+              localStorage.removeItem(STORAGE.courseRows);
+            }
+          } catch {
+            localStorage.removeItem(STORAGE.courseRows);
+          }
+        }
+        setCourseRows(rows);
+        setCourseUnits(units);
+        setSelectedLesson(units[0]?.lessons[0] ?? EMPTY_LESSON);
+        setCourseDataStatus("ready");
       })
       .catch(() => {
         if (!active) return;
-        setPilotDataStatus("error");
-        setToast("A1 第一課資料暫時無法載入，請重新整理後再試。");
+        setCourseDataStatus("error");
+        setToast("A1 正式課程資料暫時無法載入，請重新整理後再試。");
       });
     return () => {
       active = false;
@@ -279,10 +389,8 @@ export default function Home() {
       try {
         const storedProgress = localStorage.getItem(STORAGE.progress);
         const storedSettings = localStorage.getItem(STORAGE.settings);
-        const storedOverrides = localStorage.getItem(STORAGE.overrides);
         if (storedProgress) setProgress(normalizeProgress(JSON.parse(storedProgress)));
         if (storedSettings) setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
-        if (storedOverrides) setOverrides(JSON.parse(storedOverrides));
       } catch {
         setToast("部分舊資料無法讀取，已使用安全的預設值。");
       } finally {
@@ -303,9 +411,9 @@ export default function Home() {
   }, [loaded, settings]);
 
   useEffect(() => {
-    if (!loaded) return;
-    localStorage.setItem(STORAGE.overrides, JSON.stringify(overrides));
-  }, [loaded, overrides]);
+    if (!loaded || courseDataStatus !== "ready" || courseRows.length === 0) return;
+    localStorage.setItem(STORAGE.courseRows, JSON.stringify(courseRows));
+  }, [courseDataStatus, courseRows, loaded]);
 
   useEffect(() => {
     if (!toast) return;
@@ -313,13 +421,25 @@ export default function Home() {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  const allLessons = useMemo(
+    () => flattenCourseLessons(courseUnits),
+    [courseUnits],
+  );
+
   const selectedUnit = useMemo(
-    () => courseUnits.find((unit) => unit.lessons.some((item) => item.id === selectedLesson.id))!,
-    [selectedLesson],
+    () =>
+      courseUnits.find((unit) =>
+        unit.lessons.some((item) => item.id === selectedLesson.id),
+      ) ??
+      courseUnits[0] ??
+      EMPTY_UNIT,
+    [courseUnits, selectedLesson.id],
   );
 
   const completedCount = progress.completedLessonIds.length;
-  const coursePercent = Math.round((completedCount / allLessons.length) * 100);
+  const coursePercent = allLessons.length
+    ? Math.round((completedCount / allLessons.length) * 100)
+    : 0;
   const dueReviews = Object.values(progress.reviewItems).filter(
     (item) => new Date(item.dueAt).getTime() <= timestamp(),
   );
@@ -327,12 +447,16 @@ export default function Home() {
     ? Math.round((progress.correctAnswers / progress.totalAttempts) * 100)
     : 0;
 
-  const getToken = (lessonItem: Lesson, token: LearningToken) => ({
-    ...token,
-    ...(overrides[`${lessonItem.id}:${token.id}`] ?? {}),
-  });
+  const getToken = (_lessonItem: Lesson, token: LearningToken) => token;
 
-  const currentToken = getToken(selectedLesson, selectedLesson.tokens[tokenIndex]);
+  const currentToken = getToken(
+    selectedLesson,
+    selectedLesson.tokens[tokenIndex] ?? EMPTY_TOKEN,
+  );
+  const selectedPassageLessons = useMemo(
+    () => lessonsForPassage(allLessons, selectedLesson.passageId),
+    [allLessons, selectedLesson.passageId],
+  );
   const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
   const recallAnswer = recallValues.join(" ");
   const tokenAudioAvailable =
@@ -362,7 +486,7 @@ export default function Home() {
         }
       }
     }
-    return allLessons[allLessons.length - 1];
+    return allLessons[allLessons.length - 1] ?? EMPTY_LESSON;
   })();
 
   const speak = (text: string, rate = 1, countReplay = true) => {
@@ -404,8 +528,29 @@ export default function Home() {
     speak(text, rate, countReplay);
   };
 
-  const playTokenAudio = (token: LearningToken, rate = 1, countReplay = true) =>
-    playAudio(token.answer, token.audioStatus, token.wordAudioSource, rate, countReplay);
+  const playTokenAudio = (
+    token: LearningToken,
+    rate = 1,
+    countReplay = true,
+  ) => {
+    if (countReplay && token.occurrenceId) {
+      setProgress((value) => ({
+        ...value,
+        tokenProgress: updateTokenLearningProgress(
+          value.tokenProgress,
+          token.occurrenceId,
+          { audioReplayDelta: 1 },
+        ),
+      }));
+    }
+    playAudio(
+      token.answer,
+      token.audioStatus,
+      token.wordAudioSource,
+      rate,
+      countReplay,
+    );
+  };
 
   const playSentenceAudio = (lessonItem: Lesson, rate = 1, countReplay = true) =>
     playAudio(
@@ -492,27 +637,31 @@ export default function Home() {
   }, [screen, stage, tokenIndex, selectedLesson.id]);
 
   const startLesson = (item: Lesson) => {
-    if (item.id === PILOT_LESSON_ID && pilotDataStatus !== "ready") {
+    if (courseDataStatus !== "ready" || !item.id) {
       setToast(
-        pilotDataStatus === "error"
-          ? "第一課資料載入失敗，請重新整理後再試。"
-          : "第一課資料準備中，請稍候一秒。",
+        courseDataStatus === "error"
+          ? "正式課程資料載入失敗，請重新整理後再試。"
+          : "正式課程資料準備中，請稍候一秒。",
       );
       return;
     }
-    const lessonItem = item.id === PILOT_LESSON_ID ? pilotLesson ?? item : item;
-    setSelectedLesson(lessonItem);
+    setSelectedLesson(item);
     setStage("intro");
     setTokenIndex(0);
     setRecallValues(
-      Array(getToken(lessonItem, lessonItem.tokens[0]).answer.trim().split(/\s+/).filter(Boolean).length).fill(""),
+      Array(
+        getToken(item, item.tokens[0]).answer
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean).length,
+      ).fill(""),
     );
     setRecallAttempts(0);
     setHintLevel(0);
     setAnswerRevealed(false);
     setFeedback("");
-    setRebuildValues(lessonItem.tokens.map(() => ""));
-    setRebuildStatus(lessonItem.tokens.map(() => ""));
+    setRebuildValues(item.tokens.map(() => ""));
+    setRebuildStatus(item.tokens.map(() => ""));
     setDictationValue("");
     setDictationAttempts(0);
     setAudioReplays(0);
@@ -520,6 +669,9 @@ export default function Home() {
     setStartedAt(timestamp());
     setRebuildAttempts(0);
     setRebuildAnswerRevealed(false);
+    setPassageValues([]);
+    setPassageEvaluation([]);
+    setPassageAttempts(0);
     setScreen("learning");
   };
 
@@ -538,6 +690,7 @@ export default function Home() {
     setAnswerRevealed(false);
     setFeedback("");
     setStartedAt(timestamp());
+    setUsedPaste(false);
   };
 
   const advanceFromDetail = () => {
@@ -557,8 +710,20 @@ export default function Home() {
   };
 
   const requestHint = () => {
+    if (hintLevel >= 3) return;
     const level = Math.min(3, hintLevel + 1);
     setHintLevel(level);
+    setProgress((value) => ({
+      ...value,
+      tokenProgress: updateTokenLearningProgress(
+        value.tokenProgress,
+        currentToken.occurrenceId,
+        {
+          hintDelta: 1,
+          answerRevealed: level === 3,
+        },
+      ),
+    }));
     if (level === 1) setFeedback(`字母數：${patternFor(currentToken.answer)}`);
     if (level === 2) {
       setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
@@ -577,10 +742,21 @@ export default function Home() {
     if (isCorrect) {
       setProgress((value) => ({
         ...value,
-        totalAttempts: value.totalAttempts + (answerRevealed ? 0 : 1),
+        totalAttempts: value.totalAttempts + 1,
         correctAnswers: value.correctAnswers + (answerRevealed ? 0 : 1),
         totalSeconds: value.totalSeconds + elapsed,
         pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+        tokenProgress: updateTokenLearningProgress(
+          value.tokenProgress,
+          currentToken.occurrenceId,
+          {
+            attemptDelta: 1,
+            elapsedDelta: elapsed,
+            usedPaste,
+            answerRevealed,
+            correctDelta: answerRevealed ? 0 : 1,
+          },
+        ),
         lexemeProgress: recordLearningEntityAttempt(
           value.lexemeProgress,
           currentToken.lexemeId ?? currentToken.tokenId ?? currentToken.id,
@@ -609,6 +785,16 @@ export default function Home() {
       totalAttempts: value.totalAttempts + 1,
       totalSeconds: value.totalSeconds + elapsed,
       pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+      tokenProgress: updateTokenLearningProgress(
+        value.tokenProgress,
+        currentToken.occurrenceId,
+        {
+          attemptDelta: 1,
+          elapsedDelta: elapsed,
+          usedPaste,
+          answerRevealed: nextAttempt >= 3,
+        },
+      ),
       lexemeProgress: recordLearningEntityAttempt(
         value.lexemeProgress,
         currentToken.lexemeId ?? currentToken.tokenId ?? currentToken.id,
@@ -657,11 +843,7 @@ export default function Home() {
     }));
     if (result.correct) {
       setFeedback("順序與拼字都正確！完成格式如下：");
-      if (selectedLesson.sourceVersion === "A1課程內容_QA_corrected_v3.csv") {
-        window.setTimeout(() => finishLesson(), 650);
-      } else {
-        window.setTimeout(() => setStage("dictation"), 850);
-      }
+      window.setTimeout(() => setStage("dictation"), 850);
       return;
     }
     if (result.revealed) {
@@ -699,24 +881,25 @@ export default function Home() {
   };
 
   const finishLesson = () => {
-    const interval =
-      answerRevealed ||
-      rebuildAnswerRevealed ||
-      recallAttempts >= 2 ||
-      rebuildAttempts >= 2
-        ? 1
-        : recallAttempts || rebuildAttempts
-          ? 1
-          : 3;
     const today = dateKey();
+    const shouldStartPassageRebuild =
+      selectedPassageLessons.length > 1 &&
+      selectedPassageLessons.every(
+        (lesson) =>
+          lesson.id === selectedLesson.id ||
+          progress.completedLessonIds.includes(lesson.id),
+      );
     setProgress((value) => {
       const reviewItems = { ...value.reviewItems };
       let lexemeProgress = value.lexemeProgress;
       let senseProgress = value.senseProgress;
       selectedLesson.tokens.forEach((token) => {
         const resolved = getToken(selectedLesson, token);
-        reviewItems[`${selectedLesson.id}:${token.id}`] = {
-          tokenId: `${selectedLesson.id}:${token.id}`,
+        const interval = reviewIntervalForToken(
+          value.tokenProgress[resolved.occurrenceId],
+        );
+        reviewItems[resolved.occurrenceId] = {
+          tokenId: resolved.occurrenceId,
           answer: resolved.answer,
           prompt: resolved.prompt,
           familiarity: interval === 3 ? "熟悉" : "不熟",
@@ -750,14 +933,18 @@ export default function Home() {
       };
     });
     playSentenceAudio(selectedLesson, 1, false);
-    setStage("result");
+    if (shouldStartPassageRebuild) {
+      setPassageValues(selectedPassageLessons.map(() => ""));
+      setPassageEvaluation([]);
+      setPassageAttempts(0);
+      setFeedback("");
+      setStage("passage-rebuild");
+    } else {
+      setStage("result");
+    }
   };
 
   const continueAfterRebuild = () => {
-    if (selectedLesson.sourceVersion === "A1課程內容_QA_corrected_v3.csv") {
-      finishLesson();
-      return;
-    }
     setFeedback("");
     setStage("dictation");
   };
@@ -788,6 +975,57 @@ export default function Home() {
       setFeedback(`正確答案是 ${selectedLesson.sentence} 請重新輸入完整句子。`);
       setAnswerRevealed(true);
     }
+  };
+
+  const checkPassageRebuild = () => {
+    const evaluation = evaluatePassageRebuild(
+      passageValues,
+      selectedPassageLessons,
+    );
+    const allCorrect = evaluation.every((item) => item.correct);
+    const attempt = passageAttempts + 1;
+    setPassageAttempts(attempt);
+    setPassageEvaluation(evaluation);
+    setProgress((value) => ({
+      ...value,
+      totalAttempts: value.totalAttempts + selectedPassageLessons.length,
+      correctAnswers:
+        value.correctAnswers +
+        evaluation.filter((item) => item.correct).length,
+    }));
+
+    if (allCorrect) {
+      setFeedback("整段文章的句子與順序都正確！");
+      speak(
+        selectedPassageLessons.map((lesson) => lesson.sentence).join(" "),
+        1,
+        false,
+      );
+      window.setTimeout(() => setStage("result"), 850);
+      return;
+    }
+
+    if (attempt >= 3) {
+      const revealedValues = selectedPassageLessons.map(
+        (lesson) => lesson.sentence,
+      );
+      setPassageValues(revealedValues);
+      setPassageEvaluation(
+        selectedPassageLessons.map((lesson) => ({
+          sentenceId: lesson.sentenceId,
+          correct: true,
+          message: "已顯示正確句子",
+          expected: lesson.sentence,
+        })),
+      );
+      setFeedback("已嘗試 3 次，正確文章已顯示。閱讀後將完成本課。");
+      window.setTimeout(() => setStage("result"), 1500);
+      return;
+    }
+
+    setFeedback(
+      `第 ${attempt} 次未通過，請依每句下方提示修正。`,
+    );
   };
 
   const startAssessment = (kind: "unit" | "level", unit?: CourseUnit) => {
@@ -893,30 +1131,21 @@ export default function Home() {
     }));
   };
 
-  const contentRows = useMemo(
-    () =>
-      courseUnits.flatMap((unit) =>
-        unit.lessons.flatMap((item) =>
-          item.tokens.map((token, index) => ({
-            level: "A1",
-            unit_id: unit.id,
-            unit_title: unit.title,
-            lesson_id: item.id,
-            lesson_title: item.title,
-            sentence: item.sentence,
-            translation: item.translation,
-            grammar: item.grammar,
-            token_order: index + 1,
-            token_id: token.id,
-            type: token.answer.includes(" ") ? "chunk" : "word",
-            ...getToken(item, token),
-            qa_status: "待人工確認",
-          })),
-        ),
-      ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [overrides],
-  );
+  const applyCourseRows = (rows: A1CourseCsvRow[]) => {
+    const units = buildCourseUnitsFromRows(rows);
+    setCourseRows(rows);
+    setCourseUnits(units);
+    setSelectedLesson((current) => {
+      const lessons = flattenCourseLessons(units);
+      return (
+        lessons.find((lesson) => lesson.id === current.id) ??
+        lessons[0] ??
+        EMPTY_LESSON
+      );
+    });
+  };
+
+  const contentRows = courseRows;
 
   const filteredRows = contentRows.filter((row) => {
     const matchesUnit = adminUnit === "all" || row.unit_id === adminUnit;
@@ -929,14 +1158,11 @@ export default function Home() {
   });
 
   const exportContentCsv = () => {
-    const headers = Object.keys(contentRows[0]).filter((key) => !["accepted"].includes(key));
-    const csv = [
-      headers.map(csvEscape).join(","),
-      ...contentRows.map((row) =>
-        headers.map((key) => csvEscape(row[key as keyof typeof row] ?? "")).join(","),
-      ),
-    ].join("\r\n");
-    saveFile(`\uFEFF${csv}`, "A1課程內容_QA.csv", "text/csv;charset=utf-8");
+    saveFile(
+      serializeA1MvpCsv(contentRows),
+      OFFICIAL_A1_SOURCE_VERSION,
+      "text/csv;charset=utf-8",
+    );
   };
 
   const exportContentXlsx = async () => {
@@ -944,13 +1170,23 @@ export default function Home() {
     const worksheet = XLSX.utils.json_to_sheet(contentRows);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "A1課程內容");
-    XLSX.writeFile(workbook, "A1課程內容_QA.xlsx");
+    XLSX.writeFile(workbook, "a1-course-v3.xlsx");
   };
 
   const exportContentJson = () => {
     saveFile(
-      JSON.stringify({ schemaVersion: 1, exportedAt: new Date().toISOString(), courseUnits, overrides }, null, 2),
-      "A1課程內容.json",
+      JSON.stringify(
+        {
+          schemaVersion: 3,
+          sourceVersion: OFFICIAL_A1_SOURCE_VERSION,
+          exportedAt: new Date().toISOString(),
+          headers: A1_V3_HEADERS,
+          rows: contentRows,
+        },
+        null,
+        2,
+      ),
+      "a1-course-v3.json",
       "application/json",
     );
   };
@@ -960,37 +1196,49 @@ export default function Home() {
     if (!file) return;
     try {
       let rows: Record<string, unknown>[] = [];
-      if (file.name.toLowerCase().endsWith(".json")) {
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.endsWith(".json")) {
         const value = JSON.parse(await file.text());
-        if (value.overrides) {
-          setOverrides(value.overrides);
-          setToast("JSON 課程修訂已匯入。");
-          return;
-        }
-        rows = Array.isArray(value) ? value : [];
+        rows = Array.isArray(value) ? value : value.rows ?? [];
+      } else if (lowerName.endsWith(".csv")) {
+        rows = parseA1MvpCsv(await file.text());
       } else {
         const XLSX = await import("xlsx");
         const workbook = XLSX.read(await file.arrayBuffer(), { type: "array" });
-        rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+        rows = XLSX.utils.sheet_to_json(
+          workbook.Sheets[workbook.SheetNames[0]],
+          { defval: "", raw: false },
+        );
       }
-      const next = { ...overrides };
-      rows.forEach((row) => {
-        const lessonId = String(row.lesson_id ?? "");
-        const tokenId = String(row.token_id ?? "");
-        if (!lessonId || !tokenId) return;
-        next[`${lessonId}:${tokenId}`] = {
-          answer: String(row.answer ?? ""),
-          prompt: String(row.prompt ?? ""),
-          kk: String(row.kk ?? ""),
-          ipa: String(row.ipa ?? ""),
-          partOfSpeech: String(row.partOfSpeech ?? row.part_of_speech ?? ""),
-          note: String(row.note ?? ""),
-        };
-      });
-      setOverrides(next);
-      setToast(`已匯入 ${rows.length} 筆課程資料。`);
-    } catch {
-      setToast("匯入失敗，請確認欄位名稱與檔案格式。");
+      const normalizedRows = normalizeA1CourseRows(rows);
+      const report = validateA1CourseRows(
+        normalizedRows,
+        courseRows.map((row) => row.occurrence_id),
+      );
+      setImportReport(report);
+      if (!report.valid) {
+        setToast(
+          `匯入未套用：總列數 ${report.totalRows}、成功 ${report.successfulRows}、失敗 ${report.failedRows}。`,
+        );
+        return;
+      }
+      applyCourseRows(normalizedRows);
+      setToast(
+        `匯入成功：總列數 ${report.totalRows}、成功 ${report.successfulRows}、失敗 ${report.failedRows}。`,
+      );
+    } catch (error) {
+      const report: CourseValidationReport = {
+        totalRows: 0,
+        successfulRows: 0,
+        failedRows: 0,
+        unmatchedIds: [],
+        validationErrors: [
+          error instanceof Error ? error.message : "檔案格式無法讀取。",
+        ],
+        valid: false,
+      };
+      setImportReport(report);
+      setToast("匯入失敗，請查看驗證錯誤。");
     } finally {
       event.target.value = "";
     }
@@ -998,7 +1246,7 @@ export default function Home() {
 
   const exportProgress = () => {
     saveFile(
-      JSON.stringify({ schemaVersion: 2, exportedAt: new Date().toISOString(), progress, settings }, null, 2),
+      JSON.stringify({ schemaVersion: 3, exportedAt: new Date().toISOString(), progress, settings }, null, 2),
       "英句練習_完整學習進度.json",
       "application/json",
     );
@@ -1434,13 +1682,29 @@ export default function Home() {
     }
 
     if (stage === "result") {
+      const tokenResults = selectedLesson.tokens.map(
+        (token) => progress.tokenProgress[token.occurrenceId],
+      );
+      const tokenAttemptPenalty = tokenResults.reduce(
+        (sum, item) => sum + Math.max(0, (item?.attempts ?? 0) - 1) * 6,
+        0,
+      );
+      const tokenHintPenalty = tokenResults.reduce(
+        (sum, item) => sum + (item?.hintsUsed ?? 0) * 4,
+        0,
+      );
+      const revealedPenalty = tokenResults.filter(
+        (item) => item?.answerRevealed,
+      ).length * 8;
       const score = Math.max(
         0,
         100 -
-        recallAttempts * 8 -
-        hintLevel * 5 -
+        tokenAttemptPenalty -
+        tokenHintPenalty -
+        revealedPenalty -
         rebuildAttempts * 7 -
-        dictationAttempts * 7,
+        dictationAttempts * 7 -
+        Math.max(0, passageAttempts - 1) * 7,
       );
       return (
         <div className="learning-shell">
@@ -1460,7 +1724,11 @@ export default function Home() {
                 {(["熟悉", "不熟", "完全不會"] as Familiarity[]).map((value) => (
                   <button key={value} onClick={() => {
                     Object.values(progress.reviewItems)
-                      .filter((item) => selectedLesson.tokens.some((token) => item.tokenId === `${selectedLesson.id}:${token.id}`))
+                      .filter((item) =>
+                        selectedLesson.tokens.some(
+                          (token) => item.tokenId === token.occurrenceId,
+                        ),
+                      )
                       .forEach((item) => updateFamiliarity(item, value));
                     setToast(`已標記為「${value}」`);
                   }}>{value}</button>
@@ -1486,12 +1754,27 @@ export default function Home() {
       );
     }
 
-    const stageNumber = stage === "recall" || stage === "detail" ? 2 : stage === "rebuild" ? 4 : 5;
+    const stageNumber =
+      stage === "recall" || stage === "detail"
+        ? 2
+        : stage === "rebuild"
+          ? 4
+          : stage === "dictation"
+            ? 5
+            : 6;
     return (
       <div className="learning-shell">
         <div className="learning-top">
           <button className="back-button" onClick={() => setScreen("map")}>← 離開本階段</button>
-          <span>{stage === "recall" || stage === "detail" ? `學習單位 ${tokenIndex + 1}/${selectedLesson.tokens.length}` : stage === "rebuild" ? "完整句子重組" : "完整句子聽寫"}</span>
+          <span>
+            {stage === "recall" || stage === "detail"
+              ? `學習單位 ${tokenIndex + 1}/${selectedLesson.tokens.length}`
+              : stage === "rebuild"
+                ? "完整句子重組"
+                : stage === "dictation"
+                  ? "完整句子聽寫"
+                  : "整段文章重建"}
+          </span>
         </div>
         <div className="stage-progress"><i style={{ width: `${(stageNumber / 6) * 100}%` }} /></div>
 
@@ -1703,9 +1986,7 @@ export default function Home() {
             <span className="eyebrow">依中文提示，照順序重組句子</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
             <p className="chunk-input-note">
-              {selectedLesson.sourceVersion
-                ? "每格只輸入一個英文單字；按空白鍵換到下一格，最後一格按 Enter 檢查答案。"
-                : "輸入完成後按空白鍵可換格；語塊中的空格會保留在同一格。最後一格按 Enter 檢查答案。"}
+              每格只輸入一個英文單字；按空白鍵換到下一格，最後一格按 Enter 檢查答案。
             </p>
             <div className="rebuild-grid">
               {selectedLesson.tokens.map((token, index) => (
@@ -1851,6 +2132,69 @@ export default function Home() {
             <button className="primary-button full-button" onClick={checkDictation}>檢查完整句子</button>
           </section>
         )}
+
+        {stage === "passage-rebuild" && (
+          <section className="exercise-card passage-rebuild-card">
+            <span className="eyebrow">依句子順序重建整段文章</span>
+            <div className="passage-translation">
+              {selectedPassageLessons.map((lesson) => (
+                <p key={lesson.sentenceId}>{lesson.translation}</p>
+              ))}
+            </div>
+            <div className="passage-input-list">
+              {selectedPassageLessons.map((lesson, index) => {
+                const evaluation = passageEvaluation[index];
+                return (
+                  <label
+                    className={`passage-sentence-field ${
+                      evaluation?.correct ? "correct" : evaluation ? "warning" : ""
+                    }`}
+                    key={lesson.sentenceId}
+                  >
+                    <span>第 {lesson.sentenceOrder} 句</span>
+                    <textarea
+                      id={`passage-sentence-${index}`}
+                      className="answer-input sentence-input"
+                      rows={2}
+                      value={passageValues[index] ?? ""}
+                      autoFocus={index === 0}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      onChange={(event) => {
+                        const values = [...passageValues];
+                        values[index] = event.target.value;
+                        setPassageValues(values);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key !== "Enter" || event.shiftKey) return;
+                        event.preventDefault();
+                        if (index === selectedPassageLessons.length - 1) {
+                          checkPassageRebuild();
+                        } else {
+                          document
+                            .getElementById(`passage-sentence-${index + 1}`)
+                            ?.focus();
+                        }
+                      }}
+                      placeholder={`輸入第 ${lesson.sentenceOrder} 句英文`}
+                    />
+                    <small>{evaluation?.message ?? " "}</small>
+                  </label>
+                );
+              })}
+            </div>
+            <div className="feedback" aria-live="polite">
+              {feedback || "逐句輸入英文；Enter 前往下一句，Shift+Enter 換行。"}
+            </div>
+            <button
+              className="primary-button full-button"
+              onClick={checkPassageRebuild}
+            >
+              檢查整段文章
+            </button>
+          </section>
+        )}
       </div>
     );
   };
@@ -1932,9 +2276,26 @@ export default function Home() {
     </div>
   );
 
-  const updateOverride = (row: (typeof contentRows)[number], field: keyof TokenOverride, value: string) => {
-    const key = `${row.lesson_id}:${row.token_id}`;
-    setOverrides((current) => ({ ...current, [key]: { ...current[key], [field]: value } }));
+  const updateCourseRow = (
+    row: A1CourseCsvRow,
+    updates: Record<string, string>,
+  ) => {
+    let nextRows = courseRows.map((item) =>
+      item.occurrence_id === row.occurrence_id
+        ? { ...item, ...updates }
+        : item,
+    );
+    if (updates.answer !== undefined) {
+      const lessonRows = nextRows
+        .filter((item) => item.lesson_id === row.lesson_id)
+        .sort((left, right) => Number(left.token_order) - Number(right.token_order));
+      const punctuation = row.sentence.trim().match(/[.!?]$/)?.[0] ?? ".";
+      const sentence = `${lessonRows.map((item) => item.answer).join(" ")}${punctuation}`;
+      nextRows = nextRows.map((item) =>
+        item.lesson_id === row.lesson_id ? { ...item, sentence } : item,
+      );
+    }
+    applyCourseRows(nextRows);
   };
 
   const renderAdmin = () => (
@@ -1952,6 +2313,26 @@ export default function Home() {
         <strong>給 GPT 檢查時可直接上傳匯出的資料表</strong>
         <span>請它逐列檢查台灣繁體中文翻譯、KK／IPA、詞性、語塊切分與 CEFR 難度；修正後再匯入本頁。</span>
       </section>
+      {importReport && (
+        <section className="qa-note" aria-live="polite">
+          <strong>
+            匯入結果：總列數 {importReport.totalRows}・成功列數{" "}
+            {importReport.successfulRows}・失敗列數 {importReport.failedRows}
+          </strong>
+          <span>
+            未匹配 ID：
+            {importReport.unmatchedIds.length
+              ? importReport.unmatchedIds.join("、")
+              : "無"}
+          </span>
+          <span>
+            驗證錯誤：
+            {importReport.validationErrors.length
+              ? importReport.validationErrors.join("｜")
+              : "無"}
+          </span>
+        </section>
+      )}
       <section className="section-card">
         <div className="filter-row">
           <input value={adminSearch} onChange={(event) => setAdminSearch(event.target.value)} placeholder="搜尋英文、中文或句子" />
@@ -1964,16 +2345,16 @@ export default function Home() {
         <div className="progress-table-wrap admin-table-wrap">
           <table className="data-table admin-table">
             <thead><tr><th>課程</th><th>類型</th><th>英文答案</th><th>繁中提示</th><th>詞性</th><th>KK</th><th>IPA</th><th>QA</th></tr></thead>
-            <tbody>{filteredRows.slice(0, 120).map((row) => (
-              <tr key={`${row.lesson_id}:${row.token_id}`}>
+            <tbody>{filteredRows.map((row) => (
+              <tr key={row.occurrence_id}>
                 <td><strong>{row.lesson_title}</strong><small>{row.lesson_id}<br />順序 {row.token_order}</small></td>
-                <td><span className="chip">{row.type === "chunk" ? "語塊" : "單字"}</span></td>
-                <td><input value={row.answer} onChange={(event) => updateOverride(row, "answer", event.target.value)} /></td>
-                <td><input value={row.prompt} onChange={(event) => updateOverride(row, "prompt", event.target.value)} /></td>
-                <td><input value={row.partOfSpeech} onChange={(event) => updateOverride(row, "partOfSpeech", event.target.value)} /></td>
-                <td><input value={row.kk} onChange={(event) => updateOverride(row, "kk", event.target.value)} /></td>
-                <td><input value={row.ipa} onChange={(event) => updateOverride(row, "ipa", event.target.value)} /></td>
-                <td><span className="qa-status">待人工確認</span></td>
+                <td><span className="chip">{row.chunk_id ? "單字＋語塊" : "單字"}</span></td>
+                <td><input value={row.answer} onChange={(event) => updateCourseRow(row, { answer: event.target.value })} /></td>
+                <td><input value={row.prompt} onChange={(event) => updateCourseRow(row, { prompt: event.target.value })} /></td>
+                <td><input value={row.context_pos} onChange={(event) => updateCourseRow(row, { context_pos: event.target.value, partOfSpeech: event.target.value })} /></td>
+                <td><input value={row.kk_us} onChange={(event) => updateCourseRow(row, { kk_us: event.target.value, kk: event.target.value })} /></td>
+                <td><input value={row.ipa_standalone} onChange={(event) => updateCourseRow(row, { ipa_standalone: event.target.value, ipa_us: event.target.value, ipa: event.target.value })} /></td>
+                <td><span className="qa-status">{row.qa_status || "待人工確認"}</span></td>
               </tr>
             ))}</tbody>
           </table>
@@ -2062,6 +2443,21 @@ export default function Home() {
   };
 
   const renderScreen = () => {
+    if (courseDataStatus === "loading") {
+      return (
+        <section className="section-card">
+          <strong>正在載入 A1 正式課程資料…</strong>
+        </section>
+      );
+    }
+    if (courseDataStatus === "error") {
+      return (
+        <section className="section-card">
+          <strong>A1 正式課程資料載入失敗</strong>
+          <p>請重新整理頁面後再試。</p>
+        </section>
+      );
+    }
     if (screen === "home") return renderHome();
     if (screen === "map") return renderMap();
     if (screen === "alphabet") return renderAlphabet();

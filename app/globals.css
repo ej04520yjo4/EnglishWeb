@@ -1471,6 +1471,49 @@ progress::-webkit-progress-value {
   line-height: 1.55;
 }
 
+.passage-translation {
+  margin: 12px 0 24px;
+  padding: 18px;
+  border: 1px solid #f1d3c7;
+  border-radius: 14px;
+  background: var(--coral-soft);
+}
+
+.passage-translation p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.passage-input-list,
+.passage-sentence-field {
+  display: grid;
+  gap: 8px;
+}
+
+.passage-input-list {
+  gap: 14px;
+}
+
+.passage-sentence-field > span,
+.passage-sentence-field > small {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: left;
+}
+
+.passage-sentence-field.correct textarea {
+  color: #317e48;
+  border-color: #86c798;
+  background: var(--green-soft);
+}
+
+.passage-sentence-field.warning textarea {
+  color: #9b6718;
+  border-color: #e6c078;
+  background: var(--yellow-soft);
+}
+
 .feedback {
   min-height: 54px;
   display: grid;
