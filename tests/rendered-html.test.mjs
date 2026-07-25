@@ -75,6 +75,9 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /KK 音標/);
   assert.match(page, /const renderPhonetics/);
   assert.match(page, /17 個母音・24 個子音/);
+  assert.match(page, /播放鍵直接聽音標本身/);
+  assert.match(page, /playKkAudio\(entry\)/);
+  assert.doesNotMatch(page, /speak\(entry\.example/);
   const alphabetSection = page.slice(
     page.indexOf("const renderAlphabet"),
     page.indexOf("const renderPhonetics"),

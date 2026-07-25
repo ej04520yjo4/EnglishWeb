@@ -20,7 +20,7 @@ import {
   evaluateRebuildAttempt,
   RebuildStatus,
 } from "./rebuild-flow";
-import { kkPhoneticGroups } from "./kk-phonetics";
+import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
 
 type Screen =
   | "home"
@@ -239,6 +239,7 @@ export default function Home() {
   const [usedPaste, setUsedPaste] = useState(false);
   const [startedAt, setStartedAt] = useState(0);
   const [audioMessage, setAudioMessage] = useState("");
+  const [kkAudioMessage, setKkAudioMessage] = useState("");
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [assessmentValue, setAssessmentValue] = useState("");
   const [adminSearch, setAdminSearch] = useState("");
@@ -251,6 +252,8 @@ export default function Home() {
     () => typeof window === "undefined" || "speechSynthesis" in window,
   );
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
+  const kkAudioRef = useRef<HTMLAudioElement | null>(null);
+  const kkPlaybackToken = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -412,6 +415,74 @@ export default function Home() {
       rate,
       countReplay,
     );
+
+  const playKkAudioFile = (
+    entry: KkPhoneticEntry,
+    rate: number,
+    playbackToken: number,
+    onFinished?: () => void,
+  ) => {
+    if (kkAudioRef.current) {
+      kkAudioRef.current.onended = null;
+      kkAudioRef.current.onerror = null;
+      kkAudioRef.current.pause();
+    }
+
+    const audio = new Audio(entry.audioSrc);
+    kkAudioRef.current = audio;
+    audio.preload = "auto";
+    audio.playbackRate = rate;
+    audio.onplay = () => {
+      if (playbackToken !== kkPlaybackToken.current) return;
+      setKkAudioMessage(
+        rate < 1
+          ? `正在慢速播放 [${entry.symbol}] 音標`
+          : `正在播放 [${entry.symbol}] 音標`,
+      );
+    };
+    audio.onended = () => {
+      if (playbackToken !== kkPlaybackToken.current) return;
+      onFinished?.();
+    };
+    audio.onerror = () => {
+      if (playbackToken !== kkPlaybackToken.current) return;
+      setKkAudioMessage(`[${entry.symbol}] 音標載入失敗，請檢查網路後再試。`);
+    };
+    audio.play().catch(() => {
+      if (playbackToken !== kkPlaybackToken.current) return;
+      setKkAudioMessage(`[${entry.symbol}] 音標無法播放，請改用最新版 Chrome。`);
+    });
+  };
+
+  const playKkAudio = (entry: KkPhoneticEntry, rate = 1) => {
+    const playbackToken = kkPlaybackToken.current + 1;
+    kkPlaybackToken.current = playbackToken;
+    playKkAudioFile(entry, rate, playbackToken);
+  };
+
+  const playKkSequence = (entries: KkPhoneticEntry[]) => {
+    const playbackToken = kkPlaybackToken.current + 1;
+    kkPlaybackToken.current = playbackToken;
+    const playAt = (index: number) => {
+      if (playbackToken !== kkPlaybackToken.current) return;
+      if (index >= entries.length) {
+        setKkAudioMessage("本組音標播放完成。");
+        return;
+      }
+      playKkAudioFile(entries[index], 1, playbackToken, () => playAt(index + 1));
+    };
+    playAt(0);
+  };
+
+  useEffect(() => {
+    if (screen === "phonetics") return;
+    kkPlaybackToken.current += 1;
+    if (kkAudioRef.current) {
+      kkAudioRef.current.onended = null;
+      kkAudioRef.current.onerror = null;
+      kkAudioRef.current.pause();
+    }
+  }, [screen]);
 
   useEffect(() => {
     if (screen !== "learning" || !settings.autoplay || stage !== "recall") return;
@@ -1242,7 +1313,7 @@ export default function Home() {
         <div>
           <span className="eyebrow">獨立練習，不與 A–Z 字母名稱混在一起</span>
           <h1>KK 音標發音</h1>
-          <p>點選每個音標的美式例字，從真實單字中聽辨目標音。</p>
+          <p>點播放鍵直接聽音標本身；例字只用來幫你理解，不會被朗讀。</p>
         </div>
         <div className="kk-summary">
           <strong>41</strong>
@@ -1252,12 +1323,10 @@ export default function Home() {
       <section className="phonetic-guide">
         <div>
           <strong>怎麼使用？</strong>
-          <span>先看音標與嘴型提示，再播放正常與慢速例字並跟讀。</span>
+          <span>先播放單獨音標並跟讀，再用畫面上的例字確認它會出現在哪裡。</span>
         </div>
         <small aria-live="polite">
-          {!speechSupported
-            ? "此瀏覽器不支援語音播放，請改用最新版 Chrome。"
-            : audioMessage || "目前使用免費的瀏覽器美式語音播放例字。"}
+          {kkAudioMessage || "使用可自由使用的預錄音標樣本，不使用單字語音代替。"}
         </small>
       </section>
       {kkPhoneticGroups.map((group) => (
@@ -1269,12 +1338,9 @@ export default function Home() {
             </div>
             <button
               className="secondary-button"
-              disabled={!speechSupported}
-              onClick={() =>
-                speak(group.entries.map((entry) => entry.example).join(". "), 0.75)
-              }
+              onClick={() => playKkSequence(group.entries)}
             >
-              ▶ 依序播放例字
+              ▶ 依序播放音標
             </button>
           </div>
           <div className="phonetic-grid">
@@ -1285,33 +1351,42 @@ export default function Home() {
                   <span>{group.id === "vowels" ? "母音" : "子音"}</span>
                 </div>
                 <div className="phonetic-example">
+                  <span>例字</span>
                   <b>{entry.example}</b>
                   <small>{entry.translation}</small>
                 </div>
                 <p>{entry.tip}</p>
                 <div className="phonetic-actions">
                   <button
-                    disabled={!speechSupported}
-                    onClick={() => speak(entry.example)}
-                    aria-label={`正常播放例字 ${entry.example}`}
+                    onClick={() => playKkAudio(entry)}
+                    aria-label={`播放 KK 音標 ${entry.symbol}`}
                   >
-                    ▶ 正常
+                    ▶ 音標
                   </button>
                   <button
-                    disabled={!speechSupported}
-                    onClick={() => speak(entry.example, settings.slowRate)}
-                    aria-label={`慢速播放例字 ${entry.example}`}
+                    onClick={() => playKkAudio(entry, 0.72)}
+                    aria-label={`慢速播放 KK 音標 ${entry.symbol}`}
                   >
                     ◁ 慢速
                   </button>
                 </div>
+                <a
+                  className="phonetic-source"
+                  href={entry.sourcePage}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={`${entry.author}・${entry.license}`}
+                >
+                  錄音來源與授權
+                </a>
               </article>
             ))}
           </div>
         </section>
       ))}
       <p className="phonetic-note">
-        KK 符號用來記錄聲音，不等於英文字母名稱；實際發音會因單字重音與語流稍有變化。
+        KK 符號用來記錄聲音，不等於英文字母名稱。p、t、k 等短促子音無法像母音一樣延長，
+        因此部分開源錄音會搭配簡短載音讓聲音可辨認，但不會朗讀畫面上的例字。
       </p>
     </div>
   );

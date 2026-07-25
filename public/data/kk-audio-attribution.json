@@ -1,0 +1,412 @@
+[
+    {
+        "id":  "vowel-i",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/9/91/Close_front_unrounded_vowel.ogg",
+        "sourceFile":  "Close front unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Close_front_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-small-i",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/4/4c/Near-close_near-front_unrounded_vowel.ogg",
+        "sourceFile":  "Near-close near-front unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Near-close_near-front_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-e",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/4/42/En-us-A.ogg",
+        "sourceFile":  "En-us-A.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:En-us-A.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "Public domain",
+        "licenseUrl":  null
+    },
+    {
+        "id":  "vowel-epsilon",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/7/71/Open-mid_front_unrounded_vowel.ogg",
+        "sourceFile":  "Open-mid front unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Open-mid_front_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-ash",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/c/c9/Near-open_front_unrounded_vowel.ogg",
+        "sourceFile":  "Near-open front unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Near-open_front_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-script-a",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e5/Open_back_unrounded_vowel.ogg",
+        "sourceFile":  "Open back unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Open_back_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-open-o",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/0/02/Open-mid_back_rounded_vowel.ogg",
+        "sourceFile":  "Open-mid back rounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Open-mid_back_rounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-o",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e9/En-us-O.ogg",
+        "sourceFile":  "En-us-O.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:En-us-O.ogg",
+        "author":  "DroEsperanto",
+        "license":  "Public domain",
+        "licenseUrl":  null
+    },
+    {
+        "id":  "vowel-upsilon",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/d/d5/Near-close_near-back_rounded_vowel.ogg",
+        "sourceFile":  "Near-close near-back rounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Near-close_near-back_rounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-u",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/5/5d/Close_back_rounded_vowel.ogg",
+        "sourceFile":  "Close back rounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Close_back_rounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-wedge",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/9/92/Open-mid_back_unrounded_vowel.ogg",
+        "sourceFile":  "Open-mid back unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Open-mid_back_unrounded_vowel.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-schwa",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/d/db/Schwa.ogg",
+        "sourceFile":  "Schwa.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Schwa.ogg",
+        "author":  "No machine-readable author provided. Denelson83 assumed (based on copyright claims).",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-r-colored-stressed",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e3/PR-r-coloured_open-mid_central_unrounded_vowel.ogg",
+        "sourceFile":  "PR-r-coloured open-mid central unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:PR-r-coloured_open-mid_central_unrounded_vowel.ogg",
+        "author":  "RoachPeter",
+        "license":  "CC BY-SA 4.0",
+        "licenseUrl":  "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+        "id":  "vowel-r-colored-unstressed",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e3/PR-r-coloured_open-mid_central_unrounded_vowel.ogg",
+        "sourceFile":  "PR-r-coloured open-mid central unrounded vowel.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:PR-r-coloured_open-mid_central_unrounded_vowel.ogg",
+        "author":  "RoachPeter",
+        "license":  "CC BY-SA 4.0",
+        "licenseUrl":  "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+        "id":  "vowel-ai",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/9/9f/En-us-I.ogg",
+        "sourceFile":  "En-us-I.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:En-us-I.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "Public domain",
+        "licenseUrl":  null
+    },
+    {
+        "id":  "vowel-au",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/d/d1/En-us-ow.ogg",
+        "sourceFile":  "En-us-ow.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:En-us-ow.ogg",
+        "author":  "Dvortygirl",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "vowel-oi",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/1/16/LL-Q1860_%28eng%29-Arlo_Barnes-oy.wav",
+        "sourceFile":  "LL-Q1860 (eng)-Arlo Barnes-oy.wav",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Arlo_Barnes-oy.wav",
+        "author":  "Speaker: Arlo Barnes Recorder: Arlo Barnes",
+        "license":  "CC0",
+        "licenseUrl":  "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    {
+        "id":  "consonant-p",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/5/51/Voiceless_bilabial_plosive.ogg",
+        "sourceFile":  "Voiceless bilabial plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_bilabial_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-b",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/2/2c/Voiced_bilabial_plosive.ogg",
+        "sourceFile":  "Voiced bilabial plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_bilabial_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-t",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/0/02/Voiceless_alveolar_plosive.ogg",
+        "sourceFile":  "Voiceless alveolar plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_alveolar_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-d",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/0/01/Voiced_alveolar_plosive.ogg",
+        "sourceFile":  "Voiced alveolar plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_alveolar_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-k",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e3/Voiceless_velar_plosive.ogg",
+        "sourceFile":  "Voiceless velar plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_velar_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-g",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/b/b4/Voiced_velar_plosive.ogg",
+        "sourceFile":  "Voiced velar plosive.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_velar_plosive.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-f",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/33/Voiceless_labiodental_fricative.ogg",
+        "sourceFile":  "Voiceless labiodental fricative.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_labiodental_fricative.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-v",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/8/85/Voiced_labiodental_fricative.ogg",
+        "sourceFile":  "Voiced labiodental fricative.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_labiodental_fricative.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-theta",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/8/80/Voiceless_dental_fricative.ogg",
+        "sourceFile":  "Voiceless dental fricative.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_dental_fricative.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-eth",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/6/6a/Voiced_dental_fricative.ogg",
+        "sourceFile":  "Voiced dental fricative.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_dental_fricative.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-s",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/a/ac/Voiceless_alveolar_sibilant.ogg",
+        "sourceFile":  "Voiceless alveolar sibilant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_alveolar_sibilant.ogg",
+        "author":  "Peter Isotalo",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-z",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/c/c0/Voiced_alveolar_sibilant.ogg",
+        "sourceFile":  "Voiced alveolar sibilant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_alveolar_sibilant.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-esh",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/c/cc/Voiceless_palato-alveolar_sibilant.ogg",
+        "sourceFile":  "Voiceless palato-alveolar sibilant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_palato-alveolar_sibilant.ogg",
+        "author":  "Peter Isotalo",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-ezh",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/30/Voiced_palato-alveolar_sibilant.ogg",
+        "sourceFile":  "Voiced palato-alveolar sibilant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_palato-alveolar_sibilant.ogg",
+        "author":  "Peter Isotalo",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-h",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/d/da/Voiceless_glottal_fricative.ogg",
+        "sourceFile":  "Voiceless glottal fricative.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_glottal_fricative.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-ch",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/9/97/Voiceless_palato-alveolar_affricate.ogg",
+        "sourceFile":  "Voiceless palato-alveolar affricate.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiceless_palato-alveolar_affricate.ogg",
+        "author":  "Peter Isotalo",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "https://creativecommons.org/licenses/by-sa/3.0"
+    },
+    {
+        "id":  "consonant-j",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e6/Voiced_palato-alveolar_affricate.ogg",
+        "sourceFile":  "Voiced palato-alveolar affricate.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_palato-alveolar_affricate.ogg",
+        "author":  "The original uploader was Octane at English Wikipedia .",
+        "license":  "Public domain",
+        "licenseUrl":  null
+    },
+    {
+        "id":  "consonant-m",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/a/a9/Bilabial_nasal.ogg",
+        "sourceFile":  "Bilabial nasal.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Bilabial_nasal.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-n",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/2/29/Alveolar_nasal.ogg",
+        "sourceFile":  "Alveolar nasal.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Alveolar_nasal.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-eng",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/39/Velar_nasal.ogg",
+        "sourceFile":  "Velar nasal.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Velar_nasal.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-l",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/b/bc/Alveolar_lateral_approximant.ogg",
+        "sourceFile":  "Alveolar lateral approximant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Alveolar_lateral_approximant.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-r",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/33/Postalveolar_approximant.ogg",
+        "sourceFile":  "Postalveolar approximant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Postalveolar_approximant.ogg",
+        "author":  "Peter Isotalo",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "https://creativecommons.org/licenses/by-sa/3.0"
+    },
+    {
+        "id":  "consonant-y",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/e8/Palatal_approximant.ogg",
+        "sourceFile":  "Palatal approximant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Palatal_approximant.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+        "id":  "consonant-w",
+        "localPath":  "",
+        "remoteUrl":  "https://upload.wikimedia.org/wikipedia/commons/f/f2/Voiced_labio-velar_approximant.ogg",
+        "sourceFile":  "Voiced labio-velar approximant.ogg",
+        "sourcePage":  "https://commons.wikimedia.org/wiki/File:Voiced_labio-velar_approximant.ogg",
+        "author":  "Wikimedia Commons contributor",
+        "license":  "CC BY-SA 3.0",
+        "licenseUrl":  "http://creativecommons.org/licenses/by-sa/3.0/"
+    }
+]

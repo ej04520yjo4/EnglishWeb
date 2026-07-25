@@ -1197,6 +1197,15 @@ progress::-webkit-progress-value {
   gap: 8px;
 }
 
+.phonetic-example span {
+  padding: 3px 6px;
+  color: #8d675b;
+  border-radius: 6px;
+  background: #fff2ec;
+  font-size: 9px;
+  font-weight: 800;
+}
+
 .phonetic-example b {
   color: var(--navy);
   font-size: 19px;
@@ -1239,6 +1248,19 @@ progress::-webkit-progress-value {
 .phonetic-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+.phonetic-source {
+  width: fit-content;
+  color: #8a7b70;
+  font-size: 9px;
+  text-decoration: underline;
+  text-decoration-color: #d8cec5;
+  text-underline-offset: 3px;
+}
+
+.phonetic-source:hover {
+  color: var(--coral-dark);
 }
 
 .phonetic-note {

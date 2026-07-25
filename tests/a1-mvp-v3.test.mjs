@@ -148,5 +148,8 @@ test("provides a separate complete 41-symbol KK phonetic practice set", () => {
   assert.equal(consonants.entries.length, 24);
   assert.equal(entries.length, 41);
   assert.equal(new Set(entries.map((entry) => entry.symbol)).size, 41);
+  assert.equal(new Set(entries.map((entry) => entry.audioId)).size, 41);
   assert.ok(entries.every((entry) => entry.example && entry.translation && entry.tip));
+  assert.ok(entries.every((entry) => /^https:\/\/upload\.wikimedia\.org\//.test(entry.audioSrc)));
+  assert.ok(entries.every((entry) => entry.sourcePage && entry.author && entry.license));
 });
