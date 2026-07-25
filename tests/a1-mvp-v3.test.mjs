@@ -3,6 +3,8 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   buildCourseUnitsFromRows,
+  checksumA1CourseSource,
+  createStoredA1CourseData,
   EXPECTED_A1_LESSON_COUNT,
   EXPECTED_A1_ROW_COUNT,
   EXPECTED_A1_UNIT_COUNT,
@@ -10,6 +12,7 @@ import {
   OFFICIAL_A1_MVP_CSV_URL,
   OFFICIAL_A1_SOURCE_VERSION,
   parseA1MvpCsv,
+  restoreStoredA1CourseData,
   serializeA1MvpCsv,
   validateA1CourseRows,
 } from "../app/a1-mvp-data.ts";
@@ -20,6 +23,7 @@ import {
   recordLearningEntityCompletion,
   restoreLearningProgress,
   reviewIntervalForToken,
+  scheduleTokenReview,
   serializeLearningProgress,
   updateTokenLearningProgress,
 } from "../app/learning-progress.ts";
@@ -142,6 +146,54 @@ test("exports and reimports all v3 fields without data loss", async () => {
   }
 });
 
+test("stores course data with its official revision and rejects a stale local copy", async () => {
+  const csvText = await readFile(csvUrl, "utf8");
+  const rows = parseA1MvpCsv(csvText);
+  const revision = await checksumA1CourseSource(csvText);
+  const snapshot = createStoredA1CourseData(
+    rows,
+    revision,
+    "2026-07-25T00:00:00.000Z",
+  );
+
+  assert.equal(snapshot.sourceVersion, OFFICIAL_A1_SOURCE_VERSION);
+  assert.equal(snapshot.sourceRevision, revision);
+  assert.equal(snapshot.updatedAt, "2026-07-25T00:00:00.000Z");
+  assert.deepEqual(
+    restoreStoredA1CourseData(JSON.stringify(snapshot), rows, revision)?.rows,
+    rows,
+  );
+  assert.equal(
+    restoreStoredA1CourseData(
+      JSON.stringify(snapshot),
+      rows,
+      `${revision}-new`,
+    ),
+    null,
+  );
+});
+
+test("rejects an answer-only content draft before it can replace course rows", async () => {
+  const rows = await loadRows();
+  const draft = rows.map((row) =>
+    row.occurrence_id === "a1-u1-l1-t03"
+      ? { ...row, answer: "Grace" }
+      : row,
+  );
+  const report = validateA1CourseRows(
+    draft,
+    rows.map((row) => row.occurrence_id),
+    rows,
+  );
+
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.validationErrors.some((message) =>
+      message.includes("answer 已改變"),
+    ),
+  );
+});
+
 test("applies the same recall, detail, rebuild, and dictation flow to every lesson", async () => {
   const page = await readFile(
     new URL("../app/page.tsx", import.meta.url),
@@ -219,6 +271,33 @@ test("stores independent token performance and schedules review per token", () =
     { ...emptyTokenLearningProgress(), ...tokenProgress["a1-u1-l1-t02"] },
     tokenProgress["a1-u1-l1-t02"],
   );
+});
+
+test("keeps accumulated successful review days when a lesson is completed again", () => {
+  const existing = {
+    tokenId: "a1-u1-l1-t01",
+    answer: "I",
+    prompt: "我",
+    familiarity: "熟悉",
+    dueAt: "2026-07-25T00:00:00.000Z",
+    intervalDays: 6,
+    successfulDays: 1,
+  };
+  const scheduled = scheduleTokenReview(
+    existing,
+    {
+      tokenId: existing.tokenId,
+      answer: existing.answer,
+      prompt: existing.prompt,
+    },
+    3,
+    new Date("2026-07-25T00:00:00.000Z"),
+  );
+
+  assert.equal(scheduled.successfulDays, 1);
+  assert.equal(scheduled.familiarity, "熟悉");
+  assert.ok(scheduled.intervalDays >= existing.intervalDays);
+  assert.ok(new Date(scheduled.dueAt) > new Date(existing.dueAt));
 });
 
 test("restores local progress after a simulated browser refresh", () => {

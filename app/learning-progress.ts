@@ -21,6 +21,18 @@ export type TokenLearningProgress = {
 
 export type TokenLearningProgressMap = Record<string, TokenLearningProgress>;
 
+export type ReviewFamiliarity = "熟悉" | "不熟" | "完全不會";
+
+export type ReviewScheduleItem = {
+  tokenId: string;
+  answer: string;
+  prompt: string;
+  familiarity: ReviewFamiliarity;
+  dueAt: string;
+  intervalDays: number;
+  successfulDays: number;
+};
+
 export const emptyTokenLearningProgress = (): TokenLearningProgress => ({
   attempts: 0,
   hintsUsed: 0,
@@ -94,6 +106,49 @@ export const reviewIntervalForToken = (
     return 3;
   }
   return 2;
+};
+
+export const adjustReviewInterval = (
+  previousIntervalDays: number | undefined,
+  recommendedIntervalDays: number,
+  familiarity: ReviewFamiliarity,
+) => {
+  if (!previousIntervalDays) return recommendedIntervalDays;
+  if (recommendedIntervalDays <= 1) {
+    return Math.max(1, Math.ceil(previousIntervalDays * 0.75));
+  }
+  if (recommendedIntervalDays === 2) {
+    return Math.max(2, previousIntervalDays);
+  }
+  return Math.max(
+    3,
+    previousIntervalDays + (familiarity === "熟悉" ? 1 : 0),
+  );
+};
+
+export const scheduleTokenReview = (
+  existing: ReviewScheduleItem | undefined,
+  token: Pick<ReviewScheduleItem, "tokenId" | "answer" | "prompt">,
+  recommendedIntervalDays: number,
+  now = new Date(),
+): ReviewScheduleItem => {
+  const familiarity =
+    existing?.familiarity ??
+    (recommendedIntervalDays >= 3 ? "熟悉" : "不熟");
+  const intervalDays = adjustReviewInterval(
+    existing?.intervalDays,
+    recommendedIntervalDays,
+    familiarity,
+  );
+  const dueAt = new Date(now);
+  dueAt.setDate(dueAt.getDate() + intervalDays);
+  return {
+    ...token,
+    familiarity,
+    intervalDays,
+    dueAt: dueAt.toISOString(),
+    successfulDays: existing?.successfulDays ?? 0,
+  };
 };
 
 export const serializeLearningProgress = <T>(progress: T) =>

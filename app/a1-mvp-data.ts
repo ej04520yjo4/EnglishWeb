@@ -82,6 +82,13 @@ export type CourseValidationReport = {
   valid: boolean;
 };
 
+export type StoredA1CourseData = {
+  sourceVersion: string;
+  sourceRevision: string;
+  updatedAt: string;
+  rows: A1CourseCsvRow[];
+};
+
 const REQUIRED_ROW_FIELDS = [
   "level",
   "unit_id",
@@ -218,6 +225,16 @@ export const serializeA1MvpCsv = (rows: A1CourseCsvRow[]) =>
       A1_V3_HEADERS.map((header) => csvEscape(row[header] ?? "")).join(","),
     ),
   ].join("\r\n");
+
+export const checksumA1CourseSource = async (csvText: string) => {
+  const digest = await globalThis.crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(csvText.replace(/^\uFEFF/, "")),
+  );
+  return Array.from(new Uint8Array(digest))
+    .map((value) => value.toString(16).padStart(2, "0"))
+    .join("");
+};
 
 const numberValue = (value: string, fallback: number) => {
   const parsed = Number(value);
@@ -360,6 +377,7 @@ const pushRowError = (
 export const validateA1CourseRows = (
   rows: A1CourseCsvRow[],
   expectedOccurrenceIds?: Iterable<string>,
+  referenceRows?: A1CourseCsvRow[],
 ): CourseValidationReport => {
   const errors: string[] = [];
   const rowIssues = new Set<number>();
@@ -368,6 +386,9 @@ export const validateA1CourseRows = (
     ? new Set(expectedOccurrenceIds)
     : undefined;
   const seenOccurrences = new Map<string, number>();
+  const referenceByOccurrence = new Map(
+    (referenceRows ?? []).map((row) => [row.occurrence_id, row]),
+  );
 
   rows.forEach((row, rowIndex) => {
     const missingFields = REQUIRED_ROW_FIELDS.filter(
@@ -402,6 +423,18 @@ export const validateA1CourseRows = (
           `語塊欄位不可空白：${missingChunkFields.join("、")}`,
         );
       }
+      const chunkWords = row.chunk_text
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
+      if (!chunkWords.includes(row.answer.toLowerCase())) {
+        pushRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          `chunk_text「${row.chunk_text}」未包含作答單字「${row.answer}」。`,
+        );
+      }
     }
     if (seenOccurrences.has(row.occurrence_id)) {
       pushRowError(
@@ -417,6 +450,59 @@ export const validateA1CourseRows = (
     if (expectedIds && !expectedIds.has(row.occurrence_id)) {
       unmatchedIds.push(row.occurrence_id || `(第 ${rowIndex + 2} 列無 ID)`);
       rowIssues.add(rowIndex);
+    }
+
+    const reference = referenceByOccurrence.get(row.occurrence_id);
+    if (
+      reference &&
+      reference.answer.toLowerCase() !== row.answer.toLowerCase()
+    ) {
+      const unchangedIdentityFields = [
+        "token_id",
+        "lexeme_id",
+        "sense_id",
+        "lemma",
+      ].filter((field) => reference[field] === row[field]);
+      if (unchangedIdentityFields.length) {
+        pushRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          `answer 已改變，但識別或原形欄位尚未同步：${unchangedIdentityFields.join("、")}。`,
+        );
+      }
+      const referenceKk = reference.kk_us || reference.kk;
+      const nextKk = row.kk_us || row.kk;
+      if (referenceKk === nextKk) {
+        pushRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          "answer 已改變，但 KK 音標尚未重新確認。",
+        );
+      }
+      const referenceIpa =
+        reference.ipa_standalone || reference.ipa_us || reference.ipa;
+      const nextIpa = row.ipa_standalone || row.ipa_us || row.ipa;
+      if (referenceIpa === nextIpa) {
+        pushRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          "answer 已改變，但 IPA 音標尚未重新確認。",
+        );
+      }
+      if (
+        reference.chunk_id &&
+        reference.chunk_text === row.chunk_text
+      ) {
+        pushRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          "answer 已改變，但語塊內容尚未重新確認。",
+        );
+      }
     }
   });
 
@@ -472,6 +558,14 @@ export const validateA1CourseRows = (
   });
 
   const tokenAnswers = new Map<string, string>();
+  const sharedTokenFields = [
+    "lexeme_id",
+    "lemma",
+    "dictionary_pos",
+    "kk_us",
+    "ipa_standalone",
+  ] as const;
+  const tokenMetadata = new Map<string, A1CourseCsvRow>();
   rows.forEach((row, index) => {
     const existing = tokenAnswers.get(row.token_id);
     if (existing && existing.toLowerCase() !== row.answer.toLowerCase()) {
@@ -483,6 +577,22 @@ export const validateA1CourseRows = (
       );
     } else if (!existing) {
       tokenAnswers.set(row.token_id, row.answer);
+    }
+    const shared = tokenMetadata.get(row.token_id);
+    if (!shared) {
+      tokenMetadata.set(row.token_id, row);
+      return;
+    }
+    const inconsistentFields = sharedTokenFields.filter(
+      (field) => shared[field] !== row[field],
+    );
+    if (inconsistentFields.length) {
+      pushRowError(
+        rowIssues,
+        errors,
+        index,
+        `token_id ${row.token_id} 的共用欄位不一致：${inconsistentFields.join("、")}。`,
+      );
     }
   });
 
@@ -540,16 +650,61 @@ export const validateA1CourseRows = (
   };
 };
 
+export const createStoredA1CourseData = (
+  rows: A1CourseCsvRow[],
+  sourceRevision: string,
+  updatedAt = new Date().toISOString(),
+): StoredA1CourseData => ({
+  sourceVersion: OFFICIAL_A1_SOURCE_VERSION,
+  sourceRevision,
+  updatedAt,
+  rows,
+});
+
+export const restoreStoredA1CourseData = (
+  serialized: string,
+  officialRows: A1CourseCsvRow[],
+  officialRevision: string,
+): StoredA1CourseData | null => {
+  const value = JSON.parse(serialized) as Partial<StoredA1CourseData>;
+  if (
+    value.sourceVersion !== OFFICIAL_A1_SOURCE_VERSION ||
+    value.sourceRevision !== officialRevision ||
+    !value.updatedAt ||
+    Number.isNaN(Date.parse(value.updatedAt)) ||
+    !Array.isArray(value.rows)
+  ) {
+    return null;
+  }
+  const rows = normalizeA1CourseRows(value.rows);
+  const report = validateA1CourseRows(
+    rows,
+    officialRows.map((row) => row.occurrence_id),
+  );
+  if (!report.valid) return null;
+  return {
+    sourceVersion: value.sourceVersion,
+    sourceRevision: value.sourceRevision,
+    updatedAt: value.updatedAt,
+    rows,
+  };
+};
+
 export const loadA1CourseData = async (
   fetcher: typeof fetch = fetch,
-): Promise<{ rows: A1CourseCsvRow[]; courseUnits: CourseUnit[] }> => {
+): Promise<{
+  rows: A1CourseCsvRow[];
+  courseUnits: CourseUnit[];
+  sourceRevision: string;
+}> => {
   const response = await fetcher(OFFICIAL_A1_MVP_CSV_URL, {
     cache: "no-store",
   });
   if (!response.ok) {
     throw new Error(`A1 v3 CSV 載入失敗（${response.status}）。`);
   }
-  const rows = parseA1MvpCsv(await response.text());
+  const csvText = await response.text();
+  const rows = parseA1MvpCsv(csvText);
   const report = validateA1CourseRows(rows);
   if (!report.valid) {
     throw new Error(report.validationErrors.join("\n"));
@@ -557,5 +712,6 @@ export const loadA1CourseData = async (
   return {
     rows,
     courseUnits: buildCourseUnitsFromRows(rows),
+    sourceRevision: await checksumA1CourseSource(csvText),
   };
 };
