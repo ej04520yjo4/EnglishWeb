@@ -772,6 +772,10 @@ export default function Home() {
       }));
       setFeedback("");
       setStage("detail");
+      window.setTimeout(
+        () => document.getElementById("detail-next-button")?.focus(),
+        80,
+      );
       return;
     }
     if (answerRevealed) {
@@ -851,6 +855,10 @@ export default function Home() {
       setRebuildAnswerRevealed(true);
       setFeedback(
         `已嘗試 3 次，正確答案已放入各格。請閱讀「${selectedLesson.sentence}」後按下一步。`,
+      );
+      window.setTimeout(
+        () => document.getElementById("rebuild-next-button")?.focus(),
+        80,
       );
       return;
     }
@@ -941,6 +949,10 @@ export default function Home() {
       setStage("passage-rebuild");
     } else {
       setStage("result");
+      window.setTimeout(
+        () => document.getElementById("lesson-result-next")?.focus(),
+        80,
+      );
     }
   };
 
@@ -1001,7 +1013,13 @@ export default function Home() {
         1,
         false,
       );
-      window.setTimeout(() => setStage("result"), 850);
+      window.setTimeout(() => {
+        setStage("result");
+        window.setTimeout(
+          () => document.getElementById("lesson-result-next")?.focus(),
+          80,
+        );
+      }, 850);
       return;
     }
 
@@ -1019,7 +1037,13 @@ export default function Home() {
         })),
       );
       setFeedback("已嘗試 3 次，正確文章已顯示。閱讀後將完成本課。");
-      window.setTimeout(() => setStage("result"), 1500);
+      window.setTimeout(() => {
+        setStage("result");
+        window.setTimeout(
+          () => document.getElementById("lesson-result-next")?.focus(),
+          80,
+        );
+      }, 1500);
       return;
     }
 
@@ -1738,10 +1762,10 @@ export default function Home() {
             <div className="button-row">
               <button className="secondary-button" onClick={() => setScreen("map")}>回課程地圖</button>
               <button
+                id="lesson-result-next"
                 className="primary-button detail-next-button"
                 onClick={continueAfterLesson}
                 onKeyDown={(event) => activateButtonOnEnter(event, continueAfterLesson)}
-                autoFocus
                 aria-keyshortcuts="Enter"
                 title={`按 Enter：${afterLessonLabel()}`}
               >
@@ -1966,10 +1990,10 @@ export default function Home() {
                 </div>
               )}
             <button
+              id="detail-next-button"
               className="primary-button full-button detail-next-button"
               onClick={advanceFromDetail}
               onKeyDown={(event) => activateButtonOnEnter(event, advanceFromDetail)}
-              autoFocus
               aria-keyshortcuts="Enter"
               title="按 Enter 繼續"
             >
@@ -2055,6 +2079,7 @@ export default function Home() {
                 ▶ 聽完整句子
               </button>
               <button
+                id={rebuildAnswerRevealed ? "rebuild-next-button" : undefined}
                 key={rebuildAnswerRevealed ? "rebuild-next" : "rebuild-check"}
                 className="primary-button detail-next-button"
                 onClick={rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild}
@@ -2064,7 +2089,6 @@ export default function Home() {
                     rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild,
                   )
                 }
-                autoFocus={rebuildAnswerRevealed}
                 aria-keyshortcuts="Enter"
               >
                 <span>
