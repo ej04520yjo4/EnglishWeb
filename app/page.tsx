@@ -337,6 +337,8 @@ export default function Home() {
   const [passageEvaluation, setPassageEvaluation] =
     useState<PassageSentenceEvaluation[]>([]);
   const [passageAttempts, setPassageAttempts] = useState(0);
+  const [sessionTokenProgress, setSessionTokenProgress] =
+    useState<TokenLearningProgressMap>({});
   const [speechSupported, setSpeechSupported] = useState(
     () => typeof window === "undefined" || "speechSynthesis" in window,
   );
@@ -534,6 +536,11 @@ export default function Home() {
     countReplay = true,
   ) => {
     if (countReplay && token.occurrenceId) {
+      setSessionTokenProgress((value) =>
+        updateTokenLearningProgress(value, token.occurrenceId, {
+          audioReplayDelta: 1,
+        }),
+      );
       setProgress((value) => ({
         ...value,
         tokenProgress: updateTokenLearningProgress(
@@ -672,6 +679,7 @@ export default function Home() {
     setPassageValues([]);
     setPassageEvaluation([]);
     setPassageAttempts(0);
+    setSessionTokenProgress({});
     setScreen("learning");
   };
 
@@ -713,6 +721,12 @@ export default function Home() {
     if (hintLevel >= 3) return;
     const level = Math.min(3, hintLevel + 1);
     setHintLevel(level);
+    setSessionTokenProgress((value) =>
+      updateTokenLearningProgress(value, currentToken.occurrenceId, {
+        hintDelta: 1,
+        answerRevealed: level === 3,
+      }),
+    );
     setProgress((value) => ({
       ...value,
       tokenProgress: updateTokenLearningProgress(
@@ -740,6 +754,15 @@ export default function Home() {
     const isCorrect = accepted.includes(clean(recallAnswer));
     const elapsed = Math.round((timestamp() - startedAt) / 1000);
     if (isCorrect) {
+      setSessionTokenProgress((value) =>
+        updateTokenLearningProgress(value, currentToken.occurrenceId, {
+          attemptDelta: 1,
+          elapsedDelta: elapsed,
+          usedPaste,
+          answerRevealed,
+          correctDelta: answerRevealed ? 0 : 1,
+        }),
+      );
       setProgress((value) => ({
         ...value,
         totalAttempts: value.totalAttempts + 1,
@@ -784,6 +807,14 @@ export default function Home() {
     }
     const nextAttempt = recallAttempts + 1;
     setRecallAttempts(nextAttempt);
+    setSessionTokenProgress((value) =>
+      updateTokenLearningProgress(value, currentToken.occurrenceId, {
+        attemptDelta: 1,
+        elapsedDelta: elapsed,
+        usedPaste,
+        answerRevealed: nextAttempt >= 3,
+      }),
+    );
     setProgress((value) => ({
       ...value,
       totalAttempts: value.totalAttempts + 1,
@@ -847,7 +878,10 @@ export default function Home() {
     }));
     if (result.correct) {
       setFeedback("順序與拼字都正確！完成格式如下：");
-      window.setTimeout(() => setStage("dictation"), 850);
+      window.setTimeout(() => {
+        setFeedback("");
+        setStage("dictation");
+      }, 850);
       return;
     }
     if (result.revealed) {
@@ -904,7 +938,8 @@ export default function Home() {
       selectedLesson.tokens.forEach((token) => {
         const resolved = getToken(selectedLesson, token);
         const interval = reviewIntervalForToken(
-          value.tokenProgress[resolved.occurrenceId],
+          sessionTokenProgress[resolved.occurrenceId] ??
+            value.tokenProgress[resolved.occurrenceId],
         );
         reviewItems[resolved.occurrenceId] = {
           tokenId: resolved.occurrenceId,
@@ -1707,7 +1742,7 @@ export default function Home() {
 
     if (stage === "result") {
       const tokenResults = selectedLesson.tokens.map(
-        (token) => progress.tokenProgress[token.occurrenceId],
+        (token) => sessionTokenProgress[token.occurrenceId],
       );
       const tokenAttemptPenalty = tokenResults.reduce(
         (sum, item) => sum + Math.max(0, (item?.attempts ?? 0) - 1) * 6,
@@ -1720,6 +1755,10 @@ export default function Home() {
       const revealedPenalty = tokenResults.filter(
         (item) => item?.answerRevealed,
       ).length * 8;
+      const sessionHints = tokenResults.reduce(
+        (sum, item) => sum + (item?.hintsUsed ?? 0),
+        0,
+      );
       const score = Math.max(
         0,
         100 -
@@ -1739,7 +1778,7 @@ export default function Home() {
             <p className="result-sentence">{selectedLesson.sentence}</p>
             <div className="three-grid">
               <StatCard label="本次正確率" value={`${score}%`} />
-              <StatCard label="使用提示" value={hintLevel} />
+              <StatCard label="使用提示" value={sessionHints} />
               <StatCard label="額外播放" value={audioReplays} />
             </div>
             <section className="familiarity-card">
