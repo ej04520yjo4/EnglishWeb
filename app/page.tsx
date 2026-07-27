@@ -24,7 +24,6 @@ import {
   validateA1CourseRows,
 } from "./a1-mvp-data";
 import {
-  LearningEntityProgressMap,
   recordLearningEntityAttempt,
   recordLearningEntityCompletion,
   ReviewFamiliarity,
@@ -60,8 +59,17 @@ import {
   addReviewExercise,
   HintLevel,
   nextHintLevel,
-  ReviewExerciseType,
 } from "./learning-adaptation";
+import {
+  createEmptyMultiLevelProgress,
+  migrateProgressToV4,
+  updateSelectedLevelProgress,
+  type LevelLearningProgress,
+  type MultiLevelProgress,
+  type PassageLearningStats,
+  type PatternLearningStats,
+  type SentenceLearningStats,
+} from "./curriculum/progress";
 
 type Screen =
   | "home"
@@ -98,28 +106,6 @@ type Assessment = {
 
 type ReviewItem = ReviewScheduleItem;
 
-type SentenceLearningStats = {
-  rebuildAttempts: number;
-  recognitionAttempts: number;
-  recognitionCorrect: number;
-  elapsedSeconds: number;
-};
-
-type PatternLearningStats = {
-  transferAttempts: number;
-  transferCorrect: number;
-  uniqueVariationsCompleted: string[];
-  lastPracticedAt: string;
-  nextReviewAt: string;
-};
-
-type PassageLearningStats = {
-  rebuildAttempts: number;
-  comprehensionAttempts: number;
-  comprehensionCorrect: number;
-  lastPracticedAt: string;
-};
-
 const emptySentenceStats = (): SentenceLearningStats => ({
   rebuildAttempts: 0,
   recognitionAttempts: 0,
@@ -142,29 +128,7 @@ const emptyPassageStats = (): PassageLearningStats => ({
   lastPracticedAt: "",
 });
 
-type ProgressState = {
-  schemaVersion: 3;
-  completedLessonIds: string[];
-  passedUnitIds: string[];
-  levelPassed: boolean;
-  totalAttempts: number;
-  correctAnswers: number;
-  totalSeconds: number;
-  pasteCount: number;
-  studyDates: string[];
-  reviewItems: Record<string, ReviewItem>;
-  lexemeProgress: LearningEntityProgressMap;
-  senseProgress: LearningEntityProgressMap;
-  sentencePatternProgress: LearningEntityProgressMap;
-  tokenProgress: TokenLearningProgressMap;
-  sentenceStats: Record<string, SentenceLearningStats>;
-  patternStats: Record<string, PatternLearningStats>;
-  passageStats: Record<string, PassageLearningStats>;
-  tokenHintLevels: Record<string, HintLevel>;
-  chunkHintLevels: Record<string, HintLevel>;
-  patternHintLevels: Record<string, HintLevel>;
-  reviewExerciseTypes: Record<string, ReviewExerciseType[]>;
-};
+type ProgressState = LevelLearningProgress;
 
 type SettingsState = {
   phonetic: "KK" | "IPA";
@@ -177,48 +141,6 @@ const STORAGE = {
   settings: "yingju-settings-v1",
   courseRows: "yingju-course-rows-v3",
 };
-
-const emptyProgress: ProgressState = {
-  schemaVersion: 3,
-  completedLessonIds: [],
-  passedUnitIds: [],
-  levelPassed: false,
-  totalAttempts: 0,
-  correctAnswers: 0,
-  totalSeconds: 0,
-  pasteCount: 0,
-  studyDates: [],
-  reviewItems: {},
-  lexemeProgress: {},
-  senseProgress: {},
-  sentencePatternProgress: {},
-  tokenProgress: {},
-  sentenceStats: {},
-  patternStats: {},
-  passageStats: {},
-  tokenHintLevels: {},
-  chunkHintLevels: {},
-  patternHintLevels: {},
-  reviewExerciseTypes: {},
-};
-
-const normalizeProgress = (value: Partial<ProgressState>): ProgressState => ({
-  ...emptyProgress,
-  ...value,
-  schemaVersion: 3,
-  reviewItems: value.reviewItems ?? {},
-  lexemeProgress: value.lexemeProgress ?? {},
-  senseProgress: value.senseProgress ?? {},
-  sentencePatternProgress: value.sentencePatternProgress ?? {},
-  tokenProgress: value.tokenProgress ?? {},
-  sentenceStats: value.sentenceStats ?? {},
-  patternStats: value.patternStats ?? {},
-  passageStats: value.passageStats ?? {},
-  tokenHintLevels: value.tokenHintLevels ?? {},
-  chunkHintLevels: value.chunkHintLevels ?? {},
-  patternHintLevels: value.patternHintLevels ?? {},
-  reviewExerciseTypes: value.reviewExerciseTypes ?? {},
-});
 
 const defaultSettings: SettingsState = {
   phonetic: "KK",
@@ -382,7 +304,20 @@ function StatCard({ label, value, note }: { label: string; value: string | numbe
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("home");
-  const [progress, setProgress] = useState<ProgressState>(emptyProgress);
+  const [multiProgress, setMultiProgress] = useState<MultiLevelProgress>(
+    createEmptyMultiLevelProgress,
+  );
+  const progress =
+    multiProgress.levelProgress[multiProgress.selectedLevel];
+  const setProgress = (
+    update:
+      | ProgressState
+      | ((current: ProgressState) => ProgressState),
+  ) => {
+    setMultiProgress((current) =>
+      updateSelectedLevelProgress(current, update),
+    );
+  };
   const [settings, setSettings] = useState<SettingsState>(defaultSettings);
   const [courseRows, setCourseRows] = useState<A1CourseCsvRow[]>([]);
   const [courseDraftRows, setCourseDraftRows] = useState<A1CourseCsvRow[]>([]);
@@ -428,6 +363,8 @@ export default function Home() {
     useState<CourseValidationReport | null>(null);
   const [toast, setToast] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [progressStorageWritable, setProgressStorageWritable] =
+    useState(true);
   const [courseDataStatus, setCourseDataStatus] =
     useState<"loading" | "ready" | "error">("loading");
   const [passageValues, setPassageValues] = useState<string[]>([]);
@@ -526,13 +463,29 @@ export default function Home() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      const storedProgress = localStorage.getItem(STORAGE.progress);
+      const storedSettings = localStorage.getItem(STORAGE.settings);
       try {
-        const storedProgress = localStorage.getItem(STORAGE.progress);
-        const storedSettings = localStorage.getItem(STORAGE.settings);
-        if (storedProgress) setProgress(normalizeProgress(JSON.parse(storedProgress)));
-        if (storedSettings) setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
+        if (storedProgress) {
+          setMultiProgress(
+            migrateProgressToV4(JSON.parse(storedProgress)),
+          );
+        }
       } catch {
-        setToast("部分舊資料無法讀取，已使用安全的預設值。");
+        setProgressStorageWritable(false);
+        setToast(
+          "進度遷移失敗，已進入安全 A1 模式；原始本機進度未被覆蓋。",
+        );
+      }
+      try {
+        if (storedSettings) {
+          setSettings({
+            ...defaultSettings,
+            ...JSON.parse(storedSettings),
+          });
+        }
+      } catch {
+        setToast("偏好設定無法讀取，已使用安全的預設值。");
       } finally {
         setLoaded(true);
       }
@@ -541,9 +494,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!loaded) return;
-    localStorage.setItem(STORAGE.progress, JSON.stringify(progress));
-  }, [loaded, progress]);
+    if (!loaded || !progressStorageWritable) return;
+    localStorage.setItem(
+      STORAGE.progress,
+      JSON.stringify(multiProgress),
+    );
+  }, [loaded, multiProgress, progressStorageWritable]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -1934,7 +1890,16 @@ export default function Home() {
 
   const exportProgress = () => {
     saveFile(
-      JSON.stringify({ schemaVersion: 3, exportedAt: new Date().toISOString(), progress, settings }, null, 2),
+      JSON.stringify(
+        {
+          schemaVersion: 4,
+          exportedAt: new Date().toISOString(),
+          progress: multiProgress,
+          settings,
+        },
+        null,
+        2,
+      ),
       "英句練習_完整學習進度.json",
       "application/json",
     );
@@ -1946,7 +1911,8 @@ export default function Home() {
     try {
       const value = JSON.parse(await file.text());
       if (!value.progress) throw new Error("missing progress");
-      setProgress(normalizeProgress(value.progress));
+      setMultiProgress(migrateProgressToV4(value.progress));
+      setProgressStorageWritable(true);
       if (value.settings) setSettings({ ...defaultSettings, ...value.settings });
       setToast("完整學習進度已還原。");
     } catch {
