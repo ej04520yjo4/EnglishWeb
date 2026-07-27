@@ -126,6 +126,14 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** The course shortcut appears only in a successfully answered A1 word-detail stage for a validated topic lexeme. It preserves the lesson, token index, and detail stage on return. Version 1 enables only days of the week and times of day.
+**Decision:** The course shortcut appears only in a successfully answered A1 word-detail stage for a validated topic lexeme. It preserves the lesson, token index, and detail stage on return. The initial version 1 release enabled only days of the week and times of day.
 
 **Reason:** This prevents answer leakage during recall or assessments while keeping topic comparison close to the learned word.
+
+## ADR-017 - Months and Family Share One Review Batch
+
+**Status:** Accepted
+
+**Decision:** After explicit user approval, version 1 adds months and family members together as a second review batch. Existing formal A1 records remain authoritative, while all new gaps and their chunks stay reference-only or review-required until the user checks them. Other topics remain excluded.
+
+**Reason:** The user prefers one combined content review, while the reference boundary prevents unreviewed vocabulary from being treated as completed curriculum.

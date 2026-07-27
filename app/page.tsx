@@ -3184,10 +3184,10 @@ export default function Home() {
         <section aria-labelledby="vocabulary-groups-title">
           <div className="section-heading vocabulary-section-heading">
             <div>
-              <span className="eyebrow">第一版主題</span>
+              <span className="eyebrow">主題分類</span>
               <h2 id="vocabulary-groups-title">選擇主題</h2>
             </div>
-            <small>只收錄星期與一天的時段</small>
+            <small>目前收錄 {vocabularyDataset.groups.length} 個主題</small>
           </div>
           <div
             className="vocabulary-group-grid"

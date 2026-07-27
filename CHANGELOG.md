@@ -2,6 +2,20 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - Related Vocabulary Content Expansion
+
+### Added
+
+- Added months from January through December with ordered cards, `in + month` chunks, pronunciation fallback, and usage reminders.
+- Added family, parents, siblings, spouses, sons, and daughters with natural Taiwan Traditional Chinese explanations.
+- Reused formal A1 records for May, mother, brothers, and wife; kept all missing vocabulary reference-only.
+- Added month/family ordering, source-priority, search, responsive layout, and pronunciation browser tests.
+
+### Preserved
+
+- The A1 CSV and A2 pilot data were not changed.
+- Viewing the new topics still does not alter lesson progress, scores, or review schedules.
+
 ## 2026-07-27 - Related Vocabulary
 
 ### Added

@@ -35,7 +35,8 @@ This file stores long-lived product facts and working preferences. Current task 
   4. `I go to work by bus.`
 - Local keys: `yingju-progress-v1`, `yingju-settings-v1`, and `yingju-course-rows-v3`.
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
-- Related-vocabulary version 1 contains only days of the week and times of day.
+- Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
+- Months and family members form one combined user-review batch; new gaps remain reference-only until reviewed.
 
 ## Content and Audio Guardrails
 

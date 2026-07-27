@@ -4,8 +4,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **VOCAB-QA-001:** Try and manually review the two related-vocabulary topics.
-  - Check all nine reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
+- [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
+  - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
   - Accept only after corrections are recorded; viewing must remain progress-neutral.
 - [ ] **A2-QA-001:** Manually review the four A2 pilot lessons.
   - Check natural Taiwan Chinese, word prompts, contextual parts of speech, chunks, sentence patterns, transfer sentences, distractors, and passage questions.
@@ -13,7 +13,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Next - P1
 
-- [ ] **VOCAB-PLAN-002:** Based on user feedback, choose either months or family as one reviewed next topic.
+- [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
 - [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
@@ -52,3 +52,4 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Days-of-week and times-of-day topic pages with search, filters, audio fallback, chunks, and usage notes.
 - [x] Correct-answer-only course shortcut, current-word highlight, exact-stage return, and progress-neutral viewing.
 - [x] Related-vocabulary unit validation and desktop/mobile browser coverage.
+- [x] **VOCAB-PLAN-002:** Added months and family members together for one combined user review.

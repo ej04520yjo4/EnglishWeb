@@ -67,9 +67,10 @@ A1 is the current production level. A2 has one isolated pilot unit for technical
 
 **Status:** Current
 
-- Try the two topics in current Windows Chrome and at mobile width.
-- Manually review the nine reference-only KK/IPA entries and Taiwan Traditional Chinese wording.
-- Decide whether months or family should be the next single reviewed topic.
+- Try all four topics in current Windows Chrome and at mobile width.
+- Manually review the 27 reference-only KK/IPA entries, chunks, and Taiwan Traditional Chinese wording.
+- Review months and family members together as the second content batch.
+- Decide the next single topic only after this combined review is complete.
 - Resume A2 pilot review only after this scoped user-review cycle.
 
 ### M7 - Learning Depth and Release Readiness

@@ -88,6 +88,174 @@
       "noteZhTw": "evening 通常搭配 in the，說 in the evening。",
       "lexemeIds": ["evening"],
       "qaStatus": "reviewed"
+    },
+    {
+      "id": "in-january",
+      "text": "in January",
+      "translationZhTw": "在一月",
+      "noteZhTw": "表示在一月時，月份前通常使用 in。",
+      "lexemeIds": ["january"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-february",
+      "text": "in February",
+      "translationZhTw": "在二月",
+      "noteZhTw": "表示在二月時，月份前通常使用 in。",
+      "lexemeIds": ["february"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-march",
+      "text": "in March",
+      "translationZhTw": "在三月",
+      "noteZhTw": "表示在三月時，月份前通常使用 in。",
+      "lexemeIds": ["march"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-april",
+      "text": "in April",
+      "translationZhTw": "在四月",
+      "noteZhTw": "表示在四月時，月份前通常使用 in。",
+      "lexemeIds": ["april"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-june",
+      "text": "in June",
+      "translationZhTw": "在六月",
+      "noteZhTw": "表示在六月時，月份前通常使用 in。",
+      "lexemeIds": ["june"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-july",
+      "text": "in July",
+      "translationZhTw": "在七月",
+      "noteZhTw": "表示在七月時，月份前通常使用 in。",
+      "lexemeIds": ["july"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-august",
+      "text": "in August",
+      "translationZhTw": "在八月",
+      "noteZhTw": "表示在八月時，月份前通常使用 in。",
+      "lexemeIds": ["august"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-september",
+      "text": "in September",
+      "translationZhTw": "在九月",
+      "noteZhTw": "表示在九月時，月份前通常使用 in。",
+      "lexemeIds": ["september"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-october",
+      "text": "in October",
+      "translationZhTw": "在十月",
+      "noteZhTw": "表示在十月時，月份前通常使用 in。",
+      "lexemeIds": ["october"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-november",
+      "text": "in November",
+      "translationZhTw": "在十一月",
+      "noteZhTw": "表示在十一月時，月份前通常使用 in。",
+      "lexemeIds": ["november"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "in-december",
+      "text": "in December",
+      "translationZhTw": "在十二月",
+      "noteZhTw": "表示在十二月時，月份前通常使用 in。",
+      "lexemeIds": ["december"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-family",
+      "text": "my family",
+      "translationZhTw": "我的家人／家庭",
+      "noteZhTw": "family 可表示整個家庭或家人這個群體。",
+      "lexemeIds": ["family"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-mother",
+      "text": "my mother",
+      "translationZhTw": "我的媽媽／母親",
+      "noteZhTw": "介紹自己的母親時可以說 my mother。",
+      "lexemeIds": ["mother"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-father",
+      "text": "my father",
+      "translationZhTw": "我的爸爸／父親",
+      "noteZhTw": "介紹自己的父親時可以說 my father。",
+      "lexemeIds": ["father"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-parent",
+      "text": "my parent",
+      "translationZhTw": "我的父親或母親",
+      "noteZhTw": "parent 是單數；同時表示父母兩人時通常說 parents。",
+      "lexemeIds": ["parent"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-brother",
+      "text": "my brother",
+      "translationZhTw": "我的兄弟",
+      "noteZhTw": "英文 brother 不直接區分哥哥或弟弟。",
+      "lexemeIds": ["brother"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-sister",
+      "text": "my sister",
+      "translationZhTw": "我的姊妹",
+      "noteZhTw": "英文 sister 不直接區分姊姊或妹妹。",
+      "lexemeIds": ["sister"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-wife",
+      "text": "my wife",
+      "translationZhTw": "我的太太／妻子",
+      "noteZhTw": "wife 指女性配偶。",
+      "lexemeIds": ["wife"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-husband",
+      "text": "my husband",
+      "translationZhTw": "我的先生／丈夫",
+      "noteZhTw": "husband 指男性配偶。",
+      "lexemeIds": ["husband"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-son",
+      "text": "my son",
+      "translationZhTw": "我的兒子",
+      "noteZhTw": "son 指兒子。",
+      "lexemeIds": ["son"],
+      "qaStatus": "reference_review_required"
+    },
+    {
+      "id": "my-daughter",
+      "text": "my daughter",
+      "translationZhTw": "我的女兒",
+      "noteZhTw": "daughter 指女兒。",
+      "lexemeIds": ["daughter"],
+      "qaStatus": "reference_review_required"
     }
   ],
   "groups": [
@@ -141,6 +309,85 @@
         { "lexemeId": "afternoon", "order": 3, "chunkIds": ["in-the-afternoon"] },
         { "lexemeId": "evening", "order": 4, "chunkIds": ["in-the-evening"] },
         { "lexemeId": "night", "order": 5, "chunkIds": ["at-night"] }
+      ]
+    },
+    {
+      "id": "months-of-year",
+      "titleZhTw": "月份",
+      "titleEn": "Months of the Year",
+      "descriptionZhTw": "認識一月到十二月，以及月份前常用的 in。",
+      "order": 3,
+      "minimumLevel": "A1",
+      "triggerLexemeIds": [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december"
+      ],
+      "usageNotesZhTw": [
+        "月份名稱的第一個字母要大寫。",
+        "表示在某個月份時，通常在月份前使用 in。",
+        "若有特定日期，例如 May 5，日期前通常使用 on。"
+      ],
+      "items": [
+        { "lexemeId": "january", "order": 1, "chunkIds": ["in-january"] },
+        { "lexemeId": "february", "order": 2, "chunkIds": ["in-february"] },
+        { "lexemeId": "march", "order": 3, "chunkIds": ["in-march"] },
+        { "lexemeId": "april", "order": 4, "chunkIds": ["in-april"] },
+        { "lexemeId": "may", "order": 5, "chunkIds": ["in-may"] },
+        { "lexemeId": "june", "order": 6, "chunkIds": ["in-june"] },
+        { "lexemeId": "july", "order": 7, "chunkIds": ["in-july"] },
+        { "lexemeId": "august", "order": 8, "chunkIds": ["in-august"] },
+        { "lexemeId": "september", "order": 9, "chunkIds": ["in-september"] },
+        { "lexemeId": "october", "order": 10, "chunkIds": ["in-october"] },
+        { "lexemeId": "november", "order": 11, "chunkIds": ["in-november"] },
+        { "lexemeId": "december", "order": 12, "chunkIds": ["in-december"] }
+      ]
+    },
+    {
+      "id": "family-members",
+      "titleZhTw": "家人與家庭成員",
+      "titleEn": "Family Members",
+      "descriptionZhTw": "比較家庭、父母、手足、配偶與子女的常見英文。",
+      "order": 4,
+      "minimumLevel": "A1",
+      "triggerLexemeIds": [
+        "family",
+        "mother",
+        "father",
+        "parent",
+        "brother",
+        "sister",
+        "wife",
+        "husband",
+        "son",
+        "daughter"
+      ],
+      "usageNotesZhTw": [
+        "介紹自己的家人時，常在稱呼前使用 my。",
+        "brother 不直接區分哥哥或弟弟；sister 不直接區分姊姊或妹妹。",
+        "parent 是父親或母親其中一人，parents 通常表示父母。",
+        "wife 和 husband 分別表示女性配偶與男性配偶。"
+      ],
+      "items": [
+        { "lexemeId": "family", "order": 1, "chunkIds": ["my-family"] },
+        { "lexemeId": "mother", "order": 2, "chunkIds": ["my-mother"] },
+        { "lexemeId": "father", "order": 3, "chunkIds": ["my-father"] },
+        { "lexemeId": "parent", "order": 4, "chunkIds": ["my-parent"] },
+        { "lexemeId": "brother", "order": 5, "chunkIds": ["my-brother"] },
+        { "lexemeId": "sister", "order": 6, "chunkIds": ["my-sister"] },
+        { "lexemeId": "wife", "order": 7, "chunkIds": ["my-wife"] },
+        { "lexemeId": "husband", "order": 8, "chunkIds": ["my-husband"] },
+        { "lexemeId": "son", "order": 9, "chunkIds": ["my-son"] },
+        { "lexemeId": "daughter", "order": 10, "chunkIds": ["my-daughter"] }
       ]
     }
   ]

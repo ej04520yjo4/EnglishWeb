@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-- Updated: 2026-07-27
+- Updated: 2026-07-28
 - Branch: `feat/related-vocabulary`
 - Active milestone: M6 - Related Vocabulary User Review
 - Production level: A1
@@ -39,34 +39,36 @@
 - Added schema v3-to-v4 migration, formal A2 unlock, QA preview, per-level switching, failure isolation, and reload persistence.
 - Added unit/data tests and real desktop/mobile Playwright coverage for both levels.
 - Added `vocabulary-groups-v1.json` for stable topic and chunk relationships.
-- Added `reference-vocabulary-v1.json` only for the nine words missing from formal A1.
+- Added `reference-vocabulary-v1.json` only for words missing from formal A1.
 - Reused formal A1 data for Monday, Friday, night, and the existing `at-night` chunk.
-- Added the days-of-week and times-of-day screens without adding any other topic or A2 lesson.
+- Added the days-of-week, times-of-day, months-of-year, and family-members screens without adding an A2 lesson.
+- Reused formal A1 data for May, mother, brother, wife, and the existing `in-may` chunk.
+- Kept the 18 newly added month and family gaps reference-only for combined user review.
 - Added failure isolation so invalid related-vocabulary data does not block A1.
 
 ## Known Limits
 
 - A2 remains a pilot and requires manual language/content QA before promotion.
 - No A2 unit 2 or later content exists yet.
-- Related vocabulary currently contains only two topics.
-- Tuesday, Wednesday, Thursday, Saturday, Sunday, morning, noon, afternoon, and evening remain reference-only and require manual phonetic/content QA.
+- Related vocabulary currently contains four topics and intentionally excludes other categories.
+- All 27 reference-only entries require manual phonetic/content QA before their status changes.
 - Most word and sentence audio still use browser speech fallback; only KK symbol sources have open-license attribution data.
 - Account login, cloud sync, microphone input, speech recognition, and pronunciation scoring are intentionally absent.
 - `app/page.tsx` still owns substantial UI orchestration and should be decomposed only after behavior is protected by tests.
 
 ## Next Concrete Step
 
-Try the related-vocabulary page and manually review its nine reference-only entries before selecting one next topic.
+Try all four related-vocabulary topics and review the 27 reference-only entries before selecting another topic.
 
 ## Verification
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 63 passed, 0 failed.
+- `npm run test:unit`: exit 0; 68 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 32 passed across desktop and mobile, 0 failed.
-- Related-vocabulary Playwright coverage: 6 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: exit 0; 34 passed across desktop and mobile, 0 failed.
+- Related-vocabulary Playwright coverage: 8 passed across desktop and mobile, 0 failed.
 - `npm run validate:curriculum`: exit 0; A1 145 and A2 25 occurrences.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.

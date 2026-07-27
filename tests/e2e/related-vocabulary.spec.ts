@@ -123,7 +123,7 @@ test("uses the main navigation and presents searchable related vocabulary withou
   const groupGrid = page.locator(
     '[data-testid="vocabulary-group-grid"]',
   );
-  await expect(groupGrid.locator("button")).toHaveCount(2);
+  await expect(groupGrid.locator("button")).toHaveCount(4);
   const columns = await groupGrid.evaluate(
     (element) =>
       getComputedStyle(element).gridTemplateColumns
@@ -178,6 +178,64 @@ test("uses the main navigation and presents searchable related vocabulary withou
   await expect(
     page.locator('[data-testid="vocabulary-word-night"]'),
   ).toContainText("at night");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("shows the month and family topics with formal and reference sources", async ({
+  page,
+}) => {
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+
+  await page
+    .locator('[data-testid="vocabulary-group-months-of-year"]')
+    .click();
+  const monthItems = page.locator(
+    '[data-testid="vocabulary-word-list"] > article',
+  );
+  await expect(monthItems).toHaveCount(12);
+  await expect(
+    page.locator('[data-testid="vocabulary-word-january"]'),
+  ).toContainText("in January");
+  await expect(
+    page.locator('[data-testid="vocabulary-word-january"]'),
+  ).toContainText("參考詞彙");
+  await expect(
+    page.locator('[data-testid="vocabulary-word-may"]'),
+  ).toContainText("正式課程");
+
+  const search = page.getByRole("searchbox", {
+    name: "搜尋英文、中文、主題名稱或 lexeme ID",
+  });
+  await search.fill("十二月");
+  await expect(monthItems).toHaveCount(1);
+  await expect(monthItems.first()).toContainText("December");
+  await search.fill("");
+
+  await page
+    .locator('[data-testid="vocabulary-group-family-members"]')
+    .click();
+  const familyItems = page.locator(
+    '[data-testid="vocabulary-word-list"] > article',
+  );
+  await expect(familyItems).toHaveCount(10);
+  await expect(
+    page.locator('[data-testid="vocabulary-word-mother"]'),
+  ).toContainText("正式課程");
+  await expect(
+    page.locator('[data-testid="vocabulary-word-father"]'),
+  ).toContainText("參考詞彙");
+  await expect(
+    page.locator('[data-testid="vocabulary-word-brother"]'),
+  ).toContainText("my brother");
+
+  await search.fill("先生");
+  await expect(familyItems).toHaveCount(1);
+  await expect(familyItems.first()).toContainText("husband");
+  await familyItems
+    .first()
+    .getByRole("button", { name: /正常播放 husband/ })
+    .click();
   await expectNoHorizontalOverflow(page);
 });
 

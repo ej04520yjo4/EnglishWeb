@@ -46,13 +46,24 @@ const days = dataset.groups.find(
 const times = dataset.groups.find(
   (group) => group.id === "times-of-day",
 );
+const months = dataset.groups.find(
+  (group) => group.id === "months-of-year",
+);
+const family = dataset.groups.find(
+  (group) => group.id === "family-members",
+);
 
-test("loads the two versioned vocabulary groups", () => {
+test("loads the four versioned vocabulary groups", () => {
   assert.equal(dataset.schemaVersion, 1);
-  assert.equal(dataset.groups.length, 2);
+  assert.equal(dataset.groups.length, 4);
   assert.deepEqual(
     dataset.groups.map((group) => group.id),
-    ["days-of-week", "times-of-day"],
+    [
+      "days-of-week",
+      "times-of-day",
+      "months-of-year",
+      "family-members",
+    ],
   );
 });
 
@@ -86,6 +97,44 @@ test("keeps morning through night in the required order", () => {
   assert.deepEqual(
     times.items.map((item) => item.lexemeId),
     ["morning", "noon", "afternoon", "evening", "night"],
+  );
+});
+
+test("keeps January through December in the required order", () => {
+  assert.deepEqual(
+    months.items.map((item) => item.lexemeId),
+    [
+      "january",
+      "february",
+      "march",
+      "april",
+      "may",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
+    ],
+  );
+});
+
+test("keeps the family-member sequence", () => {
+  assert.deepEqual(
+    family.items.map((item) => item.lexemeId),
+    [
+      "family",
+      "mother",
+      "father",
+      "parent",
+      "brother",
+      "sister",
+      "wife",
+      "husband",
+      "son",
+      "daughter",
+    ],
   );
 });
 
@@ -134,6 +183,42 @@ test("prefers official course data over a matching reference entry", () => {
   assert.equal(monday.audioSource, "");
 });
 
+test("uses formal course records for May and taught family words", () => {
+  const formalItems = [
+    months.items.find((item) => item.lexemeId === "may"),
+    family.items.find((item) => item.lexemeId === "mother"),
+    family.items.find((item) => item.lexemeId === "brother"),
+    family.items.find((item) => item.lexemeId === "wife"),
+  ];
+  assert.ok(formalItems.every((item) => item?.source === "course"));
+  assert.equal(
+    family.items.find((item) => item.lexemeId === "brother")
+      .displayEnglish,
+    "brothers",
+  );
+});
+
+test("keeps new month and family gaps reference-only", () => {
+  assert.equal(referenceData.vocabulary.length, 27);
+  assert.equal(
+    months.items.find((item) => item.lexemeId === "january")
+      .source,
+    "reference",
+  );
+  assert.equal(
+    family.items.find((item) => item.lexemeId === "father")
+      .source,
+    "reference",
+  );
+  assert.ok(
+    referenceData.vocabulary.every(
+      (item) =>
+        item.contentStatus === "reference_only" &&
+        item.qaStatus === "reference_review_required",
+    ),
+  );
+});
+
 test("rejects a vocabulary item that cannot resolve to course or reference data", () => {
   const invalid = structuredClone(groupData);
   invalid.groups[0].items[6].lexemeId = "missing-sunday";
@@ -175,6 +260,31 @@ test("rejects a trigger lexeme that is not an item", () => {
   assert.ok(
     report.errors.some((error) =>
       error.includes("不存在於 items"),
+    ),
+  );
+});
+
+test("rejects an invalid month sequence", () => {
+  const invalid = structuredClone(groupData);
+  const monthItems = invalid.groups.find(
+    (group) => group.id === "months-of-year",
+  ).items;
+  [monthItems[0], monthItems[1]] = [
+    monthItems[1],
+    monthItems[0],
+  ];
+  monthItems.forEach((item, index) => {
+    item.order = index + 1;
+  });
+  const report = validateVocabularyData(
+    invalid,
+    referenceData,
+    a1Rows,
+  );
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.errors.some((error) =>
+      error.includes("January 到 December"),
     ),
   );
 });

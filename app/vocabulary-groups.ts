@@ -136,6 +136,34 @@ const TIME_LEXEMES = [
   "night",
 ];
 
+const MONTH_LEXEMES = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+const FAMILY_LEXEMES = [
+  "family",
+  "mother",
+  "father",
+  "parent",
+  "brother",
+  "sister",
+  "wife",
+  "husband",
+  "son",
+  "daughter",
+];
+
 const FORBIDDEN_PROGRESS_KEYS = new Set([
   "progress",
   "attempts",
@@ -373,6 +401,18 @@ export const validateVocabularyData = (
       !sameSequence(itemIds, TIME_LEXEMES)
     ) {
       errors.push("一天的時段必須依 morning 到 night 排列。");
+    }
+    if (
+      group.id === "months-of-year" &&
+      !sameSequence(itemIds, MONTH_LEXEMES)
+    ) {
+      errors.push("月份主題必須依 January 到 December 排列。");
+    }
+    if (
+      group.id === "family-members" &&
+      !sameSequence(itemIds, FAMILY_LEXEMES)
+    ) {
+      errors.push("家庭成員主題的詞彙順序不正確。");
     }
   }
 
