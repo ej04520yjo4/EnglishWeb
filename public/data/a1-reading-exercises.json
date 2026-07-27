@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "recognition": [
+    {
+      "id": "recognition-a1-u4-l1",
+      "lessonId": "a1-u4-l1",
+      "sentenceId": "a1-u4-l1-p01-s01",
+      "sentencePatternId": "have-possession",
+      "passageId": "a1-u4-l1-p01",
+      "type": "english-to-chinese",
+      "instruction": "閱讀英文句子，選出正確的繁體中文意思。",
+      "stem": "I have an apple.",
+      "options": [
+        {
+          "id": "correct",
+          "text": "我有一顆蘋果。",
+          "sourceSentenceId": "a1-u4-l1-p01-s01"
+        },
+        {
+          "id": "pen",
+          "text": "我有一枝筆。",
+          "sourceSentenceId": "a1-u2-l2-p01-s01"
+        },
+        {
+          "id": "bag",
+          "text": "那是我的包包。",
+          "sourceSentenceId": "a1-u2-l3-p01-s01"
+        },
+        {
+          "id": "brothers",
+          "text": "我有兩個兄弟。",
+          "sourceSentenceId": "a1-u3-l3-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
+    }
+  ],
+  "textResponses": [
+    {
+      "id": "response-a1-u4-l1",
+      "lessonId": "a1-u4-l1",
+      "sourceSentenceId": "a1-u4-l1-p01-s01",
+      "sentencePatternId": "have-possession",
+      "passageId": "a1-u4-l1-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你有一顆蘋果」的英文回答。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have an apple.",
+          "requiredLexemeIds": ["i", "have", "an", "apple"]
+        },
+        {
+          "id": "pen",
+          "text": "I have a pen.",
+          "requiredLexemeIds": ["i", "have", "a", "pen"]
+        },
+        {
+          "id": "book",
+          "text": "This is a book.",
+          "requiredLexemeIds": ["this", "be", "a", "book"]
+        },
+        {
+          "id": "bag",
+          "text": "That is my bag.",
+          "requiredLexemeIds": ["that", "be", "my", "bag"]
+        }
+      ],
+      "correctOptionId": "correct"
+    }
+  ],
+  "passages": [
+    {
+      "passageId": "a1-u8-p01",
+      "questions": [
+        {
+          "id": "a1-u8-p01-q01",
+          "sourceSentenceId": "a1-u8-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人幾點起床？",
+          "options": ["At seven.", "At eight.", "At night.", "In May."],
+          "correctAnswer": "At seven."
+        },
+        {
+          "id": "a1-u8-p01-q02",
+          "sourceSentenceId": "a1-u8-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人在哪裡吃早餐？",
+          "options": ["At home.", "At seven.", "At night.", "In May."],
+          "correctAnswer": "At home."
+        },
+        {
+          "id": "a1-u8-p01-q03",
+          "sourceSentenceId": "a1-u8-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人如何去上班？",
+          "options": ["By bus.", "At home.", "At eight.", "At night."],
+          "correctAnswer": "By bus."
+        }
+      ]
+    }
+  ]
+}

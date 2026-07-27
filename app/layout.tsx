@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = `${protocol}://${host}/og.png`;
   const title = "英句練習｜互動式英文句子學習";
   const description =
-    "以繁體中文提示，逐步練習英文單字、語塊、句子重組與完整聽寫。";
+    "以繁體中文提示，逐步練習英文單字、語塊、句子重組、句意辨識與句型換字。";
 
   return {
     title,

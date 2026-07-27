@@ -5,8 +5,10 @@
 1. 依中文提示回想英文單字或語塊
 2. 查看 KK／IPA、詞性、音節與用法
 3. 依順序重組完整句子
-4. 聽寫完整英文句子
-5. 依表現安排延遲複習
+4. 閱讀辨識完整句意
+5. 使用相同句型完成文字換字練習
+6. 依情境選擇適合的英文回答
+7. 依表現安排延遲複習
 
 目前內建 A1 的 8 個單元與 32 句課程，包含 A–Z 基礎、循序解鎖、單元測驗、程度總測驗、進度頁面，以及課程資料管理。所有學習進度儲存在目前瀏覽器，不需登入。
 
@@ -31,7 +33,10 @@ npx tsc --noEmit --incremental false
 
 - `app/page.tsx`：頁面、學習互動、進度、測驗與匯入匯出
 - `public/data/a1-course-v3.csv`：唯一正式 A1 課程內容
+- `public/data/a1-pattern-exercises.json`：經驗證的句型換字題
+- `public/data/a1-reading-exercises.json`：閱讀辨識、文字回答與短文理解題
 - `app/a1-mvp-data.ts`：v3 CSV 解析、驗證、版本與課程建立
+- `app/a1-exercises.ts`：新題型資料讀取與 A1 難度驗證
 - `app/course-data.ts`：TypeScript 型別與非課程靜態資料
 - `app/globals.css`：桌面版與響應式介面樣式
 - `tests/`：單元、渲染與 Playwright 端到端測試

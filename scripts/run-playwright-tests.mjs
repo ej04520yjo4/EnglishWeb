@@ -10,13 +10,6 @@ const serverEntry = path.join(
   "dist",
   "cli.js",
 );
-const playwrightEntry = path.join(
-  root,
-  "node_modules",
-  "@playwright",
-  "test",
-  "cli.js",
-);
 let serverOutput = "";
 
 const server = spawn(
@@ -80,9 +73,13 @@ const waitForServer = async () => {
 
 try {
   await waitForServer();
+  console.log("npx playwright test");
+  const isWindows = process.platform === "win32";
   const playwright = spawn(
-    process.execPath,
-    [playwrightEntry, "test", ...process.argv.slice(2)],
+    isWindows ? "cmd.exe" : "npx",
+    isWindows
+      ? ["/d", "/s", "/c", "npx playwright test"]
+      : ["playwright", "test", ...process.argv.slice(2)],
     {
       cwd: root,
       env: {

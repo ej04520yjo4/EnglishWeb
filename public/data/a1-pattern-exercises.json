@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "patterns": [
+    {
+      "id": "have-possession",
+      "cefr": "A1",
+      "template": "I have {object}.",
+      "slots": [
+        {
+          "slotId": "object",
+          "role": "已學過的名詞片語",
+          "allowedLexemeIds": ["a", "an", "apple", "book", "pen", "brother"],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "只使用目前或先前已教過的單字",
+            "單數可數名詞必須搭配 a 或 an",
+            "一次只替換一個名詞片語"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "have-possession-book",
+          "lessonId": "a1-u4-l1",
+          "sourceSentenceId": "a1-u4-l1-p01-s01",
+          "sentencePatternId": "have-possession",
+          "passageId": "a1-u4-l1-p01",
+          "sentence": "I have a book.",
+          "translation": "我有一本書。",
+          "hintKeywords": "有／書",
+          "skeleton": "I have ______.",
+          "requiredLexemeIds": ["i", "have", "a", "book"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "have-possession-pen",
+          "lessonId": "a1-u4-l1",
+          "sourceSentenceId": "a1-u4-l1-p01-s01",
+          "sentencePatternId": "have-possession",
+          "passageId": "a1-u4-l1-p01",
+          "sentence": "I have a pen.",
+          "translation": "我有一枝筆。",
+          "hintKeywords": "有／筆",
+          "skeleton": "I have ______.",
+          "requiredLexemeIds": ["i", "have", "a", "pen"],
+          "requiredChunkIds": []
+        }
+      ]
+    }
+  ]
+}

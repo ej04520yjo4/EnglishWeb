@@ -33,8 +33,25 @@ import {
 } from "../app/passage-flow.ts";
 import { evaluateRebuildAttempt } from "../app/rebuild-flow.ts";
 import { kkPhoneticGroups } from "../app/kk-phonetics.ts";
+import {
+  isPatternTransferCorrect,
+  validatePatternExerciseData,
+  validateReadingExerciseData,
+} from "../app/a1-exercises.ts";
+import {
+  nextHintLevel,
+  reviewExercisesForError,
+} from "../app/learning-adaptation.ts";
 
 const csvUrl = new URL("../public/data/a1-course-v3.csv", import.meta.url);
+const patternsUrl = new URL(
+  "../public/data/a1-pattern-exercises.json",
+  import.meta.url,
+);
+const readingUrl = new URL(
+  "../public/data/a1-reading-exercises.json",
+  import.meta.url,
+);
 const oldCsvUrl = new URL(
   "../public/data/A1課程內容_QA_corrected_v3.csv",
   import.meta.url,
@@ -42,6 +59,14 @@ const oldCsvUrl = new URL(
 
 async function loadRows() {
   return parseA1MvpCsv(await readFile(csvUrl, "utf8"));
+}
+
+async function loadExerciseData() {
+  const [patterns, reading] = await Promise.all([
+    readFile(patternsUrl, "utf8").then(JSON.parse),
+    readFile(readingUrl, "utf8").then(JSON.parse),
+  ]);
+  return { patterns, reading };
 }
 
 test("reads the official v3 curriculum from the ASCII CSV path", async () => {
@@ -194,7 +219,7 @@ test("rejects an answer-only content draft before it can replace course rows", a
   );
 });
 
-test("applies the same recall, detail, rebuild, and dictation flow to every lesson", async () => {
+test("uses the same text-first base flow and removes dictation from every lesson", async () => {
   const page = await readFile(
     new URL("../app/page.tsx", import.meta.url),
     "utf8",
@@ -207,7 +232,10 @@ test("applies the same recall, detail, rebuild, and dictation flow to every less
   assert.match(page, /"recall"/);
   assert.match(page, /"detail"/);
   assert.match(page, /"rebuild"/);
-  assert.match(page, /"dictation"/);
+  assert.doesNotMatch(page, /"dictation"/);
+  assert.match(page, /"reading-recognition"/);
+  assert.match(page, /"pattern-transfer"/);
+  assert.match(page, /"text-response"/);
   assert.doesNotMatch(page, /selectedLesson\.sourceVersion\s*===/);
 });
 
@@ -324,6 +352,148 @@ test("penalizes extra assessment words", () => {
     wordAccuracy("I have an apple today", "I have an apple."),
     80,
   );
+});
+
+test("pattern variations only use lexemes learned by that lesson", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+  const report = validatePatternExerciseData(patterns, rows);
+
+  assert.equal(report.valid, true, report.errors.join("\n"));
+});
+
+test("pattern variations never repeat their source sentence", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+  const sourceByLesson = new Map(
+    rows.map((row) => [row.lesson_id, row.sentence.toLowerCase()]),
+  );
+
+  for (const example of patterns.patterns.flatMap(
+    (pattern) => pattern.examples,
+  )) {
+    assert.notEqual(
+      example.sentence.toLowerCase(),
+      sourceByLesson.get(example.lessonId),
+    );
+  }
+});
+
+test("rejects a pattern variation that introduces an unlearned lexeme", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+  const invalid = structuredClone(patterns);
+  invalid.patterns[0].examples[0].requiredLexemeIds.push(
+    "not-yet-learned",
+  );
+  const report = validatePatternExerciseData(invalid, rows);
+
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.errors.some((message) =>
+      message.includes("not-yet-learned"),
+    ),
+  );
+});
+
+test("checks pattern-transfer answers while allowing punctuation normalization", async () => {
+  const { patterns } = await loadExerciseData();
+  const example = patterns.patterns[0].examples[0];
+
+  assert.equal(isPatternTransferCorrect("I have a book.", example), true);
+  assert.equal(isPatternTransferCorrect("i have a book", example), true);
+  assert.equal(isPatternTransferCorrect("I have a pen.", example), false);
+  assert.equal(
+    isPatternTransferCorrect("I have a book today.", example),
+    false,
+  );
+});
+
+test("keeps reading-recognition distractors unique and different from the answer", async () => {
+  const rows = await loadRows();
+  const { reading } = await loadExerciseData();
+  const report = validateReadingExerciseData(reading, rows);
+
+  assert.equal(report.valid, true, report.errors.join("\n"));
+  for (const exercise of reading.recognition) {
+    const texts = exercise.options.map((option) =>
+      option.text.trim().toLowerCase(),
+    );
+    assert.equal(new Set(texts).size, texts.length);
+    assert.equal(
+      exercise.options.filter(
+        (option) => option.id === exercise.correctOptionId,
+      ).length,
+      1,
+    );
+  }
+});
+
+test("every enabled sentence pattern has at least one valid variation", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+  const report = validatePatternExerciseData(patterns, rows);
+
+  assert.equal(report.valid, true, report.errors.join("\n"));
+  assert.ok(
+    patterns.patterns.every((pattern) => pattern.examples.length >= 1),
+  );
+});
+
+test("unit 8 comprehension answers stay consistent with their source passage", async () => {
+  const rows = await loadRows();
+  const { reading } = await loadExerciseData();
+  const report = validateReadingExerciseData(reading, rows);
+  const passage = reading.passages.find(
+    (item) => item.passageId === "a1-u8-p01",
+  );
+
+  assert.equal(report.valid, true, report.errors.join("\n"));
+  assert.equal(passage.questions.length, 3);
+  assert.deepEqual(
+    passage.questions.map((question) => question.correctAnswer),
+    ["At seven.", "At home.", "By bus."],
+  );
+});
+
+test("adjusts hint levels from individual performance", () => {
+  const fastCorrect = {
+    ...emptyTokenLearningProgress(),
+    attempts: 1,
+    correctAnswers: 1,
+    elapsedSeconds: 8,
+  };
+  const slow = {
+    ...emptyTokenLearningProgress(),
+    attempts: 1,
+    correctAnswers: 1,
+    elapsedSeconds: 28,
+  };
+  const revealed = {
+    ...emptyTokenLearningProgress(),
+    attempts: 3,
+    answerRevealed: true,
+  };
+
+  assert.equal(nextHintLevel(1, fastCorrect), 2);
+  assert.equal(nextHintLevel(3, slow), 2);
+  assert.equal(nextHintLevel(3, revealed), 1);
+});
+
+test("maps different errors to different review exercise types", () => {
+  assert.deepEqual(reviewExercisesForError("spelling"), ["word-recall"]);
+  assert.deepEqual(reviewExercisesForError("word-order"), [
+    "sentence-rebuild",
+  ]);
+  assert.deepEqual(reviewExercisesForError("meaning"), [
+    "reading-recognition",
+  ]);
+  assert.deepEqual(reviewExercisesForError("pattern-transfer"), [
+    "pattern-transfer",
+  ]);
+  assert.deepEqual(reviewExercisesForError("passage-comprehension"), [
+    "passage-comprehension",
+  ]);
 });
 
 test("records lexeme, sense, sentence-pattern, and completion progress", async () => {

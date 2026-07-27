@@ -45,6 +45,23 @@ import {
   lessonsForPassage,
   PassageSentenceEvaluation,
 } from "./passage-flow";
+import {
+  A1ExerciseData,
+  comprehensionForPassage,
+  isPatternTransferCorrect,
+  loadA1ExerciseData,
+  patternExamplesForLesson,
+  recognitionForLesson,
+  textResponseForLesson,
+  validatePatternExerciseData,
+  validateReadingExerciseData,
+} from "./a1-exercises";
+import {
+  addReviewExercise,
+  HintLevel,
+  nextHintLevel,
+  ReviewExerciseType,
+} from "./learning-adaptation";
 
 type Screen =
   | "home"
@@ -62,8 +79,11 @@ type LearningStage =
   | "recall"
   | "detail"
   | "rebuild"
-  | "dictation"
+  | "reading-recognition"
+  | "pattern-transfer"
+  | "text-response"
   | "passage-rebuild"
+  | "passage-comprehension"
   | "result";
 type Familiarity = ReviewFamiliarity;
 type Assessment = {
@@ -77,6 +97,50 @@ type Assessment = {
 };
 
 type ReviewItem = ReviewScheduleItem;
+
+type SentenceLearningStats = {
+  rebuildAttempts: number;
+  recognitionAttempts: number;
+  recognitionCorrect: number;
+  elapsedSeconds: number;
+};
+
+type PatternLearningStats = {
+  transferAttempts: number;
+  transferCorrect: number;
+  uniqueVariationsCompleted: string[];
+  lastPracticedAt: string;
+  nextReviewAt: string;
+};
+
+type PassageLearningStats = {
+  rebuildAttempts: number;
+  comprehensionAttempts: number;
+  comprehensionCorrect: number;
+  lastPracticedAt: string;
+};
+
+const emptySentenceStats = (): SentenceLearningStats => ({
+  rebuildAttempts: 0,
+  recognitionAttempts: 0,
+  recognitionCorrect: 0,
+  elapsedSeconds: 0,
+});
+
+const emptyPatternStats = (): PatternLearningStats => ({
+  transferAttempts: 0,
+  transferCorrect: 0,
+  uniqueVariationsCompleted: [],
+  lastPracticedAt: "",
+  nextReviewAt: "",
+});
+
+const emptyPassageStats = (): PassageLearningStats => ({
+  rebuildAttempts: 0,
+  comprehensionAttempts: 0,
+  comprehensionCorrect: 0,
+  lastPracticedAt: "",
+});
 
 type ProgressState = {
   schemaVersion: 3;
@@ -93,6 +157,13 @@ type ProgressState = {
   senseProgress: LearningEntityProgressMap;
   sentencePatternProgress: LearningEntityProgressMap;
   tokenProgress: TokenLearningProgressMap;
+  sentenceStats: Record<string, SentenceLearningStats>;
+  patternStats: Record<string, PatternLearningStats>;
+  passageStats: Record<string, PassageLearningStats>;
+  tokenHintLevels: Record<string, HintLevel>;
+  chunkHintLevels: Record<string, HintLevel>;
+  patternHintLevels: Record<string, HintLevel>;
+  reviewExerciseTypes: Record<string, ReviewExerciseType[]>;
 };
 
 type SettingsState = {
@@ -122,6 +193,13 @@ const emptyProgress: ProgressState = {
   senseProgress: {},
   sentencePatternProgress: {},
   tokenProgress: {},
+  sentenceStats: {},
+  patternStats: {},
+  passageStats: {},
+  tokenHintLevels: {},
+  chunkHintLevels: {},
+  patternHintLevels: {},
+  reviewExerciseTypes: {},
 };
 
 const normalizeProgress = (value: Partial<ProgressState>): ProgressState => ({
@@ -133,6 +211,13 @@ const normalizeProgress = (value: Partial<ProgressState>): ProgressState => ({
   senseProgress: value.senseProgress ?? {},
   sentencePatternProgress: value.sentencePatternProgress ?? {},
   tokenProgress: value.tokenProgress ?? {},
+  sentenceStats: value.sentenceStats ?? {},
+  patternStats: value.patternStats ?? {},
+  passageStats: value.passageStats ?? {},
+  tokenHintLevels: value.tokenHintLevels ?? {},
+  chunkHintLevels: value.chunkHintLevels ?? {},
+  patternHintLevels: value.patternHintLevels ?? {},
+  reviewExerciseTypes: value.reviewExerciseTypes ?? {},
 });
 
 const defaultSettings: SettingsState = {
@@ -305,6 +390,8 @@ export default function Home() {
   const [courseSourceRevision, setCourseSourceRevision] = useState("");
   const [courseRowsUpdatedAt, setCourseRowsUpdatedAt] = useState("");
   const [courseUnits, setCourseUnits] = useState<CourseUnit[]>([]);
+  const [exerciseData, setExerciseData] =
+    useState<A1ExerciseData | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<Lesson>(EMPTY_LESSON);
   const [stage, setStage] = useState<LearningStage>("intro");
   const [tokenIndex, setTokenIndex] = useState(0);
@@ -317,9 +404,17 @@ export default function Home() {
   const [rebuildStatus, setRebuildStatus] = useState<RebuildStatus[]>([]);
   const [rebuildAttempts, setRebuildAttempts] = useState(0);
   const [rebuildAnswerRevealed, setRebuildAnswerRevealed] = useState(false);
-  const [dictationValue, setDictationValue] = useState("");
-  const [dictationAttempts, setDictationAttempts] = useState(0);
-  const [dictationAnswerRevealed, setDictationAnswerRevealed] = useState(false);
+  const [recognitionSelectedId, setRecognitionSelectedId] = useState("");
+  const [recognitionChecked, setRecognitionChecked] = useState(false);
+  const [patternExampleIndex, setPatternExampleIndex] = useState(0);
+  const [patternTransferValue, setPatternTransferValue] = useState("");
+  const [patternTransferAttempts, setPatternTransferAttempts] = useState(0);
+  const [patternTransferRevealed, setPatternTransferRevealed] =
+    useState(false);
+  const [patternTransferComplete, setPatternTransferComplete] =
+    useState(false);
+  const [textResponseSelectedId, setTextResponseSelectedId] = useState("");
+  const [textResponseChecked, setTextResponseChecked] = useState(false);
   const [audioReplays, setAudioReplays] = useState(0);
   const [usedPaste, setUsedPaste] = useState(false);
   const [startedAt, setStartedAt] = useState(0);
@@ -340,6 +435,21 @@ export default function Home() {
     useState<PassageSentenceEvaluation[]>([]);
   const [passageAttempts, setPassageAttempts] = useState(0);
   const [passageAnswerRevealed, setPassageAnswerRevealed] = useState(false);
+  const [passageQuestionIndex, setPassageQuestionIndex] = useState(0);
+  const [passageAnswer, setPassageAnswer] = useState("");
+  const [passageQuestionChecked, setPassageQuestionChecked] =
+    useState(false);
+  const [sessionRecognitionAttempts, setSessionRecognitionAttempts] =
+    useState(0);
+  const [sessionRecognitionCorrect, setSessionRecognitionCorrect] =
+    useState(0);
+  const [sessionTransferAttempts, setSessionTransferAttempts] =
+    useState(0);
+  const [sessionTransferCorrect, setSessionTransferCorrect] = useState(0);
+  const [sessionPassageComprehensionAttempts, setSessionPassageComprehensionAttempts] =
+    useState(0);
+  const [sessionPassageComprehensionCorrect, setSessionPassageComprehensionCorrect] =
+    useState(0);
   const [sessionTokenProgress, setSessionTokenProgress] =
     useState<TokenLearningProgressMap>({});
   const [speechSupported, setSpeechSupported] = useState(
@@ -351,13 +461,26 @@ export default function Home() {
 
   useEffect(() => {
     let active = true;
-    loadA1CourseData()
-      .then(({
+    Promise.all([loadA1CourseData(), loadA1ExerciseData()])
+      .then(([{
         rows: officialRows,
         courseUnits: officialUnits,
         sourceRevision,
-      }) => {
+      }, exercises]) => {
         if (!active) return;
+        const patternReport = validatePatternExerciseData(
+          exercises.patterns,
+          officialRows,
+        );
+        const readingReport = validateReadingExerciseData(
+          exercises.reading,
+          officialRows,
+        );
+        if (!patternReport.valid || !readingReport.valid) {
+          throw new Error(
+            [...patternReport.errors, ...readingReport.errors].join("\n"),
+          );
+        }
         let rows = officialRows;
         let units = officialUnits;
         let updatedAt = new Date().toISOString();
@@ -386,6 +509,7 @@ export default function Home() {
         setCourseRows(rows);
         setCourseDraftRows(rows);
         setCourseUnits(units);
+        setExerciseData(exercises);
         setSelectedLesson(units[0]?.lessons[0] ?? EMPTY_LESSON);
         setCourseDataStatus("ready");
       })
@@ -495,6 +619,30 @@ export default function Home() {
     () => lessonsForPassage(allLessons, selectedLesson.passageId),
     [allLessons, selectedLesson.passageId],
   );
+  const selectedRecognition = exerciseData
+    ? recognitionForLesson(exerciseData.reading, selectedLesson.id)
+    : undefined;
+  const selectedPatternExamples = exerciseData
+    ? patternExamplesForLesson(
+        exerciseData.patterns,
+        selectedLesson.id,
+      )
+    : [];
+  const selectedTextResponse = exerciseData
+    ? textResponseForLesson(exerciseData.reading, selectedLesson.id)
+    : undefined;
+  const selectedPassageComprehension = exerciseData
+    ? comprehensionForPassage(
+        exerciseData.reading,
+        selectedLesson.passageId,
+      )
+    : undefined;
+  const currentPatternExample =
+    selectedPatternExamples[patternExampleIndex];
+  const currentPassageQuestion =
+    selectedPassageComprehension?.questions[passageQuestionIndex];
+  const currentTokenHintLevel =
+    progress.tokenHintLevels[currentToken.occurrenceId] ?? 1;
   const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
   const recallAnswer = recallValues.join(" ");
   const tokenAudioAvailable =
@@ -705,9 +853,15 @@ export default function Home() {
     setFeedback("");
     setRebuildValues(item.tokens.map(() => ""));
     setRebuildStatus(item.tokens.map(() => ""));
-    setDictationValue("");
-    setDictationAttempts(0);
-    setDictationAnswerRevealed(false);
+    setRecognitionSelectedId("");
+    setRecognitionChecked(false);
+    setPatternExampleIndex(0);
+    setPatternTransferValue("");
+    setPatternTransferAttempts(0);
+    setPatternTransferRevealed(false);
+    setPatternTransferComplete(false);
+    setTextResponseSelectedId("");
+    setTextResponseChecked(false);
     setAudioReplays(0);
     setUsedPaste(false);
     setStartedAt(timestamp());
@@ -717,6 +871,15 @@ export default function Home() {
     setPassageEvaluation([]);
     setPassageAttempts(0);
     setPassageAnswerRevealed(false);
+    setPassageQuestionIndex(0);
+    setPassageAnswer("");
+    setPassageQuestionChecked(false);
+    setSessionRecognitionAttempts(0);
+    setSessionRecognitionCorrect(0);
+    setSessionTransferAttempts(0);
+    setSessionTransferCorrect(0);
+    setSessionPassageComprehensionAttempts(0);
+    setSessionPassageComprehensionCorrect(0);
     setSessionTokenProgress({});
     setScreen("learning");
   };
@@ -748,11 +911,11 @@ export default function Home() {
       window.setTimeout(() => recallInputs.current[0]?.focus(), 0);
     } else {
       setRecallAnswerRevealed(false);
-      setDictationAnswerRevealed(false);
       setRebuildValues(selectedLesson.tokens.map(() => ""));
       setRebuildStatus(selectedLesson.tokens.map(() => ""));
       setRebuildAttempts(0);
       setRebuildAnswerRevealed(false);
+      setStartedAt(timestamp());
       setStage("rebuild");
     }
   };
@@ -883,6 +1046,13 @@ export default function Home() {
         selectedLesson.id,
         false,
       ),
+      reviewExerciseTypes: {
+        ...value.reviewExerciseTypes,
+        [currentToken.occurrenceId]: addReviewExercise(
+          value.reviewExerciseTypes[currentToken.occurrenceId],
+          "spelling",
+        ),
+      },
     }));
     if (
       clean(recallAnswer).length > 1 &&
@@ -912,18 +1082,46 @@ export default function Home() {
     );
     setRebuildAttempts(result.attempts);
     setRebuildStatus(result.statuses);
-    setProgress((value) => ({
-      ...value,
-      totalAttempts: value.totalAttempts + 1,
-      correctAnswers: value.correctAnswers + (result.correct ? 1 : 0),
-    }));
+    const elapsed = Math.max(
+      0,
+      Math.round((timestamp() - startedAt) / 1000),
+    );
+    setProgress((value) => {
+      const sentenceStats =
+        value.sentenceStats[selectedLesson.sentenceId] ??
+        emptySentenceStats();
+      return {
+        ...value,
+        totalAttempts: value.totalAttempts + 1,
+        correctAnswers:
+          value.correctAnswers + (result.correct ? 1 : 0),
+        sentenceStats: {
+          ...value.sentenceStats,
+          [selectedLesson.sentenceId]: {
+            ...sentenceStats,
+            rebuildAttempts: sentenceStats.rebuildAttempts + 1,
+            elapsedSeconds: sentenceStats.elapsedSeconds + elapsed,
+          },
+        },
+        reviewExerciseTypes: result.correct
+          ? value.reviewExerciseTypes
+          : {
+              ...value.reviewExerciseTypes,
+              [selectedLesson.sentencePatternId]: addReviewExercise(
+                value.reviewExerciseTypes[
+                  selectedLesson.sentencePatternId
+                ],
+                "word-order",
+              ),
+            },
+      };
+    });
     if (result.correct) {
       setFeedback("順序與拼字都正確！完成格式如下：");
       window.setTimeout(() => {
         setFeedback("");
         setRecallAnswerRevealed(false);
-        setDictationAnswerRevealed(false);
-        setStage("dictation");
+        continueAfterRebuild();
       }, 850);
       return;
     }
@@ -955,16 +1153,6 @@ export default function Home() {
     );
   };
 
-  const sentenceDifference = () => {
-    const actual = cleanSentence(dictationValue).split(" ").filter(Boolean);
-    const expected = cleanSentence(selectedLesson.sentence).split(" ").filter(Boolean);
-    const index = expected.findIndex((word, wordIndex) => actual[wordIndex] !== word);
-    if (index < 0 && actual.length !== expected.length) return `句子應有 ${expected.length} 個單字。`;
-    if (index < 0) return "";
-    if (!actual[index]) return `第 ${index + 1} 個位置缺少單字。`;
-    return `第 ${index + 1} 個位置需要再檢查（你輸入：${actual[index]}）。`;
-  };
-
   const finishLesson = () => {
     const today = dateKey();
     const shouldStartPassageRebuild =
@@ -978,12 +1166,15 @@ export default function Home() {
       const reviewItems = { ...value.reviewItems };
       let lexemeProgress = value.lexemeProgress;
       let senseProgress = value.senseProgress;
+      const tokenHintLevels = { ...value.tokenHintLevels };
+      const chunkHintLevels = { ...value.chunkHintLevels };
+      const patternTokenHintLevels: HintLevel[] = [];
       selectedLesson.tokens.forEach((token) => {
         const resolved = getToken(selectedLesson, token);
-        const interval = reviewIntervalForToken(
+        const tokenPerformance =
           sessionTokenProgress[resolved.occurrenceId] ??
-            value.tokenProgress[resolved.occurrenceId],
-        );
+          value.tokenProgress[resolved.occurrenceId];
+        const interval = reviewIntervalForToken(tokenPerformance);
         reviewItems[resolved.occurrenceId] = scheduleTokenReview(
           reviewItems[resolved.occurrenceId],
           {
@@ -993,6 +1184,18 @@ export default function Home() {
           },
           interval,
         );
+        const nextTokenHintLevel = nextHintLevel(
+          tokenHintLevels[resolved.occurrenceId] ?? 1,
+          tokenPerformance,
+        );
+        tokenHintLevels[resolved.occurrenceId] = nextTokenHintLevel;
+        patternTokenHintLevels.push(nextTokenHintLevel);
+        if (resolved.chunk?.id) {
+          chunkHintLevels[resolved.chunk.id] = nextHintLevel(
+            chunkHintLevels[resolved.chunk.id] ?? 1,
+            tokenPerformance,
+          );
+        }
         lexemeProgress = recordLearningEntityCompletion(
           lexemeProgress,
           resolved.lexemeId ?? resolved.tokenId ?? resolved.id,
@@ -1006,8 +1209,17 @@ export default function Home() {
       });
       return {
         ...value,
-        completedLessonIds: Array.from(new Set([...value.completedLessonIds, selectedLesson.id])),
-        studyDates: Array.from(new Set([...value.studyDates, today])),
+        completedLessonIds: shouldStartPassageRebuild
+          ? value.completedLessonIds
+          : Array.from(
+              new Set([
+                ...value.completedLessonIds,
+                selectedLesson.id,
+              ]),
+            ),
+        studyDates: shouldStartPassageRebuild
+          ? value.studyDates
+          : Array.from(new Set([...value.studyDates, today])),
         reviewItems,
         lexemeProgress,
         senseProgress,
@@ -1016,6 +1228,15 @@ export default function Home() {
           selectedLesson.sentencePatternId,
           selectedLesson.id,
         ),
+        tokenHintLevels,
+        chunkHintLevels,
+        patternHintLevels: {
+          ...value.patternHintLevels,
+          [selectedLesson.sentencePatternId]:
+            patternTokenHintLevels.length > 0
+              ? (Math.min(...patternTokenHintLevels) as HintLevel)
+              : 1,
+        },
       };
     });
     playSentenceAudio(selectedLesson, 1, false);
@@ -1038,36 +1259,229 @@ export default function Home() {
   const continueAfterRebuild = () => {
     setFeedback("");
     setRecallAnswerRevealed(false);
-    setDictationAnswerRevealed(false);
-    setStage("dictation");
-  };
-
-  const checkDictation = () => {
-    if (cleanSentence(dictationValue) === cleanSentence(selectedLesson.sentence)) {
-      setProgress((value) => ({
-        ...value,
-        totalAttempts: value.totalAttempts + 1,
-        correctAnswers: value.correctAnswers + 1,
-      }));
-      finishLesson();
+    if (selectedRecognition) {
+      setRecognitionSelectedId("");
+      setRecognitionChecked(false);
+      setStartedAt(timestamp());
+      setStage("reading-recognition");
       return;
     }
-    const attempt = dictationAttempts + 1;
-    setDictationAttempts(attempt);
-    setProgress((value) => ({ ...value, totalAttempts: value.totalAttempts + 1 }));
-    if (attempt === 1) setFeedback(sentenceDifference());
-    if (attempt === 2) {
-      const initials = selectedLesson.sentence
-        .replace(/[.!?]/g, "")
-        .split(" ")
-        .map((word) => `${word[0]}${"＿".repeat(Math.max(1, word.length - 1))}`)
-        .join(" ");
-      setFeedback(`開頭字母提示：${initials}`);
+    finishLesson();
+  };
+
+  const checkRecognition = () => {
+    if (!selectedRecognition || !recognitionSelectedId) {
+      setFeedback("請先選擇一個答案。");
+      return;
     }
-    if (attempt >= 3) {
-      setFeedback(`正確答案是 ${selectedLesson.sentence} 請重新輸入完整句子。`);
-      setDictationAnswerRevealed(true);
+    if (recognitionChecked) return;
+    const correct =
+      recognitionSelectedId === selectedRecognition.correctOptionId;
+    const elapsed = Math.max(
+      0,
+      Math.round((timestamp() - startedAt) / 1000),
+    );
+    setRecognitionChecked(true);
+    setSessionRecognitionAttempts((value) => value + 1);
+    setSessionRecognitionCorrect((value) => value + (correct ? 1 : 0));
+    setProgress((value) => {
+      const sentenceStats =
+        value.sentenceStats[selectedLesson.sentenceId] ??
+        emptySentenceStats();
+      return {
+        ...value,
+        totalAttempts: value.totalAttempts + 1,
+        correctAnswers:
+          value.correctAnswers + (correct ? 1 : 0),
+        sentenceStats: {
+          ...value.sentenceStats,
+          [selectedLesson.sentenceId]: {
+            ...sentenceStats,
+            recognitionAttempts:
+              sentenceStats.recognitionAttempts + 1,
+            recognitionCorrect:
+              sentenceStats.recognitionCorrect + (correct ? 1 : 0),
+            elapsedSeconds: sentenceStats.elapsedSeconds + elapsed,
+          },
+        },
+        reviewExerciseTypes: correct
+          ? value.reviewExerciseTypes
+          : {
+              ...value.reviewExerciseTypes,
+              [selectedLesson.sentencePatternId]: addReviewExercise(
+                value.reviewExerciseTypes[
+                  selectedLesson.sentencePatternId
+                ],
+                "meaning",
+              ),
+            },
+      };
+    });
+    setFeedback(
+      correct
+        ? "句意判斷正確！"
+        : `這句話的正確意思是「${selectedLesson.translation}」`,
+    );
+  };
+
+  const continueAfterRecognition = () => {
+    setFeedback("");
+    if (selectedPatternExamples.length > 0) {
+      setPatternExampleIndex(0);
+      setPatternTransferValue("");
+      setPatternTransferAttempts(0);
+      setPatternTransferRevealed(false);
+      setPatternTransferComplete(false);
+      setStartedAt(timestamp());
+      setStage("pattern-transfer");
+      return;
     }
+    if (selectedTextResponse) {
+      setTextResponseSelectedId("");
+      setTextResponseChecked(false);
+      setStage("text-response");
+      return;
+    }
+    finishLesson();
+  };
+
+  const checkPatternTransfer = () => {
+    if (!currentPatternExample || patternTransferComplete) return;
+    const correct = isPatternTransferCorrect(
+      patternTransferValue,
+      currentPatternExample,
+    );
+    const credited = correct && !patternTransferRevealed;
+    const nextAttempt = patternTransferAttempts + 1;
+    setPatternTransferAttempts(nextAttempt);
+    setSessionTransferAttempts((value) => value + 1);
+    setSessionTransferCorrect(
+      (value) => value + (credited ? 1 : 0),
+    );
+    setProgress((value) => {
+      const patternStats =
+        value.patternStats[selectedLesson.sentencePatternId] ??
+        emptyPatternStats();
+      return {
+        ...value,
+        totalAttempts: value.totalAttempts + 1,
+        correctAnswers:
+          value.correctAnswers + (credited ? 1 : 0),
+        patternStats: {
+          ...value.patternStats,
+          [selectedLesson.sentencePatternId]: {
+            ...patternStats,
+            transferAttempts: patternStats.transferAttempts + 1,
+            transferCorrect:
+              patternStats.transferCorrect + (credited ? 1 : 0),
+            uniqueVariationsCompleted: correct
+              ? Array.from(
+                  new Set([
+                    ...patternStats.uniqueVariationsCompleted,
+                    currentPatternExample.id,
+                  ]),
+                )
+              : patternStats.uniqueVariationsCompleted,
+            lastPracticedAt: new Date().toISOString(),
+            nextReviewAt: addDays(credited ? 3 : 1),
+          },
+        },
+        reviewExerciseTypes: correct
+          ? value.reviewExerciseTypes
+          : {
+              ...value.reviewExerciseTypes,
+              [selectedLesson.sentencePatternId]: addReviewExercise(
+                value.reviewExerciseTypes[
+                  selectedLesson.sentencePatternId
+                ],
+                "pattern-transfer",
+              ),
+            },
+      };
+    });
+    if (correct) {
+      setPatternTransferComplete(true);
+      setFeedback(
+        patternTransferRevealed
+          ? "已重新輸入正確答案，現在可以繼續。"
+          : "句型換字正確！",
+      );
+      return;
+    }
+    if (nextAttempt >= 3) {
+      setPatternTransferRevealed(true);
+      setFeedback(
+        `正確答案是 ${currentPatternExample.sentence}，請重新輸入一次。`,
+      );
+      return;
+    }
+    setFeedback(
+      `第 ${nextAttempt} 次尚未正確，請保持句型不變，只替換名詞片語。`,
+    );
+  };
+
+  const continueAfterPatternTransfer = () => {
+    if (
+      patternExampleIndex <
+      selectedPatternExamples.length - 1
+    ) {
+      setPatternExampleIndex((value) => value + 1);
+      setPatternTransferValue("");
+      setPatternTransferAttempts(0);
+      setPatternTransferRevealed(false);
+      setPatternTransferComplete(false);
+      setFeedback("");
+      setStartedAt(timestamp());
+      return;
+    }
+    if (selectedTextResponse) {
+      setTextResponseSelectedId("");
+      setTextResponseChecked(false);
+      setFeedback("");
+      setStage("text-response");
+      return;
+    }
+    finishLesson();
+  };
+
+  const checkTextResponse = () => {
+    if (!selectedTextResponse || !textResponseSelectedId) {
+      setFeedback("請先選擇一個文字答案。");
+      return;
+    }
+    if (textResponseChecked) return;
+    const correct =
+      textResponseSelectedId ===
+      selectedTextResponse.correctOptionId;
+    setTextResponseChecked(true);
+    setProgress((value) => ({
+      ...value,
+      totalAttempts: value.totalAttempts + 1,
+      correctAnswers:
+        value.correctAnswers + (correct ? 1 : 0),
+      reviewExerciseTypes: correct
+        ? value.reviewExerciseTypes
+        : {
+            ...value.reviewExerciseTypes,
+            [selectedLesson.sentencePatternId]: addReviewExercise(
+              value.reviewExerciseTypes[
+                selectedLesson.sentencePatternId
+              ],
+              "meaning",
+            ),
+          },
+    }));
+    setFeedback(
+      correct
+        ? "文字回答正確！"
+        : `正確回答是「${
+            selectedTextResponse.options.find(
+              (option) =>
+                option.id ===
+                selectedTextResponse.correctOptionId,
+            )?.text ?? ""
+          }」`,
+    );
   };
 
   const checkPassageRebuild = () => {
@@ -1079,13 +1493,36 @@ export default function Home() {
     const attempt = passageAttempts + 1;
     setPassageAttempts(attempt);
     setPassageEvaluation(evaluation);
-    setProgress((value) => ({
-      ...value,
-      totalAttempts: value.totalAttempts + selectedPassageLessons.length,
-      correctAnswers:
-        value.correctAnswers +
-        evaluation.filter((item) => item.correct).length,
-    }));
+    setProgress((value) => {
+      const passageStats =
+        value.passageStats[selectedLesson.passageId] ??
+        emptyPassageStats();
+      return {
+        ...value,
+        totalAttempts:
+          value.totalAttempts + selectedPassageLessons.length,
+        correctAnswers:
+          value.correctAnswers +
+          evaluation.filter((item) => item.correct).length,
+        passageStats: {
+          ...value.passageStats,
+          [selectedLesson.passageId]: {
+            ...passageStats,
+            rebuildAttempts: passageStats.rebuildAttempts + 1,
+            lastPracticedAt: new Date().toISOString(),
+          },
+        },
+        reviewExerciseTypes: allCorrect
+          ? value.reviewExerciseTypes
+          : {
+              ...value.reviewExerciseTypes,
+              [selectedLesson.passageId]: addReviewExercise(
+                value.reviewExerciseTypes[selectedLesson.passageId],
+                "word-order",
+              ),
+            },
+      };
+    });
 
     if (allCorrect) {
       setFeedback("整段文章的句子與順序都正確！");
@@ -1095,11 +1532,7 @@ export default function Home() {
         false,
       );
       window.setTimeout(() => {
-        setStage("result");
-        window.setTimeout(
-          () => document.getElementById("lesson-result-next")?.focus(),
-          80,
-        );
+        beginPassageComprehension();
       }, 850);
       return;
     }
@@ -1130,12 +1563,112 @@ export default function Home() {
     );
   };
 
-  const completeRevealedPassage = () => {
+  const markLessonCompletedAfterPassage = () => {
+    const today = dateKey();
+    setProgress((value) => ({
+      ...value,
+      completedLessonIds: Array.from(
+        new Set([...value.completedLessonIds, selectedLesson.id]),
+      ),
+      studyDates: Array.from(new Set([...value.studyDates, today])),
+    }));
+  };
+
+  const beginPassageComprehension = () => {
+    if (
+      selectedPassageComprehension &&
+      selectedPassageComprehension.questions.length > 0
+    ) {
+      setPassageQuestionIndex(0);
+      setPassageAnswer("");
+      setPassageQuestionChecked(false);
+      setFeedback("");
+      setStage("passage-comprehension");
+      return;
+    }
+    markLessonCompletedAfterPassage();
     setStage("result");
     window.setTimeout(
       () => document.getElementById("lesson-result-next")?.focus(),
       80,
     );
+  };
+
+  const completeRevealedPassage = () => {
+    beginPassageComprehension();
+  };
+
+  const checkPassageComprehension = () => {
+    if (!currentPassageQuestion || !passageAnswer) {
+      setFeedback("請先選擇一個答案。");
+      return;
+    }
+    if (passageQuestionChecked) return;
+    const correct =
+      cleanSentence(passageAnswer) ===
+      cleanSentence(currentPassageQuestion.correctAnswer);
+    setPassageQuestionChecked(true);
+    setSessionPassageComprehensionAttempts((value) => value + 1);
+    setSessionPassageComprehensionCorrect(
+      (value) => value + (correct ? 1 : 0),
+    );
+    setProgress((value) => {
+      const passageStats =
+        value.passageStats[selectedLesson.passageId] ??
+        emptyPassageStats();
+      return {
+        ...value,
+        totalAttempts: value.totalAttempts + 1,
+        correctAnswers:
+          value.correctAnswers + (correct ? 1 : 0),
+        passageStats: {
+          ...value.passageStats,
+          [selectedLesson.passageId]: {
+            ...passageStats,
+            comprehensionAttempts:
+              passageStats.comprehensionAttempts + 1,
+            comprehensionCorrect:
+              passageStats.comprehensionCorrect +
+              (correct ? 1 : 0),
+            lastPracticedAt: new Date().toISOString(),
+          },
+        },
+        reviewExerciseTypes: correct
+          ? value.reviewExerciseTypes
+          : {
+              ...value.reviewExerciseTypes,
+              [selectedLesson.passageId]: addReviewExercise(
+                value.reviewExerciseTypes[selectedLesson.passageId],
+                "passage-comprehension",
+              ),
+            },
+      };
+    });
+    setFeedback(
+      correct
+        ? "短文理解正確！"
+        : `正確答案是 ${currentPassageQuestion.correctAnswer}`,
+    );
+  };
+
+  const continuePassageComprehension = () => {
+    if (
+      !selectedPassageComprehension ||
+      passageQuestionIndex >=
+        selectedPassageComprehension.questions.length - 1
+    ) {
+      markLessonCompletedAfterPassage();
+      setStage("result");
+      window.setTimeout(
+        () => document.getElementById("lesson-result-next")?.focus(),
+        80,
+      );
+      return;
+    }
+    setPassageQuestionIndex((value) => value + 1);
+    setPassageAnswer("");
+    setPassageQuestionChecked(false);
+    setFeedback("");
   };
 
   const startAssessment = (kind: "unit" | "level", unit?: CourseUnit) => {
@@ -1427,8 +1960,8 @@ export default function Home() {
         <section className="welcome-row">
           <div>
             <span className="eyebrow">今天也前進一小步</span>
-            <h1>把英文從「看得懂」練成「說得出來」</h1>
-            <p>先回想單字與語塊，再重組、聽寫完整句子。</p>
+            <h1>把英文從「看得懂」練成「寫得出來」</h1>
+            <p>先回想單字與語塊，再重組句子、辨識句意並練習換字。</p>
           </div>
           <ProgressRing value={coursePercent} label="A1 完成度" />
         </section>
@@ -1587,7 +2120,7 @@ export default function Home() {
           <div>
             <span className="eyebrow">A2–C2 後續課程藍圖</span>
             <h2>從日常溝通走向精準、流暢的進階表達</h2>
-            <p>每個程度維持「預習 → 回想 → 重組 → 聽寫 → 文章重建」，但會逐步加長文本、減少中文提示。</p>
+            <p>每個程度維持「預習 → 回想 → 重組 → 閱讀辨識 → 句型運用」，並逐步加長文本、減少中文提示。</p>
           </div>
           <span className="status-pill">已完成架構規劃</span>
         </div>
@@ -1789,7 +2322,7 @@ export default function Home() {
               aria-keyshortcuts="Enter"
               title="按 Enter 開始"
             >
-              <span>▶ 從發音與中文提示開始</span>
+              <span>從中文提示與逐字輸入開始</span>
               <kbd>Enter</kbd>
             </button>
           </section>
@@ -1801,43 +2334,117 @@ export default function Home() {
       const tokenResults = selectedLesson.tokens.map(
         (token) => sessionTokenProgress[token.occurrenceId],
       );
-      const tokenAttemptPenalty = tokenResults.reduce(
-        (sum, item) => sum + Math.max(0, (item?.attempts ?? 0) - 1) * 6,
-        0,
-      );
-      const tokenHintPenalty = tokenResults.reduce(
-        (sum, item) => sum + (item?.hintsUsed ?? 0) * 4,
-        0,
-      );
-      const revealedPenalty = tokenResults.filter(
-        (item) => item?.answerRevealed,
-      ).length * 8;
       const sessionHints = tokenResults.reduce(
         (sum, item) => sum + (item?.hintsUsed ?? 0),
         0,
       );
-      const score = Math.max(
+      const wordCorrect = tokenResults.filter(
+        (item) =>
+          item &&
+          item.correctAnswers > 0 &&
+          !item.answerRevealed,
+      ).length;
+      const wordScore = selectedLesson.tokens.length
+        ? Math.round(
+            (wordCorrect / selectedLesson.tokens.length) * 100,
+          )
+        : 0;
+      const sentenceScore = Math.max(
         0,
         100 -
-        tokenAttemptPenalty -
-        tokenHintPenalty -
-        revealedPenalty -
-        rebuildAttempts * 7 -
-        dictationAttempts * 7 -
-        Math.max(0, passageAttempts - 1) * 7,
+          Math.max(0, rebuildAttempts - 1) * 30 -
+          (rebuildAnswerRevealed ? 20 : 0),
       );
+      const recognitionScore = sessionRecognitionAttempts
+        ? Math.round(
+            (sessionRecognitionCorrect /
+              sessionRecognitionAttempts) *
+              100,
+          )
+        : null;
+      const transferScore = sessionTransferAttempts
+        ? Math.round(
+            (sessionTransferCorrect / sessionTransferAttempts) *
+              100,
+          )
+        : null;
+      const passageScore = sessionPassageComprehensionAttempts
+        ? Math.round(
+            (sessionPassageComprehensionCorrect /
+              sessionPassageComprehensionAttempts) *
+              100,
+          )
+        : null;
+      const reviewNeeds = [
+        ...selectedLesson.tokens
+          .filter((token) => {
+            const item = sessionTokenProgress[token.occurrenceId];
+            return (
+              (item?.attempts ?? 0) > 1 ||
+              item?.answerRevealed
+            );
+          })
+          .map((token) => token.answer),
+        ...(recognitionScore !== null && recognitionScore < 100
+          ? ["句意理解"]
+          : []),
+        ...(transferScore !== null && transferScore < 100
+          ? [`句型：${selectedLesson.patternName}`]
+          : []),
+        ...(passageScore !== null && passageScore < 100
+          ? ["短文理解"]
+          : []),
+      ];
       return (
         <div className="learning-shell">
           <section className="result-card">
             <div className="celebration">✓</div>
             <span className="eyebrow">課程完成</span>
-            <h1>做得好！你已經重建整個句子</h1>
+            <h1>做得好！你已完成本課文字練習</h1>
             <p className="result-sentence">{selectedLesson.sentence}</p>
-            <div className="three-grid">
-              <StatCard label="本次正確率" value={`${score}%`} />
-              <StatCard label="使用提示" value={sessionHints} />
-              <StatCard label="額外播放" value={audioReplays} />
+            <div className="result-skill-grid">
+              <StatCard label="單字拼寫" value={`${wordScore}%`} />
+              <StatCard label="句子語序" value={`${sentenceScore}%`} />
+              <StatCard
+                label="句意理解"
+                value={
+                  recognitionScore === null
+                    ? "後續課程啟用"
+                    : `${recognitionScore}%`
+                }
+              />
+              <StatCard
+                label="句型運用"
+                value={
+                  transferScore === null
+                    ? "後續課程啟用"
+                    : `${transferScore}%`
+                }
+              />
+              <StatCard
+                label="短文理解"
+                value={
+                  passageScore === null
+                    ? "本課無短文"
+                    : `${passageScore}%`
+                }
+              />
             </div>
+            <div className="result-support-row">
+              <span>使用提示：{sessionHints}</span>
+              <span>輔助播放：{audioReplays}</span>
+            </div>
+            <section className="review-needs-card">
+              <strong>建議複習</strong>
+              <div className="chip-row">
+                {(reviewNeeds.length
+                  ? Array.from(new Set(reviewNeeds))
+                  : ["目前沒有需要加強的項目"]
+                ).map((item) => (
+                  <span className="chip" key={item}>{item}</span>
+                ))}
+              </div>
+            </section>
             <section className="familiarity-card">
               <div><strong>你對這句話的感覺如何？</strong><small>系統先建議，你仍可自行修改。</small></div>
               <div className="segmented">
@@ -1875,13 +2482,20 @@ export default function Home() {
     }
 
     const stageNumber =
-      stage === "recall" || stage === "detail"
-        ? 2
-        : stage === "rebuild"
-          ? 4
-          : stage === "dictation"
-            ? 5
-            : 6;
+      stage === "recall"
+        ? 1
+        : stage === "detail"
+          ? 2
+          : stage === "rebuild"
+            ? 3
+            : stage === "reading-recognition"
+              ? 4
+              : stage === "pattern-transfer"
+                ? 5
+                : stage === "text-response" ||
+                    stage === "passage-rebuild"
+                  ? 6
+                  : 7;
     return (
       <div className="learning-shell">
         <div className="learning-top">
@@ -1891,16 +2505,25 @@ export default function Home() {
               ? `學習單位 ${tokenIndex + 1}/${selectedLesson.tokens.length}`
               : stage === "rebuild"
                 ? "完整句子重組"
-                : stage === "dictation"
-                  ? "完整句子聽寫"
-                  : "整段文章重建"}
+                : stage === "reading-recognition"
+                  ? "閱讀辨識"
+                  : stage === "pattern-transfer"
+                    ? "句型換字"
+                    : stage === "text-response"
+                      ? "文字回答"
+                      : stage === "passage-comprehension"
+                        ? "短文閱讀理解"
+                        : "整段文章重建"}
           </span>
         </div>
-        <div className="stage-progress"><i style={{ width: `${(stageNumber / 6) * 100}%` }} /></div>
+        <div className="stage-progress"><i style={{ width: `${(stageNumber / 7) * 100}%` }} /></div>
 
         {stage === "recall" && (
           <section className="exercise-card">
-            <span className="eyebrow">聽發音，依中文提示輸入英文</span>
+            <span className="eyebrow">依中文或文法提示，逐字輸入英文</span>
+            <span className="hint-level-badge">
+              提示 Level {currentTokenHintLevel}
+            </span>
             {currentToken.promptType && (
               <span className={`prompt-type-badge ${currentToken.promptType}`}>
                 {currentToken.promptType === "grammar"
@@ -2201,62 +2824,241 @@ export default function Home() {
           </section>
         )}
 
-        {stage === "dictation" && (
+        {stage === "reading-recognition" && selectedRecognition && (
           <section className="exercise-card">
-            <span className="eyebrow">隱藏英文，聽完整句子後輸入</span>
-            <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
-            <div className="audio-row">
-              <button
-                className="audio-button"
-                disabled={!sentenceAudioAvailable}
-                onClick={() => playSentenceAudio(selectedLesson)}
-              >
-                ▶ 正常
-              </button>
-              <button
-                className="audio-button"
-                disabled={!sentenceAudioAvailable}
-                onClick={() => playSentenceAudio(selectedLesson, settings.slowRate)}
-              >
-                ◁ 慢速
-              </button>
+            <span className="eyebrow">閱讀辨識・確認你理解完整句意</span>
+            <h1 className="chinese-prompt">{selectedRecognition.stem}</h1>
+            <p className="exercise-instruction">
+              {selectedRecognition.instruction}
+            </p>
+            <div className="exercise-choice-list">
+              {selectedRecognition.options.map((option) => {
+                const selected = recognitionSelectedId === option.id;
+                const correct =
+                  recognitionChecked &&
+                  option.id === selectedRecognition.correctOptionId;
+                const wrong =
+                  recognitionChecked &&
+                  selected &&
+                  option.id !== selectedRecognition.correctOptionId;
+                return (
+                  <button
+                    key={option.id}
+                    id={`recognition-option-${option.id}`}
+                    className={`exercise-choice ${
+                      selected ? "selected" : ""
+                    } ${correct ? "correct" : ""} ${
+                      wrong ? "wrong" : ""
+                    }`}
+                    disabled={recognitionChecked}
+                    onClick={() => setRecognitionSelectedId(option.id)}
+                  >
+                    {option.text}
+                  </button>
+                );
+              })}
             </div>
-            {!sentenceAudioAvailable && (
-              <small className="audio-unavailable-message">
-                此瀏覽器不支援語音播放，完整句子播放按鈕已停用。
-              </small>
-            )}
-            <label className="field-label" htmlFor="dictation-answer">完整英文句子</label>
-            <textarea
-              id="dictation-answer"
-              className="answer-input sentence-input"
-              rows={3}
-              value={dictationValue}
+            <div className="feedback" aria-live="polite">
+              {feedback || "請選出最符合原句的意思。"}
+            </div>
+            <button
+              id={
+                recognitionChecked
+                  ? "recognition-next-button"
+                  : "recognition-check-button"
+              }
+              className="primary-button full-button detail-next-button"
+              onClick={
+                recognitionChecked
+                  ? continueAfterRecognition
+                  : checkRecognition
+              }
+              onKeyDown={(event) =>
+                activateButtonOnEnter(
+                  event,
+                  recognitionChecked
+                    ? continueAfterRecognition
+                    : checkRecognition,
+                )
+              }
+              aria-keyshortcuts="Enter"
+            >
+              <span>
+                {recognitionChecked ? "下一步 →" : "檢查句意"}
+              </span>
+              {recognitionChecked && <kbd>Enter</kbd>}
+            </button>
+          </section>
+        )}
+
+        {stage === "pattern-transfer" && currentPatternExample && (
+          <section className="exercise-card pattern-transfer-card">
+            <span className="eyebrow">
+              句型換字・第 {patternExampleIndex + 1}/
+              {selectedPatternExamples.length} 題
+            </span>
+            <h1 className="chinese-prompt">
+              {currentPatternExample.translation}
+            </h1>
+            <div className="pattern-hint-card">
+              <span>
+                提示 Level{" "}
+                {progress.patternHintLevels[
+                  selectedLesson.sentencePatternId
+                ] ?? 1}
+              </span>
+              {(progress.patternHintLevels[
+                selectedLesson.sentencePatternId
+              ] ?? 1) === 1 && (
+                <strong>{currentPatternExample.translation}</strong>
+              )}
+              {(progress.patternHintLevels[
+                selectedLesson.sentencePatternId
+              ] ?? 1) === 2 && (
+                <strong>
+                  關鍵詞：{currentPatternExample.hintKeywords}
+                </strong>
+              )}
+              {(progress.patternHintLevels[
+                selectedLesson.sentencePatternId
+              ] ?? 1) === 3 && (
+                <strong>{currentPatternExample.skeleton}</strong>
+              )}
+              {(progress.patternHintLevels[
+                selectedLesson.sentencePatternId
+              ] ?? 1) === 4 && (
+                <strong>請依情境自行完成句子。</strong>
+              )}
+            </div>
+            <label
+              className="field-label"
+              htmlFor="pattern-transfer-answer"
+            >
+              請使用相同句型輸入完整英文
+            </label>
+            <input
+              id="pattern-transfer-answer"
+              className="answer-input"
+              value={patternTransferValue}
               autoFocus
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
+              readOnly={patternTransferComplete}
               onPaste={() => setUsedPaste(true)}
-              onChange={(event) => setDictationValue(event.target.value)}
+              onChange={(event) =>
+                setPatternTransferValue(event.target.value)
+              }
               onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault();
-                  checkDictation();
+                if (event.key !== "Enter") return;
+                event.preventDefault();
+                if (patternTransferComplete) {
+                  continueAfterPatternTransfer();
+                } else {
+                  checkPatternTransfer();
                 }
               }}
               placeholder={
-                dictationAnswerRevealed
-                  ? selectedLesson.sentence
-                  : "輸入完整英文；Enter 檢查，Shift+Enter 換行"
+                patternTransferRevealed
+                  ? currentPatternExample.sentence
+                  : "輸入完整英文句子"
               }
             />
             <div
-              className={`feedback ${dictationAnswerRevealed ? "warning" : ""}`}
+              className={`feedback ${
+                patternTransferRevealed ? "warning" : ""
+              }`}
               aria-live="polite"
             >
-              {feedback || "第一次錯誤會指出位置，第二次增加開頭字母提示。"}
+              {feedback ||
+                "保留原本句型，只使用已經學過的單字完成新句子。"}
             </div>
-            <button className="primary-button full-button" onClick={checkDictation}>檢查完整句子</button>
+            <button
+              id={
+                patternTransferComplete
+                  ? "pattern-transfer-next-button"
+                  : "pattern-transfer-check-button"
+              }
+              className="primary-button full-button detail-next-button"
+              onClick={
+                patternTransferComplete
+                  ? continueAfterPatternTransfer
+                  : checkPatternTransfer
+              }
+              aria-keyshortcuts="Enter"
+            >
+              <span>
+                {patternTransferComplete
+                  ? "下一題 →"
+                  : "檢查句型換字"}
+              </span>
+              {patternTransferComplete && <kbd>Enter</kbd>}
+            </button>
+          </section>
+        )}
+
+        {stage === "text-response" && selectedTextResponse && (
+          <section className="exercise-card">
+            <span className="eyebrow">文字回應・依情境選出完整回答</span>
+            <h1 className="chinese-prompt">
+              {selectedTextResponse.prompt}
+            </h1>
+            <div className="exercise-choice-list">
+              {selectedTextResponse.options.map((option) => {
+                const selected =
+                  textResponseSelectedId === option.id;
+                const correct =
+                  textResponseChecked &&
+                  option.id === selectedTextResponse.correctOptionId;
+                const wrong =
+                  textResponseChecked &&
+                  selected &&
+                  option.id !== selectedTextResponse.correctOptionId;
+                return (
+                  <button
+                    key={option.id}
+                    id={`text-response-option-${option.id}`}
+                    className={`exercise-choice ${
+                      selected ? "selected" : ""
+                    } ${correct ? "correct" : ""} ${
+                      wrong ? "wrong" : ""
+                    }`}
+                    disabled={textResponseChecked}
+                    onClick={() => setTextResponseSelectedId(option.id)}
+                  >
+                    {option.text}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="feedback" aria-live="polite">
+              {feedback || "閱讀情境後，選出最適合的英文回答。"}
+            </div>
+            <button
+              id={
+                textResponseChecked
+                  ? "text-response-next-button"
+                  : "text-response-check-button"
+              }
+              className="primary-button full-button detail-next-button"
+              onClick={
+                textResponseChecked ? finishLesson : checkTextResponse
+              }
+              onKeyDown={(event) =>
+                activateButtonOnEnter(
+                  event,
+                  textResponseChecked
+                    ? finishLesson
+                    : checkTextResponse,
+                )
+              }
+              aria-keyshortcuts="Enter"
+            >
+              <span>
+                {textResponseChecked ? "完成課程 →" : "檢查文字回答"}
+              </span>
+              {textResponseChecked && <kbd>Enter</kbd>}
+            </button>
           </section>
         )}
 
@@ -2333,6 +3135,87 @@ export default function Home() {
             </button>
           </section>
         )}
+
+        {stage === "passage-comprehension" &&
+          selectedPassageComprehension &&
+          currentPassageQuestion && (
+            <section className="exercise-card">
+              <span className="eyebrow">
+                短文理解・第 {passageQuestionIndex + 1}/
+                {selectedPassageComprehension.questions.length} 題
+              </span>
+              <div className="passage-reading-text">
+                {selectedPassageLessons.map((lesson) => (
+                  <p key={lesson.sentenceId}>{lesson.sentence}</p>
+                ))}
+              </div>
+              <h1 className="chinese-prompt">
+                {currentPassageQuestion.question}
+              </h1>
+              <div className="exercise-choice-list">
+                {currentPassageQuestion.options.map((option, index) => {
+                  const selected = passageAnswer === option;
+                  const correct =
+                    passageQuestionChecked &&
+                    option === currentPassageQuestion.correctAnswer;
+                  const wrong =
+                    passageQuestionChecked &&
+                    selected &&
+                    option !== currentPassageQuestion.correctAnswer;
+                  return (
+                    <button
+                      key={option}
+                      id={`passage-answer-${index}`}
+                      className={`exercise-choice ${
+                        selected ? "selected" : ""
+                      } ${correct ? "correct" : ""} ${
+                        wrong ? "wrong" : ""
+                      }`}
+                      disabled={passageQuestionChecked}
+                      onClick={() => setPassageAnswer(option)}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="feedback" aria-live="polite">
+                {feedback || "請根據上方短文選出答案。"}
+              </div>
+              <button
+                id={
+                  passageQuestionChecked
+                    ? "passage-question-next-button"
+                    : "passage-question-check-button"
+                }
+                className="primary-button full-button detail-next-button"
+                onClick={
+                  passageQuestionChecked
+                    ? continuePassageComprehension
+                    : checkPassageComprehension
+                }
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(
+                    event,
+                    passageQuestionChecked
+                      ? continuePassageComprehension
+                      : checkPassageComprehension,
+                  )
+                }
+                aria-keyshortcuts="Enter"
+              >
+                <span>
+                  {passageQuestionChecked
+                    ? passageQuestionIndex >=
+                      selectedPassageComprehension.questions.length - 1
+                      ? "完成課程 →"
+                      : "下一題 →"
+                    : "檢查短文理解"}
+                </span>
+                {passageQuestionChecked && <kbd>Enter</kbd>}
+              </button>
+            </section>
+          )}
       </div>
     );
   };

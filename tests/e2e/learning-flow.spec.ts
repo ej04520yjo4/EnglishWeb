@@ -1,15 +1,14 @@
 import { expect, Page, test } from "@playwright/test";
 
 const progressKey = "yingju-progress-v1";
-const completedBeforeUnit8 = Array.from(
-  { length: 7 },
-  (_, unitIndex) =>
+const lessonsThroughUnit = (lastUnit: number) =>
+  Array.from({ length: lastUnit }, (_, unitIndex) =>
     Array.from(
       { length: 4 },
       (_, lessonIndex) =>
         `a1-u${unitIndex + 1}-l${lessonIndex + 1}`,
     ),
-).flat();
+  ).flat();
 
 const progressFixture = (
   completedLessonIds: string[] = [],
@@ -29,6 +28,13 @@ const progressFixture = (
   senseProgress: {},
   sentencePatternProgress: {},
   tokenProgress: {},
+  sentenceStats: {},
+  patternStats: {},
+  passageStats: {},
+  tokenHintLevels: {},
+  chunkHintLevels: {},
+  patternHintLevels: {},
+  reviewExerciseTypes: {},
 });
 
 const seedProgress = async (
@@ -36,18 +42,25 @@ const seedProgress = async (
   completedLessonIds: string[] = [],
   passedUnitIds: string[] = [],
 ) => {
-  const progress = progressFixture(completedLessonIds, passedUnitIds);
+  const progress = progressFixture(
+    completedLessonIds,
+    passedUnitIds,
+  );
   await page.addInitScript(
-    ({ key, value }) => localStorage.setItem(key, JSON.stringify(value)),
+    ({ key, value }) =>
+      localStorage.setItem(key, JSON.stringify(value)),
     { key: progressKey, value: progress },
   );
 };
 
-const openRecommendedLesson = async (page: Page, expectedTitle?: string) => {
+const openRecommendedLesson = async (
+  page: Page,
+  expectedTitle?: string,
+) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", {
-      name: "把英文從「看得懂」練成「說得出來」",
+      name: "把英文從「看得懂」練成「寫得出來」",
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: /開始這一課/ }).click();
@@ -56,60 +69,70 @@ const openRecommendedLesson = async (page: Page, expectedTitle?: string) => {
       page.getByRole("heading", { name: expectedTitle }),
     ).toBeVisible();
   }
-  await page.getByRole("button", { name: /從發音與中文提示開始/ }).click();
+  await page
+    .getByRole("button", { name: /從中文提示與逐字輸入開始/ })
+    .click();
   await expect(page.locator("#recall-answer-0")).toBeFocused();
 };
 
-const answerRecallTokens = async (page: Page, answers: string[]) => {
+const answerRecallTokens = async (
+  page: Page,
+  answers: string[],
+) => {
   for (const answer of answers) {
     const input = page.locator("#recall-answer-0");
     await input.fill(answer);
     await input.press("Enter");
-    await expect(page.getByText("回答正確", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("回答正確", { exact: true }),
+    ).toBeVisible();
     await page.locator("#detail-next-button").click();
   }
 };
 
-const completeRebuild = async (page: Page, words: string[]) => {
+const submitRebuild = async (page: Page, words: string[]) => {
   const fields = page.locator(".rebuild-field input");
   await expect(fields).toHaveCount(words.length);
+  await expect(fields.first()).toBeFocused();
   for (let index = 0; index < words.length; index += 1) {
     await fields.nth(index).fill(words[index]);
   }
-  await page.getByRole("button", { name: /檢查順序與拼字/ }).click();
-  await expect(page.locator("#dictation-answer")).toBeVisible();
-};
-
-const completeDictation = async (page: Page, sentence: string) => {
-  await page.locator("#dictation-answer").fill(sentence);
-  await page.locator("#dictation-answer").press("Enter");
-  await expect(
-    page.getByRole("heading", { name: "做得好！你已經重建整個句子" }),
-  ).toBeVisible();
+  await page
+    .getByRole("button", { name: /檢查順序與拼字/ })
+    .click();
 };
 
 const expectNoHorizontalOverflow = async (page: Page) => {
   await expect
     .poll(() =>
       page.evaluate(
-        () => document.documentElement.scrollWidth <= window.innerWidth,
+        () =>
+          document.documentElement.scrollWidth <=
+          window.innerWidth,
       ),
     )
     .toBe(true);
 };
 
-test("completes the first lesson and keeps local progress after refresh", async ({
+test("completes the original word and rebuild flow and persists it", async ({
   page,
 }) => {
-  await openRecommendedLesson(page);
+  await openRecommendedLesson(page, "我是誰");
   await answerRecallTokens(page, ["I", "am", "Amy"]);
-  await completeRebuild(page, ["I", "am", "Amy"]);
-  await completeDictation(page, "I am Amy.");
+  await submitRebuild(page, ["I", "am", "Amy"]);
+  await expect(
+    page.getByRole("heading", {
+      name: "做得好！你已完成本課文字練習",
+    }),
+  ).toBeVisible();
+  await expect(page.locator("#dictation-answer")).toHaveCount(0);
 
   await expect
     .poll(() =>
       page.evaluate((key) => {
-        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
         return value.completedLessonIds?.includes("a1-u1-l1");
       }, progressKey),
     )
@@ -119,50 +142,85 @@ test("completes the first lesson and keeps local progress after refresh", async 
   await expectNoHorizontalOverflow(page);
 });
 
-test("completes a non-first lesson through the same full flow", async ({
-  page,
-}) => {
-  await seedProgress(page, ["a1-u1-l1"]);
-  await openRecommendedLesson(page, "我的名字");
-  await answerRecallTokens(page, ["My", "name", "is", "Ben"]);
-  await completeRebuild(page, ["My", "name", "is", "Ben"]);
-  await completeDictation(page, "My name is Ben.");
-  await expectNoHorizontalOverflow(page);
-});
-
-test("does not leak the sentence into dictation after the last recall answer was revealed", async ({
-  page,
-}) => {
-  await openRecommendedLesson(page);
-  await answerRecallTokens(page, ["I", "am"]);
-
-  const lastToken = page.locator("#recall-answer-0");
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    await lastToken.fill("wrong");
-    await lastToken.press("Enter");
-  }
-  await expect(page.getByText(/正確答案是 Amy/)).toBeVisible();
-  await lastToken.fill("Amy");
-  await lastToken.press("Enter");
-  await page.locator("#detail-next-button").click();
-  await completeRebuild(page, ["I", "am", "Amy"]);
-
-  const dictation = page.locator("#dictation-answer");
-  await expect(dictation).toHaveValue("");
-  await expect(dictation).not.toHaveAttribute("placeholder", "I am Amy.");
-});
-
-test("reveals the unit 8 passage without auto-advancing and waits for confirmation", async ({
+test("completes have-possession recognition, two transfers, and text response", async ({
   page,
 }) => {
   await seedProgress(
     page,
-    [
-      ...completedBeforeUnit8,
-      "a1-u8-l1",
-      "a1-u8-l2",
-      "a1-u8-l3",
-    ],
+    lessonsThroughUnit(3),
+    ["a1-u1", "a1-u2", "a1-u3"],
+  );
+  await openRecommendedLesson(page, "我有一顆蘋果");
+  await answerRecallTokens(page, ["I", "have", "an", "apple"]);
+  await submitRebuild(page, ["I", "have", "an", "apple"]);
+
+  await expect(
+    page.getByText("閱讀辨識・確認你理解完整句意"),
+  ).toBeVisible();
+  await page.locator("#recognition-option-correct").click();
+  await page.locator("#recognition-check-button").click();
+  await page.locator("#recognition-next-button").click();
+
+  const transfer = page.locator("#pattern-transfer-answer");
+  await expect(transfer).toBeFocused();
+  await transfer.fill("I have a book.");
+  await transfer.press("Enter");
+  await page.locator("#pattern-transfer-next-button").click();
+  await transfer.fill("I have a pen.");
+  await transfer.press("Enter");
+  await page.locator("#pattern-transfer-next-button").click();
+
+  await page.locator("#text-response-option-correct").click();
+  await page.locator("#text-response-check-button").click();
+  await page.locator("#text-response-next-button").click();
+  await expect(
+    page.getByRole("heading", {
+      name: "做得好！你已完成本課文字練習",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("句型運用")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("requires the revealed pattern answer to be retyped before continuing", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    lessonsThroughUnit(3),
+    ["a1-u1", "a1-u2", "a1-u3"],
+  );
+  await openRecommendedLesson(page, "我有一顆蘋果");
+  await answerRecallTokens(page, ["I", "have", "an", "apple"]);
+  await submitRebuild(page, ["I", "have", "an", "apple"]);
+  await page.locator("#recognition-option-correct").click();
+  await page.locator("#recognition-check-button").click();
+  await page.locator("#recognition-next-button").click();
+
+  const transfer = page.locator("#pattern-transfer-answer");
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    await transfer.fill("I have an apple.");
+    await transfer.press("Enter");
+  }
+  await expect(
+    page.getByText(/正確答案是 I have a book/),
+  ).toBeVisible();
+  await expect(
+    page.locator("#pattern-transfer-next-button"),
+  ).toHaveCount(0);
+  await transfer.fill("I have a book.");
+  await transfer.press("Enter");
+  await expect(
+    page.locator("#pattern-transfer-next-button"),
+  ).toBeVisible();
+});
+
+test("completes unit 8 passage rebuild and comprehension", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [...lessonsThroughUnit(7), "a1-u8-l1", "a1-u8-l2", "a1-u8-l3"],
     [
       "a1-u1",
       "a1-u2",
@@ -174,36 +232,64 @@ test("reveals the unit 8 passage without auto-advancing and waits for confirmati
     ],
   );
   await openRecommendedLesson(page, "搭公車上班");
-  await answerRecallTokens(page, ["I", "go", "to", "work", "by", "bus"]);
-  await completeRebuild(page, ["I", "go", "to", "work", "by", "bus"]);
-  await page.locator("#dictation-answer").fill("I go to work by bus.");
-  await page.locator("#dictation-answer").press("Enter");
+  await answerRecallTokens(page, [
+    "I",
+    "go",
+    "to",
+    "work",
+    "by",
+    "bus",
+  ]);
+  await submitRebuild(page, [
+    "I",
+    "go",
+    "to",
+    "work",
+    "by",
+    "bus",
+  ]);
 
-  await expect(page.getByText("依句子順序重建整段文章")).toBeVisible();
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    await page.getByRole("button", { name: "檢查整段文章" }).click();
+  const sentences = [
+    "I get up at seven.",
+    "I eat breakfast at home.",
+    "I go to work at eight.",
+    "I go to work by bus.",
+  ];
+  for (let index = 0; index < sentences.length; index += 1) {
+    await page.locator(`#passage-sentence-${index}`).fill(
+      sentences[index],
+    );
   }
-  const confirmation = page.locator("#passage-complete-button");
-  await expect(confirmation).toHaveText("我已閱讀，完成課程");
-  await page.waitForTimeout(1_700);
-  await expect(confirmation).toBeVisible();
-  await confirmation.click();
+  await page
+    .getByRole("button", { name: "檢查整段文章" })
+    .click();
+  await expect(page.locator("#passage-answer-0")).toBeVisible();
+
+  for (let question = 0; question < 3; question += 1) {
+    await page.locator("#passage-answer-0").click();
+    await page.locator("#passage-question-check-button").click();
+    await page.locator("#passage-question-next-button").click();
+  }
   await expect(
-    page.getByRole("heading", { name: "做得好！你已經重建整個句子" }),
+    page.getByRole("heading", {
+      name: "做得好！你已完成本課文字練習",
+    }),
   ).toBeVisible();
+  await expect(page.getByText("短文理解")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
 });
 
-test("penalizes an extra word in the real unit assessment", async ({ page }) => {
-  await seedProgress(page, [
-    "a1-u1-l1",
-    "a1-u1-l2",
-    "a1-u1-l3",
-    "a1-u1-l4",
-  ]);
+test("penalizes an extra word in the real unit assessment", async ({
+  page,
+}) => {
+  await seedProgress(page, lessonsThroughUnit(1));
   await page.goto("/");
-  await page.getByRole("button", { name: /開始單元測驗/ }).click();
+  await page
+    .getByRole("button", { name: /開始單元測驗/ })
+    .click();
   const answer = page.locator(".answer-input");
   await answer.fill("I am Amy today");
   await answer.press("Enter");
   await expect(page.getByText("本題正確率 75%")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
 });

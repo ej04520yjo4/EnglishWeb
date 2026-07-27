@@ -40,10 +40,19 @@ test("server-renders the Traditional Chinese learning experience", async () => {
 });
 
 test("keeps course data and product metadata ready for the MVP", async () => {
-  const [page, data, a1Data, roadmap, layout, packageJson] = await Promise.all([
+  const [
+    page,
+    data,
+    a1Data,
+    exercises,
+    roadmap,
+    layout,
+    packageJson,
+  ] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/course-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/a1-mvp-data.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/a1-exercises.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/course-roadmap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
@@ -51,7 +60,11 @@ test("keeps course data and product metadata ready for the MVP", async () => {
 
   assert.match(page, /localStorage/);
   assert.match(page, /exportContentXlsx/);
-  assert.match(page, /checkDictation/);
+  assert.doesNotMatch(page, /checkDictation|dictation-answer/);
+  assert.match(page, /stage === "reading-recognition"/);
+  assert.match(page, /stage === "pattern-transfer"/);
+  assert.match(page, /stage === "text-response"/);
+  assert.match(page, /stage === "passage-comprehension"/);
   assert.match(page, /recall-word-grid/);
   assert.match(page, /這是一個 \{currentTokenWords\.length\} 詞語塊/);
   assert.match(page, /event\.key === " "/);
@@ -65,9 +78,12 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /最後一格按 Enter 檢查答案/);
   assert.match(page, /已嘗試 3 次，正確答案已放入各格/);
   assert.match(page, /rebuildAnswerRevealed \? "下一步 →"/);
-  assert.match(page, /id="dictation-answer"[\s\S]{0,180}autoFocus/);
+  assert.match(page, /id="pattern-transfer-answer"[\s\S]{0,320}autoFocus/);
+  assert.match(page, /id=\{`recognition-option-\$\{option\.id\}`\}/);
+  assert.match(page, /id=\{`text-response-option-\$\{option\.id\}`\}/);
   assert.match(page, /stage === "passage-rebuild"/);
   assert.match(page, /checkPassageRebuild/);
+  assert.match(page, /checkPassageComprehension/);
   assert.match(page, /continueAfterLesson/);
   assert.match(page, /進入單元測驗/);
   assert.match(page, /autoFocus=\{unitDone && !unitPassed\}/);
@@ -90,6 +106,10 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.doesNotMatch(data, /export const courseUnits/);
   assert.match(a1Data, /buildCourseUnitsFromRows/);
   assert.match(a1Data, /\/data\/a1-course-v3\.csv/);
+  assert.match(exercises, /\/data\/a1-pattern-exercises\.json/);
+  assert.match(exercises, /\/data\/a1-reading-exercises\.json/);
+  assert.match(exercises, /validatePatternExerciseData/);
+  assert.match(exercises, /validateReadingExerciseData/);
   assert.match(data, /\{ letter: "A", kk: "\/e\/", ipa: "\/eɪ\/" \}/);
   for (const level of ["A2", "B1", "B2", "C1", "C2"]) {
     assert.match(roadmap, new RegExp(`code: "${level}"`));
