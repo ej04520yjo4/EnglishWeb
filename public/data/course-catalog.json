@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "level": "A1",
+      "status": "production",
+      "title": "A1 初學",
+      "description": "正式課程：從基礎日常短句開始。",
+      "sourceVersion": "a1-course-v3.csv",
+      "curriculumUrl": "/data/a1-course-v3.csv",
+      "patternExercisesUrl": "/data/a1-pattern-exercises.json",
+      "readingExercisesUrl": "/data/a1-reading-exercises.json"
+    },
+    {
+      "level": "A2",
+      "status": "pilot",
+      "title": "A2 基礎",
+      "description": "試行課程：描述昨天與明天的日常活動。",
+      "sourceVersion": "a2-course-v1.csv",
+      "prerequisiteLevel": "A1",
+      "curriculumUrl": "/data/a2-course-v1.csv",
+      "patternExercisesUrl": "/data/a2-pattern-exercises.json",
+      "readingExercisesUrl": "/data/a2-reading-exercises.json"
+    }
+  ]
+}
