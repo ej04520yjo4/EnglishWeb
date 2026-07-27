@@ -15,7 +15,7 @@ export type PatternSlot = {
 
 export type PatternExample = {
   id: string;
-  lessonId: string;
+  practiceLessonId: string;
   sourceSentenceId: string;
   sentencePatternId: string;
   passageId: string;
@@ -30,6 +30,8 @@ export type PatternExample = {
 export type SentencePattern = {
   id: string;
   cefr: "A1" | "A2";
+  enabledForTransfer: boolean;
+  deferReason?: string;
   template: string;
   slots: PatternSlot[];
   examples: PatternExample[];
@@ -45,6 +47,7 @@ export type ExerciseOption = {
   text: string;
   sourceSentenceId?: string;
   requiredLexemeIds?: string[];
+  requiredChunkIds?: string[];
 };
 
 export type ReadingRecognitionExercise = {
@@ -59,6 +62,8 @@ export type ReadingRecognitionExercise = {
     | "true-false";
   instruction: string;
   stem: string;
+  requiredLexemeIds: string[];
+  requiredChunkIds: string[];
   options: ExerciseOption[];
   correctOptionId: string;
 };
@@ -71,6 +76,7 @@ export type TextResponseExercise = {
   passageId: string;
   promptLanguage: "zh-Hant" | "en";
   prompt: string;
+  targetTranslation: string;
   format: "choice" | "text";
   options: ExerciseOption[];
   correctOptionId: string;
@@ -107,6 +113,13 @@ export type ExerciseValidationReport = {
   errors: string[];
 };
 
+export type PatternCoverageSummary = {
+  csvPatternCount: number;
+  enabledPatternCount: number;
+  exercisedPatternCount: number;
+  uncoveredPatternIds: string[];
+};
+
 const lessonRank = (lessonId: string) => {
   const match = lessonId.match(/^a1-u(\d+)-l(\d+)$/);
   if (!match) return Number.POSITIVE_INFINITY;
@@ -134,6 +147,17 @@ export const learnedLexemeIdsThroughLesson = (
       .map((row) => row.lexeme_id),
   );
 
+export const learnedChunkIdsThroughLesson = (
+  rows: A1CourseCsvRow[],
+  lessonId: string,
+) =>
+  new Set(
+    rows
+      .filter((row) => lessonRank(row.lesson_id) <= lessonRank(lessonId))
+      .map((row) => row.chunk_id)
+      .filter(Boolean),
+  );
+
 const learnedSentenceIdsThroughLesson = (
   rows: A1CourseCsvRow[],
   lessonId: string,
@@ -144,35 +168,119 @@ const learnedSentenceIdsThroughLesson = (
       .map((row) => row.sentence_id),
   );
 
+export const patternCoverageSummary = (
+  data: PatternExerciseData,
+  rows: A1CourseCsvRow[],
+): PatternCoverageSummary => {
+  const csvPatternIds = Array.from(
+    new Set(rows.map((row) => row.sentence_pattern_id)),
+  ).sort();
+  const configuredById = new Map(
+    data.patterns.map((pattern) => [pattern.id, pattern]),
+  );
+  const enabledPatternIds = csvPatternIds.filter(
+    (patternId) =>
+      configuredById.get(patternId)?.enabledForTransfer === true,
+  );
+  const exercisedPatternIds = enabledPatternIds.filter(
+    (patternId) =>
+      (configuredById.get(patternId)?.examples.length ?? 0) > 0,
+  );
+  return {
+    csvPatternCount: csvPatternIds.length,
+    enabledPatternCount: enabledPatternIds.length,
+    exercisedPatternCount: exercisedPatternIds.length,
+    uncoveredPatternIds: csvPatternIds.filter(
+      (patternId) =>
+        (configuredById.get(patternId)?.examples.length ?? 0) === 0,
+    ),
+  };
+};
+
+const validateReferencedLexemes = (
+  sentence: string,
+  requiredLexemeIds: string[],
+  learnedRows: A1CourseCsvRow[],
+  label: string,
+) => {
+  const errors: string[] = [];
+  const required = new Set(requiredLexemeIds);
+  const used = new Set<string>();
+  const lexemesByAnswer = new Map<string, Set<string>>();
+  learnedRows.forEach((row) => {
+    const answer = normalizeSentence(row.answer);
+    const current = lexemesByAnswer.get(answer) ?? new Set<string>();
+    current.add(row.lexeme_id);
+    lexemesByAnswer.set(answer, current);
+  });
+  for (const word of normalizeSentence(sentence).split(" ").filter(Boolean)) {
+    const candidates = lexemesByAnswer.get(word);
+    const matched = candidates
+      ? Array.from(candidates).find((lexemeId) => required.has(lexemeId))
+      : undefined;
+    if (!matched) {
+      errors.push(`${label} 的「${word}」沒有合法的已學 lexeme 引用。`);
+      continue;
+    }
+    used.add(matched);
+  }
+  const unused = requiredLexemeIds.filter(
+    (lexemeId) => !used.has(lexemeId),
+  );
+  if (unused.length) {
+    errors.push(
+      `${label} 宣告但未使用 lexeme：${unused.join("、")}。`,
+    );
+  }
+  return errors;
+};
+
 export const validatePatternExerciseData = (
   data: PatternExerciseData,
   rows: A1CourseCsvRow[],
 ): ExerciseValidationReport => {
   const errors: string[] = [];
   const patternIds = new Set<string>();
-  const rowsByLesson = new Map<string, A1CourseCsvRow[]>();
-  rows.forEach((row) => {
-    const current = rowsByLesson.get(row.lesson_id) ?? [];
-    current.push(row);
-    rowsByLesson.set(row.lesson_id, current);
-  });
+  const exampleIds = new Set<string>();
+  const csvPatternIds = new Set(
+    rows.map((row) => row.sentence_pattern_id),
+  );
+  const rowsBySentence = new Map(
+    rows.map((row) => [row.sentence_id, row]),
+  );
 
   for (const pattern of data.patterns) {
     if (patternIds.has(pattern.id)) {
       errors.push(`句型 ID 重複：${pattern.id}`);
     }
     patternIds.add(pattern.id);
+    if (!csvPatternIds.has(pattern.id)) {
+      errors.push(`句型 ${pattern.id} 不存在於正式 CSV。`);
+    }
     if (pattern.cefr !== "A1") {
       errors.push(`${pattern.id} 目前只能使用 A1 題目。`);
     }
-    if (!pattern.examples.length) {
+    if (typeof pattern.enabledForTransfer !== "boolean") {
+      errors.push(
+        `${pattern.id} 必須明確設定 enabledForTransfer 為 true 或 false。`,
+      );
+    }
+    if (pattern.enabledForTransfer && !pattern.examples.length) {
       errors.push(`${pattern.id} 至少需要一個合法變化題。`);
     }
+    if (!pattern.enabledForTransfer && pattern.examples.length) {
+      errors.push(`${pattern.id} 尚未啟用，不可放入換字題。`);
+    }
     for (const example of pattern.examples) {
-      const sourceRows = rowsByLesson.get(example.lessonId) ?? [];
-      const source = sourceRows[0];
+      if (exampleIds.has(example.id)) {
+        errors.push(`變化題 ID 重複：${example.id}`);
+      }
+      exampleIds.add(example.id);
+      const source = rowsBySentence.get(example.sourceSentenceId);
       if (!source) {
-        errors.push(`${example.id} 找不到來源課程 ${example.lessonId}。`);
+        errors.push(
+          `${example.id} 找不到來源句 ${example.sourceSentenceId}。`,
+        );
         continue;
       }
       if (source.sentence_pattern_id !== pattern.id) {
@@ -181,7 +289,6 @@ export const validatePatternExerciseData = (
         );
       }
       if (
-        example.sourceSentenceId !== source.sentence_id ||
         example.sentencePatternId !== source.sentence_pattern_id ||
         example.passageId !== source.passage_id
       ) {
@@ -198,7 +305,7 @@ export const validatePatternExerciseData = (
       }
       const learnedLexemes = learnedLexemeIdsThroughLesson(
         rows,
-        example.lessonId,
+        example.practiceLessonId,
       );
       const unlearned = example.requiredLexemeIds.filter(
         (lexemeId) => !learnedLexemes.has(lexemeId),
@@ -208,14 +315,22 @@ export const validatePatternExerciseData = (
           `${example.id} 使用尚未教過的 lexeme：${unlearned.join("、")}。`,
         );
       }
-      const learnedChunks = new Set(
-        rows
-          .filter(
-            (row) =>
-              lessonRank(row.lesson_id) <= lessonRank(example.lessonId),
-          )
-          .map((row) => row.chunk_id)
-          .filter(Boolean),
+      const learnedRows = rows.filter(
+        (row) =>
+          lessonRank(row.lesson_id) <=
+          lessonRank(example.practiceLessonId),
+      );
+      errors.push(
+        ...validateReferencedLexemes(
+          example.sentence,
+          example.requiredLexemeIds,
+          learnedRows,
+          example.id,
+        ),
+      );
+      const learnedChunks = learnedChunkIdsThroughLesson(
+        rows,
+        example.practiceLessonId,
       );
       const unlearnedChunks = example.requiredChunkIds.filter(
         (chunkId) => !learnedChunks.has(chunkId),
@@ -227,6 +342,11 @@ export const validatePatternExerciseData = (
       }
     }
   }
+  for (const csvPatternId of csvPatternIds) {
+    if (!patternIds.has(csvPatternId)) {
+      errors.push(`正式 CSV 句型尚未設定啟用狀態：${csvPatternId}`);
+    }
+  }
 
   return { valid: errors.length === 0, errors };
 };
@@ -234,6 +354,7 @@ export const validatePatternExerciseData = (
 export const validateReadingExerciseData = (
   data: ReadingExerciseData,
   rows: A1CourseCsvRow[],
+  patternData?: PatternExerciseData,
 ): ExerciseValidationReport => {
   const errors: string[] = [];
   const rowsBySentence = new Map(
@@ -246,7 +367,10 @@ export const validateReadingExerciseData = (
     const optionTexts = exercise.options.map((option) =>
       normalizeSentence(option.text),
     );
-    if (!source || source.lesson_id !== exercise.lessonId) {
+    if (
+      !source ||
+      lessonRank(source.lesson_id) > lessonRank(exercise.lessonId)
+    ) {
       errors.push(`${exercise.id} 找不到正式來源句。`);
       continue;
     }
@@ -256,11 +380,62 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的句型或文章引用不一致。`);
     }
+    if (
+      normalizeSentence(exercise.stem) !==
+      normalizeSentence(source.sentence)
+    ) {
+      errors.push(`${exercise.id} 的題幹與正式來源句不一致。`);
+    }
+    const learnedRows = rows.filter(
+      (row) =>
+        lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
+    );
+    const learnedLexemes = learnedLexemeIdsThroughLesson(
+      rows,
+      exercise.lessonId,
+    );
+    const earlyLexemes = exercise.requiredLexemeIds.filter(
+      (lexemeId) => !learnedLexemes.has(lexemeId),
+    );
+    if (earlyLexemes.length) {
+      errors.push(
+        `${exercise.id} 提前使用 lexeme：${earlyLexemes.join("、")}。`,
+      );
+    }
+    errors.push(
+      ...validateReferencedLexemes(
+        exercise.stem,
+        exercise.requiredLexemeIds,
+        learnedRows,
+        exercise.id,
+      ),
+    );
+    const learnedChunks = learnedChunkIdsThroughLesson(
+      rows,
+      exercise.lessonId,
+    );
+    const earlyChunks = exercise.requiredChunkIds.filter(
+      (chunkId) => !learnedChunks.has(chunkId),
+    );
+    if (earlyChunks.length) {
+      errors.push(
+        `${exercise.id} 提前使用 chunk：${earlyChunks.join("、")}。`,
+      );
+    }
     if (!optionIds.has(exercise.correctOptionId)) {
       errors.push(`${exercise.id} 缺少正確選項。`);
     }
     if (new Set(optionTexts).size !== optionTexts.length) {
       errors.push(`${exercise.id} 的干擾選項不可等於正確答案。`);
+    }
+    const correctOption = exercise.options.find(
+      (option) => option.id === exercise.correctOptionId,
+    );
+    if (
+      exercise.type === "english-to-chinese" &&
+      correctOption?.text !== source.translation
+    ) {
+      errors.push(`${exercise.id} 的中文答案與正式翻譯不一致。`);
     }
     const learnedSentenceIds = learnedSentenceIdsThroughLesson(
       rows,
@@ -282,7 +457,7 @@ export const validateReadingExerciseData = (
     const source = rowsBySentence.get(exercise.sourceSentenceId);
     if (
       !source ||
-      source.lesson_id !== exercise.lessonId ||
+      lessonRank(source.lesson_id) > lessonRank(exercise.lessonId) ||
       source.sentence_pattern_id !== exercise.sentencePatternId ||
       source.passage_id !== exercise.passageId
     ) {
@@ -300,6 +475,44 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 缺少正確答案。`);
     }
+    const correctOption = exercise.options.find(
+      (option) => option.id === exercise.correctOptionId,
+    );
+    const knownTranslations = new Map<string, string>();
+    rows.forEach((row) => {
+      knownTranslations.set(
+        normalizeSentence(row.sentence),
+        row.translation,
+      );
+    });
+    patternData?.patterns.forEach((pattern) =>
+      pattern.examples.forEach((example) => {
+        knownTranslations.set(
+          normalizeSentence(example.sentence),
+          example.translation,
+        );
+      }),
+    );
+    const expectedTranslation = correctOption
+      ? knownTranslations.get(normalizeSentence(correctOption.text))
+      : undefined;
+    if (
+      !expectedTranslation ||
+      expectedTranslation !== exercise.targetTranslation ||
+      !exercise.prompt.includes(
+        exercise.targetTranslation.replace(/[。！？.!?]+$/g, ""),
+      )
+    ) {
+      errors.push(`${exercise.id} 的中英文人稱或目標意思不一致。`);
+    }
+    const learnedRows = rows.filter(
+      (row) =>
+        lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
+    );
+    const learnedChunks = learnedChunkIdsThroughLesson(
+      rows,
+      exercise.lessonId,
+    );
     for (const option of exercise.options) {
       const unlearned = (option.requiredLexemeIds ?? []).filter(
         (lexemeId) => !learnedLexemes.has(lexemeId),
@@ -307,6 +520,22 @@ export const validateReadingExerciseData = (
       if (unlearned.length) {
         errors.push(
           `${exercise.id} 提前使用 lexeme：${unlearned.join("、")}。`,
+        );
+      }
+      errors.push(
+        ...validateReferencedLexemes(
+          option.text,
+          option.requiredLexemeIds ?? [],
+          learnedRows,
+          `${exercise.id}/${option.id}`,
+        ),
+      );
+      const unlearnedChunks = (
+        option.requiredChunkIds ?? []
+      ).filter((chunkId) => !learnedChunks.has(chunkId));
+      if (unlearnedChunks.length) {
+        errors.push(
+          `${exercise.id} 提前使用 chunk：${unlearnedChunks.join("、")}。`,
         );
       }
     }
@@ -372,7 +601,7 @@ export const patternExamplesForLesson = (
 ) =>
   data.patterns
     .flatMap((pattern) => pattern.examples)
-    .filter((example) => example.lessonId === lessonId);
+    .filter((example) => example.practiceLessonId === lessonId);
 
 export const recognitionForLesson = (
   data: ReadingExerciseData,

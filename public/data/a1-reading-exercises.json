@@ -1,15 +1,52 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "recognition": [
     {
-      "id": "recognition-a1-u4-l1",
+      "id": "recognition-a1-u3-l2-be-identification",
+      "lessonId": "a1-u3-l2",
+      "sentenceId": "a1-u1-l1-p01-s01",
+      "sentencePatternId": "be-identification",
+      "passageId": "a1-u1-l1-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am Amy.",
+      "requiredLexemeIds": ["i", "be", "amy"],
+      "requiredChunkIds": [],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我是 Amy。",
+          "sourceSentenceId": "a1-u1-l1-p01-s01"
+        },
+        {
+          "id": "name",
+          "text": "我的名字是 Ben。",
+          "sourceSentenceId": "a1-u1-l2-p01-s01"
+        },
+        {
+          "id": "wife",
+          "text": "她是我的太太。",
+          "sourceSentenceId": "a1-u3-l1-p01-s01"
+        },
+        {
+          "id": "friend",
+          "text": "他是我的朋友。",
+          "sourceSentenceId": "a1-u3-l2-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u4-l1-have-possession",
       "lessonId": "a1-u4-l1",
       "sentenceId": "a1-u4-l1-p01-s01",
       "sentencePatternId": "have-possession",
       "passageId": "a1-u4-l1-p01",
       "type": "english-to-chinese",
-      "instruction": "閱讀英文句子，選出正確的繁體中文意思。",
+      "instruction": "請選出最符合英文句子的中文意思。",
       "stem": "I have an apple.",
+      "requiredLexemeIds": ["i", "have", "an", "apple"],
+      "requiredChunkIds": [],
       "options": [
         {
           "id": "correct",
@@ -33,38 +70,227 @@
         }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u5-l4-action-at-time",
+      "lessonId": "a1-u5-l4",
+      "sentenceId": "a1-u5-l4-p01-s01",
+      "sentencePatternId": "action-at-time",
+      "passageId": "a1-u5-l4-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I watch TV at night.",
+      "requiredLexemeIds": ["i", "watch", "tv", "at", "night"],
+      "requiredChunkIds": ["watch-tv", "at-night"],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我晚上看電視。",
+          "sourceSentenceId": "a1-u5-l4-p01-s01"
+        },
+        {
+          "id": "get-up",
+          "text": "我七點起床。",
+          "sourceSentenceId": "a1-u5-l2-p01-s01"
+        },
+        {
+          "id": "badminton",
+          "text": "我打羽球。",
+          "sourceSentenceId": "a1-u5-l3-p01-s01"
+        },
+        {
+          "id": "breakfast",
+          "text": "我在家吃早餐。",
+          "sourceSentenceId": "a1-u4-l4-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u7-l3-be-location",
+      "lessonId": "a1-u7-l3",
+      "sentenceId": "a1-u7-l3-p01-s01",
+      "sentencePatternId": "be-location",
+      "passageId": "a1-u7-l3-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "The bathroom is on the left.",
+      "requiredLexemeIds": ["the", "bathroom", "be", "on", "left"],
+      "requiredChunkIds": ["on-the-left"],
+      "options": [
+        {
+          "id": "correct",
+          "text": "洗手間在左邊。",
+          "sourceSentenceId": "a1-u7-l3-p01-s01"
+        },
+        {
+          "id": "store",
+          "text": "商店在車站附近。",
+          "sourceSentenceId": "a1-u7-l2-p01-s01"
+        },
+        {
+          "id": "cellphone",
+          "text": "手機在桌上。",
+          "sourceSentenceId": "a1-u2-l4-p01-s01"
+        },
+        {
+          "id": "mother",
+          "text": "我的媽媽在家。",
+          "sourceSentenceId": "a1-u3-l4-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
     }
   ],
   "textResponses": [
     {
-      "id": "response-a1-u4-l1",
+      "id": "response-a1-u3-l2-be-identification",
+      "lessonId": "a1-u3-l2",
+      "sourceSentenceId": "a1-u1-l1-p01-s01",
+      "sentencePatternId": "be-identification",
+      "passageId": "a1-u1-l1-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「他是 Ben」的英文句子。",
+      "targetTranslation": "他是 Ben。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "He is Ben.",
+          "requiredLexemeIds": ["he", "be", "ben"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "she",
+          "text": "She is Amy.",
+          "requiredLexemeIds": ["she", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "i",
+          "text": "I am Amy.",
+          "requiredLexemeIds": ["i", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "friend",
+          "text": "He is my friend.",
+          "requiredLexemeIds": ["he", "be", "my", "friend"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u4-l1-have-possession",
       "lessonId": "a1-u4-l1",
       "sourceSentenceId": "a1-u4-l1-p01-s01",
       "sentencePatternId": "have-possession",
       "passageId": "a1-u4-l1-p01",
       "promptLanguage": "zh-Hant",
-      "prompt": "請選出符合「你有一顆蘋果」的英文回答。",
+      "prompt": "請選出符合「我有一顆蘋果」的英文句子。",
+      "targetTranslation": "我有一顆蘋果。",
       "format": "choice",
       "options": [
         {
           "id": "correct",
           "text": "I have an apple.",
-          "requiredLexemeIds": ["i", "have", "an", "apple"]
+          "requiredLexemeIds": ["i", "have", "an", "apple"],
+          "requiredChunkIds": []
         },
         {
           "id": "pen",
           "text": "I have a pen.",
-          "requiredLexemeIds": ["i", "have", "a", "pen"]
+          "requiredLexemeIds": ["i", "have", "a", "pen"],
+          "requiredChunkIds": []
         },
         {
           "id": "book",
           "text": "This is a book.",
-          "requiredLexemeIds": ["this", "be", "a", "book"]
+          "requiredLexemeIds": ["this", "be", "a", "book"],
+          "requiredChunkIds": []
         },
         {
           "id": "bag",
           "text": "That is my bag.",
-          "requiredLexemeIds": ["that", "be", "my", "bag"]
+          "requiredLexemeIds": ["that", "be", "my", "bag"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u5-l4-action-at-time",
+      "lessonId": "a1-u5-l4",
+      "sourceSentenceId": "a1-u5-l4-p01-s01",
+      "sentencePatternId": "action-at-time",
+      "passageId": "a1-u5-l4-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我七點看電視」的英文句子。",
+      "targetTranslation": "我七點看電視。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I watch TV at seven.",
+          "requiredLexemeIds": ["i", "watch", "tv", "at", "seven"],
+          "requiredChunkIds": ["watch-tv", "at-seven"]
+        },
+        {
+          "id": "night-tv",
+          "text": "I watch TV at night.",
+          "requiredLexemeIds": ["i", "watch", "tv", "at", "night"],
+          "requiredChunkIds": ["watch-tv", "at-night"]
+        },
+        {
+          "id": "get-up",
+          "text": "I get up at seven.",
+          "requiredLexemeIds": ["i", "get", "up", "at", "seven"],
+          "requiredChunkIds": ["get-up", "at-seven"]
+        },
+        {
+          "id": "badminton",
+          "text": "I play badminton at night.",
+          "requiredLexemeIds": ["i", "play", "badminton", "at", "night"],
+          "requiredChunkIds": ["at-night"]
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u7-l3-be-location",
+      "lessonId": "a1-u7-l3",
+      "sourceSentenceId": "a1-u7-l3-p01-s01",
+      "sentencePatternId": "be-location",
+      "passageId": "a1-u7-l3-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「商店在左邊」的英文句子。",
+      "targetTranslation": "商店在左邊。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "The store is on the left.",
+          "requiredLexemeIds": ["the", "store", "be", "on", "left"],
+          "requiredChunkIds": ["on-the-left"]
+        },
+        {
+          "id": "bathroom",
+          "text": "The bathroom is near the station.",
+          "requiredLexemeIds": ["the", "bathroom", "be", "near", "station"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "store-station",
+          "text": "The store is near the station.",
+          "requiredLexemeIds": ["the", "store", "be", "near", "station"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "mother-home",
+          "text": "My mother is at home.",
+          "requiredLexemeIds": ["my", "mother", "be", "at", "home"],
+          "requiredChunkIds": ["at-home"]
         }
       ],
       "correctOptionId": "correct"
@@ -94,7 +320,7 @@
           "id": "a1-u8-p01-q03",
           "sourceSentenceId": "a1-u8-p01-s04",
           "questionLanguage": "zh-Hant",
-          "question": "這個人如何去上班？",
+          "question": "這個人怎麼去上班？",
           "options": ["By bus.", "At home.", "At eight.", "At night."],
           "correctAnswer": "By bus."
         }

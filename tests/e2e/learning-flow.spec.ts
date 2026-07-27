@@ -102,6 +102,28 @@ const submitRebuild = async (page: Page, words: string[]) => {
     .click();
 };
 
+const completeEnhancedStages = async (
+  page: Page,
+  transferAnswers: string[],
+) => {
+  await page.locator("#recognition-option-correct").click();
+  await page.locator("#recognition-check-button").click();
+  await page.locator("#recognition-next-button").click();
+
+  const transfer = page.locator("#pattern-transfer-answer");
+  for (const answer of transferAnswers) {
+    await expect(transfer).toBeFocused();
+    await transfer.fill(answer);
+    await transfer.press("Enter");
+    await page.locator("#pattern-transfer-next-button").click();
+  }
+
+  await page.locator("#text-response-option-correct").click();
+  await page.locator("#text-response-check-button").click();
+  await page.locator("#text-response-next-button").click();
+  await expect(page.locator("#lesson-result-next")).toBeVisible();
+};
+
 const expectNoHorizontalOverflow = async (page: Page) => {
   await expect
     .poll(() =>
@@ -179,6 +201,86 @@ test("completes have-possession recognition, two transfers, and text response", 
     }),
   ).toBeVisible();
   await expect(page.getByText("句型運用")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the be-identification second-batch flow", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [...lessonsThroughUnit(2), "a1-u3-l1"],
+    ["a1-u1", "a1-u2"],
+  );
+  await openRecommendedLesson(page);
+  await answerRecallTokens(page, ["He", "is", "my", "friend"]);
+  await submitRebuild(page, ["He", "is", "my", "friend"]);
+  await completeEnhancedStages(page, [
+    "She is Amy.",
+    "He is Ben.",
+  ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the action-at-time second-batch flow", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [
+      ...lessonsThroughUnit(4),
+      "a1-u5-l1",
+      "a1-u5-l2",
+      "a1-u5-l3",
+    ],
+    ["a1-u1", "a1-u2", "a1-u3", "a1-u4"],
+  );
+  await openRecommendedLesson(page);
+  await answerRecallTokens(page, ["I", "watch", "TV", "at", "night"]);
+  await submitRebuild(page, ["I", "watch", "TV", "at", "night"]);
+  await completeEnhancedStages(page, [
+    "I watch TV at seven.",
+    "I play badminton at night.",
+  ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the be-location second-batch flow", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [...lessonsThroughUnit(6), "a1-u7-l1", "a1-u7-l2"],
+    [
+      "a1-u1",
+      "a1-u2",
+      "a1-u3",
+      "a1-u4",
+      "a1-u5",
+      "a1-u6",
+    ],
+  );
+  await openRecommendedLesson(page);
+  await answerRecallTokens(page, [
+    "The",
+    "bathroom",
+    "is",
+    "on",
+    "the",
+    "left",
+  ]);
+  await submitRebuild(page, [
+    "The",
+    "bathroom",
+    "is",
+    "on",
+    "the",
+    "left",
+  ]);
+  await completeEnhancedStages(page, [
+    "The store is on the left.",
+    "The bathroom is near the station.",
+  ]);
   await expectNoHorizontalOverflow(page);
 });
 

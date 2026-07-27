@@ -475,6 +475,7 @@ export default function Home() {
         const readingReport = validateReadingExerciseData(
           exercises.reading,
           officialRows,
+          exercises.patterns,
         );
         if (!patternReport.valid || !readingReport.valid) {
           throw new Error(
@@ -628,6 +629,9 @@ export default function Home() {
         selectedLesson.id,
       )
     : [];
+  const selectedTransferPatternId =
+    selectedPatternExamples[0]?.sentencePatternId ??
+    selectedLesson.sentencePatternId;
   const selectedTextResponse = exerciseData
     ? textResponseForLesson(exerciseData.reading, selectedLesson.id)
     : undefined;
@@ -1286,7 +1290,7 @@ export default function Home() {
     setSessionRecognitionCorrect((value) => value + (correct ? 1 : 0));
     setProgress((value) => {
       const sentenceStats =
-        value.sentenceStats[selectedLesson.sentenceId] ??
+        value.sentenceStats[selectedRecognition.sentenceId] ??
         emptySentenceStats();
       return {
         ...value,
@@ -1295,7 +1299,7 @@ export default function Home() {
           value.correctAnswers + (correct ? 1 : 0),
         sentenceStats: {
           ...value.sentenceStats,
-          [selectedLesson.sentenceId]: {
+          [selectedRecognition.sentenceId]: {
             ...sentenceStats,
             recognitionAttempts:
               sentenceStats.recognitionAttempts + 1,
@@ -1308,9 +1312,9 @@ export default function Home() {
           ? value.reviewExerciseTypes
           : {
               ...value.reviewExerciseTypes,
-              [selectedLesson.sentencePatternId]: addReviewExercise(
+              [selectedRecognition.sentencePatternId]: addReviewExercise(
                 value.reviewExerciseTypes[
-                  selectedLesson.sentencePatternId
+                  selectedRecognition.sentencePatternId
                 ],
                 "meaning",
               ),
@@ -1320,7 +1324,12 @@ export default function Home() {
     setFeedback(
       correct
         ? "句意判斷正確！"
-        : `這句話的正確意思是「${selectedLesson.translation}」`,
+        : `這句話的正確意思是「${
+            selectedRecognition.options.find(
+              (option) =>
+                option.id === selectedRecognition.correctOptionId,
+            )?.text ?? ""
+          }」`,
     );
   };
 
@@ -1334,6 +1343,13 @@ export default function Home() {
       setPatternTransferComplete(false);
       setStartedAt(timestamp());
       setStage("pattern-transfer");
+      window.setTimeout(
+        () =>
+          document
+            .getElementById("pattern-transfer-answer")
+            ?.focus(),
+        80,
+      );
       return;
     }
     if (selectedTextResponse) {
@@ -1360,8 +1376,15 @@ export default function Home() {
     );
     setProgress((value) => {
       const patternStats =
-        value.patternStats[selectedLesson.sentencePatternId] ??
+        value.patternStats[selectedTransferPatternId] ??
         emptyPatternStats();
+      const currentHintLevel =
+        value.patternHintLevels[selectedTransferPatternId] ?? 1;
+      const updatedHintLevel = (
+        credited
+          ? Math.min(4, currentHintLevel + 1)
+          : Math.max(1, currentHintLevel - 1)
+      ) as HintLevel;
       return {
         ...value,
         totalAttempts: value.totalAttempts + 1,
@@ -1369,7 +1392,7 @@ export default function Home() {
           value.correctAnswers + (credited ? 1 : 0),
         patternStats: {
           ...value.patternStats,
-          [selectedLesson.sentencePatternId]: {
+          [selectedTransferPatternId]: {
             ...patternStats,
             transferAttempts: patternStats.transferAttempts + 1,
             transferCorrect:
@@ -1390,13 +1413,17 @@ export default function Home() {
           ? value.reviewExerciseTypes
           : {
               ...value.reviewExerciseTypes,
-              [selectedLesson.sentencePatternId]: addReviewExercise(
+              [selectedTransferPatternId]: addReviewExercise(
                 value.reviewExerciseTypes[
-                  selectedLesson.sentencePatternId
+                  selectedTransferPatternId
                 ],
                 "pattern-transfer",
               ),
             },
+        patternHintLevels: {
+          ...value.patternHintLevels,
+          [selectedTransferPatternId]: updatedHintLevel,
+        },
       };
     });
     if (correct) {
@@ -1432,6 +1459,13 @@ export default function Home() {
       setPatternTransferComplete(false);
       setFeedback("");
       setStartedAt(timestamp());
+      window.setTimeout(
+        () =>
+          document
+            .getElementById("pattern-transfer-answer")
+            ?.focus(),
+        80,
+      );
       return;
     }
     if (selectedTextResponse) {
@@ -1463,9 +1497,9 @@ export default function Home() {
         ? value.reviewExerciseTypes
         : {
             ...value.reviewExerciseTypes,
-            [selectedLesson.sentencePatternId]: addReviewExercise(
+            [selectedTextResponse.sentencePatternId]: addReviewExercise(
               value.reviewExerciseTypes[
-                selectedLesson.sentencePatternId
+                selectedTextResponse.sentencePatternId
               ],
               "meaning",
             ),
@@ -2904,28 +2938,28 @@ export default function Home() {
               <span>
                 提示 Level{" "}
                 {progress.patternHintLevels[
-                  selectedLesson.sentencePatternId
+                  selectedTransferPatternId
                 ] ?? 1}
               </span>
               {(progress.patternHintLevels[
-                selectedLesson.sentencePatternId
+                selectedTransferPatternId
               ] ?? 1) === 1 && (
                 <strong>{currentPatternExample.translation}</strong>
               )}
               {(progress.patternHintLevels[
-                selectedLesson.sentencePatternId
+                selectedTransferPatternId
               ] ?? 1) === 2 && (
                 <strong>
                   關鍵詞：{currentPatternExample.hintKeywords}
                 </strong>
               )}
               {(progress.patternHintLevels[
-                selectedLesson.sentencePatternId
+                selectedTransferPatternId
               ] ?? 1) === 3 && (
                 <strong>{currentPatternExample.skeleton}</strong>
               )}
               {(progress.patternHintLevels[
-                selectedLesson.sentencePatternId
+                selectedTransferPatternId
               ] ?? 1) === 4 && (
                 <strong>請依情境自行完成句子。</strong>
               )}

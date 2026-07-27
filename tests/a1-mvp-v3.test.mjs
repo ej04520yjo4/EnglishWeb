@@ -35,6 +35,7 @@ import { evaluateRebuildAttempt } from "../app/rebuild-flow.ts";
 import { kkPhoneticGroups } from "../app/kk-phonetics.ts";
 import {
   isPatternTransferCorrect,
+  patternCoverageSummary,
   validatePatternExerciseData,
   validateReadingExerciseData,
 } from "../app/a1-exercises.ts";
@@ -365,8 +366,8 @@ test("pattern variations only use lexemes learned by that lesson", async () => {
 test("pattern variations never repeat their source sentence", async () => {
   const rows = await loadRows();
   const { patterns } = await loadExerciseData();
-  const sourceByLesson = new Map(
-    rows.map((row) => [row.lesson_id, row.sentence.toLowerCase()]),
+  const sourceBySentenceId = new Map(
+    rows.map((row) => [row.sentence_id, row.sentence.toLowerCase()]),
   );
 
   for (const example of patterns.patterns.flatMap(
@@ -374,7 +375,7 @@ test("pattern variations never repeat their source sentence", async () => {
   )) {
     assert.notEqual(
       example.sentence.toLowerCase(),
-      sourceByLesson.get(example.lessonId),
+      sourceBySentenceId.get(example.sourceSentenceId),
     );
   }
 });
@@ -398,7 +399,9 @@ test("rejects a pattern variation that introduces an unlearned lexeme", async ()
 
 test("checks pattern-transfer answers while allowing punctuation normalization", async () => {
   const { patterns } = await loadExerciseData();
-  const example = patterns.patterns[0].examples[0];
+  const example = patterns.patterns
+    .find((pattern) => pattern.id === "have-possession")
+    .examples.find((item) => item.id === "have-possession-book");
 
   assert.equal(isPatternTransferCorrect("I have a book.", example), true);
   assert.equal(isPatternTransferCorrect("i have a book", example), true);
@@ -411,8 +414,8 @@ test("checks pattern-transfer answers while allowing punctuation normalization",
 
 test("keeps reading-recognition distractors unique and different from the answer", async () => {
   const rows = await loadRows();
-  const { reading } = await loadExerciseData();
-  const report = validateReadingExerciseData(reading, rows);
+  const { patterns, reading } = await loadExerciseData();
+  const report = validateReadingExerciseData(reading, rows, patterns);
 
   assert.equal(report.valid, true, report.errors.join("\n"));
   for (const exercise of reading.recognition) {
@@ -429,21 +432,41 @@ test("keeps reading-recognition distractors unique and different from the answer
   }
 });
 
-test("every enabled sentence pattern has at least one valid variation", async () => {
+test("covers every enabled CSV sentence pattern with a valid non-source variation", async (t) => {
   const rows = await loadRows();
   const { patterns } = await loadExerciseData();
   const report = validatePatternExerciseData(patterns, rows);
+  const coverage = patternCoverageSummary(patterns, rows);
+  const csvPatternIds = new Set(
+    rows.map((row) => row.sentence_pattern_id),
+  );
 
   assert.equal(report.valid, true, report.errors.join("\n"));
+  assert.equal(patterns.patterns.length, csvPatternIds.size);
   assert.ok(
-    patterns.patterns.every((pattern) => pattern.examples.length >= 1),
+    patterns.patterns.every(
+      (pattern) => typeof pattern.enabledForTransfer === "boolean",
+    ),
   );
+  assert.ok(
+    patterns.patterns
+      .filter((pattern) => pattern.enabledForTransfer)
+      .every((pattern) => pattern.examples.length >= 1),
+  );
+  assert.equal(coverage.csvPatternCount, 20);
+  assert.equal(coverage.enabledPatternCount, 4);
+  assert.equal(coverage.exercisedPatternCount, 4);
+  assert.equal(coverage.uncoveredPatternIds.length, 16);
+  t.diagnostic(`CSV句型總數：${coverage.csvPatternCount}`);
+  t.diagnostic(`已啟用句型數：${coverage.enabledPatternCount}`);
+  t.diagnostic(`已有練習句型數：${coverage.exercisedPatternCount}`);
+  t.diagnostic(`尚未覆蓋句型數：${coverage.uncoveredPatternIds.length}`);
 });
 
 test("unit 8 comprehension answers stay consistent with their source passage", async () => {
   const rows = await loadRows();
-  const { reading } = await loadExerciseData();
-  const report = validateReadingExerciseData(reading, rows);
+  const { patterns, reading } = await loadExerciseData();
+  const report = validateReadingExerciseData(reading, rows, patterns);
   const passage = reading.passages.find(
     (item) => item.passageId === "a1-u8-p01",
   );
@@ -454,6 +477,72 @@ test("unit 8 comprehension answers stay consistent with their source passage", a
     passage.questions.map((question) => question.correctAnswer),
     ["At seven.", "At home.", "By bus."],
   );
+});
+
+test("adds a manually reviewed second batch with recognition, two transfers, and response practice", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+  const batch = [
+    ["be-identification", "a1-u3-l2"],
+    ["action-at-time", "a1-u5-l4"],
+    ["be-location", "a1-u7-l3"],
+  ];
+
+  for (const [patternId, lessonId] of batch) {
+    const pattern = patterns.patterns.find(
+      (item) => item.id === patternId,
+    );
+    assert.equal(pattern.enabledForTransfer, true);
+    assert.ok(pattern.examples.length >= 2);
+    assert.ok(
+      pattern.examples.every(
+        (example) => example.practiceLessonId === lessonId,
+      ),
+    );
+    assert.ok(
+      reading.recognition.some(
+        (exercise) =>
+          exercise.lessonId === lessonId &&
+          exercise.sentencePatternId === patternId,
+      ),
+    );
+    assert.ok(
+      reading.textResponses.some(
+        (exercise) =>
+          exercise.lessonId === lessonId &&
+          exercise.sentencePatternId === patternId,
+      ),
+    );
+  }
+
+  const patternReport = validatePatternExerciseData(patterns, rows);
+  const readingReport = validateReadingExerciseData(
+    reading,
+    rows,
+    patterns,
+  );
+  assert.equal(patternReport.valid, true, patternReport.errors.join("\n"));
+  assert.equal(readingReport.valid, true, readingReport.errors.join("\n"));
+});
+
+test("keeps Chinese prompts and English answers consistent in person and meaning", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+  const apple = reading.textResponses.find(
+    (exercise) => exercise.id === "response-a1-u4-l1-have-possession",
+  );
+  const report = validateReadingExerciseData(reading, rows, patterns);
+
+  assert.equal(
+    apple.prompt,
+    "請選出符合「我有一顆蘋果」的英文句子。",
+  );
+  assert.equal(
+    apple.options.find((option) => option.id === apple.correctOptionId)
+      .text,
+    "I have an apple.",
+  );
+  assert.equal(report.valid, true, report.errors.join("\n"));
 });
 
 test("adjusts hint levels from individual performance", () => {

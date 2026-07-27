@@ -1,51 +1,337 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "patterns": [
+    {
+      "id": "be-identification",
+      "cefr": "A1",
+      "enabledForTransfer": true,
+      "template": "{subject} {be} {name}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "被介紹的人",
+          "allowedLexemeIds": ["i", "he", "she"]
+        },
+        {
+          "slotId": "name",
+          "role": "姓名",
+          "allowedLexemeIds": ["amy", "ben"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "be-identification-she-amy",
+          "practiceLessonId": "a1-u3-l2",
+          "sourceSentenceId": "a1-u1-l1-p01-s01",
+          "sentencePatternId": "be-identification",
+          "passageId": "a1-u1-l1-p01",
+          "sentence": "She is Amy.",
+          "translation": "她是 Amy。",
+          "hintKeywords": "她／Amy",
+          "skeleton": "______ is Amy.",
+          "requiredLexemeIds": ["she", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "be-identification-he-ben",
+          "practiceLessonId": "a1-u3-l2",
+          "sourceSentenceId": "a1-u1-l1-p01-s01",
+          "sentencePatternId": "be-identification",
+          "passageId": "a1-u1-l1-p01",
+          "sentence": "He is Ben.",
+          "translation": "他是 Ben。",
+          "hintKeywords": "他／Ben",
+          "skeleton": "______ is Ben.",
+          "requiredLexemeIds": ["he", "be", "ben"],
+          "requiredChunkIds": []
+        }
+      ]
+    },
+    {
+      "id": "name-identification",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "fixed-social-expression",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "be-origin",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "demonstrative-identification",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
     {
       "id": "have-possession",
       "cefr": "A1",
+      "enabledForTransfer": true,
       "template": "I have {object}.",
       "slots": [
         {
           "slotId": "object",
-          "role": "已學過的名詞片語",
+          "role": "擁有的物品或人物",
           "allowedLexemeIds": ["a", "an", "apple", "book", "pen", "brother"],
           "allowedChunkIds": [],
           "restrictions": [
-            "只使用目前或先前已教過的單字",
-            "單數可數名詞必須搭配 a 或 an",
-            "一次只替換一個名詞片語"
+            "只使用目前或之前已教過的字",
+            "依單複數與發音選擇 a 或 an",
+            "句子維持 A1 短句"
           ]
         }
       ],
       "examples": [
         {
           "id": "have-possession-book",
-          "lessonId": "a1-u4-l1",
+          "practiceLessonId": "a1-u4-l1",
           "sourceSentenceId": "a1-u4-l1-p01-s01",
           "sentencePatternId": "have-possession",
           "passageId": "a1-u4-l1-p01",
           "sentence": "I have a book.",
           "translation": "我有一本書。",
-          "hintKeywords": "有／書",
+          "hintKeywords": "我／書",
           "skeleton": "I have ______.",
           "requiredLexemeIds": ["i", "have", "a", "book"],
           "requiredChunkIds": []
         },
         {
           "id": "have-possession-pen",
-          "lessonId": "a1-u4-l1",
+          "practiceLessonId": "a1-u4-l1",
           "sourceSentenceId": "a1-u4-l1-p01-s01",
           "sentencePatternId": "have-possession",
           "passageId": "a1-u4-l1-p01",
           "sentence": "I have a pen.",
           "translation": "我有一枝筆。",
-          "hintKeywords": "有／筆",
+          "hintKeywords": "我／筆",
           "skeleton": "I have ______.",
           "requiredLexemeIds": ["i", "have", "a", "pen"],
           "requiredChunkIds": []
         }
       ]
+    },
+    {
+      "id": "be-location",
+      "cefr": "A1",
+      "enabledForTransfer": true,
+      "template": "{subject} is {location}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "位於某處的人或物",
+          "allowedLexemeIds": ["the", "store", "bathroom"]
+        },
+        {
+          "slotId": "location",
+          "role": "位置",
+          "allowedLexemeIds": ["on", "the", "left", "near", "station"],
+          "allowedChunkIds": ["on-the-left"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "be-location-store-left",
+          "practiceLessonId": "a1-u7-l3",
+          "sourceSentenceId": "a1-u7-l3-p01-s01",
+          "sentencePatternId": "be-location",
+          "passageId": "a1-u7-l3-p01",
+          "sentence": "The store is on the left.",
+          "translation": "商店在左邊。",
+          "hintKeywords": "商店／左邊",
+          "skeleton": "The ______ is on the left.",
+          "requiredLexemeIds": ["the", "store", "be", "on", "left"],
+          "requiredChunkIds": ["on-the-left"]
+        },
+        {
+          "id": "be-location-bathroom-station",
+          "practiceLessonId": "a1-u7-l3",
+          "sourceSentenceId": "a1-u7-l3-p01-s01",
+          "sentencePatternId": "be-location",
+          "passageId": "a1-u7-l3-p01",
+          "sentence": "The bathroom is near the station.",
+          "translation": "洗手間在車站附近。",
+          "hintKeywords": "洗手間／車站附近",
+          "skeleton": "The bathroom is ______ the station.",
+          "requiredLexemeIds": ["the", "bathroom", "be", "near", "station"],
+          "requiredChunkIds": []
+        }
+      ]
+    },
+    {
+      "id": "be-relationship",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "like-preference",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "want-object",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "action-at-location",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "go-to-place",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "action-at-time",
+      "cefr": "A1",
+      "enabledForTransfer": true,
+      "template": "I {activity} {time}.",
+      "slots": [
+        {
+          "slotId": "activity",
+          "role": "日常活動",
+          "allowedLexemeIds": ["watch", "tv", "play", "badminton"],
+          "allowedChunkIds": ["watch-tv"]
+        },
+        {
+          "slotId": "time",
+          "role": "時間",
+          "allowedLexemeIds": ["at", "seven", "night"],
+          "allowedChunkIds": ["at-seven", "at-night"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "action-at-time-watch-seven",
+          "practiceLessonId": "a1-u5-l4",
+          "sourceSentenceId": "a1-u5-l4-p01-s01",
+          "sentencePatternId": "action-at-time",
+          "passageId": "a1-u5-l4-p01",
+          "sentence": "I watch TV at seven.",
+          "translation": "我七點看電視。",
+          "hintKeywords": "看電視／七點",
+          "skeleton": "I watch TV ______.",
+          "requiredLexemeIds": ["i", "watch", "tv", "at", "seven"],
+          "requiredChunkIds": ["watch-tv", "at-seven"]
+        },
+        {
+          "id": "action-at-time-badminton-night",
+          "practiceLessonId": "a1-u5-l4",
+          "sourceSentenceId": "a1-u5-l4-p01-s01",
+          "sentencePatternId": "action-at-time",
+          "passageId": "a1-u5-l4-p01",
+          "sentence": "I play badminton at night.",
+          "translation": "我晚上打羽球。",
+          "hintKeywords": "打羽球／晚上",
+          "skeleton": "I ______ at night.",
+          "requiredLexemeIds": ["i", "play", "badminton", "at", "night"],
+          "requiredChunkIds": ["at-night"]
+        }
+      ]
+    },
+    {
+      "id": "play-sport",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "it-be-time",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "date-identification",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "be-time",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "from-to-time-range",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "go-to-place-by-transport",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
+    },
+    {
+      "id": "go-to-place-at-time",
+      "cefr": "A1",
+      "enabledForTransfer": false,
+      "deferReason": "尚未完成下一批人工內容 QA。",
+      "template": "",
+      "slots": [],
+      "examples": []
     }
   ]
 }
