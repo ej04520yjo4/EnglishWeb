@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "chunks": [
+    {
+      "id": "on-monday",
+      "text": "on Monday",
+      "translationZhTw": "在星期一",
+      "noteZhTw": "表示在星期一時，星期前通常使用 on。",
+      "lexemeIds": ["monday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-tuesday",
+      "text": "on Tuesday",
+      "translationZhTw": "在星期二",
+      "noteZhTw": "表示在星期二時，星期前通常使用 on。",
+      "lexemeIds": ["tuesday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-wednesday",
+      "text": "on Wednesday",
+      "translationZhTw": "在星期三",
+      "noteZhTw": "表示在星期三時，星期前通常使用 on。",
+      "lexemeIds": ["wednesday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-thursday",
+      "text": "on Thursday",
+      "translationZhTw": "在星期四",
+      "noteZhTw": "表示在星期四時，星期前通常使用 on。",
+      "lexemeIds": ["thursday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-friday",
+      "text": "on Friday",
+      "translationZhTw": "在星期五",
+      "noteZhTw": "表示在星期五時，星期前通常使用 on。",
+      "lexemeIds": ["friday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-saturday",
+      "text": "on Saturday",
+      "translationZhTw": "在星期六",
+      "noteZhTw": "表示在星期六時，星期前通常使用 on。",
+      "lexemeIds": ["saturday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "on-sunday",
+      "text": "on Sunday",
+      "translationZhTw": "在星期日",
+      "noteZhTw": "表示在星期日時，星期前通常使用 on。",
+      "lexemeIds": ["sunday"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "in-the-morning",
+      "text": "in the morning",
+      "translationZhTw": "在早上",
+      "noteZhTw": "morning 通常搭配 in the，說 in the morning。",
+      "lexemeIds": ["morning"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "at-noon",
+      "text": "at noon",
+      "translationZhTw": "在中午",
+      "noteZhTw": "noon 通常直接搭配 at，說 at noon。",
+      "lexemeIds": ["noon"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "in-the-afternoon",
+      "text": "in the afternoon",
+      "translationZhTw": "在下午",
+      "noteZhTw": "afternoon 通常搭配 in the，說 in the afternoon。",
+      "lexemeIds": ["afternoon"],
+      "qaStatus": "reviewed"
+    },
+    {
+      "id": "in-the-evening",
+      "text": "in the evening",
+      "translationZhTw": "在傍晚或晚上",
+      "noteZhTw": "evening 通常搭配 in the，說 in the evening。",
+      "lexemeIds": ["evening"],
+      "qaStatus": "reviewed"
+    }
+  ],
+  "groups": [
+    {
+      "id": "days-of-week",
+      "titleZhTw": "星期",
+      "titleEn": "Days of the Week",
+      "descriptionZhTw": "認識星期一到星期日，以及星期前常用的 on。",
+      "order": 1,
+      "minimumLevel": "A1",
+      "triggerLexemeIds": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ],
+      "usageNotesZhTw": [
+        "星期名稱的第一個字母要大寫。",
+        "表示在某個星期幾時，通常在星期前使用 on。"
+      ],
+      "items": [
+        { "lexemeId": "monday", "order": 1, "chunkIds": ["on-monday"] },
+        { "lexemeId": "tuesday", "order": 2, "chunkIds": ["on-tuesday"] },
+        { "lexemeId": "wednesday", "order": 3, "chunkIds": ["on-wednesday"] },
+        { "lexemeId": "thursday", "order": 4, "chunkIds": ["on-thursday"] },
+        { "lexemeId": "friday", "order": 5, "chunkIds": ["on-friday"] },
+        { "lexemeId": "saturday", "order": 6, "chunkIds": ["on-saturday"] },
+        { "lexemeId": "sunday", "order": 7, "chunkIds": ["on-sunday"] }
+      ]
+    },
+    {
+      "id": "times-of-day",
+      "titleZhTw": "一天的時段",
+      "titleEn": "Times of Day",
+      "descriptionZhTw": "比較早上、中午、下午、傍晚與夜晚的常見說法。",
+      "order": 2,
+      "minimumLevel": "A1",
+      "triggerLexemeIds": ["morning", "noon", "afternoon", "evening", "night"],
+      "usageNotesZhTw": [
+        "morning、afternoon、evening 通常搭配 in the。",
+        "noon 通常搭配 at，說 at noon。",
+        "night 表示夜間時通常說 at night。",
+        "evening 和 night 都可能翻成「晚上」，但 evening 較接近傍晚到晚間，night 較接近天黑後或夜間。"
+      ],
+      "items": [
+        { "lexemeId": "morning", "order": 1, "chunkIds": ["in-the-morning"] },
+        { "lexemeId": "noon", "order": 2, "chunkIds": ["at-noon"] },
+        { "lexemeId": "afternoon", "order": 3, "chunkIds": ["in-the-afternoon"] },
+        { "lexemeId": "evening", "order": 4, "chunkIds": ["in-the-evening"] },
+        { "lexemeId": "night", "order": 5, "chunkIds": ["at-night"] }
+      ]
+    }
+  ]
+}
