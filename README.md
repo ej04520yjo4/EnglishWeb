@@ -1,65 +1,76 @@
 # 英句練習
 
-繁體中文互動式英文句子學習網站。核心流程是：
+英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-1. 依中文提示回想英文單字或語塊
-2. 查看 KK／IPA、詞性、音節與用法
-3. 依順序重組完整句子
-4. 閱讀辨識完整句意
-5. 使用相同句型完成文字換字練習
-6. 依情境選擇適合的英文回答
-7. 依表現安排延遲複習
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。
 
-目前內建 A1 的 8 個單元與 32 句課程，包含 A–Z 基礎、循序解鎖、單元測驗、程度總測驗、進度頁面，以及課程資料管理。所有學習進度儲存在目前瀏覽器，不需登入。
+## 主要功能
 
-唯一正式 A1 課程來源是 `public/data/a1-course-v3.csv`。課程地圖、逐字學習、測驗、複習、文章重建與內容管理都由這份 v3 CSV 建立；`app/course-data.ts` 只保存型別與非課程靜態資料。
+- A1 課程地圖與循序解鎖。
+- 單字回想、三層提示、字義與片語說明。
+- 句子重組、閱讀辨識、句型遷移與文章重組。
+- KK 音標獨立練習區。
+- 單字、語意、句型、句子與文章層級的本機進度。
+- Excel、CSV、JSON 課程資料匯出與驗證匯入。
+- 桌面與手機瀏覽器流程測試。
 
 ## Windows 一鍵使用
 
 - 第一次請雙擊「啟動英句練習.bat」
 - 更新 GitHub 版本請雙擊「更新並啟動英句練習.bat」
+
+在 EnglishWeb 工作區第一層也提供同名入口檔；雙擊後會轉交給 `english-learning-app` 內的正式啟動器，因此兩個位置都可以使用。
 - 關閉終端機即可停止本機網站
 
-啟動工具會顯示 Node.js 版本，必要時自動安裝套件，並在網站可連線後開啟預設瀏覽器。預設使用 `http://localhost:3000`；若連接埠已被占用，終端機會顯示實際使用的網址。更新工具若偵測到尚未提交的 Git 修改，會停止更新以保留您的檔案。
+啟動器會處理 UTF-8 中文路徑、Node.js、依賴安裝、連接埠選擇與瀏覽器開啟。若工作目錄有尚未提交的變更，更新版不會強制覆蓋。
 
-## 開發
+## 開發指令
 
-需要 Node.js 22.13 以上版本。
+需要 Node.js 22.13 或更新版本。
 
 ```powershell
 npm ci
+npm run check:context
 npm run dev
-npm test
+npm run build
+npm run test:unit
 npm run test:e2e
 npm run lint
 npx tsc --noEmit --incremental false
 ```
 
-`npm run dev` 啟動本機網站；`npm test` 會建立可發佈版本，執行單元測試與 Playwright 瀏覽器流程。`npm run test:e2e` 可單獨執行桌面與手機瀏覽器測試。
+預設開發網址為 `http://localhost:3000`；若連接埠被占用，啟動器會選擇其他可用連接埠。
 
-## 主要檔案
+## 專案結構
 
-- `AGENTS.md`：協作者規則與每次工作的文件更新流程
-- `PLAN.md`、`PROGRESS.md`：產品里程碑與目前已驗證狀態
-- `DECISIONS.md`、`MEMORY.md`：長期設計決策與不可遺失的產品知識
-- `TASKS.md`、`CHANGELOG.md`：優先待辦與使用者可見變更
-- `ARCHITECTURE.md`：系統模組、資料流與資料分層
-- `app/page.tsx`：頁面、學習互動、進度、測驗與匯入匯出
-- `public/data/a1-course-v3.csv`：唯一正式 A1 課程內容
-- `public/data/a1-pattern-exercises.json`：經驗證的句型換字題
-- `public/data/a1-reading-exercises.json`：閱讀辨識、文字回答與短文理解題
-- `app/a1-mvp-data.ts`：v3 CSV 解析、驗證、版本與課程建立
-- `app/a1-exercises.ts`：新題型資料讀取與 A1 難度驗證
-- `app/course-data.ts`：TypeScript 型別與非課程靜態資料
-- `app/globals.css`：桌面版與響應式介面樣式
-- `tests/`：單元、渲染與 Playwright 端到端測試
+- `app/`：介面、課程載入、學習流程與進度邏輯。
+- `public/data/a1-course-v3.csv`：唯一正式 A1 課程來源。
+- `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
+- `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
+- `tests/`：單元、內容與 Playwright 瀏覽器測試。
+- `docs/`：產品規格、內容計畫與工作流程。
+- `scripts/`：QA、啟動與開發輔助工具。
 
-## 專案知識文件
+## Context Engineering 工作方式
 
-本專案採文件化 Context Engineering。開始工作時先閱讀根目錄的規範、計畫、進度、決策、任務、記憶與架構文件；完成工作後依實際結果更新 `PROGRESS.md`，重大選擇更新 `DECISIONS.md`，里程碑變動更新 `PLAN.md`，使用者可見功能則更新 `CHANGELOG.md`。新工作不需依賴過長的聊天紀錄來重建背景。
+本專案不以聊天紀錄作為唯一記憶。每次工作開始前，依序閱讀：
 
-## 課程資料 QA
+1. `AGENTS.md`
+2. `PLAN.md`
+3. `PROGRESS.md`
+4. `DECISIONS.md`
+5. `TASKS.md`
+6. 相關的 `MEMORY.md` 與 `ARCHITECTURE.md`
 
-內容管理頁可匯出 Excel、CSV 或 JSON。表格內修改先保存在草稿，只有通過完整 v3 驗證後才會套用；也可隨時還原 `public/data/a1-course-v3.csv`。資料表保留課程與學習單位的穩定 ID，可交由 GPT 或人工檢查台灣繁體中文翻譯、KK／IPA、詞性、語塊切分與 CEFR 難度後再匯入。
+工作完成後，依實際變動更新 `PROGRESS.md`、`TASKS.md`，必要時再更新 `DECISIONS.md`、`PLAN.md`、`CHANGELOG.md`、`MEMORY.md` 或 `ARCHITECTURE.md`。
 
-目前語音在預先產生音檔缺少時使用瀏覽器／作業系統的免費美式語音備援。加入正式音檔前，必須記錄模型、聲音、版本、授權、速度、產生日期與 QA 狀態。
+完整規則與新對話交接範本請見 [Context Engineering 工作流程](docs/context-engineering-workflow.md)。
+
+## 課程資料原則
+
+- 一般作答列一次只接受一個英文單字。
+- 多字片語使用 `chunk_*` 保留整體語意，不直接合併成單一作答框。
+- 顯示詞性使用 `context_pos`。
+- 單字進度使用 `lexeme_id`；語境差異使用 `sense_id`。
+- 不抓取 Oxford、Cambridge 等受保護字典內容。
+- 音訊必須保留來源、授權與 QA 狀態。
