@@ -60,8 +60,13 @@ const levelProgressFixture = (
   completedLessonIds: string[] = [],
   passedUnitIds: string[] = [],
 ) => {
-  const { schemaVersion: _schemaVersion, ...progress } =
-    progressFixture(completedLessonIds, passedUnitIds);
+  const { schemaVersion, ...progress } = progressFixture(
+    completedLessonIds,
+    passedUnitIds,
+  );
+  if (schemaVersion !== 3) {
+    throw new Error("測試用舊進度必須是 schema v3。");
+  }
   return progress;
 };
 
