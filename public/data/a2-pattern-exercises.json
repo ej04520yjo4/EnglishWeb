@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "patterns": [
+    {
+      "id": "past-action-time",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} {past-action} {object} {past-time}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
+        {
+          "slotId": "past-action",
+          "role": "過去式動作",
+          "allowedLexemeIds": ["watch"]
+        },
+        {
+          "slotId": "object",
+          "role": "動作受詞",
+          "allowedLexemeIds": ["tv"],
+          "allowedChunkIds": ["watched-tv", "watch-tv"]
+        },
+        {
+          "slotId": "past-time-or-place",
+          "role": "過去時間或已學地點",
+          "allowedLexemeIds": ["last", "night", "yesterday", "at", "home"],
+          "allowedChunkIds": ["last-night", "at-home", "at-night"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-past-action-at-home",
+          "practiceLessonId": "a2-u01-l01",
+          "sourceSentenceId": "a2-u01-l01-p01-s01",
+          "sentencePatternId": "past-action-time",
+          "passageId": "a2-u01-p01",
+          "sentence": "I watched TV at home.",
+          "translation": "我在家看了電視。",
+          "hintKeywords": "我／看電視／在家",
+          "skeleton": "I watched TV ______.",
+          "requiredLexemeIds": ["i", "watch", "tv", "at", "home"],
+          "requiredChunkIds": ["watched-tv", "at-home"]
+        },
+        {
+          "id": "a2-past-action-at-night",
+          "practiceLessonId": "a2-u01-l01",
+          "sourceSentenceId": "a2-u01-l01-p01-s01",
+          "sentencePatternId": "past-action-time",
+          "passageId": "a2-u01-p01",
+          "sentence": "I watched TV at night.",
+          "translation": "我晚上看了電視。",
+          "hintKeywords": "我／看電視／晚上",
+          "skeleton": "I watched TV ______.",
+          "requiredLexemeIds": ["i", "watch", "tv", "at", "night"],
+          "requiredChunkIds": ["watched-tv", "at-night"]
+        }
+      ]
+    },
+    {
+      "id": "past-go-to-place",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} went to {place} {past-time}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
+        {
+          "slotId": "past-movement",
+          "role": "過去前往",
+          "allowedLexemeIds": ["go", "to"],
+          "allowedChunkIds": ["went-to"]
+        },
+        {
+          "slotId": "place",
+          "role": "已學地點",
+          "allowedLexemeIds": ["the", "store", "work", "station"]
+        },
+        {
+          "slotId": "past-time",
+          "role": "過去時間",
+          "allowedLexemeIds": ["yesterday"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-past-go-work-yesterday",
+          "practiceLessonId": "a2-u01-l02",
+          "sourceSentenceId": "a2-u01-l02-p01-s01",
+          "sentencePatternId": "past-go-to-place",
+          "passageId": "a2-u01-p01",
+          "sentence": "I went to work yesterday.",
+          "translation": "我昨天去上班。",
+          "hintKeywords": "我／上班／昨天",
+          "skeleton": "I went to ______ yesterday.",
+          "requiredLexemeIds": ["i", "go", "to", "work", "yesterday"],
+          "requiredChunkIds": ["went-to"]
+        },
+        {
+          "id": "a2-past-go-station-yesterday",
+          "practiceLessonId": "a2-u01-l02",
+          "sourceSentenceId": "a2-u01-l02-p01-s01",
+          "sentencePatternId": "past-go-to-place",
+          "passageId": "a2-u01-p01",
+          "sentence": "I went to the station yesterday.",
+          "translation": "我昨天去了車站。",
+          "hintKeywords": "我／車站／昨天",
+          "skeleton": "I went to the ______ yesterday.",
+          "requiredLexemeIds": ["i", "go", "to", "the", "station", "yesterday"],
+          "requiredChunkIds": ["went-to"]
+        }
+      ]
+    },
+    {
+      "id": "be-going-to-plan",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} {be} going to {activity} {time-or-place}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
+        {
+          "slotId": "future-plan",
+          "role": "未來計畫",
+          "allowedLexemeIds": ["be", "go", "to"],
+          "allowedChunkIds": ["going-to"]
+        },
+        {
+          "slotId": "activity",
+          "role": "已學活動",
+          "allowedLexemeIds": ["play", "badminton", "watch", "tv"],
+          "allowedChunkIds": ["play-badminton", "watch-tv"]
+        },
+        {
+          "slotId": "time-or-place",
+          "role": "時間或地點",
+          "allowedLexemeIds": ["tomorrow", "at", "home"],
+          "allowedChunkIds": ["at-home"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-plan-watch-tv-tomorrow",
+          "practiceLessonId": "a2-u01-l03",
+          "sourceSentenceId": "a2-u01-l03-p01-s01",
+          "sentencePatternId": "be-going-to-plan",
+          "passageId": "a2-u01-p01",
+          "sentence": "I am going to watch TV tomorrow.",
+          "translation": "我明天打算看電視。",
+          "hintKeywords": "我／打算／看電視／明天",
+          "skeleton": "I am going to ______ tomorrow.",
+          "requiredLexemeIds": ["i", "be", "go", "to", "watch", "tv", "tomorrow"],
+          "requiredChunkIds": ["going-to", "watch-tv"]
+        },
+        {
+          "id": "a2-plan-badminton-at-home",
+          "practiceLessonId": "a2-u01-l03",
+          "sourceSentenceId": "a2-u01-l03-p01-s01",
+          "sentencePatternId": "be-going-to-plan",
+          "passageId": "a2-u01-p01",
+          "sentence": "I am going to play badminton at home.",
+          "translation": "我打算在家打羽球。",
+          "hintKeywords": "我／打算／打羽球／在家",
+          "skeleton": "I am going to play badminton ______.",
+          "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "at", "home"],
+          "requiredChunkIds": ["going-to", "play-badminton", "at-home"]
+        }
+      ]
+    },
+    {
+      "id": "would-like-invitation",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Would you like to {activity-or-place}?",
+      "slots": [
+        {
+          "slotId": "invitation",
+          "role": "禮貌邀請",
+          "allowedLexemeIds": ["would", "you", "like", "to"],
+          "allowedChunkIds": ["would-you-like-to"]
+        },
+        {
+          "slotId": "activity",
+          "role": "已學活動",
+          "allowedLexemeIds": ["play", "badminton", "go", "the", "store"],
+          "allowedChunkIds": ["play-badminton"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-invite-play-badminton",
+          "practiceLessonId": "a2-u01-l04",
+          "sourceSentenceId": "a2-u01-l04-p01-s01",
+          "sentencePatternId": "would-like-invitation",
+          "passageId": "a2-u01-p01",
+          "sentence": "Would you like to play badminton?",
+          "translation": "你想一起打羽球嗎？",
+          "hintKeywords": "你／想／打羽球",
+          "skeleton": "Would you like to ______?",
+          "requiredLexemeIds": ["would", "you", "like", "to", "play", "badminton"],
+          "requiredChunkIds": ["would-you-like-to", "play-badminton"]
+        },
+        {
+          "id": "a2-invite-go-store",
+          "practiceLessonId": "a2-u01-l04",
+          "sourceSentenceId": "a2-u01-l04-p01-s01",
+          "sentencePatternId": "would-like-invitation",
+          "passageId": "a2-u01-p01",
+          "sentence": "Would you like to go to the store?",
+          "translation": "你想一起去商店嗎？",
+          "hintKeywords": "你／想／去商店",
+          "skeleton": "Would you like to go to ______?",
+          "requiredLexemeIds": ["would", "you", "like", "to", "go", "the", "store"],
+          "requiredChunkIds": ["would-you-like-to"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import type { A1CourseCsvRow } from "./a1-mvp-data";
+import type { CourseCsvRow } from "./curriculum/types";
 
 export const A1_PATTERN_EXERCISES_URL =
   "/data/a1-pattern-exercises.json";
@@ -91,8 +91,16 @@ export type PassageComprehensionQuestion = {
   correctAnswer: string;
 };
 
+export type PassageSentence = {
+  id: string;
+  order: number;
+  sentence: string;
+  translation: string;
+};
+
 export type PassageComprehensionExercise = {
   passageId: string;
+  sentences?: PassageSentence[];
   questions: PassageComprehensionQuestion[];
 };
 
@@ -108,6 +116,8 @@ export type A1ExerciseData = {
   reading: ReadingExerciseData;
 };
 
+export type CourseExerciseData = A1ExerciseData;
+
 export type ExerciseValidationReport = {
   valid: boolean;
   errors: string[];
@@ -121,9 +131,10 @@ export type PatternCoverageSummary = {
 };
 
 const lessonRank = (lessonId: string) => {
-  const match = lessonId.match(/^a1-u(\d+)-l(\d+)$/);
+  const match = lessonId.match(/^(a1|a2)-u(\d+)-l(\d+)$/);
   if (!match) return -1;
-  return Number(match[1]) * 100 + Number(match[2]);
+  const levelRank = match[1] === "a2" ? 100000 : 0;
+  return levelRank + Number(match[2]) * 100 + Number(match[3]);
 };
 
 const normalizeSentence = (value: string) =>
@@ -138,7 +149,7 @@ const sentenceWordCount = (value: string) =>
   normalizeSentence(value).split(" ").filter(Boolean).length;
 
 export const learnedLexemeIdsThroughLesson = (
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
   lessonId: string,
 ) =>
   new Set(
@@ -148,7 +159,7 @@ export const learnedLexemeIdsThroughLesson = (
   );
 
 export const learnedChunkIdsThroughLesson = (
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
   lessonId: string,
 ) =>
   new Set(
@@ -159,7 +170,7 @@ export const learnedChunkIdsThroughLesson = (
   );
 
 const learnedSentenceIdsThroughLesson = (
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
   lessonId: string,
 ) =>
   new Set(
@@ -170,7 +181,7 @@ const learnedSentenceIdsThroughLesson = (
 
 export const patternCoverageSummary = (
   data: PatternExerciseData,
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
 ): PatternCoverageSummary => {
   const csvPatternIds = Array.from(
     new Set(rows.map((row) => row.sentence_pattern_id)),
@@ -200,7 +211,7 @@ export const patternCoverageSummary = (
 const validateReferencedLexemes = (
   sentence: string,
   requiredLexemeIds: string[],
-  learnedRows: A1CourseCsvRow[],
+  learnedRows: CourseCsvRow[],
   label: string,
 ) => {
   const errors: string[] = [];
@@ -237,7 +248,9 @@ const validateReferencedLexemes = (
 
 export const validatePatternExerciseData = (
   data: PatternExerciseData,
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
+  expectedLevel: "A1" | "A2" = "A1",
+  prerequisiteRows: CourseCsvRow[] = [],
 ): ExerciseValidationReport => {
   const errors: string[] = [];
   const patternIds = new Set<string>();
@@ -258,8 +271,8 @@ export const validatePatternExerciseData = (
     if (!csvPatternIds.has(pattern.id)) {
       errors.push(`句型 ${pattern.id} 不存在於正式 CSV。`);
     }
-    if (pattern.cefr !== "A1") {
-      errors.push(`${pattern.id} 目前只能使用 A1 題目。`);
+    if (pattern.cefr !== expectedLevel) {
+      errors.push(`${pattern.id} 必須標記為 ${expectedLevel} 題目。`);
     }
     if (typeof pattern.enabledForTransfer !== "boolean") {
       errors.push(
@@ -319,8 +332,11 @@ export const validatePatternExerciseData = (
       ) {
         errors.push(`${example.id} 不可與原句完全相同。`);
       }
-      if (sentenceWordCount(example.sentence) > 8) {
-        errors.push(`${example.id} 超過 A1 的 8 字限制。`);
+      const wordLimit = expectedLevel === "A1" ? 8 : 10;
+      if (sentenceWordCount(example.sentence) > wordLimit) {
+        errors.push(
+          `${example.id} 超過 ${expectedLevel} 的 ${wordLimit} 字限制。`,
+        );
       }
       const disallowedLexemes = example.requiredLexemeIds.filter(
         (lexemeId) => !allowedLexemeIds.has(lexemeId),
@@ -338,8 +354,9 @@ export const validatePatternExerciseData = (
           `${example.id} 的 requiredChunkIds 不符合 ${pattern.id} slot allowedChunkIds：${disallowedChunks.join("、")}。`,
         );
       }
+      const availableRows = [...prerequisiteRows, ...rows];
       const learnedLexemes = learnedLexemeIdsThroughLesson(
-        rows,
+        availableRows,
         example.practiceLessonId,
       );
       const unlearned = example.requiredLexemeIds.filter(
@@ -350,7 +367,7 @@ export const validatePatternExerciseData = (
           `${example.id} 使用尚未教過的 lexeme：${unlearned.join("、")}。`,
         );
       }
-      const learnedRows = rows.filter(
+      const learnedRows = availableRows.filter(
         (row) =>
           lessonRank(row.lesson_id) <=
           lessonRank(example.practiceLessonId),
@@ -364,7 +381,7 @@ export const validatePatternExerciseData = (
         ),
       );
       const learnedChunks = learnedChunkIdsThroughLesson(
-        rows,
+        availableRows,
         example.practiceLessonId,
       );
       const unlearnedChunks = example.requiredChunkIds.filter(
@@ -388,10 +405,12 @@ export const validatePatternExerciseData = (
 
 export const validateReadingExerciseData = (
   data: ReadingExerciseData,
-  rows: A1CourseCsvRow[],
+  rows: CourseCsvRow[],
   patternData?: PatternExerciseData,
+  prerequisiteRows: CourseCsvRow[] = [],
 ): ExerciseValidationReport => {
   const errors: string[] = [];
+  const availableRows = [...prerequisiteRows, ...rows];
   const lessonIds = new Set(rows.map((row) => row.lesson_id));
   const rowsBySentence = new Map(
     rows.map((row) => [row.sentence_id, row]),
@@ -432,12 +451,12 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的題幹與正式來源句不一致。`);
     }
-    const learnedRows = rows.filter(
+    const learnedRows = availableRows.filter(
       (row) =>
         lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
     );
     const learnedLexemes = learnedLexemeIdsThroughLesson(
-      rows,
+      availableRows,
       exercise.lessonId,
     );
     const earlyLexemes = exercise.requiredLexemeIds.filter(
@@ -457,7 +476,7 @@ export const validateReadingExerciseData = (
       ),
     );
     const learnedChunks = learnedChunkIdsThroughLesson(
-      rows,
+      availableRows,
       exercise.lessonId,
     );
     const earlyChunks = exercise.requiredChunkIds.filter(
@@ -484,7 +503,7 @@ export const validateReadingExerciseData = (
       errors.push(`${exercise.id} 的中文答案與正式翻譯不一致。`);
     }
     const learnedSentenceIds = learnedSentenceIdsThroughLesson(
-      rows,
+      availableRows,
       exercise.lessonId,
     );
     const missingOptionSource = exercise.options.find(
@@ -535,7 +554,7 @@ export const validateReadingExerciseData = (
       continue;
     }
     const learnedLexemes = learnedLexemeIdsThroughLesson(
-      rows,
+      availableRows,
       exercise.lessonId,
     );
     if (
@@ -549,7 +568,7 @@ export const validateReadingExerciseData = (
       (option) => option.id === exercise.correctOptionId,
     );
     const knownTranslations = new Map<string, string>();
-    rows.forEach((row) => {
+    availableRows.forEach((row) => {
       knownTranslations.set(
         normalizeSentence(row.sentence),
         row.translation,
@@ -575,12 +594,12 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的中英文人稱或目標意思不一致。`);
     }
-    const learnedRows = rows.filter(
+    const learnedRows = availableRows.filter(
       (row) =>
         lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
     );
     const learnedChunks = learnedChunkIdsThroughLesson(
-      rows,
+      availableRows,
       exercise.lessonId,
     );
     for (const option of exercise.options) {
@@ -615,13 +634,44 @@ export const validateReadingExerciseData = (
     const passageRows = rows.filter(
       (row) => row.passage_id === passage.passageId,
     );
-    const passageSentenceIds = new Set(
-      passageRows.map((row) => row.sentence_id),
+    const customSentences = passage.sentences ?? [];
+    const customSentenceById = new Map(
+      customSentences.map((sentence) => [sentence.id, sentence]),
     );
+    const passageSentenceIds = new Set([
+      ...passageRows.map((row) => row.sentence_id),
+      ...customSentences.map((sentence) => sentence.id),
+    ]);
+    const sentenceOrders = customSentences
+      .map((sentence) => sentence.order)
+      .sort((left, right) => left - right);
+    sentenceOrders.forEach((order, index) => {
+      if (order !== index + 1) {
+        errors.push(
+          `${passage.passageId} 的自訂文章句序必須從 1 連續排列。`,
+        );
+      }
+    });
+    if (
+      new Set(customSentences.map((sentence) => sentence.id)).size !==
+      customSentences.length
+    ) {
+      errors.push(`${passage.passageId} 的文章 sentence ID 不可重複。`);
+    }
+    if (
+      customSentences.some(
+        (sentence) => !sentence.sentence || !sentence.translation,
+      )
+    ) {
+      errors.push(`${passage.passageId} 的英文句子與繁中翻譯不可空白。`);
+    }
     for (const question of passage.questions) {
       const source = rowsBySentence.get(question.sourceSentenceId);
+      const customSource = customSentenceById.get(
+        question.sourceSentenceId,
+      );
       if (
-        !source ||
+        (!source && !customSource) ||
         !passageSentenceIds.has(question.sourceSentenceId)
       ) {
         errors.push(
@@ -638,7 +688,8 @@ export const validateReadingExerciseData = (
       const answerPhrase = normalizeSentence(
         question.correctAnswer,
       );
-      if (!normalizeSentence(source.sentence).includes(answerPhrase)) {
+      const sourceSentence = source?.sentence ?? customSource?.sentence ?? "";
+      if (!normalizeSentence(sourceSentence).includes(answerPhrase)) {
         errors.push(
           `${question.id} 的答案與來源文章不一致。`,
         );
@@ -658,6 +709,24 @@ export const loadA1ExerciseData = async (
   ]);
   if (!patternResponse.ok || !readingResponse.ok) {
     throw new Error("A1 文字練習資料載入失敗。");
+  }
+  return {
+    patterns: (await patternResponse.json()) as PatternExerciseData,
+    reading: (await readingResponse.json()) as ReadingExerciseData,
+  };
+};
+
+export const loadCourseExerciseData = async (
+  patternExercisesUrl: string,
+  readingExercisesUrl: string,
+  fetcher: typeof fetch = fetch,
+): Promise<CourseExerciseData> => {
+  const [patternResponse, readingResponse] = await Promise.all([
+    fetcher(patternExercisesUrl, { cache: "no-store" }),
+    fetcher(readingExercisesUrl, { cache: "no-store" }),
+  ]);
+  if (!patternResponse.ok || !readingResponse.ok) {
+    throw new Error("文字練習資料載入失敗。");
   }
   return {
     patterns: (await patternResponse.json()) as PatternExerciseData,

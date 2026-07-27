@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "recognition": [
+    {
+      "id": "recognition-a2-u01-l01-past-action",
+      "lessonId": "a2-u01-l01",
+      "sentenceId": "a2-u01-l01-p01-s01",
+      "sentencePatternId": "past-action-time",
+      "passageId": "a2-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I watched TV last night.",
+      "requiredLexemeIds": ["i", "watch", "tv", "last", "night"],
+      "requiredChunkIds": ["watched-tv", "last-night"],
+      "options": [
+        { "id": "correct", "text": "我昨晚看了電視。", "sourceSentenceId": "a2-u01-l01-p01-s01" },
+        { "id": "tomorrow", "text": "我明天打算看電視。" },
+        { "id": "store", "text": "我昨天去了商店。" },
+        { "id": "badminton", "text": "我昨晚打了羽球。" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u01-l02-past-place",
+      "lessonId": "a2-u01-l02",
+      "sentenceId": "a2-u01-l02-p01-s01",
+      "sentencePatternId": "past-go-to-place",
+      "passageId": "a2-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I went to the store yesterday.",
+      "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"],
+      "requiredChunkIds": ["went-to"],
+      "options": [
+        { "id": "correct", "text": "我昨天去了商店。", "sourceSentenceId": "a2-u01-l02-p01-s01" },
+        { "id": "work", "text": "我昨天去上班。" },
+        { "id": "tomorrow", "text": "我明天要去商店。" },
+        { "id": "station", "text": "我昨天去了車站。" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u01-l03-future-plan",
+      "lessonId": "a2-u01-l03",
+      "sentenceId": "a2-u01-l03-p01-s01",
+      "sentencePatternId": "be-going-to-plan",
+      "passageId": "a2-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am going to play badminton tomorrow.",
+      "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"],
+      "requiredChunkIds": ["going-to", "play-badminton"],
+      "options": [
+        { "id": "correct", "text": "我明天打算去打羽球。", "sourceSentenceId": "a2-u01-l03-p01-s01" },
+        { "id": "past", "text": "我昨天打了羽球。" },
+        { "id": "tv", "text": "我明天打算看電視。" },
+        { "id": "work", "text": "我明天打算去上班。" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u01-l04-invitation",
+      "lessonId": "a2-u01-l04",
+      "sentenceId": "a2-u01-l04-p01-s01",
+      "sentencePatternId": "would-like-invitation",
+      "passageId": "a2-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Would you like to go with me?",
+      "requiredLexemeIds": ["would", "you", "like", "to", "go", "with", "me"],
+      "requiredChunkIds": ["would-you-like-to", "with-me"],
+      "options": [
+        { "id": "correct", "text": "你想和我一起去嗎？", "sourceSentenceId": "a2-u01-l04-p01-s01" },
+        { "id": "past", "text": "你昨天和我一起去了。" },
+        { "id": "place", "text": "你想去哪一家商店？" },
+        { "id": "statement", "text": "我明天會和你一起去。" }
+      ],
+      "correctOptionId": "correct"
+    }
+  ],
+  "textResponses": [
+    {
+      "id": "response-a2-u01-l01-past-action",
+      "lessonId": "a2-u01-l01",
+      "sourceSentenceId": "a2-u01-l01-p01-s01",
+      "sentencePatternId": "past-action-time",
+      "passageId": "a2-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我昨晚看了電視」的英文句子。",
+      "targetTranslation": "我昨晚看了電視。",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "I watched TV last night.", "requiredLexemeIds": ["i", "watch", "tv", "last", "night"], "requiredChunkIds": ["watched-tv", "last-night"] },
+        { "id": "past-night", "text": "I watched TV at night.", "requiredLexemeIds": ["i", "watch", "tv", "at", "night"], "requiredChunkIds": ["watched-tv", "at-night"] },
+        { "id": "present", "text": "I watch TV at night.", "requiredLexemeIds": ["i", "watch", "tv", "at", "night"], "requiredChunkIds": ["watch-tv", "at-night"] },
+        { "id": "place", "text": "I watched TV at home.", "requiredLexemeIds": ["i", "watch", "tv", "at", "home"], "requiredChunkIds": ["watched-tv", "at-home"] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u01-l02-past-place",
+      "lessonId": "a2-u01-l02",
+      "sourceSentenceId": "a2-u01-l02-p01-s01",
+      "sentencePatternId": "past-go-to-place",
+      "passageId": "a2-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我昨天去了商店」的英文句子。",
+      "targetTranslation": "我昨天去了商店。",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "I went to the store yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"], "requiredChunkIds": ["went-to"] },
+        { "id": "work", "text": "I went to work yesterday.", "requiredLexemeIds": ["i", "go", "to", "work", "yesterday"], "requiredChunkIds": ["went-to"] },
+        { "id": "station", "text": "I went to the station yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "station", "yesterday"], "requiredChunkIds": ["went-to"] },
+        { "id": "present", "text": "I go to the store.", "requiredLexemeIds": ["i", "go", "to", "the", "store"], "requiredChunkIds": [] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u01-l03-future-plan",
+      "lessonId": "a2-u01-l03",
+      "sourceSentenceId": "a2-u01-l03-p01-s01",
+      "sentencePatternId": "be-going-to-plan",
+      "passageId": "a2-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我明天打算去打羽球」的英文句子。",
+      "targetTranslation": "我明天打算去打羽球。",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "I am going to play badminton tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"], "requiredChunkIds": ["going-to", "play-badminton"] },
+        { "id": "tv", "text": "I am going to watch TV tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "watch", "tv", "tomorrow"], "requiredChunkIds": ["going-to", "watch-tv"] },
+        { "id": "past", "text": "I watched TV yesterday.", "requiredLexemeIds": ["i", "watch", "tv", "yesterday"], "requiredChunkIds": ["watched-tv"] },
+        { "id": "present", "text": "I play badminton.", "requiredLexemeIds": ["i", "play", "badminton"], "requiredChunkIds": ["play-badminton"] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u01-l04-invitation",
+      "lessonId": "a2-u01-l04",
+      "sourceSentenceId": "a2-u01-l04-p01-s01",
+      "sentencePatternId": "would-like-invitation",
+      "passageId": "a2-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你想和我一起去嗎」的英文邀請句。",
+      "targetTranslation": "你想和我一起去嗎？",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "Would you like to go with me?", "requiredLexemeIds": ["would", "you", "like", "to", "go", "with", "me"], "requiredChunkIds": ["would-you-like-to", "with-me"] },
+        { "id": "badminton", "text": "Would you like to play badminton?", "requiredLexemeIds": ["would", "you", "like", "to", "play", "badminton"], "requiredChunkIds": ["would-you-like-to", "play-badminton"] },
+        { "id": "past", "text": "I went to the store yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"], "requiredChunkIds": ["went-to"] },
+        { "id": "plan", "text": "I am going to play badminton tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"], "requiredChunkIds": ["going-to", "play-badminton"] }
+      ],
+      "correctOptionId": "correct"
+    }
+  ],
+  "passages": [
+    {
+      "passageId": "a2-u01-p01",
+      "sentences": [
+        {
+          "id": "a2-u01-p01-s01",
+          "order": 1,
+          "sentence": "Yesterday, I went to the store.",
+          "translation": "昨天，我去了商店。"
+        },
+        {
+          "id": "a2-u01-p01-s02",
+          "order": 2,
+          "sentence": "Last night, I watched TV at home.",
+          "translation": "昨晚，我在家看了電視。"
+        },
+        {
+          "id": "a2-u01-p01-s03",
+          "order": 3,
+          "sentence": "Tomorrow, I am going to play badminton.",
+          "translation": "明天，我打算去打羽球。"
+        },
+        {
+          "id": "a2-u01-p01-s04",
+          "order": 4,
+          "sentence": "Would you like to go with me?",
+          "translation": "你想和我一起去嗎？"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u01-p01-q01",
+          "sourceSentenceId": "a2-u01-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人昨天去了哪裡？",
+          "options": ["To the store.", "To work.", "To the station.", "To school."],
+          "correctAnswer": "To the store."
+        },
+        {
+          "id": "a2-u01-p01-q02",
+          "sourceSentenceId": "a2-u01-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人昨晚做了什麼？",
+          "options": ["Watched TV.", "Played badminton.", "Went to work.", "Ate breakfast."],
+          "correctAnswer": "Watched TV."
+        },
+        {
+          "id": "a2-u01-p01-q03",
+          "sourceSentenceId": "a2-u01-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人明天打算做什麼？",
+          "options": ["Play badminton.", "Watch TV.", "Go to the store.", "Eat breakfast."],
+          "correctAnswer": "Play badminton."
+        }
+      ]
+    }
+  ]
+}
