@@ -6,13 +6,52 @@ import {
 import type {
   CefrLevel,
   CurriculumCatalog,
+  CurriculumCatalogEntry,
   LoadedCourseLevel,
 } from "./types";
+import {
+  buildCourseUnitsFromRows,
+  checksumCourseSource,
+  parseCourseCsv,
+  validateCourseRows,
+} from "./validation";
 
 export type CurriculumLoadResult = {
   catalog: CurriculumCatalog;
   levels: Partial<Record<CefrLevel, LoadedCourseLevel>>;
   errors: Partial<Record<CefrLevel, string>>;
+};
+
+const loadCatalogCourseLevel = async (
+  entry: CurriculumCatalogEntry,
+  fetcher: typeof fetch,
+): Promise<LoadedCourseLevel> => {
+  const response = await fetcher(entry.curriculumUrl, {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error(`${entry.level} 課程 CSV 載入失敗（${response.status}）。`);
+  }
+  const csvText = await response.text();
+  const rows = parseCourseCsv(csvText);
+  const report = validateCourseRows(rows, {
+    expectedLevel: entry.level,
+    expectedUnits: entry.level === "A2" ? 1 : undefined,
+    expectedLessons: entry.level === "A2" ? 4 : undefined,
+    sourceVersion: entry.sourceVersion,
+    rejectProductionQaForPilot: entry.status === "pilot",
+  });
+  if (!report.valid) {
+    throw new Error(report.validationErrors.join("\n"));
+  }
+  return {
+    level: entry.level,
+    status: entry.status,
+    units: buildCourseUnitsFromRows(rows, entry.sourceVersion),
+    rows,
+    sourceVersion: entry.sourceVersion,
+    sourceRevision: await checksumCourseSource(csvText),
+  };
 };
 
 export const loadCourseLevel = async (
@@ -24,7 +63,7 @@ export const loadCourseLevel = async (
   if (level === "A1") {
     return loadA1LegacyLevel(entry, fetcher);
   }
-  throw new Error("A2 課程載入器尚未完成。");
+  return loadCatalogCourseLevel(entry, fetcher);
 };
 
 export const loadAvailableCourseLevels = async (
