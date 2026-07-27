@@ -14,6 +14,14 @@
 
 唯一正式 A1 課程來源是 `public/data/a1-course-v3.csv`。課程地圖、逐字學習、測驗、複習、文章重建與內容管理都由這份 v3 CSV 建立；`app/course-data.ts` 只保存型別與非課程靜態資料。
 
+## Windows 一鍵使用
+
+- 第一次請雙擊「啟動英句練習.bat」
+- 更新 GitHub 版本請雙擊「更新並啟動英句練習.bat」
+- 關閉終端機即可停止本機網站
+
+啟動工具會顯示 Node.js 版本，必要時自動安裝套件，並在網站可連線後開啟預設瀏覽器。預設使用 `http://localhost:3000`；若連接埠已被占用，終端機會顯示實際使用的網址。更新工具若偵測到尚未提交的 Git 修改，會停止更新以保留您的檔案。
+
 ## 開發
 
 需要 Node.js 22.13 以上版本。
@@ -31,6 +39,11 @@ npx tsc --noEmit --incremental false
 
 ## 主要檔案
 
+- `AGENTS.md`：協作者規則與每次工作的文件更新流程
+- `PLAN.md`、`PROGRESS.md`：產品里程碑與目前已驗證狀態
+- `DECISIONS.md`、`MEMORY.md`：長期設計決策與不可遺失的產品知識
+- `TASKS.md`、`CHANGELOG.md`：優先待辦與使用者可見變更
+- `ARCHITECTURE.md`：系統模組、資料流與資料分層
 - `app/page.tsx`：頁面、學習互動、進度、測驗與匯入匯出
 - `public/data/a1-course-v3.csv`：唯一正式 A1 課程內容
 - `public/data/a1-pattern-exercises.json`：經驗證的句型換字題
@@ -40,6 +53,10 @@ npx tsc --noEmit --incremental false
 - `app/course-data.ts`：TypeScript 型別與非課程靜態資料
 - `app/globals.css`：桌面版與響應式介面樣式
 - `tests/`：單元、渲染與 Playwright 端到端測試
+
+## 專案知識文件
+
+本專案採文件化 Context Engineering。開始工作時先閱讀根目錄的規範、計畫、進度、決策、任務、記憶與架構文件；完成工作後依實際結果更新 `PROGRESS.md`，重大選擇更新 `DECISIONS.md`，里程碑變動更新 `PLAN.md`，使用者可見功能則更新 `CHANGELOG.md`。新工作不需依賴過長的聊天紀錄來重建背景。
 
 ## 課程資料 QA
 
