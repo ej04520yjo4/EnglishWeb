@@ -51,10 +51,12 @@ Complete the manual A2 unit 1 language QA and record corrections before planning
 
 ## Verification
 
-- `npm run test:unit`: 44 passed, 0 failed.
-- `npm run validate:curriculum`: passed; A1 145 and A2 25 occurrences.
-- `npx tsc --noEmit --incremental false`: passed.
-- `npm run test:e2e`: 26 passed across desktop and mobile, 0 failed.
-- Final context, build, lint, and launcher checks are rerun before publication.
-- Windows launcher scenarios: reverified; 7 passed, 0 failed.
+- `npm run check:context`: exit 0; 10 required files passed.
+- `npm run build`: exit 0; Vinext production build passed.
+- `npm run test:unit`: exit 0; 44 passed, 0 failed.
+- `npm run lint`: exit 0; 0 errors and 0 warnings.
+- `npx tsc --noEmit --incremental false`: exit 0.
+- `npm run test:e2e`: exit 0; 26 passed across desktop and mobile, 0 failed.
+- `npm run validate:curriculum`: exit 0; A1 145 and A2 25 occurrences.
+- Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.
