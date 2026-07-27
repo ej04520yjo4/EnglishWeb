@@ -93,12 +93,28 @@ import {
   createStoredCourseData,
   restoreStoredCourseData,
 } from "./curriculum/storage";
+import {
+  canShowVocabularyShortcut,
+  createVocabularyCourseReturnContext,
+  loadVocabularyDataset,
+  type ResolvedVocabularyGroup,
+  type ResolvedVocabularyItem,
+  type VocabularyCourseReturnContext,
+  type VocabularyDataset,
+  type VocabularyLearningStatus,
+  type VocabularyStatusFilter,
+  vocabularyGroupForLexeme,
+  vocabularyItemMatchesSearch,
+  vocabularyLearningState,
+  vocabularyStatusMatchesFilter,
+} from "./vocabulary-groups";
 
 type Screen =
   | "home"
   | "map"
   | "alphabet"
   | "phonetics"
+  | "related-vocabulary"
   | "review"
   | "progress"
   | "admin"
@@ -165,6 +181,7 @@ const STORAGE = {
   settings: "yingju-settings-v1",
   courseRows: "yingju-course-rows-v3",
   a2CourseRows: "yingju-course-rows-a2-v1",
+  lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
 };
 
 const defaultSettings: SettingsState = {
@@ -179,9 +196,30 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "map", label: "課程地圖", icon: "◉" },
   { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
   { screen: "phonetics", label: "KK 音標", icon: "KK" },
+  { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
   { screen: "review", label: "待複習", icon: "↻" },
   { screen: "progress", label: "學習進度", icon: "▥" },
   { screen: "admin", label: "內容管理", icon: "≡" },
+];
+
+const vocabularyStatusLabels: Record<
+  VocabularyLearningStatus,
+  string
+> = {
+  current: "本課單字",
+  learned: "已學",
+  "review-due": "待複習",
+  "not-learned": "尚未正式學習",
+};
+
+const vocabularyFilters: {
+  id: VocabularyStatusFilter;
+  label: string;
+}[] = [
+  { id: "all", label: "全部" },
+  { id: "learned", label: "已學" },
+  { id: "not-learned", label: "尚未正式學習" },
+  { id: "review-due", label: "待複習" },
 ];
 
 const clean = (value: string) =>
@@ -441,6 +479,21 @@ export default function Home() {
   const [startedAt, setStartedAt] = useState(0);
   const [audioMessage, setAudioMessage] = useState("");
   const [kkAudioMessage, setKkAudioMessage] = useState("");
+  const [vocabularyDataset, setVocabularyDataset] =
+    useState<VocabularyDataset | null>(null);
+  const [vocabularyDataStatus, setVocabularyDataStatus] = useState<
+    "loading" | "ready" | "error"
+  >("loading");
+  const [vocabularyLoadError, setVocabularyLoadError] = useState("");
+  const [vocabularySearch, setVocabularySearch] = useState("");
+  const [vocabularyFilter, setVocabularyFilter] =
+    useState<VocabularyStatusFilter>("all");
+  const [activeVocabularyGroupId, setActiveVocabularyGroupId] =
+    useState("");
+  const [relatedCurrentLexemeId, setRelatedCurrentLexemeId] =
+    useState("");
+  const [vocabularyReturnContext, setVocabularyReturnContext] =
+    useState<VocabularyCourseReturnContext | null>(null);
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [assessmentValue, setAssessmentValue] = useState("");
   const [adminSearch, setAdminSearch] = useState("");
@@ -793,6 +846,49 @@ export default function Home() {
   ]);
 
   useEffect(() => {
+    const a1Rows = courseRowsByLevel.A1;
+    if (
+      courseDataStatusByLevel.A1 !== "ready" ||
+      a1Rows.length === 0
+    ) {
+      return;
+    }
+    let active = true;
+    loadVocabularyDataset(a1Rows)
+      .then((dataset) => {
+        if (!active) return;
+        const storedGroupId =
+          localStorage.getItem(STORAGE.lastVocabularyGroup) ?? "";
+        const initialGroupId = dataset.groups.some(
+          (group) => group.id === storedGroupId,
+        )
+          ? storedGroupId
+          : dataset.groups[0]?.id ?? "";
+        setVocabularyDataset(dataset);
+        setActiveVocabularyGroupId((current) =>
+          dataset.groups.some((group) => group.id === current)
+            ? current
+            : initialGroupId,
+        );
+        setVocabularyLoadError("");
+        setVocabularyDataStatus("ready");
+      })
+      .catch((error) => {
+        if (!active) return;
+        setVocabularyDataset(null);
+        setVocabularyLoadError(
+          error instanceof Error
+            ? error.message
+            : "相關字詞資料暫時無法載入。",
+        );
+        setVocabularyDataStatus("error");
+      });
+    return () => {
+      active = false;
+    };
+  }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
+
+  useEffect(() => {
     if (
       !loaded ||
       !catalog ||
@@ -1116,6 +1212,105 @@ export default function Home() {
       lessonItem.sentenceAudioSource,
       rate,
       countReplay,
+    );
+
+  const scrollToRelatedLexeme = (lexemeId: string) => {
+    if (!lexemeId) return;
+    window.setTimeout(() => {
+      document
+        .getElementById(`related-word-${lexemeId}`)
+        ?.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 120);
+  };
+
+  const selectVocabularyGroup = (
+    groupId: string,
+    lexemeId = "",
+  ) => {
+    setActiveVocabularyGroupId(groupId);
+    localStorage.setItem(STORAGE.lastVocabularyGroup, groupId);
+    scrollToRelatedLexeme(lexemeId);
+  };
+
+  const openRelatedVocabularyFromNavigation = () => {
+    setVocabularyReturnContext(null);
+    setRelatedCurrentLexemeId("");
+    setScreen("related-vocabulary");
+  };
+
+  const openRelatedVocabularyFromDetail = () => {
+    const lexemeId = currentToken.lexemeId;
+    const group = vocabularyGroupForLexeme(
+      vocabularyDataset,
+      lexemeId,
+    );
+    if (
+      selectedLevel !== "A1" ||
+      !group ||
+      !canShowVocabularyShortcut(
+        vocabularyDataset,
+        lexemeId,
+        stage,
+        true,
+      )
+    ) {
+      return;
+    }
+    setVocabularyReturnContext(
+      createVocabularyCourseReturnContext(
+        selectedLesson.id,
+        tokenIndex,
+      ),
+    );
+    setRelatedCurrentLexemeId(lexemeId);
+    setScreen("related-vocabulary");
+    selectVocabularyGroup(group.id, lexemeId);
+  };
+
+  const returnFromRelatedVocabulary = () => {
+    if (!vocabularyReturnContext) return;
+    const lesson = flattenCourseLessons(
+      courseUnitsByLevel.A1,
+    ).find(
+      (item) => item.id === vocabularyReturnContext.lessonId,
+    );
+    if (!lesson) {
+      setToast("找不到原本課程，已返回 A1 課程地圖。");
+      setMultiProgress((current) => ({
+        ...current,
+        selectedLevel: "A1",
+      }));
+      setScreen("map");
+      setVocabularyReturnContext(null);
+      setRelatedCurrentLexemeId("");
+      return;
+    }
+    setMultiProgress((current) => ({
+      ...current,
+      selectedLevel: "A1",
+    }));
+    setSelectedLesson(lesson);
+    setTokenIndex(vocabularyReturnContext.tokenIndex);
+    setStage("detail");
+    setScreen("learning");
+    setVocabularyReturnContext(null);
+    setRelatedCurrentLexemeId("");
+    window.setTimeout(
+      () => document.getElementById("detail-next-button")?.focus(),
+      80,
+    );
+  };
+
+  const playRelatedVocabularyAudio = (
+    item: ResolvedVocabularyItem,
+    rate = 1,
+  ) =>
+    playAudio(
+      item.displayEnglish,
+      item.audioStatus,
+      item.audioSource,
+      rate,
+      false,
     );
 
   const playKkAudioFile = (
@@ -2871,6 +3066,322 @@ export default function Home() {
     </div>
   );
 
+  const renderRelatedVocabulary = () => {
+    if (vocabularyDataStatus === "loading") {
+      return (
+        <section
+          className="section-card vocabulary-load-state"
+          data-testid="vocabulary-loading"
+        >
+          <strong>正在載入相關字詞…</strong>
+          <p>課程仍可正常使用，請稍候一秒。</p>
+        </section>
+      );
+    }
+    if (vocabularyDataStatus === "error" || !vocabularyDataset) {
+      return (
+        <section
+          className="section-card vocabulary-load-state"
+          data-testid="vocabulary-load-error"
+        >
+          <strong>相關字詞目前無法載入</strong>
+          <p>這不會影響正式課程，請重新整理後再試。</p>
+          {vocabularyLoadError && <small>{vocabularyLoadError}</small>}
+          <button
+            className="secondary-button"
+            onClick={() => setScreen("home")}
+          >
+            返回首頁
+          </button>
+        </section>
+      );
+    }
+
+    const a1Progress = multiProgress.levelProgress.A1;
+    const stateForItem = (item: ResolvedVocabularyItem) =>
+      vocabularyLearningState(
+        item,
+        a1Progress,
+        relatedCurrentLexemeId,
+      );
+    const itemIsVisible = (
+      group: ResolvedVocabularyGroup,
+      item: ResolvedVocabularyItem,
+    ) =>
+      vocabularyItemMatchesSearch(group, item, vocabularySearch) &&
+      vocabularyStatusMatchesFilter(
+        stateForItem(item),
+        vocabularyFilter,
+      );
+    const visibleGroups = vocabularyDataset.groups.filter(
+      (group) =>
+        group.items.some((item) => itemIsVisible(group, item)) ||
+        (!vocabularySearch.trim() && vocabularyFilter === "all"),
+    );
+    const activeGroup =
+      vocabularyDataset.groups.find(
+        (group) => group.id === activeVocabularyGroupId,
+      ) ?? vocabularyDataset.groups[0];
+    const activeItems = activeGroup.items.filter((item) =>
+      itemIsVisible(activeGroup, item),
+    );
+
+    return (
+      <div
+        className="page-stack related-vocabulary-page"
+        data-testid="related-vocabulary-page"
+      >
+        <section className="page-title related-vocabulary-title">
+          <div>
+            <span className="eyebrow">依主題建立單字連結</span>
+            <h1>相關字詞</h1>
+            <p>把同類型的英文放在一起理解，建立單字之間的關聯。</p>
+          </div>
+          {vocabularyReturnContext && (
+            <button
+              className="secondary-button"
+              onClick={returnFromRelatedVocabulary}
+              data-testid="return-to-current-lesson"
+            >
+              ← 返回目前課程
+            </button>
+          )}
+        </section>
+
+        <section className="vocabulary-tools" aria-label="搜尋與篩選相關字詞">
+          <label className="vocabulary-search">
+            <span>搜尋字詞或主題</span>
+            <input
+              type="search"
+              value={vocabularySearch}
+              onChange={(event) =>
+                setVocabularySearch(event.target.value)
+              }
+              placeholder="例如：Saturday、星期六"
+              aria-label="搜尋英文、中文、主題名稱或 lexeme ID"
+            />
+          </label>
+          <div
+            className="vocabulary-filter-row"
+            role="group"
+            aria-label="已學狀態篩選"
+          >
+            {vocabularyFilters.map((filter) => (
+              <button
+                key={filter.id}
+                className={
+                  vocabularyFilter === filter.id ? "active" : ""
+                }
+                aria-pressed={vocabularyFilter === filter.id}
+                onClick={() => setVocabularyFilter(filter.id)}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="vocabulary-groups-title">
+          <div className="section-heading vocabulary-section-heading">
+            <div>
+              <span className="eyebrow">第一版主題</span>
+              <h2 id="vocabulary-groups-title">選擇主題</h2>
+            </div>
+            <small>只收錄星期與一天的時段</small>
+          </div>
+          <div
+            className="vocabulary-group-grid"
+            data-testid="vocabulary-group-grid"
+          >
+            {visibleGroups.map((group) => {
+              const learnedCount = group.items.filter(
+                (item) => stateForItem(item).isLearned,
+              ).length;
+              return (
+                <button
+                  className={`vocabulary-group-card ${
+                    activeGroup.id === group.id ? "active" : ""
+                  }`}
+                  key={group.id}
+                  onClick={() => selectVocabularyGroup(group.id)}
+                  aria-label={`進入${group.titleZhTw}主題`}
+                  data-testid={`vocabulary-group-${group.id}`}
+                >
+                  <span className="vocabulary-group-icon">▦</span>
+                  <span className="vocabulary-group-copy">
+                    <strong>{group.titleZhTw}</strong>
+                    <b>{group.titleEn}</b>
+                    <small>{group.descriptionZhTw}</small>
+                  </span>
+                  <span className="vocabulary-group-counts">
+                    <b>{group.items.length} 個字詞</b>
+                    <small>已學 {learnedCount} 個</small>
+                  </span>
+                  <span className="vocabulary-group-action">
+                    進入主題 →
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {!visibleGroups.length && (
+            <p className="vocabulary-empty">
+              找不到符合目前搜尋與篩選條件的字詞。
+            </p>
+          )}
+        </section>
+
+        <section
+          className="section-card vocabulary-topic-detail"
+          aria-labelledby="vocabulary-topic-title"
+          data-testid={`vocabulary-topic-${activeGroup.id}`}
+        >
+          <div className="vocabulary-topic-heading">
+            <div>
+              <span className="vocabulary-breadcrumb">
+                相關字詞 &gt; {activeGroup.titleZhTw}
+              </span>
+              <h2 id="vocabulary-topic-title">
+                {activeGroup.titleZhTw}
+              </h2>
+              <p>{activeGroup.titleEn}</p>
+            </div>
+            <span className="status-pill">
+              {activeGroup.items.length} 個字詞
+            </span>
+          </div>
+
+          <div
+            className="vocabulary-word-list"
+            data-testid="vocabulary-word-list"
+          >
+            {activeItems.map((item) => {
+              const state = stateForItem(item);
+              const audioAvailable =
+                speechSupported ||
+                (item.audioStatus === "ready" &&
+                  Boolean(item.audioSource.trim()));
+              return (
+                <article
+                  id={`related-word-${item.lexemeId}`}
+                  className={`vocabulary-word-card ${
+                    state.status === "current" ? "current" : ""
+                  }`}
+                  key={item.lexemeId}
+                  data-testid={`vocabulary-word-${item.lexemeId}`}
+                  aria-current={
+                    state.status === "current" ? "true" : undefined
+                  }
+                >
+                  <div className="vocabulary-word-top">
+                    <div>
+                      <span className="vocabulary-item-order">
+                        {item.order}
+                      </span>
+                      <div>
+                        <h3>{item.displayEnglish}</h3>
+                        <p>{item.translationZhTw}</p>
+                      </div>
+                    </div>
+                    <span
+                      className={`vocabulary-status ${state.status}`}
+                    >
+                      {vocabularyStatusLabels[state.status]}
+                    </span>
+                  </div>
+                  <div className="vocabulary-phonetics">
+                    <span>
+                      <small>KK</small>
+                      <strong>{item.kkUs || "待補"}</strong>
+                    </span>
+                    <span>
+                      <small>IPA</small>
+                      <strong>{item.ipaUs || "待補"}</strong>
+                    </span>
+                    <span>
+                      <small>資料來源</small>
+                      <strong>
+                        {item.source === "course"
+                          ? "正式課程"
+                          : "參考詞彙"}
+                      </strong>
+                    </span>
+                  </div>
+                  <div className="vocabulary-audio-actions">
+                    <button
+                      disabled={!audioAvailable}
+                      onClick={() =>
+                        playRelatedVocabularyAudio(item)
+                      }
+                      aria-label={`正常播放 ${item.displayEnglish} 的美式發音`}
+                    >
+                      ▶ 正常
+                    </button>
+                    <button
+                      disabled={!audioAvailable}
+                      onClick={() =>
+                        playRelatedVocabularyAudio(
+                          item,
+                          settings.slowRate,
+                        )
+                      }
+                      aria-label={`慢速播放 ${item.displayEnglish} 的美式發音`}
+                    >
+                      ◁ 慢速
+                    </button>
+                    <small>
+                      {item.audioStatus === "ready" &&
+                      item.audioSource.trim()
+                        ? "使用已確認音訊"
+                        : "使用瀏覽器語音備援"}
+                    </small>
+                  </div>
+                  {item.chunks.length > 0 && (
+                    <div className="vocabulary-chunks">
+                      <small>常見語塊</small>
+                      {item.chunks.map((chunk) => (
+                        <div key={chunk.id}>
+                          <strong>
+                            {chunk.text}＝{chunk.translationZhTw}
+                          </strong>
+                          <span>{chunk.noteZhTw}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {item.usageNoteZhTw && (
+                    <p className="vocabulary-item-note">
+                      <strong>用法提醒</strong>
+                      {item.usageNoteZhTw}
+                    </p>
+                  )}
+                </article>
+              );
+            })}
+            {!activeItems.length && (
+              <p className="vocabulary-empty">
+                這個主題中沒有符合目前條件的字詞。
+              </p>
+            )}
+          </div>
+
+          <div className="vocabulary-usage-notes">
+            <strong>用法提醒</strong>
+            <ul>
+              {activeGroup.usageNotesZhTw.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+          </div>
+          <p className="vocabulary-audio-message" aria-live="polite">
+            {audioMessage ||
+              "尚未有已確認音檔時，播放按鈕會使用瀏覽器美式語音備援。"}
+          </p>
+        </section>
+      </div>
+    );
+  };
+
   const renderLearning = () => {
     if (stage === "intro") {
       return (
@@ -3289,6 +3800,28 @@ export default function Home() {
                   <span>語塊整體理解</span>
                   <strong>{currentToken.chunk.text}＝{currentToken.chunk.translation}</strong>
                   <p>{currentToken.chunk.note}</p>
+                </div>
+              )}
+            {selectedLevel === "A1" &&
+              canShowVocabularyShortcut(
+                vocabularyDataset,
+                currentToken.lexemeId,
+                stage,
+                true,
+              ) && (
+                <div className="related-vocabulary-shortcut">
+                  <div>
+                    <strong>想一起比較同類字詞嗎？</strong>
+                    <span>查看不會增加提示次數，也不會影響本課分數。</span>
+                  </div>
+                  <button
+                    className="secondary-button"
+                    onClick={openRelatedVocabularyFromDetail}
+                    aria-label={`查看 ${currentToken.answer} 的同類字詞`}
+                    data-testid="open-related-vocabulary-from-detail"
+                  >
+                    查看同類字詞
+                  </button>
                 </div>
               )}
             <button
@@ -4150,6 +4683,9 @@ export default function Home() {
   };
 
   const renderScreen = () => {
+    if (screen === "related-vocabulary") {
+      return renderRelatedVocabulary();
+    }
     if (courseDataStatus === "loading") {
       return (
         <section className="section-card">
@@ -4208,7 +4744,16 @@ export default function Home() {
         </button>
         <nav aria-label="主要導覽">
           {navItems.map((item) => (
-            <button key={item.screen} className={screen === item.screen ? "active" : ""} onClick={() => setScreen(item.screen)}>
+            <button
+              key={item.screen}
+              className={screen === item.screen ? "active" : ""}
+              onClick={() =>
+                item.screen === "related-vocabulary"
+                  ? openRelatedVocabularyFromNavigation()
+                  : setScreen(item.screen)
+              }
+              aria-label={`前往${item.label}`}
+            >
               <span className="nav-icon">{item.icon}</span>{item.label}
               {item.screen === "review" && dueReviews.length > 0 && <b>{dueReviews.length}</b>}
             </button>
