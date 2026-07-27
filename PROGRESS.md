@@ -62,11 +62,11 @@ Try the related-vocabulary page and manually review its nine reference-only entr
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- Focused `npm run test:unit`: exit 0; 63 passed, 0 failed.
+- `npm run test:unit`: exit 0; 63 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- Focused related-vocabulary Playwright: exit 0; 6 passed across desktop and mobile, 0 failed.
-- Final full quality gates are rerun before GitHub publication.
+- `npm run test:e2e`: exit 0; 32 passed across desktop and mobile, 0 failed.
+- Related-vocabulary Playwright coverage: 6 passed across desktop and mobile, 0 failed.
 - `npm run validate:curriculum`: exit 0; A1 145 and A2 25 occurrences.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.
