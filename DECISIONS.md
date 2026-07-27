@@ -105,3 +105,27 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Formal A2 access requires an A1 level pass. A local QA preview may temporarily display the pilot, but it never changes `passedLevelIds` or learner mastery.
 
 **Reason:** Content review needs direct access without weakening the learner progression rule.
+
+## ADR-014 - Related Vocabulary Is a Reference Tool
+
+**Status:** Accepted
+
+**Decision:** Related-vocabulary topics are versioned reference data, not a second curriculum. Opening, searching, filtering, or playing a word never increments attempts, completes lessons, marks mastery, or changes review intervals.
+
+**Reason:** The page should help learners compare words without weakening the evidence required by the formal course.
+
+## ADR-015 - Formal Curriculum Wins Lexeme Conflicts
+
+**Status:** Accepted
+
+**Decision:** When a lexeme exists in formal A1 and reference vocabulary, the complete formal record wins, including an intentionally pending audio field. Reference-only data may fill only lexemes absent from formal curriculum; conflicts fail validation.
+
+**Reason:** Mixing individual fields from two records creates inconsistent pronunciation, meaning, QA, and licensing claims.
+
+## ADR-016 - Related Vocabulary Reveals Only After Recall
+
+**Status:** Accepted
+
+**Decision:** The course shortcut appears only in a successfully answered A1 word-detail stage for a validated topic lexeme. It preserves the lesson, token index, and detail stage on return. Version 1 enables only days of the week and times of day.
+
+**Reason:** This prevents answer leakage during recall or assessments while keeping topic comparison close to the learned word.

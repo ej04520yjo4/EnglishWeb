@@ -4,12 +4,18 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
+- [ ] **VOCAB-QA-001:** Try and manually review the two related-vocabulary topics.
+  - Check all nine reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
+  - Accept only after corrections are recorded; viewing must remain progress-neutral.
 - [ ] **A2-QA-001:** Manually review the four A2 pilot lessons.
   - Check natural Taiwan Chinese, word prompts, contextual parts of speech, chunks, sentence patterns, transfer sentences, distractors, and passage questions.
   - Accept only after findings and any corrections are recorded; do not add A2 unit 2 during this task.
 
 ## Next - P1
 
+- [ ] **VOCAB-PLAN-002:** Based on user feedback, choose either months or family as one reviewed next topic.
+- [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
+- [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
 - [ ] **A2-PLAN-002:** After pilot acceptance, propose one small next A2 batch with prerequisites and content ratios.
 - [ ] **A1-EX-003:** Add the third reviewed pattern batch.
@@ -42,3 +48,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Progress schema v4 migration with exact A1 preservation and isolated A2 progress.
 - [x] Formal A2 unlock plus a non-mutating QA preview.
 - [x] Desktop/mobile A2 completion, passage, migration, reload, and error-isolation tests.
+- [x] Versioned related-vocabulary and reference-only data boundaries.
+- [x] Days-of-week and times-of-day topic pages with search, filters, audio fallback, chunks, and usage notes.
+- [x] Correct-answer-only course shortcut, current-word highlight, exact-stage return, and progress-neutral viewing.
+- [x] Related-vocabulary unit validation and desktop/mobile browser coverage.

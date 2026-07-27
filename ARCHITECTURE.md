@@ -11,10 +11,14 @@ flowchart LR
   Catalog["course-catalog.json"] --> LevelLoader["curriculum/loader.ts"]
   A1["A1 v3 CSV + reviewed JSON"] --> Adapter["A1 legacy adapter"]
   A2["A2 v1 CSV + pilot JSON"] --> LevelLoader
+  Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
+  Reference["reference-vocabulary-v1.json"] --> Vocabulary
+  A1 --> Vocabulary
   Adapter --> LevelLoader
   LevelLoader --> Validate["Level validation and checksums"]
   Validate --> Units["Independent A1 and A2 CourseUnit arrays"]
   Units --> Page["page.tsx selected-level learning state"]
+  Vocabulary --> Page
   Page <--> Storage["localStorage schema v4, settings, per-level overrides"]
   Page --> UI["Course map and learning stages"]
 ```
@@ -37,6 +41,7 @@ At startup, the app loads the catalog, then loads and validates A1 and A2 separa
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
 - `app/rebuild-flow.ts`, `app/passage-flow.ts`, `app/assessment-scoring.ts`: pure evaluation rules.
 - `app/kk-phonetics.ts`: separate KK symbol curriculum and audio metadata mapping.
+- `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `worker/index.ts`: Vinext request and image handling for hosted deployment.
 
 ## Data Boundaries
@@ -52,9 +57,11 @@ The hierarchy is Level -> Unit -> Lesson -> Stage -> Exercise. Within a sentence
 
 These layers are additive and must not be collapsed into one input model.
 
+Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. The resolver never writes progress and never merges reference fields into an existing formal lexeme.
+
 ## Persistence
 
-Browser storage holds progress schema v4, settings, and validated per-level course overrides. A v3 record migrates into the A1 slot without changing its existing fields; A2 starts empty. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
+Browser storage holds progress schema v4, settings, and validated per-level course overrides. A v3 record migrates into the A1 slot without changing its existing fields; A2 starts empty. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. Related vocabulary may save only the last viewed group ID as UI state. No personal data is sent to a project-owned server.
 
 ## Context Documentation Flow
 
@@ -84,4 +91,5 @@ flowchart LR
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.
 - Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, and persistence flows.
+- Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
 - CI requires context checks, build, unit tests, lint, TypeScript, and browser tests.

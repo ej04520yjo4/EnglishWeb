@@ -34,6 +34,8 @@ This file stores long-lived product facts and working preferences. Current task 
   3. `I go to work at eight.`
   4. `I go to work by bus.`
 - Local keys: `yingju-progress-v1`, `yingju-settings-v1`, and `yingju-course-rows-v3`.
+- Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
+- Related-vocabulary version 1 contains only days of the week and times of day.
 
 ## Content and Audio Guardrails
 
@@ -43,6 +45,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - `audio_status !== "ready"` must never be treated as a playable URL.
 - KK phonetic-symbol audio is a separate learning area, not KK notation added to A-Z letter practice.
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
+- Formal course data has whole-record priority over reference vocabulary. Reference viewing must never count as learning completion or change review schedules.
+- A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 
 ## Context Engineering Preferences
 

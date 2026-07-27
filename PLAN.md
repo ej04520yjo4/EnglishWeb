@@ -46,14 +46,33 @@ A1 is the current production level. A2 has one isolated pilot unit for technical
 
 ### M4 - A2 Pilot Review and Controlled Expansion
 
-**Status:** Current
+**Status:** Paused while awaiting pilot review
 
 - Manually review all A2 Chinese prompts, contextual parts of speech, chunks, distractors, and transfer sentences.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
 - Promote pilot content only after review; do not add A2 unit 2 or later in the same review cycle.
 - Define the next small A2 batch only after the pilot report is accepted.
 
-### M5 - Learning Depth and Release Readiness
+### M5 - Related Vocabulary Reference Tool
+
+**Status:** Complete
+
+- Added a primary-navigation reference tool without changing the course hierarchy.
+- Added two versioned topics only: days of the week and times of day.
+- Reused official A1 lexemes where available and isolated missing words as reference-only content.
+- Added search, learning-state filters, pronunciation fallback, course-detail shortcuts, and exact-stage return.
+- Protected learner scores, attempts, completion, and review intervals from reference-page viewing.
+
+### M6 - Related Vocabulary User Review
+
+**Status:** Current
+
+- Try the two topics in current Windows Chrome and at mobile width.
+- Manually review the nine reference-only KK/IPA entries and Taiwan Traditional Chinese wording.
+- Decide whether months or family should be the next single reviewed topic.
+- Resume A2 pilot review only after this scoped user-review cycle.
+
+### M7 - Learning Depth and Release Readiness
 
 **Status:** Planned
 

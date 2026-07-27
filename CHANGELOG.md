@@ -2,6 +2,21 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-27 - Related Vocabulary
+
+### Added
+
+- Added 「相關字詞」 to the main navigation with the existing active style and keyboard behavior.
+- Added two responsive topics: days of the week and times of day.
+- Added English/Chinese search, learned-state filters, KK/IPA, normal and slow pronunciation, common chunks, and Taiwan Traditional Chinese usage reminders.
+- Added a correct-answer-only shortcut from A1 word details, current-word highlighting, and return to the same lesson detail stage.
+- Added versioned group and reference-only sources plus independent validation and failure handling.
+
+### Preserved
+
+- Viewing related vocabulary does not alter attempts, scores, completed lessons, mastery, or review intervals.
+- Formal A1 data remains authoritative; no A1 CSV, A2 course, or additional vocabulary topic was added.
+
 ## 2026-07-27 - CEFR A2 Pilot Foundation
 
 ### Added

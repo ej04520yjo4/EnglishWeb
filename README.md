@@ -7,6 +7,7 @@
 ## 主要功能
 
 - A1／A2 課程目錄、程度切換與循序解鎖。
+- 星期與一天時段的相關字詞主題、搜尋、狀態篩選及課程詳情捷徑。
 - 單字回想、三層提示、字義與片語說明。
 - 句子重組、閱讀辨識、句型遷移與文章重組。
 - KK 音標獨立練習區。
@@ -50,6 +51,8 @@ npx tsc --noEmit --incremental false
 - `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
 - `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
+- `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
+- `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
 - `tests/`：單元、內容與 Playwright 瀏覽器測試。
 - `docs/`：產品規格、內容計畫與工作流程。
 - `scripts/`：QA、啟動與開發輔助工具。
@@ -78,3 +81,4 @@ npx tsc --noEmit --incremental false
 - 不抓取 Oxford、Cambridge 等受保護字典內容。
 - 音訊必須保留來源、授權與 QA 狀態。
 - A2 試行內容必須通過人工語言 QA，才可由試行狀態升為正式課程。
+- 相關字詞優先使用正式課程資料；查看主題不等於完成、通過或精通。
