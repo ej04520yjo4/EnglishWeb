@@ -4,7 +4,8 @@
     {
       "id": "be-identification",
       "cefr": "A1",
-      "enabledForTransfer": true,
+      "enabledForTransfer": false,
+      "deferReason": "等待未來單元複習模式使用。",
       "template": "{subject} {be} {name}.",
       "slots": [
         {
@@ -18,34 +19,7 @@
           "allowedLexemeIds": ["amy", "ben"]
         }
       ],
-      "examples": [
-        {
-          "id": "be-identification-she-amy",
-          "practiceLessonId": "a1-u3-l2",
-          "sourceSentenceId": "a1-u1-l1-p01-s01",
-          "sentencePatternId": "be-identification",
-          "passageId": "a1-u1-l1-p01",
-          "sentence": "She is Amy.",
-          "translation": "她是 Amy。",
-          "hintKeywords": "她／Amy",
-          "skeleton": "______ is Amy.",
-          "requiredLexemeIds": ["she", "be", "amy"],
-          "requiredChunkIds": []
-        },
-        {
-          "id": "be-identification-he-ben",
-          "practiceLessonId": "a1-u3-l2",
-          "sourceSentenceId": "a1-u1-l1-p01-s01",
-          "sentencePatternId": "be-identification",
-          "passageId": "a1-u1-l1-p01",
-          "sentence": "He is Ben.",
-          "translation": "他是 Ben。",
-          "hintKeywords": "他／Ben",
-          "skeleton": "______ is Ben.",
-          "requiredLexemeIds": ["he", "be", "ben"],
-          "requiredChunkIds": []
-        }
-      ]
+      "examples": []
     },
     {
       "id": "name-identification",
@@ -89,6 +63,16 @@
       "enabledForTransfer": true,
       "template": "I have {object}.",
       "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
+        {
+          "slotId": "verb",
+          "role": "擁有",
+          "allowedLexemeIds": ["have"]
+        },
         {
           "slotId": "object",
           "role": "擁有的物品或人物",
@@ -142,6 +126,11 @@
           "allowedLexemeIds": ["the", "store", "bathroom"]
         },
         {
+          "slotId": "be",
+          "role": "be 動詞",
+          "allowedLexemeIds": ["be"]
+        },
+        {
           "slotId": "location",
           "role": "位置",
           "allowedLexemeIds": ["on", "the", "left", "near", "station"],
@@ -180,11 +169,58 @@
     {
       "id": "be-relationship",
       "cefr": "A1",
-      "enabledForTransfer": false,
-      "deferReason": "尚未完成下一批人工內容 QA。",
-      "template": "",
-      "slots": [],
-      "examples": []
+      "enabledForTransfer": true,
+      "template": "{subject} {be} {possessive} {relationship}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["he", "she"]
+        },
+        {
+          "slotId": "be",
+          "role": "be 動詞",
+          "allowedLexemeIds": ["be"]
+        },
+        {
+          "slotId": "possessive",
+          "role": "所有格",
+          "allowedLexemeIds": ["my"]
+        },
+        {
+          "slotId": "relationship",
+          "role": "人物關係",
+          "allowedLexemeIds": ["friend", "wife"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "be-relationship-she-friend",
+          "practiceLessonId": "a1-u3-l2",
+          "sourceSentenceId": "a1-u3-l2-p01-s01",
+          "sentencePatternId": "be-relationship",
+          "passageId": "a1-u3-l2-p01",
+          "sentence": "She is my friend.",
+          "translation": "她是我的朋友。",
+          "hintKeywords": "她／朋友",
+          "skeleton": "______ is my friend.",
+          "requiredLexemeIds": ["she", "be", "my", "friend"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "be-relationship-she-wife",
+          "practiceLessonId": "a1-u3-l2",
+          "sourceSentenceId": "a1-u3-l2-p01-s01",
+          "sentencePatternId": "be-relationship",
+          "passageId": "a1-u3-l2-p01",
+          "sentence": "She is my wife.",
+          "translation": "她是我的太太。",
+          "hintKeywords": "她／太太",
+          "skeleton": "______ is my wife.",
+          "requiredLexemeIds": ["she", "be", "my", "wife"],
+          "requiredChunkIds": []
+        }
+      ]
     },
     {
       "id": "like-preference",
@@ -228,6 +264,11 @@
       "enabledForTransfer": true,
       "template": "I {activity} {time}.",
       "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
         {
           "slotId": "activity",
           "role": "日常活動",

@@ -2,26 +2,21 @@
   "schemaVersion": 2,
   "recognition": [
     {
-      "id": "recognition-a1-u3-l2-be-identification",
+      "id": "recognition-a1-u3-l2-be-relationship",
       "lessonId": "a1-u3-l2",
-      "sentenceId": "a1-u1-l1-p01-s01",
-      "sentencePatternId": "be-identification",
-      "passageId": "a1-u1-l1-p01",
+      "sentenceId": "a1-u3-l2-p01-s01",
+      "sentencePatternId": "be-relationship",
+      "passageId": "a1-u3-l2-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的中文意思。",
-      "stem": "I am Amy.",
-      "requiredLexemeIds": ["i", "be", "amy"],
+      "stem": "He is my friend.",
+      "requiredLexemeIds": ["he", "be", "my", "friend"],
       "requiredChunkIds": [],
       "options": [
         {
           "id": "correct",
-          "text": "我是 Amy。",
-          "sourceSentenceId": "a1-u1-l1-p01-s01"
-        },
-        {
-          "id": "name",
-          "text": "我的名字是 Ben。",
-          "sourceSentenceId": "a1-u1-l2-p01-s01"
+          "text": "他是我的朋友。",
+          "sourceSentenceId": "a1-u3-l2-p01-s01"
         },
         {
           "id": "wife",
@@ -29,9 +24,14 @@
           "sourceSentenceId": "a1-u3-l1-p01-s01"
         },
         {
-          "id": "friend",
-          "text": "他是我的朋友。",
-          "sourceSentenceId": "a1-u3-l2-p01-s01"
+          "id": "name",
+          "text": "我的名字是 Ben。",
+          "sourceSentenceId": "a1-u1-l2-p01-s01"
+        },
+        {
+          "id": "origin",
+          "text": "我來自台灣。",
+          "sourceSentenceId": "a1-u1-l4-p01-s01"
         }
       ],
       "correctOptionId": "correct"
@@ -144,38 +144,38 @@
   ],
   "textResponses": [
     {
-      "id": "response-a1-u3-l2-be-identification",
+      "id": "response-a1-u3-l2-be-relationship",
       "lessonId": "a1-u3-l2",
-      "sourceSentenceId": "a1-u1-l1-p01-s01",
-      "sentencePatternId": "be-identification",
-      "passageId": "a1-u1-l1-p01",
+      "sourceSentenceId": "a1-u3-l2-p01-s01",
+      "sentencePatternId": "be-relationship",
+      "passageId": "a1-u3-l2-p01",
       "promptLanguage": "zh-Hant",
-      "prompt": "請選出符合「他是 Ben」的英文句子。",
-      "targetTranslation": "他是 Ben。",
+      "prompt": "請選出符合「她是我的朋友」的英文句子。",
+      "targetTranslation": "她是我的朋友。",
       "format": "choice",
       "options": [
         {
           "id": "correct",
-          "text": "He is Ben.",
-          "requiredLexemeIds": ["he", "be", "ben"],
+          "text": "She is my friend.",
+          "requiredLexemeIds": ["she", "be", "my", "friend"],
           "requiredChunkIds": []
         },
         {
-          "id": "she",
-          "text": "She is Amy.",
-          "requiredLexemeIds": ["she", "be", "amy"],
+          "id": "wife",
+          "text": "She is my wife.",
+          "requiredLexemeIds": ["she", "be", "my", "wife"],
           "requiredChunkIds": []
         },
         {
-          "id": "i",
-          "text": "I am Amy.",
-          "requiredLexemeIds": ["i", "be", "amy"],
-          "requiredChunkIds": []
-        },
-        {
-          "id": "friend",
+          "id": "he",
           "text": "He is my friend.",
           "requiredLexemeIds": ["he", "be", "my", "friend"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "name",
+          "text": "My name is Ben.",
+          "requiredLexemeIds": ["my", "name", "be", "ben"],
           "requiredChunkIds": []
         }
       ],

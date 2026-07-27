@@ -632,6 +632,11 @@ export default function Home() {
   const selectedTransferPatternId =
     selectedPatternExamples[0]?.sentencePatternId ??
     selectedLesson.sentencePatternId;
+  const selectedTransferPatternName =
+    allLessons.find(
+      (lesson) =>
+        lesson.sentencePatternId === selectedTransferPatternId,
+    )?.patternName ?? selectedTransferPatternId;
   const selectedTextResponse = exerciseData
     ? textResponseForLesson(exerciseData.reading, selectedLesson.id)
     : undefined;
@@ -2423,7 +2428,7 @@ export default function Home() {
           ? ["句意理解"]
           : []),
         ...(transferScore !== null && transferScore < 100
-          ? [`句型：${selectedLesson.patternName}`]
+          ? [`句型：${selectedTransferPatternName}`]
           : []),
         ...(passageScore !== null && passageScore < 100
           ? ["短文理解"]

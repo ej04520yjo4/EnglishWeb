@@ -122,7 +122,7 @@ export type PatternCoverageSummary = {
 
 const lessonRank = (lessonId: string) => {
   const match = lessonId.match(/^a1-u(\d+)-l(\d+)$/);
-  if (!match) return Number.POSITIVE_INFINITY;
+  if (!match) return -1;
   return Number(match[1]) * 100 + Number(match[2]);
 };
 
@@ -245,6 +245,7 @@ export const validatePatternExerciseData = (
   const csvPatternIds = new Set(
     rows.map((row) => row.sentence_pattern_id),
   );
+  const lessonIds = new Set(rows.map((row) => row.lesson_id));
   const rowsBySentence = new Map(
     rows.map((row) => [row.sentence_id, row]),
   );
@@ -271,16 +272,34 @@ export const validatePatternExerciseData = (
     if (!pattern.enabledForTransfer && pattern.examples.length) {
       errors.push(`${pattern.id} 尚未啟用，不可放入換字題。`);
     }
+    const allowedLexemeIds = new Set(
+      pattern.slots.flatMap((slot) => slot.allowedLexemeIds),
+    );
+    const allowedChunkIds = new Set(
+      pattern.slots.flatMap(
+        (slot) => slot.allowedChunkIds ?? [],
+      ),
+    );
     for (const example of pattern.examples) {
       if (exampleIds.has(example.id)) {
         errors.push(`變化題 ID 重複：${example.id}`);
       }
       exampleIds.add(example.id);
+      const practiceLessonExists = lessonIds.has(
+        example.practiceLessonId,
+      );
+      if (!practiceLessonExists) {
+        errors.push(
+          `${example.id} 找不到正式練習課程 ${example.practiceLessonId}。`,
+        );
+      }
       const source = rowsBySentence.get(example.sourceSentenceId);
       if (!source) {
         errors.push(
           `${example.id} 找不到來源句 ${example.sourceSentenceId}。`,
         );
+      }
+      if (!practiceLessonExists || !source) {
         continue;
       }
       if (source.sentence_pattern_id !== pattern.id) {
@@ -302,6 +321,22 @@ export const validatePatternExerciseData = (
       }
       if (sentenceWordCount(example.sentence) > 8) {
         errors.push(`${example.id} 超過 A1 的 8 字限制。`);
+      }
+      const disallowedLexemes = example.requiredLexemeIds.filter(
+        (lexemeId) => !allowedLexemeIds.has(lexemeId),
+      );
+      if (disallowedLexemes.length) {
+        errors.push(
+          `${example.id} 的 requiredLexemeIds 不符合 ${pattern.id} slot allowedLexemeIds：${disallowedLexemes.join("、")}。`,
+        );
+      }
+      const disallowedChunks = example.requiredChunkIds.filter(
+        (chunkId) => !allowedChunkIds.has(chunkId),
+      );
+      if (disallowedChunks.length) {
+        errors.push(
+          `${example.id} 的 requiredChunkIds 不符合 ${pattern.id} slot allowedChunkIds：${disallowedChunks.join("、")}。`,
+        );
       }
       const learnedLexemes = learnedLexemeIdsThroughLesson(
         rows,
@@ -357,6 +392,7 @@ export const validateReadingExerciseData = (
   patternData?: PatternExerciseData,
 ): ExerciseValidationReport => {
   const errors: string[] = [];
+  const lessonIds = new Set(rows.map((row) => row.lesson_id));
   const rowsBySentence = new Map(
     rows.map((row) => [row.sentence_id, row]),
   );
@@ -367,12 +403,22 @@ export const validateReadingExerciseData = (
     const optionTexts = exercise.options.map((option) =>
       normalizeSentence(option.text),
     );
-    if (
-      !source ||
-      lessonRank(source.lesson_id) > lessonRank(exercise.lessonId)
-    ) {
-      errors.push(`${exercise.id} 找不到正式來源句。`);
+    const lessonExists = lessonIds.has(exercise.lessonId);
+    if (!lessonExists) {
+      errors.push(
+        `${exercise.id} 找不到正式練習課程 ${exercise.lessonId}。`,
+      );
+    }
+    if (!source) {
+      errors.push(
+        `${exercise.id} 找不到正式來源句 ${exercise.sentenceId}。`,
+      );
+    }
+    if (!lessonExists || !source) {
       continue;
+    }
+    if (lessonRank(source.lesson_id) > lessonRank(exercise.lessonId)) {
+      errors.push(`${exercise.id} 的來源句尚未在練習課程前教過。`);
     }
     if (
       exercise.sentencePatternId !== source.sentence_pattern_id ||
@@ -441,9 +487,20 @@ export const validateReadingExerciseData = (
       rows,
       exercise.lessonId,
     );
+    const missingOptionSource = exercise.options.find(
+      (option) =>
+        option.sourceSentenceId &&
+        !rowsBySentence.has(option.sourceSentenceId),
+    );
+    if (missingOptionSource) {
+      errors.push(
+        `${exercise.id} 找不到選項來源句 ${missingOptionSource.sourceSentenceId}。`,
+      );
+    }
     const earlyDistractor = exercise.options.find(
       (option) =>
         option.sourceSentenceId &&
+        rowsBySentence.has(option.sourceSentenceId) &&
         !learnedSentenceIds.has(option.sourceSentenceId),
     );
     if (earlyDistractor) {
@@ -455,8 +512,21 @@ export const validateReadingExerciseData = (
 
   for (const exercise of data.textResponses) {
     const source = rowsBySentence.get(exercise.sourceSentenceId);
+    const lessonExists = lessonIds.has(exercise.lessonId);
+    if (!lessonExists) {
+      errors.push(
+        `${exercise.id} 找不到正式練習課程 ${exercise.lessonId}。`,
+      );
+    }
+    if (!source) {
+      errors.push(
+        `${exercise.id} 找不到正式來源句 ${exercise.sourceSentenceId}。`,
+      );
+    }
+    if (!lessonExists || !source) {
+      continue;
+    }
     if (
-      !source ||
       lessonRank(source.lesson_id) > lessonRank(exercise.lessonId) ||
       source.sentence_pattern_id !== exercise.sentencePatternId ||
       source.passage_id !== exercise.passageId

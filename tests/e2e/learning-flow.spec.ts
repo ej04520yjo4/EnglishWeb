@@ -204,7 +204,7 @@ test("completes have-possession recognition, two transfers, and text response", 
   await expectNoHorizontalOverflow(page);
 });
 
-test("completes the be-identification second-batch flow", async ({
+test("completes the be-relationship second-batch flow", async ({
   page,
 }) => {
   await seedProgress(
@@ -216,8 +216,8 @@ test("completes the be-identification second-batch flow", async ({
   await answerRecallTokens(page, ["He", "is", "my", "friend"]);
   await submitRebuild(page, ["He", "is", "my", "friend"]);
   await completeEnhancedStages(page, [
-    "She is Amy.",
-    "He is Ben.",
+    "She is my friend.",
+    "She is my wife.",
   ]);
   await expectNoHorizontalOverflow(page);
 });

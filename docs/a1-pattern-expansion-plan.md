@@ -5,9 +5,9 @@
 ## 已完成
 
 - 第一批：`have-possession`
-- 第二批：`be-identification`、`be-location`、`action-at-time`
+- 第二批：`be-relationship`、`be-location`、`action-at-time`
 
-每個已啟用句型都有閱讀辨識、至少兩個不同於原句的換字題，以及中文提示選英文題。`be-identification` 安排在學過 `he`、`she`、`Amy`、`Ben` 後練習，避免提早使用新字。
+每個已啟用句型都有閱讀辨識、至少兩個不同於原句的換字題，以及中文提示選英文題。`be-relationship` 在 `a1-u3-l2` 使用與原句相同的句型練習；`be-identification` 暫時停用，等待未來單元複習模式使用。
 
 ## 後續批次
 
@@ -15,7 +15,7 @@
 
 - `name-identification`
 - `demonstrative-identification`
-- `be-relationship`
+- `be-identification`（單元複習模式）
 - `go-to-place`
 
 ### 第四批：偏好、需求與日常活動

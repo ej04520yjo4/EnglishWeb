@@ -384,15 +384,149 @@ test("rejects a pattern variation that introduces an unlearned lexeme", async ()
   const rows = await loadRows();
   const { patterns } = await loadExerciseData();
   const invalid = structuredClone(patterns);
-  invalid.patterns[0].examples[0].requiredLexemeIds.push(
-    "not-yet-learned",
-  );
+  invalid.patterns
+    .find((pattern) => pattern.id === "be-relationship")
+    .examples[0].requiredLexemeIds.push("not-yet-learned");
   const report = validatePatternExerciseData(invalid, rows);
 
   assert.equal(report.valid, false);
   assert.ok(
     report.errors.some((message) =>
       message.includes("not-yet-learned"),
+    ),
+  );
+});
+
+test("rejects lesson and source IDs that do not exist in the official CSV", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+
+  const missingPracticeLesson = structuredClone(patterns);
+  missingPracticeLesson.patterns
+    .find((pattern) => pattern.id === "be-relationship")
+    .examples[0].practiceLessonId = "a1-u99-l99";
+  const practiceReport = validatePatternExerciseData(
+    missingPracticeLesson,
+    rows,
+  );
+  assert.equal(practiceReport.valid, false);
+  assert.ok(
+    practiceReport.errors.some((message) =>
+      message.includes("a1-u99-l99"),
+    ),
+  );
+
+  const malformedPracticeLesson = structuredClone(patterns);
+  malformedPracticeLesson.patterns
+    .find((pattern) => pattern.id === "be-relationship")
+    .examples[0].practiceLessonId = "not-a-lesson";
+  const malformedReport = validatePatternExerciseData(
+    malformedPracticeLesson,
+    rows,
+  );
+  assert.equal(malformedReport.valid, false);
+  assert.ok(
+    malformedReport.errors.some((message) =>
+      message.includes("not-a-lesson"),
+    ),
+  );
+
+  const missingPatternSource = structuredClone(patterns);
+  missingPatternSource.patterns
+    .find((pattern) => pattern.id === "be-relationship")
+    .examples[0].sourceSentenceId = "a1-u99-p01-s01";
+  const patternSourceReport = validatePatternExerciseData(
+    missingPatternSource,
+    rows,
+  );
+  assert.equal(patternSourceReport.valid, false);
+  assert.ok(
+    patternSourceReport.errors.some((message) =>
+      message.includes("a1-u99-p01-s01"),
+    ),
+  );
+
+  const missingRecognitionLesson = structuredClone(reading);
+  missingRecognitionLesson.recognition[0].lessonId = "a1-u99-l99";
+  const recognitionReport = validateReadingExerciseData(
+    missingRecognitionLesson,
+    rows,
+    patterns,
+  );
+  assert.equal(recognitionReport.valid, false);
+  assert.ok(
+    recognitionReport.errors.some((message) =>
+      message.includes("a1-u99-l99"),
+    ),
+  );
+
+  const missingTextLesson = structuredClone(reading);
+  missingTextLesson.textResponses[0].lessonId = "a1-u99-l99";
+  const textLessonReport = validateReadingExerciseData(
+    missingTextLesson,
+    rows,
+    patterns,
+  );
+  assert.equal(textLessonReport.valid, false);
+  assert.ok(
+    textLessonReport.errors.some((message) =>
+      message.includes("a1-u99-l99"),
+    ),
+  );
+
+  const missingTextSource = structuredClone(reading);
+  missingTextSource.textResponses[0].sourceSentenceId =
+    "a1-u99-p01-s01";
+  const textSourceReport = validateReadingExerciseData(
+    missingTextSource,
+    rows,
+    patterns,
+  );
+  assert.equal(textSourceReport.valid, false);
+  assert.ok(
+    textSourceReport.errors.some((message) =>
+      message.includes("a1-u99-p01-s01"),
+    ),
+  );
+});
+
+test("rejects learned lexemes and chunks that are outside a pattern slot allowlist", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+
+  const invalidLexeme = structuredClone(patterns);
+  const relationshipExample = invalidLexeme.patterns
+    .find((pattern) => pattern.id === "be-relationship")
+    .examples[0];
+  relationshipExample.sentence = "She is Amy.";
+  relationshipExample.requiredLexemeIds = ["she", "be", "amy"];
+  const lexemeReport = validatePatternExerciseData(
+    invalidLexeme,
+    rows,
+  );
+  assert.equal(lexemeReport.valid, false);
+  assert.ok(
+    lexemeReport.errors.some(
+      (message) =>
+        message.includes("slot allowedLexemeIds") &&
+        message.includes("amy"),
+    ),
+  );
+
+  const invalidChunk = structuredClone(patterns);
+  invalidChunk.patterns
+    .find((pattern) => pattern.id === "be-location")
+    .examples[0].requiredChunkIds.push("at-home");
+  const chunkReport = validatePatternExerciseData(
+    invalidChunk,
+    rows,
+  );
+  assert.equal(chunkReport.valid, false);
+  assert.ok(
+    chunkReport.errors.some(
+      (message) =>
+        message.includes("slot allowedChunkIds") &&
+        message.includes("at-home"),
     ),
   );
 });
@@ -409,6 +543,22 @@ test("checks pattern-transfer answers while allowing punctuation normalization",
   assert.equal(
     isPatternTransferCorrect("I have a book today.", example),
     false,
+  );
+});
+
+test("uses the actual transfer pattern name on the result page", async () => {
+  const page = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(
+    page,
+    /句型：\$\{selectedTransferPatternName\}/,
+  );
+  assert.doesNotMatch(
+    page,
+    /句型：\$\{selectedLesson\.patternName\}/,
   );
 });
 
@@ -483,7 +633,7 @@ test("adds a manually reviewed second batch with recognition, two transfers, and
   const rows = await loadRows();
   const { patterns, reading } = await loadExerciseData();
   const batch = [
-    ["be-identification", "a1-u3-l2"],
+    ["be-relationship", "a1-u3-l2"],
     ["action-at-time", "a1-u5-l4"],
     ["be-location", "a1-u7-l3"],
   ];
@@ -523,6 +673,44 @@ test("adds a manually reviewed second batch with recognition, two transfers, and
   );
   assert.equal(patternReport.valid, true, patternReport.errors.join("\n"));
   assert.equal(readingReport.valid, true, readingReport.errors.join("\n"));
+});
+
+test("keeps a1-u3-l2 transfer practice aligned with its be-relationship source", async () => {
+  const { patterns, reading } = await loadExerciseData();
+  const relationship = patterns.patterns.find(
+    (pattern) => pattern.id === "be-relationship",
+  );
+  const identification = patterns.patterns.find(
+    (pattern) => pattern.id === "be-identification",
+  );
+  const recognition = reading.recognition.find(
+    (exercise) => exercise.lessonId === "a1-u3-l2",
+  );
+  const response = reading.textResponses.find(
+    (exercise) => exercise.lessonId === "a1-u3-l2",
+  );
+
+  assert.equal(relationship.enabledForTransfer, true);
+  assert.deepEqual(
+    relationship.examples.map((example) => example.sentence),
+    ["She is my friend.", "She is my wife."],
+  );
+  assert.ok(
+    relationship.examples.every(
+      (example) =>
+        example.sourceSentenceId === "a1-u3-l2-p01-s01" &&
+        example.sentencePatternId === "be-relationship",
+    ),
+  );
+  assert.equal(identification.enabledForTransfer, false);
+  assert.equal(
+    identification.deferReason,
+    "等待未來單元複習模式使用。",
+  );
+  assert.deepEqual(identification.examples, []);
+  assert.equal(recognition.sentencePatternId, "be-relationship");
+  assert.equal(recognition.stem, "He is my friend.");
+  assert.equal(response.sentencePatternId, "be-relationship");
 });
 
 test("keeps Chinese prompts and English answers consistent in person and meaning", async () => {
