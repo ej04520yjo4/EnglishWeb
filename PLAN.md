@@ -4,7 +4,7 @@
 
 英句練習 is a Traditional Chinese, keyboard-first English learning site. It builds sentence production from individual word recall to chunks, sentence patterns, complete sentences, and short passages.
 
-A1 is the current production level. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
+A1 is the current production level. A2 has one isolated pilot unit for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
 
 ## Milestones
 
@@ -19,7 +19,7 @@ A1 is the current production level. Later CEFR levels must extend the architectu
 
 ### M1 - Reviewed A1 Practice Expansion
 
-**Status:** Current
+**Status:** Paused after two reviewed batches
 
 - Expand transfer practice in small, manually reviewed batches.
 - Next batch: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
@@ -35,15 +35,25 @@ A1 is the current production level. Later CEFR levels must extend the architectu
 - QA standalone KK symbols, word audio, and sentence audio separately.
 - Mark audio `ready` only when a playable source and its license are recorded.
 
-### M3 - A2 Curriculum Design
+### M3 - A2 Pilot Foundation
 
-**Status:** Planned
+**Status:** Complete
 
-- Define A2 vocabulary, grammar, length, tense, chunk, prompt, and speed limits.
-- Create A2 content in a new versioned source; do not alter the A1 v3 contract.
-- Validate prerequisite order and the intended old/new/challenge balance before UI rollout.
+- Added a level catalog and reusable A1/A2 loading, validation, storage, and progress boundaries.
+- Preserved the complete A1 v3 contract while adding one versioned A2 pilot unit.
+- Added four reviewed-flow lessons covering past activity, past movement, future intention, and invitation.
+- Added A2 passage rebuild, three comprehension questions, formal unlock rules, and a non-mutating QA preview switch.
 
-### M4 - Learning Depth and Release Readiness
+### M4 - A2 Pilot Review and Controlled Expansion
+
+**Status:** Current
+
+- Manually review all A2 Chinese prompts, contextual parts of speech, chunks, distractors, and transfer sentences.
+- Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
+- Promote pilot content only after review; do not add A2 unit 2 or later in the same review cycle.
+- Define the next small A2 batch only after the pilot report is accepted.
+
+### M5 - Learning Depth and Release Readiness
 
 **Status:** Planned
 

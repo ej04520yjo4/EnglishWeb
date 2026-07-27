@@ -2,6 +2,23 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-27 - CEFR A2 Pilot Foundation
+
+### Added
+
+- Added a versioned course catalog and an isolated A2 v1 pilot source.
+- Added one A2 unit with four lessons covering past activity, past movement, future intention, and invitation.
+- Added A2 recognition, two transfer questions per lesson, typed response, a four-sentence passage rebuild, and three comprehension questions.
+- Added level switching, formal A2 unlock, and a local QA preview that does not alter passed levels.
+- Added progress schema v4 with exact A1 migration and separate A2 records.
+- Added shared curriculum loading, validation, source storage, and Traditional Chinese level-error handling.
+- Added 44 unit/data checks and 26 desktop/mobile browser flows.
+
+### Preserved
+
+- A1 remains on `public/data/a1-course-v3.csv` with 8 units, 32 lessons, 145 occurrences, stable IDs, and existing local progress.
+- A2 is still marked `pilot_review_required`; no A2 unit 2 or later content was added.
+
 ## 2026-07-27 - EnglishWeb First-Level Launchers
 
 ### Added

@@ -3,11 +3,14 @@
 ## Snapshot
 
 - Updated: 2026-07-27
-- Branch: `main`
-- Active milestone: M1 - Reviewed A1 Practice Expansion
+- Branch: `feat/a2-pilot-foundation`
+- Active milestone: M4 - A2 Pilot Review and Controlled Expansion
 - Production level: A1
 - Official curriculum: `public/data/a1-course-v3.csv`
 - Curriculum totals: 8 units, 32 lessons, 145 word occurrences
+- Pilot level: A2
+- Pilot curriculum: `public/data/a2-course-v1.csv`
+- Pilot totals: 1 unit, 4 lessons, 25 word occurrences
 
 ## Working Features
 
@@ -20,34 +23,38 @@
 - Excel/CSV/JSON content-management export and validated import.
 - Unit/level assessment, per-token review scheduling, and desktop/mobile Playwright coverage.
 - GitHub Actions for context checks, build, unit tests, lint, types, and browser tests.
+- A shared course catalog with independent A1/A2 loading and Traditional Chinese level errors.
+- A2 QA preview that does not falsely mark A1 passed or formally unlock A2.
+- Progress schema v4 with exact v3 A1 migration and isolated per-level records.
+- A2 word recall, details, chunks, sentence rebuild, recognition, two transfer questions, text response, passage rebuild, and comprehension.
 
 ## Latest Completed Work
 
-- Rebuilt the eight-file Context Engineering system as clean UTF-8 Markdown.
-- Added a documented read, work, update, milestone, and new-conversation handoff workflow.
-- Added an automated context-file check for missing files, required sections, and suspicious encoding characters.
-- Preserved all existing product, curriculum, and architecture decisions while removing documentation mojibake.
-- Retained and verified the Windows one-click start/update launchers.
-- Added pure-ASCII, CRLF first-level launch entries at `D:\codex\EnglishWeb` that delegate to the maintained app launcher.
+- Preserved the A1 source byte-for-byte in behavior: 8 units, 32 lessons, 145 occurrences, stable IDs, and existing completion records.
+- Added `course-catalog.json` plus shared curriculum types, loaders, validators, source storage, and progress helpers.
+- Added the A2 unit 1 pilot with the four approved core sentences and exact four-sentence passage.
+- Added reviewed A2 recognition, transfer, text-response, and comprehension data without introducing A2 unit 2.
+- Added schema v3-to-v4 migration, formal A2 unlock, QA preview, per-level switching, failure isolation, and reload persistence.
+- Added unit/data tests and real desktop/mobile Playwright coverage for both levels.
 
 ## Known Limits
 
-- A2 and later levels have roadmap structure but no production curriculum.
+- A2 remains a pilot and requires manual language/content QA before promotion.
+- No A2 unit 2 or later content exists yet.
 - Most word and sentence audio still use browser speech fallback; only KK symbol sources have open-license attribution data.
 - Account login, cloud sync, microphone input, speech recognition, and pronunciation scoring are intentionally absent.
 - `app/page.tsx` still owns substantial UI orchestration and should be decomposed only after behavior is protected by tests.
 
 ## Next Concrete Step
 
-Finish the third reviewed exercise batch from `docs/a1-pattern-expansion-plan.md`, one pattern family at a time.
+Complete the manual A2 unit 1 language QA and record corrections before planning another A2 unit.
 
 ## Verification
 
-- `npm run check:context`: passed; 10 required files were present, structured, and clean UTF-8.
-- `npm run build`: passed.
-- `npm run test:unit`: 33 passed, 0 failed.
-- `npm run lint`: passed.
+- `npm run test:unit`: 44 passed, 0 failed.
+- `npm run validate:curriculum`: passed; A1 145 and A2 25 occurrences.
 - `npx tsc --noEmit --incremental false`: passed.
-- `npm run test:e2e`: 16 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: 26 passed across desktop and mobile, 0 failed.
+- Final context, build, lint, and launcher checks are rerun before publication.
 - Windows launcher scenarios: reverified; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.

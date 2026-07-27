@@ -73,3 +73,35 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Start a fresh conversation when a milestone closes or the work moves to a different problem domain. The new conversation reads the context files before acting.
 
 **Reason:** Smaller conversations reduce context drift while the files preserve continuity.
+
+## ADR-010 - Versioned Level Catalog
+
+**Status:** Accepted
+
+**Decision:** `public/data/course-catalog.json` declares each CEFR level, source files, version, and release status. A1 remains production on v3; A2 uses an independent v1 pilot.
+
+**Reason:** Adding a level must not mutate A1 or create another hidden curriculum source.
+
+## ADR-011 - Isolated Level Loading and Failure
+
+**Status:** Accepted
+
+**Decision:** Each level loads and validates independently. An A2 error is shown in Traditional Chinese and must not prevent A1 study, restoration, or progress access.
+
+**Reason:** Pilot data has a higher change rate and must not destabilize the production course.
+
+## ADR-012 - Multi-Level Progress v4
+
+**Status:** Accepted
+
+**Decision:** Progress schema v4 stores level records separately. Migration from v3 copies the complete A1 state without resetting IDs, schedules, familiarity, or completion, then initializes an empty A2 record.
+
+**Reason:** A2 activity and curriculum changes must never corrupt established A1 learning history.
+
+## ADR-013 - A2 Pilot Access Is Not Formal Unlock
+
+**Status:** Accepted
+
+**Decision:** Formal A2 access requires an A1 level pass. A local QA preview may temporarily display the pilot, but it never changes `passedLevelIds` or learner mastery.
+
+**Reason:** Content review needs direct access without weakening the learner progression rule.

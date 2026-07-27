@@ -2,11 +2,11 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。另有一個需人工複核的 A2 試行單元，共 4 課與 25 個單字出現位置；它使用獨立的 `public/data/a2-course-v1.csv`，不會改寫 A1 資料。
 
 ## 主要功能
 
-- A1 課程地圖與循序解鎖。
+- A1／A2 課程目錄、程度切換與循序解鎖。
 - 單字回想、三層提示、字義與片語說明。
 - 句子重組、閱讀辨識、句型遷移與文章重組。
 - KK 音標獨立練習區。
@@ -45,8 +45,11 @@ npx tsc --noEmit --incremental false
 
 - `app/`：介面、課程載入、學習流程與進度邏輯。
 - `public/data/a1-course-v3.csv`：唯一正式 A1 課程來源。
+- `public/data/a2-course-v1.csv`：需人工複核的 A2 試行課程來源。
+- `public/data/course-catalog.json`：各程度的狀態、資料檔與版本目錄。
 - `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
 - `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
+- `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
 - `tests/`：單元、內容與 Playwright 瀏覽器測試。
 - `docs/`：產品規格、內容計畫與工作流程。
 - `scripts/`：QA、啟動與開發輔助工具。
@@ -74,3 +77,4 @@ npx tsc --noEmit --incremental false
 - 單字進度使用 `lexeme_id`；語境差異使用 `sense_id`。
 - 不抓取 Oxford、Cambridge 等受保護字典內容。
 - 音訊必須保留來源、授權與 QA 狀態。
+- A2 試行內容必須通過人工語言 QA，才可由試行狀態升為正式課程。
