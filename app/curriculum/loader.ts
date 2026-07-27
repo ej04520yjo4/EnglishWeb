@@ -1,8 +1,8 @@
-import { loadA1LegacyLevel } from "./a1-legacy-adapter";
+import { loadA1LegacyLevel } from "./a1-legacy-adapter.ts";
 import {
   catalogEntryForLevel,
   loadCurriculumCatalog,
-} from "./catalog";
+} from "./catalog.ts";
 import type {
   CefrLevel,
   CurriculumCatalog,
@@ -14,7 +14,7 @@ import {
   checksumCourseSource,
   parseCourseCsv,
   validateCourseRows,
-} from "./validation";
+} from "./validation.ts";
 
 export type CurriculumLoadResult = {
   catalog: CurriculumCatalog;

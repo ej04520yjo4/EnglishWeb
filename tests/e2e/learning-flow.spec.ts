@@ -1,6 +1,9 @@
 import { expect, Page, test } from "@playwright/test";
+import fs from "node:fs";
+import path from "node:path";
 
 const progressKey = "yingju-progress-v1";
+const settingsKey = "yingju-settings-v1";
 const lessonsThroughUnit = (lastUnit: number) =>
   Array.from({ length: lastUnit }, (_, unitIndex) =>
     Array.from(
@@ -51,6 +54,93 @@ const seedProgress = async (
       localStorage.setItem(key, JSON.stringify(value)),
     { key: progressKey, value: progress },
   );
+};
+
+const levelProgressFixture = (
+  completedLessonIds: string[] = [],
+  passedUnitIds: string[] = [],
+) => {
+  const { schemaVersion: _schemaVersion, ...progress } =
+    progressFixture(completedLessonIds, passedUnitIds);
+  return progress;
+};
+
+const multiLevelProgressFixture = (
+  a1Completed: string[] = [],
+  a2Completed: string[] = [],
+  selectedLevel: "A1" | "A2" = "A2",
+) => ({
+  schemaVersion: 4,
+  selectedLevel,
+  passedLevelIds: [],
+  levelProgress: {
+    A1: levelProgressFixture(a1Completed),
+    A2: levelProgressFixture(a2Completed),
+  },
+});
+
+const seedA2Pilot = async (
+  page: Page,
+  a2Completed: string[] = [],
+  a1Completed: string[] = [],
+  selectedLevel: "A1" | "A2" = "A2",
+) => {
+  await page.goto("/");
+  await page.evaluate(
+    ({ progressStorageKey, settingsStorageKey, progress }) => {
+      localStorage.setItem(
+        progressStorageKey,
+        JSON.stringify(progress),
+      );
+      localStorage.setItem(
+        settingsStorageKey,
+        JSON.stringify({
+          phonetic: "KK",
+          autoplay: false,
+          slowRate: 0.85,
+          showA2Pilot: true,
+        }),
+      );
+    },
+    {
+      progressStorageKey: progressKey,
+      settingsStorageKey: settingsKey,
+      progress: multiLevelProgressFixture(
+        a1Completed,
+        a2Completed,
+        selectedLevel,
+      ),
+    },
+  );
+};
+
+const openA2Lesson = async (
+  page: Page,
+  title: string,
+) => {
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", {
+      name: "把英文從「看得懂」練成「寫得出來」",
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "查看完整路線 →" })
+    .click();
+  const a2Heading = page.getByRole("heading", {
+    name: "A2 課程地圖",
+  });
+  if (!(await a2Heading.isVisible())) {
+    await page.locator('[data-testid="level-selector-a2"]').click();
+  }
+  await expect(a2Heading).toBeVisible();
+  await page
+    .getByRole("button", { name: new RegExp(title) })
+    .click();
+  await page
+    .getByRole("button", { name: /從中文提示與逐字輸入開始/ })
+    .click();
+  await expect(page.locator("#recall-answer-0")).toBeFocused();
 };
 
 const openRecommendedLesson = async (
@@ -105,6 +195,7 @@ const submitRebuild = async (page: Page, words: string[]) => {
 const completeEnhancedStages = async (
   page: Page,
   transferAnswers: string[],
+  expectResult = true,
 ) => {
   await page.locator("#recognition-option-correct").click();
   await page.locator("#recognition-check-button").click();
@@ -121,7 +212,9 @@ const completeEnhancedStages = async (
   await page.locator("#text-response-option-correct").click();
   await page.locator("#text-response-check-button").click();
   await page.locator("#text-response-next-button").click();
-  await expect(page.locator("#lesson-result-next")).toBeVisible();
+  if (expectResult) {
+    await expect(page.locator("#lesson-result-next")).toBeVisible();
+  }
 };
 
 const expectNoHorizontalOverflow = async (page: Page) => {
@@ -155,7 +248,9 @@ test("completes the original word and rebuild flow and persists it", async ({
         const value = JSON.parse(
           localStorage.getItem(key) ?? "{}",
         );
-        return value.completedLessonIds?.includes("a1-u1-l1");
+        return value.levelProgress?.A1?.completedLessonIds?.includes(
+          "a1-u1-l1",
+        );
       }, progressKey),
     )
     .toBe(true);
@@ -394,4 +489,215 @@ test("penalizes an extra word in the real unit assessment", async ({
   await answer.press("Enter");
   await expect(page.getByText("本題正確率 75%")).toBeVisible();
   await expectNoHorizontalOverflow(page);
+});
+
+test("migrates v3 progress and keeps A2 locked until pilot QA is enabled", async ({
+  page,
+}) => {
+  await seedProgress(page, ["a1-u1-l1"]);
+  await page.goto("/");
+  await expect(page.getByText("1 / 32", { exact: true })).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        return {
+          schemaVersion: value.schemaVersion,
+          completed: value.levelProgress?.A1
+            ?.completedLessonIds?.length,
+        };
+      }, progressKey),
+    )
+    .toEqual({ schemaVersion: 4, completed: 1 });
+
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  const a2Selector = page.locator(
+    '[data-testid="level-selector-a2"]',
+  );
+  await expect(a2Selector).toHaveClass(/locked/);
+  await a2Selector.click();
+  await expect(
+    page.getByText("A2 需通過 A1 程度總測驗後正式解鎖。"),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "設定" }).click();
+  await page.locator('[data-testid="a2-pilot-toggle"]').check();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await a2Selector.click();
+  await expect(
+    page.getByRole("heading", { name: "A2 課程地圖" }),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        return value.passedLevelIds;
+      }, progressKey),
+    )
+    .toEqual([]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the first A2 lesson and preserves both levels after reload", async ({
+  page,
+}) => {
+  await seedA2Pilot(page, [], ["a1-u1-l1"]);
+  await openA2Lesson(page, "昨晚做了什麼");
+  await answerRecallTokens(page, [
+    "I",
+    "watched",
+    "TV",
+    "last",
+    "night",
+  ]);
+  await submitRebuild(page, [
+    "I",
+    "watched",
+    "TV",
+    "last",
+    "night",
+  ]);
+  await completeEnhancedStages(page, [
+    "I watched TV at home.",
+    "I watched TV at night.",
+  ]);
+
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        return {
+          a1: value.levelProgress?.A1?.completedLessonIds,
+          a2: value.levelProgress?.A2?.completedLessonIds,
+        };
+      }, progressKey),
+    )
+    .toEqual({
+      a1: ["a1-u1-l1"],
+      a2: ["a2-u01-l01"],
+    });
+  await page.reload();
+  await expect(page.getByText("1 / 4", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await page.locator('[data-testid="level-selector-a1"]').click();
+  await expect(
+    page.getByRole("heading", { name: "A1 課程地圖" }),
+  ).toBeVisible();
+  await expect(page.getByText("1/32 課")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the A2 passage rebuild and all three comprehension questions", async ({
+  page,
+}) => {
+  await seedA2Pilot(page, [
+    "a2-u01-l01",
+    "a2-u01-l02",
+    "a2-u01-l03",
+  ]);
+  await openA2Lesson(page, "提出邀請");
+  await answerRecallTokens(page, [
+    "Would",
+    "you",
+    "like",
+    "to",
+    "go",
+    "with",
+    "me",
+  ]);
+  await submitRebuild(page, [
+    "Would",
+    "you",
+    "like",
+    "to",
+    "go",
+    "with",
+    "me",
+  ]);
+  await completeEnhancedStages(page, [
+    "Would you like to play badminton?",
+    "Would you like to go to the store?",
+  ], false);
+
+  const passageSentences = [
+    "Yesterday, I went to the store.",
+    "Last night, I watched TV at home.",
+    "Tomorrow, I am going to play badminton.",
+    "Would you like to go with me?",
+  ];
+  for (let index = 0; index < passageSentences.length; index += 1) {
+    await page
+      .locator(`#passage-sentence-${index}`)
+      .fill(passageSentences[index]);
+  }
+  await page
+    .getByRole("button", { name: "檢查整段文章" })
+    .click();
+  for (let question = 0; question < 3; question += 1) {
+    await page.locator("#passage-answer-0").click();
+    await page.locator("#passage-question-check-button").click();
+    await page.locator("#passage-question-next-button").click();
+  }
+  await expect(
+    page.getByRole("heading", {
+      name: "做得好！你已完成本課文字練習",
+    }),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        return value.levelProgress?.A2?.completedLessonIds?.includes(
+          "a2-u01-l04",
+        );
+      }, progressKey),
+    )
+    .toBe(true);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("shows a Traditional Chinese A2 error without breaking A1", async ({
+  page,
+}) => {
+  await page.route("**/data/a2-course-v1.csv", (route) =>
+    route.fulfill({
+      status: 500,
+      contentType: "text/plain",
+      body: "simulated A2 failure",
+    }),
+  );
+  await seedA2Pilot(page, [], [], "A1");
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", {
+      name: "把英文從「看得懂」練成「寫得出來」",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await page.locator('[data-testid="level-selector-a2"]').click();
+  await expect(
+    page.locator('[data-testid="a2-load-error"]'),
+  ).toContainText("A2 試行課程資料載入失敗");
+  await page.locator('[data-testid="return-a1-from-error"]').click();
+  await expect(
+    page.getByRole("heading", { name: "A1 課程地圖" }),
+  ).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("keeps the Windows one-click launchers in the project root", async () => {
+  const root = path.resolve(process.cwd());
+  expect(
+    fs.existsSync(path.join(root, "啟動英句練習.bat")),
+  ).toBe(true);
+  expect(
+    fs.existsSync(path.join(root, "更新並啟動英句練習.bat")),
+  ).toBe(true);
 });

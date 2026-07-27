@@ -1,4 +1,4 @@
-import { loadA1CourseData } from "../a1-mvp-data";
+import { loadA1CourseData } from "../a1-mvp-data.ts";
 import type { CurriculumCatalogEntry, LoadedCourseLevel } from "./types";
 
 export const loadA1LegacyLevel = async (

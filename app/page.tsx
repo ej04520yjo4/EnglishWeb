@@ -4174,6 +4174,15 @@ export default function Home() {
           {courseLoadErrors[selectedLevel] && (
             <small>{courseLoadErrors[selectedLevel]}</small>
           )}
+          {selectedLevel === "A2" && (
+            <button
+              className="secondary-button"
+              data-testid="return-a1-from-error"
+              onClick={() => switchLevel("A1")}
+            >
+              返回 A1 正式課程
+            </button>
+          )}
         </section>
       );
     }

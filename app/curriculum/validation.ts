@@ -390,6 +390,8 @@ export const validateCourseRows = (
   const sentenceRelations = new Map<string, string>();
   const unitTitles = new Map<string, string>();
   const passageRelations = new Map<string, string>();
+  const tokenAnswers = new Map<string, string>();
+  const tokenMetadata = new Map<string, CourseCsvRow>();
   const pilotQaValues = new Set([
     "pilot_review_required",
     "machine_checked",
@@ -568,6 +570,40 @@ export const validateCourseRows = (
         rowIndex,
         "audio_status 不是 ready 時不可宣稱音訊可用。",
       );
+    }
+    const knownAnswer = tokenAnswers.get(row.token_id);
+    if (
+      knownAnswer &&
+      knownAnswer.toLowerCase() !== row.answer.toLowerCase()
+    ) {
+      addRowError(
+        rowIssues,
+        errors,
+        rowIndex,
+        `token_id ${row.token_id} 不可對應不同 answer。`,
+      );
+    } else if (!knownAnswer) {
+      tokenAnswers.set(row.token_id, row.answer);
+    }
+    const knownMetadata = tokenMetadata.get(row.token_id);
+    if (!knownMetadata) {
+      tokenMetadata.set(row.token_id, row);
+    } else {
+      const inconsistentFields = [
+        "lexeme_id",
+        "lemma",
+        "dictionary_pos",
+        "kk_us",
+        "ipa_standalone",
+      ].filter((field) => knownMetadata[field] !== row[field]);
+      if (inconsistentFields.length) {
+        addRowError(
+          rowIssues,
+          errors,
+          rowIndex,
+          `token_id ${row.token_id} 的共用欄位不一致：${inconsistentFields.join("、")}。`,
+        );
+      }
     }
   });
 
