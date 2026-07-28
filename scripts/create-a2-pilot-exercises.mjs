@@ -1093,7 +1093,7 @@ const newPassages = [
         "a2-u04-p01-s02",
         2,
         "You should drink more water.",
-        "你應該多喝水。",
+        "你應該多喝一點水。",
         "a2-u04-l04",
         ["you", "should", "drink", "more", "water"],
         ["should-drink", "more-water"],
