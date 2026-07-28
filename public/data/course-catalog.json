@@ -15,7 +15,7 @@
       "level": "A2",
       "status": "pilot",
       "title": "A2 基礎",
-      "description": "試行課程：描述昨天與明天的日常活動。",
+      "description": "試行課程：描述過去與未來、旅行交通、購物比較及健康建議。",
       "sourceVersion": "a2-course-v1.csv",
       "prerequisiteLevel": "A1",
       "curriculumUrl": "/data/a2-course-v1.csv",
