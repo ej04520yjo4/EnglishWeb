@@ -31,6 +31,7 @@ import {
   COURSE_CSV_HEADERS,
   findCrossLevelIdCollisions,
   parseCourseCsv,
+  serializeCourseCsv,
   validateCourseRows,
 } from "../app/curriculum/validation.ts";
 
@@ -459,6 +460,43 @@ test("keeps A2 unit IDs collision-free across both pilot units", () => {
     unitTwoIds.filter((id) => unitOneIds.has(id)),
     [],
   );
+});
+
+test("round-trips both A2 units without losing import fields", () => {
+  const serialized = serializeCourseCsv(a2Rows);
+  const restored = parseCourseCsv(serialized);
+  assert.deepEqual(restored, a2Rows);
+  assert.equal(
+    new Set(restored.map((row) => row.unit_id)).size,
+    2,
+  );
+  assert.equal(restored.length, 53);
+});
+
+test("rejects an invalid A2 unit 2 import without changing A1 rows", () => {
+  const a1Before = JSON.stringify(a1Rows);
+  const invalid = structuredClone(a2Rows);
+  const target = invalid.find(
+    (row) =>
+      row.occurrence_id ===
+      "a2-u02-l02-p01-s01-t04",
+  );
+  target.answer = "more cheap";
+
+  const report = validateCourseRows(invalid, {
+    expectedLevel: "A2",
+    expectedRows: 53,
+    expectedUnits: 2,
+    expectedLessons: 8,
+    rejectProductionQaForPilot: true,
+  });
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.validationErrors.some((error) =>
+      error.includes("answer 必須只有一個英文單字"),
+    ),
+  );
+  assert.equal(JSON.stringify(a1Rows), a1Before);
 });
 
 test("migrates schemaVersion 3 to 4 without changing A1 data", () => {
