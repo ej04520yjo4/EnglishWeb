@@ -10,13 +10,35 @@
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的中文意思。",
       "stem": "I watched TV last night.",
-      "requiredLexemeIds": ["i", "watch", "tv", "last", "night"],
-      "requiredChunkIds": ["watched-tv", "last-night"],
+      "requiredLexemeIds": [
+        "i",
+        "watch",
+        "tv",
+        "last",
+        "night"
+      ],
+      "requiredChunkIds": [
+        "watched-tv",
+        "last-night"
+      ],
       "options": [
-        { "id": "correct", "text": "我昨晚看了電視。", "sourceSentenceId": "a2-u01-l01-p01-s01" },
-        { "id": "tomorrow", "text": "我明天打算看電視。" },
-        { "id": "store", "text": "我昨天去了商店。" },
-        { "id": "badminton", "text": "我昨晚打了羽球。" }
+        {
+          "id": "correct",
+          "text": "我昨晚看了電視。",
+          "sourceSentenceId": "a2-u01-l01-p01-s01"
+        },
+        {
+          "id": "tomorrow",
+          "text": "我明天打算看電視。"
+        },
+        {
+          "id": "store",
+          "text": "我昨天去了商店。"
+        },
+        {
+          "id": "badminton",
+          "text": "我昨晚打了羽球。"
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -29,13 +51,35 @@
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的中文意思。",
       "stem": "I went to the store yesterday.",
-      "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"],
-      "requiredChunkIds": ["went-to"],
+      "requiredLexemeIds": [
+        "i",
+        "go",
+        "to",
+        "the",
+        "store",
+        "yesterday"
+      ],
+      "requiredChunkIds": [
+        "went-to"
+      ],
       "options": [
-        { "id": "correct", "text": "我昨天去了商店。", "sourceSentenceId": "a2-u01-l02-p01-s01" },
-        { "id": "work", "text": "我昨天去上班。" },
-        { "id": "tomorrow", "text": "我明天要去商店。" },
-        { "id": "station", "text": "我昨天去了車站。" }
+        {
+          "id": "correct",
+          "text": "我昨天去了商店。",
+          "sourceSentenceId": "a2-u01-l02-p01-s01"
+        },
+        {
+          "id": "work",
+          "text": "我昨天去上班。"
+        },
+        {
+          "id": "tomorrow",
+          "text": "我明天要去商店。"
+        },
+        {
+          "id": "station",
+          "text": "我昨天去了車站。"
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -48,13 +92,37 @@
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的中文意思。",
       "stem": "I am going to play badminton tomorrow.",
-      "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"],
-      "requiredChunkIds": ["going-to", "play-badminton"],
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "go",
+        "to",
+        "play",
+        "badminton",
+        "tomorrow"
+      ],
+      "requiredChunkIds": [
+        "going-to",
+        "play-badminton"
+      ],
       "options": [
-        { "id": "correct", "text": "我明天打算去打羽球。", "sourceSentenceId": "a2-u01-l03-p01-s01" },
-        { "id": "past", "text": "我昨天打了羽球。" },
-        { "id": "tv", "text": "我明天打算看電視。" },
-        { "id": "work", "text": "我明天打算去上班。" }
+        {
+          "id": "correct",
+          "text": "我明天打算去打羽球。",
+          "sourceSentenceId": "a2-u01-l03-p01-s01"
+        },
+        {
+          "id": "past",
+          "text": "我昨天打了羽球。"
+        },
+        {
+          "id": "tv",
+          "text": "我明天打算看電視。"
+        },
+        {
+          "id": "work",
+          "text": "我明天打算去上班。"
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -67,15 +135,552 @@
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的中文意思。",
       "stem": "Would you like to go with me?",
-      "requiredLexemeIds": ["would", "you", "like", "to", "go", "with", "me"],
-      "requiredChunkIds": ["would-you-like-to", "with-me"],
+      "requiredLexemeIds": [
+        "would",
+        "you",
+        "like",
+        "to",
+        "go",
+        "with",
+        "me"
+      ],
+      "requiredChunkIds": [
+        "would-you-like-to",
+        "with-me"
+      ],
       "options": [
-        { "id": "correct", "text": "你想和我一起去嗎？", "sourceSentenceId": "a2-u01-l04-p01-s01" },
-        { "id": "past", "text": "你昨天和我一起去了。" },
-        { "id": "place", "text": "你想去哪一家商店？" },
-        { "id": "statement", "text": "我明天會和你一起去。" }
+        {
+          "id": "correct",
+          "text": "你想和我一起去嗎？",
+          "sourceSentenceId": "a2-u01-l04-p01-s01"
+        },
+        {
+          "id": "past",
+          "text": "你昨天和我一起去了。"
+        },
+        {
+          "id": "place",
+          "text": "你想去哪一家商店？"
+        },
+        {
+          "id": "statement",
+          "text": "我明天會和你一起去。"
+        }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u02-l01",
+      "lessonId": "a2-u02-l01",
+      "sentenceId": "a2-u02-l01-p01-s01",
+      "sentencePatternId": "how-can-get-to-place",
+      "passageId": "a2-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "How can I get to the station?",
+      "requiredLexemeIds": [
+        "how",
+        "can",
+        "i",
+        "get",
+        "to",
+        "the",
+        "station"
+      ],
+      "requiredChunkIds": [
+        "how-can-i",
+        "get-to",
+        "the-station"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我要怎麼去車站？",
+          "sourceSentenceId": "a2-u02-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你可以搭公車。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我昨天去了車站。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "火車明天早上九點出發。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u02-l02",
+      "lessonId": "a2-u02-l02",
+      "sentenceId": "a2-u02-l02-p01-s01",
+      "sentencePatternId": "can-take-transportation",
+      "passageId": "a2-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "You can take the bus.",
+      "requiredLexemeIds": [
+        "you",
+        "can",
+        "take",
+        "the",
+        "bus"
+      ],
+      "requiredChunkIds": [
+        "take-the-bus"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你可以搭公車。",
+          "sourceSentenceId": "a2-u02-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你要怎麼去車站？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我昨天買了火車票。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你昨天搭了公車。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u02-l03",
+      "lessonId": "a2-u02-l03",
+      "sentenceId": "a2-u02-l03-p01-s01",
+      "sentencePatternId": "past-buy-ticket",
+      "passageId": "a2-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I bought a train ticket yesterday.",
+      "requiredLexemeIds": [
+        "i",
+        "buy",
+        "a",
+        "train",
+        "ticket",
+        "yesterday"
+      ],
+      "requiredChunkIds": [
+        "bought-a-train-ticket"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我昨天買了一張火車票。",
+          "sourceSentenceId": "a2-u02-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我明天要買火車票。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我昨天搭了公車。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "火車昨天九點出發。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u02-l04",
+      "lessonId": "a2-u02-l04",
+      "sentenceId": "a2-u02-l04-p01-s01",
+      "sentencePatternId": "schedule-leaves-at-time",
+      "passageId": "a2-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "The train leaves at nine tomorrow morning.",
+      "requiredLexemeIds": [
+        "the",
+        "train",
+        "leave",
+        "at",
+        "nine",
+        "tomorrow",
+        "morning"
+      ],
+      "requiredChunkIds": [
+        "the-train",
+        "leaves-at-nine",
+        "tomorrow-morning"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "火車明天早上九點出發。",
+          "sourceSentenceId": "a2-u02-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "火車昨天早上九點出發。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "公車明天早上九點出發。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "火車明天晚上九點出發。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u03-l01",
+      "lessonId": "a2-u03-l01",
+      "sentenceId": "a2-u03-l01-p01-s01",
+      "sentencePatternId": "how-much-be-item",
+      "passageId": "a2-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "How much is this shirt?",
+      "requiredLexemeIds": [
+        "how",
+        "much",
+        "be",
+        "this",
+        "shirt"
+      ],
+      "requiredChunkIds": [
+        "how-much",
+        "this-shirt"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "這件襯衫多少錢？",
+          "sourceSentenceId": "a2-u03-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "這件襯衫比較便宜。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "這件襯衫有大一點的尺寸嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "這件襯衫對我來說太貴了。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u03-l02",
+      "lessonId": "a2-u03-l02",
+      "sentenceId": "a2-u03-l02-p01-s01",
+      "sentencePatternId": "comparative-cheaper-than",
+      "passageId": "a2-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "This shirt is cheaper than that one.",
+      "requiredLexemeIds": [
+        "this",
+        "shirt",
+        "be",
+        "cheap",
+        "than",
+        "that",
+        "one"
+      ],
+      "requiredChunkIds": [
+        "cheaper-than",
+        "that-one"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "這件襯衫比那件便宜。",
+          "sourceSentenceId": "a2-u03-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "那件襯衫比這件便宜。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "這件襯衫和那件一樣便宜。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "這件襯衫對我來說太貴了。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u03-l03",
+      "lessonId": "a2-u03-l03",
+      "sentenceId": "a2-u03-l03-p01-s01",
+      "sentencePatternId": "do-you-have-size",
+      "passageId": "a2-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Do you have a larger size?",
+      "requiredLexemeIds": [
+        "do",
+        "you",
+        "have",
+        "a",
+        "large",
+        "size"
+      ],
+      "requiredChunkIds": [
+        "do-you-have",
+        "a-larger-size"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你有大一點的尺寸嗎？",
+          "sourceSentenceId": "a2-u03-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "這件襯衫多少錢？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "這件襯衫比那件便宜。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你們有那件比較便宜的襯衫嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u03-l04",
+      "lessonId": "a2-u03-l04",
+      "sentenceId": "a2-u03-l04-p01-s01",
+      "sentencePatternId": "too-adjective-for-person",
+      "passageId": "a2-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "It is too expensive for me.",
+      "requiredLexemeIds": [
+        "it",
+        "be",
+        "too",
+        "expensive",
+        "for",
+        "me"
+      ],
+      "requiredChunkIds": [
+        "too-expensive",
+        "for-me"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "這對我來說太貴了。",
+          "sourceSentenceId": "a2-u03-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "這對我來說太大了。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "那件襯衫比較便宜。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我想買這件襯衫。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u04-l01",
+      "lessonId": "a2-u04-l01",
+      "sentenceId": "a2-u04-l01-p01-s01",
+      "sentencePatternId": "have-symptom",
+      "passageId": "a2-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have a headache.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "a",
+        "headache"
+      ],
+      "requiredChunkIds": [
+        "have-a-headache"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我頭痛。",
+          "sourceSentenceId": "a2-u04-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我今天要看醫生。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我應該多喝水。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我晚餐後服藥。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u04-l02",
+      "lessonId": "a2-u04-l02",
+      "sentenceId": "a2-u04-l02-p01-s01",
+      "sentencePatternId": "should-advice",
+      "passageId": "a2-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "You should drink more water.",
+      "requiredLexemeIds": [
+        "you",
+        "should",
+        "drink",
+        "more",
+        "water"
+      ],
+      "requiredChunkIds": [
+        "should-drink",
+        "more-water"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你應該多喝一點水。",
+          "sourceSentenceId": "a2-u04-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你明天應該看醫生。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你晚餐後應該服藥。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你有一點水。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u04-l03",
+      "lessonId": "a2-u04-l03",
+      "sentenceId": "a2-u04-l03-p01-s01",
+      "sentencePatternId": "have-to-necessity",
+      "passageId": "a2-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have to see a doctor tomorrow.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "to",
+        "see",
+        "a",
+        "doctor",
+        "tomorrow"
+      ],
+      "requiredChunkIds": [
+        "have-to",
+        "see-a-doctor"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我明天必須去看醫生。",
+          "sourceSentenceId": "a2-u04-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我明天應該多喝水。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我今天已經看過醫生。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我明天想去上班。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u04-l04",
+      "lessonId": "a2-u04-l04",
+      "sentenceId": "a2-u04-l04-p01-s01",
+      "sentencePatternId": "imperative-after-time",
+      "passageId": "a2-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Take this medicine after dinner.",
+      "requiredLexemeIds": [
+        "take",
+        "this",
+        "medicine",
+        "after",
+        "dinner"
+      ],
+      "requiredChunkIds": [
+        "take-this-medicine",
+        "after-dinner"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "晚餐後服用這個藥。",
+          "sourceSentenceId": "a2-u04-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "早餐後服用這個藥。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "晚餐前服用這個藥。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "明天服用這個藥。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -90,10 +695,66 @@
       "targetTranslation": "我昨晚看了電視。",
       "format": "choice",
       "options": [
-        { "id": "correct", "text": "I watched TV last night.", "requiredLexemeIds": ["i", "watch", "tv", "last", "night"], "requiredChunkIds": ["watched-tv", "last-night"] },
-        { "id": "past-night", "text": "I watched TV at night.", "requiredLexemeIds": ["i", "watch", "tv", "at", "night"], "requiredChunkIds": ["watched-tv", "at-night"] },
-        { "id": "present", "text": "I watch TV at night.", "requiredLexemeIds": ["i", "watch", "tv", "at", "night"], "requiredChunkIds": ["watch-tv", "at-night"] },
-        { "id": "place", "text": "I watched TV at home.", "requiredLexemeIds": ["i", "watch", "tv", "at", "home"], "requiredChunkIds": ["watched-tv", "at-home"] }
+        {
+          "id": "correct",
+          "text": "I watched TV last night.",
+          "requiredLexemeIds": [
+            "i",
+            "watch",
+            "tv",
+            "last",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "watched-tv",
+            "last-night"
+          ]
+        },
+        {
+          "id": "past-night",
+          "text": "I watched TV at night.",
+          "requiredLexemeIds": [
+            "i",
+            "watch",
+            "tv",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "watched-tv",
+            "at-night"
+          ]
+        },
+        {
+          "id": "present",
+          "text": "I watch TV at night.",
+          "requiredLexemeIds": [
+            "i",
+            "watch",
+            "tv",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "watch-tv",
+            "at-night"
+          ]
+        },
+        {
+          "id": "place",
+          "text": "I watched TV at home.",
+          "requiredLexemeIds": [
+            "i",
+            "watch",
+            "tv",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "watched-tv",
+            "at-home"
+          ]
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -108,10 +769,62 @@
       "targetTranslation": "我昨天去了商店。",
       "format": "choice",
       "options": [
-        { "id": "correct", "text": "I went to the store yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"], "requiredChunkIds": ["went-to"] },
-        { "id": "work", "text": "I went to work yesterday.", "requiredLexemeIds": ["i", "go", "to", "work", "yesterday"], "requiredChunkIds": ["went-to"] },
-        { "id": "station", "text": "I went to the station yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "station", "yesterday"], "requiredChunkIds": ["went-to"] },
-        { "id": "present", "text": "I go to the store.", "requiredLexemeIds": ["i", "go", "to", "the", "store"], "requiredChunkIds": [] }
+        {
+          "id": "correct",
+          "text": "I went to the store yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "the",
+            "store",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "went-to"
+          ]
+        },
+        {
+          "id": "work",
+          "text": "I went to work yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "work",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "went-to"
+          ]
+        },
+        {
+          "id": "station",
+          "text": "I went to the station yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "the",
+            "station",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "went-to"
+          ]
+        },
+        {
+          "id": "present",
+          "text": "I go to the store.",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "the",
+            "store"
+          ],
+          "requiredChunkIds": []
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -126,10 +839,65 @@
       "targetTranslation": "我明天打算去打羽球。",
       "format": "choice",
       "options": [
-        { "id": "correct", "text": "I am going to play badminton tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"], "requiredChunkIds": ["going-to", "play-badminton"] },
-        { "id": "tv", "text": "I am going to watch TV tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "watch", "tv", "tomorrow"], "requiredChunkIds": ["going-to", "watch-tv"] },
-        { "id": "past", "text": "I watched TV yesterday.", "requiredLexemeIds": ["i", "watch", "tv", "yesterday"], "requiredChunkIds": ["watched-tv"] },
-        { "id": "present", "text": "I play badminton.", "requiredLexemeIds": ["i", "play", "badminton"], "requiredChunkIds": ["play-badminton"] }
+        {
+          "id": "correct",
+          "text": "I am going to play badminton tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "go",
+            "to",
+            "play",
+            "badminton",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "going-to",
+            "play-badminton"
+          ]
+        },
+        {
+          "id": "tv",
+          "text": "I am going to watch TV tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "go",
+            "to",
+            "watch",
+            "tv",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "going-to",
+            "watch-tv"
+          ]
+        },
+        {
+          "id": "past",
+          "text": "I watched TV yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "watch",
+            "tv",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "watched-tv"
+          ]
+        },
+        {
+          "id": "present",
+          "text": "I play badminton.",
+          "requiredLexemeIds": [
+            "i",
+            "play",
+            "badminton"
+          ],
+          "requiredChunkIds": [
+            "play-badminton"
+          ]
+        }
       ],
       "correctOptionId": "correct"
     },
@@ -144,12 +912,1021 @@
       "targetTranslation": "你想和我一起去嗎？",
       "format": "choice",
       "options": [
-        { "id": "correct", "text": "Would you like to go with me?", "requiredLexemeIds": ["would", "you", "like", "to", "go", "with", "me"], "requiredChunkIds": ["would-you-like-to", "with-me"] },
-        { "id": "badminton", "text": "Would you like to play badminton?", "requiredLexemeIds": ["would", "you", "like", "to", "play", "badminton"], "requiredChunkIds": ["would-you-like-to", "play-badminton"] },
-        { "id": "past", "text": "I went to the store yesterday.", "requiredLexemeIds": ["i", "go", "to", "the", "store", "yesterday"], "requiredChunkIds": ["went-to"] },
-        { "id": "plan", "text": "I am going to play badminton tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"], "requiredChunkIds": ["going-to", "play-badminton"] }
+        {
+          "id": "correct",
+          "text": "Would you like to go with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "go",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "with-me"
+          ]
+        },
+        {
+          "id": "badminton",
+          "text": "Would you like to play badminton?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "play",
+            "badminton"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "play-badminton"
+          ]
+        },
+        {
+          "id": "past",
+          "text": "I went to the store yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "the",
+            "store",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "went-to"
+          ]
+        },
+        {
+          "id": "plan",
+          "text": "I am going to play badminton tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "go",
+            "to",
+            "play",
+            "badminton",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "going-to",
+            "play-badminton"
+          ]
+        }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u02-l01",
+      "lessonId": "a2-u02-l01",
+      "sourceSentenceId": "a2-u02-l01-p01-s01",
+      "sentencePatternId": "how-can-get-to-place",
+      "passageId": "a2-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我要怎麼去車站」的英文句子。",
+      "targetTranslation": "我要怎麼去車站？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "How can I get to the station?",
+          "requiredLexemeIds": [
+            "how",
+            "can",
+            "i",
+            "get",
+            "to",
+            "the",
+            "station"
+          ],
+          "requiredChunkIds": [
+            "how-can-i",
+            "get-to",
+            "the-station"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "How can I get to the store?",
+          "requiredLexemeIds": [
+            "how",
+            "can",
+            "i",
+            "get",
+            "to",
+            "the",
+            "store"
+          ],
+          "requiredChunkIds": [
+            "how-can-i",
+            "get-to"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "How can I get to school?",
+          "requiredLexemeIds": [
+            "how",
+            "can",
+            "i",
+            "get",
+            "to",
+            "school"
+          ],
+          "requiredChunkIds": [
+            "how-can-i",
+            "get-to"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Would you like to go with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "go",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "with-me"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u02-l02",
+      "lessonId": "a2-u02-l02",
+      "sourceSentenceId": "a2-u02-l02-p01-s01",
+      "sentencePatternId": "can-take-transportation",
+      "passageId": "a2-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你可以搭公車」的英文句子。",
+      "targetTranslation": "你可以搭公車。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "You can take the bus.",
+          "requiredLexemeIds": [
+            "you",
+            "can",
+            "take",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": [
+            "take-the-bus"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I can take the bus.",
+          "requiredLexemeIds": [
+            "i",
+            "can",
+            "take",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": [
+            "take-the-bus"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "She can take the bus.",
+          "requiredLexemeIds": [
+            "she",
+            "can",
+            "take",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": [
+            "take-the-bus"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "How can I get to the station?",
+          "requiredLexemeIds": [
+            "how",
+            "can",
+            "i",
+            "get",
+            "to",
+            "the",
+            "station"
+          ],
+          "requiredChunkIds": [
+            "how-can-i",
+            "get-to",
+            "the-station"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u02-l03",
+      "lessonId": "a2-u02-l03",
+      "sourceSentenceId": "a2-u02-l03-p01-s01",
+      "sentencePatternId": "past-buy-ticket",
+      "passageId": "a2-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我昨天買了一張火車票」的英文句子。",
+      "targetTranslation": "我昨天買了一張火車票。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I bought a train ticket yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "buy",
+            "a",
+            "train",
+            "ticket",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "bought-a-train-ticket"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I bought a train ticket at seven.",
+          "requiredLexemeIds": [
+            "i",
+            "buy",
+            "a",
+            "train",
+            "ticket",
+            "at",
+            "seven"
+          ],
+          "requiredChunkIds": [
+            "bought-a-train-ticket",
+            "at-seven"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I bought a train ticket at eight.",
+          "requiredLexemeIds": [
+            "i",
+            "buy",
+            "a",
+            "train",
+            "ticket",
+            "at",
+            "eight"
+          ],
+          "requiredChunkIds": [
+            "bought-a-train-ticket",
+            "at-eight"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "You can take the bus.",
+          "requiredLexemeIds": [
+            "you",
+            "can",
+            "take",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": [
+            "take-the-bus"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u02-l04",
+      "lessonId": "a2-u02-l04",
+      "sourceSentenceId": "a2-u02-l04-p01-s01",
+      "sentencePatternId": "schedule-leaves-at-time",
+      "passageId": "a2-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「火車明天早上九點出發」的英文句子。",
+      "targetTranslation": "火車明天早上九點出發。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "The train leaves at nine tomorrow morning.",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "leave",
+            "at",
+            "nine",
+            "tomorrow",
+            "morning"
+          ],
+          "requiredChunkIds": [
+            "the-train",
+            "leaves-at-nine",
+            "tomorrow-morning"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "The train leaves at seven tomorrow morning.",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "leave",
+            "at",
+            "seven",
+            "tomorrow",
+            "morning"
+          ],
+          "requiredChunkIds": [
+            "the-train",
+            "at-seven",
+            "tomorrow-morning"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "The train leaves at eight tomorrow morning.",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "leave",
+            "at",
+            "eight",
+            "tomorrow",
+            "morning"
+          ],
+          "requiredChunkIds": [
+            "the-train",
+            "at-eight",
+            "tomorrow-morning"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I bought a train ticket yesterday.",
+          "requiredLexemeIds": [
+            "i",
+            "buy",
+            "a",
+            "train",
+            "ticket",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "bought-a-train-ticket"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u03-l01",
+      "lessonId": "a2-u03-l01",
+      "sourceSentenceId": "a2-u03-l01-p01-s01",
+      "sentencePatternId": "how-much-be-item",
+      "passageId": "a2-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這件襯衫多少錢」的英文句子。",
+      "targetTranslation": "這件襯衫多少錢？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "How much is this shirt?",
+          "requiredLexemeIds": [
+            "how",
+            "much",
+            "be",
+            "this",
+            "shirt"
+          ],
+          "requiredChunkIds": [
+            "how-much",
+            "this-shirt"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "How much is this book?",
+          "requiredLexemeIds": [
+            "how",
+            "much",
+            "be",
+            "this",
+            "book"
+          ],
+          "requiredChunkIds": [
+            "how-much"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "How much is this apple?",
+          "requiredLexemeIds": [
+            "how",
+            "much",
+            "be",
+            "this",
+            "apple"
+          ],
+          "requiredChunkIds": [
+            "how-much"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "The train leaves at nine tomorrow morning.",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "leave",
+            "at",
+            "nine",
+            "tomorrow",
+            "morning"
+          ],
+          "requiredChunkIds": [
+            "the-train",
+            "leaves-at-nine",
+            "tomorrow-morning"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u03-l02",
+      "lessonId": "a2-u03-l02",
+      "sourceSentenceId": "a2-u03-l02-p01-s01",
+      "sentencePatternId": "comparative-cheaper-than",
+      "passageId": "a2-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這件襯衫比那件便宜」的英文句子。",
+      "targetTranslation": "這件襯衫比那件便宜。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "This shirt is cheaper than that one.",
+          "requiredLexemeIds": [
+            "this",
+            "shirt",
+            "be",
+            "cheap",
+            "than",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "cheaper-than",
+            "that-one"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "This book is cheaper than that one.",
+          "requiredLexemeIds": [
+            "this",
+            "book",
+            "be",
+            "cheap",
+            "than",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "cheaper-than",
+            "that-one"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "This apple is cheaper than that one.",
+          "requiredLexemeIds": [
+            "this",
+            "apple",
+            "be",
+            "cheap",
+            "than",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "cheaper-than",
+            "that-one"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "How much is this shirt?",
+          "requiredLexemeIds": [
+            "how",
+            "much",
+            "be",
+            "this",
+            "shirt"
+          ],
+          "requiredChunkIds": [
+            "how-much",
+            "this-shirt"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u03-l03",
+      "lessonId": "a2-u03-l03",
+      "sourceSentenceId": "a2-u03-l03-p01-s01",
+      "sentencePatternId": "do-you-have-size",
+      "passageId": "a2-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你有大一點的尺寸嗎」的英文句子。",
+      "targetTranslation": "你有大一點的尺寸嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Do you have a larger size?",
+          "requiredLexemeIds": [
+            "do",
+            "you",
+            "have",
+            "a",
+            "large",
+            "size"
+          ],
+          "requiredChunkIds": [
+            "do-you-have",
+            "a-larger-size"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Do you have this shirt?",
+          "requiredLexemeIds": [
+            "do",
+            "you",
+            "have",
+            "this",
+            "shirt"
+          ],
+          "requiredChunkIds": [
+            "do-you-have",
+            "this-shirt"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Do you have that one?",
+          "requiredLexemeIds": [
+            "do",
+            "you",
+            "have",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "do-you-have",
+            "that-one"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "This shirt is cheaper than that one.",
+          "requiredLexemeIds": [
+            "this",
+            "shirt",
+            "be",
+            "cheap",
+            "than",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "cheaper-than",
+            "that-one"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u03-l04",
+      "lessonId": "a2-u03-l04",
+      "sourceSentenceId": "a2-u03-l04-p01-s01",
+      "sentencePatternId": "too-adjective-for-person",
+      "passageId": "a2-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這對我來說太貴了」的英文句子。",
+      "targetTranslation": "這對我來說太貴了。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "It is too expensive for me.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "too",
+            "expensive",
+            "for",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "too-expensive",
+            "for-me"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "This shirt is too expensive for me.",
+          "requiredLexemeIds": [
+            "this",
+            "shirt",
+            "be",
+            "too",
+            "expensive",
+            "for",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "this-shirt",
+            "too-expensive",
+            "for-me"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "That one is too expensive for me.",
+          "requiredLexemeIds": [
+            "that",
+            "one",
+            "be",
+            "too",
+            "expensive",
+            "for",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "that-one",
+            "too-expensive",
+            "for-me"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Do you have a larger size?",
+          "requiredLexemeIds": [
+            "do",
+            "you",
+            "have",
+            "a",
+            "large",
+            "size"
+          ],
+          "requiredChunkIds": [
+            "do-you-have",
+            "a-larger-size"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u04-l01",
+      "lessonId": "a2-u04-l01",
+      "sourceSentenceId": "a2-u04-l01-p01-s01",
+      "sentencePatternId": "have-symptom",
+      "passageId": "a2-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我頭痛」的英文句子。",
+      "targetTranslation": "我頭痛。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have a headache.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "headache"
+          ],
+          "requiredChunkIds": [
+            "have-a-headache"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have a headache today.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "headache",
+            "today"
+          ],
+          "requiredChunkIds": [
+            "have-a-headache"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have a headache at night.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "headache",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "have-a-headache",
+            "at-night"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "It is too expensive for me.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "too",
+            "expensive",
+            "for",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "too-expensive",
+            "for-me"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u04-l02",
+      "lessonId": "a2-u04-l02",
+      "sourceSentenceId": "a2-u04-l02-p01-s01",
+      "sentencePatternId": "should-advice",
+      "passageId": "a2-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你應該多喝一點水」的英文句子。",
+      "targetTranslation": "你應該多喝一點水。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "You should drink more water.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "more",
+            "water"
+          ],
+          "requiredChunkIds": [
+            "should-drink",
+            "more-water"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "You should drink water at home.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "water",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "should-drink",
+            "at-home"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "You should drink more water at night.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "more",
+            "water",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "should-drink",
+            "more-water",
+            "at-night"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a headache.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "headache"
+          ],
+          "requiredChunkIds": [
+            "have-a-headache"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u04-l03",
+      "lessonId": "a2-u04-l03",
+      "sourceSentenceId": "a2-u04-l03-p01-s01",
+      "sentencePatternId": "have-to-necessity",
+      "passageId": "a2-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我明天必須去看醫生」的英文句子。",
+      "targetTranslation": "我明天必須去看醫生。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have to see a doctor tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "see-a-doctor"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have to see a doctor today.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "today"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "see-a-doctor"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have to see a doctor at eight.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "at",
+            "eight"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "see-a-doctor",
+            "at-eight"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "You should drink more water.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "more",
+            "water"
+          ],
+          "requiredChunkIds": [
+            "should-drink",
+            "more-water"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u04-l04",
+      "lessonId": "a2-u04-l04",
+      "sourceSentenceId": "a2-u04-l04-p01-s01",
+      "sentencePatternId": "imperative-after-time",
+      "passageId": "a2-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「晚餐後服用這個藥」的英文句子。",
+      "targetTranslation": "晚餐後服用這個藥。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Take this medicine after dinner.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": [
+            "take-this-medicine",
+            "after-dinner"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Take this medicine after breakfast.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "breakfast"
+          ],
+          "requiredChunkIds": [
+            "take-this-medicine"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Take this medicine at eight.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "at",
+            "eight"
+          ],
+          "requiredChunkIds": [
+            "take-this-medicine",
+            "at-eight"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have to see a doctor tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "see-a-doctor"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -187,7 +1964,12 @@
           "sourceSentenceId": "a2-u01-p01-s01",
           "questionLanguage": "zh-Hant",
           "question": "這個人昨天去了哪裡？",
-          "options": ["To the store.", "To work.", "To the station.", "To school."],
+          "options": [
+            "To the store.",
+            "To work.",
+            "To the station.",
+            "To school."
+          ],
           "correctAnswer": "To the store."
         },
         {
@@ -195,7 +1977,12 @@
           "sourceSentenceId": "a2-u01-p01-s02",
           "questionLanguage": "zh-Hant",
           "question": "這個人昨晚做了什麼？",
-          "options": ["Watched TV.", "Played badminton.", "Went to work.", "Ate breakfast."],
+          "options": [
+            "Watched TV.",
+            "Played badminton.",
+            "Went to work.",
+            "Ate breakfast."
+          ],
           "correctAnswer": "Watched TV."
         },
         {
@@ -203,8 +1990,515 @@
           "sourceSentenceId": "a2-u01-p01-s03",
           "questionLanguage": "zh-Hant",
           "question": "這個人明天打算做什麼？",
-          "options": ["Play badminton.", "Watch TV.", "Go to the store.", "Eat breakfast."],
+          "options": [
+            "Play badminton.",
+            "Watch TV.",
+            "Go to the store.",
+            "Eat breakfast."
+          ],
           "correctAnswer": "Play badminton."
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u02-p01-s01",
+          "order": 1,
+          "sentence": "I am going to the station tomorrow.",
+          "translation": "我明天要去車站。",
+          "lessonId": "a2-u02-l04",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "go",
+            "to",
+            "the",
+            "station",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "going-to",
+            "the-station"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-s02",
+          "order": 2,
+          "sentence": "I can take the bus.",
+          "translation": "我可以搭公車。",
+          "lessonId": "a2-u02-l04",
+          "requiredLexemeIds": [
+            "i",
+            "can",
+            "take",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": [
+            "take-the-bus"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-s03",
+          "order": 3,
+          "sentence": "I bought a train ticket yesterday.",
+          "translation": "我昨天買了一張火車票。",
+          "lessonId": "a2-u02-l04",
+          "requiredLexemeIds": [
+            "i",
+            "buy",
+            "a",
+            "train",
+            "ticket",
+            "yesterday"
+          ],
+          "requiredChunkIds": [
+            "bought-a-train-ticket"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-s04",
+          "order": 4,
+          "sentence": "The train leaves at nine tomorrow morning.",
+          "translation": "火車明天早上九點出發。",
+          "lessonId": "a2-u02-l04",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "leave",
+            "at",
+            "nine",
+            "tomorrow",
+            "morning"
+          ],
+          "requiredChunkIds": [
+            "the-train",
+            "leaves-at-nine",
+            "tomorrow-morning"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u02-p01-q01",
+          "sourceSentenceId": "a2-u02-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人明天要去哪裡？",
+          "options": [
+            "To the station.",
+            "To the store.",
+            "To school.",
+            "To work."
+          ],
+          "correctAnswer": "To the station.",
+          "evidenceSentenceIds": [
+            "a2-u02-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q02",
+          "sourceSentenceId": "a2-u02-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人可以搭什麼交通工具？",
+          "options": [
+            "Take the bus.",
+            "Take the train.",
+            "Go to school.",
+            "Go to work."
+          ],
+          "correctAnswer": "Take the bus.",
+          "evidenceSentenceIds": [
+            "a2-u02-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q03",
+          "sourceSentenceId": "a2-u02-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人昨天買了什麼？",
+          "options": [
+            "A train ticket.",
+            "A book.",
+            "An apple.",
+            "A shirt."
+          ],
+          "correctAnswer": "A train ticket.",
+          "evidenceSentenceIds": [
+            "a2-u02-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q04",
+          "sourceSentenceId": "a2-u02-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "火車什麼時候出發？",
+          "options": [
+            "At nine tomorrow morning.",
+            "At eight tomorrow morning.",
+            "At nine tonight.",
+            "At seven today."
+          ],
+          "correctAnswer": "At nine tomorrow morning.",
+          "evidenceSentenceIds": [
+            "a2-u02-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q05",
+          "sourceSentenceId": "a2-u02-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據前兩句，這個人搭公車是要去哪裡？",
+          "options": [
+            "To the station.",
+            "To the store.",
+            "To school.",
+            "To work."
+          ],
+          "correctAnswer": "To the station.",
+          "evidenceSentenceIds": [
+            "a2-u02-p01-s01",
+            "a2-u02-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u03-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u03-p01-s01",
+          "order": 1,
+          "sentence": "I want this shirt.",
+          "translation": "我想要這件襯衫。",
+          "lessonId": "a2-u03-l04",
+          "requiredLexemeIds": [
+            "i",
+            "want",
+            "this",
+            "shirt"
+          ],
+          "requiredChunkIds": [
+            "this-shirt"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-s02",
+          "order": 2,
+          "sentence": "This shirt is cheaper than that one.",
+          "translation": "這件襯衫比那件便宜。",
+          "lessonId": "a2-u03-l04",
+          "requiredLexemeIds": [
+            "this",
+            "shirt",
+            "be",
+            "cheap",
+            "than",
+            "that",
+            "one"
+          ],
+          "requiredChunkIds": [
+            "this-shirt",
+            "cheaper-than",
+            "that-one"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-s03",
+          "order": 3,
+          "sentence": "I want a larger size.",
+          "translation": "我想要大一點的尺寸。",
+          "lessonId": "a2-u03-l04",
+          "requiredLexemeIds": [
+            "i",
+            "want",
+            "a",
+            "large",
+            "size"
+          ],
+          "requiredChunkIds": [
+            "a-larger-size"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-s04",
+          "order": 4,
+          "sentence": "It is too expensive for me.",
+          "translation": "這對我來說太貴了。",
+          "lessonId": "a2-u03-l04",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "too",
+            "expensive",
+            "for",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "too-expensive",
+            "for-me"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u03-p01-q01",
+          "sourceSentenceId": "a2-u03-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人想買什麼？",
+          "options": [
+            "This shirt.",
+            "That book.",
+            "An apple.",
+            "A train ticket."
+          ],
+          "correctAnswer": "This shirt.",
+          "evidenceSentenceIds": [
+            "a2-u03-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-q02",
+          "sourceSentenceId": "a2-u03-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "哪一件襯衫比較便宜？",
+          "options": [
+            "This shirt.",
+            "That one.",
+            "Both shirts.",
+            "The passage does not say."
+          ],
+          "correctAnswer": "This shirt.",
+          "evidenceSentenceIds": [
+            "a2-u03-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-q03",
+          "sourceSentenceId": "a2-u03-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人想要什麼？",
+          "options": [
+            "A larger size.",
+            "A smaller size.",
+            "A train ticket.",
+            "More water."
+          ],
+          "correctAnswer": "A larger size.",
+          "evidenceSentenceIds": [
+            "a2-u03-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u03-p01-q04",
+          "sourceSentenceId": "a2-u03-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "根據第一句和第四句，這個人可能為什麼不買？",
+          "options": [
+            "Too expensive.",
+            "Too small.",
+            "No ticket.",
+            "No bus."
+          ],
+          "correctAnswer": "Too expensive.",
+          "evidenceSentenceIds": [
+            "a2-u03-p01-s01",
+            "a2-u03-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u04-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u04-p01-s01",
+          "order": 1,
+          "sentence": "I have a headache today.",
+          "translation": "我今天頭痛。",
+          "lessonId": "a2-u04-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "headache",
+            "today"
+          ],
+          "requiredChunkIds": [
+            "have-a-headache"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-s02",
+          "order": 2,
+          "sentence": "You should drink more water.",
+          "translation": "你應該多喝水。",
+          "lessonId": "a2-u04-l04",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "more",
+            "water"
+          ],
+          "requiredChunkIds": [
+            "should-drink",
+            "more-water"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-s03",
+          "order": 3,
+          "sentence": "I have to see a doctor tomorrow.",
+          "translation": "我明天必須去看醫生。",
+          "lessonId": "a2-u04-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "see-a-doctor"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-s04",
+          "order": 4,
+          "sentence": "Take this medicine after dinner.",
+          "translation": "晚餐後服用這個藥。",
+          "lessonId": "a2-u04-l04",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": [
+            "take-this-medicine",
+            "after-dinner"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u04-p01-q01",
+          "sourceSentenceId": "a2-u04-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人今天哪裡不舒服？",
+          "options": [
+            "A headache.",
+            "A cold.",
+            "A larger size.",
+            "More water."
+          ],
+          "correctAnswer": "A headache.",
+          "evidenceSentenceIds": [
+            "a2-u04-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-q02",
+          "sourceSentenceId": "a2-u04-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "對方給了什麼建議？",
+          "options": [
+            "Drink more water.",
+            "Take the bus.",
+            "Buy a shirt.",
+            "Go to work."
+          ],
+          "correctAnswer": "Drink more water.",
+          "evidenceSentenceIds": [
+            "a2-u04-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-q03",
+          "sourceSentenceId": "a2-u04-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人什麼時候要看醫生？",
+          "options": [
+            "Tomorrow.",
+            "Today.",
+            "Last night.",
+            "After dinner."
+          ],
+          "correctAnswer": "Tomorrow.",
+          "evidenceSentenceIds": [
+            "a2-u04-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-q04",
+          "sourceSentenceId": "a2-u04-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "這個藥要什麼時候服用？",
+          "options": [
+            "After dinner.",
+            "After breakfast.",
+            "At seven.",
+            "Tomorrow morning."
+          ],
+          "correctAnswer": "After dinner.",
+          "evidenceSentenceIds": [
+            "a2-u04-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u04-p01-q05",
+          "sourceSentenceId": "a2-u04-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據第一句和第三句，這個人為什麼要看醫生？",
+          "options": [
+            "A headache.",
+            "A train ticket.",
+            "A larger size.",
+            "A bus."
+          ],
+          "correctAnswer": "A headache.",
+          "evidenceSentenceIds": [
+            "a2-u04-p01-s01",
+            "a2-u04-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
         }
       ]
     }
