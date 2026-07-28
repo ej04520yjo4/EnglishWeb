@@ -896,11 +896,20 @@ const passageSentence = (
   requiredChunkIds,
   qaStatus,
 });
+const passageOption = (
+  text,
+  requiredLexemeIds,
+  requiredChunkIds = [],
+) => ({
+  text,
+  requiredLexemeIds,
+  requiredChunkIds,
+});
 const passageQuestion = (
   id,
   sourceSentenceId,
   question,
-  options,
+  optionMetadata,
   correctAnswer,
   evidenceSentenceIds = [sourceSentenceId],
 ) => ({
@@ -908,7 +917,8 @@ const passageQuestion = (
   sourceSentenceId,
   questionLanguage: "zh-Hant",
   question,
-  options,
+  options: optionMetadata.map((option) => option.text),
+  optionMetadata,
   correctAnswer,
   evidenceSentenceIds,
   qaStatus,
@@ -962,21 +972,38 @@ const newPassages = [
         "a2-u02-p01-q01",
         "a2-u02-p01-s01",
         "這個人明天要去哪裡？",
-        ["To the station.", "To the store.", "To school.", "To work."],
+        [
+          passageOption("To the station.", ["to", "the", "station"], [
+            "the-station",
+          ]),
+          passageOption("To the store.", ["to", "the", "store"]),
+          passageOption("To school.", ["to", "school"]),
+          passageOption("To work.", ["to", "work"]),
+        ],
         "To the station.",
       ),
       passageQuestion(
         "a2-u02-p01-q02",
         "a2-u02-p01-s02",
         "這個人可以搭什麼交通工具？",
-        ["Take the bus.", "Take the train.", "Go to school.", "Go to work."],
-        "Take the bus.",
+        [
+          passageOption("The bus.", ["the", "bus"]),
+          passageOption("The train.", ["the", "train"], ["the-train"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+          passageOption("The station.", ["the", "station"], ["the-station"]),
+        ],
+        "The bus.",
       ),
       passageQuestion(
         "a2-u02-p01-q03",
         "a2-u02-p01-s03",
         "這個人昨天買了什麼？",
-        ["A train ticket.", "A book.", "An apple.", "A shirt."],
+        [
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+          passageOption("A book.", ["a", "book"]),
+          passageOption("An apple.", ["an", "apple"]),
+          passageOption("A cellphone.", ["a", "cellphone"]),
+        ],
         "A train ticket.",
       ),
       passageQuestion(
@@ -984,10 +1011,20 @@ const newPassages = [
         "a2-u02-p01-s04",
         "火車什麼時候出發？",
         [
-          "At nine tomorrow morning.",
-          "At eight tomorrow morning.",
-          "At nine tonight.",
-          "At seven today.",
+          passageOption(
+            "At nine tomorrow morning.",
+            ["at", "nine", "tomorrow", "morning"],
+            ["tomorrow-morning"],
+          ),
+          passageOption(
+            "At eight tomorrow morning.",
+            ["at", "eight", "tomorrow", "morning"],
+            ["at-eight", "tomorrow-morning"],
+          ),
+          passageOption("At nine today.", ["at", "nine", "today"]),
+          passageOption("At seven today.", ["at", "seven", "today"], [
+            "at-seven",
+          ]),
         ],
         "At nine tomorrow morning.",
       ),
@@ -995,7 +1032,14 @@ const newPassages = [
         "a2-u02-p01-q05",
         "a2-u02-p01-s01",
         "根據前兩句，這個人搭公車是要去哪裡？",
-        ["To the station.", "To the store.", "To school.", "To work."],
+        [
+          passageOption("To the station.", ["to", "the", "station"], [
+            "the-station",
+          ]),
+          passageOption("To the store.", ["to", "the", "store"]),
+          passageOption("To school.", ["to", "school"]),
+          passageOption("To work.", ["to", "work"]),
+        ],
         "To the station.",
         ["a2-u02-p01-s01", "a2-u02-p01-s02"],
       ),
@@ -1048,28 +1092,54 @@ const newPassages = [
         "a2-u03-p01-q01",
         "a2-u03-p01-s01",
         "這個人想要哪一件商品？",
-        ["This shirt.", "That book.", "An apple.", "A train ticket."],
+        [
+          passageOption("This shirt.", ["this", "shirt"], ["this-shirt"]),
+          passageOption("That book.", ["that", "book"]),
+          passageOption("An apple.", ["an", "apple"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+        ],
         "This shirt.",
       ),
       passageQuestion(
         "a2-u03-p01-q02",
         "a2-u03-p01-s02",
         "哪一件襯衫比較便宜？",
-        ["This shirt.", "That one.", "Both shirts.", "The passage does not say."],
+        [
+          passageOption("This shirt.", ["this", "shirt"], ["this-shirt"]),
+          passageOption("That one.", ["that", "one"], ["that-one"]),
+          passageOption("This one.", ["this", "one"]),
+          passageOption("That shirt.", ["that", "shirt"]),
+        ],
         "This shirt.",
       ),
       passageQuestion(
         "a2-u03-p01-q03",
         "a2-u03-p01-s03",
         "這個人想要什麼尺寸？",
-        ["A larger size.", "A smaller size.", "A train ticket.", "More water."],
+        [
+          passageOption("A larger size.", ["a", "large", "size"], [
+            "a-larger-size",
+          ]),
+          passageOption("That one.", ["that", "one"], ["that-one"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+          passageOption("This shirt.", ["this", "shirt"], ["this-shirt"]),
+        ],
         "A larger size.",
       ),
       passageQuestion(
         "a2-u03-p01-q04",
         "a2-u03-p01-s04",
         "根據第一句和第四句，這個人可能為什麼不買？",
-        ["Too expensive.", "Too small.", "No ticket.", "No bus."],
+        [
+          passageOption("Too expensive.", ["too", "expensive"], [
+            "too-expensive",
+          ]),
+          passageOption("A larger size.", ["a", "large", "size"], [
+            "a-larger-size",
+          ]),
+          passageOption("That one.", ["that", "one"], ["that-one"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+        ],
         "Too expensive.",
         ["a2-u03-p01-s01", "a2-u03-p01-s04"],
       ),
@@ -1121,36 +1191,75 @@ const newPassages = [
       passageQuestion(
         "a2-u04-p01-q01",
         "a2-u04-p01-s01",
-        "這個人今天哪裡不舒服？",
-        ["A headache.", "A cold.", "A larger size.", "More water."],
+        "這個人今天怎麼了？",
+        [
+          passageOption("A headache.", ["a", "headache"]),
+          passageOption("A larger size.", ["a", "large", "size"], [
+            "a-larger-size",
+          ]),
+          passageOption("More water.", ["more", "water"], ["more-water"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+        ],
         "A headache.",
       ),
       passageQuestion(
         "a2-u04-p01-q02",
         "a2-u04-p01-s02",
         "對方給了什麼建議？",
-        ["Drink more water.", "Take the bus.", "Buy a shirt.", "Go to work."],
+        [
+          passageOption("Drink more water.", ["drink", "more", "water"], [
+            "more-water",
+          ]),
+          passageOption("Take the bus.", ["take", "the", "bus"], [
+            "take-the-bus",
+          ]),
+          passageOption("Watch TV.", ["watch", "tv"], ["watch-tv"]),
+          passageOption("Go to work.", ["go", "to", "work"], ["go-to-work"]),
+        ],
         "Drink more water.",
       ),
       passageQuestion(
         "a2-u04-p01-q03",
         "a2-u04-p01-s03",
         "這個人什麼時候要看醫生？",
-        ["Tomorrow.", "Today.", "Last night.", "After dinner."],
+        [
+          passageOption("Tomorrow.", ["tomorrow"]),
+          passageOption("Today.", ["today"]),
+          passageOption("Last night.", ["last", "night"], ["last-night"]),
+          passageOption("After dinner.", ["after", "dinner"], [
+            "after-dinner",
+          ]),
+        ],
         "Tomorrow.",
       ),
       passageQuestion(
         "a2-u04-p01-q04",
         "a2-u04-p01-s04",
         "這個藥要什麼時候服用？",
-        ["After dinner.", "After breakfast.", "At seven.", "Tomorrow morning."],
+        [
+          passageOption("After dinner.", ["after", "dinner"], [
+            "after-dinner",
+          ]),
+          passageOption("After breakfast.", ["after", "breakfast"]),
+          passageOption("At seven.", ["at", "seven"], ["at-seven"]),
+          passageOption("Tomorrow morning.", ["tomorrow", "morning"], [
+            "tomorrow-morning",
+          ]),
+        ],
         "After dinner.",
       ),
       passageQuestion(
         "a2-u04-p01-q05",
         "a2-u04-p01-s01",
-        "根據第一句和第三句，這個人為什麼要看醫生？",
-        ["A headache.", "A train ticket.", "A larger size.", "A bus."],
+        "根據第一句和第三句，這個人是因為什麼症狀要看醫生？",
+        [
+          passageOption("A headache.", ["a", "headache"]),
+          passageOption("A train ticket.", ["a", "train", "ticket"]),
+          passageOption("A larger size.", ["a", "large", "size"], [
+            "a-larger-size",
+          ]),
+          passageOption("A bus.", ["a", "bus"]),
+        ],
         "A headache.",
         ["a2-u04-p01-s01", "a2-u04-p01-s03"],
       ),

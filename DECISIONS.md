@@ -177,3 +177,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Inflected A2 answers reuse dictionary-form `lexeme_id` values such as `buy`, `leave`, `cheap`, and `large`. Health lessons teach general language only and must not diagnose illness, prescribe doses, or provide medical treatment advice.
 
 **Reason:** Stable lexical identity prevents duplicate progress records, while a strict educational boundary keeps the health unit safe and in scope.
+
+## ADR-023 - Passage Options Keep Strings with Optional Prerequisite Metadata
+
+**Status:** Accepted
+
+**Decision:** Passage comprehension continues to expose `options` as strings. New A2 passage questions add matching `optionMetadata` entries with required lexemes and chunks, while legacy A1 passages may omit the metadata.
+
+**Reason:** The UI and A1 data remain backward compatible, and validation can still prevent a new distractor from introducing content taught only in a later lesson or unit.

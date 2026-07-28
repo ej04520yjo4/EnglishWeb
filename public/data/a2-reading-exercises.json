@@ -2098,6 +2098,44 @@
             "To school.",
             "To work."
           ],
+          "optionMetadata": [
+            {
+              "text": "To the station.",
+              "requiredLexemeIds": [
+                "to",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            },
+            {
+              "text": "To the store.",
+              "requiredLexemeIds": [
+                "to",
+                "the",
+                "store"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "To school.",
+              "requiredLexemeIds": [
+                "to",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "To work.",
+              "requiredLexemeIds": [
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
           "correctAnswer": "To the station.",
           "evidenceSentenceIds": [
             "a2-u02-p01-s01"
@@ -2110,12 +2148,51 @@
           "questionLanguage": "zh-Hant",
           "question": "這個人可以搭什麼交通工具？",
           "options": [
-            "Take the bus.",
-            "Take the train.",
-            "Go to school.",
-            "Go to work."
+            "The bus.",
+            "The train.",
+            "A train ticket.",
+            "The station."
           ],
-          "correctAnswer": "Take the bus.",
+          "optionMetadata": [
+            {
+              "text": "The bus.",
+              "requiredLexemeIds": [
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The train.",
+              "requiredLexemeIds": [
+                "the",
+                "train"
+              ],
+              "requiredChunkIds": [
+                "the-train"
+              ]
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The station.",
+              "requiredLexemeIds": [
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            }
+          ],
+          "correctAnswer": "The bus.",
           "evidenceSentenceIds": [
             "a2-u02-p01-s02"
           ],
@@ -2130,7 +2207,42 @@
             "A train ticket.",
             "A book.",
             "An apple.",
-            "A shirt."
+            "A cellphone."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A book.",
+              "requiredLexemeIds": [
+                "a",
+                "book"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "An apple.",
+              "requiredLexemeIds": [
+                "an",
+                "apple"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A cellphone.",
+              "requiredLexemeIds": [
+                "a",
+                "cellphone"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "A train ticket.",
           "evidenceSentenceIds": [
@@ -2146,8 +2258,55 @@
           "options": [
             "At nine tomorrow morning.",
             "At eight tomorrow morning.",
-            "At nine tonight.",
+            "At nine today.",
             "At seven today."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At nine tomorrow morning.",
+              "requiredLexemeIds": [
+                "at",
+                "nine",
+                "tomorrow",
+                "morning"
+              ],
+              "requiredChunkIds": [
+                "tomorrow-morning"
+              ]
+            },
+            {
+              "text": "At eight tomorrow morning.",
+              "requiredLexemeIds": [
+                "at",
+                "eight",
+                "tomorrow",
+                "morning"
+              ],
+              "requiredChunkIds": [
+                "at-eight",
+                "tomorrow-morning"
+              ]
+            },
+            {
+              "text": "At nine today.",
+              "requiredLexemeIds": [
+                "at",
+                "nine",
+                "today"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At seven today.",
+              "requiredLexemeIds": [
+                "at",
+                "seven",
+                "today"
+              ],
+              "requiredChunkIds": [
+                "at-seven"
+              ]
+            }
           ],
           "correctAnswer": "At nine tomorrow morning.",
           "evidenceSentenceIds": [
@@ -2165,6 +2324,44 @@
             "To the store.",
             "To school.",
             "To work."
+          ],
+          "optionMetadata": [
+            {
+              "text": "To the station.",
+              "requiredLexemeIds": [
+                "to",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            },
+            {
+              "text": "To the store.",
+              "requiredLexemeIds": [
+                "to",
+                "the",
+                "store"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "To school.",
+              "requiredLexemeIds": [
+                "to",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "To work.",
+              "requiredLexemeIds": [
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "To the station.",
           "evidenceSentenceIds": [
@@ -2270,6 +2467,43 @@
             "An apple.",
             "A train ticket."
           ],
+          "optionMetadata": [
+            {
+              "text": "This shirt.",
+              "requiredLexemeIds": [
+                "this",
+                "shirt"
+              ],
+              "requiredChunkIds": [
+                "this-shirt"
+              ]
+            },
+            {
+              "text": "That book.",
+              "requiredLexemeIds": [
+                "that",
+                "book"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "An apple.",
+              "requiredLexemeIds": [
+                "an",
+                "apple"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
           "correctAnswer": "This shirt.",
           "evidenceSentenceIds": [
             "a2-u03-p01-s01"
@@ -2284,8 +2518,46 @@
           "options": [
             "This shirt.",
             "That one.",
-            "Both shirts.",
-            "The passage does not say."
+            "This one.",
+            "That shirt."
+          ],
+          "optionMetadata": [
+            {
+              "text": "This shirt.",
+              "requiredLexemeIds": [
+                "this",
+                "shirt"
+              ],
+              "requiredChunkIds": [
+                "this-shirt"
+              ]
+            },
+            {
+              "text": "That one.",
+              "requiredLexemeIds": [
+                "that",
+                "one"
+              ],
+              "requiredChunkIds": [
+                "that-one"
+              ]
+            },
+            {
+              "text": "This one.",
+              "requiredLexemeIds": [
+                "this",
+                "one"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "That shirt.",
+              "requiredLexemeIds": [
+                "that",
+                "shirt"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "This shirt.",
           "evidenceSentenceIds": [
@@ -2300,9 +2572,51 @@
           "question": "這個人想要什麼尺寸？",
           "options": [
             "A larger size.",
-            "A smaller size.",
+            "That one.",
             "A train ticket.",
-            "More water."
+            "This shirt."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A larger size.",
+              "requiredLexemeIds": [
+                "a",
+                "large",
+                "size"
+              ],
+              "requiredChunkIds": [
+                "a-larger-size"
+              ]
+            },
+            {
+              "text": "That one.",
+              "requiredLexemeIds": [
+                "that",
+                "one"
+              ],
+              "requiredChunkIds": [
+                "that-one"
+              ]
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "This shirt.",
+              "requiredLexemeIds": [
+                "this",
+                "shirt"
+              ],
+              "requiredChunkIds": [
+                "this-shirt"
+              ]
+            }
           ],
           "correctAnswer": "A larger size.",
           "evidenceSentenceIds": [
@@ -2317,9 +2631,51 @@
           "question": "根據第一句和第四句，這個人可能為什麼不買？",
           "options": [
             "Too expensive.",
-            "Too small.",
-            "No ticket.",
-            "No bus."
+            "A larger size.",
+            "That one.",
+            "A train ticket."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Too expensive.",
+              "requiredLexemeIds": [
+                "too",
+                "expensive"
+              ],
+              "requiredChunkIds": [
+                "too-expensive"
+              ]
+            },
+            {
+              "text": "A larger size.",
+              "requiredLexemeIds": [
+                "a",
+                "large",
+                "size"
+              ],
+              "requiredChunkIds": [
+                "a-larger-size"
+              ]
+            },
+            {
+              "text": "That one.",
+              "requiredLexemeIds": [
+                "that",
+                "one"
+              ],
+              "requiredChunkIds": [
+                "that-one"
+              ]
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "Too expensive.",
           "evidenceSentenceIds": [
@@ -2418,12 +2774,52 @@
           "id": "a2-u04-p01-q01",
           "sourceSentenceId": "a2-u04-p01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "這個人今天哪裡不舒服？",
+          "question": "這個人今天怎麼了？",
           "options": [
             "A headache.",
-            "A cold.",
             "A larger size.",
-            "More water."
+            "More water.",
+            "A train ticket."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A headache.",
+              "requiredLexemeIds": [
+                "a",
+                "headache"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A larger size.",
+              "requiredLexemeIds": [
+                "a",
+                "large",
+                "size"
+              ],
+              "requiredChunkIds": [
+                "a-larger-size"
+              ]
+            },
+            {
+              "text": "More water.",
+              "requiredLexemeIds": [
+                "more",
+                "water"
+              ],
+              "requiredChunkIds": [
+                "more-water"
+              ]
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "A headache.",
           "evidenceSentenceIds": [
@@ -2439,8 +2835,53 @@
           "options": [
             "Drink more water.",
             "Take the bus.",
-            "Buy a shirt.",
+            "Watch TV.",
             "Go to work."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Drink more water.",
+              "requiredLexemeIds": [
+                "drink",
+                "more",
+                "water"
+              ],
+              "requiredChunkIds": [
+                "more-water"
+              ]
+            },
+            {
+              "text": "Take the bus.",
+              "requiredLexemeIds": [
+                "take",
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": [
+                "take-the-bus"
+              ]
+            },
+            {
+              "text": "Watch TV.",
+              "requiredLexemeIds": [
+                "watch",
+                "tv"
+              ],
+              "requiredChunkIds": [
+                "watch-tv"
+              ]
+            },
+            {
+              "text": "Go to work.",
+              "requiredLexemeIds": [
+                "go",
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "go-to-work"
+              ]
+            }
           ],
           "correctAnswer": "Drink more water.",
           "evidenceSentenceIds": [
@@ -2459,6 +2900,42 @@
             "Last night.",
             "After dinner."
           ],
+          "optionMetadata": [
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Today.",
+              "requiredLexemeIds": [
+                "today"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Last night.",
+              "requiredLexemeIds": [
+                "last",
+                "night"
+              ],
+              "requiredChunkIds": [
+                "last-night"
+              ]
+            },
+            {
+              "text": "After dinner.",
+              "requiredLexemeIds": [
+                "after",
+                "dinner"
+              ],
+              "requiredChunkIds": [
+                "after-dinner"
+              ]
+            }
+          ],
           "correctAnswer": "Tomorrow.",
           "evidenceSentenceIds": [
             "a2-u04-p01-s03"
@@ -2476,6 +2953,46 @@
             "At seven.",
             "Tomorrow morning."
           ],
+          "optionMetadata": [
+            {
+              "text": "After dinner.",
+              "requiredLexemeIds": [
+                "after",
+                "dinner"
+              ],
+              "requiredChunkIds": [
+                "after-dinner"
+              ]
+            },
+            {
+              "text": "After breakfast.",
+              "requiredLexemeIds": [
+                "after",
+                "breakfast"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At seven.",
+              "requiredLexemeIds": [
+                "at",
+                "seven"
+              ],
+              "requiredChunkIds": [
+                "at-seven"
+              ]
+            },
+            {
+              "text": "Tomorrow morning.",
+              "requiredLexemeIds": [
+                "tomorrow",
+                "morning"
+              ],
+              "requiredChunkIds": [
+                "tomorrow-morning"
+              ]
+            }
+          ],
           "correctAnswer": "After dinner.",
           "evidenceSentenceIds": [
             "a2-u04-p01-s04"
@@ -2486,12 +3003,50 @@
           "id": "a2-u04-p01-q05",
           "sourceSentenceId": "a2-u04-p01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據第一句和第三句，這個人為什麼要看醫生？",
+          "question": "根據第一句和第三句，這個人是因為什麼症狀要看醫生？",
           "options": [
             "A headache.",
             "A train ticket.",
             "A larger size.",
             "A bus."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A headache.",
+              "requiredLexemeIds": [
+                "a",
+                "headache"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A train ticket.",
+              "requiredLexemeIds": [
+                "a",
+                "train",
+                "ticket"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A larger size.",
+              "requiredLexemeIds": [
+                "a",
+                "large",
+                "size"
+              ],
+              "requiredChunkIds": [
+                "a-larger-size"
+              ]
+            },
+            {
+              "text": "A bus.",
+              "requiredLexemeIds": [
+                "a",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            }
           ],
           "correctAnswer": "A headache.",
           "evidenceSentenceIds": [

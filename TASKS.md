@@ -65,4 +65,5 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Canonical lemma display, group-level Traditional Chinese overrides, cross-topic search selection, and global no-result handling.
 - [x] A2 pilot units 2–4 with 12 lessons, 70 new occurrences, per-lesson recognition/transfers/response, and three unit passages.
 - [x] Slot-position validation, passage prerequisite metadata, and cross-sentence evidence validation.
+- [x] A2 units 2–4 passage-option prerequisite metadata, future-content rejection, and final reading wording QA.
 - [x] Ten-unit A2 blueprint with units 5–10 kept out of formal data.

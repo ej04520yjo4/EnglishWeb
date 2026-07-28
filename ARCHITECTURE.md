@@ -63,6 +63,8 @@ Related vocabulary is a read-only projection over formal A1 lexemes plus explici
 
 A2 uses one CSV and two exercise JSON files for all four pilot units. New transfer examples include ordered slot values, and new passage sentences declare their lesson prerequisites and required lexemes/chunks. The ten-unit blueprint is documentation only and never enters runtime course construction.
 
+Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation uses the latest lesson attached to the passage as the prerequisite boundary, so a distractor cannot introduce vocabulary or chunks from a later unit.
+
 ## Persistence
 
 Browser storage holds progress schema v4, settings, and validated per-level course overrides. A v3 record migrates into the A1 slot without changing its existing fields; A2 starts empty. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. Related vocabulary may save only the last viewed group ID as UI state. No personal data is sent to a project-owned server.

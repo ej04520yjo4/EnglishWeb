@@ -100,9 +100,16 @@ export type PassageComprehensionQuestion = {
   questionLanguage: "zh-Hant" | "en";
   question: string;
   options: string[];
+  optionMetadata?: PassageQuestionOptionMetadata[];
   correctAnswer: string;
   evidenceSentenceIds?: string[];
   qaStatus?: string;
+};
+
+export type PassageQuestionOptionMetadata = {
+  text: string;
+  requiredLexemeIds: string[];
+  requiredChunkIds?: string[];
 };
 
 export type PassageSentence = {
@@ -756,6 +763,10 @@ export const validateReadingExerciseData = (
     const sentenceOrders = customSentences
       .map((sentence) => sentence.order)
       .sort((left, right) => left - right);
+    const passageCompletionLessonId = customSentences
+      .map((sentence) => sentence.lessonId)
+      .filter((lessonId): lessonId is string => Boolean(lessonId))
+      .sort((left, right) => lessonRank(right) - lessonRank(left))[0];
     sentenceOrders.forEach((order, index) => {
       if (order !== index + 1) {
         errors.push(
@@ -840,6 +851,63 @@ export const validateReadingExerciseData = (
       }
       if (new Set(question.options).size !== question.options.length) {
         errors.push(`${question.id} 的選項不可重複。`);
+      }
+      const optionMetadata = question.optionMetadata ?? [];
+      if (passageCompletionLessonId && !question.optionMetadata?.length) {
+        errors.push(`${question.id} 缺少選項先備內容 metadata。`);
+      }
+      if (optionMetadata.length) {
+        const metadataTexts = optionMetadata.map((option) => option.text);
+        if (
+          optionMetadata.length !== question.options.length ||
+          !sameStringSet(metadataTexts, question.options)
+        ) {
+          errors.push(`${question.id} 的選項與 optionMetadata 不一致。`);
+        }
+        if (new Set(metadataTexts).size !== metadataTexts.length) {
+          errors.push(`${question.id} 的 optionMetadata 不可重複。`);
+        }
+      }
+      if (passageCompletionLessonId) {
+        const learnedRows = availableRows.filter(
+          (row) =>
+            lessonRank(row.lesson_id) <=
+            lessonRank(passageCompletionLessonId),
+        );
+        const learnedLexemes = learnedLexemeIdsThroughLesson(
+          availableRows,
+          passageCompletionLessonId,
+        );
+        const learnedChunks = learnedChunkIdsThroughLesson(
+          availableRows,
+          passageCompletionLessonId,
+        );
+        for (const option of optionMetadata) {
+          const unlearnedLexemes = option.requiredLexemeIds.filter(
+            (lexemeId) => !learnedLexemes.has(lexemeId),
+          );
+          if (unlearnedLexemes.length) {
+            errors.push(
+              `${question.id}/${option.text} 提前使用 lexeme：${unlearnedLexemes.join("、")}。`,
+            );
+          }
+          errors.push(
+            ...validateReferencedLexemes(
+              option.text,
+              option.requiredLexemeIds,
+              learnedRows,
+              `${question.id}/${option.text}`,
+            ),
+          );
+          const unlearnedChunks = (
+            option.requiredChunkIds ?? []
+          ).filter((chunkId) => !learnedChunks.has(chunkId));
+          if (unlearnedChunks.length) {
+            errors.push(
+              `${question.id}/${option.text} 提前使用 chunk：${unlearnedChunks.join("、")}。`,
+            );
+          }
+        }
       }
       const unknownEvidenceIds = (
         question.evidenceSentenceIds ?? []

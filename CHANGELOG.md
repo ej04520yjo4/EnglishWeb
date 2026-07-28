@@ -2,6 +2,20 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - A2 Units 2–4 Reading QA
+
+### Fixed
+
+- Changed the unit 2 transportation answer from an action phrase to the direct noun answer `The bus.`.
+- Replaced A2 unit 2–4 passage distractors that used words from later or unintroduced lessons.
+- Reworded the unit 4 symptom questions to match the noun answer `A headache.` naturally without introducing `because of`.
+
+### Changed
+
+- Added optional per-option lexeme and chunk metadata for passage comprehension questions.
+- New A2 passage options are validated against content learned by the passage completion lesson.
+- Legacy A1 string-only passage options remain valid and unchanged.
+
 ## 2026-07-28 - A2 Pilot Units 2–4
 
 ### Added

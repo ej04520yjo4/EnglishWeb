@@ -3,7 +3,7 @@
 ## Snapshot
 
 - Updated: 2026-07-28
-- Branch: `feat/a2-units-2-to-4`
+- Branch: `main`
 - Active milestone: M4 - A2 Pilot Controlled Expansion
 - Production level: A1
 - Official curriculum: `public/data/a1-course-v3.csv`
@@ -55,6 +55,8 @@
 - Added one recognition, two slot-validated transfers, and one text response to every new lesson.
 - Added three four-sentence passages with 14 directly supported comprehension questions, including cross-sentence questions.
 - Prevented the current A2 pilot from creating an A2 level pass or exposing a B1 unlock.
+- Completed the final reading-content QA for A2 units 2–4: direct transport answers, natural health questions, and distractors limited to content learned by each passage.
+- Added backward-compatible per-option lexeme/chunk metadata and validation for the new A2 passage questions while preserving the legacy A1 string-option format.
 
 ## Known Limits
 
@@ -75,7 +77,7 @@ Try all 16 A2 pilot lessons and manually review units 2–4 before deciding whet
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 78 passed, 0 failed.
+- `npm run test:unit`: exit 0; 82 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
 - `npm run test:e2e`: exit 0; 40 passed across desktop and mobile, 0 failed.

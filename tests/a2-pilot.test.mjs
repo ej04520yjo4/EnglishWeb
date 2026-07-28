@@ -47,6 +47,8 @@ const a2Text = readText("public/data/a2-course-v1.csv");
 const a1Rows = parseA1MvpCsv(a1Text);
 const a2Rows = parseCourseCsv(a2Text);
 const catalogJson = readJson("public/data/course-catalog.json");
+const a1Patterns = readJson("public/data/a1-pattern-exercises.json");
+const a1Reading = readJson("public/data/a1-reading-exercises.json");
 const a2Patterns = readJson("public/data/a2-pattern-exercises.json");
 const a2Reading = readJson("public/data/a2-reading-exercises.json");
 
@@ -299,6 +301,116 @@ test("keeps A2 reading answers supported and distractors unique", () => {
       );
     });
   });
+});
+
+test("validates passage option prerequisites without breaking A1 reading data", () => {
+  const a1Report = validateReadingExerciseData(
+    a1Reading,
+    a1Rows,
+    a1Patterns,
+  );
+  assert.equal(a1Report.valid, true, a1Report.errors.join("\n"));
+
+  const a2Report = validateReadingExerciseData(
+    a2Reading,
+    a2Rows,
+    a2Patterns,
+    a1Rows,
+  );
+  assert.equal(a2Report.valid, true, a2Report.errors.join("\n"));
+  a2Reading.passages
+    .filter((passage) => /^a2-u0[2-4]-p01$/.test(passage.passageId))
+    .forEach((passage) => {
+      passage.questions.forEach((question) => {
+        assert.equal(
+          question.optionMetadata.length,
+          question.options.length,
+          `${question.id} 應為每個選項提供先備內容 metadata`,
+        );
+      });
+    });
+});
+
+test("rejects a unit 3 passage option that introduces unit 4 lexeme more", () => {
+  const invalid = structuredClone(a2Reading);
+  const question = invalid.passages
+    .find((passage) => passage.passageId === "a2-u03-p01")
+    .questions.find((entry) => entry.id === "a2-u03-p01-q03");
+  const optionIndex = question.options.indexOf("That one.");
+  question.options[optionIndex] = "More water.";
+  question.optionMetadata[optionIndex] = {
+    text: "More water.",
+    requiredLexemeIds: ["more", "water"],
+    requiredChunkIds: ["more-water"],
+  };
+
+  const report = validateReadingExerciseData(
+    invalid,
+    a2Rows,
+    a2Patterns,
+    a1Rows,
+  );
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.errors.some(
+      (error) =>
+        error.includes("a2-u03-p01-q03") &&
+        error.includes("提前使用 lexeme") &&
+        error.includes("more"),
+    ),
+    report.errors.join("\n"),
+  );
+});
+
+test("accepts learned that and one in the unit 3 passage options", () => {
+  const question = a2Reading.passages
+    .find((passage) => passage.passageId === "a2-u03-p01")
+    .questions.find((entry) => entry.id === "a2-u03-p01-q03");
+  const option = question.optionMetadata.find(
+    (entry) => entry.text === "That one.",
+  );
+  assert.deepEqual(option.requiredLexemeIds, ["that", "one"]);
+  assert.deepEqual(option.requiredChunkIds, ["that-one"]);
+
+  const report = validateReadingExerciseData(
+    a2Reading,
+    a2Rows,
+    a2Patterns,
+    a1Rows,
+  );
+  assert.equal(report.valid, true, report.errors.join("\n"));
+});
+
+test("keeps the final A2 passage wording and direct-answer forms", () => {
+  const questionById = new Map(
+    a2Reading.passages.flatMap((passage) =>
+      passage.questions.map((question) => [question.id, question]),
+    ),
+  );
+  assert.deepEqual(questionById.get("a2-u02-p01-q02").options, [
+    "The bus.",
+    "The train.",
+    "A train ticket.",
+    "The station.",
+  ]);
+  assert.equal(
+    questionById.get("a2-u02-p01-q02").correctAnswer,
+    "The bus.",
+  );
+  assert.deepEqual(questionById.get("a2-u03-p01-q03").options, [
+    "A larger size.",
+    "That one.",
+    "A train ticket.",
+    "This shirt.",
+  ]);
+  assert.equal(
+    questionById.get("a2-u04-p01-q01").question,
+    "這個人今天怎麼了？",
+  );
+  assert.equal(
+    questionById.get("a2-u04-p01-q05").question,
+    "根據第一句和第三句，這個人是因為什麼症狀要看醫生？",
+  );
 });
 
 test("keeps every new A2 lesson within the new-lexeme limit", () => {
