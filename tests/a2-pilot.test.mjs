@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
@@ -14,6 +15,7 @@ import {
 import {
   canAccessLevel,
   createEmptyMultiLevelProgress,
+  isLevelAssessmentEnabled,
   migrateProgressToV4,
   updateSelectedLevelProgress,
 } from "../app/curriculum/progress.ts";
@@ -94,17 +96,109 @@ test("loads a catalog containing production A1 and pilot A2", async () => {
   assert.equal(loaded.levels[1].prerequisiteLevel, "A1");
 });
 
-test("loads the A2 pilot as 1 unit and 4 lessons", async () => {
+test("loads the A2 pilot as 4 units and 16 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 1);
-  assert.equal(level.units[0].lessons.length, 4);
-  assert.equal(level.rows.length, 25);
+  assert.equal(level.units.length, 4);
+  assert.equal(
+    level.units.flatMap((unit) => unit.lessons).length,
+    16,
+  );
+  assert.equal(level.rows.length, 95);
   assert.equal(level.status, "pilot");
+});
+
+test("keeps A2 unit 1 unchanged while adding units 2 through 4", () => {
+  const unitOneRows = a2Rows.filter((row) => row.unit_id === "a2-u01");
+  assert.equal(unitOneRows.length, 25);
+  assert.equal(
+    createHash("sha256")
+      .update(JSON.stringify(unitOneRows))
+      .digest("hex"),
+    "0c06db4c35f30bd99dd8678bba6a09653d70cae02a92694037be32d736b145f8",
+  );
+  assert.deepEqual(
+    [...new Set(a2Rows.map((row) => row.unit_id))],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04"],
+  );
+  assert.deepEqual(
+    [...new Set(a2Rows.map((row) => row.unit_title))],
+    ["昨天與明天", "旅行與交通", "購物與比較", "健康與建議"],
+  );
+  const unitOnePatterns = a2Patterns.patterns.filter((pattern) =>
+    pattern.examples.every((example) =>
+      example.practiceLessonId.startsWith("a2-u01-"),
+    ),
+  );
+  const unitOneReading = {
+    recognition: a2Reading.recognition.filter((exercise) =>
+      exercise.lessonId.startsWith("a2-u01-"),
+    ),
+    textResponses: a2Reading.textResponses.filter((exercise) =>
+      exercise.lessonId.startsWith("a2-u01-"),
+    ),
+    passages: a2Reading.passages.filter(
+      (passage) => passage.passageId === "a2-u01-p01",
+    ),
+  };
+  assert.equal(
+    createHash("sha256")
+      .update(JSON.stringify(unitOnePatterns))
+      .digest("hex"),
+    "9bbdfbf36d7f66635355faab3e5a8ace892e018a97b648f556a8eef991b672b3",
+  );
+  assert.equal(
+    createHash("sha256")
+      .update(JSON.stringify(unitOneReading))
+      .digest("hex"),
+    "ac1619001b61819496aa50279cb8b2b64f3bf10d1291858e226ea7aa6f2397dd",
+  );
+});
+
+test("keeps four ordered lessons per A2 unit and all structural IDs unique", () => {
+  const units = buildCourseUnitsFromRows(
+    a2Rows,
+    "a2-course-v1.csv",
+  );
+  assert.deepEqual(
+    units.map((unit) => unit.lessons.length),
+    [4, 4, 4, 4],
+  );
+  assert.deepEqual(
+    units.map((unit) => unit.number),
+    [1, 2, 3, 4],
+  );
+  assert.equal(
+    new Set(a2Rows.map((row) => row.lesson_id)).size,
+    16,
+  );
+  assert.equal(
+    new Set(a2Rows.map((row) => row.sentence_id)).size,
+    16,
+  );
+  const occurrenceIds = a2Rows.map((row) => row.occurrence_id);
+  assert.equal(new Set(occurrenceIds).size, occurrenceIds.length);
+});
+
+test("maps A2 inflected answers to dictionary-form lexemes", () => {
+  const expected = new Map([
+    ["bought", "buy"],
+    ["leaves", "leave"],
+    ["cheaper", "cheap"],
+    ["larger", "large"],
+  ]);
+  expected.forEach((lexemeId, answer) => {
+    const row = a2Rows.find(
+      (candidate) => candidate.answer === answer,
+    );
+    assert.ok(row, `找不到 ${answer}`);
+    assert.equal(row.lexeme_id, lexemeId);
+    assert.equal(row.lemma, lexemeId);
+  });
 });
 
 test("keeps every cross-level structural ID collision-free", () => {
@@ -119,8 +213,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 1,
-    expectedLessons: 4,
+    expectedUnits: 4,
+    expectedLessons: 16,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -128,7 +222,7 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
     a2Rows,
     "a2-course-v1.csv",
   );
-  units[0].lessons.forEach((lesson) => {
+  units.flatMap((unit) => unit.lessons).forEach((lesson) => {
     const punctuation = lesson.sentence.match(/[.!?]$/)?.[0] ?? ".";
     assert.equal(
       `${lesson.tokens.map((token) => token.answer).join(" ")}${punctuation}`,
@@ -156,6 +250,10 @@ test("validates A2 transfer lexemes, chunks, slots, and non-source variations", 
         sourceById.get(example.sourceSentenceId)?.toLowerCase(),
       );
       assert.ok(example.requiredLexemeIds.length > 0);
+      if (example.practiceLessonId >= "a2-u02-l01") {
+        assert.equal(example.qaStatus, "pilot_review_required");
+        assert.equal(example.slotValues.length, pattern.slots.length);
+      }
     });
   });
 });
@@ -168,34 +266,138 @@ test("keeps A2 reading answers supported and distractors unique", () => {
     a1Rows,
   );
   assert.equal(report.valid, true, report.errors.join("\n"));
-  const passage = a2Reading.passages[0];
-  const sentenceById = new Map(
-    passage.sentences.map((sentence) => [
-      sentence.id,
-      sentence.sentence.toLowerCase(),
-    ]),
-  );
-  passage.questions.forEach((question) => {
-    assert.ok(
-      sentenceById
-        .get(question.sourceSentenceId)
-        .includes(
-          question.correctAnswer
-            .replace(/[.!?]$/g, "")
-            .toLowerCase(),
+  a2Reading.passages.forEach((passage) => {
+    const sentenceById = new Map(
+      passage.sentences.map((sentence) => [
+        sentence.id,
+        sentence.sentence.toLowerCase(),
+      ]),
+    );
+    passage.questions.forEach((question) => {
+      const evidenceIds =
+        question.evidenceSentenceIds ?? [question.sourceSentenceId];
+      assert.ok(
+        evidenceIds.some((sentenceId) =>
+          sentenceById
+            .get(sentenceId)
+            .includes(
+              question.correctAnswer
+                .replace(/[.!?]$/g, "")
+                .toLowerCase(),
+            ),
         ),
+      );
+      assert.equal(
+        new Set(question.options).size,
+        question.options.length,
+      );
+      assert.equal(
+        question.options.filter(
+          (option) => option === question.correctAnswer,
+        ).length,
+        1,
+      );
+    });
+  });
+});
+
+test("keeps every new A2 lesson within the new-lexeme limit", () => {
+  const newLessonIds = [
+    ...new Set(
+      a2Rows
+        .filter((row) => row.unit_id !== "a2-u01")
+        .map((row) => row.lesson_id),
+    ),
+  ];
+  assert.equal(newLessonIds.length, 12);
+  newLessonIds.forEach((lessonId) => {
+    const newLexemes = new Set(
+      a2Rows
+        .filter(
+          (row) =>
+            row.lesson_id === lessonId &&
+            row.is_new_word === "TRUE",
+        )
+        .map((row) => row.lexeme_id),
     );
-    assert.equal(
-      new Set(question.options).size,
-      question.options.length,
+    assert.ok(
+      newLexemes.size <= 4,
+      `${lessonId} 新 lexeme 過多：${[...newLexemes].join("、")}`,
     );
+  });
+});
+
+test("gives all 12 new lessons recognition, two transfers, and text response", () => {
+  const newLessonIds = [
+    ...new Set(
+      a2Rows
+        .filter((row) => row.unit_id !== "a2-u01")
+        .map((row) => row.lesson_id),
+    ),
+  ];
+  newLessonIds.forEach((lessonId) => {
     assert.equal(
-      question.options.filter(
-        (option) => option === question.correctAnswer,
+      a2Reading.recognition.filter(
+        (exercise) => exercise.lessonId === lessonId,
       ).length,
       1,
     );
+    assert.equal(
+      a2Reading.textResponses.filter(
+        (exercise) => exercise.lessonId === lessonId,
+      ).length,
+      1,
+    );
+    const examples = a2Patterns.patterns.flatMap(
+      (pattern) => pattern.examples,
+    );
+    assert.equal(
+      examples.filter(
+        (example) => example.practiceLessonId === lessonId,
+      ).length,
+      2,
+    );
   });
+});
+
+test("adds one supported passage per A2 unit", () => {
+  assert.deepEqual(
+    a2Reading.passages.map((passage) => passage.passageId),
+    ["a2-u01-p01", "a2-u02-p01", "a2-u03-p01", "a2-u04-p01"],
+  );
+  a2Reading.passages.forEach((passage) => {
+    assert.ok(passage.sentences.length >= 4);
+    assert.ok(passage.questions.length >= 3);
+  });
+  a2Reading.passages
+    .filter((passage) => passage.passageId !== "a2-u01-p01")
+    .forEach((passage) => {
+      assert.equal(passage.qaStatus, "pilot_review_required");
+      assert.ok(
+        passage.questions.some(
+          (question) =>
+            (question.evidenceSentenceIds?.length ?? 0) >= 2,
+        ),
+      );
+    });
+});
+
+test("keeps every newly added A2 row and exercise in pilot QA", () => {
+  assert.ok(
+    a2Rows
+      .filter((row) => row.unit_id !== "a2-u01")
+      .every((row) => row.qa_status === "pilot_review_required"),
+  );
+  assert.ok(
+    a2Patterns.patterns
+      .filter((pattern) =>
+        pattern.examples.some((example) =>
+          example.practiceLessonId.startsWith("a2-u0") &&
+          !example.practiceLessonId.startsWith("a2-u01"),
+        ),
+      )
+      .every((pattern) => pattern.qaStatus === "pilot_review_required"),
+  );
 });
 
 test("migrates schemaVersion 3 to 4 without changing A1 data", () => {
@@ -299,6 +501,8 @@ test("enforces formal A2 unlock while allowing a non-mutating pilot entry", () =
   assert.equal(canAccessLevel("A2", passedLevelIds, true), true);
   assert.deepEqual(passedLevelIds, []);
   assert.equal(canAccessLevel("A2", ["A1"], false), true);
+  assert.equal(isLevelAssessmentEnabled("A1"), true);
+  assert.equal(isLevelAssessmentEnabled("A2"), false);
 });
 
 test("isolates an A2 loading failure from a valid A1 level", async () => {

@@ -74,13 +74,15 @@ const multiLevelProgressFixture = (
   a1Completed: string[] = [],
   a2Completed: string[] = [],
   selectedLevel: "A1" | "A2" = "A2",
+  a2PassedUnitIds: string[] = [],
+  passedLevelIds: string[] = [],
 ) => ({
   schemaVersion: 4,
   selectedLevel,
-  passedLevelIds: [],
+  passedLevelIds,
   levelProgress: {
     A1: levelProgressFixture(a1Completed),
-    A2: levelProgressFixture(a2Completed),
+    A2: levelProgressFixture(a2Completed, a2PassedUnitIds),
   },
 });
 
@@ -89,6 +91,8 @@ const seedA2Pilot = async (
   a2Completed: string[] = [],
   a1Completed: string[] = [],
   selectedLevel: "A1" | "A2" = "A2",
+  a2PassedUnitIds: string[] = [],
+  passedLevelIds: string[] = [],
 ) => {
   await page.goto("/");
   await page.evaluate(
@@ -114,6 +118,8 @@ const seedA2Pilot = async (
         a1Completed,
         a2Completed,
         selectedLevel,
+        a2PassedUnitIds,
+        passedLevelIds,
       ),
     },
   );
@@ -232,6 +238,27 @@ const expectNoHorizontalOverflow = async (page: Page) => {
       ),
     )
     .toBe(true);
+};
+
+const completePassage = async (
+  page: Page,
+  sentences: string[],
+  questionCount: number,
+) => {
+  for (let index = 0; index < sentences.length; index += 1) {
+    await page
+      .locator(`#passage-sentence-${index}`)
+      .fill(sentences[index]);
+  }
+  await page
+    .getByRole("button", { name: "檢查整段文章" })
+    .click();
+  for (let question = 0; question < questionCount; question += 1) {
+    await page.locator("#passage-answer-0").click();
+    await page.locator("#passage-question-check-button").click();
+    await page.locator("#passage-question-next-button").click();
+  }
+  await expect(page.locator("#lesson-result-next")).toBeVisible();
 };
 
 test("completes the original word and rebuild flow and persists it", async ({
@@ -587,7 +614,7 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
       a2: ["a2-u01-l01"],
     });
   await page.reload();
-  await expect(page.getByText("1 / 4", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 / 16", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "課程地圖" }).click();
   await page.locator('[data-testid="level-selector-a1"]').click();
   await expect(
@@ -666,6 +693,308 @@ test("completes the A2 passage rebuild and all three comprehension questions", a
     )
     .toBe(true);
   await expectNoHorizontalOverflow(page);
+});
+
+test("keeps formal A2 units sequential while QA preview exposes all pilot units", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(
+    ({ key, settings, progress }) => {
+      localStorage.setItem(key, JSON.stringify(progress));
+      localStorage.setItem("yingju-settings-v1", JSON.stringify(settings));
+    },
+    {
+      key: progressKey,
+      settings: {
+        phonetic: "KK",
+        autoplay: false,
+        slowRate: 0.85,
+        showA2Pilot: false,
+      },
+      progress: multiLevelProgressFixture(
+        [],
+        [],
+        "A2",
+        [],
+        ["A1"],
+      ),
+    },
+  );
+  await page.reload();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  const travelLesson = page.getByRole("button", {
+    name: /怎麼去車站/,
+  });
+  const shoppingLesson = page.getByRole("button", {
+    name: /詢問價格/,
+  });
+  const healthLesson = page.getByRole("button", {
+    name: /我頭痛/,
+  });
+  await expect(travelLesson).toBeDisabled();
+  await expect(shoppingLesson).toBeDisabled();
+  await expect(healthLesson).toBeDisabled();
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.levelProgress.A2.completedLessonIds = [
+      "a2-u01-l01",
+      "a2-u01-l02",
+      "a2-u01-l03",
+      "a2-u01-l04",
+    ];
+    value.levelProgress.A2.passedUnitIds = ["a2-u01"];
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(travelLesson).toBeEnabled();
+  await expect(shoppingLesson).toBeDisabled();
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.levelProgress.A2.completedLessonIds.push(
+      "a2-u02-l01",
+      "a2-u02-l02",
+      "a2-u02-l03",
+      "a2-u02-l04",
+    );
+    value.levelProgress.A2.passedUnitIds.push("a2-u02");
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(shoppingLesson).toBeEnabled();
+  await expect(healthLesson).toBeDisabled();
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.levelProgress.A2.completedLessonIds.push(
+      "a2-u03-l01",
+      "a2-u03-l02",
+      "a2-u03-l03",
+      "a2-u03-l04",
+    );
+    value.levelProgress.A2.passedUnitIds.push("a2-u03");
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(healthLesson).toBeEnabled();
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.levelProgress.A2.passedUnitIds = ["a2-u01"];
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(healthLesson).toBeDisabled();
+
+  await page.getByRole("button", { name: "設定" }).click();
+  await page.locator('[data-testid="a2-pilot-toggle"]').check();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(
+    healthLesson,
+  ).toBeEnabled();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes all 12 new A2 lessons and three new passages", async ({
+  page,
+}) => {
+  test.setTimeout(180_000);
+  await seedA2Pilot(page);
+  const lessons = [
+    {
+      title: "怎麼去車站",
+      recall: ["How", "can", "I", "get", "to", "the", "station"],
+      transfers: [
+        "How can I get to the store?",
+        "How can I get to school?",
+      ],
+    },
+    {
+      title: "搭公車",
+      recall: ["You", "can", "take", "the", "bus"],
+      transfers: ["I can take the bus.", "She can take the bus."],
+    },
+    {
+      title: "買火車票",
+      recall: ["I", "bought", "a", "train", "ticket", "yesterday"],
+      transfers: [
+        "I bought a train ticket at seven.",
+        "I bought a train ticket at eight.",
+      ],
+    },
+    {
+      title: "火車出發時間",
+      recall: ["The", "train", "leaves", "at", "nine", "tomorrow", "morning"],
+      transfers: [
+        "The train leaves at seven tomorrow morning.",
+        "The train leaves at eight tomorrow morning.",
+      ],
+      passage: [
+        "I am going to the station tomorrow.",
+        "I can take the bus.",
+        "I bought a train ticket yesterday.",
+        "The train leaves at nine tomorrow morning.",
+      ],
+      questions: 5,
+    },
+    {
+      title: "詢問價格",
+      recall: ["How", "much", "is", "this", "shirt"],
+      transfers: [
+        "How much is this book?",
+        "How much is this apple?",
+      ],
+    },
+    {
+      title: "比較價格",
+      recall: ["This", "shirt", "is", "cheaper", "than", "that", "one"],
+      transfers: [
+        "This book is cheaper than that one.",
+        "This apple is cheaper than that one.",
+      ],
+    },
+    {
+      title: "詢問尺寸",
+      recall: ["Do", "you", "have", "a", "larger", "size"],
+      transfers: [
+        "Do you have this shirt?",
+        "Do you have that one?",
+      ],
+    },
+    {
+      title: "太貴了",
+      recall: ["It", "is", "too", "expensive", "for", "me"],
+      transfers: [
+        "This shirt is too expensive for me.",
+        "That one is too expensive for me.",
+      ],
+      passage: [
+        "I want this shirt.",
+        "This shirt is cheaper than that one.",
+        "I want a larger size.",
+        "It is too expensive for me.",
+      ],
+      questions: 4,
+    },
+    {
+      title: "我頭痛",
+      recall: ["I", "have", "a", "headache"],
+      transfers: [
+        "I have a headache today.",
+        "I have a headache at night.",
+      ],
+    },
+    {
+      title: "多喝水",
+      recall: ["You", "should", "drink", "more", "water"],
+      transfers: [
+        "You should drink water at home.",
+        "You should drink more water at night.",
+      ],
+    },
+    {
+      title: "去看醫生",
+      recall: ["I", "have", "to", "see", "a", "doctor", "tomorrow"],
+      transfers: [
+        "I have to see a doctor today.",
+        "I have to see a doctor at eight.",
+      ],
+    },
+    {
+      title: "晚餐後吃藥",
+      recall: ["Take", "this", "medicine", "after", "dinner"],
+      transfers: [
+        "Take this medicine after breakfast.",
+        "Take this medicine at eight.",
+      ],
+      passage: [
+        "I have a headache today.",
+        "You should drink more water.",
+        "I have to see a doctor tomorrow.",
+        "Take this medicine after dinner.",
+      ],
+      questions: 5,
+    },
+  ];
+
+  for (const lesson of lessons) {
+    await openA2Lesson(page, lesson.title);
+    await answerRecallTokens(page, lesson.recall);
+    await submitRebuild(page, lesson.recall);
+    await completeEnhancedStages(
+      page,
+      lesson.transfers,
+      !lesson.passage,
+    );
+    if (lesson.passage) {
+      await completePassage(
+        page,
+        lesson.passage,
+        lesson.questions ?? 0,
+      );
+    }
+    await expectNoHorizontalOverflow(page);
+  }
+
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return {
+          completed: value.levelProgress?.A2?.completedLessonIds?.filter(
+            (lessonId: string) => !lessonId.startsWith("a2-u01-"),
+          ).length,
+          passages: Object.keys(
+            value.levelProgress?.A2?.passageStats ?? {},
+          ).filter((passageId) => passageId !== "a2-u01-p01").length,
+        };
+      }, progressKey),
+    )
+    .toEqual({ completed: 12, passages: 3 });
+
+  await page.reload();
+  await expect(page.getByText("12 / 16", { exact: true })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("finishing current A2 pilot content never marks A2 passed or unlocks B1", async ({
+  page,
+}) => {
+  await seedA2Pilot(
+    page,
+    [],
+    [],
+    "A2",
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04"],
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(
+    page.locator('[data-testid="a2-pilot-completion"]'),
+  ).toContainText("你已完成目前的A2試行內容");
+  await expect(
+    page.getByText("A2 程度總測驗", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: /B1/ }),
+  ).toHaveCount(0);
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return {
+          passedLevelIds: value.passedLevelIds,
+          levelPassed: value.levelProgress?.A2?.levelPassed,
+        };
+      }, progressKey),
+    )
+    .toEqual({ passedLevelIds: [], levelPassed: false });
 });
 
 test("shows a Traditional Chinese A2 error without breaking A1", async ({
