@@ -1047,7 +1047,7 @@ const newPassages = [
       passageQuestion(
         "a2-u03-p01-q01",
         "a2-u03-p01-s01",
-        "這個人想買什麼？",
+        "這個人想要哪一件商品？",
         ["This shirt.", "That book.", "An apple.", "A train ticket."],
         "This shirt.",
       ),
@@ -1061,7 +1061,7 @@ const newPassages = [
       passageQuestion(
         "a2-u03-p01-q03",
         "a2-u03-p01-s03",
-        "這個人想要什麼？",
+        "這個人想要什麼尺寸？",
         ["A larger size.", "A smaller size.", "A train ticket.", "More water."],
         "A larger size.",
       ),

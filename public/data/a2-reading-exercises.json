@@ -2263,7 +2263,7 @@
           "id": "a2-u03-p01-q01",
           "sourceSentenceId": "a2-u03-p01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "這個人想買什麼？",
+          "question": "這個人想要哪一件商品？",
           "options": [
             "This shirt.",
             "That book.",
@@ -2297,7 +2297,7 @@
           "id": "a2-u03-p01-q03",
           "sourceSentenceId": "a2-u03-p01-s03",
           "questionLanguage": "zh-Hant",
-          "question": "這個人想要什麼？",
+          "question": "這個人想要什麼尺寸？",
           "options": [
             "A larger size.",
             "A smaller size.",
