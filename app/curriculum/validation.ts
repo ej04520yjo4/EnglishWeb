@@ -281,6 +281,19 @@ const UNIT_PRESENTATION: Record<
   },
 };
 
+const UNIT_PRESENTATION_BY_ID: Record<
+  string,
+  { description: string; accent?: string }
+> = {
+  "a2-u01": {
+    description: "描述昨天的活動、明天的計畫，並提出簡單邀請。",
+  },
+  "a2-u02": {
+    description:
+      "Shopping and Comparing：詢問價格、比較商品、詢問尺寸與表達付款方式。",
+  },
+};
+
 export const buildCourseUnitsFromRows = (
   rows: CourseCsvRow[],
   sourceVersion: string,
@@ -341,12 +354,16 @@ export const buildCourseUnitsFromRows = (
         });
       const level =
         rowsForUnit[0]?.level === "A2" ? "A2" : "A1";
+      const presentation = UNIT_PRESENTATION_BY_ID[unitId];
       return {
         id: unitId,
         number: idNumber(unitId, "u"),
         title: rowsForUnit[0].unit_title,
-        description: UNIT_PRESENTATION[level].description,
-        accent: UNIT_PRESENTATION[level].accent,
+        description:
+          presentation?.description ??
+          UNIT_PRESENTATION[level].description,
+        accent:
+          presentation?.accent ?? UNIT_PRESENTATION[level].accent,
         lessons,
       };
     });
