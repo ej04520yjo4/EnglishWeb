@@ -61,6 +61,9 @@ export type MultiLevelProgress = {
   levelProgress: Record<CefrLevel, LevelLearningProgress>;
 };
 
+export const isLevelAssessmentEnabled = (level: CefrLevel) =>
+  level === "A1";
+
 export const createEmptyLevelProgress = (): LevelLearningProgress => ({
   completedLessonIds: [],
   passedUnitIds: [],

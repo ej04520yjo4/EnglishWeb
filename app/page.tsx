@@ -61,7 +61,9 @@ import {
   nextHintLevel,
 } from "./learning-adaptation";
 import {
+  canAccessLevel,
   createEmptyMultiLevelProgress,
+  isLevelAssessmentEnabled,
   migrateProgressToV4,
   updateSelectedLevelProgress,
   type LevelLearningProgress,
@@ -88,7 +90,6 @@ import {
   serializeCourseCsv,
   validateCourseRows,
 } from "./curriculum/validation";
-import { canAccessLevel } from "./curriculum/progress";
 import {
   createStoredCourseData,
   restoreStoredCourseData,
@@ -1050,12 +1051,20 @@ export default function Home() {
     speechSupported ||
     (selectedLesson.audioStatus === "ready" && Boolean(selectedLesson.sentenceAudioSource?.trim()));
 
+  const isA2QaPreview =
+    selectedLevel === "A2" && settings.showA2Pilot;
   const isUnitAvailable = (unitIndex: number) =>
-    unitIndex === 0 || progress.passedUnitIds.includes(courseUnits[unitIndex - 1].id);
+    isA2QaPreview ||
+    unitIndex === 0 ||
+    progress.passedUnitIds.includes(courseUnits[unitIndex - 1].id);
 
   const isLessonAvailable = (unit: CourseUnit, unitIndex: number, itemIndex: number) =>
-    isUnitAvailable(unitIndex) &&
-    (itemIndex === 0 || progress.completedLessonIds.includes(unit.lessons[itemIndex - 1].id));
+    isA2QaPreview ||
+    (isUnitAvailable(unitIndex) &&
+      (itemIndex === 0 ||
+        progress.completedLessonIds.includes(
+          unit.lessons[itemIndex - 1].id,
+        )));
 
   const nextLesson = (() => {
     for (let unitIndex = 0; unitIndex < courseUnits.length; unitIndex += 1) {
@@ -1130,6 +1139,10 @@ export default function Home() {
           ? settings.showA2Pilot
             ? "QA 試用"
             : "尚未解鎖"
+          : level === "A2" &&
+              levelUnits.length > 0 &&
+              levelProgress.passedUnitIds.length === levelUnits.length
+            ? "已完成目前試行內容"
           : levelProgress.levelPassed
             ? "已通過"
             : level === "A2"
@@ -2264,6 +2277,11 @@ export default function Home() {
   };
 
   const startAssessment = (kind: "unit" | "level", unit?: CourseUnit) => {
+    if (kind === "level" && !isLevelAssessmentEnabled(selectedLevel)) {
+      setToast("你已完成目前的A2試行內容。");
+      setScreen("map");
+      return;
+    }
     const lessons =
       kind === "unit"
         ? unit!.lessons
@@ -2312,9 +2330,16 @@ export default function Home() {
                 ]),
               )
             : value.passedUnitIds,
-        levelPassed: assessment.kind === "level" ? true : value.levelPassed,
+        levelPassed:
+          assessment.kind === "level" &&
+          isLevelAssessmentEnabled(selectedLevel)
+            ? true
+            : value.levelPassed,
       }));
-      if (assessment.kind === "level") {
+      if (
+        assessment.kind === "level" &&
+        isLevelAssessmentEnabled(selectedLevel)
+      ) {
         setMultiProgress((value) => ({
           ...value,
           passedLevelIds: Array.from(
@@ -2343,6 +2368,11 @@ export default function Home() {
       startLesson(courseUnits[unitIndex + 1].lessons[0]);
       return;
     }
+    if (selectedLevel === "A2") {
+      setToast("你已完成目前的A2試行內容。");
+      setScreen("map");
+      return;
+    }
     if (!progress.levelPassed) {
       startAssessment("level");
       return;
@@ -2356,6 +2386,7 @@ export default function Home() {
     if (lessonIndex < selectedUnit.lessons.length - 1) return "前往下一課 →";
     if (!progress.passedUnitIds.includes(selectedUnit.id)) return "進入單元測驗 →";
     if (unitIndex < courseUnits.length - 1) return "前往下一單元 →";
+    if (selectedLevel === "A2") return "回課程地圖";
     if (!progress.levelPassed) return `進入 ${selectedLevel} 程度測驗 →`;
     return "回課程地圖";
   };
@@ -2479,8 +2510,8 @@ export default function Home() {
     const base = validateCourseRows(rows, {
       expectedLevel: "A2",
       expectedRows: referenceRows.length,
-      expectedUnits: 1,
-      expectedLessons: 4,
+      expectedUnits: new Set(referenceRows.map((row) => row.unit_id)).size,
+      expectedLessons: new Set(referenceRows.map((row) => row.lesson_id)).size,
       rejectProductionQaForPilot: true,
     });
     const expectedIds = new Set(
@@ -2661,12 +2692,26 @@ export default function Home() {
         unit.lessons.every((item) => progress.completedLessonIds.includes(item.id)) &&
         !progress.passedUnitIds.includes(unit.id),
     );
+    const pilotContentComplete =
+      selectedLevel === "A2" &&
+      progress.passedUnitIds.length === courseUnits.length;
     const pendingLevelTest =
-      progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed;
+      selectedLevel === "A1" &&
+      progress.passedUnitIds.length === courseUnits.length &&
+      !progress.levelPassed;
     const nextUnit =
       pendingUnitTest ??
       courseUnits.find((unit) => unit.lessons.some((item) => item.id === nextLesson.id))!;
-    const recommendation = pendingUnitTest
+    const recommendation = pilotContentComplete
+      ? {
+          kicker: "A2 試行課程",
+          title: "你已完成目前的A2試行內容",
+          preview: "目前不會將 A2 標記為完整通過；請等待後續試行單元。",
+          chips: [`${courseUnits.length} 個試行單元`, `${allLessons.length} 課`, "進度已保留"],
+          action: () => setScreen("map"),
+          buttonLabel: "查看課程地圖",
+        }
+      : pendingUnitTest
       ? {
           kicker: `下一個建議課程・單元 ${pendingUnitTest.number}`,
           title: `${pendingUnitTest.title}・單元測驗`,
@@ -2877,22 +2922,36 @@ export default function Home() {
             </section>
           );
         })}
-        <section className="level-test-card">
-          <span className="lesson-number">★</span>
-          <div><strong>{selectedLevel} 程度總測驗</strong><small>通過門檻 85%，未通過可重新挑戰</small></div>
-          <button
-            className="secondary-button"
-            disabled={progress.passedUnitIds.length < courseUnits.length}
-            autoFocus={progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed}
-            aria-keyshortcuts="Enter"
-            onClick={() => startAssessment("level")}
-            onKeyDown={(event) =>
-              activateButtonOnEnter(event, () => startAssessment("level"))
-            }
-          >
-            {progress.levelPassed ? "重新挑戰" : "開始總測驗"}
-          </button>
-        </section>
+        {selectedLevel === "A1" ? (
+          <section className="level-test-card">
+            <span className="lesson-number">★</span>
+            <div><strong>{selectedLevel} 程度總測驗</strong><small>通過門檻 85%，未通過可重新挑戰</small></div>
+            <button
+              className="secondary-button"
+              disabled={progress.passedUnitIds.length < courseUnits.length}
+              autoFocus={progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed}
+              aria-keyshortcuts="Enter"
+              onClick={() => startAssessment("level")}
+              onKeyDown={(event) =>
+                activateButtonOnEnter(event, () => startAssessment("level"))
+              }
+            >
+              {progress.levelPassed ? "重新挑戰" : "開始總測驗"}
+            </button>
+          </section>
+        ) : (
+          <section className="level-test-card" data-testid="a2-pilot-completion">
+            <span className="lesson-number">★</span>
+            <div>
+              <strong>
+                {progress.passedUnitIds.length === courseUnits.length
+                  ? "你已完成目前的A2試行內容"
+                  : "A2 試行內容進行中"}
+              </strong>
+              <small>目前不提供 A2 程度總測驗，也不會解鎖 B1。</small>
+            </div>
+          </section>
+        )}
       </div>
       {selectedLevel === "A1" && <section className="advanced-roadmap-section">
         <div className="advanced-roadmap-head">

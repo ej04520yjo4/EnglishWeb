@@ -13,6 +13,13 @@ export type PatternSlot = {
   restrictions?: string[];
 };
 
+export type PatternSlotValue = {
+  slotId: string;
+  text: string;
+  requiredLexemeIds: string[];
+  requiredChunkIds?: string[];
+};
+
 export type PatternExample = {
   id: string;
   practiceLessonId: string;
@@ -25,6 +32,8 @@ export type PatternExample = {
   skeleton: string;
   requiredLexemeIds: string[];
   requiredChunkIds: string[];
+  slotValues?: PatternSlotValue[];
+  qaStatus?: string;
 };
 
 export type SentencePattern = {
@@ -35,6 +44,7 @@ export type SentencePattern = {
   template: string;
   slots: PatternSlot[];
   examples: PatternExample[];
+  qaStatus?: string;
 };
 
 export type PatternExerciseData = {
@@ -66,6 +76,7 @@ export type ReadingRecognitionExercise = {
   requiredChunkIds: string[];
   options: ExerciseOption[];
   correctOptionId: string;
+  qaStatus?: string;
 };
 
 export type TextResponseExercise = {
@@ -80,6 +91,7 @@ export type TextResponseExercise = {
   format: "choice" | "text";
   options: ExerciseOption[];
   correctOptionId: string;
+  qaStatus?: string;
 };
 
 export type PassageComprehensionQuestion = {
@@ -89,6 +101,8 @@ export type PassageComprehensionQuestion = {
   question: string;
   options: string[];
   correctAnswer: string;
+  evidenceSentenceIds?: string[];
+  qaStatus?: string;
 };
 
 export type PassageSentence = {
@@ -96,12 +110,18 @@ export type PassageSentence = {
   order: number;
   sentence: string;
   translation: string;
+  lessonId?: string;
+  requiredLexemeIds?: string[];
+  requiredChunkIds?: string[];
+  qaStatus?: string;
 };
 
 export type PassageComprehensionExercise = {
   passageId: string;
   sentences?: PassageSentence[];
   questions: PassageComprehensionQuestion[];
+  level?: "A1" | "A2";
+  qaStatus?: string;
 };
 
 export type ReadingExerciseData = {
@@ -147,6 +167,15 @@ const normalizeSentence = (value: string) =>
 
 const sentenceWordCount = (value: string) =>
   normalizeSentence(value).split(" ").filter(Boolean).length;
+
+const sameStringSet = (left: string[], right: string[]) => {
+  const leftSet = new Set(left);
+  const rightSet = new Set(right);
+  return (
+    leftSet.size === rightSet.size &&
+    Array.from(leftSet).every((value) => rightSet.has(value))
+  );
+};
 
 export const learnedLexemeIdsThroughLesson = (
   rows: CourseCsvRow[],
@@ -372,6 +401,88 @@ export const validatePatternExerciseData = (
           lessonRank(row.lesson_id) <=
           lessonRank(example.practiceLessonId),
       );
+      if (example.slotValues?.length) {
+        const slotValuesById = new Map(
+          example.slotValues.map((value) => [value.slotId, value]),
+        );
+        if (slotValuesById.size !== example.slotValues.length) {
+          errors.push(`${example.id} 的 slotValues 不可重複 slotId。`);
+        }
+        const unknownSlotIds = example.slotValues
+          .map((value) => value.slotId)
+          .filter(
+            (slotId) =>
+              !pattern.slots.some((slot) => slot.slotId === slotId),
+          );
+        if (unknownSlotIds.length) {
+          errors.push(
+            `${example.id} 使用不存在的 slot：${unknownSlotIds.join("、")}。`,
+          );
+        }
+        const missingSlotIds = pattern.slots
+          .map((slot) => slot.slotId)
+          .filter((slotId) => !slotValuesById.has(slotId));
+        if (missingSlotIds.length) {
+          errors.push(
+            `${example.id} 缺少 slot：${missingSlotIds.join("、")}。`,
+          );
+        }
+        const rebuilt = pattern.slots
+          .map((slot) => slotValuesById.get(slot.slotId)?.text ?? "")
+          .join(" ");
+        if (
+          normalizeSentence(rebuilt) !==
+          normalizeSentence(example.sentence)
+        ) {
+          errors.push(`${example.id} 的 slotValues 無法重建變化句。`);
+        }
+        const slotLexemeIds: string[] = [];
+        const slotChunkIds: string[] = [];
+        for (const value of example.slotValues) {
+          const slot = pattern.slots.find(
+            (candidate) => candidate.slotId === value.slotId,
+          );
+          if (!slot) continue;
+          const invalidLexemes = value.requiredLexemeIds.filter(
+            (lexemeId) => !slot.allowedLexemeIds.includes(lexemeId),
+          );
+          if (invalidLexemes.length) {
+            errors.push(
+              `${example.id}/${value.slotId} 使用不允許的 lexeme：${invalidLexemes.join("、")}。`,
+            );
+          }
+          const invalidChunks = (value.requiredChunkIds ?? []).filter(
+            (chunkId) => !(slot.allowedChunkIds ?? []).includes(chunkId),
+          );
+          if (invalidChunks.length) {
+            errors.push(
+              `${example.id}/${value.slotId} 使用不允許的 chunk：${invalidChunks.join("、")}。`,
+            );
+          }
+          errors.push(
+            ...validateReferencedLexemes(
+              value.text,
+              value.requiredLexemeIds,
+              learnedRows,
+              `${example.id}/${value.slotId}`,
+            ),
+          );
+          slotLexemeIds.push(...value.requiredLexemeIds);
+          slotChunkIds.push(...(value.requiredChunkIds ?? []));
+        }
+        if (
+          !sameStringSet(slotLexemeIds, example.requiredLexemeIds)
+        ) {
+          errors.push(
+            `${example.id} 的 slotValues lexeme 與 requiredLexemeIds 不一致。`,
+          );
+        }
+        if (!sameStringSet(slotChunkIds, example.requiredChunkIds)) {
+          errors.push(
+            `${example.id} 的 slotValues chunk 與 requiredChunkIds 不一致。`,
+          );
+        }
+      }
       errors.push(
         ...validateReferencedLexemes(
           example.sentence,
@@ -665,6 +776,51 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${passage.passageId} 的英文句子與繁中翻譯不可空白。`);
     }
+    for (const sentence of customSentences) {
+      if (!sentence.lessonId) continue;
+      if (!lessonIds.has(sentence.lessonId)) {
+        errors.push(
+          `${sentence.id} 找不到文章檢查課程 ${sentence.lessonId}。`,
+        );
+        continue;
+      }
+      const learnedRows = availableRows.filter(
+        (row) =>
+          lessonRank(row.lesson_id) <= lessonRank(sentence.lessonId ?? ""),
+      );
+      const learnedLexemes = learnedLexemeIdsThroughLesson(
+        availableRows,
+        sentence.lessonId,
+      );
+      const unlearnedLexemes = (
+        sentence.requiredLexemeIds ?? []
+      ).filter((lexemeId) => !learnedLexemes.has(lexemeId));
+      if (unlearnedLexemes.length) {
+        errors.push(
+          `${sentence.id} 使用尚未教過的 lexeme：${unlearnedLexemes.join("、")}。`,
+        );
+      }
+      errors.push(
+        ...validateReferencedLexemes(
+          sentence.sentence,
+          sentence.requiredLexemeIds ?? [],
+          learnedRows,
+          sentence.id,
+        ),
+      );
+      const learnedChunks = learnedChunkIdsThroughLesson(
+        availableRows,
+        sentence.lessonId,
+      );
+      const unlearnedChunks = (
+        sentence.requiredChunkIds ?? []
+      ).filter((chunkId) => !learnedChunks.has(chunkId));
+      if (unlearnedChunks.length) {
+        errors.push(
+          `${sentence.id} 使用尚未教過的 chunk：${unlearnedChunks.join("、")}。`,
+        );
+      }
+    }
     for (const question of passage.questions) {
       const source = rowsBySentence.get(question.sourceSentenceId);
       const customSource = customSentenceById.get(
@@ -685,11 +841,31 @@ export const validateReadingExerciseData = (
       if (new Set(question.options).size !== question.options.length) {
         errors.push(`${question.id} 的選項不可重複。`);
       }
+      const unknownEvidenceIds = (
+        question.evidenceSentenceIds ?? []
+      ).filter((sentenceId) => !passageSentenceIds.has(sentenceId));
+      if (unknownEvidenceIds.length) {
+        errors.push(
+          `${question.id} 引用不存在的證據句：${unknownEvidenceIds.join("、")}。`,
+        );
+      }
       const answerPhrase = normalizeSentence(
         question.correctAnswer,
       );
-      const sourceSentence = source?.sentence ?? customSource?.sentence ?? "";
-      if (!normalizeSentence(sourceSentence).includes(answerPhrase)) {
+      const evidenceIds =
+        question.evidenceSentenceIds?.length
+          ? question.evidenceSentenceIds
+          : [question.sourceSentenceId];
+      const evidenceSentences = evidenceIds.map((sentenceId) => {
+        const formal = rowsBySentence.get(sentenceId);
+        const custom = customSentenceById.get(sentenceId);
+        return formal?.sentence ?? custom?.sentence ?? "";
+      });
+      if (
+        !evidenceSentences.some((sentence) =>
+          normalizeSentence(sentence).includes(answerPhrase),
+        )
+      ) {
         errors.push(
           `${question.id} 的答案與來源文章不一致。`,
         );

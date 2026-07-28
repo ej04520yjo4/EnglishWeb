@@ -267,16 +267,25 @@ const tokenFromRow = (row: CourseCsvRow): LearningToken => ({
   qaStatus: row.qa_status,
 });
 
-const UNIT_PRESENTATION: Record<
-  CefrLevel,
-  { description: string; accent: string }
-> = {
+const UNIT_PRESENTATION: Record<string, { description: string; accent: string }> = {
   A1: {
     description: "依序完成本單元的四個句子。",
     accent: "#f47b5b",
   },
-  A2: {
+  "a2-u01": {
     description: "描述昨天的活動、明天的計畫，並提出簡單邀請。",
+    accent: "#5a95db",
+  },
+  "a2-u02": {
+    description: "詢問交通方式、購買車票，並理解簡單班次資訊。",
+    accent: "#5a95db",
+  },
+  "a2-u03": {
+    description: "詢問價格、比較商品，並表達尺寸與價格需求。",
+    accent: "#5a95db",
+  },
+  "a2-u04": {
+    description: "描述身體狀況、給予建議，並理解簡單服藥指示。",
     accent: "#5a95db",
   },
 };
@@ -341,12 +350,14 @@ export const buildCourseUnitsFromRows = (
         });
       const level =
         rowsForUnit[0]?.level === "A2" ? "A2" : "A1";
+      const presentation =
+        UNIT_PRESENTATION[unitId] ?? UNIT_PRESENTATION[level];
       return {
         id: unitId,
         number: idNumber(unitId, "u"),
         title: rowsForUnit[0].unit_title,
-        description: UNIT_PRESENTATION[level].description,
-        accent: UNIT_PRESENTATION[level].accent,
+        description: presentation.description,
+        accent: presentation.accent,
         lessons,
       };
     });

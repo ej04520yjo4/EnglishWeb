@@ -24,8 +24,8 @@ const a2Reading = readJson("public/data/a2-reading-exercises.json");
 const reports = [
   validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 1,
-    expectedLessons: 4,
+    expectedUnits: 4,
+    expectedLessons: 16,
     rejectProductionQaForPilot: true,
   }),
   validatePatternExerciseData(a2Patterns, a2Rows, "A2", a1Rows),
@@ -45,6 +45,6 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(
-    `Curriculum validation passed: A1 ${a1Rows.length} occurrences; A2 ${a2Rows.length} occurrences, 1 unit, 4 lessons.`,
+    `Curriculum validation passed: A1 ${a1Rows.length} occurrences; A2 ${a2Rows.length} occurrences, 4 units, 16 lessons.`,
   );
 }
