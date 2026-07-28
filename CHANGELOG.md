@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - Related Vocabulary Display and Search Fixes
+
+### Fixed
+
+- Related-vocabulary cards now use the canonical lemma, so `brother` stays singular beside `my brother` while the formal course still tests `brothers`.
+- Added a reusable group-level Traditional Chinese override for canonical category meanings.
+- Cross-topic English and Chinese searches now open the first matching topic automatically.
+- A search with no matches now shows one global empty state without stale topic details.
+
+### Preserved
+
+- The four existing topics, all reference-only review states, and the formal A1/A2 course files remain unchanged in scope.
+
 ## 2026-07-28 - Related Vocabulary Content Expansion
 
 ### Added

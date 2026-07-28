@@ -53,3 +53,4 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Correct-answer-only course shortcut, current-word highlight, exact-stage return, and progress-neutral viewing.
 - [x] Related-vocabulary unit validation and desktop/mobile browser coverage.
 - [x] **VOCAB-PLAN-002:** Added months and family members together for one combined user review.
+- [x] Canonical lemma display, group-level Traditional Chinese overrides, cross-topic search selection, and global no-result handling.

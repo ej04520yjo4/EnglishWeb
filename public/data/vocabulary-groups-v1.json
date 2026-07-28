@@ -382,7 +382,12 @@
         { "lexemeId": "mother", "order": 2, "chunkIds": ["my-mother"] },
         { "lexemeId": "father", "order": 3, "chunkIds": ["my-father"] },
         { "lexemeId": "parent", "order": 4, "chunkIds": ["my-parent"] },
-        { "lexemeId": "brother", "order": 5, "chunkIds": ["my-brother"] },
+        {
+          "lexemeId": "brother",
+          "order": 5,
+          "chunkIds": ["my-brother"],
+          "canonicalTranslationZhTw": "哥哥／弟弟／兄弟"
+        },
         { "lexemeId": "sister", "order": 6, "chunkIds": ["my-sister"] },
         { "lexemeId": "wife", "order": 7, "chunkIds": ["my-wife"] },
         { "lexemeId": "husband", "order": 8, "chunkIds": ["my-husband"] },

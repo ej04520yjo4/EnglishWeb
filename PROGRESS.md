@@ -3,7 +3,7 @@
 ## Snapshot
 
 - Updated: 2026-07-28
-- Branch: `feat/related-vocabulary`
+- Branch: `main`
 - Active milestone: M6 - Related Vocabulary User Review
 - Production level: A1
 - Official curriculum: `public/data/a1-course-v3.csv`
@@ -45,6 +45,8 @@
 - Reused formal A1 data for May, mother, brother, wife, and the existing `in-may` chunk.
 - Kept the 18 newly added month and family gaps reference-only for combined user review.
 - Added failure isolation so invalid related-vocabulary data does not block A1.
+- Related-vocabulary cards now display canonical lemmas while formal course answers remain unchanged.
+- Cross-topic search now selects the first matching topic and hides stale topic details when no result exists.
 
 ## Known Limits
 
@@ -64,7 +66,7 @@ Try all four related-vocabulary topics and review the 27 reference-only entries 
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 68 passed, 0 failed.
+- `npm run test:unit`: exit 0; 71 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
 - `npm run test:e2e`: exit 0; 34 passed across desktop and mobile, 0 failed.

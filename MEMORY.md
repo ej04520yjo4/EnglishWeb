@@ -36,7 +36,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - Local keys: `yingju-progress-v1`, `yingju-settings-v1`, and `yingju-course-rows-v3`.
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
-- Months and family members form one combined user-review batch; new gaps remain reference-only until reviewed.
+- Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
 
 ## Content and Audio Guardrails
 
@@ -46,7 +46,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - `audio_status !== "ready"` must never be treated as a playable URL.
 - KK phonetic-symbol audio is a separate learning area, not KK notation added to A-Z letter practice.
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
-- Formal course data has whole-record priority over reference vocabulary. Reference viewing must never count as learning completion or change review schedules.
+- Formal course data remains primary for progress, occurrences, audio, and source metadata. Reference viewing must never count as learning completion or change review schedules.
+- Related-vocabulary cards display canonical lemmas and may use a validated group-level Traditional Chinese override; course answers remain occurrence-specific.
 - A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 
 ## Context Engineering Preferences

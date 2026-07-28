@@ -57,7 +57,7 @@ The hierarchy is Level -> Unit -> Lesson -> Stage -> Exercise. Within a sentence
 
 These layers are additive and must not be collapsed into one input model.
 
-Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. The resolver never writes progress and never merges reference fields into an existing formal lexeme.
+Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
 
 ## Persistence
 

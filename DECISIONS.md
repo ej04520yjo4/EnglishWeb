@@ -118,9 +118,9 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** When a lexeme exists in formal A1 and reference vocabulary, the complete formal record wins, including an intentionally pending audio field. Reference-only data may fill only lexemes absent from formal curriculum; conflicts fail validation.
+**Decision:** When a lexeme exists in formal A1 and reference vocabulary, formal A1 remains authoritative for progress, occurrences, audio, phonetics, licensing, and source identity. Reference-only data may fill only lexemes absent from formal curriculum; conflicts fail validation. Related-vocabulary display labels follow the canonical projection in ADR-018.
 
-**Reason:** Mixing individual fields from two records creates inconsistent pronunciation, meaning, QA, and licensing claims.
+**Reason:** This prevents unreviewed reference fields from replacing formal learning evidence while allowing a classification page to show a stable dictionary form.
 
 ## ADR-016 - Related Vocabulary Reveals Only After Recall
 
@@ -134,6 +134,14 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** After explicit user approval, version 1 adds months and family members together as a second review batch. Existing formal A1 records remain authoritative, while all new gaps and their chunks stay reference-only or review-required until the user checks them. Other topics remain excluded.
+**Decision:** 月份與家庭成員目前作為第二批試行內容，仍待使用者人工複核。Existing formal A1 records remain authoritative, while all new gaps and their chunks stay reference-only or review-required. Other topics remain excluded.
 
-**Reason:** The user prefers one combined content review, while the reference boundary prevents unreviewed vocabulary from being treated as completed curriculum.
+**Reason:** The reference boundary prevents trial vocabulary from being treated as reviewed or completed curriculum.
+
+## ADR-018 - Related Vocabulary Uses Canonical Display Forms
+
+**Status:** Accepted
+
+**Decision:** Related-vocabulary cards display the lexeme lemma, while course recall and assessment continue to use the occurrence `answer`. A group item may provide `canonicalTranslationZhTw` when a formal prompt is inflected or context-specific. This display projection never replaces formal progress, occurrence, audio, or source records.
+
+**Reason:** Classification labels must remain consistent with their chunks without weakening the sentence-specific course model or adding lexeme-specific code branches.

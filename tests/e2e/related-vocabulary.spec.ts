@@ -187,6 +187,49 @@ test("shows the month and family topics with formal and reference sources", asyn
   await waitForHome(page);
   await openRelatedVocabulary(page);
 
+  await expect(
+    page.locator('[data-testid="vocabulary-topic-days-of-week"]'),
+  ).toBeVisible();
+  const search = page.getByRole("searchbox", {
+    name: "搜尋英文、中文、主題名稱或 lexeme ID",
+  });
+  await search.fill("December");
+  await expect(
+    page.locator('[data-testid="vocabulary-topic-months-of-year"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="vocabulary-word-december"]'),
+  ).toContainText("December");
+
+  await search.fill("十二月");
+  await expect(
+    page.locator('[data-testid="vocabulary-topic-months-of-year"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="vocabulary-word-december"]'),
+  ).toContainText("December");
+
+  await search.fill("先生");
+  await expect(
+    page.locator('[data-testid="vocabulary-topic-family-members"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="vocabulary-word-husband"]'),
+  ).toContainText("husband");
+
+  await search.fill("not-a-real-vocabulary-item");
+  await expect(
+    page.locator('[data-testid="vocabulary-global-empty"]'),
+  ).toContainText("找不到相關字詞");
+  await expect(
+    page.locator(".vocabulary-topic-detail"),
+  ).toHaveCount(0);
+
+  await search.fill("");
+  await expect(
+    page.locator('[data-testid="vocabulary-topic-family-members"]'),
+  ).toBeVisible();
+
   await page
     .locator('[data-testid="vocabulary-group-months-of-year"]')
     .click();
@@ -204,9 +247,6 @@ test("shows the month and family topics with formal and reference sources", asyn
     page.locator('[data-testid="vocabulary-word-may"]'),
   ).toContainText("正式課程");
 
-  const search = page.getByRole("searchbox", {
-    name: "搜尋英文、中文、主題名稱或 lexeme ID",
-  });
   await search.fill("十二月");
   await expect(monthItems).toHaveCount(1);
   await expect(monthItems.first()).toContainText("December");
@@ -228,6 +268,20 @@ test("shows the month and family topics with formal and reference sources", asyn
   await expect(
     page.locator('[data-testid="vocabulary-word-brother"]'),
   ).toContainText("my brother");
+  await expect(
+    page
+      .locator('[data-testid="vocabulary-word-brother"]')
+      .getByRole("heading", {
+        name: "brother",
+        exact: true,
+      }),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="vocabulary-word-brother"]'),
+  ).not.toContainText("brothers");
+  await expect(
+    page.locator('[data-testid="vocabulary-word-brother"]'),
+  ).toContainText("哥哥／弟弟／兄弟");
 
   await search.fill("先生");
   await expect(familyItems).toHaveCount(1);

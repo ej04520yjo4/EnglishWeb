@@ -103,6 +103,7 @@ import {
   type VocabularyDataset,
   type VocabularyLearningStatus,
   type VocabularyStatusFilter,
+  resolveVocabularyGroupSelection,
   vocabularyGroupForLexeme,
   vocabularyItemMatchesSearch,
   vocabularyLearningState,
@@ -3107,24 +3108,61 @@ export default function Home() {
     const itemIsVisible = (
       group: ResolvedVocabularyGroup,
       item: ResolvedVocabularyItem,
+      query = vocabularySearch,
+      filter = vocabularyFilter,
     ) =>
-      vocabularyItemMatchesSearch(group, item, vocabularySearch) &&
+      vocabularyItemMatchesSearch(group, item, query) &&
       vocabularyStatusMatchesFilter(
         stateForItem(item),
-        vocabularyFilter,
+        filter,
       );
-    const visibleGroups = vocabularyDataset.groups.filter(
-      (group) =>
-        group.items.some((item) => itemIsVisible(group, item)) ||
-        (!vocabularySearch.trim() && vocabularyFilter === "all"),
+    const resolveSelection = (
+      query: string,
+      filter: VocabularyStatusFilter,
+      activeGroupId = activeVocabularyGroupId,
+    ) =>
+      resolveVocabularyGroupSelection(
+        vocabularyDataset.groups,
+        activeGroupId,
+        (group, item) => itemIsVisible(group, item, query, filter),
+      );
+    const { visibleGroups, activeGroup } = resolveSelection(
+      vocabularySearch,
+      vocabularyFilter,
     );
-    const activeGroup =
-      vocabularyDataset.groups.find(
-        (group) => group.id === activeVocabularyGroupId,
-      ) ?? vocabularyDataset.groups[0];
-    const activeItems = activeGroup.items.filter((item) =>
-      itemIsVisible(activeGroup, item),
-    );
+    const activeItems = activeGroup
+      ? activeGroup.items.filter((item) =>
+          itemIsVisible(activeGroup, item),
+        )
+      : [];
+    const updateVocabularySearch = (query: string) => {
+      setVocabularySearch(query);
+      const nextGroup = resolveSelection(
+        query,
+        vocabularyFilter,
+      ).activeGroup;
+      if (
+        nextGroup &&
+        nextGroup.id !== activeVocabularyGroupId
+      ) {
+        selectVocabularyGroup(nextGroup.id);
+      }
+    };
+    const updateVocabularyFilter = (
+      filter: VocabularyStatusFilter,
+    ) => {
+      setVocabularyFilter(filter);
+      const nextGroup = resolveSelection(
+        vocabularySearch,
+        filter,
+      ).activeGroup;
+      if (
+        nextGroup &&
+        nextGroup.id !== activeVocabularyGroupId
+      ) {
+        selectVocabularyGroup(nextGroup.id);
+      }
+    };
 
     return (
       <div
@@ -3155,7 +3193,7 @@ export default function Home() {
               type="search"
               value={vocabularySearch}
               onChange={(event) =>
-                setVocabularySearch(event.target.value)
+                updateVocabularySearch(event.target.value)
               }
               placeholder="例如：Saturday、星期六"
               aria-label="搜尋英文、中文、主題名稱或 lexeme ID"
@@ -3173,7 +3211,7 @@ export default function Home() {
                   vocabularyFilter === filter.id ? "active" : ""
                 }
                 aria-pressed={vocabularyFilter === filter.id}
-                onClick={() => setVocabularyFilter(filter.id)}
+                onClick={() => updateVocabularyFilter(filter.id)}
               >
                 {filter.label}
               </button>
@@ -3200,7 +3238,7 @@ export default function Home() {
               return (
                 <button
                   className={`vocabulary-group-card ${
-                    activeGroup.id === group.id ? "active" : ""
+                    activeGroup?.id === group.id ? "active" : ""
                   }`}
                   key={group.id}
                   onClick={() => selectVocabularyGroup(group.id)}
@@ -3225,17 +3263,22 @@ export default function Home() {
             })}
           </div>
           {!visibleGroups.length && (
-            <p className="vocabulary-empty">
-              找不到符合目前搜尋與篩選條件的字詞。
-            </p>
+            <div
+              className="section-card vocabulary-load-state"
+              data-testid="vocabulary-global-empty"
+            >
+              <strong>找不到相關字詞</strong>
+              <p>請調整搜尋文字或已學狀態篩選。</p>
+            </div>
           )}
         </section>
 
-        <section
-          className="section-card vocabulary-topic-detail"
-          aria-labelledby="vocabulary-topic-title"
-          data-testid={`vocabulary-topic-${activeGroup.id}`}
-        >
+        {activeGroup && (
+          <section
+            className="section-card vocabulary-topic-detail"
+            aria-labelledby="vocabulary-topic-title"
+            data-testid={`vocabulary-topic-${activeGroup.id}`}
+          >
           <div className="vocabulary-topic-heading">
             <div>
               <span className="vocabulary-breadcrumb">
@@ -3377,7 +3420,8 @@ export default function Home() {
             {audioMessage ||
               "尚未有已確認音檔時，播放按鈕會使用瀏覽器美式語音備援。"}
           </p>
-        </section>
+          </section>
+        )}
       </div>
     );
   };

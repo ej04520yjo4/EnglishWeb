@@ -15,6 +15,13 @@ export type VocabularyGroupItemDefinition = {
   lexemeId: string;
   order: number;
   chunkIds: string[];
+  canonicalTranslationZhTw?: string;
+};
+
+type CanonicalCourseVocabulary = {
+  lemma?: string;
+  answer?: string;
+  prompt?: string;
 };
 
 export type VocabularyGroupDefinition = {
@@ -225,6 +232,37 @@ const sameSequence = (actual: string[], expected: string[]) =>
   actual.length === expected.length &&
   actual.every((value, index) => value === expected[index]);
 
+export const resolveCanonicalVocabularyDisplay = (
+  item: Pick<
+    VocabularyGroupItemDefinition,
+    "lexemeId" | "canonicalTranslationZhTw"
+  >,
+  formal: CanonicalCourseVocabulary | undefined,
+  reference:
+    | Pick<
+        ReferenceVocabularyItem,
+        "lemma" | "displayEnglish" | "translationZhTw"
+      >
+    | undefined,
+) => {
+  const lemma = (
+    formal?.lemma ||
+    reference?.lemma ||
+    formal?.answer ||
+    reference?.displayEnglish ||
+    item.lexemeId
+  ).trim();
+  return {
+    lemma,
+    displayEnglish: lemma,
+    translationZhTw:
+      item.canonicalTranslationZhTw?.trim() ||
+      formal?.prompt?.trim() ||
+      reference?.translationZhTw?.trim() ||
+      "",
+  };
+};
+
 export const validateVocabularyData = (
   groupData: VocabularyGroupsData,
   referenceData: ReferenceVocabularyData,
@@ -361,17 +399,30 @@ export const validateVocabularyData = (
       const lexemeId = clean(item.lexemeId);
       const formalRows = courseRowsForLexeme(courseRows, lexemeId);
       const reference = referenceByLexeme.get(lexemeId);
+      const formal = formalRows[0];
       if (!formalRows.length && !reference) {
         errors.push(`主題 ${group.id} 的詞彙 ${item.lexemeId} 無法解析。`);
+      }
+      if (
+        "canonicalTranslationZhTw" in item &&
+        !item.canonicalTranslationZhTw?.trim()
+      ) {
+        errors.push(
+          `詞彙 ${item.lexemeId} 的 canonicalTranslationZhTw 不可空白。`,
+        );
       }
       for (const chunkId of item.chunkIds) {
         if (!courseChunks.has(chunkId) && !groupChunks.has(chunkId)) {
           errors.push(`主題 ${group.id} 的語塊 ${chunkId} 不存在。`);
         }
       }
-      const formal = formalRows[0];
-      const english = formal?.answer || formal?.lemma || reference?.displayEnglish;
-      const chinese = formal?.prompt || reference?.translationZhTw;
+      const canonical = resolveCanonicalVocabularyDisplay(
+        item,
+        formal,
+        reference,
+      );
+      const english = canonical.displayEnglish;
+      const chinese = canonical.translationZhTw;
       const kk = formal?.kk_us || formal?.kk || reference?.kkUs;
       const ipa =
         formal?.ipa_standalone ||
@@ -467,18 +518,17 @@ export const buildVocabularyDataset = (
             const formal = formalRows[0];
             const reference = references.get(clean(item.lexemeId));
             const source = formal ? "course" : "reference";
+            const canonical = resolveCanonicalVocabularyDisplay(
+              item,
+              formal,
+              reference,
+            );
             return {
               lexemeId: item.lexemeId,
               order: item.order,
-              lemma: formal
-                ? formal.lemma || formal.answer || item.lexemeId
-                : reference?.lemma || item.lexemeId,
-              displayEnglish: formal
-                ? formal.answer || formal.lemma || item.lexemeId
-                : reference?.displayEnglish || item.lexemeId,
-              translationZhTw: formal
-                ? formal.prompt || ""
-                : reference?.translationZhTw || "",
+              lemma: canonical.lemma,
+              displayEnglish: canonical.displayEnglish,
+              translationZhTw: canonical.translationZhTw,
               kkUs: formal
                 ? formal.kk_us || formal.kk || ""
                 : reference?.kkUs || "",
@@ -587,6 +637,24 @@ export const vocabularyItemMatchesSearch = (
     item.translationZhTw,
     item.lexemeId,
   ].some((value) => clean(value).includes(normalized));
+};
+
+export const resolveVocabularyGroupSelection = (
+  groups: ResolvedVocabularyGroup[],
+  activeGroupId: string,
+  itemIsVisible: (
+    group: ResolvedVocabularyGroup,
+    item: ResolvedVocabularyItem,
+  ) => boolean,
+) => {
+  const visibleGroups = groups.filter((group) =>
+    group.items.some((item) => itemIsVisible(group, item)),
+  );
+  const activeGroup =
+    visibleGroups.find((group) => group.id === activeGroupId) ??
+    visibleGroups[0] ??
+    null;
+  return { visibleGroups, activeGroup };
 };
 
 export const vocabularyLearningState = (

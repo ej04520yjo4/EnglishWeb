@@ -13,6 +13,8 @@ import {
   canShowVocabularyShortcut,
   createVocabularyCourseReturnContext,
   loadVocabularyDataset,
+  resolveCanonicalVocabularyDisplay,
+  resolveVocabularyGroupSelection,
   validateVocabularyData,
   vocabularyGroupForLexeme,
   vocabularyItemMatchesSearch,
@@ -191,10 +193,54 @@ test("uses formal course records for May and taught family words", () => {
     family.items.find((item) => item.lexemeId === "wife"),
   ];
   assert.ok(formalItems.every((item) => item?.source === "course"));
+  const brother = family.items.find(
+    (item) => item.lexemeId === "brother",
+  );
+  assert.equal(brother.displayEnglish, "brother");
   assert.equal(
-    family.items.find((item) => item.lexemeId === "brother")
-      .displayEnglish,
-    "brothers",
+    brother.translationZhTw,
+    "哥哥／弟弟／兄弟",
+  );
+  assert.equal(brother.chunks[0].text, "my brother");
+  const brotherCourseRow = a1Rows.find(
+    (row) => row.lexeme_id === "brother",
+  );
+  assert.equal(brotherCourseRow.answer, "brothers");
+  assert.ok(
+    brother.occurrenceIds.includes(
+      brotherCourseRow.occurrence_id,
+    ),
+  );
+  assert.equal(
+    brother.audioStatus,
+    brotherCourseRow.audio_status,
+  );
+  assert.equal(
+    brother.audioSource,
+    brotherCourseRow.word_audio_source ||
+      brotherCourseRow.audio_source,
+  );
+});
+
+test("resolves canonical vocabulary from lemma and a reusable Chinese override", () => {
+  assert.deepEqual(
+    resolveCanonicalVocabularyDisplay(
+      {
+        lexemeId: "example",
+        canonicalTranslationZhTw: "分類代表中文",
+      },
+      {
+        lemma: "example",
+        answer: "examples",
+        prompt: "語境中的複數翻譯",
+      },
+      undefined,
+    ),
+    {
+      lemma: "example",
+      displayEnglish: "example",
+      translationZhTw: "分類代表中文",
+    },
   );
 });
 
@@ -289,6 +335,26 @@ test("rejects an invalid month sequence", () => {
   );
 });
 
+test("rejects a blank canonical Traditional Chinese override", () => {
+  const invalid = structuredClone(groupData);
+  invalid.groups
+    .find((group) => group.id === "family-members")
+    .items.find(
+      (item) => item.lexemeId === "brother",
+    ).canonicalTranslationZhTw = " ";
+  const report = validateVocabularyData(
+    invalid,
+    referenceData,
+    a1Rows,
+  );
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.errors.some((error) =>
+      error.includes("canonicalTranslationZhTw 不可空白"),
+    ),
+  );
+});
+
 test("rejects missing Traditional Chinese reference text", () => {
   const invalid = structuredClone(referenceData);
   invalid.vocabulary.find(
@@ -329,6 +395,69 @@ test("finds a Traditional Chinese translation", () => {
     vocabularyItemMatchesSearch(days, saturday, "星期六"),
     true,
   );
+});
+
+test("selects the first matching topic and preserves it when search clears", () => {
+  const selection = (query, activeGroupId) =>
+    resolveVocabularyGroupSelection(
+      dataset.groups,
+      activeGroupId,
+      (group, item) =>
+        vocabularyItemMatchesSearch(group, item, query),
+    );
+
+  const decemberEnglish = selection(
+    "December",
+    "days-of-week",
+  );
+  assert.deepEqual(
+    decemberEnglish.visibleGroups.map((group) => group.id),
+    ["months-of-year"],
+  );
+  assert.equal(
+    decemberEnglish.activeGroup?.id,
+    "months-of-year",
+  );
+
+  const decemberChinese = selection(
+    "十二月",
+    "days-of-week",
+  );
+  assert.equal(
+    decemberChinese.activeGroup?.items.find(
+      (item) =>
+        vocabularyItemMatchesSearch(
+          decemberChinese.activeGroup,
+          item,
+          "十二月",
+        ),
+    )?.displayEnglish,
+    "December",
+  );
+
+  const husband = selection("先生", "days-of-week");
+  assert.equal(husband.activeGroup?.id, "family-members");
+  assert.equal(
+    husband.activeGroup?.items.find((item) =>
+      vocabularyItemMatchesSearch(
+        husband.activeGroup,
+        item,
+        "先生",
+      ),
+    )?.displayEnglish,
+    "husband",
+  );
+
+  const missing = selection(
+    "not-a-real-vocabulary-item",
+    "days-of-week",
+  );
+  assert.deepEqual(missing.visibleGroups, []);
+  assert.equal(missing.activeGroup, null);
+
+  const cleared = selection("", "months-of-year");
+  assert.equal(cleared.visibleGroups.length, 4);
+  assert.equal(cleared.activeGroup?.id, "months-of-year");
 });
 
 test("derives learned and review-due states from existing progress", () => {
