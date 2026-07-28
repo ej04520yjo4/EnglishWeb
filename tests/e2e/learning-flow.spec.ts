@@ -74,13 +74,15 @@ const multiLevelProgressFixture = (
   a1Completed: string[] = [],
   a2Completed: string[] = [],
   selectedLevel: "A1" | "A2" = "A2",
+  a2PassedUnitIds: string[] = [],
+  passedLevelIds: string[] = [],
 ) => ({
   schemaVersion: 4,
   selectedLevel,
-  passedLevelIds: [],
+  passedLevelIds,
   levelProgress: {
     A1: levelProgressFixture(a1Completed),
-    A2: levelProgressFixture(a2Completed),
+    A2: levelProgressFixture(a2Completed, a2PassedUnitIds),
   },
 });
 
@@ -89,6 +91,7 @@ const seedA2Pilot = async (
   a2Completed: string[] = [],
   a1Completed: string[] = [],
   selectedLevel: "A1" | "A2" = "A2",
+  a2PassedUnitIds: string[] = [],
 ) => {
   await page.goto("/");
   await page.evaluate(
@@ -114,6 +117,7 @@ const seedA2Pilot = async (
         a1Completed,
         a2Completed,
         selectedLevel,
+        a2PassedUnitIds,
       ),
     },
   );
@@ -533,6 +537,12 @@ test("migrates v3 progress and keeps A2 locked until pilot QA is enabled", async
   await expect(
     page.getByRole("heading", { name: "A2 課程地圖" }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "購物與比較" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /詢問價格/ }),
+  ).toBeDisabled();
   await expect
     .poll(() =>
       page.evaluate((key) => {
@@ -587,12 +597,332 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
       a2: ["a2-u01-l01"],
     });
   await page.reload();
-  await expect(page.getByText("1 / 4", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 / 8", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "課程地圖" }).click();
   await page.locator('[data-testid="level-selector-a1"]').click();
   await expect(
     page.getByRole("heading", { name: "A1 課程地圖" }),
   ).toBeVisible();
+  await expect(page.getByText("1/32 課")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("unlocks A2 unit 2 only after unit 1 is passed in formal mode", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(
+    ({ progressStorageKey, settingsStorageKey, progress }) => {
+      localStorage.setItem(
+        progressStorageKey,
+        JSON.stringify(progress),
+      );
+      localStorage.setItem(
+        settingsStorageKey,
+        JSON.stringify({
+          phonetic: "KK",
+          autoplay: false,
+          slowRate: 0.85,
+          showA2Pilot: false,
+        }),
+      );
+    },
+    {
+      progressStorageKey: progressKey,
+      settingsStorageKey: settingsKey,
+      progress: multiLevelProgressFixture(
+        [],
+        [
+          "a2-u01-l01",
+          "a2-u01-l02",
+          "a2-u01-l03",
+          "a2-u01-l04",
+        ],
+        "A2",
+        [],
+        ["A1"],
+      ),
+    },
+  );
+  await page.reload();
+  await expect(
+    page.getByRole("heading", {
+      name: "把英文從「看得懂」練成「寫得出來」",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(
+    page.getByRole("heading", { name: "A2 課程地圖" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /詢問價格/ }),
+  ).toBeDisabled();
+
+  await page.evaluate((key) => {
+    const progress = JSON.parse(localStorage.getItem(key) ?? "{}");
+    progress.levelProgress.A2.passedUnitIds = ["a2-u01"];
+    localStorage.setItem(key, JSON.stringify(progress));
+  }, progressKey);
+  await page.reload();
+  await expect(
+    page.getByRole("heading", {
+      name: "把英文從「看得懂」練成「寫得出來」",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expect(
+    page.getByRole("button", { name: /詢問價格/ }),
+  ).toBeEnabled();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes A2 shopping price flow", async ({ page }) => {
+  await seedA2Pilot(
+    page,
+    [
+      "a2-u01-l01",
+      "a2-u01-l02",
+      "a2-u01-l03",
+      "a2-u01-l04",
+    ],
+    [],
+    "A2",
+    ["a2-u01"],
+  );
+  await openA2Lesson(page, "詢問價格");
+  await answerRecallTokens(page, [
+    "How",
+    "much",
+    "is",
+    "this",
+    "shirt",
+  ]);
+  await submitRebuild(page, [
+    "How",
+    "much",
+    "is",
+    "this",
+    "shirt",
+  ]);
+  await completeEnhancedStages(page, [
+    "How much is this book?",
+    "How much is this apple?",
+  ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes A2 comparative shopping flow", async ({ page }) => {
+  await seedA2Pilot(
+    page,
+    [
+      "a2-u01-l01",
+      "a2-u01-l02",
+      "a2-u01-l03",
+      "a2-u01-l04",
+      "a2-u02-l01",
+    ],
+    [],
+    "A2",
+    ["a2-u01"],
+  );
+  await openA2Lesson(page, "比較價格");
+  await answerRecallTokens(page, [
+    "This",
+    "shirt",
+    "is",
+    "cheaper",
+    "than",
+    "that",
+    "one",
+  ]);
+  await submitRebuild(page, [
+    "This",
+    "shirt",
+    "is",
+    "cheaper",
+    "than",
+    "that",
+    "one",
+  ]);
+  await completeEnhancedStages(page, [
+    "This book is cheaper than that one.",
+    "This apple is cheaper than that one.",
+  ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes A2 larger-size shopping flow", async ({ page }) => {
+  await seedA2Pilot(
+    page,
+    [
+      "a2-u01-l01",
+      "a2-u01-l02",
+      "a2-u01-l03",
+      "a2-u01-l04",
+      "a2-u02-l01",
+      "a2-u02-l02",
+    ],
+    [],
+    "A2",
+    ["a2-u01"],
+  );
+  await openA2Lesson(page, "詢問尺寸");
+  await answerRecallTokens(page, [
+    "Do",
+    "you",
+    "have",
+    "this",
+    "shirt",
+    "in",
+    "a",
+    "larger",
+    "size",
+  ]);
+  await submitRebuild(page, [
+    "Do",
+    "you",
+    "have",
+    "this",
+    "shirt",
+    "in",
+    "a",
+    "larger",
+    "size",
+  ]);
+  await completeEnhancedStages(page, [
+    "Do you have that shirt in a larger size?",
+    "Do you have this one in a larger size?",
+  ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes A2 payment, shopping passage, comprehension, and reload persistence", async ({
+  page,
+}) => {
+  const a1Completed = ["a1-u1-l1"];
+  await seedA2Pilot(
+    page,
+    [
+      "a2-u01-l01",
+      "a2-u01-l02",
+      "a2-u01-l03",
+      "a2-u01-l04",
+      "a2-u02-l01",
+      "a2-u02-l02",
+      "a2-u02-l03",
+    ],
+    a1Completed,
+    "A2",
+    ["a2-u01"],
+  );
+  await openA2Lesson(page, "付款方式");
+  await answerRecallTokens(page, [
+    "I",
+    "would",
+    "like",
+    "to",
+    "pay",
+    "by",
+    "card",
+  ]);
+  await submitRebuild(page, [
+    "I",
+    "would",
+    "like",
+    "to",
+    "pay",
+    "by",
+    "card",
+  ]);
+  await completeEnhancedStages(
+    page,
+    [
+      "She would like to pay by card.",
+      "He would like to pay by card.",
+    ],
+    false,
+  );
+
+  const passageSentences = [
+    "How much is this shirt?",
+    "This shirt is cheaper than that one.",
+    "Do you have this shirt in a larger size?",
+    "I like this shirt.",
+    "I would like to pay by card.",
+  ];
+  for (let index = 0; index < passageSentences.length; index += 1) {
+    const input = page.locator(`#passage-sentence-${index}`);
+    await expect(input).toBeVisible();
+    await input.fill(passageSentences[index]);
+  }
+  await page
+    .getByRole("button", { name: "檢查整段文章" })
+    .click();
+  for (let question = 0; question < 5; question += 1) {
+    await page.locator("#passage-answer-0").click();
+    await page.locator("#passage-question-check-button").click();
+    await page.locator("#passage-question-next-button").click();
+  }
+  await expect(
+    page.getByRole("heading", {
+      name: "做得好！你已完成本課文字練習",
+    }),
+  ).toBeVisible();
+
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        const a2 = value.levelProgress?.A2;
+        return {
+          a1Completed:
+            value.levelProgress?.A1?.completedLessonIds,
+          lessonComplete: a2?.completedLessonIds?.includes(
+            "a2-u02-l04",
+          ),
+          tokenRecorded: Boolean(
+            a2?.tokenProgress?.[
+              "a2-u02-l04-p01-s01-t05"
+            ],
+          ),
+          sentenceRecorded: Boolean(
+            a2?.sentenceStats?.["a2-u02-l04-p01-s01"],
+          ),
+          patternRecorded: Boolean(
+            a2?.patternStats?.["would-like-to-action"],
+          ),
+          passageRecorded: Boolean(
+            a2?.passageStats?.["a2-u02-p01"],
+          ),
+          reviewRecorded: Boolean(
+            a2?.reviewItems?.[
+              "a2-u02-l04-p01-s01-t05"
+            ],
+          ),
+          hintRecorded:
+            a2?.tokenHintLevels?.[
+              "a2-u02-l04-p01-s01-t05"
+            ] !== undefined,
+        };
+      }, progressKey),
+    )
+    .toEqual({
+      a1Completed,
+      lessonComplete: true,
+      tokenRecorded: true,
+      sentenceRecorded: true,
+      patternRecorded: true,
+      passageRecorded: true,
+      reviewRecorded: true,
+      hintRecorded: true,
+    });
+
+  await page.reload();
+  await expect(page.getByText("8 / 8", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "課程地圖" }).click();
+  await page.locator('[data-testid="level-selector-a1"]').click();
   await expect(page.getByText("1/32 課")).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });

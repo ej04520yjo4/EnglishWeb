@@ -1013,7 +1013,7 @@ export default function Home() {
         ...(basePassageLessons[index] ?? selectedLesson),
         id:
           basePassageLessons[index]?.id ??
-          `${selectedLesson.id}-passage-${index + 1}`,
+          selectedLesson.id,
         sentenceId: sentence.id,
         sentenceOrder: sentence.order,
         sentence: sentence.sentence,
