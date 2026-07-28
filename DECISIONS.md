@@ -145,3 +145,35 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Related-vocabulary cards display the lexeme lemma, while course recall and assessment continue to use the occurrence `answer`. A group item may provide `canonicalTranslationZhTw` when a formal prompt is inflected or context-specific. This display projection never replaces formal progress, occurrence, audio, or source records.
 
 **Reason:** Classification labels must remain consistent with their chunks without weakening the sentence-specific course model or adding lexeme-specific code branches.
+
+## ADR-019 - A2 Expands by Reviewed Pilot Unit
+
+**Status:** Accepted
+
+**Decision:** A2 units 2–4 extend the existing v1 pilot source. Every row and new exercise remains `pilot_review_required`; units 5–10 stay blueprint-only until manual review authorizes another batch.
+
+**Reason:** A single level source preserves stable IDs and progress while staged review limits unverified language content.
+
+## ADR-020 - Current A2 Pilot Completion Is Not a Level Pass
+
+**Status:** Accepted
+
+**Decision:** Completing or passing all currently available A2 pilot units displays `你已完成目前的A2試行內容`. It does not set A2 `levelPassed`, add A2 to `passedLevelIds`, run an A2 level assessment, or unlock B1.
+
+**Reason:** Four pilot units do not represent the full CEFR A2 scope.
+
+## ADR-021 - New A2 Transfers Declare Actual Slot Values
+
+**Status:** Accepted
+
+**Decision:** New transfer examples declare ordered `slotValues`. Validation checks that each slot uses only its own allowed lexemes and chunks and that the ordered values rebuild the displayed sentence.
+
+**Reason:** Aggregate allowlists could accept a learned word in the wrong grammatical position.
+
+## ADR-022 - A2 Inflections Reuse Lemmas and Health Content Stays Educational
+
+**Status:** Accepted
+
+**Decision:** Inflected A2 answers reuse dictionary-form `lexeme_id` values such as `buy`, `leave`, `cheap`, and `large`. Health lessons teach general language only and must not diagnose illness, prescribe doses, or provide medical treatment advice.
+
+**Reason:** Stable lexical identity prevents duplicate progress records, while a strict educational boundary keeps the health unit safe and in scope.

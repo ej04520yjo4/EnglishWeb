@@ -37,6 +37,10 @@ This file stores long-lived product facts and working preferences. Current task 
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
+- A2 pilot source `public/data/a2-course-v1.csv` contains 4 units, 16 lessons, and 95 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
+- A2 units 2–4 cover travel/transportation, shopping/comparison, and health/advice. All remain `pilot_review_required`.
+- `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 5–10 have no formal CSV/JSON data.
+- Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 
 ## Content and Audio Guardrails
 

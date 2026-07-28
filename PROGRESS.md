@@ -3,14 +3,15 @@
 ## Snapshot
 
 - Updated: 2026-07-28
-- Branch: `main`
-- Active milestone: M6 - Related Vocabulary User Review
+- Branch: `feat/a2-units-2-to-4`
+- Active milestone: M4 - A2 Pilot Controlled Expansion
 - Production level: A1
 - Official curriculum: `public/data/a1-course-v3.csv`
 - Curriculum totals: 8 units, 32 lessons, 145 word occurrences
 - Pilot level: A2
 - Pilot curriculum: `public/data/a2-course-v1.csv`
-- Pilot totals: 1 unit, 4 lessons, 25 word occurrences
+- Pilot totals: 4 units, 16 lessons, 95 word occurrences
+- Pilot unit counts: unit 1 = 25, unit 2 = 25, unit 3 = 24, unit 4 = 21 occurrences
 
 ## Working Features
 
@@ -27,6 +28,9 @@
 - A2 QA preview that does not falsely mark A1 passed or formally unlock A2.
 - Progress schema v4 with exact v3 A1 migration and isolated per-level records.
 - A2 word recall, details, chunks, sentence rebuild, recognition, two transfer questions, text response, passage rebuild, and comprehension.
+- A2 units 2–4 cover travel and transportation, shopping and comparison, and health and advice.
+- QA preview can inspect all A2 pilot units without adding passed unit or level IDs.
+- A2 has a ten-unit blueprint; units 5–10 do not exist in formal CSV/JSON.
 - A main-navigation related-vocabulary reference page with keyboard activation, search, status filters, topic cards, word details, pronunciation, chunks, and usage reminders.
 - Course-detail shortcuts for validated A1 topic lexemes, with current-word highlighting and exact detail-stage return.
 
@@ -47,11 +51,16 @@
 - Added failure isolation so invalid related-vocabulary data does not block A1.
 - Related-vocabulary cards now display canonical lemmas while formal course answers remain unchanged.
 - Cross-topic search now selects the first matching topic and hides stale topic details when no result exists.
+- Preserved A2 unit 1 at 4 lessons and 25 occurrences, then added 12 pilot lessons across units 2–4.
+- Added one recognition, two slot-validated transfers, and one text response to every new lesson.
+- Added three four-sentence passages with 14 directly supported comprehension questions, including cross-sentence questions.
+- Prevented the current A2 pilot from creating an A2 level pass or exposing a B1 unlock.
 
 ## Known Limits
 
 - A2 remains a pilot and requires manual language/content QA before promotion.
-- No A2 unit 2 or later content exists yet.
+- A2 units 2–4 remain `pilot_review_required` and need manual English, Taiwan Traditional Chinese, phonetic, and difficulty review.
+- A2 units 5–10 are blueprint-only and have no formal course data.
 - Related vocabulary currently contains four topics and intentionally excludes other categories.
 - All 27 reference-only entries require manual phonetic/content QA before their status changes.
 - Most word and sentence audio still use browser speech fallback; only KK symbol sources have open-license attribution data.
@@ -60,17 +69,17 @@
 
 ## Next Concrete Step
 
-Try all four related-vocabulary topics and review the 27 reference-only entries before selecting another topic.
+Try all 16 A2 pilot lessons and manually review units 2–4 before deciding whether to create A2 unit 5.
 
 ## Verification
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 71 passed, 0 failed.
+- `npm run test:unit`: exit 0; 78 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 34 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: exit 0; 40 passed across desktop and mobile, 0 failed.
 - Related-vocabulary Playwright coverage: 8 passed across desktop and mobile, 0 failed.
-- `npm run validate:curriculum`: exit 0; A1 145 and A2 25 occurrences.
+- `npm run validate:curriculum`: exit 0; A1 145 and A2 95 occurrences across 4 units and 16 lessons.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.

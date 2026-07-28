@@ -7,9 +7,14 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
   - Accept only after corrections are recorded; viewing must remain progress-neutral.
-- [ ] **A2-QA-001:** Manually review the four A2 pilot lessons.
-  - Check natural Taiwan Chinese, word prompts, contextual parts of speech, chunks, sentence patterns, transfer sentences, distractors, and passage questions.
-  - Accept only after findings and any corrections are recorded; do not add A2 unit 2 during this task.
+- [ ] **A2-QA-001:** Manually review all 16 A2 pilot lessons.
+  - Preserve unit 1 and check units 2–4 for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
+  - Accept only after findings and corrections are recorded.
+- [ ] **A2-QA-003:** Try the 12 new lesson flows on current Windows Chrome and at mobile width.
+- [ ] **A2-QA-004:** Check that every unit 2–4 new lexeme is appropriate for A2 and repeated naturally.
+- [ ] **A2-QA-005:** Review comparative, transportation, and health hints for sufficient clarity.
+- [ ] **A2-QA-006:** Review all three new passages for natural continuity and supported answers.
+- [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
 
 ## Next - P1
 
@@ -17,7 +22,11 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
 - [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
-- [ ] **A2-PLAN-002:** After pilot acceptance, propose one small next A2 batch with prerequisites and content ratios.
+- [ ] **A2-PLAN-002:** After units 1–4 are accepted, decide whether blueprint unit 5 should receive formal data.
+- [ ] **A2-PLAN-003:** Build A2 unit 5 only after units 1–4 manual review.
+- [ ] **A2-PLAN-004:** Complete units 5–10 in separate reviewed batches.
+- [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
+- [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [ ] **A1-EX-003:** Add the third reviewed pattern batch.
   - Patterns: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
   - Accept when prerequisites, slot allowlists, natural Taiwan Chinese, non-source variations, unit tests, and Playwright flows pass.
@@ -54,3 +63,6 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Related-vocabulary unit validation and desktop/mobile browser coverage.
 - [x] **VOCAB-PLAN-002:** Added months and family members together for one combined user review.
 - [x] Canonical lemma display, group-level Traditional Chinese overrides, cross-topic search selection, and global no-result handling.
+- [x] A2 pilot units 2–4 with 12 lessons, 70 new occurrences, per-lesson recognition/transfers/response, and three unit passages.
+- [x] Slot-position validation, passage prerequisite metadata, and cross-sentence evidence validation.
+- [x] Ten-unit A2 blueprint with units 5–10 kept out of formal data.

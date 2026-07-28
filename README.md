@@ -2,7 +2,7 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。另有一個需人工複核的 A2 試行單元，共 4 課與 25 個單字出現位置；它使用獨立的 `public/data/a2-course-v1.csv`，不會改寫 A1 資料。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。另有 4 個需人工複核的 A2 試行單元，共 16 課與 95 個單字出現位置；它們共同使用獨立的 `public/data/a2-course-v1.csv`，不會改寫 A1 資料。完成目前試行內容不代表完整通過 A2，也不會解鎖 B1。
 
 ## 主要功能
 
@@ -51,6 +51,7 @@ npx tsc --noEmit --incremental false
 - `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
 - `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
+- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 5–10 只保留規劃，不是正式課程資料。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
 - `tests/`：單元、內容與 Playwright 瀏覽器測試。

@@ -36,6 +36,8 @@ At startup, the app loads the catalog, then loads and validates A1 and A2 separa
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
 - `app/a1-mvp-data.ts`: CSV parsing, normalization, validation, checksums, versioned storage, and course construction.
 - `app/a1-exercises.ts`: pattern/reading schemas, prerequisite and slot validation, coverage reporting, and answer checks.
+- `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV while preserving unit 1 definitions.
+- `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–4 exercises and passages to the existing unit 1 JSON.
 - `app/course-data.ts`: stable TypeScript course types plus A-Z static data; it is not a second A1 lesson source.
 - `app/learning-progress.ts`: token/entity history and review scheduling.
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
@@ -58,6 +60,8 @@ The hierarchy is Level -> Unit -> Lesson -> Stage -> Exercise. Within a sentence
 These layers are additive and must not be collapsed into one input model.
 
 Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
+
+A2 uses one CSV and two exercise JSON files for all four pilot units. New transfer examples include ordered slot values, and new passage sentences declare their lesson prerequisites and required lexemes/chunks. The ten-unit blueprint is documentation only and never enters runtime course construction.
 
 ## Persistence
 
@@ -91,5 +95,6 @@ flowchart LR
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.
 - Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, and persistence flows.
+- A2 browser coverage walks all 12 newly added lesson flows, all three new passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary.
 - Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
 - CI requires context checks, build, unit tests, lint, TypeScript, and browser tests.

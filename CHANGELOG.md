@@ -2,6 +2,28 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - A2 Pilot Units 2–4
+
+### Added
+
+- Added A2 pilot units for travel and transportation, shopping and comparison, and health and advice.
+- Added 12 lessons and 70 one-word occurrences while preserving A2 unit 1 at 25 occurrences.
+- Added recognition, two slot-validated transfer exercises, and a text response for each new lesson.
+- Added three ordered four-sentence passages and 14 supported comprehension questions.
+- Added a ten-unit A2 blueprint while keeping units 5–10 out of formal course data.
+
+### Changed
+
+- QA preview can inspect all pilot units without changing learner unlock records.
+- Completing current A2 content reports pilot completion without marking the full level passed or exposing B1.
+- Curriculum validation now checks 4 A2 units, 16 lessons, 95 occurrences, structured transfer slots, and passage evidence.
+
+### Preserved
+
+- A1 remains 8 units, 32 lessons, and 145 occurrences.
+- A2 unit 1 remains 4 lessons and 25 occurrences with its original IDs and content.
+- Related-vocabulary topics and reference-only review status are unchanged.
+
 ## 2026-07-28 - Related Vocabulary Display and Search Fixes
 
 ### Fixed
