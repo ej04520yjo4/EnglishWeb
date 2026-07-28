@@ -854,8 +854,12 @@ export default function Home() {
     ) {
       return;
     }
+    const aliasCourseRows =
+      courseDataStatusByLevel.A2 === "ready"
+        ? courseRowsByLevel.A2
+        : [];
     let active = true;
-    loadVocabularyDataset(a1Rows)
+    loadVocabularyDataset(a1Rows, fetch, aliasCourseRows)
       .then((dataset) => {
         if (!active) return;
         const storedGroupId =
@@ -887,7 +891,12 @@ export default function Home() {
     return () => {
       active = false;
     };
-  }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
+  }, [
+    courseDataStatusByLevel.A1,
+    courseDataStatusByLevel.A2,
+    courseRowsByLevel.A1,
+    courseRowsByLevel.A2,
+  ]);
 
   useEffect(() => {
     if (

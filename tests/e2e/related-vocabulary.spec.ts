@@ -293,6 +293,32 @@ test("shows the month and family topics with formal and reference sources", asyn
   await expectNoHorizontalOverflow(page);
 });
 
+test("finds canonical cards through occurrence and chunk aliases without overflow", async ({
+  page,
+}) => {
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+
+  const search = page.getByRole("searchbox", {
+    name: "搜尋英文、中文、主題名稱或 lexeme ID",
+  });
+  for (const query of ["brothers", "my brother", "我的哥哥"]) {
+    await search.fill(query);
+    await expect(
+      page.locator('[data-testid="vocabulary-word-brother"]'),
+    ).toContainText("brother");
+    await expect(
+      page.locator('[data-testid="vocabulary-word-brother"]'),
+    ).not.toContainText("brothers");
+    await expectNoHorizontalOverflow(page);
+  }
+
+  await search.fill("not-a-real-vocabulary-item");
+  await expect(
+    page.locator('[data-testid="vocabulary-global-empty"]'),
+  ).toContainText("找不到相關字詞");
+});
+
 test("opens a related group after a correct course word and returns to the same detail stage", async ({
   page,
 }) => {

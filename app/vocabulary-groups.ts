@@ -70,6 +70,7 @@ export type ResolvedVocabularyItem = {
   lemma: string;
   displayEnglish: string;
   translationZhTw: string;
+  searchAliases: string[];
   kkUs: string;
   ipaUs: string;
   usageNoteZhTw: string;
@@ -207,6 +208,85 @@ const courseChunkDefinitions = (courseRows: CourseCsvRow[]) => {
   }
   return chunks;
 };
+
+const uniqueSearchAliases = (values: Array<string | undefined>) =>
+  Array.from(
+    new Set(
+      values
+        .map((value) => value?.trim() ?? "")
+        .filter(Boolean),
+    ),
+  );
+
+const canonicalTranslationAlternatives = (value: string) =>
+  value
+    .split(/[／/、]/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+const chunkTranslationAliases = (
+  translationZhTw: string,
+  canonicalTranslationZhTw: string,
+) => {
+  const alternatives = canonicalTranslationAlternatives(
+    canonicalTranslationZhTw,
+  );
+  const matchedAlternative = alternatives.find((alternative) =>
+    translationZhTw.includes(alternative),
+  );
+  if (!matchedAlternative || alternatives.length < 2) {
+    return [translationZhTw];
+  }
+  const matchedIndex = translationZhTw.indexOf(matchedAlternative);
+  const prefix = translationZhTw.slice(0, matchedIndex);
+  const suffix = translationZhTw.slice(
+    matchedIndex + matchedAlternative.length,
+  );
+  return [
+    translationZhTw,
+    ...alternatives.map(
+      (alternative) => `${prefix}${alternative}${suffix}`,
+    ),
+  ];
+};
+
+const buildVocabularySearchAliases = ({
+  canonical,
+  formalRows,
+  aliasRows,
+  chunks,
+}: {
+  canonical: ReturnType<typeof resolveCanonicalVocabularyDisplay>;
+  formalRows: CourseCsvRow[];
+  aliasRows: CourseCsvRow[];
+  chunks: VocabularyChunkDefinition[];
+}) =>
+  uniqueSearchAliases([
+    canonical.lemma,
+    canonical.displayEnglish,
+    canonical.translationZhTw,
+    ...formalRows.flatMap((row) => [
+      row.answer,
+      row.lemma,
+      row.prompt,
+      row.chunk_text,
+      row.chunk_translation,
+    ]),
+    ...aliasRows.flatMap((row) => [
+      row.answer,
+      row.lemma,
+      row.prompt,
+      row.chunk_text,
+      row.chunk_translation,
+    ]),
+    ...chunks.flatMap((item) => [
+      item.text,
+      ...chunkTranslationAliases(
+        item.translationZhTw,
+        canonical.translationZhTw,
+      ),
+    ]),
+  ]);
 
 const findForbiddenProgressKey = (
   value: unknown,
@@ -487,6 +567,7 @@ export const buildVocabularyDataset = (
   groupData: VocabularyGroupsData,
   referenceData: ReferenceVocabularyData,
   courseRows: CourseCsvRow[],
+  aliasCourseRows: CourseCsvRow[] = [],
 ): VocabularyDataset => {
   const report = validateVocabularyData(groupData, referenceData, courseRows);
   if (!report.valid) {
@@ -523,12 +604,27 @@ export const buildVocabularyDataset = (
               formal,
               reference,
             );
+            const chunks = item.chunkIds.map(
+              (chunkId) =>
+                courseChunks.get(chunkId) ??
+                groupChunks.get(chunkId)!,
+            );
+            const aliasRows = courseRowsForLexeme(
+              aliasCourseRows,
+              item.lexemeId,
+            );
             return {
               lexemeId: item.lexemeId,
               order: item.order,
               lemma: canonical.lemma,
               displayEnglish: canonical.displayEnglish,
               translationZhTw: canonical.translationZhTw,
+              searchAliases: buildVocabularySearchAliases({
+                canonical,
+                formalRows,
+                aliasRows,
+                chunks,
+              }),
               kkUs: formal
                 ? formal.kk_us || formal.kk || ""
                 : reference?.kkUs || "",
@@ -563,11 +659,7 @@ export const buildVocabularyDataset = (
               occurrenceIds: formalRows
                 .map((row) => row.occurrence_id?.trim())
                 .filter((value): value is string => Boolean(value)),
-              chunks: item.chunkIds.map(
-                (chunkId) =>
-                  courseChunks.get(chunkId) ??
-                  groupChunks.get(chunkId)!,
-              ),
+              chunks,
             };
           }),
       })),
@@ -577,6 +669,7 @@ export const buildVocabularyDataset = (
 export const loadVocabularyDataset = async (
   courseRows: CourseCsvRow[],
   fetcher: typeof fetch = fetch,
+  aliasCourseRows: CourseCsvRow[] = [],
 ): Promise<VocabularyDataset> => {
   const [groupsResponse, referenceResponse] = await Promise.all([
     fetcher("/data/vocabulary-groups-v1.json"),
@@ -589,6 +682,7 @@ export const loadVocabularyDataset = async (
     (await groupsResponse.json()) as VocabularyGroupsData,
     (await referenceResponse.json()) as ReferenceVocabularyData,
     courseRows,
+    aliasCourseRows,
   );
 };
 
@@ -636,6 +730,7 @@ export const vocabularyItemMatchesSearch = (
     item.displayEnglish,
     item.translationZhTw,
     item.lexemeId,
+    ...item.searchAliases,
   ].some((value) => clean(value).includes(normalized));
 };
 

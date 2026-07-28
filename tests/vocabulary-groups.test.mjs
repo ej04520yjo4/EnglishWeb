@@ -8,6 +8,7 @@ import {
   parseA1MvpCsv,
 } from "../app/a1-mvp-data.ts";
 import { createEmptyLevelProgress } from "../app/curriculum/progress.ts";
+import { parseCourseCsv } from "../app/curriculum/validation.ts";
 import {
   buildVocabularyDataset,
   canShowVocabularyShortcut,
@@ -33,6 +34,9 @@ const readJson = (relativePath) => JSON.parse(readText(relativePath));
 const a1Rows = parseA1MvpCsv(
   readText("public/data/a1-course-v3.csv"),
 );
+const a2Rows = parseCourseCsv(
+  readText("public/data/a2-course-v1.csv"),
+);
 const groupData = readJson("public/data/vocabulary-groups-v1.json");
 const referenceData = readJson(
   "public/data/reference-vocabulary-v1.json",
@@ -41,6 +45,7 @@ const dataset = buildVocabularyDataset(
   groupData,
   referenceData,
   a1Rows,
+  a2Rows,
 );
 const days = dataset.groups.find(
   (group) => group.id === "days-of-week",
@@ -397,6 +402,57 @@ test("finds a Traditional Chinese translation", () => {
   );
 });
 
+test("finds canonical cards through formal occurrence and chunk aliases", () => {
+  const family = dataset.groups.find(
+    (group) => group.id === "family-members",
+  );
+  const brother = family.items.find(
+    (item) => item.lexemeId === "brother",
+  );
+  const times = dataset.groups.find(
+    (group) => group.id === "times-of-day",
+  );
+  const night = times.items.find(
+    (item) => item.lexemeId === "night",
+  );
+
+  assert.equal(
+    vocabularyItemMatchesSearch(family, brother, "brothers"),
+    true,
+  );
+  assert.equal(
+    vocabularyItemMatchesSearch(family, brother, "my brother"),
+    true,
+  );
+  assert.equal(
+    vocabularyItemMatchesSearch(family, brother, "我的哥哥"),
+    true,
+  );
+  assert.equal(
+    vocabularyItemMatchesSearch(times, night, "last night"),
+    true,
+  );
+  assert.equal(
+    vocabularyItemMatchesSearch(times, night, "昨晚"),
+    true,
+  );
+});
+
+test("search aliases never replace canonical vocabulary display", () => {
+  const family = dataset.groups.find(
+    (group) => group.id === "family-members",
+  );
+  const brother = family.items.find(
+    (item) => item.lexemeId === "brother",
+  );
+
+  assert.equal(brother.displayEnglish, "brother");
+  assert.equal(brother.translationZhTw, "哥哥／弟弟／兄弟");
+  assert.ok(brother.searchAliases.includes("brothers"));
+  assert.ok(brother.searchAliases.includes("my brother"));
+  assert.ok(brother.searchAliases.includes("我的哥哥"));
+});
+
 test("selects the first matching topic and preserves it when search clears", () => {
   const selection = (query, activeGroupId) =>
     resolveVocabularyGroupSelection(
@@ -513,6 +569,8 @@ test("viewing and filtering vocabulary never mutates learning progress", () => {
     for (const item of group.items) {
       vocabularyLearningState(item, progress);
       vocabularyItemMatchesSearch(group, item, "星期");
+      vocabularyItemMatchesSearch(group, item, "brothers");
+      vocabularyItemMatchesSearch(group, item, "last night");
     }
   }
   assert.equal(JSON.stringify(progress), before);
