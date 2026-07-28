@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
@@ -27,6 +28,7 @@ import {
 } from "../app/curriculum/loader.ts";
 import {
   buildCourseUnitsFromRows,
+  COURSE_CSV_HEADERS,
   findCrossLevelIdCollisions,
   parseCourseCsv,
   validateCourseRows,
@@ -94,17 +96,96 @@ test("loads a catalog containing production A1 and pilot A2", async () => {
   assert.equal(loaded.levels[1].prerequisiteLevel, "A1");
 });
 
-test("loads the A2 pilot as 1 unit and 4 lessons", async () => {
+test("loads the A2 pilot as 2 units and 8 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 1);
+  assert.equal(level.units.length, 2);
   assert.equal(level.units[0].lessons.length, 4);
-  assert.equal(level.rows.length, 25);
+  assert.equal(level.units[1].lessons.length, 4);
+  assert.equal(level.rows.length, 53);
   assert.equal(level.status, "pilot");
+});
+
+test("keeps A2 unit 1 at 4 lessons and 25 unchanged occurrences", () => {
+  const unitOneRows = a2Rows.filter(
+    (row) => row.unit_id === "a2-u01",
+  );
+  const units = buildCourseUnitsFromRows(
+    unitOneRows,
+    "a2-course-v1.csv",
+  );
+  const canonical = unitOneRows.map((row) =>
+    COURSE_CSV_HEADERS.map((header) => row[header] ?? ""),
+  );
+
+  assert.equal(units.length, 1);
+  assert.equal(units[0].lessons.length, 4);
+  assert.equal(unitOneRows.length, 25);
+  assert.deepEqual(
+    units[0].lessons.map((lesson) => lesson.sentence),
+    [
+      "I watched TV last night.",
+      "I went to the store yesterday.",
+      "I am going to play badminton tomorrow.",
+      "Would you like to go with me?",
+    ],
+  );
+  assert.equal(
+    crypto
+      .createHash("sha256")
+      .update(JSON.stringify(canonical))
+      .digest("hex"),
+    "0dc7a5643216f063b52f486bf8fc70290de94ed8880450aae81f606b0ffc2c94",
+  );
+});
+
+test("builds A2 unit 2 as four ordered shopping lessons", () => {
+  const unit = buildCourseUnitsFromRows(
+    a2Rows,
+    "a2-course-v1.csv",
+  ).find((item) => item.id === "a2-u02");
+
+  assert.ok(unit);
+  assert.equal(unit.title, "購物與比較");
+  assert.match(unit.description, /Shopping and Comparing/);
+  assert.deepEqual(
+    unit.lessons.map((lesson) => [
+      lesson.id,
+      lesson.number,
+      lesson.title,
+      lesson.sentence,
+    ]),
+    [
+      [
+        "a2-u02-l01",
+        1,
+        "詢問價格",
+        "How much is this shirt?",
+      ],
+      [
+        "a2-u02-l02",
+        2,
+        "比較價格",
+        "This shirt is cheaper than that one.",
+      ],
+      [
+        "a2-u02-l03",
+        3,
+        "詢問尺寸",
+        "Do you have this shirt in a larger size?",
+      ],
+      [
+        "a2-u02-l04",
+        4,
+        "付款方式",
+        "I would like to pay by card.",
+      ],
+    ],
+  );
 });
 
 test("keeps every cross-level structural ID collision-free", () => {
@@ -119,8 +200,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 1,
-    expectedLessons: 4,
+    expectedUnits: 2,
+    expectedLessons: 8,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -135,6 +216,57 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
       lesson.sentence,
     );
   });
+});
+
+test("keeps every A2 unit 2 answer to one word and rebuilds its core sentence", () => {
+  const unitRows = a2Rows.filter(
+    (row) => row.unit_id === "a2-u02",
+  );
+  const units = buildCourseUnitsFromRows(
+    unitRows,
+    "a2-course-v1.csv",
+  );
+
+  assert.equal(unitRows.length, 28);
+  assert.ok(
+    unitRows.every((row) =>
+      /^[A-Za-z]+(?:'[A-Za-z]+)?$/.test(row.answer),
+    ),
+  );
+  units[0].lessons.forEach((lesson) => {
+    const punctuation = lesson.sentence.match(/[.!?]$/)?.[0] ?? ".";
+    assert.equal(
+      `${lesson.tokens.map((token) => token.answer).join(" ")}${punctuation}`,
+      lesson.sentence,
+    );
+  });
+});
+
+test("limits A2 unit 2 to at most four genuinely new lexemes per lesson", () => {
+  const counts = Object.fromEntries(
+    ["a2-u02-l01", "a2-u02-l02", "a2-u02-l03", "a2-u02-l04"].map(
+      (lessonId) => [
+        lessonId,
+        new Set(
+          a2Rows
+            .filter(
+              (row) =>
+                row.lesson_id === lessonId &&
+                row.is_new_word === "TRUE",
+            )
+            .map((row) => row.lexeme_id),
+        ).size,
+      ],
+    ),
+  );
+
+  assert.deepEqual(counts, {
+    "a2-u02-l01": 3,
+    "a2-u02-l02": 3,
+    "a2-u02-l03": 3,
+    "a2-u02-l04": 2,
+  });
+  assert.ok(Object.values(counts).every((count) => count <= 4));
 });
 
 test("validates A2 transfer lexemes, chunks, slots, and non-source variations", () => {
@@ -160,6 +292,59 @@ test("validates A2 transfer lexemes, chunks, slots, and non-source variations", 
   });
 });
 
+test("gives every A2 unit 2 lesson recognition, two transfers, and text response", () => {
+  const lessonIds = [
+    "a2-u02-l01",
+    "a2-u02-l02",
+    "a2-u02-l03",
+    "a2-u02-l04",
+  ];
+
+  for (const lessonId of lessonIds) {
+    assert.equal(
+      a2Reading.recognition.filter(
+        (exercise) => exercise.lessonId === lessonId,
+      ).length,
+      1,
+    );
+    assert.equal(
+      a2Reading.textResponses.filter(
+        (exercise) => exercise.lessonId === lessonId,
+      ).length,
+      1,
+    );
+    assert.equal(
+      a2Patterns.patterns.flatMap((pattern) =>
+        pattern.examples.filter(
+          (example) => example.practiceLessonId === lessonId,
+        ),
+      ).length,
+      2,
+    );
+  }
+});
+
+test("keeps A2 unit 2 transfer data inside learned slot allowlists", () => {
+  const report = validatePatternExerciseData(
+    a2Patterns,
+    a2Rows,
+    "A2",
+    a1Rows,
+  );
+  assert.equal(report.valid, true, report.errors.join("\n"));
+
+  const unitTwoPatterns = a2Patterns.patterns.filter((pattern) =>
+    pattern.examples.some((example) =>
+      example.practiceLessonId.startsWith("a2-u02-"),
+    ),
+  );
+  assert.equal(unitTwoPatterns.length, 4);
+  unitTwoPatterns.forEach((pattern) => {
+    assert.equal(pattern.qaStatus, "pilot_review_required");
+    assert.equal(pattern.examples.length, 2);
+  });
+});
+
 test("keeps A2 reading answers supported and distractors unique", () => {
   const report = validateReadingExerciseData(
     a2Reading,
@@ -168,7 +353,9 @@ test("keeps A2 reading answers supported and distractors unique", () => {
     a1Rows,
   );
   assert.equal(report.valid, true, report.errors.join("\n"));
-  const passage = a2Reading.passages[0];
+  const passage = a2Reading.passages.find(
+    (item) => item.passageId === "a2-u01-p01",
+  );
   const sentenceById = new Map(
     passage.sentences.map((sentence) => [
       sentence.id,
@@ -196,6 +383,82 @@ test("keeps A2 reading answers supported and distractors unique", () => {
       1,
     );
   });
+});
+
+test("adds a five-sentence A2 shopping passage with supported comprehension", () => {
+  const passage = a2Reading.passages.find(
+    (item) => item.passageId === "a2-u02-p01",
+  );
+  assert.ok(passage);
+  assert.equal(passage.level, "A2");
+  assert.equal(passage.qaStatus, "pilot_review_required");
+  assert.ok(
+    passage.sentences.length >= 5 && passage.sentences.length <= 6,
+  );
+  assert.equal(passage.questions.length, 5);
+  assert.ok(
+    passage.questions.some(
+      (question) => question.evidenceSentenceIds?.length >= 2,
+    ),
+  );
+
+  const report = validateReadingExerciseData(
+    a2Reading,
+    a2Rows,
+    a2Patterns,
+    a1Rows,
+  );
+  assert.equal(report.valid, true, report.errors.join("\n"));
+});
+
+test("keeps every A2 unit 2 curriculum and exercise item in pilot review", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u02");
+  assert.ok(
+    rows.every((row) => row.qa_status === "pilot_review_required"),
+  );
+  assert.ok(
+    a2Reading.recognition
+      .filter((item) => item.lessonId.startsWith("a2-u02-"))
+      .every(
+        (item) =>
+          item.level === "A2" &&
+          item.qaStatus === "pilot_review_required",
+      ),
+  );
+  assert.ok(
+    a2Reading.textResponses
+      .filter((item) => item.lessonId.startsWith("a2-u02-"))
+      .every(
+        (item) =>
+          item.level === "A2" &&
+          item.qaStatus === "pilot_review_required",
+      ),
+  );
+});
+
+test("keeps A2 unit IDs collision-free across both pilot units", () => {
+  const unitOneIds = new Set(
+    a2Rows
+      .filter((row) => row.unit_id === "a2-u01")
+      .flatMap((row) => [
+        row.unit_id,
+        row.lesson_id,
+        row.sentence_id,
+        row.occurrence_id,
+      ]),
+  );
+  const unitTwoIds = a2Rows
+    .filter((row) => row.unit_id === "a2-u02")
+    .flatMap((row) => [
+      row.unit_id,
+      row.lesson_id,
+      row.sentence_id,
+      row.occurrence_id,
+    ]);
+  assert.deepEqual(
+    unitTwoIds.filter((id) => unitOneIds.has(id)),
+    [],
+  );
 });
 
 test("migrates schemaVersion 3 to 4 without changing A1 data", () => {

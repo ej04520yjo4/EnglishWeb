@@ -22,6 +22,12 @@ export type CurriculumLoadResult = {
   errors: Partial<Record<CefrLevel, string>>;
 };
 
+const EXPECTED_PILOT_SHAPE: Partial<
+  Record<CefrLevel, { units: number; lessons: number }>
+> = {
+  A2: { units: 2, lessons: 8 },
+};
+
 const loadCatalogCourseLevel = async (
   entry: CurriculumCatalogEntry,
   fetcher: typeof fetch,
@@ -34,10 +40,11 @@ const loadCatalogCourseLevel = async (
   }
   const csvText = await response.text();
   const rows = parseCourseCsv(csvText);
+  const expectedShape = EXPECTED_PILOT_SHAPE[entry.level];
   const report = validateCourseRows(rows, {
     expectedLevel: entry.level,
-    expectedUnits: entry.level === "A2" ? 1 : undefined,
-    expectedLessons: entry.level === "A2" ? 4 : undefined,
+    expectedUnits: expectedShape?.units,
+    expectedLessons: expectedShape?.lessons,
     sourceVersion: entry.sourceVersion,
     rejectProductionQaForPilot: entry.status === "pilot",
   });
