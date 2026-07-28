@@ -7,17 +7,17 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
   - Accept only after corrections are recorded; viewing must remain progress-neutral.
-- [ ] **A2-QA-001:** Manually review the four A2 pilot lessons.
-  - Check natural Taiwan Chinese, word prompts, contextual parts of speech, chunks, sentence patterns, transfer sentences, distractors, and passage questions.
-  - Accept only after findings and any corrections are recorded; do not add A2 unit 2 during this task.
+- [ ] **A2-U02-QA-001:** Use all four A2 unit 2 shopping lessons on Windows Chrome and mobile width.
+  - Check the English and Taiwan Traditional Chinese, KK/IPA, new-lexeme difficulty, comparative hints, chunks, distractors, and transfer sentences.
+  - Check whether the five-sentence shopping passage sounds natural and whether every comprehension answer is directly supported.
+  - Keep every unit 2 row `pilot_review_required` until findings and corrections are recorded.
 
 ## Next - P1
 
-- [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
 - [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
-- [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
-- [ ] **A2-PLAN-002:** After pilot acceptance, propose one small next A2 batch with prerequisites and content ratios.
+- [ ] **A2-QA-002:** Recheck A2 unit 1 together with unit 2 without changing its 4 lessons or 25 occurrences.
+- [ ] **A2-PLAN-002:** Decide whether to plan A2 unit 3 only after A2 unit 2 user-trial findings are accepted.
 - [ ] **A1-EX-003:** Add the third reviewed pattern batch.
   - Patterns: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
   - Accept when prerequisites, slot allowlists, natural Taiwan Chinese, non-source variations, unit tests, and Playwright flows pass.
@@ -54,3 +54,6 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Related-vocabulary unit validation and desktop/mobile browser coverage.
 - [x] **VOCAB-PLAN-002:** Added months and family members together for one combined user review.
 - [x] Canonical lemma display, group-level Traditional Chinese overrides, cross-topic search selection, and global no-result handling.
+- [x] Formal occurrence, lemma, prompt, and chunk aliases for related-vocabulary search without changing canonical labels or progress.
+- [x] A2 unit 2 「購物與比較」 with 4 lessons, 28 occurrences, per-lesson recognition/transfer/response practice, a shopping passage, and 5 comprehension questions.
+- [x] A2 unit 2 formal unlock, QA preview, content-management validation, round-trip import/export, progress isolation, and desktop/mobile browser coverage.

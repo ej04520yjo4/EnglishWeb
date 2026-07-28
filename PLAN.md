@@ -4,7 +4,7 @@
 
 英句練習 is a Traditional Chinese, keyboard-first English learning site. It builds sentence production from individual word recall to chunks, sentence patterns, complete sentences, and short passages.
 
-A1 is the current production level. A2 has one isolated pilot unit for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
+A1 is the current production level. A2 has two isolated pilot units for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
 
 ## Milestones
 
@@ -46,12 +46,12 @@ A1 is the current production level. A2 has one isolated pilot unit for technical
 
 ### M4 - A2 Pilot Review and Controlled Expansion
 
-**Status:** Paused while awaiting pilot review
+**Status:** Current
 
-- Manually review all A2 Chinese prompts, contextual parts of speech, chunks, distractors, and transfer sentences.
-- Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- Promote pilot content only after review; do not add A2 unit 2 or later in the same review cycle.
-- Define the next small A2 batch only after the pilot report is accepted.
+- Keep A2 unit 1 unchanged while trialing unit 2 「購物與比較」 as the second controlled batch.
+- Manually review all A2 Chinese prompts, contextual parts of speech, chunks, distractors, transfer sentences, phonetics, and the shopping passage.
+- Confirm both units on Windows Chrome and a 375-pixel mobile viewport.
+- Promote pilot content only after review; do not add A2 unit 3 until unit 2 trial findings are accepted.
 
 ### M5 - Related Vocabulary Reference Tool
 
@@ -65,13 +65,13 @@ A1 is the current production level. A2 has one isolated pilot unit for technical
 
 ### M6 - Related Vocabulary User Review
 
-**Status:** Current
+**Status:** Paused while A2 unit 2 is trialed
 
 - Try all four topics in current Windows Chrome and at mobile width.
 - Manually review the 27 reference-only KK/IPA entries, chunks, and Taiwan Traditional Chinese wording.
 - Review months and family members together as the second content batch.
 - Decide the next single topic only after this combined review is complete.
-- Resume A2 pilot review only after this scoped user-review cycle.
+- Keep all 27 reference-only entries review-required while A2 unit 2 is trialed.
 
 ### M7 - Learning Depth and Release Readiness
 

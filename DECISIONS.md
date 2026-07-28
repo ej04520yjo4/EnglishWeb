@@ -145,3 +145,19 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Related-vocabulary cards display the lexeme lemma, while course recall and assessment continue to use the occurrence `answer`. A group item may provide `canonicalTranslationZhTw` when a formal prompt is inflected or context-specific. This display projection never replaces formal progress, occurrence, audio, or source records.
 
 **Reason:** Classification labels must remain consistent with their chunks without weakening the sentence-specific course model or adding lexeme-specific code branches.
+
+## ADR-019 - Search Aliases May Use Formal Occurrences and Chunks
+
+**Status:** Accepted
+
+**Decision:** Related-vocabulary search may derive hidden aliases from formal occurrence answers, lemmas, prompts, lexeme IDs, and English/Traditional Chinese chunk text. Aliases may include independently loaded A2 rows, but the displayed English and Chinese stay canonical and A1 remains authoritative for shared progress, audio, and source metadata.
+
+**Reason:** Learners should find `brother` through `brothers`, `my brother`, or `我的哥哥` without turning a sentence-specific form into the category label or changing learning records.
+
+## ADR-020 - A2 Expands One Pilot Unit at a Time
+
+**Status:** Accepted
+
+**Decision:** A2 unit 2 「購物與比較」 is the second isolated pilot batch. Its curriculum and exercises remain `pilot_review_required`; A2 unit 1 remains unchanged, and unit 3 is not planned until unit 2 has been tried and manually reviewed.
+
+**Reason:** Small, reversible batches allow language, difficulty, progression, and mobile-flow review without bulk-generating an unverified A2 course.

@@ -28,6 +28,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - A1 v3 contains 8 units, 32 lessons, and 145 word occurrences.
 - Official source: `public/data/a1-course-v3.csv`.
 - Reviewed additions: `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`.
+- A2 uses the independent pilot source `public/data/a2-course-v1.csv`; it currently contains 2 units, 8 lessons, and 53 occurrences.
+- A2 unit 1 remains 4 lessons and 25 occurrences. A2 unit 2 is 「購物與比較」 with 4 lessons and 28 occurrences; all A2 unit 2 content remains `pilot_review_required`.
 - Unit 8 passage order:
   1. `I get up at seven.`
   2. `I eat breakfast at home.`
@@ -48,6 +50,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
 - Formal course data remains primary for progress, occurrences, audio, and source metadata. Reference viewing must never count as learning completion or change review schedules.
 - Related-vocabulary cards display canonical lemmas and may use a validated group-level Traditional Chinese override; course answers remain occurrence-specific.
+- Related-vocabulary search may use formal occurrence answers, lemmas, prompts, lexeme IDs, and chunk text/translations as hidden aliases. These aliases never change canonical display or learner progress.
 - A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 
 ## Context Engineering Preferences

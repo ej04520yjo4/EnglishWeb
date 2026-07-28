@@ -3,14 +3,14 @@
 ## Snapshot
 
 - Updated: 2026-07-28
-- Branch: `main`
-- Active milestone: M6 - Related Vocabulary User Review
+- Branch: `feat/a2-shopping-comparison`
+- Active milestone: M4 - A2 Pilot Review and Controlled Expansion
 - Production level: A1
 - Official curriculum: `public/data/a1-course-v3.csv`
 - Curriculum totals: 8 units, 32 lessons, 145 word occurrences
 - Pilot level: A2
 - Pilot curriculum: `public/data/a2-course-v1.csv`
-- Pilot totals: 1 unit, 4 lessons, 25 word occurrences
+- Pilot totals: 2 units, 8 lessons, 53 word occurrences
 
 ## Working Features
 
@@ -29,6 +29,7 @@
 - A2 word recall, details, chunks, sentence rebuild, recognition, two transfer questions, text response, passage rebuild, and comprehension.
 - A main-navigation related-vocabulary reference page with keyboard activation, search, status filters, topic cards, word details, pronunciation, chunks, and usage reminders.
 - Course-detail shortcuts for validated A1 topic lexemes, with current-word highlighting and exact detail-stage return.
+- Related-vocabulary aliases derived from formal occurrence answers, lemmas, prompts, and English/Traditional Chinese chunks without changing canonical card labels.
 
 ## Latest Completed Work
 
@@ -47,11 +48,16 @@
 - Added failure isolation so invalid related-vocabulary data does not block A1.
 - Related-vocabulary cards now display canonical lemmas while formal course answers remain unchanged.
 - Cross-topic search now selects the first matching topic and hides stale topic details when no result exists.
+- Expanded search so `brothers`, `my brother`, `我的哥哥`, `last night`, and `昨晚` resolve to their canonical cards without changing progress.
+- Kept A2 unit 1 byte-equivalent in meaning and structure at 4 lessons and 25 occurrences.
+- Added A2 unit 2 「購物與比較」 with 4 lessons, 28 one-word occurrences, 4 reviewed-flow patterns, 8 transfer exercises, 8 reading/response exercises, and one five-sentence shopping passage with 5 comprehension questions.
+- Added formal sequential unlock for A2 unit 2, non-mutating QA preview access, per-level reload persistence, validated content-management round trips, and invalid-import isolation.
 
 ## Known Limits
 
 - A2 remains a pilot and requires manual language/content QA before promotion.
-- No A2 unit 2 or later content exists yet.
+- A2 unit 2 English, Traditional Chinese, KK/IPA, comparative hints, and shopping-passage naturalness still require user review.
+- No A2 unit 3 or later content exists.
 - Related vocabulary currently contains four topics and intentionally excludes other categories.
 - All 27 reference-only entries require manual phonetic/content QA before their status changes.
 - Most word and sentence audio still use browser speech fallback; only KK symbol sources have open-license attribution data.
@@ -60,17 +66,18 @@
 
 ## Next Concrete Step
 
-Try all four related-vocabulary topics and review the 27 reference-only entries before selecting another topic.
+Try A2 unit 2 end to end, manually review its English, Traditional Chinese, KK/IPA, comparative guidance, new-lexeme difficulty, and passage naturalness, then decide whether A2 unit 3 should be planned.
 
 ## Verification
 
 - `npm run check:context`: exit 0; 10 required files passed.
 - `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 71 passed, 0 failed.
+- `npm run test:unit`: exit 0; 84 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 34 passed across desktop and mobile, 0 failed.
-- Related-vocabulary Playwright coverage: 8 passed across desktop and mobile, 0 failed.
-- `npm run validate:curriculum`: exit 0; A1 145 and A2 25 occurrences.
+- `npm run test:e2e`: exit 0; 48 passed across desktop and mobile, 0 failed.
+- A2 unit 2 Playwright coverage: 10 passed across desktop and mobile, 0 failed.
+- Related-vocabulary Playwright coverage: 10 passed across desktop and mobile, 0 failed.
+- `npm run validate:curriculum`: exit 0; A1 145 and A2 53 occurrences.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.

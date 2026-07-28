@@ -2,6 +2,23 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - A2 Shopping Pilot and Vocabulary Aliases
+
+### Added
+
+- Added A2 unit 2 「購物與比較」 with four lessons for price, comparison, size, and card-payment language.
+- Added one reading-recognition question, two validated transfer questions, and one text-response question to every new lesson.
+- Added a five-sentence shopping passage with five supported comprehension questions.
+- Added formal unit 2 unlocking, QA-preview access, content-management round-trip validation, progress persistence, and desktop/mobile browser coverage.
+- Added reusable search aliases from formal answers, lemmas, prompts, and English/Traditional Chinese chunks.
+
+### Preserved
+
+- A1 remains 8 units, 32 lessons, and 145 occurrences from its unchanged official CSV.
+- A2 unit 1 remains 4 lessons and 25 occurrences.
+- Canonical related-vocabulary labels, all four topics, 27 reference-only review states, and progress-neutral viewing remain unchanged.
+- A2 unit 2 remains `pilot_review_required`; no A2 unit 3, B1, B2, or additional vocabulary topic was added.
+
 ## 2026-07-28 - Related Vocabulary Display and Search Fixes
 
 ### Fixed

@@ -14,6 +14,7 @@ flowchart LR
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
   Reference["reference-vocabulary-v1.json"] --> Vocabulary
   A1 --> Vocabulary
+  A2 --> Vocabulary
   Adapter --> LevelLoader
   LevelLoader --> Validate["Level validation and checksums"]
   Validate --> Units["Independent A1 and A2 CourseUnit arrays"]
@@ -23,7 +24,7 @@ flowchart LR
   Page --> UI["Course map and learning stages"]
 ```
 
-At startup, the app loads the catalog, then loads and validates A1 and A2 separately. The A1 legacy adapter preserves the production v3 behavior while the common loader establishes the reusable level boundary. A saved local curriculum is restored only when its level version and revision match the official source. One level can fail without invalidating another.
+At startup, the app loads the catalog, then loads and validates A1 and A2 separately. A2 v1 currently contains two pilot units and eight lessons. The A1 legacy adapter preserves the production v3 behavior while the common loader establishes the reusable level boundary. A saved local curriculum is restored only when its level version and revision match the official source. One level can fail without invalidating another.
 
 ## Module Responsibilities
 
@@ -57,7 +58,7 @@ The hierarchy is Level -> Unit -> Lesson -> Stage -> Exercise. Within a sentence
 
 These layers are additive and must not be collapsed into one input model.
 
-Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
+Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search aliases are dynamically derived from formal A1/A2 answers, lemmas, prompts, lexeme IDs, and English/Traditional Chinese chunks; aliases never replace the canonical display. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
 
 ## Persistence
 
@@ -90,6 +91,6 @@ flowchart LR
 - `npm run check:context` verifies the project-context files and encoding.
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.
-- Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, and persistence flows.
+- Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, sequential unit unlock, passage, error-isolation, and persistence flows.
 - Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
 - CI requires context checks, build, unit tests, lint, TypeScript, and browser tests.
