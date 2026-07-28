@@ -2488,8 +2488,12 @@ export default function Home() {
     const base = validateCourseRows(rows, {
       expectedLevel: "A2",
       expectedRows: referenceRows.length,
-      expectedUnits: 1,
-      expectedLessons: 4,
+      expectedUnits: new Set(
+        referenceRows.map((row) => row.unit_id),
+      ).size,
+      expectedLessons: new Set(
+        referenceRows.map((row) => row.lesson_id),
+      ).size,
       rejectProductionQaForPilot: true,
     });
     const expectedIds = new Set(

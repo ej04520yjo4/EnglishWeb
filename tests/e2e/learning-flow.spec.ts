@@ -927,6 +927,53 @@ test("completes A2 payment, shopping passage, comprehension, and reload persiste
   await expectNoHorizontalOverflow(page);
 });
 
+test("validates both A2 units in content management without changing A1 progress", async ({
+  page,
+}) => {
+  await seedA2Pilot(
+    page,
+    [],
+    ["a1-u1-l1"],
+    "A2",
+    ["a2-u01"],
+  );
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", {
+      name: "把英文從「看得懂」練成「寫得出來」",
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "前往內容管理" })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "課程內容管理" }),
+  ).toBeVisible();
+  await expect(page.getByText("2／8", { exact: true })).toBeVisible();
+  await expect(page.getByText("8／53", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("option", { name: "單元 2・購物與比較" }),
+  ).toHaveCount(1);
+  const validateButton = page.getByRole("button", {
+    name: "驗證並套用",
+  });
+  await validateButton.focus();
+  await validateButton.press("Enter");
+  await expect(
+    page.getByText("草稿驗證通過，已套用 53 列。"),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(
+          localStorage.getItem(key) ?? "{}",
+        );
+        return value.levelProgress?.A1?.completedLessonIds;
+      }, progressKey),
+    )
+    .toEqual(["a1-u1-l1"]);
+});
+
 test("completes the A2 passage rebuild and all three comprehension questions", async ({
   page,
 }) => {
