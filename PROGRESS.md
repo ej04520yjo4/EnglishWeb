@@ -57,6 +57,8 @@
 - Prevented the current A2 pilot from creating an A2 level pass or exposing a B1 unlock.
 - Completed the final reading-content QA for A2 units 2–4: direct transport answers, natural health questions, and distractors limited to content learned by each passage.
 - Added backward-compatible per-option lexeme/chunk metadata and validation for the new A2 passage questions while preserving the legacy A1 string-option format.
+- Stabilized A2 mobile Playwright setup by preloading progress and settings before React hydration, preserving test-created progress across reloads, and waiting for real A2 UI readiness.
+- Added CI retention for Playwright HTML reports, screenshots, error context, and traces; GitHub Actions status remains to be confirmed after this commit is pushed.
 
 ## Known Limits
 
@@ -85,3 +87,6 @@ Try all 16 A2 pilot lessons and manually review units 2–4 before deciding whet
 - `npm run validate:curriculum`: exit 0; A1 145 and A2 95 occurrences across 4 units and 16 lessons.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
 - EnglishWeb first-level start BAT: passed `ENGLISHWEB_CHECK_ONLY=1` execution through `cmd.exe`; no server or browser was started.
+- Target A2 completion mobile test: exit 0; 1 passed, 0 failed.
+- Target A2 completion mobile stability run: exit 0; 10 passed, 0 failed with no retries.
+- All mobile tests using the A2 preload fixture: exit 0; 5 passed, 0 failed.

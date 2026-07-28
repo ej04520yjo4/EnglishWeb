@@ -185,3 +185,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Passage comprehension continues to expose `options` as strings. New A2 passage questions add matching `optionMetadata` entries with required lexemes and chunks, while legacy A1 passages may omit the metadata.
 
 **Reason:** The UI and A1 data remain backward compatible, and validation can still prevent a new distractor from introducing content taught only in a later lesson or unit.
+
+## ADR-024 - Browser Fixtures Precede Application Hydration
+
+**Status:** Accepted
+
+**Decision:** Playwright fixtures that require saved settings or progress use `page.addInitScript` before navigation. They initialize only missing storage keys so that later navigation and reload preserve progress created by the test. Browser flows wait for observable level and course-map UI states instead of fixed delays.
+
+**Reason:** Writing storage after an initial page load races React hydration on slower mobile CI workers, while reapplying the fixture on every navigation can erase the progress being tested.

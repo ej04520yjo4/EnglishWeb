@@ -18,6 +18,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Next - P1
 
+- [ ] **CI-E2E-001:** After pushing the hydration fix, confirm GitHub Actions passes all browser tests and exposes the Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
 - [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
@@ -67,3 +68,4 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Slot-position validation, passage prerequisite metadata, and cross-sentence evidence validation.
 - [x] A2 units 2–4 passage-option prerequisite metadata, future-content rejection, and final reading wording QA.
 - [x] Ten-unit A2 blueprint with units 5–10 kept out of formal data.
+- [x] Deterministic pre-hydration A2 Playwright fixtures, explicit UI readiness waits, and CI failure-artifact retention.

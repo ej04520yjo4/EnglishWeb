@@ -2,6 +2,20 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-28 - Stable A2 Mobile E2E Initialization
+
+### Fixed
+
+- Seeded A2 Playwright progress and settings before application JavaScript runs, removing the mobile hydration race caused by writing `localStorage` after the first page load.
+- Preserved progress created during a test across later navigation and reload instead of reapplying the original fixture.
+- Waited for observable A2 home and course-map states before interacting with hydrated controls.
+
+### Changed
+
+- Added a Playwright HTML report while retaining screenshots and traces on failure.
+- GitHub Actions now uploads `playwright-report/` and `test-results/` after every browser-test run without failing when no artifacts exist.
+- A2 pilot completion rules and all A1/A2 curriculum data remain unchanged.
+
 ## 2026-07-28 - A2 Units 2–4 Reading QA
 
 ### Fixed

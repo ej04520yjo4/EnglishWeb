@@ -94,35 +94,48 @@ const seedA2Pilot = async (
   a2PassedUnitIds: string[] = [],
   passedLevelIds: string[] = [],
 ) => {
-  await page.goto("/");
-  await page.evaluate(
+  const progress = multiLevelProgressFixture(
+    a1Completed,
+    a2Completed,
+    selectedLevel,
+    a2PassedUnitIds,
+    passedLevelIds,
+  );
+  await page.addInitScript(
     ({ progressStorageKey, settingsStorageKey, progress }) => {
-      localStorage.setItem(
-        progressStorageKey,
-        JSON.stringify(progress),
-      );
-      localStorage.setItem(
-        settingsStorageKey,
-        JSON.stringify({
-          phonetic: "KK",
-          autoplay: false,
-          slowRate: 0.85,
-          showA2Pilot: true,
-        }),
-      );
+      if (localStorage.getItem(progressStorageKey) === null) {
+        localStorage.setItem(
+          progressStorageKey,
+          JSON.stringify(progress),
+        );
+      }
+      if (localStorage.getItem(settingsStorageKey) === null) {
+        localStorage.setItem(
+          settingsStorageKey,
+          JSON.stringify({
+            phonetic: "KK",
+            autoplay: false,
+            slowRate: 0.85,
+            showA2Pilot: true,
+          }),
+        );
+      }
     },
     {
       progressStorageKey: progressKey,
       settingsStorageKey: settingsKey,
-      progress: multiLevelProgressFixture(
-        a1Completed,
-        a2Completed,
-        selectedLevel,
-        a2PassedUnitIds,
-        passedLevelIds,
-      ),
+      progress,
     },
   );
+};
+
+const expectLevelHomeReady = async (
+  page: Page,
+  level: "A1" | "A2",
+) => {
+  await expect(
+    page.getByText(`${level} 完成度`, { exact: true }),
+  ).toBeVisible();
 };
 
 const openA2Lesson = async (
@@ -135,16 +148,18 @@ const openA2Lesson = async (
       name: "把英文從「看得懂」練成「寫得出來」",
     }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "查看完整路線 →" })
-    .click();
+  await expectLevelHomeReady(page, "A2");
+  await page.getByRole("button", {
+    name: "前往課程地圖",
+    exact: true,
+  }).click();
   const a2Heading = page.getByRole("heading", {
     name: "A2 課程地圖",
   });
-  if (!(await a2Heading.isVisible())) {
-    await page.locator('[data-testid="level-selector-a2"]').click();
-  }
   await expect(a2Heading).toBeVisible();
+  await expect(
+    page.locator('[data-testid="level-selector-a2"]'),
+  ).toHaveAttribute("aria-pressed", "true");
   await page
     .getByRole("button", { name: new RegExp(title) })
     .click();
@@ -614,8 +629,15 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
       a2: ["a2-u01-l01"],
     });
   await page.reload();
+  await expectLevelHomeReady(page, "A2");
   await expect(page.getByText("1 / 16", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "課程地圖" }).click();
+  await page.getByRole("button", {
+    name: "前往課程地圖",
+    exact: true,
+  }).click();
+  await expect(
+    page.getByRole("heading", { name: "A2 課程地圖" }),
+  ).toBeVisible();
   await page.locator('[data-testid="level-selector-a1"]').click();
   await expect(
     page.getByRole("heading", { name: "A1 課程地圖" }),
@@ -959,6 +981,7 @@ test("completes all 12 new A2 lessons and three new passages", async ({
     .toEqual({ completed: 12, passages: 3 });
 
   await page.reload();
+  await expectLevelHomeReady(page, "A2");
   await expect(page.getByText("12 / 16", { exact: true })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
@@ -974,7 +997,22 @@ test("finishing current A2 pilot content never marks A2 passed or unlocks B1", a
     ["a2-u01", "a2-u02", "a2-u03", "a2-u04"],
   );
   await page.goto("/");
-  await page.getByRole("button", { name: "課程地圖" }).click();
+  await expectLevelHomeReady(page, "A2");
+  await expect(
+    page.getByRole("heading", {
+      name: "你已完成目前的A2試行內容",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", {
+    name: "前往課程地圖",
+    exact: true,
+  }).click();
+  await expect(
+    page.getByRole("heading", { name: "A2 課程地圖" }),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-testid="level-selector-a2"]'),
+  ).toHaveAttribute("aria-pressed", "true");
   await expect(
     page.locator('[data-testid="a2-pilot-completion"]'),
   ).toContainText("你已完成目前的A2試行內容");
@@ -1009,12 +1047,19 @@ test("shows a Traditional Chinese A2 error without breaking A1", async ({
   );
   await seedA2Pilot(page, [], [], "A1");
   await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
   await expect(
     page.getByRole("heading", {
       name: "把英文從「看得懂」練成「寫得出來」",
     }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "課程地圖" }).click();
+  await page.getByRole("button", {
+    name: "前往課程地圖",
+    exact: true,
+  }).click();
+  await expect(
+    page.getByRole("heading", { name: "A1 課程地圖" }),
+  ).toBeVisible();
   await page.locator('[data-testid="level-selector-a2"]').click();
   await expect(
     page.locator('[data-testid="a2-load-error"]'),

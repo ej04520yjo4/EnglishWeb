@@ -8,7 +8,10 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   retries: 0,
-  reporter: [["list"]],
+  reporter: [
+    ["list"],
+    ["html", { outputFolder: "playwright-report", open: "never" }],
+  ],
   use: {
     baseURL: "http://localhost:4173",
     channel: "chrome",

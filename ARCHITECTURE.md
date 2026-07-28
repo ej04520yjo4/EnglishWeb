@@ -97,6 +97,8 @@ flowchart LR
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.
 - Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, and persistence flows.
+- Saved-state Playwright fixtures are installed with `page.addInitScript` before application hydration and never overwrite progress produced later in the same test.
+- Browser interactions wait for observable level-home and course-map readiness rather than fixed sleeps.
 - A2 browser coverage walks all 12 newly added lesson flows, all three new passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary.
 - Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
-- CI requires context checks, build, unit tests, lint, TypeScript, and browser tests.
+- CI requires context checks, build, unit tests, lint, TypeScript, and browser tests, then retains the Playwright HTML report, failure screenshots, error context, and traces for diagnosis.
