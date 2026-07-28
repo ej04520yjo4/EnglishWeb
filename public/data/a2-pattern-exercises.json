@@ -222,6 +222,221 @@
           "requiredChunkIds": ["would-you-like-to"]
         }
       ]
+    },
+    {
+      "id": "how-much-item",
+      "cefr": "A2",
+      "qaStatus": "pilot_review_required",
+      "enabledForTransfer": true,
+      "template": "How much is {demonstrative} {item}?",
+      "slots": [
+        {
+          "slotId": "price-question",
+          "role": "詢問價格",
+          "allowedLexemeIds": ["how", "much", "be"],
+          "allowedChunkIds": ["how-much"]
+        },
+        {
+          "slotId": "demonstrative",
+          "role": "近距離指示詞",
+          "allowedLexemeIds": ["this"]
+        },
+        {
+          "slotId": "item",
+          "role": "已學可購買商品",
+          "allowedLexemeIds": ["shirt", "book", "apple"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-shopping-price-book",
+          "practiceLessonId": "a2-u02-l01",
+          "sourceSentenceId": "a2-u02-l01-p01-s01",
+          "sentencePatternId": "how-much-item",
+          "passageId": "a2-u02-p01",
+          "sentence": "How much is this book?",
+          "translation": "這本書多少錢？",
+          "hintKeywords": "多少錢／這本書",
+          "skeleton": "How much is this ______?",
+          "requiredLexemeIds": ["how", "much", "be", "this", "book"],
+          "requiredChunkIds": ["how-much"]
+        },
+        {
+          "id": "a2-shopping-price-apple",
+          "practiceLessonId": "a2-u02-l01",
+          "sourceSentenceId": "a2-u02-l01-p01-s01",
+          "sentencePatternId": "how-much-item",
+          "passageId": "a2-u02-p01",
+          "sentence": "How much is this apple?",
+          "translation": "這顆蘋果多少錢？",
+          "hintKeywords": "多少錢／這顆蘋果",
+          "skeleton": "How much is this ______?",
+          "requiredLexemeIds": ["how", "much", "be", "this", "apple"],
+          "requiredChunkIds": ["how-much"]
+        }
+      ]
+    },
+    {
+      "id": "comparative-cheaper-than",
+      "cefr": "A2",
+      "qaStatus": "pilot_review_required",
+      "enabledForTransfer": true,
+      "template": "This {item} is cheaper than that one.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "目前看到的商品",
+          "allowedLexemeIds": ["this", "shirt", "book", "apple", "be"]
+        },
+        {
+          "slotId": "comparison",
+          "role": "價格比較",
+          "allowedLexemeIds": ["cheap", "than"],
+          "allowedChunkIds": ["cheaper-than"]
+        },
+        {
+          "slotId": "comparison-target",
+          "role": "另一件商品",
+          "allowedLexemeIds": ["that", "one"],
+          "allowedChunkIds": ["that-one"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-shopping-compare-book",
+          "practiceLessonId": "a2-u02-l02",
+          "sourceSentenceId": "a2-u02-l02-p01-s01",
+          "sentencePatternId": "comparative-cheaper-than",
+          "passageId": "a2-u02-p01",
+          "sentence": "This book is cheaper than that one.",
+          "translation": "這本書比那本便宜。",
+          "hintKeywords": "這本書／比較便宜／那本",
+          "skeleton": "This ______ is cheaper than that one.",
+          "requiredLexemeIds": ["this", "book", "be", "cheap", "than", "that", "one"],
+          "requiredChunkIds": ["cheaper-than", "that-one"]
+        },
+        {
+          "id": "a2-shopping-compare-apple",
+          "practiceLessonId": "a2-u02-l02",
+          "sourceSentenceId": "a2-u02-l02-p01-s01",
+          "sentencePatternId": "comparative-cheaper-than",
+          "passageId": "a2-u02-p01",
+          "sentence": "This apple is cheaper than that one.",
+          "translation": "這顆蘋果比那顆便宜。",
+          "hintKeywords": "這顆蘋果／比較便宜／那顆",
+          "skeleton": "This ______ is cheaper than that one.",
+          "requiredLexemeIds": ["this", "apple", "be", "cheap", "than", "that", "one"],
+          "requiredChunkIds": ["cheaper-than", "that-one"]
+        }
+      ]
+    },
+    {
+      "id": "do-you-have-size",
+      "cefr": "A2",
+      "qaStatus": "pilot_review_required",
+      "enabledForTransfer": true,
+      "template": "Do you have {item} in a larger size?",
+      "slots": [
+        {
+          "slotId": "store-question",
+          "role": "詢問店家是否有商品",
+          "allowedLexemeIds": ["do", "you", "have"],
+          "allowedChunkIds": ["do-you-have"]
+        },
+        {
+          "slotId": "item",
+          "role": "目前或先前提到的商品",
+          "allowedLexemeIds": ["this", "that", "shirt", "one"]
+        },
+        {
+          "slotId": "size",
+          "role": "較大的尺寸",
+          "allowedLexemeIds": ["in", "a", "large", "size"],
+          "allowedChunkIds": ["in-a-larger-size"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-shopping-size-that-shirt",
+          "practiceLessonId": "a2-u02-l03",
+          "sourceSentenceId": "a2-u02-l03-p01-s01",
+          "sentencePatternId": "do-you-have-size",
+          "passageId": "a2-u02-p01",
+          "sentence": "Do you have that shirt in a larger size?",
+          "translation": "那件襯衫有大一點的尺寸嗎？",
+          "hintKeywords": "你們有嗎／那件襯衫／大一點的尺寸",
+          "skeleton": "Do you have ______ in a larger size?",
+          "requiredLexemeIds": ["do", "you", "have", "that", "shirt", "in", "a", "large", "size"],
+          "requiredChunkIds": ["do-you-have", "in-a-larger-size"]
+        },
+        {
+          "id": "a2-shopping-size-this-one",
+          "practiceLessonId": "a2-u02-l03",
+          "sourceSentenceId": "a2-u02-l03-p01-s01",
+          "sentencePatternId": "do-you-have-size",
+          "passageId": "a2-u02-p01",
+          "sentence": "Do you have this one in a larger size?",
+          "translation": "這一件有大一點的尺寸嗎？",
+          "hintKeywords": "你們有嗎／這一件／大一點的尺寸",
+          "skeleton": "Do you have ______ in a larger size?",
+          "requiredLexemeIds": ["do", "you", "have", "this", "one", "in", "a", "large", "size"],
+          "requiredChunkIds": ["do-you-have", "in-a-larger-size"]
+        }
+      ]
+    },
+    {
+      "id": "would-like-to-action",
+      "cefr": "A2",
+      "qaStatus": "pilot_review_required",
+      "enabledForTransfer": true,
+      "template": "{subject} would like to pay by card.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "已學人物主詞",
+          "allowedLexemeIds": ["i", "she", "he"]
+        },
+        {
+          "slotId": "polite-request",
+          "role": "禮貌表達需求",
+          "allowedLexemeIds": ["would", "like", "to"],
+          "allowedChunkIds": ["would-like-to"]
+        },
+        {
+          "slotId": "payment",
+          "role": "付款方式",
+          "allowedLexemeIds": ["pay", "by", "card"],
+          "allowedChunkIds": ["pay-by-card"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-shopping-pay-she",
+          "practiceLessonId": "a2-u02-l04",
+          "sourceSentenceId": "a2-u02-l04-p01-s01",
+          "sentencePatternId": "would-like-to-action",
+          "passageId": "a2-u02-p01",
+          "sentence": "She would like to pay by card.",
+          "translation": "她想刷卡付款。",
+          "hintKeywords": "她／想要／刷卡付款",
+          "skeleton": "______ would like to pay by card.",
+          "requiredLexemeIds": ["she", "would", "like", "to", "pay", "by", "card"],
+          "requiredChunkIds": ["would-like-to", "pay-by-card"]
+        },
+        {
+          "id": "a2-shopping-pay-he",
+          "practiceLessonId": "a2-u02-l04",
+          "sourceSentenceId": "a2-u02-l04-p01-s01",
+          "sentencePatternId": "would-like-to-action",
+          "passageId": "a2-u02-p01",
+          "sentence": "He would like to pay by card.",
+          "translation": "他想刷卡付款。",
+          "hintKeywords": "他／想要／刷卡付款",
+          "skeleton": "______ would like to pay by card.",
+          "requiredLexemeIds": ["he", "would", "like", "to", "pay", "by", "card"],
+          "requiredChunkIds": ["would-like-to", "pay-by-card"]
+        }
+      ]
     }
   ]
 }

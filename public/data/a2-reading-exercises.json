@@ -76,6 +76,90 @@
         { "id": "statement", "text": "我明天會和你一起去。" }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u02-l01-price",
+      "lessonId": "a2-u02-l01",
+      "sentenceId": "a2-u02-l01-p01-s01",
+      "sentencePatternId": "how-much-item",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "How much is this shirt?",
+      "requiredLexemeIds": ["how", "much", "be", "this", "shirt"],
+      "requiredChunkIds": ["how-much", "this-shirt"],
+      "options": [
+        { "id": "correct", "text": "這件襯衫多少錢？", "sourceSentenceId": "a2-u02-l01-p01-s01" },
+        { "id": "that-shirt", "text": "那件襯衫多少錢？" },
+        { "id": "this-book", "text": "這本書多少錢？" },
+        { "id": "cheap-shirt", "text": "這件襯衫比較便宜。" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u02-l02-comparison",
+      "lessonId": "a2-u02-l02",
+      "sentenceId": "a2-u02-l02-p01-s01",
+      "sentencePatternId": "comparative-cheaper-than",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "This shirt is cheaper than that one.",
+      "requiredLexemeIds": ["this", "shirt", "be", "cheap", "than", "that", "one"],
+      "requiredChunkIds": ["cheaper-than", "that-one"],
+      "options": [
+        { "id": "correct", "text": "這件襯衫比那件便宜。", "sourceSentenceId": "a2-u02-l02-p01-s01" },
+        { "id": "reverse", "text": "那件襯衫比這件便宜。" },
+        { "id": "same-price", "text": "這件襯衫和那件一樣便宜。" },
+        { "id": "plain-cheap", "text": "這件襯衫很便宜。" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u02-l03-size",
+      "lessonId": "a2-u02-l03",
+      "sentenceId": "a2-u02-l03-p01-s01",
+      "sentencePatternId": "do-you-have-size",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Do you have this shirt in a larger size?",
+      "requiredLexemeIds": ["do", "you", "have", "this", "shirt", "in", "a", "large", "size"],
+      "requiredChunkIds": ["do-you-have", "this-shirt", "in-a-larger-size"],
+      "options": [
+        { "id": "correct", "text": "這件襯衫有大一點的尺寸嗎？", "sourceSentenceId": "a2-u02-l03-p01-s01" },
+        { "id": "price", "text": "這件襯衫多少錢？" },
+        { "id": "comparison", "text": "這件襯衫比那件便宜嗎？" },
+        { "id": "small-size", "text": "這件襯衫有小一點的尺寸嗎？" }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a2-u02-l04-payment",
+      "lessonId": "a2-u02-l04",
+      "sentenceId": "a2-u02-l04-p01-s01",
+      "sentencePatternId": "would-like-to-action",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I would like to pay by card.",
+      "requiredLexemeIds": ["i", "would", "like", "to", "pay", "by", "card"],
+      "requiredChunkIds": ["would-like-to", "pay-by-card"],
+      "options": [
+        { "id": "correct", "text": "我想刷卡付款。", "sourceSentenceId": "a2-u02-l04-p01-s01" },
+        { "id": "invitation", "text": "你想和我一起去嗎？" },
+        { "id": "price", "text": "我想詢問這件襯衫的價格。" },
+        { "id": "size", "text": "我想要大一點的尺寸。" }
+      ],
+      "correctOptionId": "correct"
     }
   ],
   "textResponses": [
@@ -150,6 +234,86 @@
         { "id": "plan", "text": "I am going to play badminton tomorrow.", "requiredLexemeIds": ["i", "be", "go", "to", "play", "badminton", "tomorrow"], "requiredChunkIds": ["going-to", "play-badminton"] }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u02-l01-price",
+      "lessonId": "a2-u02-l01",
+      "sourceSentenceId": "a2-u02-l01-p01-s01",
+      "sentencePatternId": "how-much-item",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這件襯衫多少錢」的英文句子。",
+      "targetTranslation": "這件襯衫多少錢？",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "How much is this shirt?", "requiredLexemeIds": ["how", "much", "be", "this", "shirt"], "requiredChunkIds": ["how-much", "this-shirt"] },
+        { "id": "book", "text": "How much is this book?", "requiredLexemeIds": ["how", "much", "be", "this", "book"], "requiredChunkIds": ["how-much"] },
+        { "id": "apple", "text": "How much is this apple?", "requiredLexemeIds": ["how", "much", "be", "this", "apple"], "requiredChunkIds": ["how-much"] },
+        { "id": "statement", "text": "This is a book.", "requiredLexemeIds": ["this", "be", "a", "book"], "requiredChunkIds": [] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u02-l02-comparison",
+      "lessonId": "a2-u02-l02",
+      "sourceSentenceId": "a2-u02-l02-p01-s01",
+      "sentencePatternId": "comparative-cheaper-than",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這件襯衫比那件便宜」的英文句子。",
+      "targetTranslation": "這件襯衫比那件便宜。",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "This shirt is cheaper than that one.", "requiredLexemeIds": ["this", "shirt", "be", "cheap", "than", "that", "one"], "requiredChunkIds": ["cheaper-than", "that-one"] },
+        { "id": "book", "text": "This book is cheaper than that one.", "requiredLexemeIds": ["this", "book", "be", "cheap", "than", "that", "one"], "requiredChunkIds": ["cheaper-than", "that-one"] },
+        { "id": "apple", "text": "This apple is cheaper than that one.", "requiredLexemeIds": ["this", "apple", "be", "cheap", "than", "that", "one"], "requiredChunkIds": ["cheaper-than", "that-one"] },
+        { "id": "price", "text": "How much is this shirt?", "requiredLexemeIds": ["how", "much", "be", "this", "shirt"], "requiredChunkIds": ["how-much", "this-shirt"] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u02-l03-size",
+      "lessonId": "a2-u02-l03",
+      "sourceSentenceId": "a2-u02-l03-p01-s01",
+      "sentencePatternId": "do-you-have-size",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這件襯衫有大一點的尺寸嗎」的英文句子。",
+      "targetTranslation": "這件襯衫有大一點的尺寸嗎？",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "Do you have this shirt in a larger size?", "requiredLexemeIds": ["do", "you", "have", "this", "shirt", "in", "a", "large", "size"], "requiredChunkIds": ["do-you-have", "this-shirt", "in-a-larger-size"] },
+        { "id": "that-shirt", "text": "Do you have that shirt in a larger size?", "requiredLexemeIds": ["do", "you", "have", "that", "shirt", "in", "a", "large", "size"], "requiredChunkIds": ["do-you-have", "in-a-larger-size"] },
+        { "id": "price", "text": "How much is this shirt?", "requiredLexemeIds": ["how", "much", "be", "this", "shirt"], "requiredChunkIds": ["how-much", "this-shirt"] },
+        { "id": "comparison", "text": "This shirt is cheaper than that one.", "requiredLexemeIds": ["this", "shirt", "be", "cheap", "than", "that", "one"], "requiredChunkIds": ["cheaper-than", "that-one"] }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a2-u02-l04-payment",
+      "lessonId": "a2-u02-l04",
+      "sourceSentenceId": "a2-u02-l04-p01-s01",
+      "sentencePatternId": "would-like-to-action",
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我想刷卡付款」的英文句子。",
+      "targetTranslation": "我想刷卡付款。",
+      "format": "choice",
+      "options": [
+        { "id": "correct", "text": "I would like to pay by card.", "requiredLexemeIds": ["i", "would", "like", "to", "pay", "by", "card"], "requiredChunkIds": ["would-like-to", "pay-by-card"] },
+        { "id": "she", "text": "She would like to pay by card.", "requiredLexemeIds": ["she", "would", "like", "to", "pay", "by", "card"], "requiredChunkIds": ["would-like-to", "pay-by-card"] },
+        { "id": "he", "text": "He would like to pay by card.", "requiredLexemeIds": ["he", "would", "like", "to", "pay", "by", "card"], "requiredChunkIds": ["would-like-to", "pay-by-card"] },
+        { "id": "invitation", "text": "Would you like to go with me?", "requiredLexemeIds": ["would", "you", "like", "to", "go", "with", "me"], "requiredChunkIds": ["would-you-like-to", "with-me"] }
+      ],
+      "correctOptionId": "correct"
     }
   ],
   "passages": [
@@ -205,6 +369,101 @@
           "question": "這個人明天打算做什麼？",
           "options": ["Play badminton.", "Watch TV.", "Go to the store.", "Eat breakfast."],
           "correctAnswer": "Play badminton."
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u02-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u02-p01-s01",
+          "order": 1,
+          "sentence": "How much is this shirt?",
+          "translation": "這件襯衫多少錢？",
+          "requiredLexemeIds": ["how", "much", "be", "this", "shirt"],
+          "requiredChunkIds": ["how-much", "this-shirt"]
+        },
+        {
+          "id": "a2-u02-p01-s02",
+          "order": 2,
+          "sentence": "This shirt is cheaper than that one.",
+          "translation": "這件襯衫比那件便宜。",
+          "requiredLexemeIds": ["this", "shirt", "be", "cheap", "than", "that", "one"],
+          "requiredChunkIds": ["cheaper-than", "that-one"]
+        },
+        {
+          "id": "a2-u02-p01-s03",
+          "order": 3,
+          "sentence": "Do you have this shirt in a larger size?",
+          "translation": "這件襯衫有大一點的尺寸嗎？",
+          "requiredLexemeIds": ["do", "you", "have", "this", "shirt", "in", "a", "large", "size"],
+          "requiredChunkIds": ["do-you-have", "this-shirt", "in-a-larger-size"]
+        },
+        {
+          "id": "a2-u02-p01-s04",
+          "order": 4,
+          "sentence": "I like this shirt.",
+          "translation": "我喜歡這件襯衫。",
+          "requiredLexemeIds": ["i", "like", "this", "shirt"],
+          "requiredChunkIds": ["this-shirt"]
+        },
+        {
+          "id": "a2-u02-p01-s05",
+          "order": 5,
+          "sentence": "I would like to pay by card.",
+          "translation": "我想刷卡付款。",
+          "requiredLexemeIds": ["i", "would", "like", "to", "pay", "by", "card"],
+          "requiredChunkIds": ["would-like-to", "pay-by-card"]
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u02-p01-q01",
+          "sourceSentenceId": "a2-u02-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人正在看什麼商品？",
+          "options": ["This shirt.", "A book.", "An apple.", "A card."],
+          "correctAnswer": "This shirt.",
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q02",
+          "sourceSentenceId": "a2-u02-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "哪一件比較便宜？",
+          "options": ["This shirt.", "That one.", "This book.", "This apple."],
+          "correctAnswer": "This shirt.",
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q03",
+          "sourceSentenceId": "a2-u02-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人想詢問什麼尺寸？",
+          "options": ["A larger size.", "This size.", "That size.", "One size."],
+          "correctAnswer": "A larger size.",
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q04",
+          "sourceSentenceId": "a2-u02-p01-s05",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人想怎麼付款？",
+          "options": ["By card.", "At home.", "By bus.", "At night."],
+          "correctAnswer": "By card.",
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u02-p01-q05",
+          "sourceSentenceId": "a2-u02-p01-s04",
+          "evidenceSentenceIds": ["a2-u02-p01-s04", "a2-u02-p01-s05"],
+          "questionLanguage": "zh-Hant",
+          "question": "根據喜歡的商品與接著選擇付款，這個人最可能買哪一件？",
+          "options": ["This shirt.", "That one.", "This book.", "This apple."],
+          "correctAnswer": "This shirt.",
+          "qaStatus": "pilot_review_required"
         }
       ]
     }

@@ -30,6 +30,7 @@ export type PatternExample = {
 export type SentencePattern = {
   id: string;
   cefr: "A1" | "A2";
+  qaStatus?: string;
   enabledForTransfer: boolean;
   deferReason?: string;
   template: string;
@@ -56,6 +57,8 @@ export type ReadingRecognitionExercise = {
   sentenceId: string;
   sentencePatternId: string;
   passageId: string;
+  level?: "A1" | "A2";
+  qaStatus?: string;
   type:
     | "english-to-chinese"
     | "chinese-to-english"
@@ -74,6 +77,8 @@ export type TextResponseExercise = {
   sourceSentenceId: string;
   sentencePatternId: string;
   passageId: string;
+  level?: "A1" | "A2";
+  qaStatus?: string;
   promptLanguage: "zh-Hant" | "en";
   prompt: string;
   targetTranslation: string;
@@ -85,10 +90,12 @@ export type TextResponseExercise = {
 export type PassageComprehensionQuestion = {
   id: string;
   sourceSentenceId: string;
+  evidenceSentenceIds?: string[];
   questionLanguage: "zh-Hant" | "en";
   question: string;
   options: string[];
   correctAnswer: string;
+  qaStatus?: string;
 };
 
 export type PassageSentence = {
@@ -96,10 +103,14 @@ export type PassageSentence = {
   order: number;
   sentence: string;
   translation: string;
+  requiredLexemeIds?: string[];
+  requiredChunkIds?: string[];
 };
 
 export type PassageComprehensionExercise = {
   passageId: string;
+  level?: "A1" | "A2";
+  qaStatus?: string;
   sentences?: PassageSentence[];
   questions: PassageComprehensionQuestion[];
 };
@@ -274,6 +285,16 @@ export const validatePatternExerciseData = (
     if (pattern.cefr !== expectedLevel) {
       errors.push(`${pattern.id} 必須標記為 ${expectedLevel} 題目。`);
     }
+    if (
+      pattern.examples.some((example) =>
+        example.practiceLessonId.startsWith("a2-u02-"),
+      ) &&
+      pattern.qaStatus !== "pilot_review_required"
+    ) {
+      errors.push(
+        `A2／a2-u02／${pattern.id} 的 qaStatus 必須是 pilot_review_required。`,
+      );
+    }
     if (typeof pattern.enabledForTransfer !== "boolean") {
       errors.push(
         `${pattern.id} 必須明確設定 enabledForTransfer 為 true 或 false。`,
@@ -436,6 +457,15 @@ export const validateReadingExerciseData = (
     if (!lessonExists || !source) {
       continue;
     }
+    if (
+      exercise.lessonId.startsWith("a2-u02-") &&
+      (exercise.level !== "A2" ||
+        exercise.qaStatus !== "pilot_review_required")
+    ) {
+      errors.push(
+        `A2／a2-u02／${exercise.lessonId}／${exercise.id} 必須保留 level A2 與 pilot_review_required。`,
+      );
+    }
     if (lessonRank(source.lesson_id) > lessonRank(exercise.lessonId)) {
       errors.push(`${exercise.id} 的來源句尚未在練習課程前教過。`);
     }
@@ -546,6 +576,15 @@ export const validateReadingExerciseData = (
       continue;
     }
     if (
+      exercise.lessonId.startsWith("a2-u02-") &&
+      (exercise.level !== "A2" ||
+        exercise.qaStatus !== "pilot_review_required")
+    ) {
+      errors.push(
+        `A2／a2-u02／${exercise.lessonId}／${exercise.id} 必須保留 level A2 與 pilot_review_required。`,
+      );
+    }
+    if (
       lessonRank(source.lesson_id) > lessonRank(exercise.lessonId) ||
       source.sentence_pattern_id !== exercise.sentencePatternId ||
       source.passage_id !== exercise.passageId
@@ -638,6 +677,21 @@ export const validateReadingExerciseData = (
     const customSentenceById = new Map(
       customSentences.map((sentence) => [sentence.id, sentence]),
     );
+    const passageLessonId = passageRows
+      .map((row) => row.lesson_id)
+      .sort((left, right) => lessonRank(right) - lessonRank(left))[0];
+    const learnedRows = passageLessonId
+      ? availableRows.filter(
+          (row) =>
+            lessonRank(row.lesson_id) <= lessonRank(passageLessonId),
+        )
+      : [];
+    const learnedLexemes = passageLessonId
+      ? learnedLexemeIdsThroughLesson(availableRows, passageLessonId)
+      : new Set<string>();
+    const learnedChunks = passageLessonId
+      ? learnedChunkIdsThroughLesson(availableRows, passageLessonId)
+      : new Set<string>();
     const passageSentenceIds = new Set([
       ...passageRows.map((row) => row.sentence_id),
       ...customSentences.map((sentence) => sentence.id),
@@ -665,6 +719,58 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${passage.passageId} 的英文句子與繁中翻譯不可空白。`);
     }
+    if (
+      passage.passageId === "a2-u02-p01" &&
+      (passage.level !== "A2" ||
+        passage.qaStatus !== "pilot_review_required")
+    ) {
+      errors.push(
+        `A2／a2-u02／${passage.passageId} 必須保留 level A2 與 pilot_review_required。`,
+      );
+    }
+    for (const sentence of customSentences) {
+      const hasPrerequisiteMetadata =
+        sentence.requiredLexemeIds !== undefined ||
+        sentence.requiredChunkIds !== undefined;
+      if (passage.passageId === "a2-u02-p01") {
+        if (
+          !sentence.requiredLexemeIds?.length ||
+          !sentence.requiredChunkIds
+        ) {
+          errors.push(
+            `A2／a2-u02／${passage.passageId}／${sentence.id} 必須宣告已教 lexeme 與 chunk。`,
+          );
+          continue;
+        }
+      }
+      if (!hasPrerequisiteMetadata) {
+        continue;
+      }
+      const earlyLexemes = (sentence.requiredLexemeIds ?? []).filter(
+        (lexemeId) => !learnedLexemes.has(lexemeId),
+      );
+      if (earlyLexemes.length) {
+        errors.push(
+          `A2／${passage.passageId}／${sentence.id} 提前使用 lexeme：${earlyLexemes.join("、")}。`,
+        );
+      }
+      errors.push(
+        ...validateReferencedLexemes(
+          sentence.sentence,
+          sentence.requiredLexemeIds ?? [],
+          learnedRows,
+          `${passage.passageId}/${sentence.id}`,
+        ),
+      );
+      const earlyChunks = (sentence.requiredChunkIds ?? []).filter(
+        (chunkId) => !learnedChunks.has(chunkId),
+      );
+      if (earlyChunks.length) {
+        errors.push(
+          `A2／${passage.passageId}／${sentence.id} 提前使用 chunk：${earlyChunks.join("、")}。`,
+        );
+      }
+    }
     for (const question of passage.questions) {
       const source = rowsBySentence.get(question.sourceSentenceId);
       const customSource = customSentenceById.get(
@@ -682,14 +788,40 @@ export const validateReadingExerciseData = (
       if (!question.options.includes(question.correctAnswer)) {
         errors.push(`${question.id} 的答案不在選項中。`);
       }
+      if (
+        passage.passageId === "a2-u02-p01" &&
+        question.qaStatus !== "pilot_review_required"
+      ) {
+        errors.push(
+          `A2／a2-u02／${passage.passageId}／${question.id} 必須保留 pilot_review_required。`,
+        );
+      }
       if (new Set(question.options).size !== question.options.length) {
         errors.push(`${question.id} 的選項不可重複。`);
       }
       const answerPhrase = normalizeSentence(
         question.correctAnswer,
       );
-      const sourceSentence = source?.sentence ?? customSource?.sentence ?? "";
-      if (!normalizeSentence(sourceSentence).includes(answerPhrase)) {
+      const evidenceIds = question.evidenceSentenceIds?.length
+        ? question.evidenceSentenceIds
+        : [question.sourceSentenceId];
+      const invalidEvidenceId = evidenceIds.find(
+        (id) => !passageSentenceIds.has(id),
+      );
+      if (invalidEvidenceId) {
+        errors.push(
+          `${question.id} 的證據句 ${invalidEvidenceId} 不在 ${passage.passageId}。`,
+        );
+      }
+      const evidenceText = evidenceIds
+        .map(
+          (id) =>
+            rowsBySentence.get(id)?.sentence ??
+            customSentenceById.get(id)?.sentence ??
+            "",
+        )
+        .join(" ");
+      if (!normalizeSentence(evidenceText).includes(answerPhrase)) {
         errors.push(
           `${question.id} 的答案與來源文章不一致。`,
         );
