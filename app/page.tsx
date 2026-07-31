@@ -65,7 +65,7 @@ import {
   createEmptyMultiLevelProgress,
   isLevelAssessmentEnabled,
   isLevelFormallyUnlocked,
-  migrateProgressToV5,
+  migrateProgressToV6,
   updateSelectedLevelProgress,
   type LevelLearningProgress,
   type MultiLevelProgress,
@@ -76,6 +76,7 @@ import {
 import {
   catalogEntryForLevel,
   loadCurriculumCatalog,
+  runtimeCatalogEntries,
 } from "./curriculum/catalog";
 import { loadCourseLevel } from "./curriculum/loader";
 import type {
@@ -112,6 +113,19 @@ import {
   vocabularyLearningState,
   vocabularyStatusMatchesFilter,
 } from "./vocabulary-groups";
+import {
+  buildVocabularyTargetAliasIndex,
+  buildVocabularyCoverageReport,
+  canonicalizeLexemeId,
+  loadVocabularyTargets,
+  type VocabularyTargetsData,
+} from "./vocabulary-targets.ts";
+import {
+  canCreditSpellingCorrect,
+  recordGlobalVocabularyEvidence,
+  summarizeVocabularyProgress,
+  type VocabularyEvidenceKind,
+} from "./vocabulary-progress.ts";
 
 type Screen =
   | "home"
@@ -177,7 +191,7 @@ type SettingsState = {
   phonetic: "KK" | "IPA";
   autoplay: boolean;
   slowRate: number;
-  showA2Pilot: boolean;
+  showAdvancedPilots: boolean;
 };
 
 const STORAGE = {
@@ -240,7 +254,24 @@ const defaultSettings: SettingsState = {
   phonetic: "KK",
   autoplay: true,
   slowRate: 0.85,
-  showA2Pilot: false,
+  showAdvancedPilots: false,
+};
+
+const normalizeSettings = (value: unknown): SettingsState => {
+  const saved =
+    value && typeof value === "object"
+      ? (value as Partial<SettingsState> & { showA2Pilot?: boolean })
+      : {};
+  return {
+    phonetic: saved.phonetic === "IPA" ? "IPA" : "KK",
+    autoplay: saved.autoplay ?? defaultSettings.autoplay,
+    slowRate:
+      typeof saved.slowRate === "number"
+        ? saved.slowRate
+        : defaultSettings.slowRate,
+    showAdvancedPilots:
+      saved.showAdvancedPilots ?? saved.showA2Pilot ?? false,
+  };
 };
 
 const navItems: { screen: Screen; label: string; icon: string }[] = [
@@ -537,12 +568,17 @@ export default function Home() {
     "loading" | "ready" | "error"
   >("loading");
   const [vocabularyLoadError, setVocabularyLoadError] = useState("");
+  const [vocabularyTargets, setVocabularyTargets] =
+    useState<VocabularyTargetsData | null>(null);
+  const [vocabularyTargetsError, setVocabularyTargetsError] = useState("");
   const [vocabularySearch, setVocabularySearch] = useState("");
   const [vocabularyFilter, setVocabularyFilter] =
     useState<VocabularyStatusFilter>("all");
   const [activeVocabularyGroupId, setActiveVocabularyGroupId] =
     useState("");
   const [relatedCurrentLexemeId, setRelatedCurrentLexemeId] =
+    useState("");
+  const [openedVocabularyLexemeId, setOpenedVocabularyLexemeId] =
     useState("");
   const [vocabularyReturnContext, setVocabularyReturnContext] =
     useState<VocabularyCourseReturnContext | null>(null);
@@ -584,6 +620,55 @@ export default function Home() {
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
   const kkAudioRef = useRef<HTMLAudioElement | null>(null);
   const kkPlaybackToken = useRef(0);
+  const targetLexemeAliasIndex = useMemo(
+    () =>
+      vocabularyTargets
+        ? buildVocabularyTargetAliasIndex(vocabularyTargets)
+        : new Map<string, string>(),
+    [vocabularyTargets],
+  );
+  const curriculumLexemeAliasIndex = useMemo(() => {
+    const aliases = new Map<string, string>();
+    CEFR_LEVELS.forEach((level) => {
+      courseRowsByLevel[level].forEach((row) => {
+        const source = canonicalizeLexemeId(row.lexeme_id);
+        const lemma = canonicalizeLexemeId(row.lemma || row.lexeme_id);
+        if (source && lemma) aliases.set(source, lemma);
+      });
+    });
+    return aliases;
+  }, [courseRowsByLevel]);
+  const recordVocabularyEvidence = (
+    lexemeIds: string[],
+    kind: VocabularyEvidenceKind,
+    evidenceId: string,
+    sourceLevel: CefrLevel = selectedLevel,
+    studiedAt = new Date().toISOString(),
+  ) => {
+    const canonicalLexemeIds = lexemeIds.map(
+      (lexemeId) => {
+        const source = canonicalizeLexemeId(lexemeId);
+        return (
+          targetLexemeAliasIndex.get(source) ??
+          curriculumLexemeAliasIndex.get(source) ??
+          source
+        );
+      },
+    );
+    setMultiProgress((current) => ({
+      ...current,
+      vocabularyProgress: recordGlobalVocabularyEvidence(
+        current.vocabularyProgress,
+        {
+          lexemeIds: canonicalLexemeIds,
+          kind,
+          evidenceId,
+          sourceLevel,
+          studiedAt,
+        },
+      ),
+    }));
+  };
 
   useEffect(() => {
     let active = true;
@@ -671,7 +756,7 @@ export default function Home() {
 
         let prerequisiteRows: CourseCsvRow[] = [...a1Level.rows];
         let prerequisiteReady = true;
-        const advancedEntries = nextCatalog.levels.filter(
+        const advancedEntries = runtimeCatalogEntries(nextCatalog).filter(
           (entry) => entry.level !== "A1",
         );
         for (const entry of advancedEntries) {
@@ -828,7 +913,7 @@ export default function Home() {
       try {
         if (storedProgress) {
           setMultiProgress(
-            migrateProgressToV5(JSON.parse(storedProgress)),
+            migrateProgressToV6(JSON.parse(storedProgress)),
           );
         }
       } catch {
@@ -839,10 +924,7 @@ export default function Home() {
       }
       try {
         if (storedSettings) {
-          setSettings({
-            ...defaultSettings,
-            ...JSON.parse(storedSettings),
-          });
+          setSettings(normalizeSettings(JSON.parse(storedSettings)));
         }
       } catch {
         setToast("偏好設定無法讀取，已使用安全的預設值。");
@@ -872,7 +954,10 @@ export default function Home() {
       canAccessLevel(
         multiProgress.selectedLevel,
         multiProgress.passedLevelIds,
-        settings.showA2Pilot,
+        settings.showAdvancedPilots,
+        catalog?.levels.find(
+          (entry) => entry.level === multiProgress.selectedLevel,
+        )?.status,
       )
     ) {
       return;
@@ -888,7 +973,8 @@ export default function Home() {
     loaded,
     multiProgress.passedLevelIds,
     multiProgress.selectedLevel,
-    settings.showA2Pilot,
+    settings.showAdvancedPilots,
+    catalog,
   ]);
 
   useEffect(() => {
@@ -964,6 +1050,26 @@ export default function Home() {
       active = false;
     };
   }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
+
+  useEffect(() => {
+    let active = true;
+    loadVocabularyTargets()
+      .then((data) => {
+        if (!active) return;
+        setVocabularyTargets(data);
+        setVocabularyTargetsError("");
+      })
+      .catch((error) => {
+        if (!active) return;
+        setVocabularyTargets(null);
+        setVocabularyTargetsError(
+          error instanceof Error ? error.message : "詞彙目標資料暫時無法載入。",
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!loaded || !catalog) return;
@@ -1128,9 +1234,13 @@ export default function Home() {
   const sentenceAudioAvailable =
     speechSupported ||
     (selectedLesson.audioStatus === "ready" && Boolean(selectedLesson.sentenceAudioSource?.trim()));
+  const selectedCatalogEntry = catalog
+    ? catalogEntryForLevel(catalog, selectedLevel)
+    : null;
 
   const isPilotQaPreview =
-    selectedLevel !== "A1" && settings.showA2Pilot;
+    selectedCatalogEntry?.status === "pilot" &&
+    settings.showAdvancedPilots;
   const isUnitAvailable = (unitIndex: number) =>
     isPilotQaPreview ||
     unitIndex === 0 ||
@@ -1160,9 +1270,6 @@ export default function Home() {
     return allLessons[allLessons.length - 1] ?? EMPTY_LESSON;
   })();
 
-  const selectedCatalogEntry = catalog
-    ? catalogEntryForLevel(catalog, selectedLevel)
-    : null;
   const levelStatusLabel =
     selectedCatalogEntry?.status === "pilot" ? "試行課程" : "正式課程";
   const switchLevel = (level: CefrLevel) => {
@@ -1170,7 +1277,8 @@ export default function Home() {
       !canAccessLevel(
         level,
         multiProgress.passedLevelIds,
-        settings.showA2Pilot,
+        settings.showAdvancedPilots,
+        catalog?.levels.find((entry) => entry.level === level)?.status,
       )
     ) {
       const entry = catalog
@@ -1219,7 +1327,7 @@ export default function Home() {
           level,
           multiProgress.passedLevelIds,
         )
-          ? settings.showA2Pilot
+          ? settings.showAdvancedPilots
             ? "QA 試用"
             : "尚未解鎖"
           : level !== "A1" &&
@@ -1325,8 +1433,25 @@ export default function Home() {
     lexemeId = "",
   ) => {
     setActiveVocabularyGroupId(groupId);
+    setOpenedVocabularyLexemeId(lexemeId);
     localStorage.setItem(STORAGE.lastVocabularyGroup, groupId);
     scrollToRelatedLexeme(lexemeId);
+  };
+
+  const openVocabularyItem = (
+    groupId: string,
+    item: ResolvedVocabularyItem,
+  ) => {
+    const opening = openedVocabularyLexemeId !== item.lexemeId;
+    setOpenedVocabularyLexemeId(opening ? item.lexemeId : "");
+    if (opening) {
+      recordVocabularyEvidence(
+        [item.lexemeId],
+        "exposure",
+        `reference:${groupId}:${item.lexemeId}:${dateKey()}`,
+        "A1",
+      );
+    }
   };
 
   const openRelatedVocabularyFromNavigation = () => {
@@ -1614,7 +1739,29 @@ export default function Home() {
     const accepted = [currentToken.answer, ...(currentToken.accepted ?? [])].map(clean);
     const isCorrect = accepted.includes(clean(recallAnswer));
     const elapsed = Math.round((timestamp() - startedAt) / 1000);
+    const spellingEvidenceId =
+      `spelling:${currentToken.occurrenceId}:${dateKey()}:${recallAttempts + 1}`;
+    const lexemeId =
+      currentToken.lexemeId ?? currentToken.tokenId ?? currentToken.id;
+    recordVocabularyEvidence(
+      [lexemeId],
+      "spellingAttempt",
+      spellingEvidenceId,
+    );
     if (isCorrect) {
+      if (
+        canCreditSpellingCorrect({
+          correct: true,
+          answerRevealed: recallAnswerRevealed,
+          usedPaste,
+        })
+      ) {
+        recordVocabularyEvidence(
+          [lexemeId],
+          "spellingCorrect",
+          spellingEvidenceId,
+        );
+      }
       setSessionTokenProgress((value) =>
         updateTokenLearningProgress(value, currentToken.occurrenceId, {
           attemptDelta: 1,
@@ -1657,6 +1804,11 @@ export default function Home() {
       }));
       setFeedback("");
       setStage("detail");
+      recordVocabularyEvidence(
+        [lexemeId],
+        "exposure",
+        `course:${currentToken.occurrenceId}:${dateKey()}`,
+      );
       window.setTimeout(
         () => document.getElementById("detail-next-button")?.focus(),
         80,
@@ -1740,6 +1892,23 @@ export default function Home() {
     );
     setRebuildAttempts(result.attempts);
     setRebuildStatus(result.statuses);
+    const rebuildEvidenceId =
+      `rebuild:${selectedLesson.sentenceId}:${dateKey()}:${result.attempts}`;
+    const rebuildLexemeIds = selectedLesson.tokens.map(
+      (token) => token.lexemeId ?? token.tokenId ?? token.id,
+    );
+    recordVocabularyEvidence(
+      rebuildLexemeIds,
+      "applicationAttempt",
+      rebuildEvidenceId,
+    );
+    if (result.correct) {
+      recordVocabularyEvidence(
+        rebuildLexemeIds,
+        "applicationCorrect",
+        rebuildEvidenceId,
+      );
+    }
     const elapsed = Math.max(
       0,
       Math.round((timestamp() - startedAt) / 1000),
@@ -1935,6 +2104,20 @@ export default function Home() {
     if (recognitionChecked) return;
     const correct =
       recognitionSelectedId === selectedRecognition.correctOptionId;
+    const recognitionEvidenceId =
+      `recognition:${selectedRecognition.id}:${dateKey()}`;
+    recordVocabularyEvidence(
+      selectedRecognition.requiredLexemeIds,
+      "recognitionAttempt",
+      recognitionEvidenceId,
+    );
+    if (correct) {
+      recordVocabularyEvidence(
+        selectedRecognition.requiredLexemeIds,
+        "recognitionCorrect",
+        recognitionEvidenceId,
+      );
+    }
     const elapsed = Math.max(
       0,
       Math.round((timestamp() - startedAt) / 1000),
@@ -2023,6 +2206,20 @@ export default function Home() {
     );
     const credited = correct && !patternTransferRevealed;
     const nextAttempt = patternTransferAttempts + 1;
+    const transferEvidenceId =
+      `transfer:${currentPatternExample.id}:${dateKey()}:${nextAttempt}`;
+    recordVocabularyEvidence(
+      currentPatternExample.requiredLexemeIds,
+      "applicationAttempt",
+      transferEvidenceId,
+    );
+    if (correct) {
+      recordVocabularyEvidence(
+        currentPatternExample.requiredLexemeIds,
+        "applicationCorrect",
+        transferEvidenceId,
+      );
+    }
     setPatternTransferAttempts(nextAttempt);
     setSessionTransferAttempts((value) => value + 1);
     setSessionTransferCorrect(
@@ -2749,7 +2946,7 @@ export default function Home() {
     saveFile(
       JSON.stringify(
         {
-          schemaVersion: 5,
+          schemaVersion: 6,
           exportedAt: new Date().toISOString(),
           progress: multiProgress,
           settings,
@@ -2768,9 +2965,9 @@ export default function Home() {
     try {
       const value = JSON.parse(await file.text());
       if (!value.progress) throw new Error("missing progress");
-      setMultiProgress(migrateProgressToV5(value.progress));
+      setMultiProgress(migrateProgressToV6(value.progress));
       setProgressStorageWritable(true);
-      if (value.settings) setSettings({ ...defaultSettings, ...value.settings });
+      if (value.settings) setSettings(normalizeSettings(value.settings));
       setToast("完整學習進度已還原。");
     } catch {
       setToast("這不是有效的學習進度備份檔。");
@@ -2906,7 +3103,10 @@ export default function Home() {
 
   const renderLevelSelector = () => (
     <section className="level-selector" aria-label="CEFR 程度選擇">
-      {(catalog?.levels.map((entry) => entry.level) ?? CEFR_LEVELS).map((level) => {
+      {(catalog
+        ? runtimeCatalogEntries(catalog).map((entry) => entry.level)
+        : CEFR_LEVELS.filter((level) => level === "A1" || level === "A2")
+      ).map((level) => {
         const summary = levelSummary(level);
         const entry = catalog
           ? catalogEntryForLevel(catalog, level)
@@ -2916,7 +3116,8 @@ export default function Home() {
         const locked = !canAccessLevel(
           level,
           multiProgress.passedLevelIds,
-          settings.showA2Pilot,
+          settings.showAdvancedPilots,
+          entry?.status,
         );
         return (
           <button
@@ -3068,7 +3269,7 @@ export default function Home() {
             <h2>從日常溝通走向精準、流暢的進階表達</h2>
             <p>每個程度維持「預習 → 回想 → 重組 → 閱讀辨識 → 句型運用」，並逐步加長文本、減少中文提示。</p>
           </div>
-          <span className="status-pill">A2–B2 試行資料已建立</span>
+          <span className="status-pill">A2 試行中；B1／B2 資料停用</span>
         </div>
         <div className="advanced-level-list">
           {advancedCoursePlans.map((plan) => {
@@ -3091,9 +3292,11 @@ export default function Home() {
                   <span className="roadmap-status">
                     {catalogLevel?.status === "production"
                       ? "正式課程"
-                      : catalogLevel
+                      : catalogLevel?.status === "pilot"
                         ? "試行課程"
-                        : "課程規劃"}
+                        : catalogLevel?.status === "disabled"
+                          ? "資料保留／未開放"
+                          : "課程規劃"}
                   </span>
                 </summary>
               <div className="advanced-level-content">
@@ -3510,6 +3713,19 @@ export default function Home() {
                       {vocabularyStatusLabels[state.status]}
                     </span>
                   </div>
+                  <button
+                    className="secondary-button vocabulary-detail-toggle"
+                    type="button"
+                    data-testid={`open-vocabulary-${item.lexemeId}`}
+                    aria-expanded={openedVocabularyLexemeId === item.lexemeId}
+                    onClick={() => openVocabularyItem(activeGroup.id, item)}
+                  >
+                    {openedVocabularyLexemeId === item.lexemeId
+                      ? "收合字詞詳情"
+                      : "開啟字詞詳情"}
+                  </button>
+                  {openedVocabularyLexemeId === item.lexemeId && (
+                    <div data-testid={`vocabulary-detail-${item.lexemeId}`}>
                   <div className="vocabulary-phonetics">
                     <span>
                       <small>KK</small>
@@ -3575,6 +3791,8 @@ export default function Home() {
                       <strong>用法提醒</strong>
                       {item.usageNoteZhTw}
                     </p>
+                  )}
+                    </div>
                   )}
                 </article>
               );
@@ -4609,7 +4827,39 @@ export default function Home() {
     </div>
   );
 
-  const renderProgress = () => (
+  const renderProgress = () => {
+    const vocabularyCoverage = vocabularyTargets
+      ? buildVocabularyCoverageReport(vocabularyTargets)
+      : null;
+    const personalVocabulary = summarizeVocabularyProgress(
+      multiProgress.vocabularyProgress,
+      vocabularyTargets?.entries.map((entry) => entry.lexemeId),
+    );
+    const globalDueReviews = ["A1", "A2"].reduce(
+      (count, level) =>
+        count +
+        Object.values(
+          multiProgress.levelProgress[level as CefrLevel].reviewItems,
+        ).filter((item) => new Date(item.dueAt).getTime() <= timestamp()).length,
+      0,
+    );
+    const learnedSenseCount = new Set(
+      ["A1", "A2"].flatMap((level) =>
+        Object.entries(
+          multiProgress.levelProgress[level as CefrLevel].senseProgress,
+        )
+          .filter(([, item]) => item.completedLessonIds.length > 0)
+          .map(([senseId]) => senseId),
+      ),
+    ).size;
+    const touchedChunkCount = new Set(
+      ["A1", "A2"].flatMap((level) =>
+        Object.keys(
+          multiProgress.levelProgress[level as CefrLevel].chunkHintLevels,
+        ),
+      ),
+    ).size;
+    return (
     <div className="page-stack">
       <section className="page-title">
         <div><span className="eyebrow">{selectedLevel} 學習紀錄</span><h1>學習進度</h1><p>完成、通過與精通分開記錄，讓進度更真實。</p></div>
@@ -4620,6 +4870,63 @@ export default function Home() {
         <StatCard label="累積學習時間" value={`${Math.max(0, Math.round(progress.totalSeconds / 60))} 分`} />
         <StatCard label="使用貼上" value={`${progress.pasteCount} 次`} note="列為輔助紀錄，不算錯誤" />
       </div>
+      <section
+        className="section-card"
+        data-testid="global-vocabulary-progress"
+      >
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">A1＋A2 canonical lexeme</span>
+            <h2>詞彙目標</h2>
+          </div>
+          <span className="status-pill">總目標 3000</span>
+        </div>
+        <div className="three-grid">
+          <StatCard label="A1＋A2總目標" value="3000" />
+          <StatCard label="主動核心目標" value="1500" />
+          <StatCard label="延伸辨識目標" value="1500" />
+        </div>
+        {vocabularyCoverage ? (
+          <>
+            <div className="three-grid vocabulary-progress-grid">
+              <StatCard
+                label="目標清單已收錄"
+                value={`${vocabularyCoverage.targetEntries} / 3000`}
+              />
+              <StatCard
+                label="正式課程覆蓋"
+                value={vocabularyCoverage.curriculumCovered}
+              />
+              <StatCard
+                label="reference-only覆蓋"
+                value={vocabularyCoverage.referenceOnlyCovered}
+              />
+              <StatCard
+                label="清單尚未建立"
+                value={vocabularyCoverage.missingEntries}
+              />
+              <StatCard label="接觸過" value={personalVocabulary.exposed} />
+              <StatCard label="可以辨認" value={personalVocabulary.receptive} />
+              <StatCard
+                label="可以主動拼寫及運用"
+                value={personalVocabulary.active}
+              />
+              <StatCard label="待複習" value={globalDueReviews} />
+              <StatCard label="已學sense" value={learnedSenseCount} />
+              <StatCard label="已接觸chunk" value={touchedChunkCount} />
+            </div>
+            {vocabularyTargets?.status === "partial_review_required" && (
+              <p className="qa-note" data-testid="vocabulary-target-partial-note">
+                3000詞彙清單仍在分批建置，目前數字只代表已審核並納入的詞彙。
+              </p>
+            )}
+          </>
+        ) : (
+          <p className="qa-note" role="status">
+            詞彙目標資料暫時無法載入。{vocabularyTargetsError}
+          </p>
+        )}
+      </section>
       <section className="section-card">
         <div className="section-heading"><h2>各單元狀態</h2><span className="status-legend">完成 ≠ 通過 ≠ 精通</span></div>
         <div className="progress-table-wrap">
@@ -4633,7 +4940,8 @@ export default function Home() {
         </div>
       </section>
     </div>
-  );
+    );
+  };
 
   const updateCourseDraftRow = (
     row: A1CourseCsvRow,
@@ -4809,17 +5117,17 @@ export default function Home() {
             <span>
               <strong>顯示進階試行課程</strong>
               <small>
-                顯示 A2、B1 與 B2，僅供內容 QA，不會偽造程度通過
+                顯示 A2 試行課程，僅供內容 QA，不會偽造程度通過
               </small>
             </span>
             <input
               data-testid="a2-pilot-toggle"
               type="checkbox"
-              checked={settings.showA2Pilot}
+              checked={settings.showAdvancedPilots}
               onChange={(event) =>
                 setSettings({
                   ...settings,
-                  showA2Pilot: event.target.checked,
+                  showAdvancedPilots: event.target.checked,
                 })
               }
             />
@@ -4831,8 +5139,8 @@ export default function Home() {
                 "A2",
                 multiProgress.passedLevelIds,
               )
-                ? "已通過 A1 程度測驗，A2 已正式解鎖；B1 與 B2 仍依前置程度判定。"
-                : settings.showA2Pilot
+                ? "已通過 A1 程度測驗，A2 已正式解鎖。B1 與 B2 目前保留資料但未開放。"
+                : settings.showAdvancedPilots
                   ? "目前開啟 QA 試用入口；正式解鎖條件仍不會被改寫。"
                   : "通過 A1 程度總測驗後正式解鎖。"}
             </span>

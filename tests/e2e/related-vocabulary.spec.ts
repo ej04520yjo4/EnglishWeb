@@ -1,4 +1,5 @@
 import { expect, Page, test } from "@playwright/test";
+import fs from "node:fs";
 
 const progressKey = "yingju-progress-v1";
 
@@ -163,6 +164,47 @@ test("uses the main navigation and presents searchable related vocabulary withou
   expect(saturdayBox.x + saturdayBox.width).toBeLessThanOrEqual(
     viewport.width,
   );
+  const progressBeforeReferenceOpen = await page.evaluate((key) => {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  }, progressKey);
+  await dayItems
+    .first()
+    .getByTestId("open-vocabulary-saturday")
+    .click();
+  await expect(
+    dayItems.first().getByTestId("vocabulary-detail-saturday"),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const item = value.vocabularyProgress?.saturday;
+        return {
+          exposure: item?.exposureEvidenceIds?.length ?? 0,
+          recognition: item?.recognitionCorrectEvidenceIds?.length ?? 0,
+          spelling: item?.spellingCorrectEvidenceIds?.length ?? 0,
+          application: item?.applicationCorrectEvidenceIds?.length ?? 0,
+          completedLessonIds:
+            value.levelProgress?.A1?.completedLessonIds ??
+            value.completedLessonIds ??
+            [],
+          correctAnswers:
+            value.levelProgress?.A1?.correctAnswers ??
+            value.correctAnswers ??
+            0,
+        };
+      }, progressKey),
+    )
+    .toEqual({
+      exposure: 1,
+      recognition: 0,
+      spelling: 0,
+      application: 0,
+      completedLessonIds:
+        progressBeforeReferenceOpen?.completedLessonIds ?? [],
+      correctAnswers: progressBeforeReferenceOpen?.correctAnswers ?? 0,
+    });
   await dayItems
     .first()
     .getByRole("button", { name: /正常播放 Saturday/ })
@@ -175,6 +217,7 @@ test("uses the main navigation and presents searchable related vocabulary withou
   await expect(
     page.locator('[data-testid="vocabulary-word-night"]'),
   ).toContainText("待複習");
+  await page.getByTestId("open-vocabulary-night").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-night"]'),
   ).toContainText("at night");
@@ -237,12 +280,14 @@ test("shows the month and family topics with formal and reference sources", asyn
     '[data-testid="vocabulary-word-list"] > article',
   );
   await expect(monthItems).toHaveCount(12);
+  await page.getByTestId("open-vocabulary-january").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-january"]'),
   ).toContainText("in January");
   await expect(
     page.locator('[data-testid="vocabulary-word-january"]'),
   ).toContainText("參考詞彙");
+  await page.getByTestId("open-vocabulary-may").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-may"]'),
   ).toContainText("正式課程");
@@ -259,12 +304,15 @@ test("shows the month and family topics with formal and reference sources", asyn
     '[data-testid="vocabulary-word-list"] > article',
   );
   await expect(familyItems).toHaveCount(10);
+  await page.getByTestId("open-vocabulary-mother").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-mother"]'),
   ).toContainText("正式課程");
+  await page.getByTestId("open-vocabulary-father").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-father"]'),
   ).toContainText("參考詞彙");
+  await page.getByTestId("open-vocabulary-brother").click();
   await expect(
     page.locator('[data-testid="vocabulary-word-brother"]'),
   ).toContainText("my brother");
@@ -286,6 +334,10 @@ test("shows the month and family topics with formal and reference sources", asyn
   await search.fill("先生");
   await expect(familyItems).toHaveCount(1);
   await expect(familyItems.first()).toContainText("husband");
+  await familyItems
+    .first()
+    .getByTestId("open-vocabulary-husband")
+    .click();
   await familyItems
     .first()
     .getByRole("button", { name: /正常播放 husband/ })
@@ -350,6 +402,18 @@ test("opens a related group after a correct course word and returns to the same 
       '[data-testid="open-related-vocabulary-from-detail"]',
     ),
   ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const item = value.vocabularyProgress?.monday;
+        return {
+          exposure: item?.exposureEvidenceIds?.length ?? 0,
+          spelling: item?.spellingCorrectEvidenceIds?.length ?? 0,
+        };
+      }, progressKey),
+    )
+    .toEqual({ exposure: 1, spelling: 1 });
   const progressBefore = await page.evaluate((key) => {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : null;
@@ -386,6 +450,97 @@ test("opens a related group after a correct course word and returns to the same 
     return value ? JSON.parse(value) : null;
   }, progressKey);
   assertProgressEqual(progressAfter, progressBefore);
+});
+
+test("persists global vocabulary evidence and includes it in backup import and export", async ({
+  page,
+}) => {
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+  await page
+    .locator('[data-testid="vocabulary-group-days-of-week"]')
+    .click();
+  await page.getByTestId("open-vocabulary-saturday").click();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return value.vocabularyProgress?.saturday?.exposureEvidenceIds?.length;
+      }, progressKey),
+    )
+    .toBe(1);
+
+  await page.reload();
+  await expect(page.getByText("本機進度已儲存")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return {
+          schemaVersion: value.schemaVersion,
+          exposure:
+            value.vocabularyProgress?.saturday?.exposureEvidenceIds?.length,
+        };
+      }, progressKey),
+    )
+    .toEqual({ schemaVersion: 6, exposure: 1 });
+
+  await page
+    .getByRole("button", { name: "前往學習進度", exact: true })
+    .click();
+  await expect(page.getByTestId("global-vocabulary-progress")).toBeVisible();
+  await expect(page.getByText("A1＋A2總目標")).toBeVisible();
+  await expect(page.getByText("3000詞彙清單仍在分批建置")).toBeVisible();
+
+  await page.getByRole("button", { name: "設定" }).click();
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "匯出進度備份" }).click();
+  const download = await downloadPromise;
+  const downloadPath = await download.path();
+  if (!downloadPath) {
+    throw new Error("無法取得進度備份下載路徑。");
+  }
+  const backup = JSON.parse(fs.readFileSync(downloadPath, "utf8"));
+  expect(backup.schemaVersion).toBe(6);
+  expect(
+    backup.progress.vocabularyProgress.saturday.exposureEvidenceIds,
+  ).toHaveLength(1);
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.vocabularyProgress = {};
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await expect(page.getByText("本機進度已儲存")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return Object.keys(value.vocabularyProgress ?? {}).length;
+      }, progressKey),
+    )
+    .toBe(0);
+
+  await page.getByRole("button", { name: "設定", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "設定" })).toBeVisible();
+  await page
+    .locator('label:has-text("匯入進度備份") input[type="file"]')
+    .setInputFiles({
+      name: "vocabulary-progress-backup.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(backup), "utf8"),
+    });
+  await expect(page.getByText("完整學習進度已還原。")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return value.vocabularyProgress?.saturday?.exposureEvidenceIds?.length;
+      }, progressKey),
+    )
+    .toBe(1);
+  await expectNoHorizontalOverflow(page);
 });
 
 test("keeps A1 usable when related-vocabulary data fails", async ({
