@@ -2,7 +2,7 @@
 
 ## Project Purpose
 
-`english-learning-app` is the active product in this repository. It is a Traditional Chinese, keyboard-first English learning application whose production curriculum currently covers CEFR A1.
+`english-learning-app` is the active product in this repository. It is a Traditional Chinese, keyboard-first English learning application. A1 is production; A2 is the only runtime pilot. B1/B2 source data is retained for audit but disabled in the product while A1/A2 quality and vocabulary coverage are strengthened.
 
 Keep work scoped to this repository. Do not mix in files or assumptions from sibling projects.
 
@@ -43,8 +43,11 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `app/learning-progress.ts`: progress history and review scheduling.
 - `app/passage-flow.ts`, `app/rebuild-flow.ts`, `app/assessment-scoring.ts`: focused learning rules.
 - `public/data/a1-course-v3.csv`: the only official A1 curriculum source.
-- `public/data/a2-course-v1.csv`, `b1-course-v1.csv`, and `b2-course-v1.csv`: independent pilot curricula declared by the catalog.
+- `public/data/a2-course-v1.csv`: the runtime A2 pilot curriculum.
+- `public/data/b1-course-v1.csv` and `public/data/b2-course-v1.csv`: retained, disabled sources used only by direct data QA.
 - `public/data/course-catalog.json`: the runtime source registry for A1 through B2.
+- `public/data/vocabulary-targets-v1.json`: reviewed-in-batches A1＋A2 canonical lexeme target contract.
+- `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: reviewed practice additions.
 - `tests/`: unit, rendered-content, and Playwright coverage.
 - `docs/`: product specifications, content plans, and context workflow.
@@ -60,6 +63,8 @@ Run from the repository root:
 npm ci
 npm run check:context
 npm run audit:project
+npm run audit:vocabulary
+npm run report:vocabulary
 npm run validate:curriculum
 npm run dev
 npm run build
@@ -78,6 +83,9 @@ npx tsc --noEmit --incremental false
 - Each ordinary answer row represents one English word. Multiword meaning belongs in `chunk_*`.
 - Display `context_pos`; use `lexeme_id` for word progress and `sense_id` for contextual meanings.
 - Preserve `sentence_pattern_id`, passage order, and reviewed-exercise prerequisites.
+- Count canonical lexemes, not occurrences, forms, senses, or chunks, toward the 3000 target.
+- Keep vocabulary mastery evidence global across A1/A2; explicit reference details add exposure only.
+- Never allow `showAdvancedPilots` or another preview setting to load a catalog entry whose status is `disabled`.
 - Use natural Traditional Chinese for Taiwan.
 - Keep American-English pronunciation assets legally sourced and documented.
 

@@ -2,6 +2,29 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-31 - A1/A2 Vocabulary 3000 Foundation
+
+### Added
+
+- Added a sourced, partial A1/A2 canonical vocabulary target contract with cumulative 1200/3000 goals.
+- Added a 128-entry baseline: 102 curriculum-covered active candidates and 26 reference-only receptive candidates.
+- Added vocabulary target validation, baseline generation, audit, coverage reporting, and protected-source hash checks.
+- Added progress schema v6 with global exposure, recognition, clean spelling, and application evidence shared across A1/A2.
+- Added vocabulary coverage and personal mastery summaries to the learning-progress page.
+
+### Changed
+
+- Disabled B1/B2 at runtime while retaining their CSV/JSON, generators, structural tests, and project-data audits.
+- Renamed the persisted preview setting to `showAdvancedPilots`, while continuing to read legacy `showA2Pilot` backups.
+- Related-vocabulary details now record exposure only when explicitly opened; browsing, search, audio, and rendering remain evidence-neutral.
+- Receptive and active mastery now require repeated correct evidence across different study dates; revealed or pasted spelling cannot count as clean evidence.
+
+### Preserved
+
+- Protected A1/A2 CSV and exercise JSON files remain byte-for-byte unchanged.
+- A1 remains 8/32/145 and A2 remains 4/16/95.
+- Vocabulary progress does not unlock or pass a CEFR level.
+
 ## 2026-07-31 - B1 and B2 Pilot Curriculum
 
 ### Added

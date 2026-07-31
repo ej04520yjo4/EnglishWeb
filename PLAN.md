@@ -4,7 +4,7 @@
 
 英句練習 is a Traditional Chinese, keyboard-first English learning site. It builds sentence production from individual word recall to chunks, sentence patterns, complete sentences, and short passages.
 
-A1 is the current production level. A2, B1, and B2 are isolated pilot levels for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
+A1 is the current production level and A2 is the only runtime pilot. B1/B2 data remains available for direct audit but is disabled in the product. Current development returns to A1/A2 quality, global vocabulary evidence, and a sourced 3000-canonical-lexeme foundation.
 
 ## Milestones
 
@@ -89,17 +89,28 @@ A1 is the current production level. A2, B1, and B2 are isolated pilot levels for
 - Added independent B1 and B2 v1 pilot sources without changing A1 or A2 rows.
 - Added 8 units and 32 lessons per level, retaining one-word answers and chunk meaning.
 - Added recognition, two transfers, text response, passage rebuild, and comprehension for every unit.
-- Extended the catalog, loaders, progress schema, content management, validation, and desktop/mobile flow to four levels.
+- Extended the shared data contracts and validation to four levels; B1/B2 are now retained as disabled data rather than runtime courses.
 - Added project-data auditing for catalog sources, ID collisions, duplicate files, generator key collisions, and tracked build artifacts.
 
 ### M9 - B1 and B2 Manual Content Review
 
-**Status:** Current
+**Status:** Paused
 
 - Try B1 and B2 in current Windows Chrome and at mobile width.
 - Review every English sentence, Taiwan Traditional Chinese prompt, chunk, grammar label, distractor, and passage.
 - Supply or verify KK／IPA and licensed audio before changing any audio state to `ready`.
 - Keep both levels `pilot_review_required` until review findings are recorded and corrected.
+
+### M10 - A1/A2 Vocabulary 3000 Foundation
+
+**Status:** Current
+
+- Define cumulative targets: A1 1200 canonical lexemes (700 active, 500 receptive); A2 3000 cumulative (1500 active, 1500 receptive).
+- Build only a sourced baseline from existing A1/A2 curriculum and reference vocabulary; do not generate words merely to reach 3000.
+- Track exposure, recognition, clean spelling, and sentence application globally by canonical `lexemeId` in progress schema v6.
+- Require repeated evidence across different study dates before receptive or active mastery.
+- Keep CEFR completion independent from the incomplete vocabulary target until both curriculum and target data pass human review.
+- Expand the target list in small licensed, manually reviewed batches while A2 units 1–4 continue language QA.
 
 ## Milestone Completion Rule
 

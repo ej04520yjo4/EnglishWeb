@@ -78,7 +78,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** `public/data/course-catalog.json` declares each runtime CEFR level, source files, version, expected counts, and release status. A1 remains production on v3; A2, B1, and B2 use independent v1 pilots.
+**Decision:** `public/data/course-catalog.json` declares each CEFR level, source files, version, expected counts, and release status. A1 remains production on v3, A2 is the only runtime v1 pilot, and B1/B2 v1 sources are retained with `disabled` status for direct audit only.
 
 **Reason:** Adding a level must not mutate A1 or create another hidden curriculum source.
 
@@ -90,11 +90,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Reason:** Pilot data has a higher change rate and must not destabilize the production course.
 
-## ADR-012 - Multi-Level Progress v5
+## ADR-012 - Multi-Level Progress v6
 
 **Status:** Accepted
 
-**Decision:** Progress schema v5 stores A1, A2, B1, and B2 records separately. Migration from v3 copies the complete A1 state without resetting IDs, schedules, familiarity, or completion. Migration from v4 preserves A1/A2 and initializes empty B1/B2 records.
+**Decision:** Progress schema v6 stores A1, A2, B1, and B2 course records separately and adds top-level `vocabularyProgress` keyed by canonical lexeme. Migration from v3 preserves A1, v4 preserves A1/A2, and v5 preserves all levels; legacy records initialize empty global vocabulary evidence and do not invent mastery.
 
 **Reason:** Activity or curriculum changes at one level must never corrupt established progress at another level.
 
@@ -102,7 +102,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Formal access follows A1 → A2 → B1 → B2 prerequisites. A local QA preview may temporarily display any advanced pilot, but it never changes `passedLevelIds` or learner mastery. The existing `showA2Pilot` settings key is retained for storage compatibility while the UI labels it as advanced pilot access.
+**Decision:** Formal access follows prerequisites, but only catalog entries marked `production` or `pilot` can load. `showAdvancedPilots` currently exposes A2 QA only and never changes `passedLevelIds`; old `showA2Pilot` settings remain readable, while new exports write only `showAdvancedPilots`. A preview flag can never bypass `disabled`.
 
 **Reason:** Content review needs direct access without weakening the learner progression rule.
 
@@ -110,7 +110,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Related-vocabulary topics are versioned reference data, not a second curriculum. Opening, searching, filtering, or playing a word never increments attempts, completes lessons, marks mastery, or changes review intervals.
+**Decision:** Related-vocabulary topics are versioned reference data, not a second curriculum. Search, filtering, scrolling, and audio never create learning evidence. Explicitly opening an item detail records only global exposure; it never records recognition, spelling, application, course completion, accuracy, passed IDs, or review changes.
 
 **Reason:** The page should help learners compare words without weakening the evidence required by the formal course.
 
@@ -194,13 +194,13 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Reason:** Writing storage after an initial page load races React hydration on slower mobile CI workers, while reapplying the fixture on every navigation can erase the progress being tested.
 
-## ADR-025 - B1 and B2 Are Complete Pilot Sources, Not Reviewed Releases
+## ADR-025 - B1 and B2 Sources Are Retained but Runtime Disabled
 
 **Status:** Accepted
 
-**Decision:** B1 and B2 each use one catalog-declared v1 CSV plus pattern and reading JSON. Each level contains 8 units and 32 lessons with the complete text-first learning flow, but every row and exercise remains `pilot_review_required`.
+**Decision:** B1 and B2 each retain one catalog-declared v1 CSV plus pattern and reading JSON. Every row and exercise remains `pilot_review_required`, both catalog entries are `disabled`, startup does not fetch them, and general selectors or advanced preview cannot open them. Direct validators and generators continue to protect the data.
 
-**Reason:** The user can test the full course route now while technical completeness remains clearly separated from human language, phonetic, licensing, and CEFR review.
+**Reason:** Retaining the audited sources preserves prior work while preventing unreviewed language from appearing as an available learner route.
 
 ## ADR-026 - Project Data Audit Protects Single Sources
 
@@ -209,3 +209,27 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** `npm run audit:project` fails on catalog-orphaned curriculum files, identical duplicate data files, cross-level structural ID collisions, unsafe duplicate sentences, generator dictionary key collisions, or tracked build/test artifacts. A repeated lesson sentence is allowed only when the later rows explicitly mark it as review content.
 
 **Reason:** Lint and TypeScript do not detect silent object-key replacement or redundant static data, while legitimate A1 review repetition must not be deleted as accidental duplication.
+
+## ADR-027 - Canonical A1/A2 Vocabulary Target Contract
+
+**Status:** Accepted
+
+**Decision:** `public/data/vocabulary-targets-v1.json` defines cumulative A1/A2 goals using canonical single-word lexemes: A1 1200 (700 active, 500 receptive) and A2 3000 cumulative (1500 active, 1500 receptive). Occurrences, word forms, senses, and chunks never add separate target counts. The file remains `partial_review_required` until every entry is sourced and reviewed.
+
+**Reason:** A stable vocabulary contract prevents inflated counts and separates the long-term target from current course size.
+
+## ADR-028 - Vocabulary Mastery Requires Cross-Date Evidence
+
+**Status:** Accepted
+
+**Decision:** Global mastery uses stable evidence IDs shared across A1/A2. Exposure needs an explicit course/reference detail; receptive needs two correct recognition records on two dates; active also needs two clean spelling records on two dates and one correct application. Revealed or pasted spellings never count as clean spelling evidence.
+
+**Reason:** Seeing a card or completing one assisted attempt is not durable recall or productive ability.
+
+## ADR-029 - Vocabulary Expansion Is Sourced and Batched
+
+**Status:** Accepted
+
+**Decision:** The baseline contains only current A1/A2 curriculum and reference vocabulary. Future additions must arrive in small deduplicated batches with source version, reference, license, topic, target level, mastery target, and QA state. The project will not copy protected lists or generate filler entries to reach 3000.
+
+**Reason:** Legal provenance and human language review are product requirements, not cleanup work after bulk generation.

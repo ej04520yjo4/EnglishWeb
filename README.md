@@ -2,16 +2,17 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2、B1 與 B2 另有彼此獨立、需人工複核的試行資料：A2 為 4 單元、16 課、95 個出現位置；B1 為 8 單元、32 課、249 個出現位置；B2 為 8 單元、32 課、298 個出現位置。試行完成不等於正式通過程度。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 4 單元、16 課、95 個出現位置。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。試行完成不等於正式通過程度。
 
 ## 主要功能
 
-- A1／A2／B1／B2 課程目錄、程度切換與循序解鎖。
+- A1／A2 課程目錄、程度切換與循序解鎖。
 - 星期、一天時段、月份與家庭成員的相關字詞主題、搜尋、狀態篩選及課程詳情捷徑。
 - 單字回想、三層提示、字義與片語說明。
 - 句子重組、閱讀辨識、句型遷移與文章重組。
 - KK 音標獨立練習區。
 - 單字、語意、句型、句子與文章層級的本機進度。
+- A1＋A2 canonical lexeme 目標、全站 exposure／recognition／spelling／application 證據與跨日熟練判定。
 - Excel、CSV、JSON 課程資料匯出與驗證匯入。
 - 桌面與手機瀏覽器流程測試。
 
@@ -33,6 +34,8 @@
 npm ci
 npm run check:context
 npm run audit:project
+npm run audit:vocabulary
+npm run report:vocabulary
 npm run validate:curriculum
 npm run dev
 npm run build
@@ -49,9 +52,9 @@ npx tsc --noEmit --incremental false
 - `app/`：介面、課程載入、學習流程與進度邏輯。
 - `public/data/a1-course-v3.csv`：唯一正式 A1 課程來源。
 - `public/data/a2-course-v1.csv`：需人工複核的 A2 試行課程來源。
-- `public/data/b1-course-v1.csv`：8 單元、32 課的 B1 試行課程來源。
-- `public/data/b2-course-v1.csv`：8 單元、32 課的 B2 試行課程來源。
+- `public/data/b1-course-v1.csv`、`public/data/b2-course-v1.csv`：保留但停用的試行資料，只由直接稽核與資料測試讀取。
 - `public/data/course-catalog.json`：各程度的狀態、資料檔與版本目錄。
+- `public/data/vocabulary-targets-v1.json`：A1＋A2 canonical lexeme 目標契約；目前是分批審核中的 partial baseline。
 - `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
 - `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
@@ -61,6 +64,7 @@ npx tsc --noEmit --incremental false
 - `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 5–10 只保留規劃，不是正式課程資料。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
+- `docs/a1-a2-vocabulary-3000-plan.md`：3000詞目標、來源、批次審核、計數及熟練規則。
 - `tests/`：單元、內容與 Playwright 瀏覽器測試。
 - `docs/`：產品規格、內容計畫與工作流程。
 - `scripts/`：QA、啟動與開發輔助工具。
@@ -88,5 +92,6 @@ npx tsc --noEmit --incremental false
 - 單字進度使用 `lexeme_id`；語境差異使用 `sense_id`。
 - 不抓取 Oxford、Cambridge 等受保護字典內容。
 - 音訊必須保留來源、授權與 QA 狀態。
-- A2、B1、B2 試行內容必須通過人工語言 QA，才可由試行狀態升為正式課程。
-- 相關字詞優先使用正式課程資料；查看主題不等於完成、通過或精通。
+- A2 試行內容必須通過人工語言 QA，才可升為正式課程；B1／B2 目前固定為 disabled。
+- 相關字詞優先使用正式課程資料；只有明確開啟詳情會記錄 exposure，且不等於辨認、拼寫、完成、通過或精通。
+- 3000 只計 canonical 單字；occurrence、word form、sense 與 chunk 分開統計。

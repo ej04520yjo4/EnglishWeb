@@ -42,10 +42,14 @@ This file stores long-lived product facts and working preferences. Current task 
 - B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
 - B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
 - B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
-- B1/B2 are technically executable but remain `pilot_review_required`; automated validation is not human language, phonetic, or CEFR approval.
+- B1/B2 source data remains structurally validated and `pilot_review_required`, but both catalog entries are `disabled`; startup, selectors, and advanced preview must not load them.
 - `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 5–10 have no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
-- Progress schema v5 stores A1, A2, B1, and B2 separately; the advanced QA preview never writes passed-level IDs.
+- Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
+- The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
+- The current target file is intentionally partial and contains 128 sourced baseline entries: 102 curriculum and 26 reference-only.
+- Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
+- Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one correct application; reveal and paste cannot create clean spelling evidence.
 
 ## Content and Audio Guardrails
 
@@ -55,7 +59,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - `audio_status !== "ready"` must never be treated as a playable URL.
 - KK phonetic-symbol audio is a separate learning area, not KK notation added to A-Z letter practice.
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
-- Formal course data remains primary for progress, occurrences, audio, and source metadata. Reference viewing must never count as learning completion or change review schedules.
+- Formal course data remains primary for progress, occurrences, audio, and source metadata. Explicitly opening a reference detail records exposure only; it never counts as course completion, recognition, spelling, application, or a review-schedule change.
+- Vocabulary target expansion must use small deduplicated batches with recorded source version, reference, and license. Do not copy protected lists or generate filler to reach 3000.
 - Related-vocabulary cards display canonical lemmas and may use a validated group-level Traditional Chinese override; course answers remain occurrence-specific.
 - A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 

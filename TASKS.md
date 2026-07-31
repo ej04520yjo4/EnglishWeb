@@ -4,14 +4,13 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **B1B2-QA-001:** Manually review all 64 B1/B2 pilot lessons.
-  - Check natural American English, Taiwan Traditional Chinese, context parts of speech, chunks, pattern names, distractors, passage continuity, and CEFR difficulty.
-  - Record corrections before changing any row from `pilot_review_required`.
-- [ ] **B1B2-QA-002:** Try the first and last lesson of every B1/B2 unit in current Windows Chrome and at 375 x 812.
-- [ ] **B1B2-QA-003:** Verify or supply KK/IPA and free/open audio attribution; keep `audio_status=pending` until files are playable.
+- [ ] **VOCAB-3000-QA-001:** Manually review the 128-entry A1/A2 baseline target contract.
+  - Confirm the 102 curriculum lexemes, 26 reference-only lexemes, canonical lemmas, A1/A2 placement, active/receptive target, topic, and source/license fields.
+- [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
+- [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
-  - Accept only after corrections are recorded; viewing must remain progress-neutral.
+  - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
 - [ ] **A2-QA-001:** Manually review all 16 A2 pilot lessons.
   - Preserve unit 1 and check units 2–4 for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
   - Accept only after findings and corrections are recorded.
@@ -42,6 +41,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Later - P2
 
+- [ ] **B1B2-QA-001 (paused):** Manually review all 64 retained B1/B2 lessons before either level can return to runtime.
+- [ ] **B1B2-QA-002 (paused):** After review resumes, try the first and last lesson of every B1/B2 unit in desktop/mobile Chrome.
+- [ ] **B1B2-QA-003 (paused):** Verify KK/IPA and free/open audio attribution; keep `audio_status=pending` until playable.
 - [ ] **REVIEW-002:** Validate mastery after delayed review across word, sense, pattern, and passage.
 - [ ] **ACCESS-001:** Complete keyboard, focus, screen-reader label, contrast, desktop, and mobile audits.
 
@@ -79,3 +81,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Four-level catalog loading, progress schema v5 migration, isolated storage, content management, and QA preview.
 - [x] Project-data audit for orphan/duplicate sources, structural ID collisions, intentional review repetition, generator-key collisions, and tracked artifacts.
 - [x] Desktop/mobile first-lesson browser coverage for B1 and B2 without formal level unlock mutation.
+- [x] Disabled B1/B2 runtime loading and selectors while preserving their direct data audit coverage.
+- [x] Added the partial A1/A2 canonical target baseline, target audit, and coverage report.
+- [x] Added global vocabulary evidence and schema v6 migration without inventing legacy mastery.
+- [x] Added progress UI, explicit-detail exposure rules, clean spelling safeguards, backup persistence, and desktop/mobile coverage.

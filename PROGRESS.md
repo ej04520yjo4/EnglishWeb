@@ -3,103 +3,74 @@
 ## Snapshot
 
 - Updated: 2026-07-31
-- Branch: `main`
-- Active milestone: M9 - B1 and B2 Manual Content Review
-- Production level: A1
-- Official curriculum: `public/data/a1-course-v3.csv`
-- Curriculum totals: 8 units, 32 lessons, 145 word occurrences
-- Pilot level: A2
-- Pilot curriculum: `public/data/a2-course-v1.csv`
-- Pilot totals: 4 units, 16 lessons, 95 word occurrences
-- Pilot unit counts: unit 1 = 25, unit 2 = 25, unit 3 = 24, unit 4 = 21 occurrences
-- B1 pilot: `public/data/b1-course-v1.csv`, 8 units, 32 lessons, 249 occurrences
-- B2 pilot: `public/data/b2-course-v1.csv`, 8 units, 32 lessons, 298 occurrences
-- All advanced rows and exercises: `pilot_review_required`
+- Branch: `feat/a1-a2-vocabulary-3000-foundation`
+- Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
+- Runtime levels: A1 production and A2 pilot
+- Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
+- A1: 8 units, 32 lessons, 145 occurrences
+- A2: 4 units, 16 lessons, 95 occurrences
+- Protected A1/A2 CSV and exercise JSON hashes: unchanged
+- Progress schema: v6 with top-level global `vocabularyProgress`
+
+## Vocabulary Baseline
+
+- A1: 145 occurrences, 69 word forms, 75 senses, 15 chunks, 68 canonical lexemes.
+- A2: 95 occurrences, 61 word forms, 77 senses, 30 chunks, 57 canonical lexemes.
+- A1＋A2 union: 102 canonical lexemes; overlap: 23.
+- Reference-only unique lexemes: 26.
+- Target baseline: 128 entries; 102 active candidates and 26 receptive candidates.
+- Target stage counts: A1 94, A2 34; 2872 entries remain unbuilt.
+- Target status: `partial_review_required`; all entries remain `pilot_review_required`.
+- Source report records one A2 source-ID/lemma projection, `me -> I`; target aliases map both to canonical `i`, with no target ID or lemma conflict.
 
 ## Working Features
 
-- Traditional Chinese course map with sequential unlocking.
-- A-Z basics and a separate 41-symbol KK phonetic practice area.
-- Per-word recall, layered hints, word details, chunk explanations, and sentence rebuild.
-- Reviewed reading recognition, pattern transfer, text response, passage rebuild, and comprehension where lesson data enables them.
-- Progress for lexeme, sense, sentence pattern, token, sentence, and passage stored in `localStorage`.
-- Versioned curriculum overrides with validation and a restore-official-data action.
-- Excel/CSV/JSON content-management export and validated import.
-- Unit/level assessment, per-token review scheduling, and desktop/mobile Playwright coverage.
-- GitHub Actions for context checks, build, unit tests, lint, types, and browser tests.
-- A shared course catalog with independent A1/A2/B1/B2 loading and Traditional Chinese level errors.
-- Advanced QA preview that does not falsely change passed levels or formal unlocks.
-- Progress schema v5 with exact v3/v4 migration and isolated per-level records.
-- A2 word recall, details, chunks, sentence rebuild, recognition, two transfer questions, text response, passage rebuild, and comprehension.
-- A2 units 2–4 cover travel and transportation, shopping and comparison, and health and advice.
-- QA preview can inspect all A2 pilot units without adding passed unit or level IDs.
-- A2 has a ten-unit blueprint; units 5–10 do not exist in formal CSV/JSON.
-- A main-navigation related-vocabulary reference page with keyboard activation, search, status filters, topic cards, word details, pronunciation, chunks, and usage reminders.
-- Course-detail shortcuts for validated A1 topic lexemes, with current-word highlighting and exact detail-stage return.
-- Complete executable B1 and B2 pilot routes with recall, details, chunks, rebuild, recognition, two transfers, response, passages, comprehension, and reload persistence.
-- Project-data audit covering catalog sources, duplicate data, structural ID collisions, intentional review repetition, generator keys, and tracked artifacts.
+- Existing A1/A2 recall, detail, chunk, sentence rebuild, recognition, transfer, response, passage, review, assessment, import/export, and responsive flows remain available.
+- B1/B2 are absent from selectors, cannot be opened by advanced preview, are not fetched at startup, and are rejected by direct runtime loader calls.
+- The old `showA2Pilot` setting is readable; new storage/export uses `showAdvancedPilots` and currently exposes A2 QA only.
+- The partial target contract loads from `public/data/vocabulary-targets-v1.json`; target logic is isolated in `app/vocabulary-targets.ts`.
+- Exposure, recognition, spelling, and application evidence is deduplicated by stable ID and shared by canonical lexeme across A1/A2.
+- Receptive mastery requires two correct recognition records on different dates. Active also requires two clean spelling records on different dates and one correct application.
+- Revealed or pasted spelling never creates clean spelling evidence.
+- Related-vocabulary search/render/audio remains neutral; an explicit detail open records exposure only and leaves completion, accuracy, review intervals, and passed IDs unchanged.
+- The progress page separates the 3000 goal, current target coverage, personal evidence-based mastery, senses, chunks, and due reviews.
+- Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
 
-- Preserved the A1 source byte-for-byte in behavior: 8 units, 32 lessons, 145 occurrences, stable IDs, and existing completion records.
-- Added `course-catalog.json` plus shared curriculum types, loaders, validators, source storage, and progress helpers.
-- Added the A2 unit 1 pilot with the four approved core sentences and exact four-sentence passage.
-- Added reviewed A2 recognition, transfer, text-response, and comprehension data without introducing A2 unit 2.
-- Added schema v3-to-v4 migration, formal A2 unlock, QA preview, per-level switching, failure isolation, and reload persistence.
-- Added unit/data tests and real desktop/mobile Playwright coverage for both levels.
-- Added `vocabulary-groups-v1.json` for stable topic and chunk relationships.
-- Added `reference-vocabulary-v1.json` only for words missing from formal A1.
-- Reused formal A1 data for Monday, Friday, night, and the existing `at-night` chunk.
-- Added the days-of-week, times-of-day, months-of-year, and family-members screens without adding an A2 lesson.
-- Reused formal A1 data for May, mother, brother, wife, and the existing `in-may` chunk.
-- Kept the 18 newly added month and family gaps reference-only for combined user review.
-- Added failure isolation so invalid related-vocabulary data does not block A1.
-- Related-vocabulary cards now display canonical lemmas while formal course answers remain unchanged.
-- Cross-topic search now selects the first matching topic and hides stale topic details when no result exists.
-- Preserved A2 unit 1 at 4 lessons and 25 occurrences, then added 12 pilot lessons across units 2–4.
-- Added one recognition, two slot-validated transfers, and one text response to every new lesson.
-- Added three four-sentence passages with 14 directly supported comprehension questions, including cross-sentence questions.
-- Prevented the current A2 pilot from creating an A2 level pass or exposing a B1 unlock.
-- Completed the final reading-content QA for A2 units 2–4: direct transport answers, natural health questions, and distractors limited to content learned by each passage.
-- Added backward-compatible per-option lexeme/chunk metadata and validation for the new A2 passage questions while preserving the legacy A1 string-option format.
-- Stabilized A2 mobile Playwright setup by preloading progress and settings before React hydration, preserving test-created progress across reloads, and waiting for real A2 UI readiness.
-- Added CI retention for Playwright HTML reports, screenshots, error context, and traces; GitHub Actions status remains to be confirmed after this commit is pushed.
-- Added B1 with 8 units, 32 lessons, 249 occurrences, 32 recognition exercises, 64 transfers, 32 text responses, 8 passages, and 32 comprehension questions.
-- Added B2 with 8 units, 32 lessons, 298 occurrences, 32 recognition exercises, 64 transfers, 32 text responses, 8 passages, and 32 comprehension questions.
-- Preserved A1 at 8/32/145 and A2 at 4/16/95 with no source-row changes.
-- Added schema v5 migration, B1/B2 source overrides, generic advanced loading, formal prerequisite checks, and non-mutating QA access.
-- Removed the unused A1-only exercise loader after all levels adopted the shared catalog loader.
-- Removed duplicate prompt/lemma dictionary keys from the B1/B2 generator and made reading distractors use previously taught sentences.
-- Fixed the Windows Playwright wrapper so command-line filters are forwarded rather than silently ignored.
+- Returned active development to A1/A2 and paused B1/B2 manual review.
+- Added target generation, validation, per-level indexes, alias resolution, audit, and coverage reporting.
+- Added schema v6 global evidence wiring to course detail, word recall, reading recognition, sentence rebuild, pattern transfer, and explicit related-word details.
+- Added protected-file hashes, disabled-runtime checks, canonical counting tests, mastery tests, backup/reload tests, and desktop/mobile browser coverage.
+- Fixed an A2 Playwright hydration race by seeding storage before navigation and waiting for observable A2/map readiness.
+- Updated the roadmap, architecture, decisions, task priorities, memory, README, changelog, and B1/B2 status documentation.
 
 ## Known Limits
 
-- A2 remains a pilot and requires manual language/content QA before promotion.
-- A2 units 2–4 remain `pilot_review_required` and need manual English, Taiwan Traditional Chinese, phonetic, and difficulty review.
-- A2 units 5–10 are blueprint-only and have no formal course data.
-- B1 and B2 require complete human English, Taiwan Traditional Chinese, phonetic, chunk, distractor, passage, and CEFR review before promotion.
-- B1/B2 KK/IPA and recorded audio are not yet supplied; rows remain `audio_status=pending` and use browser fallback only.
-- Related vocabulary currently contains four topics and intentionally excludes other categories.
-- All 27 reference-only entries require manual phonetic/content QA before their status changes.
-- Most word and sentence audio still use browser speech fallback; only KK symbol sources have open-license attribution data.
-- Account login, cloud sync, microphone input, speech recognition, and pronunciation scoring are intentionally absent.
-- `app/page.tsx` still owns substantial UI orchestration and should be decomposed only after behavior is protected by tests.
+- The target contract is not a complete 3000-word list and must not be presented as one.
+- The 128 baseline entries need manual source, license, target-level, mastery-target, and language review.
+- A2 units 1–4 remain pilot content; units 5–10 are blueprint-only.
+- All 27 related-vocabulary reference records still need phonetic/content review; deduplication produces 26 unique reference-only target lexemes.
+- B1/B2 language, phonetics, distractors, passages, and CEFR placement remain unreviewed and disabled.
+- Most word/sentence audio still uses browser speech fallback.
 
 ## Next Concrete Step
 
-Try B1 and B2 in current Windows Chrome, then record and correct the first manual language/phonetic QA batch before promoting any content.
+Manually review the 128-entry baseline, choose one legally reusable frequency/reference source, and prepare one small deduplicated candidate batch before adding any new target entries.
 
 ## Verification
 
-- `npm run check:context`: exit 0; 10 required files passed.
-- B1/B2 generator reproducibility: exit 0; 6/6 output files unchanged on a second run.
-- `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 catalog sources, 0 orphan or duplicate data files.
-- `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, B1 8/32/249, B2 8/32/298.
-- `npm run build`: exit 0; Vinext production build passed.
-- `npm run test:unit`: exit 0; 96 passed, 0 failed.
+- `npm ci`: exit 0; 494 packages audited; existing report lists 15 dependency vulnerabilities (2 low, 13 high), with no forced upgrades applied.
+- `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
+- `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 sources, 0 orphan/duplicate data files.
+- `npm run audit:vocabulary`: exit 0; 128 unique targets, 102 active, 26 receptive.
+- `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
+- `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
+- `npm run build`: exit 0; Vinext production build completed.
+- `npm run test:unit`: exit 0; 108 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 46 passed across desktop and mobile, 0 failed.
-- B1/B2 targeted first-lesson Playwright: exit 0; 4 passed, 0 failed.
-- B1 passage and four-answer comprehension Playwright: exit 0; 2 passed, 0 failed.
+- `npm run test:e2e`: exit 0; 42 passed across desktop and mobile, 0 failed.
+- Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
+- Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
