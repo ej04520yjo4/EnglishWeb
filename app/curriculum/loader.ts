@@ -2,6 +2,7 @@ import { loadA1LegacyLevel } from "./a1-legacy-adapter.ts";
 import {
   catalogEntryForLevel,
   loadCurriculumCatalog,
+  runtimeCatalogEntries,
 } from "./catalog.ts";
 import type {
   CefrLevel,
@@ -40,7 +41,7 @@ const loadCatalogCourseLevel = async (
     expectedUnits: entry.expectedUnits,
     expectedLessons: entry.expectedLessons,
     sourceVersion: entry.sourceVersion,
-    rejectProductionQaForPilot: entry.status === "pilot",
+    rejectProductionQaForPilot: entry.status !== "production",
   });
   if (!report.valid) {
     throw new Error(report.validationErrors.join("\n"));
@@ -61,6 +62,9 @@ export const loadCourseLevel = async (
   fetcher: typeof fetch = fetch,
 ): Promise<LoadedCourseLevel> => {
   const entry = catalogEntryForLevel(catalog, level);
+  if (entry.status === "disabled") {
+    throw new Error(`${level} 課程資料目前停用，不可由一般執行流程載入。`);
+  }
   if (level === "A1") {
     return loadA1LegacyLevel(entry, fetcher);
   }
@@ -75,7 +79,7 @@ export const loadAvailableCourseLevels = async (
   const errors: Partial<Record<CefrLevel, string>> = {};
 
   await Promise.all(
-    catalog.levels.map(async (entry) => {
+    runtimeCatalogEntries(catalog).map(async (entry) => {
       try {
         levels[entry.level] = await loadCourseLevel(
           catalog,

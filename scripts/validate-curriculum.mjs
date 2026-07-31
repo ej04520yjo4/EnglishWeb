@@ -43,7 +43,7 @@ for (const entry of catalog.levels) {
       expectedRows: entry.expectedOccurrences,
       expectedUnits: entry.expectedUnits,
       expectedLessons: entry.expectedLessons,
-      rejectProductionQaForPilot: entry.status === "pilot",
+      rejectProductionQaForPilot: entry.status !== "production",
     }),
     validatePatternExerciseData(
       patterns,

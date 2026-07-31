@@ -88,3 +88,6 @@ export const catalogEntryForLevel = (
   }
   return entry;
 };
+
+export const runtimeCatalogEntries = (catalog: CurriculumCatalog) =>
+  catalog.levels.filter((entry) => entry.status !== "disabled");

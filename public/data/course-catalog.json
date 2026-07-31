@@ -30,7 +30,7 @@
     },
     {
       "level": "B1",
-      "status": "pilot",
+      "status": "disabled",
       "title": "B1 中級",
       "description": "試行課程：連貫敘事、意見理由、工作溝通、旅行協調與科技生活。",
       "sourceVersion": "b1-course-v1.csv",
@@ -44,7 +44,7 @@
     },
     {
       "level": "B2",
-      "status": "pilot",
+      "status": "disabled",
       "title": "B2 中高級",
       "description": "試行課程：深入觀點、方案比較、專業回饋、公共議題與協商表達。",
       "sourceVersion": "b2-course-v1.csv",
