@@ -27,6 +27,12 @@ jobs:
       - name: Check project context
         run: npm run check:context
 
+      - name: Audit project data
+        run: npm run audit:project
+
+      - name: Validate curriculum
+        run: npm run validate:curriculum
+
       - name: Build
         run: npm run build
 

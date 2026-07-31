@@ -4,7 +4,7 @@
 
 英句練習 is a Traditional Chinese, keyboard-first English learning site. It builds sentence production from individual word recall to chunks, sentence patterns, complete sentences, and short passages.
 
-A1 is the current production level. A2 has four isolated pilot units for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
+A1 is the current production level. A2, B1, and B2 are isolated pilot levels for technical and linguistic review. Later CEFR levels must extend the architecture without weakening the A1 data contract or bypassing human review.
 
 ## Milestones
 
@@ -81,6 +81,25 @@ A1 is the current production level. A2 has four isolated pilot units for technic
 - Improve delayed review and mastery evidence across lexeme, sense, pattern, and passage.
 - Reduce the size of the central page component only after behavior is protected by tests.
 - Complete accessibility, responsive, import/export, licensing, and recovery checks.
+
+### M8 - B1 and B2 Pilot Curriculum Foundation
+
+**Status:** Complete
+
+- Added independent B1 and B2 v1 pilot sources without changing A1 or A2 rows.
+- Added 8 units and 32 lessons per level, retaining one-word answers and chunk meaning.
+- Added recognition, two transfers, text response, passage rebuild, and comprehension for every unit.
+- Extended the catalog, loaders, progress schema, content management, validation, and desktop/mobile flow to four levels.
+- Added project-data auditing for catalog sources, ID collisions, duplicate files, generator key collisions, and tracked build artifacts.
+
+### M9 - B1 and B2 Manual Content Review
+
+**Status:** Current
+
+- Try B1 and B2 in current Windows Chrome and at mobile width.
+- Review every English sentence, Taiwan Traditional Chinese prompt, chunk, grammar label, distractor, and passage.
+- Supply or verify KK／IPA and licensed audio before changing any audio state to `ready`.
+- Keep both levels `pilot_review_required` until review findings are recorded and corrected.
 
 ## Milestone Completion Rule
 

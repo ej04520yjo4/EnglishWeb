@@ -36,8 +36,9 @@ const loadCatalogCourseLevel = async (
   const rows = parseCourseCsv(csvText);
   const report = validateCourseRows(rows, {
     expectedLevel: entry.level,
-    expectedUnits: entry.level === "A2" ? 4 : undefined,
-    expectedLessons: entry.level === "A2" ? 16 : undefined,
+    expectedRows: entry.expectedOccurrences,
+    expectedUnits: entry.expectedUnits,
+    expectedLessons: entry.expectedLessons,
     sourceVersion: entry.sourceVersion,
     rejectProductionQaForPilot: entry.status === "pilot",
   });

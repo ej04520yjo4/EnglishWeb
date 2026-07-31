@@ -1,0 +1,5483 @@
+{
+  "schemaVersion": 2,
+  "level": "B1",
+  "recognition": [
+    {
+      "id": "b1-u01-l01-recognition-01",
+      "lessonId": "b1-u01-l01",
+      "sentenceId": "b1-u01-l01-s01",
+      "sentencePatternId": "b1-u01-l01-pattern",
+      "passageId": "b1-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I have worked here for three years.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "work",
+        "here",
+        "for",
+        "three",
+        "year"
+      ],
+      "requiredChunkIds": [
+        "have-worked",
+        "for-three-years"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我在這裡工作三年了。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "晚餐後服用這個藥。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我明天必須去看醫生。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你應該多喝一點水。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l02-recognition-01",
+      "lessonId": "b1-u01-l02",
+      "sentenceId": "b1-u01-l02-s01",
+      "sentencePatternId": "b1-u01-l02-pattern",
+      "passageId": "b1-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I have never traveled alone before.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "never",
+        "travel",
+        "alone",
+        "before"
+      ],
+      "requiredChunkIds": [
+        "have-never-traveled"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我以前從未獨自旅行過。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在這裡工作三年了。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "晚餐後服用這個藥。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我明天必須去看醫生。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l03-recognition-01",
+      "lessonId": "b1-u01-l03",
+      "sentenceId": "b1-u01-l03-s01",
+      "sentencePatternId": "b1-u01-l03-pattern",
+      "passageId": "b1-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I was cooking when you called me.",
+      "requiredLexemeIds": [
+        "i",
+        "was",
+        "cook",
+        "when",
+        "you",
+        "call",
+        "me"
+      ],
+      "requiredChunkIds": [
+        "was-cooking"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你打電話給我時，我正在煮飯。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我以前從未獨自旅行過。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我在這裡工作三年了。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "晚餐後服用這個藥。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l04-recognition-01",
+      "lessonId": "b1-u01-l04",
+      "sentenceId": "b1-u01-l04-s01",
+      "sentencePatternId": "b1-u01-l04-pattern",
+      "passageId": "b1-u01-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "After I arrived home I called my friend.",
+      "requiredLexemeIds": [
+        "after",
+        "i",
+        "arrive",
+        "home",
+        "call",
+        "my",
+        "friend"
+      ],
+      "requiredChunkIds": [
+        "after-i-arrived-home"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我到家後打電話給朋友。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你打電話給我時，我正在煮飯。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我以前從未獨自旅行過。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我在這裡工作三年了。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l01-recognition-01",
+      "lessonId": "b1-u02-l01",
+      "sentenceId": "b1-u02-l01-s01",
+      "sentencePatternId": "b1-u02-l01-pattern",
+      "passageId": "b1-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I hope to study English abroad next year.",
+      "requiredLexemeIds": [
+        "i",
+        "hope",
+        "to",
+        "study",
+        "english",
+        "abroad",
+        "next",
+        "year"
+      ],
+      "requiredChunkIds": [
+        "hope-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我希望明年到國外學英文。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我到家後打電話給朋友。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你打電話給我時，我正在煮飯。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我以前從未獨自旅行過。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l02-recognition-01",
+      "lessonId": "b1-u02-l02",
+      "sentenceId": "b1-u02-l02-s01",
+      "sentencePatternId": "b1-u02-l02-pattern",
+      "passageId": "b1-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I am saving money for my trip.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "save",
+        "money",
+        "for",
+        "my",
+        "trip"
+      ],
+      "requiredChunkIds": [
+        "saving-money"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我正在為旅行存錢。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我希望明年到國外學英文。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我到家後打電話給朋友。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你打電話給我時，我正在煮飯。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l03-recognition-01",
+      "lessonId": "b1-u02-l03",
+      "sentenceId": "b1-u02-l03-s01",
+      "sentencePatternId": "b1-u02-l03-pattern",
+      "passageId": "b1-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "If I finish early I will meet you.",
+      "requiredLexemeIds": [
+        "if",
+        "i",
+        "finish",
+        "early",
+        "will",
+        "meet",
+        "you"
+      ],
+      "requiredChunkIds": [
+        "if-i-finish-early"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "如果我提早完成，我會去見你。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我正在為旅行存錢。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我希望明年到國外學英文。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我到家後打電話給朋友。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l04-recognition-01",
+      "lessonId": "b1-u02-l04",
+      "sentenceId": "b1-u02-l04-s01",
+      "sentencePatternId": "b1-u02-l04-pattern",
+      "passageId": "b1-u02-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "My goal is to find a better job.",
+      "requiredLexemeIds": [
+        "my",
+        "goal",
+        "be",
+        "to",
+        "find",
+        "a",
+        "better",
+        "job"
+      ],
+      "requiredChunkIds": [
+        "my-goal-is-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我的目標是找到更好的工作。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "如果我提早完成，我會去見你。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我正在為旅行存錢。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我希望明年到國外學英文。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l01-recognition-01",
+      "lessonId": "b1-u03-l01",
+      "sentenceId": "b1-u03-l01-s01",
+      "sentencePatternId": "b1-u03-l01-pattern",
+      "passageId": "b1-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I think public transportation is very useful.",
+      "requiredLexemeIds": [
+        "i",
+        "think",
+        "public",
+        "transportation",
+        "be",
+        "very",
+        "useful"
+      ],
+      "requiredChunkIds": [
+        "i-think"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我認為大眾運輸非常實用。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我的目標是找到更好的工作。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "如果我提早完成，我會去見你。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我正在為旅行存錢。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l02-recognition-01",
+      "lessonId": "b1-u03-l02",
+      "sentenceId": "b1-u03-l02-s01",
+      "sentencePatternId": "b1-u03-l02-pattern",
+      "passageId": "b1-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I prefer this plan because it costs less.",
+      "requiredLexemeIds": [
+        "i",
+        "prefer",
+        "this",
+        "plan",
+        "because",
+        "it",
+        "cost",
+        "less"
+      ],
+      "requiredChunkIds": [
+        "because-it-costs-less"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我比較喜歡這個方案，因為它花費較少。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我認為大眾運輸非常實用。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我的目標是找到更好的工作。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "如果我提早完成，我會去見你。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l03-recognition-01",
+      "lessonId": "b1-u03-l03",
+      "sentenceId": "b1-u03-l03-s01",
+      "sentencePatternId": "b1-u03-l03-pattern",
+      "passageId": "b1-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Although the task was difficult I finished it.",
+      "requiredLexemeIds": [
+        "although",
+        "the",
+        "task",
+        "was",
+        "difficult",
+        "i",
+        "finish",
+        "it"
+      ],
+      "requiredChunkIds": [
+        "although-the-task-was-difficult"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "雖然任務很困難，我仍完成了。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我比較喜歡這個方案，因為它花費較少。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我認為大眾運輸非常實用。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我的目標是找到更好的工作。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l04-recognition-01",
+      "lessonId": "b1-u03-l04",
+      "sentenceId": "b1-u03-l04-s01",
+      "sentencePatternId": "b1-u03-l04-pattern",
+      "passageId": "b1-u03-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "We should choose the option that helps everyone.",
+      "requiredLexemeIds": [
+        "we",
+        "should",
+        "choose",
+        "the",
+        "option",
+        "that",
+        "help",
+        "everyone"
+      ],
+      "requiredChunkIds": [
+        "the-option-that-helps-everyone"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們應該選擇能幫助大家的方案。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "雖然任務很困難，我仍完成了。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我比較喜歡這個方案，因為它花費較少。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我認為大眾運輸非常實用。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l01-recognition-01",
+      "lessonId": "b1-u04-l01",
+      "sentenceId": "b1-u04-l01-s01",
+      "sentencePatternId": "b1-u04-l01-pattern",
+      "passageId": "b1-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Could you explain this problem again please?",
+      "requiredLexemeIds": [
+        "could",
+        "you",
+        "explain",
+        "this",
+        "problem",
+        "again",
+        "please"
+      ],
+      "requiredChunkIds": [
+        "could-you-explain"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "可以請你再說明一次這個問題嗎？"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們應該選擇能幫助大家的方案。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "雖然任務很困難，我仍完成了。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我比較喜歡這個方案，因為它花費較少。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l02-recognition-01",
+      "lessonId": "b1-u04-l02",
+      "sentenceId": "b1-u04-l02-s01",
+      "sentencePatternId": "b1-u04-l02-pattern",
+      "passageId": "b1-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I need to finish the report before Friday.",
+      "requiredLexemeIds": [
+        "i",
+        "need",
+        "to",
+        "finish",
+        "the",
+        "report",
+        "before",
+        "friday"
+      ],
+      "requiredChunkIds": [
+        "before-friday"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我需要在星期五以前完成報告。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "可以請你再說明一次這個問題嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我們應該選擇能幫助大家的方案。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "雖然任務很困難，我仍完成了。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l03-recognition-01",
+      "lessonId": "b1-u04-l03",
+      "sentenceId": "b1-u04-l03-s01",
+      "sentencePatternId": "b1-u04-l03-pattern",
+      "passageId": "b1-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "The colleague who helped me was very patient.",
+      "requiredLexemeIds": [
+        "the",
+        "colleague",
+        "who",
+        "help",
+        "me",
+        "was",
+        "very",
+        "patient"
+      ],
+      "requiredChunkIds": [
+        "the-colleague-who-helped-me"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "幫助我的同事非常有耐心。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我需要在星期五以前完成報告。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "可以請你再說明一次這個問題嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們應該選擇能幫助大家的方案。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l04-recognition-01",
+      "lessonId": "b1-u04-l04",
+      "sentenceId": "b1-u04-l04-s01",
+      "sentencePatternId": "b1-u04-l04-pattern",
+      "passageId": "b1-u04-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "We agreed to meet after the morning class.",
+      "requiredLexemeIds": [
+        "we",
+        "agree",
+        "to",
+        "meet",
+        "after",
+        "the",
+        "morning",
+        "class"
+      ],
+      "requiredChunkIds": [
+        "agreed-to-meet"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們同意早上的課程結束後見面。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "幫助我的同事非常有耐心。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我需要在星期五以前完成報告。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "可以請你再說明一次這個問題嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l01-recognition-01",
+      "lessonId": "b1-u05-l01",
+      "sentenceId": "b1-u05-l01-s01",
+      "sentencePatternId": "b1-u05-l01-pattern",
+      "passageId": "b1-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "My train was delayed so I missed the bus.",
+      "requiredLexemeIds": [
+        "my",
+        "train",
+        "was",
+        "delay",
+        "so",
+        "i",
+        "miss",
+        "the",
+        "bus"
+      ],
+      "requiredChunkIds": [
+        "was-delayed"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我的火車誤點，所以我錯過了公車。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們同意早上的課程結束後見面。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "幫助我的同事非常有耐心。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我需要在星期五以前完成報告。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l02-recognition-01",
+      "lessonId": "b1-u05-l02",
+      "sentenceId": "b1-u05-l02-s01",
+      "sentencePatternId": "b1-u05-l02-pattern",
+      "passageId": "b1-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Could you tell me where the station is?",
+      "requiredLexemeIds": [
+        "could",
+        "you",
+        "tell",
+        "me",
+        "where",
+        "the",
+        "station",
+        "be"
+      ],
+      "requiredChunkIds": [
+        "could-you-tell-me"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "可以請你告訴我車站在哪裡嗎？"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我的火車誤點，所以我錯過了公車。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我們同意早上的課程結束後見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "幫助我的同事非常有耐心。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l03-recognition-01",
+      "lessonId": "b1-u05-l03",
+      "sentenceId": "b1-u05-l03-s01",
+      "sentencePatternId": "b1-u05-l03-pattern",
+      "passageId": "b1-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I need to change my booking for tomorrow.",
+      "requiredLexemeIds": [
+        "i",
+        "need",
+        "to",
+        "change",
+        "my",
+        "booking",
+        "for",
+        "tomorrow"
+      ],
+      "requiredChunkIds": [
+        "change-my-booking"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我需要更改明天的預訂。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "可以請你告訴我車站在哪裡嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我的火車誤點，所以我錯過了公車。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們同意早上的課程結束後見面。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l04-recognition-01",
+      "lessonId": "b1-u05-l04",
+      "sentenceId": "b1-u05-l04-s01",
+      "sentencePatternId": "b1-u05-l04-pattern",
+      "passageId": "b1-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "If the weather improves we will leave early.",
+      "requiredLexemeIds": [
+        "if",
+        "the",
+        "weather",
+        "improve",
+        "we",
+        "will",
+        "leave",
+        "early"
+      ],
+      "requiredChunkIds": [
+        "if-the-weather-improves"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "如果天氣好轉，我們會提早出發。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我需要更改明天的預訂。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "可以請你告訴我車站在哪裡嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我的火車誤點，所以我錯過了公車。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l01-recognition-01",
+      "lessonId": "b1-u06-l01",
+      "sentenceId": "b1-u06-l01-s01",
+      "sentencePatternId": "b1-u06-l01-pattern",
+      "passageId": "b1-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I use this app to organize my schedule.",
+      "requiredLexemeIds": [
+        "i",
+        "use",
+        "this",
+        "app",
+        "to",
+        "organize",
+        "my",
+        "schedule"
+      ],
+      "requiredChunkIds": [
+        "use-this-app-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我使用這個應用程式安排自己的行程。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "如果天氣好轉，我們會提早出發。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我需要更改明天的預訂。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "可以請你告訴我車站在哪裡嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l02-recognition-01",
+      "lessonId": "b1-u06-l02",
+      "sentenceId": "b1-u06-l02-s01",
+      "sentencePatternId": "b1-u06-l02-pattern",
+      "passageId": "b1-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "The message was sent to the wrong person.",
+      "requiredLexemeIds": [
+        "the",
+        "message",
+        "was",
+        "send",
+        "to",
+        "wrong",
+        "person"
+      ],
+      "requiredChunkIds": [
+        "was-sent"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "訊息被傳給錯的人了。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我使用這個應用程式安排自己的行程。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "如果天氣好轉，我們會提早出發。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我需要更改明天的預訂。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l03-recognition-01",
+      "lessonId": "b1-u06-l03",
+      "sentenceId": "b1-u06-l03-s01",
+      "sentencePatternId": "b1-u06-l03-pattern",
+      "passageId": "b1-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I have spent less time online this week.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "spend",
+        "less",
+        "time",
+        "online",
+        "this",
+        "week"
+      ],
+      "requiredChunkIds": [
+        "this-week"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我這星期花在網路上的時間比較少。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "訊息被傳給錯的人了。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我使用這個應用程式安排自己的行程。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "如果天氣好轉，我們會提早出發。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l04-recognition-01",
+      "lessonId": "b1-u06-l04",
+      "sentenceId": "b1-u06-l04-s01",
+      "sentencePatternId": "b1-u06-l04-pattern",
+      "passageId": "b1-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Technology can make daily tasks more convenient.",
+      "requiredLexemeIds": [
+        "technology",
+        "can",
+        "make",
+        "daily",
+        "task",
+        "more",
+        "convenient"
+      ],
+      "requiredChunkIds": [
+        "make-daily-tasks-more-convenient"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "科技可以讓日常工作更方便。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我這星期花在網路上的時間比較少。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "訊息被傳給錯的人了。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我使用這個應用程式安排自己的行程。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l01-recognition-01",
+      "lessonId": "b1-u07-l01",
+      "sentenceId": "b1-u07-l01-s01",
+      "sentencePatternId": "b1-u07-l01-pattern",
+      "passageId": "b1-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I apologized because I had forgotten her birthday.",
+      "requiredLexemeIds": [
+        "i",
+        "apologize",
+        "because",
+        "had",
+        "forget",
+        "her",
+        "birthday"
+      ],
+      "requiredChunkIds": [
+        "had-forgotten"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我因為忘了她的生日而道歉。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "科技可以讓日常工作更方便。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我這星期花在網路上的時間比較少。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "訊息被傳給錯的人了。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l02-recognition-01",
+      "lessonId": "b1-u07-l02",
+      "sentenceId": "b1-u07-l02-s01",
+      "sentencePatternId": "b1-u07-l02-pattern",
+      "passageId": "b1-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Good friends listen when someone needs support.",
+      "requiredLexemeIds": [
+        "good",
+        "friend",
+        "listen",
+        "when",
+        "someone",
+        "need",
+        "support"
+      ],
+      "requiredChunkIds": [
+        "when-someone-needs-support"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "好朋友會在別人需要支持時傾聽。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我因為忘了她的生日而道歉。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "科技可以讓日常工作更方便。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我這星期花在網路上的時間比較少。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l03-recognition-01",
+      "lessonId": "b1-u07-l03",
+      "sentenceId": "b1-u07-l03-s01",
+      "sentencePatternId": "b1-u07-l03-pattern",
+      "passageId": "b1-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "We have known each other since high school.",
+      "requiredLexemeIds": [
+        "we",
+        "have",
+        "know",
+        "each",
+        "other",
+        "since",
+        "high",
+        "school"
+      ],
+      "requiredChunkIds": [
+        "each-other",
+        "since-high-school"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們從高中起就認識彼此。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "好朋友會在別人需要支持時傾聽。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我因為忘了她的生日而道歉。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "科技可以讓日常工作更方便。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l04-recognition-01",
+      "lessonId": "b1-u07-l04",
+      "sentenceId": "b1-u07-l04-s01",
+      "sentencePatternId": "b1-u07-l04-pattern",
+      "passageId": "b1-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "It is important to respect different opinions.",
+      "requiredLexemeIds": [
+        "it",
+        "be",
+        "important",
+        "to",
+        "respect",
+        "different",
+        "opinion"
+      ],
+      "requiredChunkIds": [
+        "it-is-important-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "尊重不同意見很重要。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們從高中起就認識彼此。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "好朋友會在別人需要支持時傾聽。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我因為忘了她的生日而道歉。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l01-recognition-01",
+      "lessonId": "b1-u08-l01",
+      "sentenceId": "b1-u08-l01-s01",
+      "sentencePatternId": "b1-u08-l01-pattern",
+      "passageId": "b1-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Last year I decided to change my daily routine.",
+      "requiredLexemeIds": [
+        "last",
+        "year",
+        "i",
+        "decide",
+        "to",
+        "change",
+        "my",
+        "daily",
+        "routine"
+      ],
+      "requiredChunkIds": [
+        "decided-to-change"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "去年我決定改變日常作息。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "尊重不同意見很重要。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我們從高中起就認識彼此。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "好朋友會在別人需要支持時傾聽。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l02-recognition-01",
+      "lessonId": "b1-u08-l02",
+      "sentenceId": "b1-u08-l02-s01",
+      "sentencePatternId": "b1-u08-l02-pattern",
+      "passageId": "b1-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "At first the new schedule was difficult to follow.",
+      "requiredLexemeIds": [
+        "at",
+        "first",
+        "the",
+        "new",
+        "schedule",
+        "was",
+        "difficult",
+        "to",
+        "follow"
+      ],
+      "requiredChunkIds": [
+        "at-first"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "一開始，新的作息很難遵循。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "去年我決定改變日常作息。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "尊重不同意見很重要。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們從高中起就認識彼此。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l03-recognition-01",
+      "lessonId": "b1-u08-l03",
+      "sentenceId": "b1-u08-l03-s01",
+      "sentencePatternId": "b1-u08-l03-pattern",
+      "passageId": "b1-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "I kept practicing because I wanted better results.",
+      "requiredLexemeIds": [
+        "i",
+        "keep",
+        "practice",
+        "because",
+        "want",
+        "better",
+        "result"
+      ],
+      "requiredChunkIds": [
+        "kept-practicing"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我持續練習，因為我想要更好的成果。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "一開始，新的作息很難遵循。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "去年我決定改變日常作息。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "尊重不同意見很重要。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l04-recognition-01",
+      "lessonId": "b1-u08-l04",
+      "sentenceId": "b1-u08-l04-s01",
+      "sentencePatternId": "b1-u08-l04-pattern",
+      "passageId": "b1-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的繁體中文意思。",
+      "stem": "Now I feel more confident about my goals.",
+      "requiredLexemeIds": [
+        "now",
+        "i",
+        "feel",
+        "more",
+        "confident",
+        "about",
+        "my",
+        "goal"
+      ],
+      "requiredChunkIds": [
+        "feel-more-confident"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "現在我對自己的目標更有信心。"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我持續練習，因為我想要更好的成果。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "一開始，新的作息很難遵循。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "去年我決定改變日常作息。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    }
+  ],
+  "textResponses": [
+    {
+      "id": "b1-u01-l01-response-01",
+      "lessonId": "b1-u01-l01",
+      "sourceSentenceId": "b1-u01-l01-s01",
+      "sentencePatternId": "b1-u01-l01-pattern",
+      "passageId": "b1-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我在這裡工作三年了」的英文句子。",
+      "targetTranslation": "我在這裡工作三年了。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have worked here for three years.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Take this medicine after dinner.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I have to see a doctor tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "You should drink more water.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "drink",
+            "more",
+            "water"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l02-response-01",
+      "lessonId": "b1-u01-l02",
+      "sourceSentenceId": "b1-u01-l02-s01",
+      "sentencePatternId": "b1-u01-l02-pattern",
+      "passageId": "b1-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我以前從未獨自旅行過」的英文句子。",
+      "targetTranslation": "我以前從未獨自旅行過。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have never traveled alone before.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I have worked here for three years.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Take this medicine after dinner.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I have to see a doctor tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "see",
+            "a",
+            "doctor",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l03-response-01",
+      "lessonId": "b1-u01-l03",
+      "sourceSentenceId": "b1-u01-l03-s01",
+      "sentencePatternId": "b1-u01-l03-pattern",
+      "passageId": "b1-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你打電話給我時，我正在煮飯」的英文句子。",
+      "targetTranslation": "你打電話給我時，我正在煮飯。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I was cooking when you called me.",
+          "requiredLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call",
+            "me"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I have never traveled alone before.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I have worked here for three years.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Take this medicine after dinner.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l04-response-01",
+      "lessonId": "b1-u01-l04",
+      "sourceSentenceId": "b1-u01-l04-s01",
+      "sentencePatternId": "b1-u01-l04-pattern",
+      "passageId": "b1-u01-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我到家後打電話給朋友」的英文句子。",
+      "targetTranslation": "我到家後打電話給朋友。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "After I arrived home I called my friend.",
+          "requiredLexemeIds": [
+            "after",
+            "i",
+            "arrive",
+            "home",
+            "call",
+            "my",
+            "friend"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I was cooking when you called me.",
+          "requiredLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call",
+            "me"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I have never traveled alone before.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I have worked here for three years.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l01-response-01",
+      "lessonId": "b1-u02-l01",
+      "sourceSentenceId": "b1-u02-l01-s01",
+      "sentencePatternId": "b1-u02-l01-pattern",
+      "passageId": "b1-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我希望明年到國外學英文」的英文句子。",
+      "targetTranslation": "我希望明年到國外學英文。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I hope to study English abroad next year.",
+          "requiredLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "abroad",
+            "next",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "After I arrived home I called my friend.",
+          "requiredLexemeIds": [
+            "after",
+            "i",
+            "arrive",
+            "home",
+            "call",
+            "my",
+            "friend"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I was cooking when you called me.",
+          "requiredLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call",
+            "me"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I have never traveled alone before.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l02-response-01",
+      "lessonId": "b1-u02-l02",
+      "sourceSentenceId": "b1-u02-l02-s01",
+      "sentencePatternId": "b1-u02-l02-pattern",
+      "passageId": "b1-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我正在為旅行存錢」的英文句子。",
+      "targetTranslation": "我正在為旅行存錢。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am saving money for my trip.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "money",
+            "for",
+            "my",
+            "trip"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I hope to study English abroad next year.",
+          "requiredLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "abroad",
+            "next",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "After I arrived home I called my friend.",
+          "requiredLexemeIds": [
+            "after",
+            "i",
+            "arrive",
+            "home",
+            "call",
+            "my",
+            "friend"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I was cooking when you called me.",
+          "requiredLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call",
+            "me"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l03-response-01",
+      "lessonId": "b1-u02-l03",
+      "sourceSentenceId": "b1-u02-l03-s01",
+      "sentencePatternId": "b1-u02-l03-pattern",
+      "passageId": "b1-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「如果我提早完成，我會去見你」的英文句子。",
+      "targetTranslation": "如果我提早完成，我會去見你。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "If I finish early I will meet you.",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "finish",
+            "early",
+            "will",
+            "meet",
+            "you"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I am saving money for my trip.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "money",
+            "for",
+            "my",
+            "trip"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I hope to study English abroad next year.",
+          "requiredLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "abroad",
+            "next",
+            "year"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "After I arrived home I called my friend.",
+          "requiredLexemeIds": [
+            "after",
+            "i",
+            "arrive",
+            "home",
+            "call",
+            "my",
+            "friend"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l04-response-01",
+      "lessonId": "b1-u02-l04",
+      "sourceSentenceId": "b1-u02-l04-s01",
+      "sentencePatternId": "b1-u02-l04-pattern",
+      "passageId": "b1-u02-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我的目標是找到更好的工作」的英文句子。",
+      "targetTranslation": "我的目標是找到更好的工作。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "My goal is to find a better job.",
+          "requiredLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "a",
+            "better",
+            "job"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "If I finish early I will meet you.",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "finish",
+            "early",
+            "will",
+            "meet",
+            "you"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I am saving money for my trip.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "money",
+            "for",
+            "my",
+            "trip"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I hope to study English abroad next year.",
+          "requiredLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "abroad",
+            "next",
+            "year"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l01-response-01",
+      "lessonId": "b1-u03-l01",
+      "sourceSentenceId": "b1-u03-l01-s01",
+      "sentencePatternId": "b1-u03-l01-pattern",
+      "passageId": "b1-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我認為大眾運輸非常實用」的英文句子。",
+      "targetTranslation": "我認為大眾運輸非常實用。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I think public transportation is very useful.",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "public",
+            "transportation",
+            "be",
+            "very",
+            "useful"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "My goal is to find a better job.",
+          "requiredLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "a",
+            "better",
+            "job"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "If I finish early I will meet you.",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "finish",
+            "early",
+            "will",
+            "meet",
+            "you"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I am saving money for my trip.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "money",
+            "for",
+            "my",
+            "trip"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l02-response-01",
+      "lessonId": "b1-u03-l02",
+      "sourceSentenceId": "b1-u03-l02-s01",
+      "sentencePatternId": "b1-u03-l02-pattern",
+      "passageId": "b1-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我比較喜歡這個方案，因為它花費較少」的英文句子。",
+      "targetTranslation": "我比較喜歡這個方案，因為它花費較少。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I prefer this plan because it costs less.",
+          "requiredLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "plan",
+            "because",
+            "it",
+            "cost",
+            "less"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I think public transportation is very useful.",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "public",
+            "transportation",
+            "be",
+            "very",
+            "useful"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "My goal is to find a better job.",
+          "requiredLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "a",
+            "better",
+            "job"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "If I finish early I will meet you.",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "finish",
+            "early",
+            "will",
+            "meet",
+            "you"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l03-response-01",
+      "lessonId": "b1-u03-l03",
+      "sourceSentenceId": "b1-u03-l03-s01",
+      "sentencePatternId": "b1-u03-l03-pattern",
+      "passageId": "b1-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「雖然任務很困難，我仍完成了」的英文句子。",
+      "targetTranslation": "雖然任務很困難，我仍完成了。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Although the task was difficult I finished it.",
+          "requiredLexemeIds": [
+            "although",
+            "the",
+            "task",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "it"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I prefer this plan because it costs less.",
+          "requiredLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "plan",
+            "because",
+            "it",
+            "cost",
+            "less"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I think public transportation is very useful.",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "public",
+            "transportation",
+            "be",
+            "very",
+            "useful"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "My goal is to find a better job.",
+          "requiredLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "a",
+            "better",
+            "job"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l04-response-01",
+      "lessonId": "b1-u03-l04",
+      "sourceSentenceId": "b1-u03-l04-s01",
+      "sentencePatternId": "b1-u03-l04-pattern",
+      "passageId": "b1-u03-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們應該選擇能幫助大家的方案」的英文句子。",
+      "targetTranslation": "我們應該選擇能幫助大家的方案。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "We should choose the option that helps everyone.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help",
+            "everyone"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Although the task was difficult I finished it.",
+          "requiredLexemeIds": [
+            "although",
+            "the",
+            "task",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "it"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I prefer this plan because it costs less.",
+          "requiredLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "plan",
+            "because",
+            "it",
+            "cost",
+            "less"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I think public transportation is very useful.",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "public",
+            "transportation",
+            "be",
+            "very",
+            "useful"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l01-response-01",
+      "lessonId": "b1-u04-l01",
+      "sourceSentenceId": "b1-u04-l01-s01",
+      "sentencePatternId": "b1-u04-l01-pattern",
+      "passageId": "b1-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「可以請你再說明一次這個問題嗎」的英文句子。",
+      "targetTranslation": "可以請你再說明一次這個問題嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Could you explain this problem again please?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "problem",
+            "again",
+            "please"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "We should choose the option that helps everyone.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help",
+            "everyone"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Although the task was difficult I finished it.",
+          "requiredLexemeIds": [
+            "although",
+            "the",
+            "task",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "it"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I prefer this plan because it costs less.",
+          "requiredLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "plan",
+            "because",
+            "it",
+            "cost",
+            "less"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l02-response-01",
+      "lessonId": "b1-u04-l02",
+      "sourceSentenceId": "b1-u04-l02-s01",
+      "sentencePatternId": "b1-u04-l02-pattern",
+      "passageId": "b1-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我需要在星期五以前完成報告」的英文句子。",
+      "targetTranslation": "我需要在星期五以前完成報告。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I need to finish the report before Friday.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "the",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Could you explain this problem again please?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "problem",
+            "again",
+            "please"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "We should choose the option that helps everyone.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help",
+            "everyone"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Although the task was difficult I finished it.",
+          "requiredLexemeIds": [
+            "although",
+            "the",
+            "task",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "it"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l03-response-01",
+      "lessonId": "b1-u04-l03",
+      "sourceSentenceId": "b1-u04-l03-s01",
+      "sentencePatternId": "b1-u04-l03-pattern",
+      "passageId": "b1-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「幫助我的同事非常有耐心」的英文句子。",
+      "targetTranslation": "幫助我的同事非常有耐心。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "The colleague who helped me was very patient.",
+          "requiredLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "very",
+            "patient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I need to finish the report before Friday.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "the",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Could you explain this problem again please?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "problem",
+            "again",
+            "please"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "We should choose the option that helps everyone.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help",
+            "everyone"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l04-response-01",
+      "lessonId": "b1-u04-l04",
+      "sourceSentenceId": "b1-u04-l04-s01",
+      "sentencePatternId": "b1-u04-l04-pattern",
+      "passageId": "b1-u04-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們同意早上的課程結束後見面」的英文句子。",
+      "targetTranslation": "我們同意早上的課程結束後見面。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "We agreed to meet after the morning class.",
+          "requiredLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "the",
+            "morning",
+            "class"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "The colleague who helped me was very patient.",
+          "requiredLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "very",
+            "patient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I need to finish the report before Friday.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "the",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Could you explain this problem again please?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "problem",
+            "again",
+            "please"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l01-response-01",
+      "lessonId": "b1-u05-l01",
+      "sourceSentenceId": "b1-u05-l01-s01",
+      "sentencePatternId": "b1-u05-l01-pattern",
+      "passageId": "b1-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我的火車誤點，所以我錯過了公車」的英文句子。",
+      "targetTranslation": "我的火車誤點，所以我錯過了公車。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "My train was delayed so I missed the bus.",
+          "requiredLexemeIds": [
+            "my",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "We agreed to meet after the morning class.",
+          "requiredLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "the",
+            "morning",
+            "class"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "The colleague who helped me was very patient.",
+          "requiredLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "very",
+            "patient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I need to finish the report before Friday.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "the",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l02-response-01",
+      "lessonId": "b1-u05-l02",
+      "sourceSentenceId": "b1-u05-l02-s01",
+      "sentencePatternId": "b1-u05-l02-pattern",
+      "passageId": "b1-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「可以請你告訴我車站在哪裡嗎」的英文句子。",
+      "targetTranslation": "可以請你告訴我車站在哪裡嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Could you tell me where the station is?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "station",
+            "be"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "My train was delayed so I missed the bus.",
+          "requiredLexemeIds": [
+            "my",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "We agreed to meet after the morning class.",
+          "requiredLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "the",
+            "morning",
+            "class"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "The colleague who helped me was very patient.",
+          "requiredLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "very",
+            "patient"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l03-response-01",
+      "lessonId": "b1-u05-l03",
+      "sourceSentenceId": "b1-u05-l03-s01",
+      "sentencePatternId": "b1-u05-l03-pattern",
+      "passageId": "b1-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我需要更改明天的預訂」的英文句子。",
+      "targetTranslation": "我需要更改明天的預訂。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I need to change my booking for tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "my",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Could you tell me where the station is?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "station",
+            "be"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "My train was delayed so I missed the bus.",
+          "requiredLexemeIds": [
+            "my",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "We agreed to meet after the morning class.",
+          "requiredLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "the",
+            "morning",
+            "class"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l04-response-01",
+      "lessonId": "b1-u05-l04",
+      "sourceSentenceId": "b1-u05-l04-s01",
+      "sentencePatternId": "b1-u05-l04-pattern",
+      "passageId": "b1-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「如果天氣好轉，我們會提早出發」的英文句子。",
+      "targetTranslation": "如果天氣好轉，我們會提早出發。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "If the weather improves we will leave early.",
+          "requiredLexemeIds": [
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "we",
+            "will",
+            "leave",
+            "early"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I need to change my booking for tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "my",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Could you tell me where the station is?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "station",
+            "be"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "My train was delayed so I missed the bus.",
+          "requiredLexemeIds": [
+            "my",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "the",
+            "bus"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l01-response-01",
+      "lessonId": "b1-u06-l01",
+      "sourceSentenceId": "b1-u06-l01-s01",
+      "sentencePatternId": "b1-u06-l01-pattern",
+      "passageId": "b1-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我使用這個應用程式安排自己的行程」的英文句子。",
+      "targetTranslation": "我使用這個應用程式安排自己的行程。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I use this app to organize my schedule.",
+          "requiredLexemeIds": [
+            "i",
+            "use",
+            "this",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "If the weather improves we will leave early.",
+          "requiredLexemeIds": [
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "we",
+            "will",
+            "leave",
+            "early"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I need to change my booking for tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "my",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Could you tell me where the station is?",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "station",
+            "be"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l02-response-01",
+      "lessonId": "b1-u06-l02",
+      "sourceSentenceId": "b1-u06-l02-s01",
+      "sentencePatternId": "b1-u06-l02-pattern",
+      "passageId": "b1-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「訊息被傳給錯的人了」的英文句子。",
+      "targetTranslation": "訊息被傳給錯的人了。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "The message was sent to the wrong person.",
+          "requiredLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "person"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I use this app to organize my schedule.",
+          "requiredLexemeIds": [
+            "i",
+            "use",
+            "this",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "If the weather improves we will leave early.",
+          "requiredLexemeIds": [
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "we",
+            "will",
+            "leave",
+            "early"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I need to change my booking for tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "my",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l03-response-01",
+      "lessonId": "b1-u06-l03",
+      "sourceSentenceId": "b1-u06-l03-s01",
+      "sentencePatternId": "b1-u06-l03-pattern",
+      "passageId": "b1-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我這星期花在網路上的時間比較少」的英文句子。",
+      "targetTranslation": "我這星期花在網路上的時間比較少。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have spent less time online this week.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online",
+            "this",
+            "week"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "The message was sent to the wrong person.",
+          "requiredLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "person"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I use this app to organize my schedule.",
+          "requiredLexemeIds": [
+            "i",
+            "use",
+            "this",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "If the weather improves we will leave early.",
+          "requiredLexemeIds": [
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "we",
+            "will",
+            "leave",
+            "early"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l04-response-01",
+      "lessonId": "b1-u06-l04",
+      "sourceSentenceId": "b1-u06-l04-s01",
+      "sentencePatternId": "b1-u06-l04-pattern",
+      "passageId": "b1-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「科技可以讓日常工作更方便」的英文句子。",
+      "targetTranslation": "科技可以讓日常工作更方便。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Technology can make daily tasks more convenient.",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "daily",
+            "task",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I have spent less time online this week.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online",
+            "this",
+            "week"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "The message was sent to the wrong person.",
+          "requiredLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "person"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I use this app to organize my schedule.",
+          "requiredLexemeIds": [
+            "i",
+            "use",
+            "this",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l01-response-01",
+      "lessonId": "b1-u07-l01",
+      "sourceSentenceId": "b1-u07-l01-s01",
+      "sentencePatternId": "b1-u07-l01-pattern",
+      "passageId": "b1-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我因為忘了她的生日而道歉」的英文句子。",
+      "targetTranslation": "我因為忘了她的生日而道歉。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I apologized because I had forgotten her birthday.",
+          "requiredLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "her",
+            "birthday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Technology can make daily tasks more convenient.",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "daily",
+            "task",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I have spent less time online this week.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online",
+            "this",
+            "week"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "The message was sent to the wrong person.",
+          "requiredLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "person"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l02-response-01",
+      "lessonId": "b1-u07-l02",
+      "sourceSentenceId": "b1-u07-l02-s01",
+      "sentencePatternId": "b1-u07-l02-pattern",
+      "passageId": "b1-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「好朋友會在別人需要支持時傾聽」的英文句子。",
+      "targetTranslation": "好朋友會在別人需要支持時傾聽。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Good friends listen when someone needs support.",
+          "requiredLexemeIds": [
+            "good",
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I apologized because I had forgotten her birthday.",
+          "requiredLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "her",
+            "birthday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Technology can make daily tasks more convenient.",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "daily",
+            "task",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I have spent less time online this week.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online",
+            "this",
+            "week"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l03-response-01",
+      "lessonId": "b1-u07-l03",
+      "sourceSentenceId": "b1-u07-l03-s01",
+      "sentencePatternId": "b1-u07-l03-pattern",
+      "passageId": "b1-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們從高中起就認識彼此」的英文句子。",
+      "targetTranslation": "我們從高中起就認識彼此。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "We have known each other since high school.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "high",
+            "school"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Good friends listen when someone needs support.",
+          "requiredLexemeIds": [
+            "good",
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "I apologized because I had forgotten her birthday.",
+          "requiredLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "her",
+            "birthday"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Technology can make daily tasks more convenient.",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "daily",
+            "task",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l04-response-01",
+      "lessonId": "b1-u07-l04",
+      "sourceSentenceId": "b1-u07-l04-s01",
+      "sentencePatternId": "b1-u07-l04-pattern",
+      "passageId": "b1-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「尊重不同意見很重要」的英文句子。",
+      "targetTranslation": "尊重不同意見很重要。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "It is important to respect different opinions.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "different",
+            "opinion"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "We have known each other since high school.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "high",
+            "school"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Good friends listen when someone needs support.",
+          "requiredLexemeIds": [
+            "good",
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "I apologized because I had forgotten her birthday.",
+          "requiredLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "her",
+            "birthday"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l01-response-01",
+      "lessonId": "b1-u08-l01",
+      "sourceSentenceId": "b1-u08-l01-s01",
+      "sentencePatternId": "b1-u08-l01-pattern",
+      "passageId": "b1-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「去年我決定改變日常作息」的英文句子。",
+      "targetTranslation": "去年我決定改變日常作息。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Last year I decided to change my daily routine.",
+          "requiredLexemeIds": [
+            "last",
+            "year",
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "daily",
+            "routine"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "It is important to respect different opinions.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "different",
+            "opinion"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "We have known each other since high school.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "high",
+            "school"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Good friends listen when someone needs support.",
+          "requiredLexemeIds": [
+            "good",
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l02-response-01",
+      "lessonId": "b1-u08-l02",
+      "sourceSentenceId": "b1-u08-l02-s01",
+      "sentencePatternId": "b1-u08-l02-pattern",
+      "passageId": "b1-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「一開始，新的作息很難遵循」的英文句子。",
+      "targetTranslation": "一開始，新的作息很難遵循。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "At first the new schedule was difficult to follow.",
+          "requiredLexemeIds": [
+            "at",
+            "first",
+            "the",
+            "new",
+            "schedule",
+            "was",
+            "difficult",
+            "to",
+            "follow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "Last year I decided to change my daily routine.",
+          "requiredLexemeIds": [
+            "last",
+            "year",
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "daily",
+            "routine"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "It is important to respect different opinions.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "different",
+            "opinion"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "We have known each other since high school.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "high",
+            "school"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l03-response-01",
+      "lessonId": "b1-u08-l03",
+      "sourceSentenceId": "b1-u08-l03-s01",
+      "sentencePatternId": "b1-u08-l03-pattern",
+      "passageId": "b1-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我持續練習，因為我想要更好的成果」的英文句子。",
+      "targetTranslation": "我持續練習，因為我想要更好的成果。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I kept practicing because I wanted better results.",
+          "requiredLexemeIds": [
+            "i",
+            "keep",
+            "practice",
+            "because",
+            "want",
+            "better",
+            "result"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "At first the new schedule was difficult to follow.",
+          "requiredLexemeIds": [
+            "at",
+            "first",
+            "the",
+            "new",
+            "schedule",
+            "was",
+            "difficult",
+            "to",
+            "follow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "Last year I decided to change my daily routine.",
+          "requiredLexemeIds": [
+            "last",
+            "year",
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "daily",
+            "routine"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "It is important to respect different opinions.",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "different",
+            "opinion"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l04-response-01",
+      "lessonId": "b1-u08-l04",
+      "sourceSentenceId": "b1-u08-l04-s01",
+      "sentencePatternId": "b1-u08-l04-pattern",
+      "passageId": "b1-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「現在我對自己的目標更有信心」的英文句子。",
+      "targetTranslation": "現在我對自己的目標更有信心。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Now I feel more confident about my goals.",
+          "requiredLexemeIds": [
+            "now",
+            "i",
+            "feel",
+            "more",
+            "confident",
+            "about",
+            "my",
+            "goal"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-1",
+          "text": "I kept practicing because I wanted better results.",
+          "requiredLexemeIds": [
+            "i",
+            "keep",
+            "practice",
+            "because",
+            "want",
+            "better",
+            "result"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-2",
+          "text": "At first the new schedule was difficult to follow.",
+          "requiredLexemeIds": [
+            "at",
+            "first",
+            "the",
+            "new",
+            "schedule",
+            "was",
+            "difficult",
+            "to",
+            "follow"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "distractor-3",
+          "text": "Last year I decided to change my daily routine.",
+          "requiredLexemeIds": [
+            "last",
+            "year",
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "daily",
+            "routine"
+          ],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    }
+  ],
+  "passages": [
+    {
+      "passageId": "b1-u01-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u01-p01-q01",
+          "sourceSentenceId": "b1-u01-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "three years",
+            "traveled alone",
+            "was cooking",
+            "called my friend"
+          ],
+          "optionMetadata": [
+            {
+              "text": "three years",
+              "requiredLexemeIds": [
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "traveled alone",
+              "requiredLexemeIds": [
+                "travel",
+                "alone"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was cooking",
+              "requiredLexemeIds": [
+                "was",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "called my friend",
+              "requiredLexemeIds": [
+                "call",
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "three years",
+          "evidenceSentenceIds": [
+            "b1-u01-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-p01-q02",
+          "sourceSentenceId": "b1-u01-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "three years",
+            "traveled alone",
+            "was cooking",
+            "called my friend"
+          ],
+          "optionMetadata": [
+            {
+              "text": "three years",
+              "requiredLexemeIds": [
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "traveled alone",
+              "requiredLexemeIds": [
+                "travel",
+                "alone"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was cooking",
+              "requiredLexemeIds": [
+                "was",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "called my friend",
+              "requiredLexemeIds": [
+                "call",
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "traveled alone",
+          "evidenceSentenceIds": [
+            "b1-u01-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-p01-q03",
+          "sourceSentenceId": "b1-u01-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "three years",
+            "traveled alone",
+            "was cooking",
+            "called my friend"
+          ],
+          "optionMetadata": [
+            {
+              "text": "three years",
+              "requiredLexemeIds": [
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "traveled alone",
+              "requiredLexemeIds": [
+                "travel",
+                "alone"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was cooking",
+              "requiredLexemeIds": [
+                "was",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "called my friend",
+              "requiredLexemeIds": [
+                "call",
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "was cooking",
+          "evidenceSentenceIds": [
+            "b1-u01-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-p01-q04",
+          "sourceSentenceId": "b1-u01-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "three years",
+            "traveled alone",
+            "was cooking",
+            "called my friend"
+          ],
+          "optionMetadata": [
+            {
+              "text": "three years",
+              "requiredLexemeIds": [
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "traveled alone",
+              "requiredLexemeIds": [
+                "travel",
+                "alone"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was cooking",
+              "requiredLexemeIds": [
+                "was",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "called my friend",
+              "requiredLexemeIds": [
+                "call",
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "called my friend",
+          "evidenceSentenceIds": [
+            "b1-u01-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u02-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u02-p01-q01",
+          "sourceSentenceId": "b1-u02-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "study English abroad",
+            "saving money",
+            "finish early",
+            "better job"
+          ],
+          "optionMetadata": [
+            {
+              "text": "study English abroad",
+              "requiredLexemeIds": [
+                "study",
+                "english",
+                "abroad"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "saving money",
+              "requiredLexemeIds": [
+                "save",
+                "money"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "finish early",
+              "requiredLexemeIds": [
+                "finish",
+                "early"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "better job",
+              "requiredLexemeIds": [
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "study English abroad",
+          "evidenceSentenceIds": [
+            "b1-u02-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-p01-q02",
+          "sourceSentenceId": "b1-u02-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "study English abroad",
+            "saving money",
+            "finish early",
+            "better job"
+          ],
+          "optionMetadata": [
+            {
+              "text": "study English abroad",
+              "requiredLexemeIds": [
+                "study",
+                "english",
+                "abroad"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "saving money",
+              "requiredLexemeIds": [
+                "save",
+                "money"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "finish early",
+              "requiredLexemeIds": [
+                "finish",
+                "early"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "better job",
+              "requiredLexemeIds": [
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "saving money",
+          "evidenceSentenceIds": [
+            "b1-u02-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-p01-q03",
+          "sourceSentenceId": "b1-u02-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "study English abroad",
+            "saving money",
+            "finish early",
+            "better job"
+          ],
+          "optionMetadata": [
+            {
+              "text": "study English abroad",
+              "requiredLexemeIds": [
+                "study",
+                "english",
+                "abroad"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "saving money",
+              "requiredLexemeIds": [
+                "save",
+                "money"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "finish early",
+              "requiredLexemeIds": [
+                "finish",
+                "early"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "better job",
+              "requiredLexemeIds": [
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "finish early",
+          "evidenceSentenceIds": [
+            "b1-u02-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-p01-q04",
+          "sourceSentenceId": "b1-u02-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "study English abroad",
+            "saving money",
+            "finish early",
+            "better job"
+          ],
+          "optionMetadata": [
+            {
+              "text": "study English abroad",
+              "requiredLexemeIds": [
+                "study",
+                "english",
+                "abroad"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "saving money",
+              "requiredLexemeIds": [
+                "save",
+                "money"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "finish early",
+              "requiredLexemeIds": [
+                "finish",
+                "early"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "better job",
+              "requiredLexemeIds": [
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "better job",
+          "evidenceSentenceIds": [
+            "b1-u02-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u03-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u03-p01-q01",
+          "sourceSentenceId": "b1-u03-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "public transportation",
+            "costs less",
+            "although the task was difficult",
+            "helps everyone"
+          ],
+          "optionMetadata": [
+            {
+              "text": "public transportation",
+              "requiredLexemeIds": [
+                "public",
+                "transportation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "costs less",
+              "requiredLexemeIds": [
+                "cost",
+                "less"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "although the task was difficult",
+              "requiredLexemeIds": [
+                "although",
+                "the",
+                "task",
+                "was",
+                "difficult"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "helps everyone",
+              "requiredLexemeIds": [
+                "help",
+                "everyone"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "public transportation",
+          "evidenceSentenceIds": [
+            "b1-u03-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-p01-q02",
+          "sourceSentenceId": "b1-u03-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "public transportation",
+            "costs less",
+            "although the task was difficult",
+            "helps everyone"
+          ],
+          "optionMetadata": [
+            {
+              "text": "public transportation",
+              "requiredLexemeIds": [
+                "public",
+                "transportation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "costs less",
+              "requiredLexemeIds": [
+                "cost",
+                "less"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "although the task was difficult",
+              "requiredLexemeIds": [
+                "although",
+                "the",
+                "task",
+                "was",
+                "difficult"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "helps everyone",
+              "requiredLexemeIds": [
+                "help",
+                "everyone"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "costs less",
+          "evidenceSentenceIds": [
+            "b1-u03-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-p01-q03",
+          "sourceSentenceId": "b1-u03-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "public transportation",
+            "costs less",
+            "although the task was difficult",
+            "helps everyone"
+          ],
+          "optionMetadata": [
+            {
+              "text": "public transportation",
+              "requiredLexemeIds": [
+                "public",
+                "transportation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "costs less",
+              "requiredLexemeIds": [
+                "cost",
+                "less"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "although the task was difficult",
+              "requiredLexemeIds": [
+                "although",
+                "the",
+                "task",
+                "was",
+                "difficult"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "helps everyone",
+              "requiredLexemeIds": [
+                "help",
+                "everyone"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "although the task was difficult",
+          "evidenceSentenceIds": [
+            "b1-u03-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-p01-q04",
+          "sourceSentenceId": "b1-u03-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "public transportation",
+            "costs less",
+            "although the task was difficult",
+            "helps everyone"
+          ],
+          "optionMetadata": [
+            {
+              "text": "public transportation",
+              "requiredLexemeIds": [
+                "public",
+                "transportation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "costs less",
+              "requiredLexemeIds": [
+                "cost",
+                "less"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "although the task was difficult",
+              "requiredLexemeIds": [
+                "although",
+                "the",
+                "task",
+                "was",
+                "difficult"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "helps everyone",
+              "requiredLexemeIds": [
+                "help",
+                "everyone"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "helps everyone",
+          "evidenceSentenceIds": [
+            "b1-u03-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u04-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u04-p01-q01",
+          "sourceSentenceId": "b1-u04-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "explain this problem",
+            "before Friday",
+            "who helped me",
+            "agreed to meet"
+          ],
+          "optionMetadata": [
+            {
+              "text": "explain this problem",
+              "requiredLexemeIds": [
+                "explain",
+                "this",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "before Friday",
+              "requiredLexemeIds": [
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "who helped me",
+              "requiredLexemeIds": [
+                "who",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "agreed to meet",
+              "requiredLexemeIds": [
+                "agree",
+                "to",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "explain this problem",
+          "evidenceSentenceIds": [
+            "b1-u04-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-p01-q02",
+          "sourceSentenceId": "b1-u04-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "explain this problem",
+            "before Friday",
+            "who helped me",
+            "agreed to meet"
+          ],
+          "optionMetadata": [
+            {
+              "text": "explain this problem",
+              "requiredLexemeIds": [
+                "explain",
+                "this",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "before Friday",
+              "requiredLexemeIds": [
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "who helped me",
+              "requiredLexemeIds": [
+                "who",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "agreed to meet",
+              "requiredLexemeIds": [
+                "agree",
+                "to",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "before Friday",
+          "evidenceSentenceIds": [
+            "b1-u04-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-p01-q03",
+          "sourceSentenceId": "b1-u04-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "explain this problem",
+            "before Friday",
+            "who helped me",
+            "agreed to meet"
+          ],
+          "optionMetadata": [
+            {
+              "text": "explain this problem",
+              "requiredLexemeIds": [
+                "explain",
+                "this",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "before Friday",
+              "requiredLexemeIds": [
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "who helped me",
+              "requiredLexemeIds": [
+                "who",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "agreed to meet",
+              "requiredLexemeIds": [
+                "agree",
+                "to",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "who helped me",
+          "evidenceSentenceIds": [
+            "b1-u04-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-p01-q04",
+          "sourceSentenceId": "b1-u04-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "explain this problem",
+            "before Friday",
+            "who helped me",
+            "agreed to meet"
+          ],
+          "optionMetadata": [
+            {
+              "text": "explain this problem",
+              "requiredLexemeIds": [
+                "explain",
+                "this",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "before Friday",
+              "requiredLexemeIds": [
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "who helped me",
+              "requiredLexemeIds": [
+                "who",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "agreed to meet",
+              "requiredLexemeIds": [
+                "agree",
+                "to",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "agreed to meet",
+          "evidenceSentenceIds": [
+            "b1-u04-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u05-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u05-p01-q01",
+          "sourceSentenceId": "b1-u05-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "missed the bus",
+            "where the station is",
+            "change my booking",
+            "weather improves"
+          ],
+          "optionMetadata": [
+            {
+              "text": "missed the bus",
+              "requiredLexemeIds": [
+                "miss",
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "where the station is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "station",
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "change my booking",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "booking"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "weather improves",
+              "requiredLexemeIds": [
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "missed the bus",
+          "evidenceSentenceIds": [
+            "b1-u05-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-p01-q02",
+          "sourceSentenceId": "b1-u05-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "missed the bus",
+            "where the station is",
+            "change my booking",
+            "weather improves"
+          ],
+          "optionMetadata": [
+            {
+              "text": "missed the bus",
+              "requiredLexemeIds": [
+                "miss",
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "where the station is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "station",
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "change my booking",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "booking"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "weather improves",
+              "requiredLexemeIds": [
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "where the station is",
+          "evidenceSentenceIds": [
+            "b1-u05-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-p01-q03",
+          "sourceSentenceId": "b1-u05-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "missed the bus",
+            "where the station is",
+            "change my booking",
+            "weather improves"
+          ],
+          "optionMetadata": [
+            {
+              "text": "missed the bus",
+              "requiredLexemeIds": [
+                "miss",
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "where the station is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "station",
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "change my booking",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "booking"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "weather improves",
+              "requiredLexemeIds": [
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "change my booking",
+          "evidenceSentenceIds": [
+            "b1-u05-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-p01-q04",
+          "sourceSentenceId": "b1-u05-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "missed the bus",
+            "where the station is",
+            "change my booking",
+            "weather improves"
+          ],
+          "optionMetadata": [
+            {
+              "text": "missed the bus",
+              "requiredLexemeIds": [
+                "miss",
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "where the station is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "station",
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "change my booking",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "booking"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "weather improves",
+              "requiredLexemeIds": [
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "weather improves",
+          "evidenceSentenceIds": [
+            "b1-u05-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u06-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u06-p01-q01",
+          "sourceSentenceId": "b1-u06-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "organize my schedule",
+            "was sent",
+            "spent less time online",
+            "more convenient"
+          ],
+          "optionMetadata": [
+            {
+              "text": "organize my schedule",
+              "requiredLexemeIds": [
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was sent",
+              "requiredLexemeIds": [
+                "was",
+                "send"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "spent less time online",
+              "requiredLexemeIds": [
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more convenient",
+              "requiredLexemeIds": [
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "organize my schedule",
+          "evidenceSentenceIds": [
+            "b1-u06-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-p01-q02",
+          "sourceSentenceId": "b1-u06-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "organize my schedule",
+            "was sent",
+            "spent less time online",
+            "more convenient"
+          ],
+          "optionMetadata": [
+            {
+              "text": "organize my schedule",
+              "requiredLexemeIds": [
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was sent",
+              "requiredLexemeIds": [
+                "was",
+                "send"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "spent less time online",
+              "requiredLexemeIds": [
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more convenient",
+              "requiredLexemeIds": [
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "was sent",
+          "evidenceSentenceIds": [
+            "b1-u06-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-p01-q03",
+          "sourceSentenceId": "b1-u06-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "organize my schedule",
+            "was sent",
+            "spent less time online",
+            "more convenient"
+          ],
+          "optionMetadata": [
+            {
+              "text": "organize my schedule",
+              "requiredLexemeIds": [
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was sent",
+              "requiredLexemeIds": [
+                "was",
+                "send"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "spent less time online",
+              "requiredLexemeIds": [
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more convenient",
+              "requiredLexemeIds": [
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "spent less time online",
+          "evidenceSentenceIds": [
+            "b1-u06-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-p01-q04",
+          "sourceSentenceId": "b1-u06-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "organize my schedule",
+            "was sent",
+            "spent less time online",
+            "more convenient"
+          ],
+          "optionMetadata": [
+            {
+              "text": "organize my schedule",
+              "requiredLexemeIds": [
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "was sent",
+              "requiredLexemeIds": [
+                "was",
+                "send"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "spent less time online",
+              "requiredLexemeIds": [
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more convenient",
+              "requiredLexemeIds": [
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "more convenient",
+          "evidenceSentenceIds": [
+            "b1-u06-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u07-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u07-p01-q01",
+          "sourceSentenceId": "b1-u07-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "had forgotten",
+            "needs support",
+            "since high school",
+            "respect different opinions"
+          ],
+          "optionMetadata": [
+            {
+              "text": "had forgotten",
+              "requiredLexemeIds": [
+                "had",
+                "forget"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "needs support",
+              "requiredLexemeIds": [
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "since high school",
+              "requiredLexemeIds": [
+                "since",
+                "high",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "respect different opinions",
+              "requiredLexemeIds": [
+                "respect",
+                "different",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "had forgotten",
+          "evidenceSentenceIds": [
+            "b1-u07-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-p01-q02",
+          "sourceSentenceId": "b1-u07-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "had forgotten",
+            "needs support",
+            "since high school",
+            "respect different opinions"
+          ],
+          "optionMetadata": [
+            {
+              "text": "had forgotten",
+              "requiredLexemeIds": [
+                "had",
+                "forget"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "needs support",
+              "requiredLexemeIds": [
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "since high school",
+              "requiredLexemeIds": [
+                "since",
+                "high",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "respect different opinions",
+              "requiredLexemeIds": [
+                "respect",
+                "different",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "needs support",
+          "evidenceSentenceIds": [
+            "b1-u07-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-p01-q03",
+          "sourceSentenceId": "b1-u07-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "had forgotten",
+            "needs support",
+            "since high school",
+            "respect different opinions"
+          ],
+          "optionMetadata": [
+            {
+              "text": "had forgotten",
+              "requiredLexemeIds": [
+                "had",
+                "forget"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "needs support",
+              "requiredLexemeIds": [
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "since high school",
+              "requiredLexemeIds": [
+                "since",
+                "high",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "respect different opinions",
+              "requiredLexemeIds": [
+                "respect",
+                "different",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "since high school",
+          "evidenceSentenceIds": [
+            "b1-u07-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-p01-q04",
+          "sourceSentenceId": "b1-u07-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "had forgotten",
+            "needs support",
+            "since high school",
+            "respect different opinions"
+          ],
+          "optionMetadata": [
+            {
+              "text": "had forgotten",
+              "requiredLexemeIds": [
+                "had",
+                "forget"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "needs support",
+              "requiredLexemeIds": [
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "since high school",
+              "requiredLexemeIds": [
+                "since",
+                "high",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "respect different opinions",
+              "requiredLexemeIds": [
+                "respect",
+                "different",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "respect different opinions",
+          "evidenceSentenceIds": [
+            "b1-u07-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "passageId": "b1-u08-p01",
+      "level": "B1",
+      "questions": [
+        {
+          "id": "b1-u08-p01-q01",
+          "sourceSentenceId": "b1-u08-l01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "options": [
+            "change my daily routine",
+            "difficult to follow",
+            "kept practicing",
+            "more confident"
+          ],
+          "optionMetadata": [
+            {
+              "text": "change my daily routine",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "daily",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "difficult to follow",
+              "requiredLexemeIds": [
+                "difficult",
+                "to",
+                "follow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "kept practicing",
+              "requiredLexemeIds": [
+                "keep",
+                "practice"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more confident",
+              "requiredLexemeIds": [
+                "more",
+                "confident"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "change my daily routine",
+          "evidenceSentenceIds": [
+            "b1-u08-l01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-p01-q02",
+          "sourceSentenceId": "b1-u08-l02-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "options": [
+            "change my daily routine",
+            "difficult to follow",
+            "kept practicing",
+            "more confident"
+          ],
+          "optionMetadata": [
+            {
+              "text": "change my daily routine",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "daily",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "difficult to follow",
+              "requiredLexemeIds": [
+                "difficult",
+                "to",
+                "follow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "kept practicing",
+              "requiredLexemeIds": [
+                "keep",
+                "practice"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more confident",
+              "requiredLexemeIds": [
+                "more",
+                "confident"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "difficult to follow",
+          "evidenceSentenceIds": [
+            "b1-u08-l02-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-p01-q03",
+          "sourceSentenceId": "b1-u08-l03-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "options": [
+            "change my daily routine",
+            "difficult to follow",
+            "kept practicing",
+            "more confident"
+          ],
+          "optionMetadata": [
+            {
+              "text": "change my daily routine",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "daily",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "difficult to follow",
+              "requiredLexemeIds": [
+                "difficult",
+                "to",
+                "follow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "kept practicing",
+              "requiredLexemeIds": [
+                "keep",
+                "practice"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more confident",
+              "requiredLexemeIds": [
+                "more",
+                "confident"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "kept practicing",
+          "evidenceSentenceIds": [
+            "b1-u08-l03-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-p01-q04",
+          "sourceSentenceId": "b1-u08-l04-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "options": [
+            "change my daily routine",
+            "difficult to follow",
+            "kept practicing",
+            "more confident"
+          ],
+          "optionMetadata": [
+            {
+              "text": "change my daily routine",
+              "requiredLexemeIds": [
+                "change",
+                "my",
+                "daily",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "difficult to follow",
+              "requiredLexemeIds": [
+                "difficult",
+                "to",
+                "follow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "kept practicing",
+              "requiredLexemeIds": [
+                "keep",
+                "practice"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "more confident",
+              "requiredLexemeIds": [
+                "more",
+                "confident"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "more confident",
+          "evidenceSentenceIds": [
+            "b1-u08-l04-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    }
+  ]
+}

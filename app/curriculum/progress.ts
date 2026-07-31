@@ -8,6 +8,7 @@ import type {
   ReviewExerciseType,
 } from "../learning-adaptation";
 import type { CefrLevel } from "./types";
+import { CEFR_LEVELS } from "./types.ts";
 
 export type SentenceLearningStats = {
   rebuildAttempts: number;
@@ -55,9 +56,9 @@ export type LevelLearningProgress = {
 };
 
 export type MultiLevelProgress = {
-  schemaVersion: 4;
+  schemaVersion: 5;
   selectedLevel: CefrLevel;
-  passedLevelIds: string[];
+  passedLevelIds: CefrLevel[];
   levelProgress: Record<CefrLevel, LevelLearningProgress>;
 };
 
@@ -113,40 +114,48 @@ export const normalizeLevelProgress = (
 };
 
 export const createEmptyMultiLevelProgress = (): MultiLevelProgress => ({
-  schemaVersion: 4,
+  schemaVersion: 5,
   selectedLevel: "A1",
   passedLevelIds: [],
   levelProgress: {
     A1: createEmptyLevelProgress(),
     A2: createEmptyLevelProgress(),
+    B1: createEmptyLevelProgress(),
+    B2: createEmptyLevelProgress(),
   },
 });
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
 
-export const migrateProgressToV4 = (
+const normalizeSelectedLevel = (value: unknown): CefrLevel =>
+  CEFR_LEVELS.includes(value as CefrLevel)
+    ? (value as CefrLevel)
+    : "A1";
+
+const normalizePassedLevels = (value: unknown): CefrLevel[] =>
+  Array.isArray(value)
+    ? value.filter(
+        (levelId): levelId is CefrLevel =>
+          CEFR_LEVELS.includes(levelId as CefrLevel),
+      )
+    : [];
+
+export const migrateProgressToV5 = (
   value: unknown,
 ): MultiLevelProgress => {
   if (!isObject(value)) {
     throw new Error("學習進度不是有效物件。");
   }
 
-  if (value.schemaVersion === 4) {
+  if (value.schemaVersion === 4 || value.schemaVersion === 5) {
     if (!isObject(value.levelProgress)) {
       throw new Error("多程度學習進度缺少 levelProgress。");
     }
-    const selectedLevel =
-      value.selectedLevel === "A2" ? "A2" : "A1";
     return {
-      schemaVersion: 4,
-      selectedLevel,
-      passedLevelIds: Array.isArray(value.passedLevelIds)
-        ? value.passedLevelIds.filter(
-            (levelId): levelId is string =>
-              typeof levelId === "string",
-          )
-        : [],
+      schemaVersion: 5,
+      selectedLevel: normalizeSelectedLevel(value.selectedLevel),
+      passedLevelIds: normalizePassedLevels(value.passedLevelIds),
       levelProgress: {
         A1: normalizeLevelProgress(
           value.levelProgress.A1 as Partial<LevelLearningProgress>,
@@ -154,40 +163,51 @@ export const migrateProgressToV4 = (
         A2: normalizeLevelProgress(
           value.levelProgress.A2 as Partial<LevelLearningProgress>,
         ),
+        B1: normalizeLevelProgress(
+          value.levelProgress.B1 as Partial<LevelLearningProgress>,
+        ),
+        B2: normalizeLevelProgress(
+          value.levelProgress.B2 as Partial<LevelLearningProgress>,
+        ),
       },
     };
   }
 
   if (value.schemaVersion !== 3) {
-    throw new Error("只支援 schemaVersion 3 或 4 的學習進度。");
+    throw new Error("只支援 schemaVersion 3、4 或 5 的學習進度。");
   }
 
   const legacy = normalizeLevelProgress(
     value as Partial<LevelLearningProgress>,
   );
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     selectedLevel: "A1",
     passedLevelIds: legacy.levelPassed ? ["A1"] : [],
     levelProgress: {
       A1: legacy,
       A2: createEmptyLevelProgress(),
+      B1: createEmptyLevelProgress(),
+      B2: createEmptyLevelProgress(),
     },
   };
 };
 
 export const isLevelFormallyUnlocked = (
   level: CefrLevel,
-  passedLevelIds: string[],
-) => level === "A1" || passedLevelIds.includes("A1");
+  passedLevelIds: CefrLevel[],
+) =>
+  CEFR_LEVELS.slice(0, CEFR_LEVELS.indexOf(level)).every(
+    (prerequisite) => passedLevelIds.includes(prerequisite),
+  );
 
 export const canAccessLevel = (
   level: CefrLevel,
-  passedLevelIds: string[],
-  showA2Pilot: boolean,
+  passedLevelIds: CefrLevel[],
+  showPilotCourses: boolean,
 ) =>
   isLevelFormallyUnlocked(level, passedLevelIds) ||
-  (level === "A2" && showA2Pilot);
+  (level !== "A1" && showPilotCourses);
 
 export const updateSelectedLevelProgress = (
   progress: MultiLevelProgress,

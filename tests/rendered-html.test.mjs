@@ -45,6 +45,7 @@ test("keeps course data and product metadata ready for the MVP", async () => {
     data,
     a1Data,
     exercises,
+    curriculumCatalog,
     roadmap,
     layout,
     packageJson,
@@ -53,6 +54,7 @@ test("keeps course data and product metadata ready for the MVP", async () => {
     readFile(new URL("../app/course-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/a1-mvp-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/a1-exercises.ts", import.meta.url), "utf8"),
+    readFile(new URL("../public/data/course-catalog.json", import.meta.url), "utf8"),
     readFile(new URL("../app/course-roadmap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
@@ -106,8 +108,20 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.doesNotMatch(data, /export const courseUnits/);
   assert.match(a1Data, /buildCourseUnitsFromRows/);
   assert.match(a1Data, /\/data\/a1-course-v3\.csv/);
-  assert.match(exercises, /\/data\/a1-pattern-exercises\.json/);
-  assert.match(exercises, /\/data\/a1-reading-exercises\.json/);
+  const catalog = JSON.parse(curriculumCatalog);
+  assert.deepEqual(
+    catalog.levels.map((entry) => entry.level),
+    ["A1", "A2", "B1", "B2"],
+  );
+  assert.equal(
+    catalog.levels[0].patternExercisesUrl,
+    "/data/a1-pattern-exercises.json",
+  );
+  assert.equal(
+    catalog.levels[0].readingExercisesUrl,
+    "/data/a1-reading-exercises.json",
+  );
+  assert.match(page, /loadCourseExerciseData/);
   assert.match(exercises, /validatePatternExerciseData/);
   assert.match(exercises, /validateReadingExerciseData/);
   assert.match(data, /\{ letter: "A", kk: "\/e\/", ipa: "\/eɪ\/" \}/);

@@ -2,11 +2,11 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。另有 4 個需人工複核的 A2 試行單元，共 16 課與 95 個單字出現位置；它們共同使用獨立的 `public/data/a2-course-v1.csv`，不會改寫 A1 資料。完成目前試行內容不代表完整通過 A2，也不會解鎖 B1。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2、B1 與 B2 另有彼此獨立、需人工複核的試行資料：A2 為 4 單元、16 課、95 個出現位置；B1 為 8 單元、32 課、249 個出現位置；B2 為 8 單元、32 課、298 個出現位置。試行完成不等於正式通過程度。
 
 ## 主要功能
 
-- A1／A2 課程目錄、程度切換與循序解鎖。
+- A1／A2／B1／B2 課程目錄、程度切換與循序解鎖。
 - 星期、一天時段、月份與家庭成員的相關字詞主題、搜尋、狀態篩選及課程詳情捷徑。
 - 單字回想、三層提示、字義與片語說明。
 - 句子重組、閱讀辨識、句型遷移與文章重組。
@@ -32,6 +32,8 @@
 ```powershell
 npm ci
 npm run check:context
+npm run audit:project
+npm run validate:curriculum
 npm run dev
 npm run build
 npm run test:unit
@@ -47,10 +49,15 @@ npx tsc --noEmit --incremental false
 - `app/`：介面、課程載入、學習流程與進度邏輯。
 - `public/data/a1-course-v3.csv`：唯一正式 A1 課程來源。
 - `public/data/a2-course-v1.csv`：需人工複核的 A2 試行課程來源。
+- `public/data/b1-course-v1.csv`：8 單元、32 課的 B1 試行課程來源。
+- `public/data/b2-course-v1.csv`：8 單元、32 課的 B2 試行課程來源。
 - `public/data/course-catalog.json`：各程度的狀態、資料檔與版本目錄。
 - `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
 - `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
+- `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
+- `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
+- `docs/b1-b2-curriculum-overview.md`：B1／B2 規模、單元與人工 QA 邊界。
 - `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 5–10 只保留規劃，不是正式課程資料。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
@@ -81,5 +88,5 @@ npx tsc --noEmit --incremental false
 - 單字進度使用 `lexeme_id`；語境差異使用 `sense_id`。
 - 不抓取 Oxford、Cambridge 等受保護字典內容。
 - 音訊必須保留來源、授權與 QA 狀態。
-- A2 試行內容必須通過人工語言 QA，才可由試行狀態升為正式課程。
+- A2、B1、B2 試行內容必須通過人工語言 QA，才可由試行狀態升為正式課程。
 - 相關字詞優先使用正式課程資料；查看主題不等於完成、通過或精通。

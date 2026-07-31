@@ -1,0 +1,3401 @@
+{
+  "schemaVersion": 2,
+  "level": "B1",
+  "patterns": [
+    {
+      "id": "b1-u01-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "present perfect with for",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "you",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year",
+            "i",
+            "at",
+            "home"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u01-l01-transfer-01",
+          "practiceLessonId": "b1-u01-l01",
+          "sourceSentenceId": "b1-u01-l01-s01",
+          "sentencePatternId": "b1-u01-l01-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "You have worked here for three years.",
+          "translation": "你在這裡工作三年了。",
+          "hintKeywords": "present perfect with for",
+          "skeleton": "present perfect with for",
+          "requiredLexemeIds": [
+            "you",
+            "have",
+            "work",
+            "here",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "You have worked here for three years.",
+              "requiredLexemeIds": [
+                "you",
+                "have",
+                "work",
+                "here",
+                "for",
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-l01-transfer-02",
+          "practiceLessonId": "b1-u01-l01",
+          "sourceSentenceId": "b1-u01-l01-s01",
+          "sentencePatternId": "b1-u01-l01-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "I have worked at home for three years.",
+          "translation": "我在家工作三年了。",
+          "hintKeywords": "present perfect with for",
+          "skeleton": "present perfect with for",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "work",
+            "at",
+            "home",
+            "for",
+            "three",
+            "year"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I have worked at home for three years.",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "work",
+                "at",
+                "home",
+                "for",
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "present perfect with never",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "you",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before",
+            "i"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u01-l02-transfer-01",
+          "practiceLessonId": "b1-u01-l02",
+          "sourceSentenceId": "b1-u01-l02-s01",
+          "sentencePatternId": "b1-u01-l02-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "You have never traveled alone before.",
+          "translation": "你以前從未獨自旅行過。",
+          "hintKeywords": "present perfect with never",
+          "skeleton": "present perfect with never",
+          "requiredLexemeIds": [
+            "you",
+            "have",
+            "never",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "You have never traveled alone before.",
+              "requiredLexemeIds": [
+                "you",
+                "have",
+                "never",
+                "travel",
+                "alone",
+                "before"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-l02-transfer-02",
+          "practiceLessonId": "b1-u01-l02",
+          "sourceSentenceId": "b1-u01-l02-s01",
+          "sentencePatternId": "b1-u01-l02-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "I have traveled alone before.",
+          "translation": "我以前曾經獨自旅行過。",
+          "hintKeywords": "present perfect with never",
+          "skeleton": "present perfect with never",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "travel",
+            "alone",
+            "before"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I have traveled alone before.",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "travel",
+                "alone",
+                "before"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "past continuous with when",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call",
+            "me"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u01-l03-transfer-01",
+          "practiceLessonId": "b1-u01-l03",
+          "sourceSentenceId": "b1-u01-l03-s01",
+          "sentencePatternId": "b1-u01-l03-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "I was cooking when you called.",
+          "translation": "你打電話時，我正在煮飯。",
+          "hintKeywords": "past continuous with when",
+          "skeleton": "past continuous with when",
+          "requiredLexemeIds": [
+            "i",
+            "was",
+            "cook",
+            "when",
+            "you",
+            "call"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I was cooking when you called.",
+              "requiredLexemeIds": [
+                "i",
+                "was",
+                "cook",
+                "when",
+                "you",
+                "call"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-l03-transfer-02",
+          "practiceLessonId": "b1-u01-l03",
+          "sourceSentenceId": "b1-u01-l03-s01",
+          "sentencePatternId": "b1-u01-l03-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "You called me when I was cooking.",
+          "translation": "我正在煮飯時，你打電話給我。",
+          "hintKeywords": "past continuous with when",
+          "skeleton": "past continuous with when",
+          "requiredLexemeIds": [
+            "you",
+            "call",
+            "me",
+            "when",
+            "i",
+            "was",
+            "cook"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "You called me when I was cooking.",
+              "requiredLexemeIds": [
+                "you",
+                "call",
+                "me",
+                "when",
+                "i",
+                "was",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u01-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "past events with after",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "call",
+            "my",
+            "friend",
+            "after",
+            "arrive",
+            "home"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u01-l04-transfer-01",
+          "practiceLessonId": "b1-u01-l04",
+          "sourceSentenceId": "b1-u01-l04-s01",
+          "sentencePatternId": "b1-u01-l04-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "I called my friend after I arrived home.",
+          "translation": "我到家後打電話給朋友。",
+          "hintKeywords": "past events with after",
+          "skeleton": "past events with after",
+          "requiredLexemeIds": [
+            "i",
+            "call",
+            "my",
+            "friend",
+            "after",
+            "arrive",
+            "home"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I called my friend after I arrived home.",
+              "requiredLexemeIds": [
+                "i",
+                "call",
+                "my",
+                "friend",
+                "after",
+                "arrive",
+                "home"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u01-l04-transfer-02",
+          "practiceLessonId": "b1-u01-l04",
+          "sourceSentenceId": "b1-u01-l04-s01",
+          "sentencePatternId": "b1-u01-l04-pattern",
+          "passageId": "b1-u01-p01",
+          "sentence": "After I arrived I called my friend.",
+          "translation": "我抵達後打電話給朋友。",
+          "hintKeywords": "past events with after",
+          "skeleton": "past events with after",
+          "requiredLexemeIds": [
+            "after",
+            "i",
+            "arrive",
+            "call",
+            "my",
+            "friend"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "After I arrived I called my friend.",
+              "requiredLexemeIds": [
+                "after",
+                "i",
+                "arrive",
+                "call",
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "hope to for future goals",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "next",
+            "year",
+            "you",
+            "abroad"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u02-l01-transfer-01",
+          "practiceLessonId": "b1-u02-l01",
+          "sourceSentenceId": "b1-u02-l01-s01",
+          "sentencePatternId": "b1-u02-l01-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "I hope to study English next year.",
+          "translation": "我希望明年學英文。",
+          "hintKeywords": "hope to for future goals",
+          "skeleton": "hope to for future goals",
+          "requiredLexemeIds": [
+            "i",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "next",
+            "year"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I hope to study English next year.",
+              "requiredLexemeIds": [
+                "i",
+                "hope",
+                "to",
+                "study",
+                "english",
+                "next",
+                "year"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-l01-transfer-02",
+          "practiceLessonId": "b1-u02-l01",
+          "sourceSentenceId": "b1-u02-l01-s01",
+          "sentencePatternId": "b1-u02-l01-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "You hope to study English abroad.",
+          "translation": "你希望到國外學英文。",
+          "hintKeywords": "hope to for future goals",
+          "skeleton": "hope to for future goals",
+          "requiredLexemeIds": [
+            "you",
+            "hope",
+            "to",
+            "study",
+            "english",
+            "abroad"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "You hope to study English abroad.",
+              "requiredLexemeIds": [
+                "you",
+                "hope",
+                "to",
+                "study",
+                "english",
+                "abroad"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "present continuous for current preparation",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "for",
+            "my",
+            "trip",
+            "money",
+            "the"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u02-l02-transfer-01",
+          "practiceLessonId": "b1-u02-l02",
+          "sourceSentenceId": "b1-u02-l02-s01",
+          "sentencePatternId": "b1-u02-l02-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "I am saving for my trip.",
+          "translation": "我正在為旅行存錢。",
+          "hintKeywords": "present continuous for current preparation",
+          "skeleton": "present continuous for current preparation",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "for",
+            "my",
+            "trip"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I am saving for my trip.",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "save",
+                "for",
+                "my",
+                "trip"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-l02-transfer-02",
+          "practiceLessonId": "b1-u02-l02",
+          "sourceSentenceId": "b1-u02-l02-s01",
+          "sentencePatternId": "b1-u02-l02-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "I am saving money for the trip.",
+          "translation": "我正在為這趟旅行存錢。",
+          "hintKeywords": "present continuous for current preparation",
+          "skeleton": "present continuous for current preparation",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "save",
+            "money",
+            "for",
+            "the",
+            "trip"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I am saving money for the trip.",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "save",
+                "money",
+                "for",
+                "the",
+                "trip"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "first conditional",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "will",
+            "meet",
+            "you",
+            "if",
+            "finish",
+            "early"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u02-l03-transfer-01",
+          "practiceLessonId": "b1-u02-l03",
+          "sourceSentenceId": "b1-u02-l03-s01",
+          "sentencePatternId": "b1-u02-l03-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "I will meet you if I finish early.",
+          "translation": "如果我提早完成，我會去見你。",
+          "hintKeywords": "first conditional",
+          "skeleton": "first conditional",
+          "requiredLexemeIds": [
+            "i",
+            "will",
+            "meet",
+            "you",
+            "if",
+            "finish",
+            "early"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I will meet you if I finish early.",
+              "requiredLexemeIds": [
+                "i",
+                "will",
+                "meet",
+                "you",
+                "if",
+                "finish",
+                "early"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-l03-transfer-02",
+          "practiceLessonId": "b1-u02-l03",
+          "sourceSentenceId": "b1-u02-l03-s01",
+          "sentencePatternId": "b1-u02-l03-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "If I finish I will meet you.",
+          "translation": "如果我完成了，我會去見你。",
+          "hintKeywords": "first conditional",
+          "skeleton": "first conditional",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "finish",
+            "will",
+            "meet",
+            "you"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "If I finish I will meet you.",
+              "requiredLexemeIds": [
+                "if",
+                "i",
+                "finish",
+                "will",
+                "meet",
+                "you"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u02-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "goal plus infinitive",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "better",
+            "work",
+            "the",
+            "a",
+            "job"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u02-l04-transfer-01",
+          "practiceLessonId": "b1-u02-l04",
+          "sourceSentenceId": "b1-u02-l04-s01",
+          "sentencePatternId": "b1-u02-l04-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "My goal is to find better work.",
+          "translation": "我的目標是找到更好的工作。",
+          "hintKeywords": "goal plus infinitive",
+          "skeleton": "goal plus infinitive",
+          "requiredLexemeIds": [
+            "my",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "better",
+            "work"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "My goal is to find better work.",
+              "requiredLexemeIds": [
+                "my",
+                "goal",
+                "be",
+                "to",
+                "find",
+                "better",
+                "work"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u02-l04-transfer-02",
+          "practiceLessonId": "b1-u02-l04",
+          "sourceSentenceId": "b1-u02-l04-s01",
+          "sentencePatternId": "b1-u02-l04-pattern",
+          "passageId": "b1-u02-p01",
+          "sentence": "The goal is to find a better job.",
+          "translation": "目標是找到更好的工作。",
+          "hintKeywords": "goal plus infinitive",
+          "skeleton": "goal plus infinitive",
+          "requiredLexemeIds": [
+            "the",
+            "goal",
+            "be",
+            "to",
+            "find",
+            "a",
+            "better",
+            "job"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The goal is to find a better job.",
+              "requiredLexemeIds": [
+                "the",
+                "goal",
+                "be",
+                "to",
+                "find",
+                "a",
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "I think plus opinion",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "think",
+            "transportation",
+            "be",
+            "useful",
+            "public",
+            "very"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u03-l01-transfer-01",
+          "practiceLessonId": "b1-u03-l01",
+          "sourceSentenceId": "b1-u03-l01-s01",
+          "sentencePatternId": "b1-u03-l01-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "I think transportation is useful.",
+          "translation": "我認為交通運輸很實用。",
+          "hintKeywords": "I think plus opinion",
+          "skeleton": "I think plus opinion",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "transportation",
+            "be",
+            "useful"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think transportation is useful.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "transportation",
+                "be",
+                "useful"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-l01-transfer-02",
+          "practiceLessonId": "b1-u03-l01",
+          "sourceSentenceId": "b1-u03-l01-s01",
+          "sentencePatternId": "b1-u03-l01-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "Public transportation is very useful.",
+          "translation": "大眾運輸非常實用。",
+          "hintKeywords": "I think plus opinion",
+          "skeleton": "I think plus opinion",
+          "requiredLexemeIds": [
+            "public",
+            "transportation",
+            "be",
+            "very",
+            "useful"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Public transportation is very useful.",
+              "requiredLexemeIds": [
+                "public",
+                "transportation",
+                "be",
+                "very",
+                "useful"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "preference with because",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "because",
+            "it",
+            "cost",
+            "less",
+            "plan",
+            "be",
+            "cheap"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u03-l02-transfer-01",
+          "practiceLessonId": "b1-u03-l02",
+          "sourceSentenceId": "b1-u03-l02-s01",
+          "sentencePatternId": "b1-u03-l02-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "I prefer this because it costs less.",
+          "translation": "我比較喜歡這個，因為它花費較少。",
+          "hintKeywords": "preference with because",
+          "skeleton": "preference with because",
+          "requiredLexemeIds": [
+            "i",
+            "prefer",
+            "this",
+            "because",
+            "it",
+            "cost",
+            "less"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I prefer this because it costs less.",
+              "requiredLexemeIds": [
+                "i",
+                "prefer",
+                "this",
+                "because",
+                "it",
+                "cost",
+                "less"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-l02-transfer-02",
+          "practiceLessonId": "b1-u03-l02",
+          "sourceSentenceId": "b1-u03-l02-s01",
+          "sentencePatternId": "b1-u03-l02-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "This plan costs less because it is cheaper.",
+          "translation": "這個方案花費較少，因為它比較便宜。",
+          "hintKeywords": "preference with because",
+          "skeleton": "preference with because",
+          "requiredLexemeIds": [
+            "this",
+            "plan",
+            "cost",
+            "less",
+            "because",
+            "it",
+            "be",
+            "cheap"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This plan costs less because it is cheaper.",
+              "requiredLexemeIds": [
+                "this",
+                "plan",
+                "cost",
+                "less",
+                "because",
+                "it",
+                "be",
+                "cheap"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "although for contrast",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "although",
+            "it",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "the",
+            "task"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u03-l03-transfer-01",
+          "practiceLessonId": "b1-u03-l03",
+          "sourceSentenceId": "b1-u03-l03-s01",
+          "sentencePatternId": "b1-u03-l03-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "Although it was difficult I finished the task.",
+          "translation": "雖然很困難，我仍完成了任務。",
+          "hintKeywords": "although for contrast",
+          "skeleton": "although for contrast",
+          "requiredLexemeIds": [
+            "although",
+            "it",
+            "was",
+            "difficult",
+            "i",
+            "finish",
+            "the",
+            "task"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Although it was difficult I finished the task.",
+              "requiredLexemeIds": [
+                "although",
+                "it",
+                "was",
+                "difficult",
+                "i",
+                "finish",
+                "the",
+                "task"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-l03-transfer-02",
+          "practiceLessonId": "b1-u03-l03",
+          "sourceSentenceId": "b1-u03-l03-s01",
+          "sentencePatternId": "b1-u03-l03-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "I finished the task although it was difficult.",
+          "translation": "雖然任務很困難，我仍完成了。",
+          "hintKeywords": "although for contrast",
+          "skeleton": "although for contrast",
+          "requiredLexemeIds": [
+            "i",
+            "finish",
+            "the",
+            "task",
+            "although",
+            "it",
+            "was",
+            "difficult"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I finished the task although it was difficult.",
+              "requiredLexemeIds": [
+                "i",
+                "finish",
+                "the",
+                "task",
+                "although",
+                "it",
+                "was",
+                "difficult"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u03-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "relative clause with that",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help",
+            "i",
+            "think"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u03-l04-transfer-01",
+          "practiceLessonId": "b1-u03-l04",
+          "sourceSentenceId": "b1-u03-l04-s01",
+          "sentencePatternId": "b1-u03-l04-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "We should choose the option that helps.",
+          "translation": "我們應該選擇有幫助的方案。",
+          "hintKeywords": "relative clause with that",
+          "skeleton": "relative clause with that",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "choose",
+            "the",
+            "option",
+            "that",
+            "help"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We should choose the option that helps.",
+              "requiredLexemeIds": [
+                "we",
+                "should",
+                "choose",
+                "the",
+                "option",
+                "that",
+                "help"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u03-l04-transfer-02",
+          "practiceLessonId": "b1-u03-l04",
+          "sourceSentenceId": "b1-u03-l04-s01",
+          "sentencePatternId": "b1-u03-l04-pattern",
+          "passageId": "b1-u03-p01",
+          "sentence": "I think we should choose that option.",
+          "translation": "我認為我們應該選擇那個方案。",
+          "hintKeywords": "relative clause with that",
+          "skeleton": "relative clause with that",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "we",
+            "should",
+            "choose",
+            "that",
+            "option"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think we should choose that option.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "we",
+                "should",
+                "choose",
+                "that",
+                "option"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "polite request with could",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "again",
+            "please",
+            "problem"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u04-l01-transfer-01",
+          "practiceLessonId": "b1-u04-l01",
+          "sourceSentenceId": "b1-u04-l01-s01",
+          "sentencePatternId": "b1-u04-l01-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "Could you explain this again please?",
+          "translation": "可以請你再說明一次嗎？",
+          "hintKeywords": "polite request with could",
+          "skeleton": "polite request with could",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "explain",
+            "this",
+            "again",
+            "please"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Could you explain this again please?",
+              "requiredLexemeIds": [
+                "could",
+                "you",
+                "explain",
+                "this",
+                "again",
+                "please"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-l01-transfer-02",
+          "practiceLessonId": "b1-u04-l01",
+          "sourceSentenceId": "b1-u04-l01-s01",
+          "sentencePatternId": "b1-u04-l01-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "Please explain this problem again.",
+          "translation": "請再說明一次這個問題。",
+          "hintKeywords": "polite request with could",
+          "skeleton": "polite request with could",
+          "requiredLexemeIds": [
+            "please",
+            "explain",
+            "this",
+            "problem",
+            "again"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Please explain this problem again.",
+              "requiredLexemeIds": [
+                "please",
+                "explain",
+                "this",
+                "problem",
+                "again"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "need to with deadline",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "this",
+            "report",
+            "before",
+            "friday",
+            "you",
+            "the"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u04-l02-transfer-01",
+          "practiceLessonId": "b1-u04-l02",
+          "sourceSentenceId": "b1-u04-l02-s01",
+          "sentencePatternId": "b1-u04-l02-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "I need to finish this report before Friday.",
+          "translation": "我需要在星期五以前完成這份報告。",
+          "hintKeywords": "need to with deadline",
+          "skeleton": "need to with deadline",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "finish",
+            "this",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I need to finish this report before Friday.",
+              "requiredLexemeIds": [
+                "i",
+                "need",
+                "to",
+                "finish",
+                "this",
+                "report",
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-l02-transfer-02",
+          "practiceLessonId": "b1-u04-l02",
+          "sourceSentenceId": "b1-u04-l02-s01",
+          "sentencePatternId": "b1-u04-l02-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "You need to finish the report before Friday.",
+          "translation": "你需要在星期五以前完成報告。",
+          "hintKeywords": "need to with deadline",
+          "skeleton": "need to with deadline",
+          "requiredLexemeIds": [
+            "you",
+            "need",
+            "to",
+            "finish",
+            "the",
+            "report",
+            "before",
+            "friday"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "You need to finish the report before Friday.",
+              "requiredLexemeIds": [
+                "you",
+                "need",
+                "to",
+                "finish",
+                "the",
+                "report",
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "relative clause with who",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "patient",
+            "i",
+            "think",
+            "very"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u04-l03-transfer-01",
+          "practiceLessonId": "b1-u04-l03",
+          "sourceSentenceId": "b1-u04-l03-s01",
+          "sentencePatternId": "b1-u04-l03-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "The colleague who helped me was patient.",
+          "translation": "幫助我的同事很有耐心。",
+          "hintKeywords": "relative clause with who",
+          "skeleton": "relative clause with who",
+          "requiredLexemeIds": [
+            "the",
+            "colleague",
+            "who",
+            "help",
+            "me",
+            "was",
+            "patient"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The colleague who helped me was patient.",
+              "requiredLexemeIds": [
+                "the",
+                "colleague",
+                "who",
+                "help",
+                "me",
+                "was",
+                "patient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-l03-transfer-02",
+          "practiceLessonId": "b1-u04-l03",
+          "sourceSentenceId": "b1-u04-l03-s01",
+          "sentencePatternId": "b1-u04-l03-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "I think the colleague was very patient.",
+          "translation": "我認為那位同事非常有耐心。",
+          "hintKeywords": "relative clause with who",
+          "skeleton": "relative clause with who",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "the",
+            "colleague",
+            "was",
+            "very",
+            "patient"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think the colleague was very patient.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "the",
+                "colleague",
+                "was",
+                "very",
+                "patient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u04-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "agree to plus infinitive",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "class",
+            "i",
+            "the",
+            "morning"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u04-l04-transfer-01",
+          "practiceLessonId": "b1-u04-l04",
+          "sourceSentenceId": "b1-u04-l04-s01",
+          "sentencePatternId": "b1-u04-l04-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "We agreed to meet after class.",
+          "translation": "我們同意下課後見面。",
+          "hintKeywords": "agree to plus infinitive",
+          "skeleton": "agree to plus infinitive",
+          "requiredLexemeIds": [
+            "we",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "class"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We agreed to meet after class.",
+              "requiredLexemeIds": [
+                "we",
+                "agree",
+                "to",
+                "meet",
+                "after",
+                "class"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u04-l04-transfer-02",
+          "practiceLessonId": "b1-u04-l04",
+          "sourceSentenceId": "b1-u04-l04-s01",
+          "sentencePatternId": "b1-u04-l04-pattern",
+          "passageId": "b1-u04-p01",
+          "sentence": "I agreed to meet after the morning class.",
+          "translation": "我同意早上的課程結束後見面。",
+          "hintKeywords": "agree to plus infinitive",
+          "skeleton": "agree to plus infinitive",
+          "requiredLexemeIds": [
+            "i",
+            "agree",
+            "to",
+            "meet",
+            "after",
+            "the",
+            "morning",
+            "class"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I agreed to meet after the morning class.",
+              "requiredLexemeIds": [
+                "i",
+                "agree",
+                "to",
+                "meet",
+                "after",
+                "the",
+                "morning",
+                "class"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "cause and result with so",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "bus",
+            "because",
+            "my"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u05-l01-transfer-01",
+          "practiceLessonId": "b1-u05-l01",
+          "sourceSentenceId": "b1-u05-l01-s01",
+          "sentencePatternId": "b1-u05-l01-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "The train was delayed so I missed the bus.",
+          "translation": "火車誤點，所以我錯過了公車。",
+          "hintKeywords": "cause and result with so",
+          "skeleton": "cause and result with so",
+          "requiredLexemeIds": [
+            "the",
+            "train",
+            "was",
+            "delay",
+            "so",
+            "i",
+            "miss",
+            "bus"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The train was delayed so I missed the bus.",
+              "requiredLexemeIds": [
+                "the",
+                "train",
+                "was",
+                "delay",
+                "so",
+                "i",
+                "miss",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-l01-transfer-02",
+          "practiceLessonId": "b1-u05-l01",
+          "sourceSentenceId": "b1-u05-l01-s01",
+          "sentencePatternId": "b1-u05-l01-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "I missed the bus because my train was delayed.",
+          "translation": "我因為火車誤點而錯過公車。",
+          "hintKeywords": "cause and result with so",
+          "skeleton": "cause and result with so",
+          "requiredLexemeIds": [
+            "i",
+            "miss",
+            "the",
+            "bus",
+            "because",
+            "my",
+            "train",
+            "was",
+            "delay"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I missed the bus because my train was delayed.",
+              "requiredLexemeIds": [
+                "i",
+                "miss",
+                "the",
+                "bus",
+                "because",
+                "my",
+                "train",
+                "was",
+                "delay"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "indirect question",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "bus",
+            "be",
+            "station",
+            "please"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u05-l02-transfer-01",
+          "practiceLessonId": "b1-u05-l02",
+          "sourceSentenceId": "b1-u05-l02-s01",
+          "sentencePatternId": "b1-u05-l02-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "Could you tell me where the bus is?",
+          "translation": "可以請你告訴我公車在哪裡嗎？",
+          "hintKeywords": "indirect question",
+          "skeleton": "indirect question",
+          "requiredLexemeIds": [
+            "could",
+            "you",
+            "tell",
+            "me",
+            "where",
+            "the",
+            "bus",
+            "be"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Could you tell me where the bus is?",
+              "requiredLexemeIds": [
+                "could",
+                "you",
+                "tell",
+                "me",
+                "where",
+                "the",
+                "bus",
+                "be"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-l02-transfer-02",
+          "practiceLessonId": "b1-u05-l02",
+          "sourceSentenceId": "b1-u05-l02-s01",
+          "sentencePatternId": "b1-u05-l02-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "Tell me where the station is please.",
+          "translation": "請告訴我車站在哪裡。",
+          "hintKeywords": "indirect question",
+          "skeleton": "indirect question",
+          "requiredLexemeIds": [
+            "tell",
+            "me",
+            "where",
+            "the",
+            "station",
+            "be",
+            "please"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Tell me where the station is please.",
+              "requiredLexemeIds": [
+                "tell",
+                "me",
+                "where",
+                "the",
+                "station",
+                "be",
+                "please"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "need to for travel changes",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "the",
+            "booking",
+            "for",
+            "tomorrow",
+            "want",
+            "my"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u05-l03-transfer-01",
+          "practiceLessonId": "b1-u05-l03",
+          "sourceSentenceId": "b1-u05-l03-s01",
+          "sentencePatternId": "b1-u05-l03-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "I need to change the booking for tomorrow.",
+          "translation": "我需要更改明天的預訂。",
+          "hintKeywords": "need to for travel changes",
+          "skeleton": "need to for travel changes",
+          "requiredLexemeIds": [
+            "i",
+            "need",
+            "to",
+            "change",
+            "the",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I need to change the booking for tomorrow.",
+              "requiredLexemeIds": [
+                "i",
+                "need",
+                "to",
+                "change",
+                "the",
+                "booking",
+                "for",
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-l03-transfer-02",
+          "practiceLessonId": "b1-u05-l03",
+          "sourceSentenceId": "b1-u05-l03-s01",
+          "sentencePatternId": "b1-u05-l03-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "I want to change my booking for tomorrow.",
+          "translation": "我想更改明天的預訂。",
+          "hintKeywords": "need to for travel changes",
+          "skeleton": "need to for travel changes",
+          "requiredLexemeIds": [
+            "i",
+            "want",
+            "to",
+            "change",
+            "my",
+            "booking",
+            "for",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I want to change my booking for tomorrow.",
+              "requiredLexemeIds": [
+                "i",
+                "want",
+                "to",
+                "change",
+                "my",
+                "booking",
+                "for",
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u05-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "first conditional for travel",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "will",
+            "leave",
+            "early",
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "i"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u05-l04-transfer-01",
+          "practiceLessonId": "b1-u05-l04",
+          "sourceSentenceId": "b1-u05-l04-s01",
+          "sentencePatternId": "b1-u05-l04-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "We will leave early if the weather improves.",
+          "translation": "如果天氣好轉，我們會提早出發。",
+          "hintKeywords": "first conditional for travel",
+          "skeleton": "first conditional for travel",
+          "requiredLexemeIds": [
+            "we",
+            "will",
+            "leave",
+            "early",
+            "if",
+            "the",
+            "weather",
+            "improve"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We will leave early if the weather improves.",
+              "requiredLexemeIds": [
+                "we",
+                "will",
+                "leave",
+                "early",
+                "if",
+                "the",
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u05-l04-transfer-02",
+          "practiceLessonId": "b1-u05-l04",
+          "sourceSentenceId": "b1-u05-l04-s01",
+          "sentencePatternId": "b1-u05-l04-pattern",
+          "passageId": "b1-u05-p01",
+          "sentence": "If the weather improves I will leave early.",
+          "translation": "如果天氣好轉，我會提早出發。",
+          "hintKeywords": "first conditional for travel",
+          "skeleton": "first conditional for travel",
+          "requiredLexemeIds": [
+            "if",
+            "the",
+            "weather",
+            "improve",
+            "i",
+            "will",
+            "leave",
+            "early"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "If the weather improves I will leave early.",
+              "requiredLexemeIds": [
+                "if",
+                "the",
+                "weather",
+                "improve",
+                "i",
+                "will",
+                "leave",
+                "early"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "use something to plus verb",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "use",
+            "the",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule",
+            "this",
+            "help",
+            "me"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u06-l01-transfer-01",
+          "practiceLessonId": "b1-u06-l01",
+          "sourceSentenceId": "b1-u06-l01-s01",
+          "sentencePatternId": "b1-u06-l01-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "I use the app to organize my schedule.",
+          "translation": "我使用這個應用程式安排自己的行程。",
+          "hintKeywords": "use something to plus verb",
+          "skeleton": "use something to plus verb",
+          "requiredLexemeIds": [
+            "i",
+            "use",
+            "the",
+            "app",
+            "to",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I use the app to organize my schedule.",
+              "requiredLexemeIds": [
+                "i",
+                "use",
+                "the",
+                "app",
+                "to",
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-l01-transfer-02",
+          "practiceLessonId": "b1-u06-l01",
+          "sourceSentenceId": "b1-u06-l01-s01",
+          "sentencePatternId": "b1-u06-l01-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "This app helps me organize my schedule.",
+          "translation": "這個應用程式幫助我安排行程。",
+          "hintKeywords": "use something to plus verb",
+          "skeleton": "use something to plus verb",
+          "requiredLexemeIds": [
+            "this",
+            "app",
+            "help",
+            "me",
+            "organize",
+            "my",
+            "schedule"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This app helps me organize my schedule.",
+              "requiredLexemeIds": [
+                "this",
+                "app",
+                "help",
+                "me",
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "past passive",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "friend",
+            "me"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u06-l02-transfer-01",
+          "practiceLessonId": "b1-u06-l02",
+          "sourceSentenceId": "b1-u06-l02-s01",
+          "sentencePatternId": "b1-u06-l02-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "The message was sent to the wrong friend.",
+          "translation": "訊息被傳給錯的朋友了。",
+          "hintKeywords": "past passive",
+          "skeleton": "past passive",
+          "requiredLexemeIds": [
+            "the",
+            "message",
+            "was",
+            "send",
+            "to",
+            "wrong",
+            "friend"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The message was sent to the wrong friend.",
+              "requiredLexemeIds": [
+                "the",
+                "message",
+                "was",
+                "send",
+                "to",
+                "wrong",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-l02-transfer-02",
+          "practiceLessonId": "b1-u06-l02",
+          "sourceSentenceId": "b1-u06-l02-s01",
+          "sentencePatternId": "b1-u06-l02-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "The wrong message was sent to me.",
+          "translation": "錯誤的訊息被傳給我了。",
+          "hintKeywords": "past passive",
+          "skeleton": "past passive",
+          "requiredLexemeIds": [
+            "the",
+            "wrong",
+            "message",
+            "was",
+            "send",
+            "to",
+            "me"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The wrong message was sent to me.",
+              "requiredLexemeIds": [
+                "the",
+                "wrong",
+                "message",
+                "was",
+                "send",
+                "to",
+                "me"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "present perfect for a current period",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online",
+            "this",
+            "week"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u06-l03-transfer-01",
+          "practiceLessonId": "b1-u06-l03",
+          "sourceSentenceId": "b1-u06-l03-s01",
+          "sentencePatternId": "b1-u06-l03-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "I have spent less time online.",
+          "translation": "我花在網路上的時間比較少。",
+          "hintKeywords": "present perfect for a current period",
+          "skeleton": "present perfect for a current period",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I have spent less time online.",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-l03-transfer-02",
+          "practiceLessonId": "b1-u06-l03",
+          "sourceSentenceId": "b1-u06-l03-s01",
+          "sentencePatternId": "b1-u06-l03-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "This week I have spent less time online.",
+          "translation": "這星期我花在網路上的時間比較少。",
+          "hintKeywords": "present perfect for a current period",
+          "skeleton": "present perfect for a current period",
+          "requiredLexemeIds": [
+            "this",
+            "week",
+            "i",
+            "have",
+            "spend",
+            "less",
+            "time",
+            "online"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This week I have spent less time online.",
+              "requiredLexemeIds": [
+                "this",
+                "week",
+                "i",
+                "have",
+                "spend",
+                "less",
+                "time",
+                "online"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u06-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "make plus object plus adjective",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "task",
+            "more",
+            "convenient",
+            "work"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u06-l04-transfer-01",
+          "practiceLessonId": "b1-u06-l04",
+          "sourceSentenceId": "b1-u06-l04-s01",
+          "sentencePatternId": "b1-u06-l04-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "Technology can make tasks more convenient.",
+          "translation": "科技可以讓工作更方便。",
+          "hintKeywords": "make plus object plus adjective",
+          "skeleton": "make plus object plus adjective",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "task",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Technology can make tasks more convenient.",
+              "requiredLexemeIds": [
+                "technology",
+                "can",
+                "make",
+                "task",
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u06-l04-transfer-02",
+          "practiceLessonId": "b1-u06-l04",
+          "sourceSentenceId": "b1-u06-l04-s01",
+          "sentencePatternId": "b1-u06-l04-pattern",
+          "passageId": "b1-u06-p01",
+          "sentence": "Technology can make work more convenient.",
+          "translation": "科技可以讓工作更方便。",
+          "hintKeywords": "make plus object plus adjective",
+          "skeleton": "make plus object plus adjective",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "make",
+            "work",
+            "more",
+            "convenient"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Technology can make work more convenient.",
+              "requiredLexemeIds": [
+                "technology",
+                "can",
+                "make",
+                "work",
+                "more",
+                "convenient"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "past perfect for an earlier event",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "the",
+            "birthday",
+            "her",
+            "so"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u07-l01-transfer-01",
+          "practiceLessonId": "b1-u07-l01",
+          "sourceSentenceId": "b1-u07-l01-s01",
+          "sentencePatternId": "b1-u07-l01-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "I apologized because I had forgotten the birthday.",
+          "translation": "我因為忘了生日而道歉。",
+          "hintKeywords": "past perfect for an earlier event",
+          "skeleton": "past perfect for an earlier event",
+          "requiredLexemeIds": [
+            "i",
+            "apologize",
+            "because",
+            "had",
+            "forget",
+            "the",
+            "birthday"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I apologized because I had forgotten the birthday.",
+              "requiredLexemeIds": [
+                "i",
+                "apologize",
+                "because",
+                "had",
+                "forget",
+                "the",
+                "birthday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-l01-transfer-02",
+          "practiceLessonId": "b1-u07-l01",
+          "sourceSentenceId": "b1-u07-l01-s01",
+          "sentencePatternId": "b1-u07-l01-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "I had forgotten her birthday so I apologized.",
+          "translation": "我忘了她的生日，所以道歉了。",
+          "hintKeywords": "past perfect for an earlier event",
+          "skeleton": "past perfect for an earlier event",
+          "requiredLexemeIds": [
+            "i",
+            "had",
+            "forget",
+            "her",
+            "birthday",
+            "so",
+            "apologize"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I had forgotten her birthday so I apologized.",
+              "requiredLexemeIds": [
+                "i",
+                "had",
+                "forget",
+                "her",
+                "birthday",
+                "so",
+                "apologize"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "when clause for social situations",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support",
+            "good",
+            "i"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u07-l02-transfer-01",
+          "practiceLessonId": "b1-u07-l02",
+          "sourceSentenceId": "b1-u07-l02-s01",
+          "sentencePatternId": "b1-u07-l02-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "Friends listen when someone needs support.",
+          "translation": "朋友會在別人需要支持時傾聽。",
+          "hintKeywords": "when clause for social situations",
+          "skeleton": "when clause for social situations",
+          "requiredLexemeIds": [
+            "friend",
+            "listen",
+            "when",
+            "someone",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Friends listen when someone needs support.",
+              "requiredLexemeIds": [
+                "friend",
+                "listen",
+                "when",
+                "someone",
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-l02-transfer-02",
+          "practiceLessonId": "b1-u07-l02",
+          "sourceSentenceId": "b1-u07-l02-s01",
+          "sentencePatternId": "b1-u07-l02-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "Good friends listen when I need support.",
+          "translation": "好朋友會在我需要支持時傾聽。",
+          "hintKeywords": "when clause for social situations",
+          "skeleton": "when clause for social situations",
+          "requiredLexemeIds": [
+            "good",
+            "friend",
+            "listen",
+            "when",
+            "i",
+            "need",
+            "support"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Good friends listen when I need support.",
+              "requiredLexemeIds": [
+                "good",
+                "friend",
+                "listen",
+                "when",
+                "i",
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "present perfect with since",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "school",
+            "i",
+            "her",
+            "high"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u07-l03-transfer-01",
+          "practiceLessonId": "b1-u07-l03",
+          "sourceSentenceId": "b1-u07-l03-s01",
+          "sentencePatternId": "b1-u07-l03-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "We have known each other since school.",
+          "translation": "我們從學生時期起就認識彼此。",
+          "hintKeywords": "present perfect with since",
+          "skeleton": "present perfect with since",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "know",
+            "each",
+            "other",
+            "since",
+            "school"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We have known each other since school.",
+              "requiredLexemeIds": [
+                "we",
+                "have",
+                "know",
+                "each",
+                "other",
+                "since",
+                "school"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-l03-transfer-02",
+          "practiceLessonId": "b1-u07-l03",
+          "sourceSentenceId": "b1-u07-l03-s01",
+          "sentencePatternId": "b1-u07-l03-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "I have known her since high school.",
+          "translation": "我從高中起就認識她。",
+          "hintKeywords": "present perfect with since",
+          "skeleton": "present perfect with since",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "know",
+            "her",
+            "since",
+            "high",
+            "school"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I have known her since high school.",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "know",
+                "her",
+                "since",
+                "high",
+                "school"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u07-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "it is adjective to plus verb",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "opinion",
+            "i",
+            "think",
+            "different"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u07-l04-transfer-01",
+          "practiceLessonId": "b1-u07-l04",
+          "sourceSentenceId": "b1-u07-l04-s01",
+          "sentencePatternId": "b1-u07-l04-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "It is important to respect opinions.",
+          "translation": "尊重意見很重要。",
+          "hintKeywords": "it is adjective to plus verb",
+          "skeleton": "it is adjective to plus verb",
+          "requiredLexemeIds": [
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "opinion"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "It is important to respect opinions.",
+              "requiredLexemeIds": [
+                "it",
+                "be",
+                "important",
+                "to",
+                "respect",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u07-l04-transfer-02",
+          "practiceLessonId": "b1-u07-l04",
+          "sourceSentenceId": "b1-u07-l04-s01",
+          "sentencePatternId": "b1-u07-l04-pattern",
+          "passageId": "b1-u07-p01",
+          "sentence": "I think it is important to respect different opinions.",
+          "translation": "我認為尊重不同意見很重要。",
+          "hintKeywords": "it is adjective to plus verb",
+          "skeleton": "it is adjective to plus verb",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "it",
+            "be",
+            "important",
+            "to",
+            "respect",
+            "different",
+            "opinion"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think it is important to respect different opinions.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "it",
+                "be",
+                "important",
+                "to",
+                "respect",
+                "different",
+                "opinion"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l01-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "past decision with infinitive",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "routine",
+            "last",
+            "year",
+            "the"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u08-l01-transfer-01",
+          "practiceLessonId": "b1-u08-l01",
+          "sourceSentenceId": "b1-u08-l01-s01",
+          "sentencePatternId": "b1-u08-l01-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "I decided to change my routine last year.",
+          "translation": "去年我決定改變作息。",
+          "hintKeywords": "past decision with infinitive",
+          "skeleton": "past decision with infinitive",
+          "requiredLexemeIds": [
+            "i",
+            "decide",
+            "to",
+            "change",
+            "my",
+            "routine",
+            "last",
+            "year"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I decided to change my routine last year.",
+              "requiredLexemeIds": [
+                "i",
+                "decide",
+                "to",
+                "change",
+                "my",
+                "routine",
+                "last",
+                "year"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-l01-transfer-02",
+          "practiceLessonId": "b1-u08-l01",
+          "sourceSentenceId": "b1-u08-l01-s01",
+          "sentencePatternId": "b1-u08-l01-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "Last year I decided to change the routine.",
+          "translation": "去年我決定改變這套作息。",
+          "hintKeywords": "past decision with infinitive",
+          "skeleton": "past decision with infinitive",
+          "requiredLexemeIds": [
+            "last",
+            "year",
+            "i",
+            "decide",
+            "to",
+            "change",
+            "the",
+            "routine"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Last year I decided to change the routine.",
+              "requiredLexemeIds": [
+                "last",
+                "year",
+                "i",
+                "decide",
+                "to",
+                "change",
+                "the",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l02-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "adjective plus infinitive",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "new",
+            "schedule",
+            "was",
+            "difficult",
+            "to",
+            "follow",
+            "at",
+            "first",
+            "it"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u08-l02-transfer-01",
+          "practiceLessonId": "b1-u08-l02",
+          "sourceSentenceId": "b1-u08-l02-s01",
+          "sentencePatternId": "b1-u08-l02-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "The new schedule was difficult to follow at first.",
+          "translation": "新的作息一開始很難遵循。",
+          "hintKeywords": "adjective plus infinitive",
+          "skeleton": "adjective plus infinitive",
+          "requiredLexemeIds": [
+            "the",
+            "new",
+            "schedule",
+            "was",
+            "difficult",
+            "to",
+            "follow",
+            "at",
+            "first"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The new schedule was difficult to follow at first.",
+              "requiredLexemeIds": [
+                "the",
+                "new",
+                "schedule",
+                "was",
+                "difficult",
+                "to",
+                "follow",
+                "at",
+                "first"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-l02-transfer-02",
+          "practiceLessonId": "b1-u08-l02",
+          "sourceSentenceId": "b1-u08-l02-s01",
+          "sentencePatternId": "b1-u08-l02-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "At first it was difficult to follow the schedule.",
+          "translation": "一開始很難遵循這套作息。",
+          "hintKeywords": "adjective plus infinitive",
+          "skeleton": "adjective plus infinitive",
+          "requiredLexemeIds": [
+            "at",
+            "first",
+            "it",
+            "was",
+            "difficult",
+            "to",
+            "follow",
+            "the",
+            "schedule"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "At first it was difficult to follow the schedule.",
+              "requiredLexemeIds": [
+                "at",
+                "first",
+                "it",
+                "was",
+                "difficult",
+                "to",
+                "follow",
+                "the",
+                "schedule"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l03-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "keep plus gerund with because",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "keep",
+            "practice",
+            "because",
+            "want",
+            "result",
+            "better",
+            "so"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u08-l03-transfer-01",
+          "practiceLessonId": "b1-u08-l03",
+          "sourceSentenceId": "b1-u08-l03-s01",
+          "sentencePatternId": "b1-u08-l03-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "I kept practicing because I wanted results.",
+          "translation": "我持續練習，因為我想要成果。",
+          "hintKeywords": "keep plus gerund with because",
+          "skeleton": "keep plus gerund with because",
+          "requiredLexemeIds": [
+            "i",
+            "keep",
+            "practice",
+            "because",
+            "want",
+            "result"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I kept practicing because I wanted results.",
+              "requiredLexemeIds": [
+                "i",
+                "keep",
+                "practice",
+                "because",
+                "want",
+                "result"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-l03-transfer-02",
+          "practiceLessonId": "b1-u08-l03",
+          "sourceSentenceId": "b1-u08-l03-s01",
+          "sentencePatternId": "b1-u08-l03-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "I wanted better results so I kept practicing.",
+          "translation": "我想要更好的成果，所以持續練習。",
+          "hintKeywords": "keep plus gerund with because",
+          "skeleton": "keep plus gerund with because",
+          "requiredLexemeIds": [
+            "i",
+            "want",
+            "better",
+            "result",
+            "so",
+            "keep",
+            "practice"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I wanted better results so I kept practicing.",
+              "requiredLexemeIds": [
+                "i",
+                "want",
+                "better",
+                "result",
+                "so",
+                "keep",
+                "practice"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b1-u08-l04-pattern",
+      "cefr": "B1",
+      "enabledForTransfer": true,
+      "template": "comparative adjective for change",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "feel",
+            "more",
+            "confident",
+            "about",
+            "my",
+            "goal",
+            "now",
+            "the",
+            "result"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b1-u08-l04-transfer-01",
+          "practiceLessonId": "b1-u08-l04",
+          "sourceSentenceId": "b1-u08-l04-s01",
+          "sentencePatternId": "b1-u08-l04-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "I feel more confident about my goals now.",
+          "translation": "現在我對自己的目標更有信心。",
+          "hintKeywords": "comparative adjective for change",
+          "skeleton": "comparative adjective for change",
+          "requiredLexemeIds": [
+            "i",
+            "feel",
+            "more",
+            "confident",
+            "about",
+            "my",
+            "goal",
+            "now"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I feel more confident about my goals now.",
+              "requiredLexemeIds": [
+                "i",
+                "feel",
+                "more",
+                "confident",
+                "about",
+                "my",
+                "goal",
+                "now"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b1-u08-l04-transfer-02",
+          "practiceLessonId": "b1-u08-l04",
+          "sourceSentenceId": "b1-u08-l04-s01",
+          "sentencePatternId": "b1-u08-l04-pattern",
+          "passageId": "b1-u08-p01",
+          "sentence": "Now I feel confident about the results.",
+          "translation": "現在我對成果有信心。",
+          "hintKeywords": "comparative adjective for change",
+          "skeleton": "comparative adjective for change",
+          "requiredLexemeIds": [
+            "now",
+            "i",
+            "feel",
+            "confident",
+            "about",
+            "the",
+            "result"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Now I feel confident about the results.",
+              "requiredLexemeIds": [
+                "now",
+                "i",
+                "feel",
+                "confident",
+                "about",
+                "the",
+                "result"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    }
+  ]
+}

@@ -39,8 +39,13 @@ This file stores long-lived product facts and working preferences. Current task 
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
 - A2 pilot source `public/data/a2-course-v1.csv` contains 4 units, 16 lessons, and 95 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
 - A2 units 2–4 cover travel/transportation, shopping/comparison, and health/advice. All remain `pilot_review_required`.
+- B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
+- B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
+- B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
+- B1/B2 are technically executable but remain `pilot_review_required`; automated validation is not human language, phonetic, or CEFR approval.
 - `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 5–10 have no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
+- Progress schema v5 stores A1, A2, B1, and B2 separately; the advanced QA preview never writes passed-level IDs.
 
 ## Content and Audio Guardrails
 

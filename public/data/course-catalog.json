@@ -7,6 +7,9 @@
       "title": "A1 初學",
       "description": "正式課程：從基礎日常短句開始。",
       "sourceVersion": "a1-course-v3.csv",
+      "expectedUnits": 8,
+      "expectedLessons": 32,
+      "expectedOccurrences": 145,
       "curriculumUrl": "/data/a1-course-v3.csv",
       "patternExercisesUrl": "/data/a1-pattern-exercises.json",
       "readingExercisesUrl": "/data/a1-reading-exercises.json"
@@ -17,10 +20,41 @@
       "title": "A2 基礎",
       "description": "試行課程：描述過去與未來、旅行交通、購物比較及健康建議。",
       "sourceVersion": "a2-course-v1.csv",
+      "expectedUnits": 4,
+      "expectedLessons": 16,
+      "expectedOccurrences": 95,
       "prerequisiteLevel": "A1",
       "curriculumUrl": "/data/a2-course-v1.csv",
       "patternExercisesUrl": "/data/a2-pattern-exercises.json",
       "readingExercisesUrl": "/data/a2-reading-exercises.json"
+    },
+    {
+      "level": "B1",
+      "status": "pilot",
+      "title": "B1 中級",
+      "description": "試行課程：連貫敘事、意見理由、工作溝通、旅行協調與科技生活。",
+      "sourceVersion": "b1-course-v1.csv",
+      "expectedUnits": 8,
+      "expectedLessons": 32,
+      "expectedOccurrences": 249,
+      "prerequisiteLevel": "A2",
+      "curriculumUrl": "/data/b1-course-v1.csv",
+      "patternExercisesUrl": "/data/b1-pattern-exercises.json",
+      "readingExercisesUrl": "/data/b1-reading-exercises.json"
+    },
+    {
+      "level": "B2",
+      "status": "pilot",
+      "title": "B2 中高級",
+      "description": "試行課程：深入觀點、方案比較、專業回饋、公共議題與協商表達。",
+      "sourceVersion": "b2-course-v1.csv",
+      "expectedUnits": 8,
+      "expectedLessons": 32,
+      "expectedOccurrences": 298,
+      "prerequisiteLevel": "B1",
+      "curriculumUrl": "/data/b2-course-v1.csv",
+      "patternExercisesUrl": "/data/b2-pattern-exercises.json",
+      "readingExercisesUrl": "/data/b2-reading-exercises.json"
     }
   ]
 }

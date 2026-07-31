@@ -9,6 +9,7 @@ import type {
   CourseCsvRow,
   CourseValidationReport,
 } from "./types";
+import { CEFR_LEVELS } from "./types.ts";
 
 export const COURSE_CSV_HEADERS = [
   "level",
@@ -272,6 +273,14 @@ const UNIT_PRESENTATION: Record<string, { description: string; accent: string }>
     description: "依序完成本單元的四個句子。",
     accent: "#f47b5b",
   },
+  B1: {
+    description: "透過連貫句子練習敘事、理由與獨立表達。",
+    accent: "#4aa88f",
+  },
+  B2: {
+    description: "透過複合句練習觀點比較、協商與精準表達。",
+    accent: "#5889c7",
+  },
   "a2-u01": {
     description: "描述昨天的活動、明天的計畫，並提出簡單邀請。",
     accent: "#5a95db",
@@ -348,8 +357,11 @@ export const buildCourseUnitsFromRows = (
             sourceVersion,
           };
         });
-      const level =
-        rowsForUnit[0]?.level === "A2" ? "A2" : "A1";
+      const level = CEFR_LEVELS.includes(
+        rowsForUnit[0]?.level as CefrLevel,
+      )
+        ? (rowsForUnit[0].level as CefrLevel)
+        : "A1";
       const presentation =
         UNIT_PRESENTATION[unitId] ?? UNIT_PRESENTATION[level];
       return {
@@ -380,7 +392,11 @@ const assertStableId = (
   rowIssues: Set<number>,
   errors: string[],
 ) => {
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
+  if (
+    !/^[a-z0-9]+(?:'[a-z0-9]+)?(?:-[a-z0-9]+(?:'[a-z0-9]+)?)*$/.test(
+      value,
+    )
+  ) {
     addRowError(
       rowIssues,
       errors,
@@ -420,12 +436,12 @@ export const validateCourseRows = (
         `必要欄位不可空白：${missing.join("、")}。`,
       );
     }
-    if (!["A1", "A2"].includes(row.level)) {
+    if (!CEFR_LEVELS.includes(row.level as CefrLevel)) {
       addRowError(
         rowIssues,
         errors,
         rowIndex,
-        "level 只能是 A1 或 A2。",
+        `level 只能是 ${CEFR_LEVELS.join("、")}。`,
       );
     }
     if (options.expectedLevel && row.level !== options.expectedLevel) {

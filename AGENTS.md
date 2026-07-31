@@ -43,6 +43,8 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `app/learning-progress.ts`: progress history and review scheduling.
 - `app/passage-flow.ts`, `app/rebuild-flow.ts`, `app/assessment-scoring.ts`: focused learning rules.
 - `public/data/a1-course-v3.csv`: the only official A1 curriculum source.
+- `public/data/a2-course-v1.csv`, `b1-course-v1.csv`, and `b2-course-v1.csv`: independent pilot curricula declared by the catalog.
+- `public/data/course-catalog.json`: the runtime source registry for A1 through B2.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: reviewed practice additions.
 - `tests/`: unit, rendered-content, and Playwright coverage.
 - `docs/`: product specifications, content plans, and context workflow.
@@ -57,6 +59,8 @@ Run from the repository root:
 ```powershell
 npm ci
 npm run check:context
+npm run audit:project
+npm run validate:curriculum
 npm run dev
 npm run build
 npm run test:unit

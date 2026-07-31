@@ -1,9 +1,5 @@
 import type { CourseCsvRow } from "./curriculum/types";
-
-export const A1_PATTERN_EXERCISES_URL =
-  "/data/a1-pattern-exercises.json";
-export const A1_READING_EXERCISES_URL =
-  "/data/a1-reading-exercises.json";
+import type { CefrLevel } from "./curriculum/types";
 
 export type PatternSlot = {
   slotId: string;
@@ -38,7 +34,7 @@ export type PatternExample = {
 
 export type SentencePattern = {
   id: string;
-  cefr: "A1" | "A2";
+  cefr: CefrLevel;
   enabledForTransfer: boolean;
   deferReason?: string;
   template: string;
@@ -127,7 +123,7 @@ export type PassageComprehensionExercise = {
   passageId: string;
   sentences?: PassageSentence[];
   questions: PassageComprehensionQuestion[];
-  level?: "A1" | "A2";
+  level?: CefrLevel;
   qaStatus?: string;
 };
 
@@ -158,9 +154,14 @@ export type PatternCoverageSummary = {
 };
 
 const lessonRank = (lessonId: string) => {
-  const match = lessonId.match(/^(a1|a2)-u(\d+)-l(\d+)$/);
+  const match = lessonId.match(/^(a1|a2|b1|b2)-u(\d+)-l(\d+)$/);
   if (!match) return -1;
-  const levelRank = match[1] === "a2" ? 100000 : 0;
+  const levelRank = {
+    a1: 0,
+    a2: 100000,
+    b1: 200000,
+    b2: 300000,
+  }[match[1]]!;
   return levelRank + Number(match[2]) * 100 + Number(match[3]);
 };
 
@@ -285,7 +286,7 @@ const validateReferencedLexemes = (
 export const validatePatternExerciseData = (
   data: PatternExerciseData,
   rows: CourseCsvRow[],
-  expectedLevel: "A1" | "A2" = "A1",
+  expectedLevel: CefrLevel = "A1",
   prerequisiteRows: CourseCsvRow[] = [],
 ): ExerciseValidationReport => {
   const errors: string[] = [];
@@ -368,7 +369,12 @@ export const validatePatternExerciseData = (
       ) {
         errors.push(`${example.id} 不可與原句完全相同。`);
       }
-      const wordLimit = expectedLevel === "A1" ? 8 : 10;
+      const wordLimit = {
+        A1: 8,
+        A2: 10,
+        B1: 16,
+        B2: 22,
+      }[expectedLevel];
       if (sentenceWordCount(example.sentence) > wordLimit) {
         errors.push(
           `${example.id} 超過 ${expectedLevel} 的 ${wordLimit} 字限制。`,
@@ -942,22 +948,6 @@ export const validateReadingExerciseData = (
   }
 
   return { valid: errors.length === 0, errors };
-};
-
-export const loadA1ExerciseData = async (
-  fetcher: typeof fetch = fetch,
-): Promise<A1ExerciseData> => {
-  const [patternResponse, readingResponse] = await Promise.all([
-    fetcher(A1_PATTERN_EXERCISES_URL, { cache: "no-store" }),
-    fetcher(A1_READING_EXERCISES_URL, { cache: "no-store" }),
-  ]);
-  if (!patternResponse.ok || !readingResponse.ok) {
-    throw new Error("A1 文字練習資料載入失敗。");
-  }
-  return {
-    patterns: (await patternResponse.json()) as PatternExerciseData,
-    reading: (await readingResponse.json()) as ReadingExerciseData,
-  };
 };
 
 export const loadCourseExerciseData = async (

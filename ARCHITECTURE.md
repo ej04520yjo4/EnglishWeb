@@ -10,20 +10,20 @@
 flowchart LR
   Catalog["course-catalog.json"] --> LevelLoader["curriculum/loader.ts"]
   A1["A1 v3 CSV + reviewed JSON"] --> Adapter["A1 legacy adapter"]
-  A2["A2 v1 CSV + pilot JSON"] --> LevelLoader
+  Advanced["A2/B1/B2 v1 CSV + pilot JSON"] --> LevelLoader
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
   Reference["reference-vocabulary-v1.json"] --> Vocabulary
   A1 --> Vocabulary
   Adapter --> LevelLoader
   LevelLoader --> Validate["Level validation and checksums"]
-  Validate --> Units["Independent A1 and A2 CourseUnit arrays"]
+  Validate --> Units["Independent A1/A2/B1/B2 CourseUnit arrays"]
   Units --> Page["page.tsx selected-level learning state"]
   Vocabulary --> Page
-  Page <--> Storage["localStorage schema v4, settings, per-level overrides"]
+  Page <--> Storage["localStorage schema v5, settings, per-level overrides"]
   Page --> UI["Course map and learning stages"]
 ```
 
-At startup, the app loads the catalog, then loads and validates A1 and A2 separately. The A1 legacy adapter preserves the production v3 behavior while the common loader establishes the reusable level boundary. A saved local curriculum is restored only when its level version and revision match the official source. One level can fail without invalidating another.
+At startup, the app loads the catalog, then loads and validates A1, A2, B1, and B2 separately. The A1 legacy adapter preserves the production v3 behavior while the common loader establishes the reusable level boundary. A saved local curriculum is restored only when its level version and revision match the official source. One level can fail without invalidating another; a failed prerequisite prevents only its dependent pilot levels from loading.
 
 ## Module Responsibilities
 
@@ -31,13 +31,15 @@ At startup, the app loads the catalog, then loads and validates A1 and A2 separa
 - `app/curriculum/catalog.ts`: catalog parsing, release state, formal unlock, and QA-preview access.
 - `app/curriculum/loader.ts`: common level loading and source revision calculation.
 - `app/curriculum/validation.ts`: generic one-word, identity, relation, chunk, pattern, passage, and audio-state checks.
-- `app/curriculum/progress.ts`: schema v4 migration and isolated A1/A2 progress helpers.
+- `app/curriculum/progress.ts`: schema v5 migration and isolated A1/A2/B1/B2 progress helpers.
 - `app/curriculum/storage.ts`: level-aware source version, revision, update time, and override storage.
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
 - `app/a1-mvp-data.ts`: CSV parsing, normalization, validation, checksums, versioned storage, and course construction.
 - `app/a1-exercises.ts`: pattern/reading schemas, prerequisite and slot validation, coverage reporting, and answer checks.
 - `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV while preserving unit 1 definitions.
 - `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–4 exercises and passages to the existing unit 1 JSON.
+- `scripts/create-b1-b2-curriculum.mjs`: reproducibly generates the B1/B2 pilot CSV and exercise JSON sources.
+- `scripts/audit-project-data.mjs`: detects catalog-orphaned sources, duplicate files/IDs, unsafe repetitions, generator key collisions, and tracked build artifacts.
 - `app/course-data.ts`: stable TypeScript course types plus A-Z static data; it is not a second A1 lesson source.
 - `app/learning-progress.ts`: token/entity history and review scheduling.
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
@@ -61,13 +63,13 @@ These layers are additive and must not be collapsed into one input model.
 
 Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
 
-A2 uses one CSV and two exercise JSON files for all four pilot units. New transfer examples include ordered slot values, and new passage sentences declare their lesson prerequisites and required lexemes/chunks. The ten-unit blueprint is documentation only and never enters runtime course construction.
+A2 uses one CSV and two exercise JSON files for all four pilot units. B1 and B2 each use one independent v1 CSV plus pattern and reading JSON declared by the same catalog. Their generated runtime sources contain 8 units and 32 lessons per level; the generator is not a second runtime source. All advanced rows stay `pilot_review_required`.
 
 Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation uses the latest lesson attached to the passage as the prerequisite boundary, so a distractor cannot introduce vocabulary or chunks from a later unit.
 
 ## Persistence
 
-Browser storage holds progress schema v4, settings, and validated per-level course overrides. A v3 record migrates into the A1 slot without changing its existing fields; A2 starts empty. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. Related vocabulary may save only the last viewed group ID as UI state. No personal data is sent to a project-owned server.
+Browser storage holds progress schema v5, settings, and validated per-level course overrides. A v3 record migrates into the A1 slot without changing its existing fields; a v4 record preserves A1/A2 and initializes B1/B2. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. Related vocabulary may save only the last viewed group ID as UI state. No personal data is sent to a project-owned server.
 
 ## Context Documentation Flow
 
@@ -94,9 +96,10 @@ flowchart LR
 ## Quality Gates
 
 - `npm run check:context` verifies the project-context files and encoding.
+- `npm run audit:project` verifies catalog coverage, source uniqueness, intentional review repetitions, generator dictionaries, and ignored build outputs.
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.
-- Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, and persistence flows.
+- Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2/B1/B2 learning, passage, error-isolation, and persistence flows.
 - Saved-state Playwright fixtures are installed with `page.addInitScript` before application hydration and never overwrite progress produced later in the same test.
 - Browser interactions wait for observable level-home and course-map readiness rather than fixed sleeps.
 - A2 browser coverage walks all 12 newly added lesson flows, all three new passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary.

@@ -1,6 +1,8 @@
 import type { CourseUnit } from "../course-data";
 
-export type CefrLevel = "A1" | "A2";
+export const CEFR_LEVELS = ["A1", "A2", "B1", "B2"] as const;
+
+export type CefrLevel = (typeof CEFR_LEVELS)[number];
 
 export type LevelStatus = "production" | "pilot" | "disabled";
 
@@ -14,6 +16,9 @@ export type CurriculumCatalogEntry = {
   curriculumUrl: string;
   patternExercisesUrl: string;
   readingExercisesUrl: string;
+  expectedUnits?: number;
+  expectedLessons?: number;
+  expectedOccurrences?: number;
 };
 
 export type CurriculumCatalog = {

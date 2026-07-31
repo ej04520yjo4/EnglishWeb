@@ -3,13 +3,14 @@ import type {
   CurriculumCatalog,
   CurriculumCatalogEntry,
 } from "./types";
+import { CEFR_LEVELS } from "./types.ts";
 
 export const COURSE_CATALOG_URL = "/data/course-catalog.json";
 
 const isCatalogEntry = (
   value: Partial<CurriculumCatalogEntry>,
 ): value is CurriculumCatalogEntry =>
-  (value.level === "A1" || value.level === "A2") &&
+  CEFR_LEVELS.includes(value.level as CefrLevel) &&
   (value.status === "production" ||
     value.status === "pilot" ||
     value.status === "disabled") &&
@@ -20,7 +21,16 @@ const isCatalogEntry = (
       value.curriculumUrl &&
       value.patternExercisesUrl &&
       value.readingExercisesUrl,
-  );
+  ) &&
+  typeof value.expectedUnits === "number" &&
+  Number.isInteger(value.expectedUnits) &&
+  value.expectedUnits > 0 &&
+  typeof value.expectedLessons === "number" &&
+  Number.isInteger(value.expectedLessons) &&
+  value.expectedLessons > 0 &&
+  typeof value.expectedOccurrences === "number" &&
+  Number.isInteger(value.expectedOccurrences) &&
+  value.expectedOccurrences > 0;
 
 export const validateCurriculumCatalog = (
   value: Partial<CurriculumCatalog>,
@@ -34,11 +44,23 @@ export const validateCurriculumCatalog = (
   const levels = value.levels.map((entry) => entry.level);
   if (
     new Set(levels).size !== levels.length ||
-    !levels.includes("A1") ||
-    !levels.includes("A2")
+    levels.some((level, index) => level !== CEFR_LEVELS[index])
   ) {
-    throw new Error("課程目錄必須包含不重複的 A1 與 A2 設定。");
+    throw new Error(
+      `課程目錄必須依序包含不重複的 ${CEFR_LEVELS.join("、")} 設定。`,
+    );
   }
+  value.levels.forEach((entry, index) => {
+    const expectedPrerequisite =
+      index === 0 ? undefined : CEFR_LEVELS[index - 1];
+    if (entry.prerequisiteLevel !== expectedPrerequisite) {
+      throw new Error(
+        `${entry.level} 的 prerequisiteLevel 必須是 ${
+          expectedPrerequisite ?? "空白"
+        }。`,
+      );
+    }
+  });
   return value as CurriculumCatalog;
 };
 

@@ -2,6 +2,29 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-07-31 - B1 and B2 Pilot Curriculum
+
+### Added
+
+- Added independent B1 and B2 v1 pilot curricula with 8 units and 32 lessons per level.
+- Added 249 B1 and 298 B2 one-word occurrences while retaining multiword chunk explanations.
+- Added recognition, two transfer exercises, text response, passage rebuild, and comprehension data across both levels.
+- Added B1/B2-specific unit tests and representative desktop/mobile Playwright learning flows.
+- Added `npm run audit:project` for catalog-orphaned data, duplicate files and IDs, unsafe lesson repetition, generator-key collisions, and tracked build artifacts.
+
+### Changed
+
+- Extended the level catalog, common loader, validation, content management, and local progress from A1/A2 to A1/A2/B1/B2.
+- Migrated saved progress to schema v5 while preserving legacy A1/A2 records and isolating B1/B2.
+- Advanced QA preview can inspect A2, B1, or B2 without creating formal completion or passing prerequisites.
+- The Playwright wrapper now forwards command-line filters consistently on Windows.
+
+### Preserved
+
+- A1 remains production at 8 units, 32 lessons, and 145 occurrences.
+- A2 remains unchanged at 4 units, 16 lessons, and 95 occurrences.
+- B1/B2 content and audio remain `pilot_review_required`/`pending` until manual review.
+
 ## 2026-07-28 - Stable A2 Mobile E2E Initialization
 
 ### Fixed

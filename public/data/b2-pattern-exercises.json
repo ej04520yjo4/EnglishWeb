@@ -1,0 +1,3585 @@
+{
+  "schemaVersion": 2,
+  "level": "B2",
+  "patterns": [
+    {
+      "id": "b2-u01-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "opinion framing with in my view",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "proposal",
+            "offer",
+            "several",
+            "practical",
+            "benefit",
+            "in",
+            "my",
+            "view"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u01-l01-transfer-01",
+          "practiceLessonId": "b2-u01-l01",
+          "sourceSentenceId": "b2-u01-l01-s01",
+          "sentencePatternId": "b2-u01-l01-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "The proposal offers several practical benefits.",
+          "translation": "這項提案帶來幾個實際的好處。",
+          "hintKeywords": "opinion framing with in my view",
+          "skeleton": "opinion framing with in my view",
+          "requiredLexemeIds": [
+            "the",
+            "proposal",
+            "offer",
+            "several",
+            "practical",
+            "benefit"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The proposal offers several practical benefits.",
+              "requiredLexemeIds": [
+                "the",
+                "proposal",
+                "offer",
+                "several",
+                "practical",
+                "benefit"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u01-l01-transfer-02",
+          "practiceLessonId": "b2-u01-l01",
+          "sourceSentenceId": "b2-u01-l01-s01",
+          "sentencePatternId": "b2-u01-l01-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "In my view the proposal offers practical benefits.",
+          "translation": "依我看，這項提案帶來實際的好處。",
+          "hintKeywords": "opinion framing with in my view",
+          "skeleton": "opinion framing with in my view",
+          "requiredLexemeIds": [
+            "in",
+            "my",
+            "view",
+            "the",
+            "proposal",
+            "offer",
+            "practical",
+            "benefit"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "In my view the proposal offers practical benefits.",
+              "requiredLexemeIds": [
+                "in",
+                "my",
+                "view",
+                "the",
+                "proposal",
+                "offer",
+                "practical",
+                "benefit"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u01-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "concession before a position",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "support",
+            "the",
+            "change",
+            "although",
+            "understand",
+            "your",
+            "concern"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u01-l02-transfer-01",
+          "practiceLessonId": "b2-u01-l02",
+          "sourceSentenceId": "b2-u01-l02-s01",
+          "sentencePatternId": "b2-u01-l02-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "I support the change although I understand your concern.",
+          "translation": "雖然我理解你的疑慮，但我支持這項改變。",
+          "hintKeywords": "concession before a position",
+          "skeleton": "concession before a position",
+          "requiredLexemeIds": [
+            "i",
+            "support",
+            "the",
+            "change",
+            "although",
+            "understand",
+            "your",
+            "concern"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I support the change although I understand your concern.",
+              "requiredLexemeIds": [
+                "i",
+                "support",
+                "the",
+                "change",
+                "although",
+                "understand",
+                "your",
+                "concern"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u01-l02-transfer-02",
+          "practiceLessonId": "b2-u01-l02",
+          "sourceSentenceId": "b2-u01-l02-s01",
+          "sentencePatternId": "b2-u01-l02-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "Although I understand the concern I support the change.",
+          "translation": "雖然我理解這項疑慮，但我支持這項改變。",
+          "hintKeywords": "concession before a position",
+          "skeleton": "concession before a position",
+          "requiredLexemeIds": [
+            "although",
+            "i",
+            "understand",
+            "the",
+            "concern",
+            "support",
+            "change"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Although I understand the concern I support the change.",
+              "requiredLexemeIds": [
+                "although",
+                "i",
+                "understand",
+                "the",
+                "concern",
+                "support",
+                "change"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u01-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "whether clause as complement",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "issue",
+            "be",
+            "whether",
+            "plan",
+            "will",
+            "remain",
+            "effective",
+            "i",
+            "think",
+            "main"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u01-l03-transfer-01",
+          "practiceLessonId": "b2-u01-l03",
+          "sourceSentenceId": "b2-u01-l03-s01",
+          "sentencePatternId": "b2-u01-l03-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "The issue is whether the plan will remain effective.",
+          "translation": "問題是這個方案是否會持續有效。",
+          "hintKeywords": "whether clause as complement",
+          "skeleton": "whether clause as complement",
+          "requiredLexemeIds": [
+            "the",
+            "issue",
+            "be",
+            "whether",
+            "plan",
+            "will",
+            "remain",
+            "effective"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The issue is whether the plan will remain effective.",
+              "requiredLexemeIds": [
+                "the",
+                "issue",
+                "be",
+                "whether",
+                "plan",
+                "will",
+                "remain",
+                "effective"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u01-l03-transfer-02",
+          "practiceLessonId": "b2-u01-l03",
+          "sourceSentenceId": "b2-u01-l03-s01",
+          "sentencePatternId": "b2-u01-l03-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "I think the main issue is whether the plan is effective.",
+          "translation": "我認為主要問題是這個方案是否有效。",
+          "hintKeywords": "whether clause as complement",
+          "skeleton": "whether clause as complement",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "the",
+            "main",
+            "issue",
+            "be",
+            "whether",
+            "plan",
+            "effective"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think the main issue is whether the plan is effective.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "the",
+                "main",
+                "issue",
+                "be",
+                "whether",
+                "plan",
+                "effective"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u01-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "hedged argument with would",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "would",
+            "argue",
+            "that",
+            "education",
+            "should",
+            "encourage",
+            "thinking",
+            "in",
+            "my",
+            "view",
+            "independent"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u01-l04-transfer-01",
+          "practiceLessonId": "b2-u01-l04",
+          "sourceSentenceId": "b2-u01-l04-s01",
+          "sentencePatternId": "b2-u01-l04-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "I would argue that education should encourage thinking.",
+          "translation": "我會主張教育應該鼓勵思考。",
+          "hintKeywords": "hedged argument with would",
+          "skeleton": "hedged argument with would",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "argue",
+            "that",
+            "education",
+            "should",
+            "encourage",
+            "thinking"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I would argue that education should encourage thinking.",
+              "requiredLexemeIds": [
+                "i",
+                "would",
+                "argue",
+                "that",
+                "education",
+                "should",
+                "encourage",
+                "thinking"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u01-l04-transfer-02",
+          "practiceLessonId": "b2-u01-l04",
+          "sourceSentenceId": "b2-u01-l04-s01",
+          "sentencePatternId": "b2-u01-l04-pattern",
+          "passageId": "b2-u01-p01",
+          "sentence": "In my view education should encourage independent thinking.",
+          "translation": "依我看，教育應該鼓勵獨立思考。",
+          "hintKeywords": "hedged argument with would",
+          "skeleton": "hedged argument with would",
+          "requiredLexemeIds": [
+            "in",
+            "my",
+            "view",
+            "education",
+            "should",
+            "encourage",
+            "independent",
+            "thinking"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "In my view education should encourage independent thinking.",
+              "requiredLexemeIds": [
+                "in",
+                "my",
+                "view",
+                "education",
+                "should",
+                "encourage",
+                "independent",
+                "thinking"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u02-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "contrast with whereas",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "this",
+            "option",
+            "be",
+            "cheap",
+            "whereas",
+            "the",
+            "other",
+            "more",
+            "flexible",
+            "one"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u02-l01-transfer-01",
+          "practiceLessonId": "b2-u02-l01",
+          "sourceSentenceId": "b2-u02-l01-s01",
+          "sentencePatternId": "b2-u02-l01-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "This option is cheaper whereas the other is more flexible.",
+          "translation": "這個方案比較便宜，而另一個比較有彈性。",
+          "hintKeywords": "contrast with whereas",
+          "skeleton": "contrast with whereas",
+          "requiredLexemeIds": [
+            "this",
+            "option",
+            "be",
+            "cheap",
+            "whereas",
+            "the",
+            "other",
+            "more",
+            "flexible"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This option is cheaper whereas the other is more flexible.",
+              "requiredLexemeIds": [
+                "this",
+                "option",
+                "be",
+                "cheap",
+                "whereas",
+                "the",
+                "other",
+                "more",
+                "flexible"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u02-l01-transfer-02",
+          "practiceLessonId": "b2-u02-l01",
+          "sourceSentenceId": "b2-u02-l01-s01",
+          "sentencePatternId": "b2-u02-l01-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "The other option is cheaper whereas this one is more flexible.",
+          "translation": "另一個方案比較便宜，而這個比較有彈性。",
+          "hintKeywords": "contrast with whereas",
+          "skeleton": "contrast with whereas",
+          "requiredLexemeIds": [
+            "the",
+            "other",
+            "option",
+            "be",
+            "cheap",
+            "whereas",
+            "this",
+            "one",
+            "more",
+            "flexible"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The other option is cheaper whereas this one is more flexible.",
+              "requiredLexemeIds": [
+                "the",
+                "other",
+                "option",
+                "be",
+                "cheap",
+                "whereas",
+                "this",
+                "one",
+                "more",
+                "flexible"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u02-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "modal may for possible consequences",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "solution",
+            "may",
+            "create",
+            "additional",
+            "problem",
+            "later",
+            "this",
+            "cheap"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u02-l02-transfer-01",
+          "practiceLessonId": "b2-u02-l02",
+          "sourceSentenceId": "b2-u02-l02-s01",
+          "sentencePatternId": "b2-u02-l02-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "The solution may create additional problems later.",
+          "translation": "這個解決方案之後可能會造成額外問題。",
+          "hintKeywords": "modal may for possible consequences",
+          "skeleton": "modal may for possible consequences",
+          "requiredLexemeIds": [
+            "the",
+            "solution",
+            "may",
+            "create",
+            "additional",
+            "problem",
+            "later"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The solution may create additional problems later.",
+              "requiredLexemeIds": [
+                "the",
+                "solution",
+                "may",
+                "create",
+                "additional",
+                "problem",
+                "later"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u02-l02-transfer-02",
+          "practiceLessonId": "b2-u02-l02",
+          "sourceSentenceId": "b2-u02-l02-s01",
+          "sentencePatternId": "b2-u02-l02-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "This cheaper solution may create problems later.",
+          "translation": "這個較便宜的解決方案之後可能會造成問題。",
+          "hintKeywords": "modal may for possible consequences",
+          "skeleton": "modal may for possible consequences",
+          "requiredLexemeIds": [
+            "this",
+            "cheap",
+            "solution",
+            "may",
+            "create",
+            "problem",
+            "later"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This cheaper solution may create problems later.",
+              "requiredLexemeIds": [
+                "this",
+                "cheap",
+                "solution",
+                "may",
+                "create",
+                "problem",
+                "later"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u02-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "both and coordination",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "should",
+            "consider",
+            "the",
+            "cost",
+            "and",
+            "long",
+            "term",
+            "impact",
+            "i",
+            "think",
+            "both"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u02-l03-transfer-01",
+          "practiceLessonId": "b2-u02-l03",
+          "sourceSentenceId": "b2-u02-l03-s01",
+          "sentencePatternId": "b2-u02-l03-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "We should consider the cost and the long term impact.",
+          "translation": "我們應該考量成本與長期影響。",
+          "hintKeywords": "both and coordination",
+          "skeleton": "both and coordination",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "consider",
+            "the",
+            "cost",
+            "and",
+            "long",
+            "term",
+            "impact"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We should consider the cost and the long term impact.",
+              "requiredLexemeIds": [
+                "we",
+                "should",
+                "consider",
+                "the",
+                "cost",
+                "and",
+                "long",
+                "term",
+                "impact"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u02-l03-transfer-02",
+          "practiceLessonId": "b2-u02-l03",
+          "sourceSentenceId": "b2-u02-l03-s01",
+          "sentencePatternId": "b2-u02-l03-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "I think we should consider both the cost and the impact.",
+          "translation": "我認為我們應該同時考量成本與影響。",
+          "hintKeywords": "both and coordination",
+          "skeleton": "both and coordination",
+          "requiredLexemeIds": [
+            "i",
+            "think",
+            "we",
+            "should",
+            "consider",
+            "both",
+            "the",
+            "cost",
+            "and",
+            "impact"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I think we should consider both the cost and the impact.",
+              "requiredLexemeIds": [
+                "i",
+                "think",
+                "we",
+                "should",
+                "consider",
+                "both",
+                "the",
+                "cost",
+                "and",
+                "impact"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u02-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "second conditional",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "could",
+            "compare",
+            "the",
+            "result",
+            "carefully",
+            "if",
+            "had",
+            "more",
+            "time",
+            "i"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u02-l04-transfer-01",
+          "practiceLessonId": "b2-u02-l04",
+          "sourceSentenceId": "b2-u02-l04-s01",
+          "sentencePatternId": "b2-u02-l04-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "We could compare the results carefully if we had more time.",
+          "translation": "如果我們有更多時間，就能仔細比較結果。",
+          "hintKeywords": "second conditional",
+          "skeleton": "second conditional",
+          "requiredLexemeIds": [
+            "we",
+            "could",
+            "compare",
+            "the",
+            "result",
+            "carefully",
+            "if",
+            "had",
+            "more",
+            "time"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We could compare the results carefully if we had more time.",
+              "requiredLexemeIds": [
+                "we",
+                "could",
+                "compare",
+                "the",
+                "result",
+                "carefully",
+                "if",
+                "had",
+                "more",
+                "time"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u02-l04-transfer-02",
+          "practiceLessonId": "b2-u02-l04",
+          "sourceSentenceId": "b2-u02-l04-s01",
+          "sentencePatternId": "b2-u02-l04-pattern",
+          "passageId": "b2-u02-p01",
+          "sentence": "If I had more time I could compare the results carefully.",
+          "translation": "如果我有更多時間，就能仔細比較結果。",
+          "hintKeywords": "second conditional",
+          "skeleton": "second conditional",
+          "requiredLexemeIds": [
+            "if",
+            "i",
+            "had",
+            "more",
+            "time",
+            "could",
+            "compare",
+            "the",
+            "result",
+            "carefully"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "If I had more time I could compare the results carefully.",
+              "requiredLexemeIds": [
+                "if",
+                "i",
+                "had",
+                "more",
+                "time",
+                "could",
+                "compare",
+                "the",
+                "result",
+                "carefully"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u03-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "passive voice with comparison",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "project",
+            "was",
+            "complete",
+            "earlier",
+            "than",
+            "expect",
+            "manager",
+            "to",
+            "finish"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u03-l01-transfer-01",
+          "practiceLessonId": "b2-u03-l01",
+          "sourceSentenceId": "b2-u03-l01-s01",
+          "sentencePatternId": "b2-u03-l01-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "The project was completed earlier than expected.",
+          "translation": "專案比預期的更早完成。",
+          "hintKeywords": "passive voice with comparison",
+          "skeleton": "passive voice with comparison",
+          "requiredLexemeIds": [
+            "the",
+            "project",
+            "was",
+            "complete",
+            "earlier",
+            "than",
+            "expect"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The project was completed earlier than expected.",
+              "requiredLexemeIds": [
+                "the",
+                "project",
+                "was",
+                "complete",
+                "earlier",
+                "than",
+                "expect"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u03-l01-transfer-02",
+          "practiceLessonId": "b2-u03-l01",
+          "sourceSentenceId": "b2-u03-l01-s01",
+          "sentencePatternId": "b2-u03-l01-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "The manager expected the project to finish earlier.",
+          "translation": "經理原本預期專案會更早完成。",
+          "hintKeywords": "passive voice with comparison",
+          "skeleton": "passive voice with comparison",
+          "requiredLexemeIds": [
+            "the",
+            "manager",
+            "expect",
+            "project",
+            "to",
+            "finish",
+            "earlier"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The manager expected the project to finish earlier.",
+              "requiredLexemeIds": [
+                "the",
+                "manager",
+                "expect",
+                "project",
+                "to",
+                "finish",
+                "earlier"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u03-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "suggest that clause",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "she",
+            "suggest",
+            "that",
+            "i",
+            "revise",
+            "the",
+            "final",
+            "section",
+            "manager",
+            "we"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u03-l02-transfer-01",
+          "practiceLessonId": "b2-u03-l02",
+          "sourceSentenceId": "b2-u03-l02-s01",
+          "sentencePatternId": "b2-u03-l02-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "She suggested that I revise the final section.",
+          "translation": "她建議我修改最後一個段落。",
+          "hintKeywords": "suggest that clause",
+          "skeleton": "suggest that clause",
+          "requiredLexemeIds": [
+            "she",
+            "suggest",
+            "that",
+            "i",
+            "revise",
+            "the",
+            "final",
+            "section"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "She suggested that I revise the final section.",
+              "requiredLexemeIds": [
+                "she",
+                "suggest",
+                "that",
+                "i",
+                "revise",
+                "the",
+                "final",
+                "section"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u03-l02-transfer-02",
+          "practiceLessonId": "b2-u03-l02",
+          "sourceSentenceId": "b2-u03-l02-s01",
+          "sentencePatternId": "b2-u03-l02-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "The manager suggested that we revise the section.",
+          "translation": "經理建議我們修改這個段落。",
+          "hintKeywords": "suggest that clause",
+          "skeleton": "suggest that clause",
+          "requiredLexemeIds": [
+            "the",
+            "manager",
+            "suggest",
+            "that",
+            "we",
+            "revise",
+            "section"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The manager suggested that we revise the section.",
+              "requiredLexemeIds": [
+                "the",
+                "manager",
+                "suggest",
+                "that",
+                "we",
+                "revise",
+                "section"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u03-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "appreciation with reason",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "appreciate",
+            "the",
+            "feedback",
+            "because",
+            "it",
+            "identify",
+            "weakness",
+            "your",
+            "main"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u03-l03-transfer-01",
+          "practiceLessonId": "b2-u03-l03",
+          "sourceSentenceId": "b2-u03-l03-s01",
+          "sentencePatternId": "b2-u03-l03-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "I appreciate the feedback because it identifies the weakness.",
+          "translation": "我感謝這項回饋，因為它指出了弱點。",
+          "hintKeywords": "appreciation with reason",
+          "skeleton": "appreciation with reason",
+          "requiredLexemeIds": [
+            "i",
+            "appreciate",
+            "the",
+            "feedback",
+            "because",
+            "it",
+            "identify",
+            "weakness"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I appreciate the feedback because it identifies the weakness.",
+              "requiredLexemeIds": [
+                "i",
+                "appreciate",
+                "the",
+                "feedback",
+                "because",
+                "it",
+                "identify",
+                "weakness"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u03-l03-transfer-02",
+          "practiceLessonId": "b2-u03-l03",
+          "sourceSentenceId": "b2-u03-l03-s01",
+          "sentencePatternId": "b2-u03-l03-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "Your feedback identifies the main weakness.",
+          "translation": "你的回饋指出了主要弱點。",
+          "hintKeywords": "appreciation with reason",
+          "skeleton": "appreciation with reason",
+          "requiredLexemeIds": [
+            "your",
+            "feedback",
+            "identify",
+            "the",
+            "main",
+            "weakness"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Your feedback identifies the main weakness.",
+              "requiredLexemeIds": [
+                "your",
+                "feedback",
+                "identify",
+                "the",
+                "main",
+                "weakness"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u03-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "present perfect continuous",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "team",
+            "has",
+            "been",
+            "work",
+            "on",
+            "project",
+            "for",
+            "month",
+            "we",
+            "have",
+            "this",
+            "issue"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u03-l04-transfer-01",
+          "practiceLessonId": "b2-u03-l04",
+          "sourceSentenceId": "b2-u03-l04-s01",
+          "sentencePatternId": "b2-u03-l04-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "The team has been working on the project for months.",
+          "translation": "團隊幾個月來一直在處理這個專案。",
+          "hintKeywords": "present perfect continuous",
+          "skeleton": "present perfect continuous",
+          "requiredLexemeIds": [
+            "the",
+            "team",
+            "has",
+            "been",
+            "work",
+            "on",
+            "project",
+            "for",
+            "month"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The team has been working on the project for months.",
+              "requiredLexemeIds": [
+                "the",
+                "team",
+                "has",
+                "been",
+                "work",
+                "on",
+                "project",
+                "for",
+                "month"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u03-l04-transfer-02",
+          "practiceLessonId": "b2-u03-l04",
+          "sourceSentenceId": "b2-u03-l04-s01",
+          "sentencePatternId": "b2-u03-l04-pattern",
+          "passageId": "b2-u03-p01",
+          "sentence": "We have been working on this issue for months.",
+          "translation": "我們幾個月來一直在處理這個問題。",
+          "hintKeywords": "present perfect continuous",
+          "skeleton": "present perfect continuous",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "been",
+            "work",
+            "on",
+            "this",
+            "issue",
+            "for",
+            "month"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We have been working on this issue for months.",
+              "requiredLexemeIds": [
+                "we",
+                "have",
+                "been",
+                "work",
+                "on",
+                "this",
+                "issue",
+                "for",
+                "month"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u04-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "reporting verb claims",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "report",
+            "claim",
+            "that",
+            "support",
+            "has",
+            "increase",
+            "recently",
+            "public"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u04-l01-transfer-01",
+          "practiceLessonId": "b2-u04-l01",
+          "sourceSentenceId": "b2-u04-l01-s01",
+          "sentencePatternId": "b2-u04-l01-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "The report claims that support has increased recently.",
+          "translation": "報告聲稱支持最近有所增加。",
+          "hintKeywords": "reporting verb claims",
+          "skeleton": "reporting verb claims",
+          "requiredLexemeIds": [
+            "the",
+            "report",
+            "claim",
+            "that",
+            "support",
+            "has",
+            "increase",
+            "recently"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The report claims that support has increased recently.",
+              "requiredLexemeIds": [
+                "the",
+                "report",
+                "claim",
+                "that",
+                "support",
+                "has",
+                "increase",
+                "recently"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u04-l01-transfer-02",
+          "practiceLessonId": "b2-u04-l01",
+          "sourceSentenceId": "b2-u04-l01-s01",
+          "sentencePatternId": "b2-u04-l01-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "The report claims that public support increased recently.",
+          "translation": "報告聲稱大眾支持最近增加了。",
+          "hintKeywords": "reporting verb claims",
+          "skeleton": "reporting verb claims",
+          "requiredLexemeIds": [
+            "the",
+            "report",
+            "claim",
+            "that",
+            "public",
+            "support",
+            "increase",
+            "recently"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The report claims that public support increased recently.",
+              "requiredLexemeIds": [
+                "the",
+                "report",
+                "claim",
+                "that",
+                "public",
+                "support",
+                "increase",
+                "recently"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u04-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "passive event with after",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "policy",
+            "was",
+            "introduce",
+            "after",
+            "expert",
+            "raise",
+            "concern",
+            "several"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u04-l02-transfer-01",
+          "practiceLessonId": "b2-u04-l02",
+          "sourceSentenceId": "b2-u04-l02-s01",
+          "sentencePatternId": "b2-u04-l02-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "The policy was introduced after experts raised concerns.",
+          "translation": "專家提出疑慮後，這項政策被推出。",
+          "hintKeywords": "passive event with after",
+          "skeleton": "passive event with after",
+          "requiredLexemeIds": [
+            "the",
+            "policy",
+            "was",
+            "introduce",
+            "after",
+            "expert",
+            "raise",
+            "concern"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The policy was introduced after experts raised concerns.",
+              "requiredLexemeIds": [
+                "the",
+                "policy",
+                "was",
+                "introduce",
+                "after",
+                "expert",
+                "raise",
+                "concern"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u04-l02-transfer-02",
+          "practiceLessonId": "b2-u04-l02",
+          "sourceSentenceId": "b2-u04-l02-s01",
+          "sentencePatternId": "b2-u04-l02-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "Several experts raised concerns after the policy was introduced.",
+          "translation": "這項政策推出後，幾位專家提出了疑慮。",
+          "hintKeywords": "passive event with after",
+          "skeleton": "passive event with after",
+          "requiredLexemeIds": [
+            "several",
+            "expert",
+            "raise",
+            "concern",
+            "after",
+            "the",
+            "policy",
+            "was",
+            "introduce"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Several experts raised concerns after the policy was introduced.",
+              "requiredLexemeIds": [
+                "several",
+                "expert",
+                "raise",
+                "concern",
+                "after",
+                "the",
+                "policy",
+                "was",
+                "introduce"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u04-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "source attribution with according to",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "according",
+            "to",
+            "the",
+            "report",
+            "decision",
+            "may",
+            "affect",
+            "business",
+            "article",
+            "claim",
+            "that",
+            "small"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u04-l03-transfer-01",
+          "practiceLessonId": "b2-u04-l03",
+          "sourceSentenceId": "b2-u04-l03-s01",
+          "sentencePatternId": "b2-u04-l03-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "According to the report the decision may affect businesses.",
+          "translation": "根據這份報告，這項決定可能影響企業。",
+          "hintKeywords": "source attribution with according to",
+          "skeleton": "source attribution with according to",
+          "requiredLexemeIds": [
+            "according",
+            "to",
+            "the",
+            "report",
+            "decision",
+            "may",
+            "affect",
+            "business"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "According to the report the decision may affect businesses.",
+              "requiredLexemeIds": [
+                "according",
+                "to",
+                "the",
+                "report",
+                "decision",
+                "may",
+                "affect",
+                "business"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u04-l03-transfer-02",
+          "practiceLessonId": "b2-u04-l03",
+          "sourceSentenceId": "b2-u04-l03-s01",
+          "sentencePatternId": "b2-u04-l03-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "The article claims that the decision may affect small businesses.",
+          "translation": "文章聲稱這項決定可能影響小型企業。",
+          "hintKeywords": "source attribution with according to",
+          "skeleton": "source attribution with according to",
+          "requiredLexemeIds": [
+            "the",
+            "article",
+            "claim",
+            "that",
+            "decision",
+            "may",
+            "affect",
+            "small",
+            "business"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The article claims that the decision may affect small businesses.",
+              "requiredLexemeIds": [
+                "the",
+                "article",
+                "claim",
+                "that",
+                "decision",
+                "may",
+                "affect",
+                "small",
+                "business"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u04-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "whether clause for source checking",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "should",
+            "check",
+            "whether",
+            "the",
+            "article",
+            "provide",
+            "reliable",
+            "evidence",
+            "source"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u04-l04-transfer-01",
+          "practiceLessonId": "b2-u04-l04",
+          "sourceSentenceId": "b2-u04-l04-s01",
+          "sentencePatternId": "b2-u04-l04-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "We should check whether the article provides reliable evidence.",
+          "translation": "我們應該檢查這篇文章是否提供可靠證據。",
+          "hintKeywords": "whether clause for source checking",
+          "skeleton": "whether clause for source checking",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "check",
+            "whether",
+            "the",
+            "article",
+            "provide",
+            "reliable",
+            "evidence"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We should check whether the article provides reliable evidence.",
+              "requiredLexemeIds": [
+                "we",
+                "should",
+                "check",
+                "whether",
+                "the",
+                "article",
+                "provide",
+                "reliable",
+                "evidence"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u04-l04-transfer-02",
+          "practiceLessonId": "b2-u04-l04",
+          "sourceSentenceId": "b2-u04-l04-s01",
+          "sentencePatternId": "b2-u04-l04-pattern",
+          "passageId": "b2-u04-p01",
+          "sentence": "The source provides reliable evidence.",
+          "translation": "這個來源提供可靠證據。",
+          "hintKeywords": "whether clause for source checking",
+          "skeleton": "whether clause for source checking",
+          "requiredLexemeIds": [
+            "the",
+            "source",
+            "provide",
+            "reliable",
+            "evidence"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The source provides reliable evidence.",
+              "requiredLexemeIds": [
+                "the",
+                "source",
+                "provide",
+                "reliable",
+                "evidence"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u05-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "modal may for interpretation",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "person",
+            "may",
+            "interpret",
+            "behavior",
+            "in",
+            "different",
+            "way",
+            "the",
+            "same"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u05-l01-transfer-01",
+          "practiceLessonId": "b2-u05-l01",
+          "sourceSentenceId": "b2-u05-l01-s01",
+          "sentencePatternId": "b2-u05-l01-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "People may interpret behavior in different ways.",
+          "translation": "人們可能會用不同方式解讀行為。",
+          "hintKeywords": "modal may for interpretation",
+          "skeleton": "modal may for interpretation",
+          "requiredLexemeIds": [
+            "person",
+            "may",
+            "interpret",
+            "behavior",
+            "in",
+            "different",
+            "way"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "People may interpret behavior in different ways.",
+              "requiredLexemeIds": [
+                "person",
+                "may",
+                "interpret",
+                "behavior",
+                "in",
+                "different",
+                "way"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u05-l01-transfer-02",
+          "practiceLessonId": "b2-u05-l01",
+          "sourceSentenceId": "b2-u05-l01-s01",
+          "sentencePatternId": "b2-u05-l01-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "Different people may interpret the same behavior.",
+          "translation": "不同的人可能會解讀相同的行為。",
+          "hintKeywords": "modal may for interpretation",
+          "skeleton": "modal may for interpretation",
+          "requiredLexemeIds": [
+            "different",
+            "person",
+            "may",
+            "interpret",
+            "the",
+            "same",
+            "behavior"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Different people may interpret the same behavior.",
+              "requiredLexemeIds": [
+                "different",
+                "person",
+                "may",
+                "interpret",
+                "the",
+                "same",
+                "behavior"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u05-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "what clause with contrast",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "what",
+            "seem",
+            "polite",
+            "in",
+            "one",
+            "culture",
+            "may",
+            "feel",
+            "different",
+            "another",
+            "the",
+            "same",
+            "behavior",
+            "distant"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u05-l02-transfer-01",
+          "practiceLessonId": "b2-u05-l02",
+          "sourceSentenceId": "b2-u05-l02-s01",
+          "sentencePatternId": "b2-u05-l02-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "What seems polite in one culture may feel different in another.",
+          "translation": "在一種文化中看似有禮貌的行為，在另一種文化中可能感受不同。",
+          "hintKeywords": "what clause with contrast",
+          "skeleton": "what clause with contrast",
+          "requiredLexemeIds": [
+            "what",
+            "seem",
+            "polite",
+            "in",
+            "one",
+            "culture",
+            "may",
+            "feel",
+            "different",
+            "another"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "What seems polite in one culture may feel different in another.",
+              "requiredLexemeIds": [
+                "what",
+                "seem",
+                "polite",
+                "in",
+                "one",
+                "culture",
+                "may",
+                "feel",
+                "different",
+                "another"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u05-l02-transfer-02",
+          "practiceLessonId": "b2-u05-l02",
+          "sourceSentenceId": "b2-u05-l02-s01",
+          "sentencePatternId": "b2-u05-l02-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "In another culture the same behavior may feel distant.",
+          "translation": "在另一種文化中，相同的行為可能顯得疏遠。",
+          "hintKeywords": "what clause with contrast",
+          "skeleton": "what clause with contrast",
+          "requiredLexemeIds": [
+            "in",
+            "another",
+            "culture",
+            "the",
+            "same",
+            "behavior",
+            "may",
+            "feel",
+            "distant"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "In another culture the same behavior may feel distant.",
+              "requiredLexemeIds": [
+                "in",
+                "another",
+                "culture",
+                "the",
+                "same",
+                "behavior",
+                "may",
+                "feel",
+                "distant"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u05-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "instead of plus gerund",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "i",
+            "learn",
+            "to",
+            "ask",
+            "instead",
+            "of",
+            "make",
+            "assumption",
+            "question"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u05-l03-transfer-01",
+          "practiceLessonId": "b2-u05-l03",
+          "sourceSentenceId": "b2-u05-l03-s01",
+          "sentencePatternId": "b2-u05-l03-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "I learned to ask instead of making assumptions.",
+          "translation": "我學會先詢問，而不是自行假設。",
+          "hintKeywords": "instead of plus gerund",
+          "skeleton": "instead of plus gerund",
+          "requiredLexemeIds": [
+            "i",
+            "learn",
+            "to",
+            "ask",
+            "instead",
+            "of",
+            "make",
+            "assumption"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "I learned to ask instead of making assumptions.",
+              "requiredLexemeIds": [
+                "i",
+                "learn",
+                "to",
+                "ask",
+                "instead",
+                "of",
+                "make",
+                "assumption"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u05-l03-transfer-02",
+          "practiceLessonId": "b2-u05-l03",
+          "sourceSentenceId": "b2-u05-l03-s01",
+          "sentencePatternId": "b2-u05-l03-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "Instead of making assumptions I learned to ask questions.",
+          "translation": "我學會先提問，而不是自行假設。",
+          "hintKeywords": "instead of plus gerund",
+          "skeleton": "instead of plus gerund",
+          "requiredLexemeIds": [
+            "instead",
+            "of",
+            "make",
+            "assumption",
+            "i",
+            "learn",
+            "to",
+            "ask",
+            "question"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Instead of making assumptions I learned to ask questions.",
+              "requiredLexemeIds": [
+                "instead",
+                "of",
+                "make",
+                "assumption",
+                "i",
+                "learn",
+                "to",
+                "ask",
+                "question"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u05-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "help plus object plus verb",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "cultural",
+            "awareness",
+            "help",
+            "team",
+            "avoid",
+            "misunderstanding",
+            "person",
+            "unnecessary"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u05-l04-transfer-01",
+          "practiceLessonId": "b2-u05-l04",
+          "sourceSentenceId": "b2-u05-l04-s01",
+          "sentencePatternId": "b2-u05-l04-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "Cultural awareness helps teams avoid misunderstandings.",
+          "translation": "文化意識能幫助團隊避免誤解。",
+          "hintKeywords": "help plus object plus verb",
+          "skeleton": "help plus object plus verb",
+          "requiredLexemeIds": [
+            "cultural",
+            "awareness",
+            "help",
+            "team",
+            "avoid",
+            "misunderstanding"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Cultural awareness helps teams avoid misunderstandings.",
+              "requiredLexemeIds": [
+                "cultural",
+                "awareness",
+                "help",
+                "team",
+                "avoid",
+                "misunderstanding"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u05-l04-transfer-02",
+          "practiceLessonId": "b2-u05-l04",
+          "sourceSentenceId": "b2-u05-l04-s01",
+          "sentencePatternId": "b2-u05-l04-pattern",
+          "passageId": "b2-u05-p01",
+          "sentence": "Awareness helps people avoid unnecessary misunderstandings.",
+          "translation": "保持覺察能幫助人們避免不必要的誤解。",
+          "hintKeywords": "help plus object plus verb",
+          "skeleton": "help plus object plus verb",
+          "requiredLexemeIds": [
+            "awareness",
+            "help",
+            "person",
+            "avoid",
+            "unnecessary",
+            "misunderstanding"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Awareness helps people avoid unnecessary misunderstandings.",
+              "requiredLexemeIds": [
+                "awareness",
+                "help",
+                "person",
+                "avoid",
+                "unnecessary",
+                "misunderstanding"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u06-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "while for simultaneous contrast",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "technology",
+            "can",
+            "improve",
+            "access",
+            "while",
+            "create",
+            "risk",
+            "privacy",
+            "new"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u06-l01-transfer-01",
+          "practiceLessonId": "b2-u06-l01",
+          "sourceSentenceId": "b2-u06-l01-s01",
+          "sentencePatternId": "b2-u06-l01-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "Technology can improve access while creating risks.",
+          "translation": "科技能改善使用機會，同時也會帶來風險。",
+          "hintKeywords": "while for simultaneous contrast",
+          "skeleton": "while for simultaneous contrast",
+          "requiredLexemeIds": [
+            "technology",
+            "can",
+            "improve",
+            "access",
+            "while",
+            "create",
+            "risk"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Technology can improve access while creating risks.",
+              "requiredLexemeIds": [
+                "technology",
+                "can",
+                "improve",
+                "access",
+                "while",
+                "create",
+                "risk"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u06-l01-transfer-02",
+          "practiceLessonId": "b2-u06-l01",
+          "sourceSentenceId": "b2-u06-l01-s01",
+          "sentencePatternId": "b2-u06-l01-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "While creating privacy risks new technology can improve access.",
+          "translation": "新科技雖然帶來隱私風險，也能改善使用機會。",
+          "hintKeywords": "while for simultaneous contrast",
+          "skeleton": "while for simultaneous contrast",
+          "requiredLexemeIds": [
+            "while",
+            "create",
+            "privacy",
+            "risk",
+            "new",
+            "technology",
+            "can",
+            "improve",
+            "access"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "While creating privacy risks new technology can improve access.",
+              "requiredLexemeIds": [
+                "while",
+                "create",
+                "privacy",
+                "risk",
+                "new",
+                "technology",
+                "can",
+                "improve",
+                "access"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u06-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "second conditional with were",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "more",
+            "company",
+            "would",
+            "use",
+            "clean",
+            "power",
+            "if",
+            "energy",
+            "were",
+            "cheap"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u06-l02-transfer-01",
+          "practiceLessonId": "b2-u06-l02",
+          "sourceSentenceId": "b2-u06-l02-s01",
+          "sentencePatternId": "b2-u06-l02-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "More companies would use clean power if energy were cheaper.",
+          "translation": "如果能源更便宜，會有更多公司使用潔淨能源。",
+          "hintKeywords": "second conditional with were",
+          "skeleton": "second conditional with were",
+          "requiredLexemeIds": [
+            "more",
+            "company",
+            "would",
+            "use",
+            "clean",
+            "power",
+            "if",
+            "energy",
+            "were",
+            "cheap"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "More companies would use clean power if energy were cheaper.",
+              "requiredLexemeIds": [
+                "more",
+                "company",
+                "would",
+                "use",
+                "clean",
+                "power",
+                "if",
+                "energy",
+                "were",
+                "cheap"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u06-l02-transfer-02",
+          "practiceLessonId": "b2-u06-l02",
+          "sourceSentenceId": "b2-u06-l02-s01",
+          "sentencePatternId": "b2-u06-l02-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "If power were cheaper more companies would use clean energy.",
+          "translation": "如果電力更便宜，會有更多公司使用潔淨能源。",
+          "hintKeywords": "second conditional with were",
+          "skeleton": "second conditional with were",
+          "requiredLexemeIds": [
+            "if",
+            "power",
+            "were",
+            "cheap",
+            "more",
+            "company",
+            "would",
+            "use",
+            "clean",
+            "energy"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "If power were cheaper more companies would use clean energy.",
+              "requiredLexemeIds": [
+                "if",
+                "power",
+                "were",
+                "cheap",
+                "more",
+                "company",
+                "would",
+                "use",
+                "clean",
+                "energy"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u06-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "passive purpose with be designed to",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "system",
+            "be",
+            "design",
+            "to",
+            "reduce",
+            "waste",
+            "this",
+            "technology",
+            "unnecessary"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u06-l03-transfer-01",
+          "practiceLessonId": "b2-u06-l03",
+          "sourceSentenceId": "b2-u06-l03-s01",
+          "sentencePatternId": "b2-u06-l03-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "The system is designed to reduce waste.",
+          "translation": "這個系統的設計目的是減少浪費。",
+          "hintKeywords": "passive purpose with be designed to",
+          "skeleton": "passive purpose with be designed to",
+          "requiredLexemeIds": [
+            "the",
+            "system",
+            "be",
+            "design",
+            "to",
+            "reduce",
+            "waste"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The system is designed to reduce waste.",
+              "requiredLexemeIds": [
+                "the",
+                "system",
+                "be",
+                "design",
+                "to",
+                "reduce",
+                "waste"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u06-l03-transfer-02",
+          "practiceLessonId": "b2-u06-l03",
+          "sourceSentenceId": "b2-u06-l03-s01",
+          "sentencePatternId": "b2-u06-l03-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "This technology is designed to reduce unnecessary waste.",
+          "translation": "這項科技的設計目的是減少不必要的浪費。",
+          "hintKeywords": "passive purpose with be designed to",
+          "skeleton": "passive purpose with be designed to",
+          "requiredLexemeIds": [
+            "this",
+            "technology",
+            "be",
+            "design",
+            "to",
+            "reduce",
+            "unnecessary",
+            "waste"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "This technology is designed to reduce unnecessary waste.",
+              "requiredLexemeIds": [
+                "this",
+                "technology",
+                "be",
+                "design",
+                "to",
+                "reduce",
+                "unnecessary",
+                "waste"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u06-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "ensure that clause",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "government",
+            "should",
+            "ensure",
+            "that",
+            "progress",
+            "benefit",
+            "everyone",
+            "the",
+            "community"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u06-l04-transfer-01",
+          "practiceLessonId": "b2-u06-l04",
+          "sourceSentenceId": "b2-u06-l04-s01",
+          "sentencePatternId": "b2-u06-l04-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "Governments should ensure that progress benefits everyone.",
+          "translation": "政府應確保進步能讓每個人受益。",
+          "hintKeywords": "ensure that clause",
+          "skeleton": "ensure that clause",
+          "requiredLexemeIds": [
+            "government",
+            "should",
+            "ensure",
+            "that",
+            "progress",
+            "benefit",
+            "everyone"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Governments should ensure that progress benefits everyone.",
+              "requiredLexemeIds": [
+                "government",
+                "should",
+                "ensure",
+                "that",
+                "progress",
+                "benefit",
+                "everyone"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u06-l04-transfer-02",
+          "practiceLessonId": "b2-u06-l04",
+          "sourceSentenceId": "b2-u06-l04-s01",
+          "sentencePatternId": "b2-u06-l04-pattern",
+          "passageId": "b2-u06-p01",
+          "sentence": "Governments should ensure progress benefits the community.",
+          "translation": "政府應確保進步能讓社群受益。",
+          "hintKeywords": "ensure that clause",
+          "skeleton": "ensure that clause",
+          "requiredLexemeIds": [
+            "government",
+            "should",
+            "ensure",
+            "progress",
+            "benefit",
+            "the",
+            "community"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Governments should ensure progress benefits the community.",
+              "requiredLexemeIds": [
+                "government",
+                "should",
+                "ensure",
+                "progress",
+                "benefit",
+                "the",
+                "community"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u07-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "rather than for priority",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "proposal",
+            "focus",
+            "on",
+            "quality",
+            "rather",
+            "than",
+            "saving",
+            "our",
+            "long",
+            "term",
+            "benefit",
+            "short"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u07-l01-transfer-01",
+          "practiceLessonId": "b2-u07-l01",
+          "sourceSentenceId": "b2-u07-l01-s01",
+          "sentencePatternId": "b2-u07-l01-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "The proposal focuses on quality rather than savings.",
+          "translation": "這項提案著重品質，而不是節省。",
+          "hintKeywords": "rather than for priority",
+          "skeleton": "rather than for priority",
+          "requiredLexemeIds": [
+            "the",
+            "proposal",
+            "focus",
+            "on",
+            "quality",
+            "rather",
+            "than",
+            "saving"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The proposal focuses on quality rather than savings.",
+              "requiredLexemeIds": [
+                "the",
+                "proposal",
+                "focus",
+                "on",
+                "quality",
+                "rather",
+                "than",
+                "saving"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u07-l01-transfer-02",
+          "practiceLessonId": "b2-u07-l01",
+          "sourceSentenceId": "b2-u07-l01-s01",
+          "sentencePatternId": "b2-u07-l01-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "Our proposal focuses on long term benefits rather than short term savings.",
+          "translation": "我們的提案著重長期效益，而不是短期節省。",
+          "hintKeywords": "rather than for priority",
+          "skeleton": "rather than for priority",
+          "requiredLexemeIds": [
+            "our",
+            "proposal",
+            "focus",
+            "on",
+            "long",
+            "term",
+            "benefit",
+            "rather",
+            "than",
+            "short",
+            "saving"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Our proposal focuses on long term benefits rather than short term savings.",
+              "requiredLexemeIds": [
+                "our",
+                "proposal",
+                "focus",
+                "on",
+                "long",
+                "term",
+                "benefit",
+                "rather",
+                "than",
+                "short",
+                "saving"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u07-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "provided that condition",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "could",
+            "accept",
+            "the",
+            "offer",
+            "if",
+            "deadline",
+            "change",
+            "team",
+            "provided",
+            "that"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u07-l02-transfer-01",
+          "practiceLessonId": "b2-u07-l02",
+          "sourceSentenceId": "b2-u07-l02-s01",
+          "sentencePatternId": "b2-u07-l02-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "We could accept the offer if the deadline changes.",
+          "translation": "如果期限調整，我們可以接受這項提議。",
+          "hintKeywords": "provided that condition",
+          "skeleton": "provided that condition",
+          "requiredLexemeIds": [
+            "we",
+            "could",
+            "accept",
+            "the",
+            "offer",
+            "if",
+            "deadline",
+            "change"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We could accept the offer if the deadline changes.",
+              "requiredLexemeIds": [
+                "we",
+                "could",
+                "accept",
+                "the",
+                "offer",
+                "if",
+                "deadline",
+                "change"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u07-l02-transfer-02",
+          "practiceLessonId": "b2-u07-l02",
+          "sourceSentenceId": "b2-u07-l02-s01",
+          "sentencePatternId": "b2-u07-l02-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "The team could accept the offer provided that the deadline changes.",
+          "translation": "只要期限調整，團隊可以接受這項提議。",
+          "hintKeywords": "provided that condition",
+          "skeleton": "provided that condition",
+          "requiredLexemeIds": [
+            "the",
+            "team",
+            "could",
+            "accept",
+            "offer",
+            "provided",
+            "that",
+            "deadline",
+            "change"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The team could accept the offer provided that the deadline changes.",
+              "requiredLexemeIds": [
+                "the",
+                "team",
+                "could",
+                "accept",
+                "offer",
+                "provided",
+                "that",
+                "deadline",
+                "change"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u07-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "modal passive for feedback",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "the",
+            "figure",
+            "should",
+            "be",
+            "explain",
+            "clearly",
+            "during",
+            "presentation",
+            "more"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u07-l03-transfer-01",
+          "practiceLessonId": "b2-u07-l03",
+          "sourceSentenceId": "b2-u07-l03-s01",
+          "sentencePatternId": "b2-u07-l03-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "The figures should be explained clearly during the presentation.",
+          "translation": "簡報時應該清楚地說明這些數據。",
+          "hintKeywords": "modal passive for feedback",
+          "skeleton": "modal passive for feedback",
+          "requiredLexemeIds": [
+            "the",
+            "figure",
+            "should",
+            "be",
+            "explain",
+            "clearly",
+            "during",
+            "presentation"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "The figures should be explained clearly during the presentation.",
+              "requiredLexemeIds": [
+                "the",
+                "figure",
+                "should",
+                "be",
+                "explain",
+                "clearly",
+                "during",
+                "presentation"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u07-l03-transfer-02",
+          "practiceLessonId": "b2-u07-l03",
+          "sourceSentenceId": "b2-u07-l03-s01",
+          "sentencePatternId": "b2-u07-l03-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "During the presentation the figures should be explained more clearly.",
+          "translation": "簡報時應該更清楚地說明這些數據。",
+          "hintKeywords": "modal passive for feedback",
+          "skeleton": "modal passive for feedback",
+          "requiredLexemeIds": [
+            "during",
+            "the",
+            "presentation",
+            "figure",
+            "should",
+            "be",
+            "explain",
+            "more",
+            "clearly"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "During the presentation the figures should be explained more clearly.",
+              "requiredLexemeIds": [
+                "during",
+                "the",
+                "presentation",
+                "figure",
+                "should",
+                "be",
+                "explain",
+                "more",
+                "clearly"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u07-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "after plus gerund",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "we",
+            "reach",
+            "a",
+            "reasonable",
+            "agreement",
+            "after",
+            "review",
+            "both",
+            "side",
+            "the",
+            "proposal",
+            "an"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u07-l04-transfer-01",
+          "practiceLessonId": "b2-u07-l04",
+          "sourceSentenceId": "b2-u07-l04-s01",
+          "sentencePatternId": "b2-u07-l04-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "We reached a reasonable agreement after reviewing both sides.",
+          "translation": "檢視雙方立場後，我們達成了合理的協議。",
+          "hintKeywords": "after plus gerund",
+          "skeleton": "after plus gerund",
+          "requiredLexemeIds": [
+            "we",
+            "reach",
+            "a",
+            "reasonable",
+            "agreement",
+            "after",
+            "review",
+            "both",
+            "side"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "We reached a reasonable agreement after reviewing both sides.",
+              "requiredLexemeIds": [
+                "we",
+                "reach",
+                "a",
+                "reasonable",
+                "agreement",
+                "after",
+                "review",
+                "both",
+                "side"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u07-l04-transfer-02",
+          "practiceLessonId": "b2-u07-l04",
+          "sourceSentenceId": "b2-u07-l04-s01",
+          "sentencePatternId": "b2-u07-l04-pattern",
+          "passageId": "b2-u07-p01",
+          "sentence": "After reviewing the proposal we reached an agreement.",
+          "translation": "檢視提案後，我們達成了協議。",
+          "hintKeywords": "after plus gerund",
+          "skeleton": "after plus gerund",
+          "requiredLexemeIds": [
+            "after",
+            "review",
+            "the",
+            "proposal",
+            "we",
+            "reach",
+            "an",
+            "agreement"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "After reviewing the proposal we reached an agreement.",
+              "requiredLexemeIds": [
+                "after",
+                "review",
+                "the",
+                "proposal",
+                "we",
+                "reach",
+                "an",
+                "agreement"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u08-l01-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "relative clause for complex issues",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "city",
+            "face",
+            "problem",
+            "that",
+            "require",
+            "long",
+            "term",
+            "planning",
+            "modern"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u08-l01-transfer-01",
+          "practiceLessonId": "b2-u08-l01",
+          "sourceSentenceId": "b2-u08-l01-s01",
+          "sentencePatternId": "b2-u08-l01-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Cities face problems that require long term planning.",
+          "translation": "城市面臨需要長期規劃的問題。",
+          "hintKeywords": "relative clause for complex issues",
+          "skeleton": "relative clause for complex issues",
+          "requiredLexemeIds": [
+            "city",
+            "face",
+            "problem",
+            "that",
+            "require",
+            "long",
+            "term",
+            "planning"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Cities face problems that require long term planning.",
+              "requiredLexemeIds": [
+                "city",
+                "face",
+                "problem",
+                "that",
+                "require",
+                "long",
+                "term",
+                "planning"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u08-l01-transfer-02",
+          "practiceLessonId": "b2-u08-l01",
+          "sourceSentenceId": "b2-u08-l01-s01",
+          "sentencePatternId": "b2-u08-l01-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Modern cities require long term planning.",
+          "translation": "現代城市需要長期規劃。",
+          "hintKeywords": "relative clause for complex issues",
+          "skeleton": "relative clause for complex issues",
+          "requiredLexemeIds": [
+            "modern",
+            "city",
+            "require",
+            "long",
+            "term",
+            "planning"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Modern cities require long term planning.",
+              "requiredLexemeIds": [
+                "modern",
+                "city",
+                "require",
+                "long",
+                "term",
+                "planning"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u08-l02-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "while for concession",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "although",
+            "technology",
+            "offer",
+            "solution",
+            "it",
+            "cannot",
+            "replace",
+            "public",
+            "cooperation"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u08-l02-transfer-01",
+          "practiceLessonId": "b2-u08-l02",
+          "sourceSentenceId": "b2-u08-l02-s01",
+          "sentencePatternId": "b2-u08-l02-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Although technology offers solutions it cannot replace public cooperation.",
+          "translation": "雖然科技提供解方，但它無法取代大眾合作。",
+          "hintKeywords": "while for concession",
+          "skeleton": "while for concession",
+          "requiredLexemeIds": [
+            "although",
+            "technology",
+            "offer",
+            "solution",
+            "it",
+            "cannot",
+            "replace",
+            "public",
+            "cooperation"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Although technology offers solutions it cannot replace public cooperation.",
+              "requiredLexemeIds": [
+                "although",
+                "technology",
+                "offer",
+                "solution",
+                "it",
+                "cannot",
+                "replace",
+                "public",
+                "cooperation"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u08-l02-transfer-02",
+          "practiceLessonId": "b2-u08-l02",
+          "sourceSentenceId": "b2-u08-l02-s01",
+          "sentencePatternId": "b2-u08-l02-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Technology cannot replace public cooperation although it offers solutions.",
+          "translation": "雖然科技提供解方，但它無法取代大眾合作。",
+          "hintKeywords": "while for concession",
+          "skeleton": "while for concession",
+          "requiredLexemeIds": [
+            "technology",
+            "cannot",
+            "replace",
+            "public",
+            "cooperation",
+            "although",
+            "it",
+            "offer",
+            "solution"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Technology cannot replace public cooperation although it offers solutions.",
+              "requiredLexemeIds": [
+                "technology",
+                "cannot",
+                "replace",
+                "public",
+                "cooperation",
+                "although",
+                "it",
+                "offer",
+                "solution"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u08-l03-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "when clause for effectiveness",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "policy",
+            "are",
+            "effective",
+            "when",
+            "resident",
+            "understand",
+            "their",
+            "purpose",
+            "more"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u08-l03-transfer-01",
+          "practiceLessonId": "b2-u08-l03",
+          "sourceSentenceId": "b2-u08-l03-s01",
+          "sentencePatternId": "b2-u08-l03-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Policies are effective when residents understand their purpose.",
+          "translation": "當居民理解政策目的時，政策會有效。",
+          "hintKeywords": "when clause for effectiveness",
+          "skeleton": "when clause for effectiveness",
+          "requiredLexemeIds": [
+            "policy",
+            "are",
+            "effective",
+            "when",
+            "resident",
+            "understand",
+            "their",
+            "purpose"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Policies are effective when residents understand their purpose.",
+              "requiredLexemeIds": [
+                "policy",
+                "are",
+                "effective",
+                "when",
+                "resident",
+                "understand",
+                "their",
+                "purpose"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u08-l03-transfer-02",
+          "practiceLessonId": "b2-u08-l03",
+          "sourceSentenceId": "b2-u08-l03-s01",
+          "sentencePatternId": "b2-u08-l03-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "When residents understand their purpose policies are more effective.",
+          "translation": "當居民理解政策目的時，政策會更有效。",
+          "hintKeywords": "when clause for effectiveness",
+          "skeleton": "when clause for effectiveness",
+          "requiredLexemeIds": [
+            "when",
+            "resident",
+            "understand",
+            "their",
+            "purpose",
+            "policy",
+            "are",
+            "more",
+            "effective"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "When residents understand their purpose policies are more effective.",
+              "requiredLexemeIds": [
+                "when",
+                "resident",
+                "understand",
+                "their",
+                "purpose",
+                "policy",
+                "are",
+                "more",
+                "effective"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "b2-u08-l04-pattern",
+      "cefr": "B2",
+      "enabledForTransfer": true,
+      "template": "second conditional for collective action",
+      "slots": [
+        {
+          "slotId": "sentence",
+          "role": "完整句型變化",
+          "allowedLexemeIds": [
+            "community",
+            "could",
+            "create",
+            "lasting",
+            "change",
+            "if",
+            "they",
+            "work",
+            "together",
+            "person"
+          ],
+          "allowedChunkIds": [],
+          "restrictions": [
+            "保持核心句型與語意功能"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "b2-u08-l04-transfer-01",
+          "practiceLessonId": "b2-u08-l04",
+          "sourceSentenceId": "b2-u08-l04-s01",
+          "sentencePatternId": "b2-u08-l04-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "Communities could create lasting change if they worked together.",
+          "translation": "如果社群共同合作，就能創造長久的改變。",
+          "hintKeywords": "second conditional for collective action",
+          "skeleton": "second conditional for collective action",
+          "requiredLexemeIds": [
+            "community",
+            "could",
+            "create",
+            "lasting",
+            "change",
+            "if",
+            "they",
+            "work",
+            "together"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "Communities could create lasting change if they worked together.",
+              "requiredLexemeIds": [
+                "community",
+                "could",
+                "create",
+                "lasting",
+                "change",
+                "if",
+                "they",
+                "work",
+                "together"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "b2-u08-l04-transfer-02",
+          "practiceLessonId": "b2-u08-l04",
+          "sourceSentenceId": "b2-u08-l04-s01",
+          "sentencePatternId": "b2-u08-l04-pattern",
+          "passageId": "b2-u08-p01",
+          "sentence": "If people worked together they could create lasting change.",
+          "translation": "如果人們共同合作，就能創造長久的改變。",
+          "hintKeywords": "second conditional for collective action",
+          "skeleton": "second conditional for collective action",
+          "requiredLexemeIds": [
+            "if",
+            "person",
+            "work",
+            "together",
+            "they",
+            "could",
+            "create",
+            "lasting",
+            "change"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "sentence",
+              "text": "If people worked together they could create lasting change.",
+              "requiredLexemeIds": [
+                "if",
+                "person",
+                "work",
+                "together",
+                "they",
+                "could",
+                "create",
+                "lasting",
+                "change"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    }
+  ]
+}

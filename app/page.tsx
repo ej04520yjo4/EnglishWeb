@@ -64,7 +64,8 @@ import {
   canAccessLevel,
   createEmptyMultiLevelProgress,
   isLevelAssessmentEnabled,
-  migrateProgressToV4,
+  isLevelFormallyUnlocked,
+  migrateProgressToV5,
   updateSelectedLevelProgress,
   type LevelLearningProgress,
   type MultiLevelProgress,
@@ -82,6 +83,7 @@ import type {
   CurriculumCatalog,
   CourseCsvRow,
 } from "./curriculum/types";
+import { CEFR_LEVELS } from "./curriculum/types";
 import {
   COURSE_CSV_HEADERS,
   buildCourseUnitsFromRows as buildGenericCourseUnitsFromRows,
@@ -183,7 +185,55 @@ const STORAGE = {
   settings: "yingju-settings-v1",
   courseRows: "yingju-course-rows-v3",
   a2CourseRows: "yingju-course-rows-a2-v1",
+  b1CourseRows: "yingju-course-rows-b1-v1",
+  b2CourseRows: "yingju-course-rows-b2-v1",
   lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
+};
+
+const emptyRowsByLevel = (): Record<CefrLevel, CourseCsvRow[]> => ({
+  A1: [],
+  A2: [],
+  B1: [],
+  B2: [],
+});
+
+const emptyStringsByLevel = (): Record<CefrLevel, string> => ({
+  A1: "",
+  A2: "",
+  B1: "",
+  B2: "",
+});
+
+const emptyUnitsByLevel = (): Record<CefrLevel, CourseUnit[]> => ({
+  A1: [],
+  A2: [],
+  B1: [],
+  B2: [],
+});
+
+const emptyExercisesByLevel =
+  (): Record<CefrLevel, CourseExerciseData | null> => ({
+    A1: null,
+    A2: null,
+    B1: null,
+    B2: null,
+  });
+
+const emptyStatusesByLevel = (): Record<
+  CefrLevel,
+  "loading" | "ready" | "error"
+> => ({
+  A1: "loading",
+  A2: "loading",
+  B1: "loading",
+  B2: "loading",
+});
+
+const courseRowsStorageKey = (level: CefrLevel) => {
+  if (level === "A1") return STORAGE.courseRows;
+  if (level === "A2") return STORAGE.a2CourseRows;
+  if (level === "B1") return STORAGE.b1CourseRows;
+  return STORAGE.b2CourseRows;
 };
 
 const defaultSettings: SettingsState = {
@@ -389,25 +439,25 @@ export default function Home() {
   const [catalog, setCatalog] = useState<CurriculumCatalog | null>(null);
   const [courseRowsByLevel, setCourseRowsByLevel] = useState<
     Record<CefrLevel, CourseCsvRow[]>
-  >({ A1: [], A2: [] });
+  >(emptyRowsByLevel);
   const [courseDraftRowsByLevel, setCourseDraftRowsByLevel] = useState<
     Record<CefrLevel, CourseCsvRow[]>
-  >({ A1: [], A2: [] });
+  >(emptyRowsByLevel);
   const [officialCourseRowsByLevel, setOfficialCourseRowsByLevel] =
-    useState<Record<CefrLevel, CourseCsvRow[]>>({ A1: [], A2: [] });
+    useState<Record<CefrLevel, CourseCsvRow[]>>(emptyRowsByLevel);
   const [courseSourceRevisionByLevel, setCourseSourceRevisionByLevel] =
-    useState<Record<CefrLevel, string>>({ A1: "", A2: "" });
+    useState<Record<CefrLevel, string>>(emptyStringsByLevel);
   const [courseRowsUpdatedAtByLevel, setCourseRowsUpdatedAtByLevel] =
-    useState<Record<CefrLevel, string>>({ A1: "", A2: "" });
+    useState<Record<CefrLevel, string>>(emptyStringsByLevel);
   const [courseUnitsByLevel, setCourseUnitsByLevel] = useState<
     Record<CefrLevel, CourseUnit[]>
-  >({ A1: [], A2: [] });
+  >(emptyUnitsByLevel);
   const [exerciseDataByLevel, setExerciseDataByLevel] = useState<
     Record<CefrLevel, CourseExerciseData | null>
-  >({ A1: null, A2: null });
+  >(emptyExercisesByLevel);
   const [courseDataStatusByLevel, setCourseDataStatusByLevel] = useState<
     Record<CefrLevel, "loading" | "ready" | "error">
-  >({ A1: "loading", A2: "loading" });
+  >(emptyStatusesByLevel);
   const [courseLoadErrors, setCourseLoadErrors] = useState<
     Partial<Record<CefrLevel, string>>
   >({});
@@ -619,108 +669,134 @@ export default function Home() {
           A1: "ready",
         }));
 
-        try {
-          const a2Entry = catalogEntryForLevel(nextCatalog, "A2");
-          const a2Level = await loadCourseLevel(nextCatalog, "A2");
-          const a2Exercises = await loadCourseExerciseData(
-            a2Entry.patternExercisesUrl,
-            a2Entry.readingExercisesUrl,
-          );
-          let a2Rows = a2Level.rows;
-          let a2Units = a2Level.units;
-          let a2UpdatedAt = new Date().toISOString();
-          const storedA2Rows = localStorage.getItem(
-            STORAGE.a2CourseRows,
-          );
-          if (storedA2Rows) {
-            try {
-              const restored = restoreStoredCourseData(
-                storedA2Rows,
-                a2Entry,
-                a2Level.rows,
-                a2Level.sourceRevision,
-              );
-              if (restored) {
-                a2Rows = restored.rows;
-                a2Units = buildGenericCourseUnitsFromRows(
-                  restored.rows,
-                  a2Entry.sourceVersion,
-                );
-                a2UpdatedAt = restored.updatedAt;
-              } else {
-                localStorage.removeItem(STORAGE.a2CourseRows);
-              }
-            } catch {
-              localStorage.removeItem(STORAGE.a2CourseRows);
-            }
+        let prerequisiteRows: CourseCsvRow[] = [...a1Level.rows];
+        let prerequisiteReady = true;
+        const advancedEntries = nextCatalog.levels.filter(
+          (entry) => entry.level !== "A1",
+        );
+        for (const entry of advancedEntries) {
+          const level = entry.level;
+          if (!prerequisiteReady) {
+            const message = `${level} 的前置程度資料尚未成功載入。`;
+            setCourseLoadErrors((current) => ({
+              ...current,
+              [level]: message,
+            }));
+            setCourseDataStatusByLevel((current) => ({
+              ...current,
+              [level]: "error",
+            }));
+            continue;
           }
-          const a2PatternReport = validatePatternExerciseData(
-            a2Exercises.patterns,
-            a2Rows,
-            "A2",
-            a1Level.rows,
-          );
-          const a2ReadingReport = validateReadingExerciseData(
-            a2Exercises.reading,
-            a2Rows,
-            a2Exercises.patterns,
-            a1Level.rows,
-          );
-          if (!a2PatternReport.valid || !a2ReadingReport.valid) {
-            throw new Error(
-              [
-                ...a2PatternReport.errors,
-                ...a2ReadingReport.errors,
-              ].join("\n"),
+          try {
+            const loadedLevel = await loadCourseLevel(
+              nextCatalog,
+              level,
             );
+            const exercises = await loadCourseExerciseData(
+              entry.patternExercisesUrl,
+              entry.readingExercisesUrl,
+            );
+            let rows = loadedLevel.rows;
+            let units = loadedLevel.units;
+            let updatedAt = new Date().toISOString();
+            const storageKey = courseRowsStorageKey(level);
+            const storedRows = localStorage.getItem(storageKey);
+            if (storedRows) {
+              try {
+                const restored = restoreStoredCourseData(
+                  storedRows,
+                  entry,
+                  loadedLevel.rows,
+                  loadedLevel.sourceRevision,
+                );
+                if (restored) {
+                  rows = restored.rows;
+                  units = buildGenericCourseUnitsFromRows(
+                    restored.rows,
+                    entry.sourceVersion,
+                  );
+                  updatedAt = restored.updatedAt;
+                } else {
+                  localStorage.removeItem(storageKey);
+                }
+              } catch {
+                localStorage.removeItem(storageKey);
+              }
+            }
+            const patternReport = validatePatternExerciseData(
+              exercises.patterns,
+              rows,
+              level,
+              prerequisiteRows,
+            );
+            const readingReport = validateReadingExerciseData(
+              exercises.reading,
+              rows,
+              exercises.patterns,
+              prerequisiteRows,
+            );
+            if (!patternReport.valid || !readingReport.valid) {
+              throw new Error(
+                [
+                  ...patternReport.errors,
+                  ...readingReport.errors,
+                ].join("\n"),
+              );
+            }
+            if (!active) return;
+            setOfficialCourseRowsByLevel((current) => ({
+              ...current,
+              [level]: loadedLevel.rows,
+            }));
+            setCourseSourceRevisionByLevel((current) => ({
+              ...current,
+              [level]: loadedLevel.sourceRevision,
+            }));
+            setCourseRowsUpdatedAtByLevel((current) => ({
+              ...current,
+              [level]: updatedAt,
+            }));
+            setCourseRowsByLevel((current) => ({
+              ...current,
+              [level]: rows,
+            }));
+            setCourseDraftRowsByLevel((current) => ({
+              ...current,
+              [level]: rows,
+            }));
+            setCourseUnitsByLevel((current) => ({
+              ...current,
+              [level]: units,
+            }));
+            setExerciseDataByLevel((current) => ({
+              ...current,
+              [level]: exercises,
+            }));
+            setCourseDataStatusByLevel((current) => ({
+              ...current,
+              [level]: "ready",
+            }));
+            prerequisiteRows = [
+              ...prerequisiteRows,
+              ...loadedLevel.rows,
+            ];
+          } catch (error) {
+            if (!active) return;
+            prerequisiteReady = false;
+            const message =
+              error instanceof Error
+                ? error.message
+                : `${level} 試行課程資料載入失敗。`;
+            setCourseLoadErrors((current) => ({
+              ...current,
+              [level]: message,
+            }));
+            setCourseDataStatusByLevel((current) => ({
+              ...current,
+              [level]: "error",
+            }));
           }
-          if (!active) return;
-          setOfficialCourseRowsByLevel((current) => ({
-            ...current,
-            A2: a2Level.rows,
-          }));
-          setCourseSourceRevisionByLevel((current) => ({
-            ...current,
-            A2: a2Level.sourceRevision,
-          }));
-          setCourseRowsUpdatedAtByLevel((current) => ({
-            ...current,
-            A2: a2UpdatedAt,
-          }));
-          setCourseRowsByLevel((current) => ({
-            ...current,
-            A2: a2Rows,
-          }));
-          setCourseDraftRowsByLevel((current) => ({
-            ...current,
-            A2: a2Rows,
-          }));
-          setCourseUnitsByLevel((current) => ({
-            ...current,
-            A2: a2Units,
-          }));
-          setExerciseDataByLevel((current) => ({
-            ...current,
-            A2: a2Exercises,
-          }));
-          setCourseDataStatusByLevel((current) => ({
-            ...current,
-            A2: "ready",
-          }));
-        } catch (error) {
-          if (!active) return;
-          const message =
-            error instanceof Error
-              ? error.message
-              : "A2 試行課程資料載入失敗。";
-          setCourseLoadErrors((current) => ({
-            ...current,
-            A2: message,
-          }));
-          setCourseDataStatusByLevel((current) => ({
-            ...current,
-            A2: "error",
-          }));
         }
       } catch (error) {
         if (!active) return;
@@ -752,7 +828,7 @@ export default function Home() {
       try {
         if (storedProgress) {
           setMultiProgress(
-            migrateProgressToV4(JSON.parse(storedProgress)),
+            migrateProgressToV5(JSON.parse(storedProgress)),
           );
         }
       } catch {
@@ -793,9 +869,8 @@ export default function Home() {
   useEffect(() => {
     if (
       !loaded ||
-      multiProgress.selectedLevel !== "A2" ||
       canAccessLevel(
-        "A2",
+        multiProgress.selectedLevel,
         multiProgress.passedLevelIds,
         settings.showA2Pilot,
       )
@@ -891,34 +966,37 @@ export default function Home() {
   }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
 
   useEffect(() => {
-    if (
-      !loaded ||
-      !catalog ||
-      courseDataStatusByLevel.A2 !== "ready" ||
-      courseRowsByLevel.A2.length === 0 ||
-      !courseSourceRevisionByLevel.A2 ||
-      !courseRowsUpdatedAtByLevel.A2
-    ) {
-      return;
-    }
-    const entry = catalogEntryForLevel(catalog, "A2");
-    localStorage.setItem(
-      STORAGE.a2CourseRows,
-      JSON.stringify(
-        createStoredCourseData(
-          entry,
-          courseRowsByLevel.A2,
-          courseSourceRevisionByLevel.A2,
-          courseRowsUpdatedAtByLevel.A2,
-        ),
-      ),
-    );
+    if (!loaded || !catalog) return;
+    catalog.levels
+      .filter((entry) => entry.level !== "A1")
+      .forEach((entry) => {
+        const level = entry.level;
+        if (
+          courseDataStatusByLevel[level] !== "ready" ||
+          courseRowsByLevel[level].length === 0 ||
+          !courseSourceRevisionByLevel[level] ||
+          !courseRowsUpdatedAtByLevel[level]
+        ) {
+          return;
+        }
+        localStorage.setItem(
+          courseRowsStorageKey(level),
+          JSON.stringify(
+            createStoredCourseData(
+              entry,
+              courseRowsByLevel[level],
+              courseSourceRevisionByLevel[level],
+              courseRowsUpdatedAtByLevel[level],
+            ),
+          ),
+        );
+      });
   }, [
     catalog,
-    courseDataStatusByLevel.A2,
-    courseRowsByLevel.A2,
-    courseRowsUpdatedAtByLevel.A2,
-    courseSourceRevisionByLevel.A2,
+    courseDataStatusByLevel,
+    courseRowsByLevel,
+    courseRowsUpdatedAtByLevel,
+    courseSourceRevisionByLevel,
     loaded,
   ]);
 
@@ -1051,15 +1129,15 @@ export default function Home() {
     speechSupported ||
     (selectedLesson.audioStatus === "ready" && Boolean(selectedLesson.sentenceAudioSource?.trim()));
 
-  const isA2QaPreview =
-    selectedLevel === "A2" && settings.showA2Pilot;
+  const isPilotQaPreview =
+    selectedLevel !== "A1" && settings.showA2Pilot;
   const isUnitAvailable = (unitIndex: number) =>
-    isA2QaPreview ||
+    isPilotQaPreview ||
     unitIndex === 0 ||
     progress.passedUnitIds.includes(courseUnits[unitIndex - 1].id);
 
   const isLessonAvailable = (unit: CourseUnit, unitIndex: number, itemIndex: number) =>
-    isA2QaPreview ||
+    isPilotQaPreview ||
     (isUnitAvailable(unitIndex) &&
       (itemIndex === 0 ||
         progress.completedLessonIds.includes(
@@ -1087,12 +1165,6 @@ export default function Home() {
     : null;
   const levelStatusLabel =
     selectedCatalogEntry?.status === "pilot" ? "試行課程" : "正式課程";
-  const a2FormallyUnlocked = multiProgress.passedLevelIds.includes("A1");
-  const a2Accessible = canAccessLevel(
-    "A2",
-    multiProgress.passedLevelIds,
-    settings.showA2Pilot,
-  );
   const switchLevel = (level: CefrLevel) => {
     if (
       !canAccessLevel(
@@ -1101,7 +1173,14 @@ export default function Home() {
         settings.showA2Pilot,
       )
     ) {
-      setToast("A2 需通過 A1 程度總測驗後正式解鎖。");
+      const entry = catalog
+        ? catalogEntryForLevel(catalog, level)
+        : null;
+      setToast(
+        entry?.prerequisiteLevel
+          ? `${level} 需先通過 ${entry.prerequisiteLevel} 程度後正式解鎖。`
+          : `${level} 尚未解鎖。`,
+      );
       return;
     }
     setMultiProgress((current) => ({
@@ -1135,17 +1214,21 @@ export default function Home() {
       accuracy: levelAccuracy,
       dueCount,
       status:
-        level === "A2" && !a2FormallyUnlocked
+        level !== "A1" &&
+        !isLevelFormallyUnlocked(
+          level,
+          multiProgress.passedLevelIds,
+        )
           ? settings.showA2Pilot
             ? "QA 試用"
             : "尚未解鎖"
-          : level === "A2" &&
+          : level !== "A1" &&
               levelUnits.length > 0 &&
               levelProgress.passedUnitIds.length === levelUnits.length
             ? "已完成目前試行內容"
           : levelProgress.levelPassed
             ? "已通過"
-            : level === "A2"
+            : level !== "A1"
               ? "試行中"
               : "學習中",
     };
@@ -2278,7 +2361,7 @@ export default function Home() {
 
   const startAssessment = (kind: "unit" | "level", unit?: CourseUnit) => {
     if (kind === "level" && !isLevelAssessmentEnabled(selectedLevel)) {
-      setToast("你已完成目前的A2試行內容。");
+      setToast(`你已完成目前的${selectedLevel}試行內容。`);
       setScreen("map");
       return;
     }
@@ -2368,8 +2451,8 @@ export default function Home() {
       startLesson(courseUnits[unitIndex + 1].lessons[0]);
       return;
     }
-    if (selectedLevel === "A2") {
-      setToast("你已完成目前的A2試行內容。");
+    if (!isLevelAssessmentEnabled(selectedLevel)) {
+      setToast(`你已完成目前的${selectedLevel}試行內容。`);
       setScreen("map");
       return;
     }
@@ -2386,7 +2469,7 @@ export default function Home() {
     if (lessonIndex < selectedUnit.lessons.length - 1) return "前往下一課 →";
     if (!progress.passedUnitIds.includes(selectedUnit.id)) return "進入單元測驗 →";
     if (unitIndex < courseUnits.length - 1) return "前往下一單元 →";
-    if (selectedLevel === "A2") return "回課程地圖";
+    if (!isLevelAssessmentEnabled(selectedLevel)) return "回課程地圖";
     if (!progress.levelPassed) return `進入 ${selectedLevel} 程度測驗 →`;
     return "回課程地圖";
   };
@@ -2508,11 +2591,12 @@ export default function Home() {
     }
 
     const base = validateCourseRows(rows, {
-      expectedLevel: "A2",
+      expectedLevel: selectedLevel,
       expectedRows: referenceRows.length,
       expectedUnits: new Set(referenceRows.map((row) => row.unit_id)).size,
       expectedLessons: new Set(referenceRows.map((row) => row.lesson_id)).size,
-      rejectProductionQaForPilot: true,
+      rejectProductionQaForPilot:
+        selectedCatalogEntry?.status === "pilot",
     });
     const expectedIds = new Set(
       referenceRows.map((row) => row.occurrence_id),
@@ -2549,16 +2633,23 @@ export default function Home() {
           ]
         : [];
     });
-    const exercises = exerciseDataByLevel.A2;
-    const prerequisiteRows = officialCourseRowsByLevel.A1;
+    const exercises = exerciseDataByLevel[selectedLevel];
+    const selectedLevelIndex = CEFR_LEVELS.indexOf(selectedLevel);
+    const prerequisiteRows = CEFR_LEVELS.slice(
+      0,
+      selectedLevelIndex,
+    ).flatMap((level) => officialCourseRowsByLevel[level]);
     const patternReport = exercises
       ? validatePatternExerciseData(
           exercises.patterns,
           rows,
-          "A2",
+          selectedLevel,
           prerequisiteRows,
         )
-      : { valid: false, errors: ["A2 句型練習資料尚未載入。"] };
+      : {
+          valid: false,
+          errors: [`${selectedLevel} 句型練習資料尚未載入。`],
+        };
     const readingReport = exercises
       ? validateReadingExerciseData(
           exercises.reading,
@@ -2566,7 +2657,10 @@ export default function Home() {
           exercises.patterns,
           prerequisiteRows,
         )
-      : { valid: false, errors: ["A2 閱讀練習資料尚未載入。"] };
+      : {
+          valid: false,
+          errors: [`${selectedLevel} 閱讀練習資料尚未載入。`],
+        };
     const validationErrors = [
       ...base.validationErrors,
       ...(missingIds.length
@@ -2655,7 +2749,7 @@ export default function Home() {
     saveFile(
       JSON.stringify(
         {
-          schemaVersion: 4,
+          schemaVersion: 5,
           exportedAt: new Date().toISOString(),
           progress: multiProgress,
           settings,
@@ -2674,7 +2768,7 @@ export default function Home() {
     try {
       const value = JSON.parse(await file.text());
       if (!value.progress) throw new Error("missing progress");
-      setMultiProgress(migrateProgressToV4(value.progress));
+      setMultiProgress(migrateProgressToV5(value.progress));
       setProgressStorageWritable(true);
       if (value.settings) setSettings({ ...defaultSettings, ...value.settings });
       setToast("完整學習進度已還原。");
@@ -2693,7 +2787,7 @@ export default function Home() {
         !progress.passedUnitIds.includes(unit.id),
     );
     const pilotContentComplete =
-      selectedLevel === "A2" &&
+      selectedLevel !== "A1" &&
       progress.passedUnitIds.length === courseUnits.length;
     const pendingLevelTest =
       selectedLevel === "A1" &&
@@ -2704,9 +2798,9 @@ export default function Home() {
       courseUnits.find((unit) => unit.lessons.some((item) => item.id === nextLesson.id))!;
     const recommendation = pilotContentComplete
       ? {
-          kicker: "A2 試行課程",
-          title: "你已完成目前的A2試行內容",
-          preview: "目前不會將 A2 標記為完整通過；請等待後續試行單元。",
+          kicker: `${selectedLevel} 試行課程`,
+          title: `你已完成目前的${selectedLevel}試行內容`,
+          preview: `目前不會將 ${selectedLevel} 標記為完整通過；請先進行人工內容 QA。`,
           chips: [`${courseUnits.length} 個試行單元`, `${allLessons.length} 課`, "進度已保留"],
           action: () => setScreen("map"),
           buttonLabel: "查看課程地圖",
@@ -2812,9 +2906,18 @@ export default function Home() {
 
   const renderLevelSelector = () => (
     <section className="level-selector" aria-label="CEFR 程度選擇">
-      {(["A1", "A2"] as CefrLevel[]).map((level) => {
+      {(catalog?.levels.map((entry) => entry.level) ?? CEFR_LEVELS).map((level) => {
         const summary = levelSummary(level);
-        const locked = level === "A2" && !a2Accessible;
+        const entry = catalog
+          ? catalogEntryForLevel(catalog, level)
+          : null;
+        const statusLabel =
+          entry?.status === "production" ? "正式課程" : "試行課程";
+        const locked = !canAccessLevel(
+          level,
+          multiProgress.passedLevelIds,
+          settings.showA2Pilot,
+        );
         return (
           <button
             key={level}
@@ -2824,14 +2927,14 @@ export default function Home() {
             type="button"
             data-testid={`level-selector-${level.toLowerCase()}`}
             aria-pressed={selectedLevel === level}
-            aria-label={`${level} ${
-              level === "A1" ? "正式課程" : "試行課程"
-            }${locked ? "，尚未解鎖" : ""}`}
+            aria-label={`${level} ${statusLabel}${
+              locked ? "，尚未解鎖" : ""
+            }`}
             onClick={() => switchLevel(level)}
           >
             <span>
               <strong>{level}</strong>
-              <small>{level === "A1" ? "正式課程" : "試行課程"}</small>
+              <small>{statusLabel}</small>
             </span>
             <span className="level-selector-summary">
               {summary.completed}/{summary.total} 課・正確率{" "}
@@ -2940,15 +3043,20 @@ export default function Home() {
             </button>
           </section>
         ) : (
-          <section className="level-test-card" data-testid="a2-pilot-completion">
+          <section
+            className="level-test-card"
+            data-testid={`${selectedLevel.toLowerCase()}-pilot-completion`}
+          >
             <span className="lesson-number">★</span>
             <div>
               <strong>
                 {progress.passedUnitIds.length === courseUnits.length
-                  ? "你已完成目前的A2試行內容"
-                  : "A2 試行內容進行中"}
+                  ? `你已完成目前的${selectedLevel}試行內容`
+                  : `${selectedLevel} 試行內容進行中`}
               </strong>
-              <small>目前不提供 A2 程度總測驗，也不會解鎖 B1。</small>
+              <small>
+                目前不提供 {selectedLevel} 程度總測驗；試行內容不會自動解鎖下一程度。
+              </small>
             </div>
           </section>
         )}
@@ -2960,24 +3068,34 @@ export default function Home() {
             <h2>從日常溝通走向精準、流暢的進階表達</h2>
             <p>每個程度維持「預習 → 回想 → 重組 → 閱讀辨識 → 句型運用」，並逐步加長文本、減少中文提示。</p>
           </div>
-          <span className="status-pill">已完成架構規劃</span>
+          <span className="status-pill">A2–B2 試行資料已建立</span>
         </div>
         <div className="advanced-level-list">
-          {advancedCoursePlans.map((plan) => (
-            <details
-              className="advanced-level-card"
-              key={plan.code}
-              style={{ "--level-accent": plan.accent } as React.CSSProperties}
-              open={plan.code === "A2"}
-            >
-              <summary>
-                <span className="advanced-level-code">{plan.code}</span>
-                <span>
-                  <strong>{plan.name}</strong>
-                  <small>{plan.role}</small>
-                </span>
-                <span className="roadmap-status">課程規劃</span>
-              </summary>
+          {advancedCoursePlans.map((plan) => {
+            const catalogLevel = catalog?.levels.find(
+              (entry) => entry.level === plan.code,
+            );
+            return (
+              <details
+                className="advanced-level-card"
+                key={plan.code}
+                style={{ "--level-accent": plan.accent } as React.CSSProperties}
+                open={plan.code === "A2"}
+              >
+                <summary>
+                  <span className="advanced-level-code">{plan.code}</span>
+                  <span>
+                    <strong>{plan.name}</strong>
+                    <small>{plan.role}</small>
+                  </span>
+                  <span className="roadmap-status">
+                    {catalogLevel?.status === "production"
+                      ? "正式課程"
+                      : catalogLevel
+                        ? "試行課程"
+                        : "課程規劃"}
+                  </span>
+                </summary>
               <div className="advanced-level-content">
                 <div className="can-do-note">
                   <small>程度完成後能做到</small>
@@ -3005,8 +3123,9 @@ export default function Home() {
                 </div>
                 <div className="unlock-note">解鎖條件：{plan.unlock}</div>
               </div>
-            </details>
-          ))}
+              </details>
+            );
+          })}
         </div>
         <p className="roadmap-source-note">
           程度能力依
@@ -4555,8 +4674,8 @@ export default function Home() {
     if (!officialCourseRows.length) return;
     applyCourseRows(officialCourseRows);
     setImportReport(null);
-    if (selectedLevel === "A2") {
-      localStorage.removeItem(STORAGE.a2CourseRows);
+    if (selectedLevel !== "A1") {
+      localStorage.removeItem(courseRowsStorageKey(selectedLevel));
     }
     setToast(
       `已還原 public/data/${contentSourceVersion} ${
@@ -4617,7 +4736,7 @@ export default function Home() {
           label="待人工 QA"
           value={contentStats.pendingQa}
           note={
-            selectedLevel === "A2"
+            selectedLevel !== "A1"
               ? "試行內容不可標記為 production ready"
               : "依 qa_status 統計"
           }
@@ -4688,9 +4807,9 @@ export default function Home() {
           <label><span>慢速播放速度</span><select value={settings.slowRate} onChange={(event) => setSettings({ ...settings, slowRate: Number(event.target.value) })}><option value={0.75}>75%</option><option value={0.85}>85%（建議）</option><option value={0.9}>90%</option></select></label>
           <label className="switch-row">
             <span>
-              <strong>顯示 A2 試行課程</strong>
+              <strong>顯示進階試行課程</strong>
               <small>
-                僅供內容 QA，不會把 A1 標記為已通過
+                顯示 A2、B1 與 B2，僅供內容 QA，不會偽造程度通過
               </small>
             </span>
             <input
@@ -4706,12 +4825,15 @@ export default function Home() {
             />
           </label>
           <div className="source-note">
-            <strong>A2 正式解鎖狀態</strong>
+            <strong>進階程度解鎖狀態</strong>
             <span>
-              {a2FormallyUnlocked
-                ? "已通過 A1 程度測驗，A2 已正式解鎖。"
+              {isLevelFormallyUnlocked(
+                "A2",
+                multiProgress.passedLevelIds,
+              )
+                ? "已通過 A1 程度測驗，A2 已正式解鎖；B1 與 B2 仍依前置程度判定。"
                 : settings.showA2Pilot
-                  ? "目前是 QA 試用入口；正式解鎖條件仍未達成。"
+                  ? "目前開啟 QA 試用入口；正式解鎖條件仍不會被改寫。"
                   : "通過 A1 程度總測驗後正式解鎖。"}
             </span>
           </div>
@@ -4795,7 +4917,7 @@ export default function Home() {
           <strong>
             {selectedLevel === "A1"
               ? "正在載入 A1 正式課程資料…"
-              : "正在載入 A2 試行課程資料…"}
+              : `正在載入 ${selectedLevel} 試行課程資料…`}
           </strong>
         </section>
       );
@@ -4813,7 +4935,7 @@ export default function Home() {
           {courseLoadErrors[selectedLevel] && (
             <small>{courseLoadErrors[selectedLevel]}</small>
           )}
-          {selectedLevel === "A2" && (
+          {selectedLevel !== "A1" && (
             <button
               className="secondary-button"
               data-testid="return-a1-from-error"

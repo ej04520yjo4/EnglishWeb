@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import {
   findCrossLevelIdCollisions,
   parseCourseCsv,
@@ -10,33 +11,80 @@ import {
   validatePatternExerciseData,
   validateReadingExerciseData,
 } from "../app/a1-exercises.ts";
+import { validateCurriculumCatalog } from "../app/curriculum/catalog.ts";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 const readText = (relativePath) =>
   fs.readFileSync(path.join(root, relativePath), "utf8");
 const readJson = (relativePath) => JSON.parse(readText(relativePath));
+const publicPath = (url) =>
+  path.posix.join("public", url.replace(/^\/+/, ""));
 
-const a1Rows = parseCourseCsv(readText("public/data/a1-course-v3.csv"));
-const a2Rows = parseCourseCsv(readText("public/data/a2-course-v1.csv"));
-const a2Patterns = readJson("public/data/a2-pattern-exercises.json");
-const a2Reading = readJson("public/data/a2-reading-exercises.json");
-
-const reports = [
-  validateCourseRows(a2Rows, {
-    expectedLevel: "A2",
-    expectedUnits: 4,
-    expectedLessons: 16,
-    rejectProductionQaForPilot: true,
-  }),
-  validatePatternExerciseData(a2Patterns, a2Rows, "A2", a1Rows),
-  validateReadingExerciseData(a2Reading, a2Rows, a2Patterns, a1Rows),
-];
-const collisions = findCrossLevelIdCollisions(a1Rows, a2Rows);
-const errors = reports.flatMap(
-  (report) => report.validationErrors ?? report.errors ?? [],
+const catalog = validateCurriculumCatalog(
+  readJson("public/data/course-catalog.json"),
 );
-if (collisions.length) {
-  errors.push(`A1/A2 ID 碰撞：${collisions.join("、")}`);
+const rowsByLevel = new Map();
+const summaries = [];
+const errors = [];
+let prerequisiteRows = [];
+
+for (const entry of catalog.levels) {
+  const rows = parseCourseCsv(
+    readText(publicPath(entry.curriculumUrl)),
+  );
+  const patterns = readJson(publicPath(entry.patternExercisesUrl));
+  const reading = readJson(publicPath(entry.readingExercisesUrl));
+  const reports = [
+    validateCourseRows(rows, {
+      expectedLevel: entry.level,
+      expectedRows: entry.expectedOccurrences,
+      expectedUnits: entry.expectedUnits,
+      expectedLessons: entry.expectedLessons,
+      rejectProductionQaForPilot: entry.status === "pilot",
+    }),
+    validatePatternExerciseData(
+      patterns,
+      rows,
+      entry.level,
+      prerequisiteRows,
+    ),
+    validateReadingExerciseData(
+      reading,
+      rows,
+      patterns,
+      prerequisiteRows,
+    ),
+  ];
+  reports.forEach((report) => {
+    errors.push(
+      ...(report.validationErrors ?? report.errors ?? []).map(
+        (error) => `${entry.level}: ${error}`,
+      ),
+    );
+  });
+
+  for (const [previousLevel, previousRows] of rowsByLevel) {
+    const collisions = findCrossLevelIdCollisions(
+      previousRows,
+      rows,
+    );
+    if (collisions.length) {
+      errors.push(
+        `${previousLevel}/${entry.level} ID 碰撞：${collisions.join("、")}`,
+      );
+    }
+  }
+
+  rowsByLevel.set(entry.level, rows);
+  prerequisiteRows = [...prerequisiteRows, ...rows];
+  summaries.push(
+    `${entry.level} ${rows.length} occurrences, ` +
+      `${new Set(rows.map((row) => row.unit_id)).size} units, ` +
+      `${new Set(rows.map((row) => row.lesson_id)).size} lessons`,
+  );
 }
 
 if (errors.length) {
@@ -44,7 +92,5 @@ if (errors.length) {
   errors.forEach((error) => console.error(`- ${error}`));
   process.exitCode = 1;
 } else {
-  console.log(
-    `Curriculum validation passed: A1 ${a1Rows.length} occurrences; A2 ${a2Rows.length} occurrences, 4 units, 16 lessons.`,
-  );
+  console.log(`Curriculum validation passed: ${summaries.join("; ")}.`);
 }

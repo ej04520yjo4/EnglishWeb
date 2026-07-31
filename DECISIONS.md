@@ -78,7 +78,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** `public/data/course-catalog.json` declares each CEFR level, source files, version, and release status. A1 remains production on v3; A2 uses an independent v1 pilot.
+**Decision:** `public/data/course-catalog.json` declares each runtime CEFR level, source files, version, expected counts, and release status. A1 remains production on v3; A2, B1, and B2 use independent v1 pilots.
 
 **Reason:** Adding a level must not mutate A1 or create another hidden curriculum source.
 
@@ -86,23 +86,23 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Each level loads and validates independently. An A2 error is shown in Traditional Chinese and must not prevent A1 study, restoration, or progress access.
+**Decision:** Each level loads and validates independently. An advanced-level error is shown in Traditional Chinese and must not prevent A1 study, restoration, or progress access. A dependent pilot does not load when its prerequisite source is invalid.
 
 **Reason:** Pilot data has a higher change rate and must not destabilize the production course.
 
-## ADR-012 - Multi-Level Progress v4
+## ADR-012 - Multi-Level Progress v5
 
 **Status:** Accepted
 
-**Decision:** Progress schema v4 stores level records separately. Migration from v3 copies the complete A1 state without resetting IDs, schedules, familiarity, or completion, then initializes an empty A2 record.
+**Decision:** Progress schema v5 stores A1, A2, B1, and B2 records separately. Migration from v3 copies the complete A1 state without resetting IDs, schedules, familiarity, or completion. Migration from v4 preserves A1/A2 and initializes empty B1/B2 records.
 
-**Reason:** A2 activity and curriculum changes must never corrupt established A1 learning history.
+**Reason:** Activity or curriculum changes at one level must never corrupt established progress at another level.
 
-## ADR-013 - A2 Pilot Access Is Not Formal Unlock
+## ADR-013 - Advanced Pilot Access Is Not Formal Unlock
 
 **Status:** Accepted
 
-**Decision:** Formal A2 access requires an A1 level pass. A local QA preview may temporarily display the pilot, but it never changes `passedLevelIds` or learner mastery.
+**Decision:** Formal access follows A1 → A2 → B1 → B2 prerequisites. A local QA preview may temporarily display any advanced pilot, but it never changes `passedLevelIds` or learner mastery. The existing `showA2Pilot` settings key is retained for storage compatibility while the UI labels it as advanced pilot access.
 
 **Reason:** Content review needs direct access without weakening the learner progression rule.
 
@@ -193,3 +193,19 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Playwright fixtures that require saved settings or progress use `page.addInitScript` before navigation. They initialize only missing storage keys so that later navigation and reload preserve progress created by the test. Browser flows wait for observable level and course-map UI states instead of fixed delays.
 
 **Reason:** Writing storage after an initial page load races React hydration on slower mobile CI workers, while reapplying the fixture on every navigation can erase the progress being tested.
+
+## ADR-025 - B1 and B2 Are Complete Pilot Sources, Not Reviewed Releases
+
+**Status:** Accepted
+
+**Decision:** B1 and B2 each use one catalog-declared v1 CSV plus pattern and reading JSON. Each level contains 8 units and 32 lessons with the complete text-first learning flow, but every row and exercise remains `pilot_review_required`.
+
+**Reason:** The user can test the full course route now while technical completeness remains clearly separated from human language, phonetic, licensing, and CEFR review.
+
+## ADR-026 - Project Data Audit Protects Single Sources
+
+**Status:** Accepted
+
+**Decision:** `npm run audit:project` fails on catalog-orphaned curriculum files, identical duplicate data files, cross-level structural ID collisions, unsafe duplicate sentences, generator dictionary key collisions, or tracked build/test artifacts. A repeated lesson sentence is allowed only when the later rows explicitly mark it as review content.
+
+**Reason:** Lint and TypeScript do not detect silent object-key replacement or redundant static data, while legitimate A1 review repetition must not be deleted as accidental duplication.
