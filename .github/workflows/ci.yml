@@ -30,6 +30,9 @@ jobs:
       - name: Audit project data
         run: npm run audit:project
 
+      - name: Audit vocabulary targets
+        run: npm run audit:vocabulary
+
       - name: Validate curriculum
         run: npm run validate:curriculum
 

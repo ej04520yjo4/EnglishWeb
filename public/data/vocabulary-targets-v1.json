@@ -1,0 +1,3212 @@
+{
+  "schemaVersion": 1,
+  "status": "partial_review_required",
+  "completionLevel": "A2",
+  "goals": {
+    "totalLexemes": 3000,
+    "activeLexemes": 1500,
+    "receptiveLexemes": 1500,
+    "a1Cumulative": {
+      "totalLexemes": 1200,
+      "activeLexemes": 700,
+      "receptiveLexemes": 500
+    },
+    "a2Cumulative": {
+      "totalLexemes": 3000,
+      "activeLexemes": 1500,
+      "receptiveLexemes": 1500
+    }
+  },
+  "entries": [
+    {
+      "lexemeId": "i",
+      "lemma": "I",
+      "sourceLexemeIds": [
+        "i",
+        "me"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 1,
+      "topics": [
+        "打招呼與自我介紹",
+        "身邊物品",
+        "家人與人物",
+        "飲食",
+        "日常活動",
+        "時間與日期",
+        "地點與方向",
+        "A1 綜合短文",
+        "昨天與明天",
+        "旅行與交通",
+        "購物與比較",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l1-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l01-p01-s01-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "be",
+      "lemma": "be",
+      "sourceLexemeIds": [
+        "be"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 2,
+      "topics": [
+        "打招呼與自我介紹",
+        "身邊物品",
+        "家人與人物",
+        "時間與日期",
+        "地點與方向",
+        "昨天與明天",
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l1-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l03-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "amy",
+      "lemma": "Amy",
+      "sourceLexemeIds": [
+        "amy"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 3,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l1-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "my",
+      "lemma": "my",
+      "sourceLexemeIds": [
+        "my"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 4,
+      "topics": [
+        "打招呼與自我介紹",
+        "身邊物品",
+        "家人與人物",
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l2-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "name",
+      "lemma": "name",
+      "sourceLexemeIds": [
+        "name"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 5,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l2-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "ben",
+      "lemma": "Ben",
+      "sourceLexemeIds": [
+        "ben"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 6,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l2-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "nice",
+      "lemma": "nice",
+      "sourceLexemeIds": [
+        "nice"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 7,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l3-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "to",
+      "lemma": "to",
+      "sourceLexemeIds": [
+        "to"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 8,
+      "topics": [
+        "打招呼與自我介紹",
+        "日常活動",
+        "時間與日期",
+        "地點與方向",
+        "A1 綜合短文",
+        "昨天與明天",
+        "旅行與交通",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l3-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l02-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "meet",
+      "lemma": "meet",
+      "sourceLexemeIds": [
+        "meet"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 9,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l3-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "you",
+      "lemma": "you",
+      "sourceLexemeIds": [
+        "you"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 10,
+      "topics": [
+        "打招呼與自我介紹",
+        "昨天與明天",
+        "旅行與交通",
+        "購物與比較",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l3-t04"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l04-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "from",
+      "lemma": "from",
+      "sourceLexemeIds": [
+        "from"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 11,
+      "topics": [
+        "打招呼與自我介紹",
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l4-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "taiwan",
+      "lemma": "Taiwan",
+      "sourceLexemeIds": [
+        "taiwan"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 12,
+      "topics": [
+        "打招呼與自我介紹"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u1-l4-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "this",
+      "lemma": "this",
+      "sourceLexemeIds": [
+        "this"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 13,
+      "topics": [
+        "身邊物品",
+        "購物與比較",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l1-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l01-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "a",
+      "lemma": "a",
+      "sourceLexemeIds": [
+        "a"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 14,
+      "topics": [
+        "身邊物品",
+        "旅行與交通",
+        "購物與比較",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l1-t03"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l03-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "book",
+      "lemma": "book",
+      "sourceLexemeIds": [
+        "book"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 15,
+      "topics": [
+        "身邊物品"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l1-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "have",
+      "lemma": "have",
+      "sourceLexemeIds": [
+        "have"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 16,
+      "topics": [
+        "身邊物品",
+        "家人與人物",
+        "飲食",
+        "購物與比較",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l2-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l03-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "pen",
+      "lemma": "pen",
+      "sourceLexemeIds": [
+        "pen"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 17,
+      "topics": [
+        "身邊物品"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l2-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "that",
+      "lemma": "that",
+      "sourceLexemeIds": [
+        "that"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 18,
+      "topics": [
+        "身邊物品",
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l3-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l02-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "bag",
+      "lemma": "bag",
+      "sourceLexemeIds": [
+        "bag"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 19,
+      "topics": [
+        "身邊物品"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l3-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "the",
+      "lemma": "the",
+      "sourceLexemeIds": [
+        "the"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 20,
+      "topics": [
+        "身邊物品",
+        "地點與方向",
+        "昨天與明天",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l4-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l02-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "cellphone",
+      "lemma": "cellphone",
+      "sourceLexemeIds": [
+        "cellphone"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 21,
+      "topics": [
+        "身邊物品"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l4-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "on",
+      "lemma": "on",
+      "sourceLexemeIds": [
+        "on"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 22,
+      "topics": [
+        "身邊物品",
+        "地點與方向"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l4-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "table",
+      "lemma": "table",
+      "sourceLexemeIds": [
+        "table"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 23,
+      "topics": [
+        "身邊物品"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u2-l4-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "she",
+      "lemma": "she",
+      "sourceLexemeIds": [
+        "she"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 24,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l1-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "wife",
+      "lemma": "wife",
+      "sourceLexemeIds": [
+        "wife"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 25,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l1-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "he",
+      "lemma": "he",
+      "sourceLexemeIds": [
+        "he"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 26,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l2-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "friend",
+      "lemma": "friend",
+      "sourceLexemeIds": [
+        "friend"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 27,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l2-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "two",
+      "lemma": "two",
+      "sourceLexemeIds": [
+        "two"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 28,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l3-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "brother",
+      "lemma": "brother",
+      "sourceLexemeIds": [
+        "brother"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 29,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l3-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "mother",
+      "lemma": "mother",
+      "sourceLexemeIds": [
+        "mother"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 30,
+      "topics": [
+        "家人與人物"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l4-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "at",
+      "lemma": "at",
+      "sourceLexemeIds": [
+        "at"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 31,
+      "topics": [
+        "家人與人物",
+        "飲食",
+        "日常活動",
+        "地點與方向",
+        "A1 綜合短文",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l4-t04"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l04-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "home",
+      "lemma": "home",
+      "sourceLexemeIds": [
+        "home"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 32,
+      "topics": [
+        "家人與人物",
+        "飲食",
+        "地點與方向",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u3-l4-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "an",
+      "lemma": "an",
+      "sourceLexemeIds": [
+        "an"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 33,
+      "topics": [
+        "飲食"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l1-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "apple",
+      "lemma": "apple",
+      "sourceLexemeIds": [
+        "apple"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 34,
+      "topics": [
+        "飲食"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l1-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "like",
+      "lemma": "like",
+      "sourceLexemeIds": [
+        "like"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 35,
+      "topics": [
+        "飲食",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l2-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l04-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "coffee",
+      "lemma": "coffee",
+      "sourceLexemeIds": [
+        "coffee"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 36,
+      "topics": [
+        "飲食"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l2-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "want",
+      "lemma": "want",
+      "sourceLexemeIds": [
+        "want"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 37,
+      "topics": [
+        "飲食"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l3-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "some",
+      "lemma": "some",
+      "sourceLexemeIds": [
+        "some"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 38,
+      "topics": [
+        "飲食"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l3-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "water",
+      "lemma": "water",
+      "sourceLexemeIds": [
+        "water"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 39,
+      "topics": [
+        "飲食",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l3-t04"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l02-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "eat",
+      "lemma": "eat",
+      "sourceLexemeIds": [
+        "eat"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 40,
+      "topics": [
+        "飲食",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l4-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "breakfast",
+      "lemma": "breakfast",
+      "sourceLexemeIds": [
+        "breakfast"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 41,
+      "topics": [
+        "飲食",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u4-l4-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "go",
+      "lemma": "go",
+      "sourceLexemeIds": [
+        "go"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 42,
+      "topics": [
+        "日常活動",
+        "地點與方向",
+        "A1 綜合短文",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l1-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l02-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "work",
+      "lemma": "work",
+      "sourceLexemeIds": [
+        "work"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 43,
+      "topics": [
+        "日常活動",
+        "時間與日期",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l1-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "get",
+      "lemma": "get",
+      "sourceLexemeIds": [
+        "get"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 44,
+      "topics": [
+        "日常活動",
+        "A1 綜合短文",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l2-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l01-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "up",
+      "lemma": "up",
+      "sourceLexemeIds": [
+        "up"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 45,
+      "topics": [
+        "日常活動",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l2-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "seven",
+      "lemma": "seven",
+      "sourceLexemeIds": [
+        "seven"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 46,
+      "topics": [
+        "日常活動",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l2-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "play",
+      "lemma": "play",
+      "sourceLexemeIds": [
+        "play"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 47,
+      "topics": [
+        "日常活動",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l3-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l03-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "badminton",
+      "lemma": "badminton",
+      "sourceLexemeIds": [
+        "badminton"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 48,
+      "topics": [
+        "日常活動",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l3-t03"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l03-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "watch",
+      "lemma": "watch",
+      "sourceLexemeIds": [
+        "watch"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 49,
+      "topics": [
+        "日常活動",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l4-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l01-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "tv",
+      "lemma": "TV",
+      "sourceLexemeIds": [
+        "tv"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 50,
+      "topics": [
+        "日常活動",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l4-t03"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l01-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "night",
+      "lemma": "night",
+      "sourceLexemeIds": [
+        "night"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 51,
+      "topics": [
+        "日常活動",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u5-l4-t05"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l01-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "it",
+      "lemma": "it",
+      "sourceLexemeIds": [
+        "it"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 52,
+      "topics": [
+        "時間與日期",
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l1-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l04-p01-s01-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "eight",
+      "lemma": "eight",
+      "sourceLexemeIds": [
+        "eight"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 53,
+      "topics": [
+        "時間與日期",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l1-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "o'clock",
+      "lemma": "o'clock",
+      "sourceLexemeIds": [
+        "o'clock"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 54,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l1-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "today",
+      "lemma": "today",
+      "sourceLexemeIds": [
+        "today"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 55,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l2-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "monday",
+      "lemma": "Monday",
+      "sourceLexemeIds": [
+        "monday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 56,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l2-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "birthday",
+      "lemma": "birthday",
+      "sourceLexemeIds": [
+        "birthday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 57,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l3-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "in",
+      "lemma": "in",
+      "sourceLexemeIds": [
+        "in"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 58,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l3-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "may",
+      "lemma": "May",
+      "sourceLexemeIds": [
+        "may"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 59,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l3-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "friday",
+      "lemma": "Friday",
+      "sourceLexemeIds": [
+        "friday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 60,
+      "topics": [
+        "時間與日期"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u6-l4-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "store",
+      "lemma": "store",
+      "sourceLexemeIds": [
+        "store"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 61,
+      "topics": [
+        "地點與方向",
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l2-t02"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l02-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "near",
+      "lemma": "near",
+      "sourceLexemeIds": [
+        "near"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 62,
+      "topics": [
+        "地點與方向"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l2-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "station",
+      "lemma": "station",
+      "sourceLexemeIds": [
+        "station"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 63,
+      "topics": [
+        "地點與方向",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l2-t06"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l01-p01-s01-t07"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "bathroom",
+      "lemma": "bathroom",
+      "sourceLexemeIds": [
+        "bathroom"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 64,
+      "topics": [
+        "地點與方向"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l3-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "left",
+      "lemma": "left",
+      "sourceLexemeIds": [
+        "left"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 65,
+      "topics": [
+        "地點與方向"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l3-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "school",
+      "lemma": "school",
+      "sourceLexemeIds": [
+        "school"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 66,
+      "topics": [
+        "地點與方向"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l4-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "by",
+      "lemma": "by",
+      "sourceLexemeIds": [
+        "by"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 67,
+      "topics": [
+        "地點與方向",
+        "A1 綜合短文"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l4-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "bus",
+      "lemma": "bus",
+      "sourceLexemeIds": [
+        "bus"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "active",
+      "curriculumPriority": 68,
+      "topics": [
+        "地點與方向",
+        "A1 綜合短文",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A1 curriculum",
+          "sourceVersion": "a1-course-v3.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a1-u7-l4-t06"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l02-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "last",
+      "lemma": "last",
+      "sourceLexemeIds": [
+        "last"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 69,
+      "topics": [
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l01-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "yesterday",
+      "lemma": "yesterday",
+      "sourceLexemeIds": [
+        "yesterday"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 70,
+      "topics": [
+        "昨天與明天",
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l02-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "tomorrow",
+      "lemma": "tomorrow",
+      "sourceLexemeIds": [
+        "tomorrow"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 71,
+      "topics": [
+        "昨天與明天",
+        "旅行與交通",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l03-p01-s01-t07"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "would",
+      "lemma": "would",
+      "sourceLexemeIds": [
+        "would"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 72,
+      "topics": [
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l04-p01-s01-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "with",
+      "lemma": "with",
+      "sourceLexemeIds": [
+        "with"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 73,
+      "topics": [
+        "昨天與明天"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u01-l04-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "how",
+      "lemma": "how",
+      "sourceLexemeIds": [
+        "how"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 74,
+      "topics": [
+        "旅行與交通",
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l01-p01-s01-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "can",
+      "lemma": "can",
+      "sourceLexemeIds": [
+        "can"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 75,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l01-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "take",
+      "lemma": "take",
+      "sourceLexemeIds": [
+        "take"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 76,
+      "topics": [
+        "旅行與交通",
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l02-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "buy",
+      "lemma": "buy",
+      "sourceLexemeIds": [
+        "buy"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 77,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l03-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "train",
+      "lemma": "train",
+      "sourceLexemeIds": [
+        "train"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 78,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l03-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "ticket",
+      "lemma": "ticket",
+      "sourceLexemeIds": [
+        "ticket"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 79,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l03-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "leave",
+      "lemma": "leave",
+      "sourceLexemeIds": [
+        "leave"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 80,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l04-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "nine",
+      "lemma": "nine",
+      "sourceLexemeIds": [
+        "nine"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 81,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l04-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "morning",
+      "lemma": "morning",
+      "sourceLexemeIds": [
+        "morning"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 82,
+      "topics": [
+        "旅行與交通"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u02-l04-p01-s01-t07"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "much",
+      "lemma": "much",
+      "sourceLexemeIds": [
+        "much"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 83,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l01-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "shirt",
+      "lemma": "shirt",
+      "sourceLexemeIds": [
+        "shirt"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 84,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l01-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "cheap",
+      "lemma": "cheap",
+      "sourceLexemeIds": [
+        "cheap"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 85,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l02-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "than",
+      "lemma": "than",
+      "sourceLexemeIds": [
+        "than"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 86,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l02-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "one",
+      "lemma": "one",
+      "sourceLexemeIds": [
+        "one"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 87,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l02-p01-s01-t07"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "do",
+      "lemma": "do",
+      "sourceLexemeIds": [
+        "do"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 88,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l03-p01-s01-t01"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "large",
+      "lemma": "large",
+      "sourceLexemeIds": [
+        "large"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 89,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l03-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "size",
+      "lemma": "size",
+      "sourceLexemeIds": [
+        "size"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 90,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l03-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "too",
+      "lemma": "too",
+      "sourceLexemeIds": [
+        "too"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 91,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l04-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "expensive",
+      "lemma": "expensive",
+      "sourceLexemeIds": [
+        "expensive"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 92,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l04-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "for",
+      "lemma": "for",
+      "sourceLexemeIds": [
+        "for"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 93,
+      "topics": [
+        "購物與比較"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u03-l04-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "headache",
+      "lemma": "headache",
+      "sourceLexemeIds": [
+        "headache"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 94,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l01-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "should",
+      "lemma": "should",
+      "sourceLexemeIds": [
+        "should"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 95,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l02-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "drink",
+      "lemma": "drink",
+      "sourceLexemeIds": [
+        "drink"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 96,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l02-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "more",
+      "lemma": "more",
+      "sourceLexemeIds": [
+        "more"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 97,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l02-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "see",
+      "lemma": "see",
+      "sourceLexemeIds": [
+        "see"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 98,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l03-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "doctor",
+      "lemma": "doctor",
+      "sourceLexemeIds": [
+        "doctor"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 99,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l03-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "medicine",
+      "lemma": "medicine",
+      "sourceLexemeIds": [
+        "medicine"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 100,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l04-p01-s01-t03"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "after",
+      "lemma": "after",
+      "sourceLexemeIds": [
+        "after"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 101,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l04-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "dinner",
+      "lemma": "dinner",
+      "sourceLexemeIds": [
+        "dinner"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 102,
+      "topics": [
+        "健康與建議"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u04-l04-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "tuesday",
+      "lemma": "Tuesday",
+      "sourceLexemeIds": [
+        "tuesday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 103,
+      "topics": [
+        "days-of-week"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "tuesday"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "wednesday",
+      "lemma": "Wednesday",
+      "sourceLexemeIds": [
+        "wednesday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 104,
+      "topics": [
+        "days-of-week"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "wednesday"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "thursday",
+      "lemma": "Thursday",
+      "sourceLexemeIds": [
+        "thursday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 105,
+      "topics": [
+        "days-of-week"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "thursday"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "saturday",
+      "lemma": "Saturday",
+      "sourceLexemeIds": [
+        "saturday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 106,
+      "topics": [
+        "days-of-week"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "saturday"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "sunday",
+      "lemma": "Sunday",
+      "sourceLexemeIds": [
+        "sunday"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 107,
+      "topics": [
+        "days-of-week"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "sunday"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "noon",
+      "lemma": "noon",
+      "sourceLexemeIds": [
+        "noon"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 108,
+      "topics": [
+        "times-of-day"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "noon"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "afternoon",
+      "lemma": "afternoon",
+      "sourceLexemeIds": [
+        "afternoon"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 109,
+      "topics": [
+        "times-of-day"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "afternoon"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "evening",
+      "lemma": "evening",
+      "sourceLexemeIds": [
+        "evening"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 110,
+      "topics": [
+        "times-of-day"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "evening"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "january",
+      "lemma": "January",
+      "sourceLexemeIds": [
+        "january"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 111,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "january"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "february",
+      "lemma": "February",
+      "sourceLexemeIds": [
+        "february"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 112,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "february"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "march",
+      "lemma": "March",
+      "sourceLexemeIds": [
+        "march"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 113,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "march"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "april",
+      "lemma": "April",
+      "sourceLexemeIds": [
+        "april"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 114,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "april"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "june",
+      "lemma": "June",
+      "sourceLexemeIds": [
+        "june"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 115,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "june"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "july",
+      "lemma": "July",
+      "sourceLexemeIds": [
+        "july"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 116,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "july"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "august",
+      "lemma": "August",
+      "sourceLexemeIds": [
+        "august"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 117,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "august"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "september",
+      "lemma": "September",
+      "sourceLexemeIds": [
+        "september"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 118,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "september"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "october",
+      "lemma": "October",
+      "sourceLexemeIds": [
+        "october"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 119,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "october"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "november",
+      "lemma": "November",
+      "sourceLexemeIds": [
+        "november"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 120,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "november"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "december",
+      "lemma": "December",
+      "sourceLexemeIds": [
+        "december"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 121,
+      "topics": [
+        "months-of-year"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "december"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "family",
+      "lemma": "family",
+      "sourceLexemeIds": [
+        "family"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 122,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "family"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "father",
+      "lemma": "father",
+      "sourceLexemeIds": [
+        "father"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 123,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "father"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "parent",
+      "lemma": "parent",
+      "sourceLexemeIds": [
+        "parent"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 124,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "parent"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "sister",
+      "lemma": "sister",
+      "sourceLexemeIds": [
+        "sister"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 125,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "sister"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "husband",
+      "lemma": "husband",
+      "sourceLexemeIds": [
+        "husband"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 126,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "husband"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "son",
+      "lemma": "son",
+      "sourceLexemeIds": [
+        "son"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 127,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "son"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "daughter",
+      "lemma": "daughter",
+      "sourceLexemeIds": [
+        "daughter"
+      ],
+      "targetLevel": "A1",
+      "masteryTarget": "receptive",
+      "curriculumPriority": 128,
+      "topics": [
+        "family-members"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb reference vocabulary",
+          "sourceVersion": "reference-vocabulary-v1.json",
+          "sourceType": "reference",
+          "license": "not_applicable_web_speech_fallback",
+          "reference": "daughter"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    }
+  ]
+}
