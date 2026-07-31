@@ -9,7 +9,7 @@ import {
 } from "../app/a1-exercises.ts";
 import {
   createEmptyMultiLevelProgress,
-  migrateProgressToV5,
+  migrateProgressToV6,
   updateSelectedLevelProgress,
 } from "../app/curriculum/progress.ts";
 import {
@@ -317,8 +317,8 @@ test("B1 and B2 progress remain isolated and schema 4 data migrates without loss
   };
   delete legacyV4.levelProgress.B1;
   delete legacyV4.levelProgress.B2;
-  const migrated = migrateProgressToV5(legacyV4);
-  assert.equal(migrated.schemaVersion, 5);
+  const migrated = migrateProgressToV6(legacyV4);
+  assert.equal(migrated.schemaVersion, 6);
   assert.deepEqual(migrated.levelProgress.B1.completedLessonIds, []);
   assert.deepEqual(migrated.levelProgress.B2.completedLessonIds, []);
 });

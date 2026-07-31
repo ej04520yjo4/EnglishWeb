@@ -16,7 +16,7 @@ import {
   canAccessLevel,
   createEmptyMultiLevelProgress,
   isLevelAssessmentEnabled,
-  migrateProgressToV5,
+  migrateProgressToV6,
   updateSelectedLevelProgress,
 } from "../app/curriculum/progress.ts";
 import {
@@ -85,15 +85,15 @@ test("keeps A1 at 8 units, 32 lessons, and 145 occurrences", () => {
   assert.equal(a1Rows.length, 145);
 });
 
-test("loads a catalog containing production A1 and pilot advanced levels", async () => {
+test("loads a catalog containing production A1, pilot A2, and disabled B levels", async () => {
   const catalog = validateCurriculumCatalog(catalogJson);
   assert.deepEqual(
     catalog.levels.map((entry) => [entry.level, entry.status]),
     [
       ["A1", "production"],
       ["A2", "pilot"],
-      ["B1", "pilot"],
-      ["B2", "pilot"],
+      ["B1", "disabled"],
+      ["B2", "disabled"],
     ],
   );
   const loaded = await loadCurriculumCatalog(curriculumFetcher);
@@ -524,7 +524,7 @@ test("keeps every newly added A2 row and exercise in pilot QA", () => {
   );
 });
 
-test("migrates schemaVersion 3 to 5 without changing A1 data", () => {
+test("migrates schemaVersion 3 to 6 without changing A1 data", () => {
   const legacy = {
     schemaVersion: 3,
     completedLessonIds: ["a1-u1-l1"],
@@ -569,8 +569,8 @@ test("migrates schemaVersion 3 to 5 without changing A1 data", () => {
     patternHintLevels: {},
     reviewExerciseTypes: {},
   };
-  const migrated = migrateProgressToV5(legacy);
-  assert.equal(migrated.schemaVersion, 5);
+  const migrated = migrateProgressToV6(legacy);
+  assert.equal(migrated.schemaVersion, 6);
   assert.equal(migrated.selectedLevel, "A1");
   assert.deepEqual(
     migrated.levelProgress.A1.completedLessonIds,
@@ -596,6 +596,7 @@ test("migrates schemaVersion 3 to 5 without changing A1 data", () => {
   );
   assert.deepEqual(migrated.levelProgress.B1.completedLessonIds, []);
   assert.deepEqual(migrated.levelProgress.B2.completedLessonIds, []);
+  assert.deepEqual(migrated.vocabularyProgress, {});
 });
 
 test("keeps A1 and A2 progress isolated and restorable", () => {
@@ -616,7 +617,7 @@ test("keeps A1 and A2 progress isolated and restorable", () => {
     "a2-u01-l01",
   ]);
   assert.deepEqual(
-    migrateProgressToV5(JSON.parse(JSON.stringify(updated))),
+    migrateProgressToV6(JSON.parse(JSON.stringify(updated))),
     updated,
   );
 });
@@ -637,6 +638,8 @@ test("enforces formal A2 unlock while allowing a non-mutating pilot entry", () =
     true,
   );
   assert.equal(canAccessLevel("B2", [], true), true);
+  assert.equal(canAccessLevel("B1", ["A1", "A2"], true, "disabled"), false);
+  assert.equal(canAccessLevel("B2", ["A1", "A2", "B1"], true, "disabled"), false);
   assert.equal(isLevelAssessmentEnabled("A1"), true);
   assert.equal(isLevelAssessmentEnabled("A2"), false);
   assert.equal(isLevelAssessmentEnabled("B1"), false);

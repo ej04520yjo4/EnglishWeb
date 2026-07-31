@@ -7,8 +7,12 @@ import type {
   HintLevel,
   ReviewExerciseType,
 } from "../learning-adaptation";
-import type { CefrLevel } from "./types";
+import type { CefrLevel, LevelStatus } from "./types";
 import { CEFR_LEVELS } from "./types.ts";
+import {
+  normalizeGlobalVocabularyProgress,
+  type GlobalVocabularyProgress,
+} from "../vocabulary-progress.ts";
 
 export type SentenceLearningStats = {
   rebuildAttempts: number;
@@ -56,10 +60,11 @@ export type LevelLearningProgress = {
 };
 
 export type MultiLevelProgress = {
-  schemaVersion: 5;
+  schemaVersion: 6;
   selectedLevel: CefrLevel;
   passedLevelIds: CefrLevel[];
   levelProgress: Record<CefrLevel, LevelLearningProgress>;
+  vocabularyProgress: GlobalVocabularyProgress;
 };
 
 export const isLevelAssessmentEnabled = (level: CefrLevel) =>
@@ -114,7 +119,7 @@ export const normalizeLevelProgress = (
 };
 
 export const createEmptyMultiLevelProgress = (): MultiLevelProgress => ({
-  schemaVersion: 5,
+  schemaVersion: 6,
   selectedLevel: "A1",
   passedLevelIds: [],
   levelProgress: {
@@ -123,6 +128,7 @@ export const createEmptyMultiLevelProgress = (): MultiLevelProgress => ({
     B1: createEmptyLevelProgress(),
     B2: createEmptyLevelProgress(),
   },
+  vocabularyProgress: {},
 });
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -141,19 +147,23 @@ const normalizePassedLevels = (value: unknown): CefrLevel[] =>
       )
     : [];
 
-export const migrateProgressToV5 = (
+export const migrateProgressToV6 = (
   value: unknown,
 ): MultiLevelProgress => {
   if (!isObject(value)) {
     throw new Error("學習進度不是有效物件。");
   }
 
-  if (value.schemaVersion === 4 || value.schemaVersion === 5) {
+  if (
+    value.schemaVersion === 4 ||
+    value.schemaVersion === 5 ||
+    value.schemaVersion === 6
+  ) {
     if (!isObject(value.levelProgress)) {
       throw new Error("多程度學習進度缺少 levelProgress。");
     }
     return {
-      schemaVersion: 5,
+      schemaVersion: 6,
       selectedLevel: normalizeSelectedLevel(value.selectedLevel),
       passedLevelIds: normalizePassedLevels(value.passedLevelIds),
       levelProgress: {
@@ -170,18 +180,22 @@ export const migrateProgressToV5 = (
           value.levelProgress.B2 as Partial<LevelLearningProgress>,
         ),
       },
+      vocabularyProgress:
+        value.schemaVersion === 6
+          ? normalizeGlobalVocabularyProgress(value.vocabularyProgress)
+          : {},
     };
   }
 
   if (value.schemaVersion !== 3) {
-    throw new Error("只支援 schemaVersion 3、4 或 5 的學習進度。");
+    throw new Error("只支援 schemaVersion 3、4、5 或 6 的學習進度。");
   }
 
   const legacy = normalizeLevelProgress(
     value as Partial<LevelLearningProgress>,
   );
   return {
-    schemaVersion: 5,
+    schemaVersion: 6,
     selectedLevel: "A1",
     passedLevelIds: legacy.levelPassed ? ["A1"] : [],
     levelProgress: {
@@ -190,6 +204,7 @@ export const migrateProgressToV5 = (
       B1: createEmptyLevelProgress(),
       B2: createEmptyLevelProgress(),
     },
+    vocabularyProgress: {},
   };
 };
 
@@ -205,9 +220,11 @@ export const canAccessLevel = (
   level: CefrLevel,
   passedLevelIds: CefrLevel[],
   showPilotCourses: boolean,
+  status: LevelStatus = level === "A1" ? "production" : "pilot",
 ) =>
-  isLevelFormallyUnlocked(level, passedLevelIds) ||
-  (level !== "A1" && showPilotCourses);
+  status !== "disabled" &&
+  (isLevelFormallyUnlocked(level, passedLevelIds) ||
+    (level !== "A1" && showPilotCourses));
 
 export const updateSelectedLevelProgress = (
   progress: MultiLevelProgress,
