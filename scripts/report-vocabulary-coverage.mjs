@@ -19,6 +19,16 @@ const canonicalRowLexeme = (row) => {
     : canonicalizeLexemeId(row.lexeme_id);
 };
 
+const TARGET_EXCLUDED_LEXEMES = new Set(["amy", "ben"]);
+const isCountableCourseRow = (row) => {
+  const sourceLexemeId = canonicalizeLexemeId(row.lexeme_id);
+  const lemmaId = canonicalizeLexemeId(row.lemma || row.answer);
+  return (
+    !TARGET_EXCLUDED_LEXEMES.has(sourceLexemeId) &&
+    !TARGET_EXCLUDED_LEXEMES.has(lemmaId)
+  );
+};
+
 const summarizeRows = (rows) => ({
   occurrences: rows.length,
   uniqueLexemes: new Set(rows.map(canonicalRowLexeme)).size,
@@ -40,6 +50,19 @@ export const buildVocabularyCoverageSnapshot = () => {
   const a1Lexemes = new Set(a1Rows.map(canonicalRowLexeme));
   const a2Lexemes = new Set(a2Rows.map(canonicalRowLexeme));
   const union = new Set([...a1Lexemes, ...a2Lexemes]);
+  const countableA1Lexemes = new Set(
+    a1Rows.filter(isCountableCourseRow).map(canonicalRowLexeme),
+  );
+  const countableA2Lexemes = new Set(
+    a2Rows.filter(isCountableCourseRow).map(canonicalRowLexeme),
+  );
+  const countableUnion = new Set([
+    ...countableA1Lexemes,
+    ...countableA2Lexemes,
+  ]);
+  const excludedTargetLexemes = [...union].filter(
+    (lexemeId) => !countableUnion.has(lexemeId),
+  );
   const referenceIds = new Set(
     reference.map((item) => canonicalizeLexemeId(item.lexemeId)),
   );
@@ -64,6 +87,8 @@ export const buildVocabularyCoverageSnapshot = () => {
     A1: summarizeRows(a1Rows),
     A2: summarizeRows(a2Rows),
     unionUniqueLexemes: union.size,
+    countableUnionUniqueLexemes: countableUnion.size,
+    excludedTargetLexemes,
     overlappingLexemes: [...a1Lexemes].filter((id) => a2Lexemes.has(id)).length,
     referenceOnlyUniqueLexemes: [...referenceIds].filter((id) => !union.has(id)).length,
     targets: buildVocabularyCoverageReport(targets),

@@ -2213,7 +2213,7 @@ export default function Home() {
       "applicationAttempt",
       transferEvidenceId,
     );
-    if (correct) {
+    if (credited) {
       recordVocabularyEvidence(
         currentPatternExample.requiredLexemeIds,
         "applicationCorrect",
@@ -4917,7 +4917,7 @@ export default function Home() {
             </div>
             {vocabularyTargets?.status === "partial_review_required" && (
               <p className="qa-note" data-testid="vocabulary-target-partial-note">
-                3000詞彙清單仍在分批建置，目前數字只代表已審核並納入的詞彙。
+                3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。
               </p>
             )}
           </>

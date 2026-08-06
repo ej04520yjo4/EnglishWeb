@@ -18,10 +18,11 @@
 - A2: 95 occurrences, 61 word forms, 77 senses, 30 chunks, 57 canonical lexemes.
 - A1＋A2 union: 102 canonical lexemes; overlap: 23.
 - Reference-only unique lexemes: 26.
-- Target baseline: 128 entries; 102 active candidates and 26 receptive candidates.
-- Target stage counts: A1 94, A2 34; 2872 entries remain unbuilt.
+- Target baseline: 126 entries; 100 active candidates and 26 receptive candidates.
+- Target stage counts: A1 92, A2 34; 2874 entries remain unbuilt.
 - Target status: `partial_review_required`; all entries remain `pilot_review_required`.
 - Source report records one A2 source-ID/lemma projection, `me -> I`; target aliases map both to canonical `i`, with no target ID or lemma conflict.
+- Lesson-specific proper names Amy and Ben remain in A1 course practice but are excluded from the 3000 general-vocabulary target.
 
 ## Working Features
 
@@ -48,7 +49,7 @@
 ## Known Limits
 
 - The target contract is not a complete 3000-word list and must not be presented as one.
-- The 128 baseline entries need manual source, license, target-level, mastery-target, and language review.
+- The 126 baseline entries need manual source, license, target-level, mastery-target, and language review; the progress-page note identifies them as a待審 baseline rather than reviewed vocabulary.
 - A2 units 1–4 remain pilot content; units 5–10 are blueprint-only.
 - All 27 related-vocabulary reference records still need phonetic/content review; deduplication produces 26 unique reference-only target lexemes.
 - B1/B2 language, phonetics, distractors, passages, and CEFR placement remain unreviewed and disabled.
@@ -56,14 +57,14 @@
 
 ## Next Concrete Step
 
-Manually review the 128-entry baseline, choose one legally reusable frequency/reference source, and prepare one small deduplicated candidate batch before adding any new target entries.
+Manually review the 126-entry baseline, choose one legally reusable frequency/reference source, and prepare one small deduplicated candidate batch before adding any new target entries.
 
 ## Verification
 
 - `npm ci`: exit 0; 494 packages audited; existing report lists 15 dependency vulnerabilities (2 low, 13 high), with no forced upgrades applied.
 - `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
 - `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 sources, 0 orphan/duplicate data files.
-- `npm run audit:vocabulary`: exit 0; 128 unique targets, 102 active, 26 receptive.
+- `npm run audit:vocabulary`: exit 0; 126 unique targets, 100 active, 26 receptive.
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.

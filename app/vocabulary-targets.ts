@@ -66,7 +66,11 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
 
 export const canonicalizeLexemeId = (value: string) =>
-  value.trim().toLowerCase();
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .replace(/[‐‑‒–—−]/g, "-");
 
 export const isSingleLexemeWord = (value: string) =>
   /^[A-Za-z]+(?:['’-][A-Za-z]+)*$/.test(value.trim());
@@ -121,8 +125,12 @@ export const validateVocabularyTargets = (
   }
 
   const ids = new Set<string>();
+  const sourceAliasOwners = new Map<string, string>();
+  const priorities: number[] = [];
   let activeCount = 0;
   let receptiveCount = 0;
+  let a1ActiveCount = 0;
+  let a1ReceptiveCount = 0;
   (value.entries as unknown[]).forEach((unknownEntry, index) => {
     if (!isObject(unknownEntry)) {
       errors.push(`第 ${index + 1} 筆詞彙目標不是物件。`);
@@ -148,15 +156,33 @@ export const validateVocabularyTargets = (
       entry.sourceLexemeIds.some((id) => !canonicalizeLexemeId(id))
     ) {
       errors.push(`${lexemeId} 缺少有效的 sourceLexemeIds。`);
+    } else {
+      entry.sourceLexemeIds.forEach((sourceLexemeId) => {
+        const alias = canonicalizeLexemeId(sourceLexemeId);
+        const owner = sourceAliasOwners.get(alias);
+        if (owner && owner !== lexemeId) {
+          errors.push(`sourceLexemeId ${alias} 同時對應 ${owner} 與 ${lexemeId}。`);
+        } else {
+          sourceAliasOwners.set(alias, lexemeId);
+        }
+      });
     }
     if (entry.targetLevel !== "A1" && entry.targetLevel !== "A2") {
       errors.push(`${lexemeId} 的 targetLevel 只能是 A1 或 A2。`);
     }
-    if (entry.masteryTarget === "active") activeCount += 1;
-    else if (entry.masteryTarget === "receptive") receptiveCount += 1;
-    else errors.push(`${lexemeId} 的 masteryTarget 不正確。`);
+    if (entry.masteryTarget === "active") {
+      activeCount += 1;
+      if (entry.targetLevel === "A1") a1ActiveCount += 1;
+    } else if (entry.masteryTarget === "receptive") {
+      receptiveCount += 1;
+      if (entry.targetLevel === "A1") a1ReceptiveCount += 1;
+    } else {
+      errors.push(`${lexemeId} 的 masteryTarget 不正確。`);
+    }
     if (!Number.isInteger(entry.curriculumPriority) || entry.curriculumPriority! < 1) {
       errors.push(`${lexemeId} 的 curriculumPriority 必須是正整數。`);
+    } else {
+      priorities.push(entry.curriculumPriority!);
     }
     if (!Array.isArray(entry.topics) || entry.topics.length === 0) {
       errors.push(`${lexemeId} 至少需要一個 topic。`);
@@ -179,10 +205,40 @@ export const validateVocabularyTargets = (
     }
   });
 
+  const sortedPriorities = [...priorities].sort((left, right) => left - right);
+  if (
+    new Set(sortedPriorities).size !== sortedPriorities.length ||
+    sortedPriorities.some((priority, index) => priority !== index + 1)
+  ) {
+    errors.push("curriculumPriority 必須唯一，並從 1 連續排列。");
+  }
+
   if (value.status === "complete") {
+    const a1Total = a1ActiveCount + a1ReceptiveCount;
     if (value.entries.length !== 3000) errors.push("complete 清單必須正好有 3000 個 lexeme。");
     if (activeCount !== 1500) errors.push("complete 清單必須正好有 1500 個 active lexeme。");
     if (receptiveCount !== 1500) errors.push("complete 清單必須正好有 1500 個 receptive lexeme。");
+    if (a1Total !== 1200) errors.push("complete 清單的 A1 累計必須正好有 1200 個 lexeme。");
+    if (a1ActiveCount !== 700) errors.push("complete 清單的 A1 active 必須正好有 700 個 lexeme。");
+    if (a1ReceptiveCount !== 500) errors.push("complete 清單的 A1 receptive 必須正好有 500 個 lexeme。");
+
+    const reviewedStatuses = new Set([
+      "reviewed",
+      "human_reviewed",
+      "approved",
+      "production_ready",
+    ]);
+    (value.entries as VocabularyTargetEntry[]).forEach((entry) => {
+      if (!reviewedStatuses.has(entry.qaStatus.trim().toLowerCase())) {
+        errors.push(`${entry.lexemeId} 在 complete 清單中必須完成人工 QA。`);
+      }
+      entry.sourceRefs.forEach((source) => {
+        const license = source.license.trim().toLowerCase();
+        if (!license || ["pending", "unknown", "tbd"].includes(license)) {
+          errors.push(`${entry.lexemeId} 在 complete 清單中不可使用待確認授權。`);
+        }
+      });
+    });
   }
   return { valid: errors.length === 0, errors };
 };

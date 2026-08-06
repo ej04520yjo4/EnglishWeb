@@ -13,15 +13,16 @@ This is a coverage goal, not a claim that the current product already contains 3
 - Different `sense_id` values for the same word, such as uses of `take`, do not create another lexeme.
 - Occurrences, displayed word forms, senses, and chunks are reported separately.
 - Multiword items such as `take the bus`, `have to`, and `How much` are chunks and never enter the 3000 count.
+- Lesson-specific names and other proper nouns, such as Amy and Ben, remain valid course tokens but do not count toward the 3000 general-vocabulary target.
 
 ## Current Baseline
 
 `public/data/vocabulary-targets-v1.json` is generated from existing A1, A2, and reference-only sources. It currently contains 128 unique entries:
 
-- 102 curriculum-covered active candidates.
+- 100 curriculum-covered active candidates.
 - 26 reference-only receptive candidates.
-- 94 entries assigned to the A1 target stage and 34 to A2.
-- 2872 entries are not yet present; this is expected while status is `partial_review_required`.
+- 92 entries assigned to the A1 target stage and 34 to A2.
+- 2874 entries are not yet present; this is expected while status is `partial_review_required`.
 
 Every entry records its canonical ID, lemma, source aliases, target level, mastery target, priority, topics, source/version/reference/license, and QA status. All entries remain `pilot_review_required` until manually checked.
 
@@ -46,7 +47,7 @@ Every answer attempt may record an attempt ID. A correct spelling counts as clea
 7. Review English lemma, Taiwan Traditional Chinese meaning, CEFR suitability, source evidence, and license.
 8. Run `npm run audit:vocabulary`, `npm run report:vocabulary`, and the full curriculum gates before merging.
 
-The file may change to `complete` only when it contains exactly 3000 reviewed entries with exactly 1500 active and 1500 receptive targets.
+The file may change to `complete` only when it contains exactly 3000 reviewed entries with exactly 1500 active and 1500 receptive targets. The A1 subset must be exactly 1200 entries（700 active、500 receptive）, every entry must have a completed human-QA status, every source license must be resolved, aliases must be unique, and priorities must be continuous.
 
 ## Commands
 

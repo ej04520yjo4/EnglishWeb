@@ -36,9 +36,20 @@ for (const group of groups.groups) {
   }
 }
 
+const TARGET_EXCLUDED_LEXEMES = new Set(["amy", "ben"]);
+const isExcludedTargetRow = (row) => {
+  const sourceLexemeId = canonicalizeLexemeId(row.lexeme_id);
+  const lemmaId = canonicalizeLexemeId(row.lemma || row.answer);
+  return (
+    TARGET_EXCLUDED_LEXEMES.has(sourceLexemeId) ||
+    TARGET_EXCLUDED_LEXEMES.has(lemmaId)
+  );
+};
+
 const entries = new Map();
 for (const source of levels) {
-  const rowsByLexeme = Map.groupBy(source.rows, (row) => {
+  const countableRows = source.rows.filter((row) => !isExcludedTargetRow(row));
+  const rowsByLexeme = Map.groupBy(countableRows, (row) => {
     const sourceLexemeId = canonicalizeLexemeId(row.lexeme_id);
     const lemmaId = canonicalizeLexemeId(row.lemma || row.answer);
     return /^[a-z]+(?:['-][a-z]+)*$/.test(lemmaId)

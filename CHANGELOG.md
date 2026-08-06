@@ -7,7 +7,7 @@ This file records user-visible or contributor-visible project changes. Detailed 
 ### Added
 
 - Added a sourced, partial A1/A2 canonical vocabulary target contract with cumulative 1200/3000 goals.
-- Added a 128-entry baseline: 102 curriculum-covered active candidates and 26 reference-only receptive candidates.
+- Added a 126-entry baseline: 100 curriculum-covered active candidates and 26 reference-only receptive candidates.
 - Added vocabulary target validation, baseline generation, audit, coverage reporting, and protected-source hash checks.
 - Added progress schema v6 with global exposure, recognition, clean spelling, and application evidence shared across A1/A2.
 - Added vocabulary coverage and personal mastery summaries to the learning-progress page.

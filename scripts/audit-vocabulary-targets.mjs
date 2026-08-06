@@ -24,8 +24,24 @@ const assert = (condition, message) => {
   if (!condition) errors.push(message);
 };
 const entryIds = new Set(targets.entries.map((entry) => entry.lexemeId));
+const TARGET_EXCLUDED_LEXEMES = new Set(["amy", "ben"]);
+const isCountableCourseRow = (row) => {
+  const sourceLexemeId = canonicalizeLexemeId(row.lexeme_id);
+  const lemmaId = canonicalizeLexemeId(row.lemma || row.answer);
+  return (
+    !TARGET_EXCLUDED_LEXEMES.has(sourceLexemeId) &&
+    !TARGET_EXCLUDED_LEXEMES.has(lemmaId)
+  );
+};
+const allCourseRows = [...a1Rows, ...a2Rows];
 const courseIds = new Set(
-  [...a1Rows, ...a2Rows]
+  allCourseRows
+    .filter(isCountableCourseRow)
+    .map((row) => canonicalizeLexemeId(row.lemma || row.lexeme_id)),
+);
+const excludedCourseIds = new Set(
+  allCourseRows
+    .filter((row) => !isCountableCourseRow(row))
     .map((row) => canonicalizeLexemeId(row.lemma || row.lexeme_id)),
 );
 const referenceIds = new Set(
@@ -36,6 +52,12 @@ for (const lexemeId of courseIds) {
 }
 for (const lexemeId of referenceIds) {
   assert(entryIds.has(lexemeId), `reference lexeme ${lexemeId} 未進入 baseline。`);
+}
+for (const lexemeId of excludedCourseIds) {
+  assert(
+    !entryIds.has(lexemeId),
+    `課程人名 ${lexemeId} 不可計入 3000 一般詞彙目標。`,
+  );
 }
 targets.entries.forEach((entry) => {
   assert(

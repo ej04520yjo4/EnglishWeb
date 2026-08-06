@@ -15,6 +15,7 @@ import {
 } from "../app/curriculum/loader.ts";
 import {
   buildVocabularyCoverageReport,
+  canonicalizeLexemeId,
   parseVocabularyTargets,
   uniqueCanonicalLexemes,
   validateVocabularyTargets,
@@ -35,8 +36,8 @@ const targets = parseVocabularyTargets(
 const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
-  "public/data/a1-course-v3.csv": "d1aeb836da6533c4819e5911a775c86b3056542ee569bcfbd2359e978339bccd",
-  "public/data/a2-course-v1.csv": "71b99af886ca56cdbc98a26d3bdecfcd369b12a3027ed794c1ae0a6f5c2d4caf",
+  "public/data/a1-course-v3.csv": "a3eeeb1c7d32978dc436bf87886f7081886a82ae5064c0b50c51778f589de470",
+  "public/data/a2-course-v1.csv": "1049e810a535f65261b06a55438bbdeb72c42b33d0d4f3fadd49c3cbaceccfa7",
   "public/data/a1-pattern-exercises.json": "a7fd2a2e6eeb262fc0fdeaa0b49ceff655998db5f11f85e72d31aa57bee4a5da",
   "public/data/a1-reading-exercises.json": "fb666547af28b97607e9de45593731a09a0612543ce10fcda5c263a84feec99c",
   "public/data/a2-pattern-exercises.json": "f586f42cf707912970ecf7fd51d2f85b1d1a03724977e63e8d5dbb2ce088c8e9",
@@ -81,14 +82,14 @@ test("keeps all protected A1 and A2 sources byte-for-byte unchanged", () => {
 test("builds a partial baseline from A1, A2, and reference-only lexemes", () => {
   const report = buildVocabularyCoverageReport(targets);
   assert.equal(targets.status, "partial_review_required");
-  assert.equal(report.targetEntries, 128);
-  assert.equal(report.activeEntries, 102);
+  assert.equal(report.targetEntries, 126);
+  assert.equal(report.activeEntries, 100);
   assert.equal(report.receptiveEntries, 26);
-  assert.equal(report.curriculumCovered, 102);
+  assert.equal(report.curriculumCovered, 100);
   assert.equal(report.referenceOnlyCovered, 26);
-  assert.equal(report.missingEntries, 2872);
-  assert.ok(targets.entries.some((entry) => entry.lexemeId === "amy"));
-  assert.ok(targets.entries.some((entry) => entry.lexemeId === "ben"));
+  assert.equal(report.missingEntries, 2874);
+  assert.ok(!targets.entries.some((entry) => entry.lexemeId === "amy"));
+  assert.ok(!targets.entries.some((entry) => entry.lexemeId === "ben"));
   const iTarget = targets.entries.find((entry) => entry.lexemeId === "i");
   assert.ok(iTarget.sourceLexemeIds.includes("me"));
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "me"));
@@ -124,6 +125,15 @@ test("rejects duplicate targets and multiword lemmas", () => {
   const conflict = structuredClone(targets);
   conflict.entries[0].lemma = "different";
   assert.equal(validateVocabularyTargets(conflict).valid, false);
+
+  const aliasConflict = structuredClone(targets);
+  aliasConflict.entries[1].sourceLexemeIds.push(
+    aliasConflict.entries[0].sourceLexemeIds[0],
+  );
+  assert.equal(validateVocabularyTargets(aliasConflict).valid, false);
+
+  assert.equal(canonicalizeLexemeId("Don’t"), "don't");
+  assert.equal(canonicalizeLexemeId("mother–in–law"), "mother-in-law");
 });
 
 test("allows partial targets but enforces every complete goal", () => {
@@ -135,6 +145,9 @@ test("allows partial targets but enforces every complete goal", () => {
   assert.ok(report.errors.some((error) => error.includes("3000")));
   assert.ok(report.errors.some((error) => error.includes("1500 個 active")));
   assert.ok(report.errors.some((error) => error.includes("1500 個 receptive")));
+  assert.ok(report.errors.some((error) => error.includes("A1 累計")));
+  assert.ok(report.errors.some((error) => error.includes("人工 QA")));
+  assert.ok(report.errors.some((error) => error.includes("待確認授權")));
 });
 
 test("migrates schemas 3, 4, and 5 to v6 without inventing mastery", () => {

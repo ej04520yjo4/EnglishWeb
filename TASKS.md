@@ -4,7 +4,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **VOCAB-3000-QA-001:** Manually review the 128-entry A1/A2 baseline target contract.
+- [ ] **VOCAB-3000-QA-001:** Manually review the 126-entry A1/A2 baseline target contract.
   - Confirm the 102 curriculum lexemes, 26 reference-only lexemes, canonical lemmas, A1/A2 placement, active/receptive target, topic, and source/license fields.
 - [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
 - [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.

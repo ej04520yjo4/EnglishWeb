@@ -97,29 +97,6 @@
       "qaStatus": "pilot_review_required"
     },
     {
-      "lexemeId": "amy",
-      "lemma": "Amy",
-      "sourceLexemeIds": [
-        "amy"
-      ],
-      "targetLevel": "A1",
-      "masteryTarget": "active",
-      "curriculumPriority": 3,
-      "topics": [
-        "打招呼與自我介紹"
-      ],
-      "sourceRefs": [
-        {
-          "sourceName": "EnglishWeb A1 curriculum",
-          "sourceVersion": "a1-course-v3.csv",
-          "sourceType": "curriculum",
-          "license": "pending",
-          "reference": "a1-u1-l1-t03"
-        }
-      ],
-      "qaStatus": "pilot_review_required"
-    },
-    {
       "lexemeId": "my",
       "lemma": "my",
       "sourceLexemeIds": [
@@ -127,7 +104,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 4,
+      "curriculumPriority": 3,
       "topics": [
         "打招呼與自我介紹",
         "身邊物品",
@@ -153,7 +130,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 5,
+      "curriculumPriority": 4,
       "topics": [
         "打招呼與自我介紹"
       ],
@@ -169,29 +146,6 @@
       "qaStatus": "pilot_review_required"
     },
     {
-      "lexemeId": "ben",
-      "lemma": "Ben",
-      "sourceLexemeIds": [
-        "ben"
-      ],
-      "targetLevel": "A1",
-      "masteryTarget": "active",
-      "curriculumPriority": 6,
-      "topics": [
-        "打招呼與自我介紹"
-      ],
-      "sourceRefs": [
-        {
-          "sourceName": "EnglishWeb A1 curriculum",
-          "sourceVersion": "a1-course-v3.csv",
-          "sourceType": "curriculum",
-          "license": "pending",
-          "reference": "a1-u1-l2-t04"
-        }
-      ],
-      "qaStatus": "pilot_review_required"
-    },
-    {
       "lexemeId": "nice",
       "lemma": "nice",
       "sourceLexemeIds": [
@@ -199,7 +153,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 7,
+      "curriculumPriority": 5,
       "topics": [
         "打招呼與自我介紹"
       ],
@@ -222,7 +176,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 8,
+      "curriculumPriority": 6,
       "topics": [
         "打招呼與自我介紹",
         "日常活動",
@@ -259,7 +213,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 9,
+      "curriculumPriority": 7,
       "topics": [
         "打招呼與自我介紹"
       ],
@@ -282,7 +236,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 10,
+      "curriculumPriority": 8,
       "topics": [
         "打招呼與自我介紹",
         "昨天與明天",
@@ -316,7 +270,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 11,
+      "curriculumPriority": 9,
       "topics": [
         "打招呼與自我介紹",
         "時間與日期"
@@ -340,7 +294,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 12,
+      "curriculumPriority": 10,
       "topics": [
         "打招呼與自我介紹"
       ],
@@ -363,7 +317,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 13,
+      "curriculumPriority": 11,
       "topics": [
         "身邊物品",
         "購物與比較",
@@ -395,7 +349,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 14,
+      "curriculumPriority": 12,
       "topics": [
         "身邊物品",
         "旅行與交通",
@@ -428,7 +382,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 15,
+      "curriculumPriority": 13,
       "topics": [
         "身邊物品"
       ],
@@ -451,7 +405,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 16,
+      "curriculumPriority": 14,
       "topics": [
         "身邊物品",
         "家人與人物",
@@ -485,7 +439,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 17,
+      "curriculumPriority": 15,
       "topics": [
         "身邊物品"
       ],
@@ -508,7 +462,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 18,
+      "curriculumPriority": 16,
       "topics": [
         "身邊物品",
         "購物與比較"
@@ -539,7 +493,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 19,
+      "curriculumPriority": 17,
       "topics": [
         "身邊物品"
       ],
@@ -562,7 +516,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 20,
+      "curriculumPriority": 18,
       "topics": [
         "身邊物品",
         "地點與方向",
@@ -595,7 +549,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 21,
+      "curriculumPriority": 19,
       "topics": [
         "身邊物品"
       ],
@@ -618,7 +572,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 22,
+      "curriculumPriority": 20,
       "topics": [
         "身邊物品",
         "地點與方向"
@@ -642,7 +596,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 23,
+      "curriculumPriority": 21,
       "topics": [
         "身邊物品"
       ],
@@ -665,7 +619,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 24,
+      "curriculumPriority": 22,
       "topics": [
         "家人與人物"
       ],
@@ -688,7 +642,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 25,
+      "curriculumPriority": 23,
       "topics": [
         "家人與人物"
       ],
@@ -711,7 +665,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 26,
+      "curriculumPriority": 24,
       "topics": [
         "家人與人物"
       ],
@@ -734,7 +688,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 27,
+      "curriculumPriority": 25,
       "topics": [
         "家人與人物"
       ],
@@ -757,7 +711,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 28,
+      "curriculumPriority": 26,
       "topics": [
         "家人與人物"
       ],
@@ -780,7 +734,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 29,
+      "curriculumPriority": 27,
       "topics": [
         "家人與人物"
       ],
@@ -803,7 +757,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 30,
+      "curriculumPriority": 28,
       "topics": [
         "家人與人物"
       ],
@@ -826,7 +780,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 31,
+      "curriculumPriority": 29,
       "topics": [
         "家人與人物",
         "飲食",
@@ -861,7 +815,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 32,
+      "curriculumPriority": 30,
       "topics": [
         "家人與人物",
         "飲食",
@@ -887,7 +841,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 33,
+      "curriculumPriority": 31,
       "topics": [
         "飲食"
       ],
@@ -910,7 +864,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 34,
+      "curriculumPriority": 32,
       "topics": [
         "飲食"
       ],
@@ -933,7 +887,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 35,
+      "curriculumPriority": 33,
       "topics": [
         "飲食",
         "昨天與明天"
@@ -964,7 +918,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 36,
+      "curriculumPriority": 34,
       "topics": [
         "飲食"
       ],
@@ -987,7 +941,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 37,
+      "curriculumPriority": 35,
       "topics": [
         "飲食"
       ],
@@ -1010,7 +964,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 38,
+      "curriculumPriority": 36,
       "topics": [
         "飲食"
       ],
@@ -1033,7 +987,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 39,
+      "curriculumPriority": 37,
       "topics": [
         "飲食",
         "健康與建議"
@@ -1064,7 +1018,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 40,
+      "curriculumPriority": 38,
       "topics": [
         "飲食",
         "A1 綜合短文"
@@ -1088,7 +1042,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 41,
+      "curriculumPriority": 39,
       "topics": [
         "飲食",
         "A1 綜合短文"
@@ -1112,7 +1066,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 42,
+      "curriculumPriority": 40,
       "topics": [
         "日常活動",
         "地點與方向",
@@ -1145,7 +1099,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 43,
+      "curriculumPriority": 41,
       "topics": [
         "日常活動",
         "時間與日期",
@@ -1170,7 +1124,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 44,
+      "curriculumPriority": 42,
       "topics": [
         "日常活動",
         "A1 綜合短文",
@@ -1202,7 +1156,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 45,
+      "curriculumPriority": 43,
       "topics": [
         "日常活動",
         "A1 綜合短文"
@@ -1226,7 +1180,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 46,
+      "curriculumPriority": 44,
       "topics": [
         "日常活動",
         "A1 綜合短文"
@@ -1250,7 +1204,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 47,
+      "curriculumPriority": 45,
       "topics": [
         "日常活動",
         "昨天與明天"
@@ -1281,7 +1235,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 48,
+      "curriculumPriority": 46,
       "topics": [
         "日常活動",
         "昨天與明天"
@@ -1312,7 +1266,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 49,
+      "curriculumPriority": 47,
       "topics": [
         "日常活動",
         "昨天與明天"
@@ -1343,7 +1297,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 50,
+      "curriculumPriority": 48,
       "topics": [
         "日常活動",
         "昨天與明天"
@@ -1374,7 +1328,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 51,
+      "curriculumPriority": 49,
       "topics": [
         "日常活動",
         "昨天與明天"
@@ -1405,7 +1359,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 52,
+      "curriculumPriority": 50,
       "topics": [
         "時間與日期",
         "購物與比較"
@@ -1436,7 +1390,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 53,
+      "curriculumPriority": 51,
       "topics": [
         "時間與日期",
         "A1 綜合短文"
@@ -1460,7 +1414,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 54,
+      "curriculumPriority": 52,
       "topics": [
         "時間與日期"
       ],
@@ -1483,7 +1437,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 55,
+      "curriculumPriority": 53,
       "topics": [
         "時間與日期"
       ],
@@ -1506,7 +1460,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 56,
+      "curriculumPriority": 54,
       "topics": [
         "時間與日期"
       ],
@@ -1529,7 +1483,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 57,
+      "curriculumPriority": 55,
       "topics": [
         "時間與日期"
       ],
@@ -1552,7 +1506,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 58,
+      "curriculumPriority": 56,
       "topics": [
         "時間與日期"
       ],
@@ -1575,7 +1529,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 59,
+      "curriculumPriority": 57,
       "topics": [
         "時間與日期"
       ],
@@ -1598,7 +1552,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 60,
+      "curriculumPriority": 58,
       "topics": [
         "時間與日期"
       ],
@@ -1621,7 +1575,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 61,
+      "curriculumPriority": 59,
       "topics": [
         "地點與方向",
         "昨天與明天"
@@ -1652,7 +1606,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 62,
+      "curriculumPriority": 60,
       "topics": [
         "地點與方向"
       ],
@@ -1675,7 +1629,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 63,
+      "curriculumPriority": 61,
       "topics": [
         "地點與方向",
         "旅行與交通"
@@ -1706,7 +1660,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 64,
+      "curriculumPriority": 62,
       "topics": [
         "地點與方向"
       ],
@@ -1729,7 +1683,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 65,
+      "curriculumPriority": 63,
       "topics": [
         "地點與方向"
       ],
@@ -1752,7 +1706,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 66,
+      "curriculumPriority": 64,
       "topics": [
         "地點與方向"
       ],
@@ -1775,7 +1729,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 67,
+      "curriculumPriority": 65,
       "topics": [
         "地點與方向",
         "A1 綜合短文"
@@ -1799,7 +1753,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "active",
-      "curriculumPriority": 68,
+      "curriculumPriority": 66,
       "topics": [
         "地點與方向",
         "A1 綜合短文",
@@ -1831,7 +1785,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 69,
+      "curriculumPriority": 67,
       "topics": [
         "昨天與明天"
       ],
@@ -1854,7 +1808,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 70,
+      "curriculumPriority": 68,
       "topics": [
         "昨天與明天",
         "旅行與交通"
@@ -1878,7 +1832,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 71,
+      "curriculumPriority": 69,
       "topics": [
         "昨天與明天",
         "旅行與交通",
@@ -1903,7 +1857,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 72,
+      "curriculumPriority": 70,
       "topics": [
         "昨天與明天"
       ],
@@ -1926,7 +1880,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 73,
+      "curriculumPriority": 71,
       "topics": [
         "昨天與明天"
       ],
@@ -1949,7 +1903,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 74,
+      "curriculumPriority": 72,
       "topics": [
         "旅行與交通",
         "購物與比較"
@@ -1973,7 +1927,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 75,
+      "curriculumPriority": 73,
       "topics": [
         "旅行與交通"
       ],
@@ -1996,7 +1950,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 76,
+      "curriculumPriority": 74,
       "topics": [
         "旅行與交通",
         "健康與建議"
@@ -2020,7 +1974,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 77,
+      "curriculumPriority": 75,
       "topics": [
         "旅行與交通"
       ],
@@ -2043,7 +1997,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 78,
+      "curriculumPriority": 76,
       "topics": [
         "旅行與交通"
       ],
@@ -2066,7 +2020,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 79,
+      "curriculumPriority": 77,
       "topics": [
         "旅行與交通"
       ],
@@ -2089,7 +2043,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 80,
+      "curriculumPriority": 78,
       "topics": [
         "旅行與交通"
       ],
@@ -2112,7 +2066,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 81,
+      "curriculumPriority": 79,
       "topics": [
         "旅行與交通"
       ],
@@ -2135,7 +2089,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 82,
+      "curriculumPriority": 80,
       "topics": [
         "旅行與交通"
       ],
@@ -2158,7 +2112,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 83,
+      "curriculumPriority": 81,
       "topics": [
         "購物與比較"
       ],
@@ -2181,7 +2135,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 84,
+      "curriculumPriority": 82,
       "topics": [
         "購物與比較"
       ],
@@ -2204,7 +2158,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 85,
+      "curriculumPriority": 83,
       "topics": [
         "購物與比較"
       ],
@@ -2227,7 +2181,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 86,
+      "curriculumPriority": 84,
       "topics": [
         "購物與比較"
       ],
@@ -2250,7 +2204,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 87,
+      "curriculumPriority": 85,
       "topics": [
         "購物與比較"
       ],
@@ -2273,7 +2227,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 88,
+      "curriculumPriority": 86,
       "topics": [
         "購物與比較"
       ],
@@ -2296,7 +2250,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 89,
+      "curriculumPriority": 87,
       "topics": [
         "購物與比較"
       ],
@@ -2319,7 +2273,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 90,
+      "curriculumPriority": 88,
       "topics": [
         "購物與比較"
       ],
@@ -2342,7 +2296,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 91,
+      "curriculumPriority": 89,
       "topics": [
         "購物與比較"
       ],
@@ -2365,7 +2319,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 92,
+      "curriculumPriority": 90,
       "topics": [
         "購物與比較"
       ],
@@ -2388,7 +2342,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 93,
+      "curriculumPriority": 91,
       "topics": [
         "購物與比較"
       ],
@@ -2411,7 +2365,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 94,
+      "curriculumPriority": 92,
       "topics": [
         "健康與建議"
       ],
@@ -2434,7 +2388,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 95,
+      "curriculumPriority": 93,
       "topics": [
         "健康與建議"
       ],
@@ -2457,7 +2411,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 96,
+      "curriculumPriority": 94,
       "topics": [
         "健康與建議"
       ],
@@ -2480,7 +2434,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 97,
+      "curriculumPriority": 95,
       "topics": [
         "健康與建議"
       ],
@@ -2503,7 +2457,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 98,
+      "curriculumPriority": 96,
       "topics": [
         "健康與建議"
       ],
@@ -2526,7 +2480,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 99,
+      "curriculumPriority": 97,
       "topics": [
         "健康與建議"
       ],
@@ -2549,7 +2503,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 100,
+      "curriculumPriority": 98,
       "topics": [
         "健康與建議"
       ],
@@ -2572,7 +2526,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 101,
+      "curriculumPriority": 99,
       "topics": [
         "健康與建議"
       ],
@@ -2595,7 +2549,7 @@
       ],
       "targetLevel": "A2",
       "masteryTarget": "active",
-      "curriculumPriority": 102,
+      "curriculumPriority": 100,
       "topics": [
         "健康與建議"
       ],
@@ -2618,7 +2572,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 103,
+      "curriculumPriority": 101,
       "topics": [
         "days-of-week"
       ],
@@ -2641,7 +2595,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 104,
+      "curriculumPriority": 102,
       "topics": [
         "days-of-week"
       ],
@@ -2664,7 +2618,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 105,
+      "curriculumPriority": 103,
       "topics": [
         "days-of-week"
       ],
@@ -2687,7 +2641,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 106,
+      "curriculumPriority": 104,
       "topics": [
         "days-of-week"
       ],
@@ -2710,7 +2664,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 107,
+      "curriculumPriority": 105,
       "topics": [
         "days-of-week"
       ],
@@ -2733,7 +2687,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 108,
+      "curriculumPriority": 106,
       "topics": [
         "times-of-day"
       ],
@@ -2756,7 +2710,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 109,
+      "curriculumPriority": 107,
       "topics": [
         "times-of-day"
       ],
@@ -2779,7 +2733,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 110,
+      "curriculumPriority": 108,
       "topics": [
         "times-of-day"
       ],
@@ -2802,7 +2756,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 111,
+      "curriculumPriority": 109,
       "topics": [
         "months-of-year"
       ],
@@ -2825,7 +2779,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 112,
+      "curriculumPriority": 110,
       "topics": [
         "months-of-year"
       ],
@@ -2848,7 +2802,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 113,
+      "curriculumPriority": 111,
       "topics": [
         "months-of-year"
       ],
@@ -2871,7 +2825,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 114,
+      "curriculumPriority": 112,
       "topics": [
         "months-of-year"
       ],
@@ -2894,7 +2848,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 115,
+      "curriculumPriority": 113,
       "topics": [
         "months-of-year"
       ],
@@ -2917,7 +2871,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 116,
+      "curriculumPriority": 114,
       "topics": [
         "months-of-year"
       ],
@@ -2940,7 +2894,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 117,
+      "curriculumPriority": 115,
       "topics": [
         "months-of-year"
       ],
@@ -2963,7 +2917,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 118,
+      "curriculumPriority": 116,
       "topics": [
         "months-of-year"
       ],
@@ -2986,7 +2940,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 119,
+      "curriculumPriority": 117,
       "topics": [
         "months-of-year"
       ],
@@ -3009,7 +2963,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 120,
+      "curriculumPriority": 118,
       "topics": [
         "months-of-year"
       ],
@@ -3032,7 +2986,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 121,
+      "curriculumPriority": 119,
       "topics": [
         "months-of-year"
       ],
@@ -3055,7 +3009,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 122,
+      "curriculumPriority": 120,
       "topics": [
         "family-members"
       ],
@@ -3078,7 +3032,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 123,
+      "curriculumPriority": 121,
       "topics": [
         "family-members"
       ],
@@ -3101,7 +3055,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 124,
+      "curriculumPriority": 122,
       "topics": [
         "family-members"
       ],
@@ -3124,7 +3078,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 125,
+      "curriculumPriority": 123,
       "topics": [
         "family-members"
       ],
@@ -3147,7 +3101,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 126,
+      "curriculumPriority": 124,
       "topics": [
         "family-members"
       ],
@@ -3170,7 +3124,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 127,
+      "curriculumPriority": 125,
       "topics": [
         "family-members"
       ],
@@ -3193,7 +3147,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 128,
+      "curriculumPriority": 126,
       "topics": [
         "family-members"
       ],
