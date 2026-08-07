@@ -55,19 +55,13 @@ jobs:
           from pathlib import Path
           path = Path('app/page.tsx')
           text = path.read_text(encoding='utf-8')
-          old = '''    const todayActionLabel = dueReviews.length
-                ? `先複習 ${dueReviews.length} 項`
-                : recommendation.buttonLabel;'''
-          if old not in text:
-              old = '''    const todayActionLabel = dueReviews.length
-      ? `先複習 ${dueReviews.length} 項`
-      : recommendation.buttonLabel;'''
-          if old not in text:
-              raise SystemExit('daily action label block not found')
-          new = '''    const todayActionLabel = dueReviews.length
-      ? `開始今日複習（${dueReviews.length} 項）`
-      : "開始今日學習";'''
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          old_review = '? `先複習 ${dueReviews.length} 項`'
+          old_default = ': recommendation.buttonLabel;'
+          if old_review not in text or old_default not in text:
+              raise SystemExit('daily action label fragments not found')
+          text = text.replace(old_review, '? `開始今日複習（${dueReviews.length} 項）`', 1)
+          text = text.replace(old_default, ': "開始今日學習";', 1)
+          path.write_text(text, encoding='utf-8')
           PY
 
       - name: Verify project context and data
