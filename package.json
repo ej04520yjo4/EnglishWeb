@@ -15,7 +15,7 @@
     "report:vocabulary": "node --experimental-strip-types scripts/report-vocabulary-coverage.mjs",
     "validate:curriculum": "node --experimental-strip-types scripts/validate-curriculum.mjs",
     "test": "npm run check:context && npm run audit:project && npm run audit:vocabulary && npm run validate:curriculum && npm run build && npm run test:unit && npm run test:e2e",
-    "test:unit": "node --experimental-strip-types --test tests/rendered-html.test.mjs tests/a1-mvp-v3.test.mjs tests/a2-pilot.test.mjs tests/b1-b2-curriculum.test.mjs tests/vocabulary-groups.test.mjs tests/vocabulary-targets.test.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/rendered-html.test.mjs tests/a1-mvp-v3.test.mjs tests/a2-pilot.test.mjs tests/b1-b2-curriculum.test.mjs tests/vocabulary-groups.test.mjs tests/vocabulary-targets.test.mjs tests/daily-learning.test.mjs",
     "test:e2e": "node scripts/run-playwright-tests.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },

@@ -126,6 +126,7 @@ import {
   summarizeVocabularyProgress,
   type VocabularyEvidenceKind,
 } from "./vocabulary-progress.ts";
+import { buildVocabularyWeaknesses } from "./daily-learning.ts";
 
 type Screen =
   | "home"
@@ -134,6 +135,7 @@ type Screen =
   | "phonetics"
   | "related-vocabulary"
   | "review"
+  | "weakness"
   | "progress"
   | "admin"
   | "settings"
@@ -281,6 +283,7 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "phonetics", label: "KK 音標", icon: "KK" },
   { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
   { screen: "review", label: "待複習", icon: "↻" },
+  { screen: "weakness", label: "弱點中心", icon: "△" },
   { screen: "progress", label: "學習進度", icon: "▥" },
   { screen: "admin", label: "內容管理", icon: "≡" },
 ];
@@ -1157,6 +1160,14 @@ export default function Home() {
     : 0;
   const dueReviews = Object.values(progress.reviewItems).filter(
     (item) => new Date(item.dueAt).getTime() <= timestamp(),
+  );
+  const vocabularyWeaknesses = useMemo(
+    () =>
+      buildVocabularyWeaknesses(
+        multiProgress.vocabularyProgress,
+        vocabularyTargets,
+      ),
+    [multiProgress.vocabularyProgress, vocabularyTargets],
   );
   const accuracy = progress.totalAttempts
     ? Math.round((progress.correctAnswers / progress.totalAttempts) * 100)
@@ -3028,6 +3039,16 @@ export default function Home() {
             action: () => startLesson(nextLesson),
             buttonLabel: "開始這一課",
           };
+    const todayMinutes =
+      Math.max(1, nextLesson.minutes) +
+      Math.min(dueReviews.length, 5) +
+      Math.min(vocabularyWeaknesses.length, 3);
+    const todayAction = dueReviews.length
+      ? () => setScreen("review")
+      : recommendation.action;
+    const todayActionLabel = dueReviews.length
+      ? `開始今日複習（${dueReviews.length} 項）`
+      : "開始今日學習";
     return (
       <div className="page-stack">
         <section className="welcome-row">
@@ -3040,6 +3061,61 @@ export default function Home() {
             value={coursePercent}
             label={`${selectedLevel} 完成度`}
           />
+        </section>
+
+        <section
+          className="section-card"
+          data-testid="daily-learning-plan"
+        >
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">今日學習</span>
+              <h2>今天照這個順序完成就好</h2>
+            </div>
+            <span className="status-pill">約 {todayMinutes} 分鐘</span>
+          </div>
+          <div className="three-grid">
+            <StatCard
+              label="① 待複習"
+              value={dueReviews.length}
+              note={dueReviews.length ? "先把到期內容喚回來" : "今天沒有到期內容"}
+            />
+            <StatCard
+              label="② 今日課程"
+              value={recommendation.title}
+              note={recommendation.kicker}
+            />
+            <StatCard
+              label="③ 弱點加強"
+              value={Math.min(vocabularyWeaknesses.length, 3)}
+              note={
+                vocabularyWeaknesses.length
+                  ? `優先：${vocabularyWeaknesses
+                      .slice(0, 3)
+                      .map((item) => item.lemma)
+                      .join("、")}`
+                  : "目前沒有明顯錯誤累積"
+              }
+            />
+          </div>
+          <div className="section-heading">
+            <button
+              className="primary-button detail-next-button"
+              data-testid="start-daily-learning"
+              onClick={todayAction}
+              onKeyDown={(event) => activateButtonOnEnter(event, todayAction)}
+              aria-keyshortcuts="Enter"
+            >
+              <span>{todayActionLabel}</span>
+              <kbd>Enter</kbd>
+            </button>
+            <button
+              className="text-button"
+              onClick={() => setScreen("weakness")}
+            >
+              查看弱點中心 →
+            </button>
+          </div>
         </section>
 
         <section className="continue-card">
@@ -4827,6 +4903,78 @@ export default function Home() {
     </div>
   );
 
+  const renderWeakness = () => {
+    const spellingCount = vocabularyWeaknesses.filter(
+      (item) => item.focus === "拼寫",
+    ).length;
+    const recognitionCount = vocabularyWeaknesses.filter(
+      (item) => item.focus === "辨認",
+    ).length;
+    const applicationCount = vocabularyWeaknesses.filter(
+      (item) => item.focus === "運用",
+    ).length;
+    return (
+      <div className="page-stack" data-testid="weakness-center">
+        <section className="page-title">
+          <div>
+            <span className="eyebrow">依你的實際錯誤證據排序</span>
+            <h1>弱點中心</h1>
+            <p>只列出真的答錯過的核心詞彙；看過一次或單純打開單字卡不算弱點。</p>
+          </div>
+          <span className="level-pill">目前 {vocabularyWeaknesses.length} 個</span>
+        </section>
+        <div className="three-grid">
+          <StatCard label="拼寫弱點" value={spellingCount} />
+          <StatCard label="辨認弱點" value={recognitionCount} />
+          <StatCard label="運用弱點" value={applicationCount} />
+        </div>
+        <section className="section-card">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">優先處理錯誤最多的內容</span>
+              <h2>最需要加強</h2>
+            </div>
+            <button className="text-button" onClick={() => setScreen("review")}>
+              前往待複習 →
+            </button>
+          </div>
+          {vocabularyWeaknesses.length ? (
+            <div className="review-list" data-testid="weakness-list">
+              {vocabularyWeaknesses.map((item, index) => (
+                <article className="review-row" key={item.lexemeId}>
+                  <span className="lesson-number">{index + 1}</span>
+                  <div>
+                    <strong>{item.lemma}</strong>
+                    <small>
+                      {item.focus}・答錯 {item.wrongAttempts} / 嘗試 {item.totalAttempts}
+                      {item.lastSeenAt ? "・最近 " + item.lastSeenAt.slice(0, 10) : ""}
+                    </small>
+                  </div>
+                  <span className="status-pill">{item.focus}</span>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state" data-testid="weakness-empty-state">
+              <strong>目前沒有明顯弱點</strong>
+              <span>完成更多辨認、拼寫與句型練習後，答錯過的內容會自動出現在這裡。</span>
+              <button
+                className="primary-button detail-next-button"
+                onClick={() => startLesson(nextLesson)}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, () => startLesson(nextLesson))
+                }
+                aria-keyshortcuts="Enter"
+              >
+                <span>繼續下一課</span>
+                <kbd>Enter</kbd>
+              </button>
+            </div>
+          )}
+        </section>
+      </div>
+    );
+  };
   const renderProgress = () => {
     const vocabularyCoverage = vocabularyTargets
       ? buildVocabularyCoverageReport(vocabularyTargets)
@@ -5260,6 +5408,7 @@ export default function Home() {
     if (screen === "alphabet") return renderAlphabet();
     if (screen === "phonetics") return renderPhonetics();
     if (screen === "review") return renderReview();
+    if (screen === "weakness") return renderWeakness();
     if (screen === "progress") return renderProgress();
     if (screen === "admin") return renderAdmin();
     if (screen === "settings") return renderSettings();
@@ -5289,6 +5438,9 @@ export default function Home() {
             >
               <span className="nav-icon">{item.icon}</span>{item.label}
               {item.screen === "review" && dueReviews.length > 0 && <b>{dueReviews.length}</b>}
+              {item.screen === "weakness" && vocabularyWeaknesses.length > 0 && (
+                <b>{vocabularyWeaknesses.length}</b>
+              )}
             </button>
           ))}
         </nav>

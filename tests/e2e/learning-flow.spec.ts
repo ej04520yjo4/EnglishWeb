@@ -1092,6 +1092,19 @@ test("shows a Traditional Chinese A2 error without breaking A1", async ({
   await expectNoHorizontalOverflow(page);
 });
 
+test("shows the daily learning plan and weakness center", async ({ page }) => {
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
+  await expect(page.locator('[data-testid="start-daily-learning"]')).toBeVisible();
+  await page.getByRole("button", { name: "前往弱點中心" }).click();
+  await expect(page.locator('[data-testid="weakness-center"]')).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "弱點中心", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator('[data-testid="weakness-empty-state"]')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
 test("keeps the Windows one-click launchers in the project root", async () => {
   const root = path.resolve(process.cwd());
   expect(
