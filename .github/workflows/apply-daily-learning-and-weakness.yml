@@ -1,0 +1,64 @@
+name: Apply daily learning and weakness center
+
+on:
+  push:
+    branches:
+      - feat/daily-learning-weakness-center
+    paths:
+      - scripts/apply-daily-learning-and-weakness.mjs
+      - .github/workflows/apply-daily-learning-and-weakness.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/daily-learning-weakness-center
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply feature
+        run: node scripts/apply-daily-learning-and-weakness.mjs
+
+      - name: Verify project context and data
+        run: |
+          npm run check:context
+          npm run audit:project
+          npm run audit:vocabulary
+          npm run report:vocabulary
+          npm run validate:curriculum
+
+      - name: Build and test
+        run: |
+          npm run build
+          npm run test:unit
+          npm run lint
+          npx tsc --noEmit --incremental false
+          npm run test:e2e
+
+      - name: Remove one-time automation
+        run: |
+          rm -f scripts/apply-daily-learning-and-weakness.mjs
+          rm -f .github/workflows/apply-daily-learning-and-weakness.yml
+
+      - name: Commit verified feature
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add daily learning plan and weakness center"
+          git push origin HEAD:feat/daily-learning-weakness-center
