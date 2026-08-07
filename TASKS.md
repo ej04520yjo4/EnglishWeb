@@ -22,6 +22,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Next - P1
 
+- [x] **LEARNING-LOOP-001:** Add a deterministic daily learning plan and evidence-backed weakness center without changing schema v6 or CEFR unlock rules.
 - [ ] **CI-E2E-001:** After pushing the hydration fix, confirm GitHub Actions passes all browser tests and exposes the Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.

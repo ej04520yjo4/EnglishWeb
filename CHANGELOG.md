@@ -11,6 +11,8 @@ This file records user-visible or contributor-visible project changes. Detailed 
 - Added vocabulary target validation, baseline generation, audit, coverage reporting, and protected-source hash checks.
 - Added progress schema v6 with global exposure, recognition, clean spelling, and application evidence shared across A1/A2.
 - Added vocabulary coverage and personal mastery summaries to the learning-progress page.
+- Added a home-page daily learning plan that prioritizes due review, the next lesson, and up to three evidence-backed vocabulary weaknesses.
+- Added a weakness center that ranks only actually missed target lexemes and separates spelling, recognition, and application focus.
 
 ### Changed
 
