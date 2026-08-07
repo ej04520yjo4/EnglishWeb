@@ -48,6 +48,28 @@ jobs:
       - name: Apply feature
         run: node scripts/apply-daily-learning-and-weakness.mjs
 
+      - name: Keep daily action names distinct from existing lesson buttons
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('app/page.tsx')
+          text = path.read_text(encoding='utf-8')
+          old = '''    const todayActionLabel = dueReviews.length
+                ? `先複習 ${dueReviews.length} 項`
+                : recommendation.buttonLabel;'''
+          if old not in text:
+              old = '''    const todayActionLabel = dueReviews.length
+      ? `先複習 ${dueReviews.length} 項`
+      : recommendation.buttonLabel;'''
+          if old not in text:
+              raise SystemExit('daily action label block not found')
+          new = '''    const todayActionLabel = dueReviews.length
+      ? `開始今日複習（${dueReviews.length} 項）`
+      : "開始今日學習";'''
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
       - name: Verify project context and data
         run: |
           npm run check:context
