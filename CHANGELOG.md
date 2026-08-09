@@ -2,6 +2,21 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-09 - Daily Learning 2.0 and Focused Weakness Practice
+
+### Added
+
+- Added a resumable daily learning session that runs due review, one current lesson, up to three weakness drills, and a daily completion summary in a deterministic order.
+- Added direct weakness practice from the weakness center with focus-specific spelling, recognition, and sentence-application exercises.
+- Added daily summary counters for elapsed time, review items, lesson completion, weakness drills, and vocabulary mastery gains.
+- Added desktop/mobile browser coverage for starting a daily session and launching a real weakness drill after a spelling error.
+
+### Preserved
+
+- Daily-session completion does not mark lessons, units, or CEFR levels as passed by itself.
+- Revealed answers and pasted spelling do not create clean mastery evidence.
+- Progress schema remains v6; the daily session is intentionally temporary UI state rather than a new persisted completion system.
+
 ## 2026-07-31 - A1/A2 Vocabulary 3000 Foundation
 
 ### Added

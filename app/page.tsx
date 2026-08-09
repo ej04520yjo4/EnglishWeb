@@ -127,6 +127,13 @@ import {
   type VocabularyEvidenceKind,
 } from "./vocabulary-progress.ts";
 import { buildVocabularyWeaknesses } from "./daily-learning.ts";
+import {
+  createDailySession,
+  markDailySessionStep,
+  nextDailySessionStep,
+  summarizeDailySession,
+  type DailySessionState,
+} from "./daily-session.ts";
 
 type Screen =
   | "home"
@@ -136,6 +143,8 @@ type Screen =
   | "related-vocabulary"
   | "review"
   | "weakness"
+  | "weakness-practice"
+  | "daily-summary"
   | "progress"
   | "admin"
   | "settings"
@@ -164,6 +173,15 @@ type Assessment = {
 };
 
 type ReviewItem = ReviewScheduleItem;
+
+type WeaknessPracticeSource = {
+  lexemeId: string;
+  answer: string;
+  prompt: string;
+  sentence: string;
+  translation: string;
+  level: CefrLevel;
+};
 
 const emptySentenceStats = (): SentenceLearningStats => ({
   rebuildAttempts: 0,
@@ -617,6 +635,26 @@ export default function Home() {
     useState(0);
   const [sessionTokenProgress, setSessionTokenProgress] =
     useState<TokenLearningProgressMap>({});
+  const [dailySession, setDailySession] =
+    useState<DailySessionState | null>(null);
+  const [weaknessPracticeQueue, setWeaknessPracticeQueue] =
+    useState<string[]>([]);
+  const [weaknessPracticeIndex, setWeaknessPracticeIndex] = useState(0);
+  const [weaknessPracticeValue, setWeaknessPracticeValue] = useState("");
+  const [weaknessPracticeChecked, setWeaknessPracticeChecked] =
+    useState(false);
+  const [weaknessPracticeAttempts, setWeaknessPracticeAttempts] =
+    useState(0);
+  const [weaknessPracticeRevealed, setWeaknessPracticeRevealed] =
+    useState(false);
+  const [weaknessPracticeUsedPaste, setWeaknessPracticeUsedPaste] =
+    useState(false);
+  const [weaknessPracticeFeedback, setWeaknessPracticeFeedback] =
+    useState("");
+  const [weaknessPracticeStartedAt, setWeaknessPracticeStartedAt] =
+    useState(0);
+  const [weaknessPracticeReturnScreen, setWeaknessPracticeReturnScreen] =
+    useState<"weakness" | "daily-summary">("weakness");
   const [speechSupported, setSpeechSupported] = useState(
     () => typeof window === "undefined" || "speechSynthesis" in window,
   );
@@ -641,6 +679,43 @@ export default function Home() {
     });
     return aliases;
   }, [courseRowsByLevel]);
+  const vocabularyPracticeSources = useMemo(() => {
+    const sources = new Map<string, WeaknessPracticeSource>();
+    const targetIds = new Set(
+      vocabularyTargets?.entries.map((entry) => entry.lexemeId) ?? [],
+    );
+    (["A1", "A2"] as CefrLevel[]).forEach((level) => {
+      flattenCourseLessons(courseUnitsByLevel[level]).forEach((lesson) => {
+        lesson.tokens.forEach((token) => {
+          const sourceId = canonicalizeLexemeId(
+            token.lexemeId ?? token.tokenId ?? token.id,
+          );
+          const canonical =
+            targetLexemeAliasIndex.get(sourceId) ??
+            curriculumLexemeAliasIndex.get(sourceId) ??
+            sourceId;
+          if (!canonical || !targetIds.has(canonical) || sources.has(canonical)) {
+            return;
+          }
+          sources.set(canonical, {
+            lexemeId: canonical,
+            answer: token.answer,
+            prompt: token.prompt,
+            sentence: lesson.sentence,
+            translation: lesson.translation,
+            level,
+          });
+        });
+      });
+    });
+    return sources;
+  }, [
+    courseUnitsByLevel,
+    curriculumLexemeAliasIndex,
+    targetLexemeAliasIndex,
+    vocabularyTargets,
+  ]);
+
   const recordVocabularyEvidence = (
     lexemeIds: string[],
     kind: VocabularyEvidenceKind,
@@ -1166,6 +1241,14 @@ export default function Home() {
       buildVocabularyWeaknesses(
         multiProgress.vocabularyProgress,
         vocabularyTargets,
+      ),
+    [multiProgress.vocabularyProgress, vocabularyTargets],
+  );
+  const personalVocabularySummary = useMemo(
+    () =>
+      summarizeVocabularyProgress(
+        multiProgress.vocabularyProgress,
+        vocabularyTargets?.entries.map((entry) => entry.lexemeId),
       ),
     [multiProgress.vocabularyProgress, vocabularyTargets],
   );
@@ -2987,6 +3070,226 @@ export default function Home() {
     }
   };
 
+  const resetWeaknessPractice = () => {
+    setWeaknessPracticeValue("");
+    setWeaknessPracticeChecked(false);
+    setWeaknessPracticeAttempts(0);
+    setWeaknessPracticeRevealed(false);
+    setWeaknessPracticeUsedPaste(false);
+    setWeaknessPracticeFeedback("");
+  };
+
+  const startWeaknessPractice = (
+    lexemeIds: string[],
+    returnScreen: "weakness" | "daily-summary" = "weakness",
+  ) => {
+    const queue = [...new Set(lexemeIds)].filter((lexemeId) =>
+      vocabularyPracticeSources.has(lexemeId),
+    );
+    if (!queue.length) {
+      if (returnScreen === "daily-summary" && dailySession) {
+        const updated = markDailySessionStep(dailySession, "weakness");
+        setDailySession(updated);
+        setScreen("daily-summary");
+      } else {
+        setToast("目前找不到這個弱點可使用的正式課程例句。");
+      }
+      return;
+    }
+    setWeaknessPracticeQueue(queue);
+    setWeaknessPracticeIndex(0);
+    setWeaknessPracticeReturnScreen(returnScreen);
+    setWeaknessPracticeStartedAt(timestamp());
+    resetWeaknessPractice();
+    setScreen("weakness-practice");
+  };
+
+  const recognitionOptionsForWeakness = (
+    source: WeaknessPracticeSource,
+  ) => {
+    const distractors = Array.from(vocabularyPracticeSources.values())
+      .filter(
+        (item) =>
+          item.lexemeId !== source.lexemeId &&
+          item.prompt &&
+          item.prompt !== source.prompt,
+      )
+      .map((item) => item.prompt)
+      .filter((item, index, values) => values.indexOf(item) === index)
+      .sort((left, right) => left.localeCompare(right))
+      .slice(0, 3);
+    const options = [source.prompt, ...distractors];
+    if (options.length <= 1) return options;
+    const offset =
+      [...source.lexemeId].reduce(
+        (sum, character) => sum + character.charCodeAt(0),
+        0,
+      ) % options.length;
+    return [...options.slice(offset), ...options.slice(0, offset)];
+  };
+
+  const goToDailySessionStep = (session: DailySessionState) => {
+    const nextStep = nextDailySessionStep(session);
+    if (nextStep === "review") {
+      setScreen("review");
+      return;
+    }
+    if (nextStep === "lesson") {
+      const lesson =
+        allLessons.find((item) => item.id === session.lessonId) ?? nextLesson;
+      startLesson(lesson);
+      return;
+    }
+    if (nextStep === "weakness") {
+      startWeaknessPractice(session.weaknessLexemeIds, "daily-summary");
+      return;
+    }
+    setScreen("daily-summary");
+  };
+
+  const startDailyLearning = () => {
+    const session = createDailySession({
+      startedAt: timestamp(),
+      lessonId: nextLesson.id,
+      reviewCount: dueReviews.length,
+      weaknessLexemeIds: vocabularyWeaknesses
+        .slice(0, 3)
+        .map((item) => item.lexemeId),
+      beforeVocabulary: personalVocabularySummary,
+    });
+    setDailySession(session);
+    goToDailySessionStep(session);
+  };
+
+  const completeDailyReview = () => {
+    if (!dailySession) return;
+    const updated = markDailySessionStep(dailySession, "review");
+    setDailySession(updated);
+    goToDailySessionStep(updated);
+  };
+
+  const continueDailyAfterLesson = () => {
+    if (!dailySession || dailySession.lessonId !== selectedLesson.id) {
+      continueAfterLesson();
+      return;
+    }
+    const updated = markDailySessionStep(dailySession, "lesson");
+    setDailySession(updated);
+    goToDailySessionStep(updated);
+  };
+
+  const checkWeaknessPractice = () => {
+    if (weaknessPracticeChecked) return;
+    const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex];
+    const source = vocabularyPracticeSources.get(lexemeId);
+    const weakness = vocabularyWeaknesses.find(
+      (item) => item.lexemeId === lexemeId,
+    );
+    if (!source || !weakness) {
+      setWeaknessPracticeFeedback("目前找不到可驗證的弱點資料。");
+      return;
+    }
+    if (!weaknessPracticeValue.trim()) {
+      setWeaknessPracticeFeedback("請先作答。");
+      return;
+    }
+    const nextAttempt = weaknessPracticeAttempts + 1;
+    const focus = weakness.focus;
+    const correct =
+      focus === "拼寫"
+        ? clean(weaknessPracticeValue) === clean(source.answer)
+        : focus === "運用"
+          ? cleanSentence(weaknessPracticeValue) ===
+            cleanSentence(source.sentence)
+          : weaknessPracticeValue === source.prompt;
+    const kindPrefix =
+      focus === "拼寫"
+        ? "spelling"
+        : focus === "運用"
+          ? "application"
+          : "recognition";
+    const evidenceId =
+      `weakness:${kindPrefix}:${lexemeId}:${weaknessPracticeStartedAt}:${nextAttempt}`;
+    const attemptKind: VocabularyEvidenceKind =
+      focus === "拼寫"
+        ? "spellingAttempt"
+        : focus === "運用"
+          ? "applicationAttempt"
+          : "recognitionAttempt";
+    const correctKind: VocabularyEvidenceKind =
+      focus === "拼寫"
+        ? "spellingCorrect"
+        : focus === "運用"
+          ? "applicationCorrect"
+          : "recognitionCorrect";
+    recordVocabularyEvidence(
+      [lexemeId],
+      attemptKind,
+      evidenceId,
+      source.level,
+    );
+    setWeaknessPracticeAttempts(nextAttempt);
+    if (correct) {
+      const cleanCredit =
+        focus !== "拼寫" || !weaknessPracticeUsedPaste;
+      if (cleanCredit) {
+        recordVocabularyEvidence(
+          [lexemeId],
+          correctKind,
+          evidenceId,
+          source.level,
+        );
+      }
+      setWeaknessPracticeChecked(true);
+      setWeaknessPracticeFeedback(
+        cleanCredit
+          ? "這次答對了，已記錄為有效的弱點練習。"
+          : "答案正確，但使用貼上不會記為乾淨的拼寫證據。",
+      );
+      return;
+    }
+    if (nextAttempt >= 3) {
+      setWeaknessPracticeRevealed(true);
+      setWeaknessPracticeChecked(true);
+      const expected =
+        focus === "拼寫"
+          ? source.answer
+          : focus === "運用"
+            ? source.sentence
+            : source.prompt;
+      setWeaknessPracticeFeedback(
+        `已嘗試 3 次，正確答案是「${expected}」。這次不計入正確熟練證據。`,
+      );
+      return;
+    }
+    setWeaknessPracticeFeedback(
+      `第 ${nextAttempt} 次還沒答對，再試一次。`,
+    );
+  };
+
+  const continueWeaknessPractice = () => {
+    if (weaknessPracticeIndex < weaknessPracticeQueue.length - 1) {
+      setWeaknessPracticeIndex((value) => value + 1);
+      resetWeaknessPractice();
+      return;
+    }
+    if (weaknessPracticeReturnScreen === "daily-summary" && dailySession) {
+      const updated = markDailySessionStep(dailySession, "weakness");
+      setDailySession(updated);
+      setScreen("daily-summary");
+      return;
+    }
+    setScreen("weakness");
+  };
+
+  const finishDailySession = () => {
+    setDailySession(null);
+    setWeaknessPracticeQueue([]);
+    setWeaknessPracticeIndex(0);
+    resetWeaknessPractice();
+    setScreen("home");
+  };
+
   const renderHome = () => {
     const pendingUnitTest = courseUnits.find(
       (unit, index) =>
@@ -3043,11 +3346,11 @@ export default function Home() {
       Math.max(1, nextLesson.minutes) +
       Math.min(dueReviews.length, 5) +
       Math.min(vocabularyWeaknesses.length, 3);
-    const todayAction = dueReviews.length
-      ? () => setScreen("review")
-      : recommendation.action;
-    const todayActionLabel = dueReviews.length
-      ? `開始今日複習（${dueReviews.length} 項）`
+    const todayAction = dailySession
+      ? () => goToDailySessionStep(dailySession)
+      : startDailyLearning;
+    const todayActionLabel = dailySession
+      ? "繼續今日學習"
       : "開始今日學習";
     return (
       <div className="page-stack">
@@ -4005,6 +4308,17 @@ export default function Home() {
           ? ["短文理解"]
           : []),
       ];
+      const dailyLessonPending =
+        dailySession?.lessonId === selectedLesson.id &&
+        !dailySession.completedSteps.includes("lesson");
+      const resultNextAction = dailyLessonPending
+        ? continueDailyAfterLesson
+        : continueAfterLesson;
+      const resultNextLabel = dailyLessonPending
+        ? dailySession.weaknessLexemeIds.length > 0
+          ? "完成今日課程，前往弱點加強 →"
+          : "完成今日課程，查看今日總結 →"
+        : afterLessonLabel();
       return (
         <div className="learning-shell">
           <section className="result-card">
@@ -4077,12 +4391,14 @@ export default function Home() {
               <button
                 id="lesson-result-next"
                 className="primary-button detail-next-button"
-                onClick={continueAfterLesson}
-                onKeyDown={(event) => activateButtonOnEnter(event, continueAfterLesson)}
+                onClick={resultNextAction}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, resultNextAction)
+                }
                 aria-keyshortcuts="Enter"
-                title={`按 Enter：${afterLessonLabel()}`}
+                title={`按 Enter：${resultNextLabel}`}
               >
-                <span>{afterLessonLabel()}</span>
+                <span>{resultNextLabel}</span>
                 <kbd>Enter</kbd>
               </button>
             </div>
@@ -4899,6 +5215,20 @@ export default function Home() {
             </div>
           )}
         </div>
+        {dailySession && nextDailySessionStep(dailySession) === "review" && (
+          <button
+            className="primary-button full-button detail-next-button"
+            data-testid="daily-review-complete"
+            onClick={completeDailyReview}
+            onKeyDown={(event) =>
+              activateButtonOnEnter(event, completeDailyReview)
+            }
+            aria-keyshortcuts="Enter"
+          >
+            <span>完成今日複習，前往今日課程 →</span>
+            <kbd>Enter</kbd>
+          </button>
+        )}
       </section>
     </div>
   );
@@ -4950,7 +5280,18 @@ export default function Home() {
                       {item.lastSeenAt ? "・最近 " + item.lastSeenAt.slice(0, 10) : ""}
                     </small>
                   </div>
-                  <span className="status-pill">{item.focus}</span>
+                  <div className="button-row">
+                    <span className="status-pill">{item.focus}</span>
+                    <button
+                      className="secondary-button"
+                      data-testid={`practice-weakness-${item.lexemeId}`}
+                      onClick={() =>
+                        startWeaknessPractice([item.lexemeId], "weakness")
+                      }
+                    >
+                      立即加強
+                    </button>
+                  </div>
                 </article>
               ))}
             </div>
@@ -4975,6 +5316,233 @@ export default function Home() {
       </div>
     );
   };
+  const renderWeaknessPractice = () => {
+    const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex] ?? "";
+    const weakness = vocabularyWeaknesses.find(
+      (item) => item.lexemeId === lexemeId,
+    );
+    const source = vocabularyPracticeSources.get(lexemeId);
+    if (!lexemeId || !weakness || !source) {
+      return (
+        <div className="page-stack" data-testid="weakness-practice">
+          <section className="section-card">
+            <h1>目前沒有可直接練習的弱點</h1>
+            <p>完成更多正式課程作答後，系統會建立可驗證的弱點練習。</p>
+            <button
+              className="secondary-button"
+              onClick={() => setScreen("weakness")}
+            >
+              返回弱點中心
+            </button>
+          </section>
+        </div>
+      );
+    }
+    const recognitionOptions = recognitionOptionsForWeakness(source);
+    const expected =
+      weakness.focus === "拼寫"
+        ? source.answer
+        : weakness.focus === "運用"
+          ? source.sentence
+          : source.prompt;
+    return (
+      <div className="page-stack" data-testid="weakness-practice">
+        <section className="page-title">
+          <div>
+            <span className="eyebrow">
+              弱點加強・{weaknessPracticeIndex + 1}/{weaknessPracticeQueue.length}
+            </span>
+            <h1>{weakness.lemma}</h1>
+            <p>
+              目前優先加強「{weakness.focus}」。答錯不會影響課程完成或 CEFR 解鎖。
+            </p>
+          </div>
+          <span className="level-pill">答錯 {weakness.wrongAttempts} 次</span>
+        </section>
+        <section className="exercise-card">
+          {weakness.focus === "拼寫" && (
+            <>
+              <span className="eyebrow">看中文，自己拼出英文</span>
+              <h2 className="chinese-prompt">{source.prompt}</h2>
+              <button
+                className="audio-button"
+                onClick={() => speak(source.answer)}
+              >
+                ▶ 聽發音
+              </button>
+              <input
+                className="answer-input"
+                data-testid="weakness-practice-input"
+                value={weaknessPracticeValue}
+                readOnly={weaknessPracticeChecked}
+                autoFocus
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
+                onPaste={() => setWeaknessPracticeUsedPaste(true)}
+                onChange={(event) =>
+                  setWeaknessPracticeValue(event.target.value)
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !weaknessPracticeChecked) {
+                    event.preventDefault();
+                    checkWeaknessPractice();
+                  }
+                }}
+                placeholder="輸入英文單字"
+              />
+            </>
+          )}
+          {weakness.focus === "辨認" && (
+            <>
+              <span className="eyebrow">看到英文，辨認課程中的中文意思</span>
+              <h2 className="chinese-prompt">{source.answer}</h2>
+              <div className="exercise-choice-list">
+                {recognitionOptions.map((option) => (
+                  <button
+                    key={option}
+                    className={`exercise-choice ${
+                      weaknessPracticeValue === option ? "selected" : ""
+                    }`}
+                    disabled={weaknessPracticeChecked}
+                    onClick={() => setWeaknessPracticeValue(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {weakness.focus === "運用" && (
+            <>
+              <span className="eyebrow">把弱點放回完整句子</span>
+              <h2 className="chinese-prompt">{source.translation}</h2>
+              <textarea
+                className="answer-input sentence-input"
+                data-testid="weakness-practice-input"
+                rows={3}
+                value={weaknessPracticeValue}
+                readOnly={weaknessPracticeChecked}
+                autoFocus
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
+                onPaste={() => setWeaknessPracticeUsedPaste(true)}
+                onChange={(event) =>
+                  setWeaknessPracticeValue(event.target.value)
+                }
+                onKeyDown={(event) => {
+                  if (
+                    event.key === "Enter" &&
+                    !event.shiftKey &&
+                    !weaknessPracticeChecked
+                  ) {
+                    event.preventDefault();
+                    checkWeaknessPractice();
+                  }
+                }}
+                placeholder="輸入完整英文句子"
+              />
+            </>
+          )}
+          <div
+            className={`feedback ${weaknessPracticeRevealed ? "warning" : ""}`}
+            aria-live="polite"
+          >
+            {weaknessPracticeFeedback ||
+              `針對「${weakness.focus}」重新作答；連續三次錯誤後才會顯示答案。`}
+          </div>
+          {weaknessPracticeRevealed && (
+            <div className="correct-format">{expected}</div>
+          )}
+          <button
+            className="primary-button full-button detail-next-button"
+            data-testid="weakness-practice-action"
+            onClick={
+              weaknessPracticeChecked
+                ? continueWeaknessPractice
+                : checkWeaknessPractice
+            }
+            onKeyDown={(event) =>
+              weaknessPracticeChecked
+                ? activateButtonOnEnter(event, continueWeaknessPractice)
+                : undefined
+            }
+            aria-keyshortcuts={weaknessPracticeChecked ? "Enter" : undefined}
+          >
+            <span>
+              {weaknessPracticeChecked
+                ? weaknessPracticeIndex < weaknessPracticeQueue.length - 1
+                  ? "下一個弱點 →"
+                  : weaknessPracticeReturnScreen === "daily-summary"
+                    ? "查看今日總結 →"
+                    : "完成這個弱點 →"
+                : "檢查答案"}
+            </span>
+            {weaknessPracticeChecked && <kbd>Enter</kbd>}
+          </button>
+        </section>
+      </div>
+    );
+  };
+
+  const renderDailySummary = () => {
+    if (!dailySession) {
+      return (
+        <div className="page-stack">
+          <section className="section-card">
+            <h1>今天尚未開始學習流程</h1>
+            <button className="primary-button" onClick={startDailyLearning}>
+              開始今日學習
+            </button>
+          </section>
+        </div>
+      );
+    }
+    const summary = summarizeDailySession(
+      dailySession,
+      personalVocabularySummary,
+    );
+    return (
+      <div className="page-stack" data-testid="daily-learning-summary">
+        <section className="result-card">
+          <div className="celebration">✓</div>
+          <span className="eyebrow">今日學習完成</span>
+          <h1>今天的學習循環已經走完</h1>
+          <p>複習、新課與弱點加強分開記錄，不會因完成今日流程而偽造課程或程度通過。</p>
+          <div className="three-grid">
+            <StatCard label="今日時間" value={`${summary.elapsedMinutes} 分鐘`} />
+            <StatCard label="完成複習" value={summary.reviewCount} />
+            <StatCard
+              label="今日課程"
+              value={summary.lessonCompleted ? "1 課" : "未完成"}
+            />
+            <StatCard label="弱點加強" value={summary.weaknessCount} />
+            <StatCard
+              label="新增接觸"
+              value={`+${summary.exposedDelta}`}
+            />
+            <StatCard
+              label="升級可辨認"
+              value={`+${summary.receptiveDelta}`}
+            />
+            <StatCard
+              label="升級可主動使用"
+              value={`+${summary.activeDelta}`}
+            />
+          </div>
+          <button
+            className="primary-button full-button detail-next-button"
+            data-testid="finish-daily-session"
+            onClick={finishDailySession}
+          >
+            完成今天的學習
+          </button>
+        </section>
+      </div>
+    );
+  };
+
   const renderProgress = () => {
     const vocabularyCoverage = vocabularyTargets
       ? buildVocabularyCoverageReport(vocabularyTargets)
@@ -5409,6 +5977,8 @@ export default function Home() {
     if (screen === "phonetics") return renderPhonetics();
     if (screen === "review") return renderReview();
     if (screen === "weakness") return renderWeakness();
+    if (screen === "weakness-practice") return renderWeaknessPractice();
+    if (screen === "daily-summary") return renderDailySummary();
     if (screen === "progress") return renderProgress();
     if (screen === "admin") return renderAdmin();
     if (screen === "settings") return renderSettings();
@@ -5456,6 +6026,14 @@ export default function Home() {
           <div><span className="online-dot" /> 本機進度已儲存</div>
           <div className="top-actions">
             <span className="streak">◆ 本週 {progress.studyDates.slice(-7).length} 天</span>
+            {dailySession && (
+              <button
+                data-testid="daily-session-resume"
+                onClick={() => goToDailySessionStep(dailySession)}
+              >
+                今日學習進行中
+              </button>
+            )}
             <button onClick={() => setScreen("settings")} className={screen === "settings" ? "active" : ""}>設定</button>
           </div>
         </header>

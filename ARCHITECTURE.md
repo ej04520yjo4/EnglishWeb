@@ -51,6 +51,7 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, and exposed/receptive/active derivation.
+- `app/daily-session.ts`: pure daily-session sequencing and evidence-delta summary rules; the active session itself remains transient UI state.
 - `scripts/create-vocabulary-target-baseline.mjs`: reproducibly projects current A1/A2/reference sources into the partial target contract.
 - `scripts/audit-vocabulary-targets.mjs` and `scripts/report-vocabulary-coverage.mjs`: target integrity and occurrence/form/sense/chunk/lexeme reporting.
 - `worker/index.ts`: Vinext request and image handling for hosted deployment.

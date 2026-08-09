@@ -2,6 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildVocabularyWeaknesses } from "../app/daily-learning.ts";
 import { createEmptyVocabularyEvidence } from "../app/vocabulary-progress.ts";
+import {
+  createDailySession,
+  markDailySessionStep,
+  nextDailySessionStep,
+  summarizeDailySession,
+} from "../app/daily-session.ts";
 
 const targets = {
   schemaVersion: 1,
@@ -77,4 +83,69 @@ test("weakness center ignores correct-only and non-target evidence", () => {
     buildVocabularyWeaknesses({ water, unknown }, targets),
     [],
   );
+});
+
+
+test("daily session follows review, lesson, weakness, then summary", () => {
+  let session = createDailySession({
+    startedAt: 1_000,
+    lessonId: "a1-u1-l1",
+    reviewCount: 4,
+    weaknessLexemeIds: ["i", "be", "name"],
+    beforeVocabulary: { exposed: 10, receptive: 4, active: 2 },
+  });
+  assert.equal(nextDailySessionStep(session), "review");
+  session = markDailySessionStep(session, "review");
+  assert.equal(nextDailySessionStep(session), "lesson");
+  session = markDailySessionStep(session, "lesson");
+  assert.equal(nextDailySessionStep(session), "weakness");
+  session = markDailySessionStep(session, "weakness");
+  assert.equal(nextDailySessionStep(session), "summary");
+});
+
+test("daily session skips empty review and weakness stages", () => {
+  let session = createDailySession({
+    lessonId: "a1-u1-l1",
+    reviewCount: 0,
+    weaknessLexemeIds: [],
+    beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+  });
+  assert.equal(nextDailySessionStep(session), "lesson");
+  session = markDailySessionStep(session, "lesson");
+  assert.equal(nextDailySessionStep(session), "summary");
+});
+
+test("daily session keeps only three unique weakness targets", () => {
+  const session = createDailySession({
+    lessonId: "a1-u1-l1",
+    reviewCount: 0,
+    weaknessLexemeIds: ["i", "i", "be", "name", "water"],
+    beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+  });
+  assert.deepEqual(session.weaknessLexemeIds, ["i", "be", "name"]);
+});
+
+test("daily summary reports non-negative mastery gains", () => {
+  let session = createDailySession({
+    startedAt: 0,
+    lessonId: "a1-u1-l1",
+    reviewCount: 2,
+    weaknessLexemeIds: ["i"],
+    beforeVocabulary: { exposed: 10, receptive: 6, active: 3 },
+  });
+  session = markDailySessionStep(session, "review");
+  session = markDailySessionStep(session, "lesson");
+  session = markDailySessionStep(session, "weakness");
+  const summary = summarizeDailySession(
+    session,
+    { exposed: 12, receptive: 7, active: 2 },
+    120_000,
+  );
+  assert.equal(summary.reviewCount, 2);
+  assert.equal(summary.lessonCompleted, true);
+  assert.equal(summary.weaknessCount, 1);
+  assert.equal(summary.exposedDelta, 2);
+  assert.equal(summary.receptiveDelta, 1);
+  assert.equal(summary.activeDelta, 0);
+  assert.equal(summary.complete, true);
 });

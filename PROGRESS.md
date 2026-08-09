@@ -2,8 +2,8 @@
 
 ## Snapshot
 
-- Updated: 2026-07-31
-- Branch: `feat/a1-a2-vocabulary-3000-foundation`
+- Updated: 2026-08-09
+- Branch: `main`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -37,6 +37,8 @@
 - The progress page separates the 3000 goal, current target coverage, personal evidence-based mastery, senses, chunks, and due reviews.
 - The home page now shows a deterministic daily learning plan: due review first, then the current recommended lesson, then up to three evidence-backed weak lexemes.
 - The weakness center ranks only target lexemes with actual incorrect recognition, clean-spelling, or application attempts; passive exposure never creates a weakness.
+- Daily learning 2.0 now runs as a resumable in-memory session: due review → one current lesson → up to three focused weakness drills → an evidence-based daily summary.
+- Weakness rows can launch direct focus practice for spelling, recognition, or sentence application without changing lesson completion or CEFR unlocks.
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
@@ -70,10 +72,10 @@ Manually review the 126-entry baseline, choose one legally reusable frequency/re
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.
-- `npm run test:unit`: exit 0; 110 passed, 0 failed.
+- `npm run test:unit`: exit 0; 114 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 44 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: exit 0; 48 passed across desktop and mobile, 0 failed.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
 - Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.

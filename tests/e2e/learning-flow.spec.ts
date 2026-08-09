@@ -1114,3 +1114,31 @@ test("keeps the Windows one-click launchers in the project root", async () => {
     fs.existsSync(path.join(root, "更新並啟動英句練習.bat")),
   ).toBe(true);
 });
+
+
+test("daily learning v2 starts a deterministic session and exposes resume control", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  await expect(page.locator('[data-testid="daily-session-resume"]')).toBeVisible();
+});
+
+test("weakness center opens focused spelling practice after a real mistake", async ({ page }) => {
+  await openRecommendedLesson(page, "我是誰");
+  const input = page.locator("#recall-answer-0");
+  await input.fill("you");
+  await input.press("Enter");
+  await page.getByRole("button", { name: "前往弱點中心" }).click();
+  await expect(page.locator('[data-testid="weakness-center"]')).toBeVisible();
+  await page.locator('[data-testid="practice-weakness-i"]').click();
+  await expect(page.locator('[data-testid="weakness-practice"]')).toBeVisible();
+  const practiceInput = page.locator('[data-testid="weakness-practice-input"]');
+  await practiceInput.fill("I");
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(page.getByText("這次答對了，已記錄為有效的弱點練習。", { exact: true })).toBeVisible();
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(page.locator('[data-testid="weakness-center"]')).toBeVisible();
+});
