@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Print unique A1/A2 lesson sentences
+      - name: Print A1/A2 learner-facing English
         run: |
           python3 - <<'PY'
           import csv
+          import json
+          import re
           from pathlib import Path
 
           for level, path in [
@@ -24,7 +26,7 @@ jobs:
               ("A2", Path("public/data/a2-course-v1.csv")),
           ]:
               seen = set()
-              print(f"=== {level} ===")
+              print(f"=== {level} CORE LESSONS ===")
               with path.open("r", encoding="utf-8-sig", newline="") as f:
                   for row in csv.DictReader(f):
                       lesson_id = row["lesson_id"]
@@ -39,4 +41,38 @@ jobs:
                           row["grammar"],
                       ]))
               print(f"COUNT={len(seen)}")
+
+          def looks_english(value):
+              if not isinstance(value, str):
+                  return False
+              letters = re.findall(r"[A-Za-z]", value)
+              return len(letters) >= 3 and len(letters) >= max(3, len(value.replace(" ", "")) // 3)
+
+          for label, path in [
+              ("A1 PATTERN", Path("public/data/a1-pattern-exercises.json")),
+              ("A1 READING", Path("public/data/a1-reading-exercises.json")),
+              ("A2 PATTERN", Path("public/data/a2-pattern-exercises.json")),
+              ("A2 READING", Path("public/data/a2-reading-exercises.json")),
+          ]:
+              data = json.loads(path.read_text(encoding="utf-8-sig"))
+              found = []
+              seen_values = set()
+              def walk(value, trail="root"):
+                  if isinstance(value, dict):
+                      for key, child in value.items():
+                          child_trail = f"{trail}.{key}"
+                          if key in {"sentence", "stem", "text", "question", "prompt", "correctAnswer"} and looks_english(child):
+                              normalized = child.strip()
+                              if normalized not in seen_values:
+                                  seen_values.add(normalized)
+                                  found.append((child_trail, normalized))
+                          walk(child, child_trail)
+                  elif isinstance(value, list):
+                      for index, child in enumerate(value):
+                          walk(child, f"{trail}[{index}]")
+              walk(data)
+              print(f"=== {label} ===")
+              for trail, text in found:
+                  print(f"{trail}\t{text}")
+              print(f"COUNT={len(found)}")
           PY
