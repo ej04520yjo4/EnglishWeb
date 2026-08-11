@@ -379,9 +379,54 @@ const activateButtonOnEnter = (
   event: KeyboardEvent<HTMLButtonElement>,
   action: () => void,
 ) => {
-  if (event.key !== "Enter") return;
+  if (event.key !== "Enter" || event.repeat) return;
   event.preventDefault();
   action();
+};
+
+const moveAcrossInputs = (
+  event: KeyboardEvent<HTMLInputElement>,
+  previous: HTMLInputElement | null,
+  next: HTMLInputElement | null,
+) => {
+  const input = event.currentTarget;
+  const selectionStart = input.selectionStart ?? 0;
+  const selectionEnd = input.selectionEnd ?? selectionStart;
+
+  if (
+    event.key === "ArrowLeft" &&
+    selectionStart === 0 &&
+    selectionEnd === 0 &&
+    previous
+  ) {
+    event.preventDefault();
+    previous.focus();
+    const end = previous.value.length;
+    previous.setSelectionRange(end, end);
+    return true;
+  }
+
+  if (
+    event.key === "ArrowRight" &&
+    selectionStart === input.value.length &&
+    selectionEnd === input.value.length &&
+    next
+  ) {
+    event.preventDefault();
+    next.focus();
+    next.setSelectionRange(0, 0);
+    return true;
+  }
+
+  if (event.key === "Backspace" && input.value.length === 0 && previous) {
+    event.preventDefault();
+    previous.focus();
+    const end = previous.value.length;
+    previous.setSelectionRange(end, end);
+    return true;
+  }
+
+  return false;
 };
 
 const EMPTY_TOKEN: LearningToken = {
@@ -1958,19 +2003,19 @@ export default function Home() {
         ),
       },
     }));
-    if (
+    if (nextAttempt >= 3) {
+      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
+      setRecallAnswerRevealed(true);
+    } else if (
       clean(recallAnswer).length > 1 &&
       editDistance(clean(recallAnswer), clean(currentToken.answer)) <= 2
     ) {
       setFeedback("拼字很接近，再檢查一次。");
     } else if (nextAttempt === 1) {
       setFeedback(`字母數：${patternFor(currentToken.answer)}`);
-    } else if (nextAttempt === 2) {
+    } else {
       setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
       playTokenAudio(currentToken, 1, false);
-    } else {
-      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
-      setRecallAnswerRevealed(true);
     }
     setStartedAt(timestamp());
   };
@@ -4445,46 +4490,29 @@ export default function Home() {
         <div className="stage-progress"><i style={{ width: `${(stageNumber / 7) * 100}%` }} /></div>
 
         {stage === "recall" && (
-          <section className="exercise-card">
-            <span className="eyebrow">依中文或文法提示，逐字輸入英文</span>
-            <span className="hint-level-badge">
-              提示 Level {currentTokenHintLevel}
-            </span>
-            {currentToken.promptType && (
-              <span className={`prompt-type-badge ${currentToken.promptType}`}>
-                {currentToken.promptType === "grammar"
-                  ? "文法提示"
-                  : currentToken.promptType === "context"
-                    ? "語境提示"
-                    : "中文提示"}
-              </span>
-            )}
-            <h1 className="chinese-prompt">{currentToken.prompt}</h1>
-            <div className="audio-row">
-              <button
-                className="audio-button"
-                disabled={!tokenAudioAvailable}
-                onClick={() => playTokenAudio(currentToken)}
-              >
-                ▶ 正常
-              </button>
-              <button
-                className="audio-button"
-                disabled={!tokenAudioAvailable}
-                onClick={() => playTokenAudio(currentToken, settings.slowRate)}
-              >
-                ◁ 慢速
-              </button>
-              <small>
-                {!tokenAudioAvailable
-                  ? "此瀏覽器不支援語音播放，播放按鈕已停用。"
-                  : audioMessage ||
-                  (currentToken.audioStatus === "ready"
-                    ? "使用課程音訊"
-                    : "課程音訊待製作，目前使用瀏覽器美式語音")}
-              </small>
-            </div>
-            <label className="field-label" htmlFor="recall-answer-0">英文答案</label>
+          <section className="exercise-card recall-card">
+            <span className="eyebrow">輸入練習</span>
+            <h1 className="recall-task-title">把下面提示寫成英文</h1>
+            <h2
+              className="chinese-prompt recall-primary-prompt"
+              data-testid="recall-primary-prompt"
+            >
+              {currentToken.prompt}
+            </h2>
+            <p className="recall-task-meta">
+              {currentToken.promptType === "grammar"
+                ? "文法提示"
+                : currentToken.promptType === "context"
+                  ? "語境提示"
+                  : "中文提示"}
+              ・提示 Level {currentTokenHintLevel}
+            </p>
+            <label
+              className="field-label recall-answer-label"
+              htmlFor="recall-answer-0"
+            >
+              你的英文答案
+            </label>
             <div
               className={`recall-word-grid ${currentTokenWords.length > 1 ? "multiword" : ""}`}
               style={{ "--recall-word-count": currentTokenWords.length } as React.CSSProperties}
@@ -4544,9 +4572,17 @@ export default function Home() {
                       });
                     }}
                     onKeyDown={(event) => {
-                      if (event.key === "Enter") checkRecall();
-                      if (event.key === "Backspace" && !recallValues[index] && index > 0) {
-                        recallInputs.current[index - 1]?.focus();
+                      const previous =
+                        index > 0 ? recallInputs.current[index - 1] : null;
+                      const next =
+                        index < currentTokenWords.length - 1
+                          ? recallInputs.current[index + 1]
+                          : null;
+                      if (moveAcrossInputs(event, previous, next)) return;
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        if (event.repeat) return;
+                        checkRecall();
                       }
                     }}
                     placeholder={
@@ -4554,11 +4590,35 @@ export default function Home() {
                         ? word
                         : currentTokenWords.length > 1
                           ? `第 ${index + 1} 詞`
-                          : "輸入你聽到、想到的英文"
+                          : "輸入英文"
                     }
                   />
                 </label>
               ))}
+            </div>
+            <div className="audio-row recall-audio-row">
+              <button
+                className="audio-button"
+                disabled={!tokenAudioAvailable}
+                onClick={() => playTokenAudio(currentToken)}
+              >
+                ▶ 正常
+              </button>
+              <button
+                className="audio-button"
+                disabled={!tokenAudioAvailable}
+                onClick={() => playTokenAudio(currentToken, settings.slowRate)}
+              >
+                ◁ 慢速
+              </button>
+              <small>
+                {!tokenAudioAvailable
+                  ? "此瀏覽器不支援語音播放。"
+                  : audioMessage ||
+                    (currentToken.audioStatus === "ready"
+                      ? "播放課程音訊"
+                      : "目前使用瀏覽器美式語音")}
+              </small>
             </div>
             {currentTokenWords.length > 1 && (
               <p className="chunk-input-note">
@@ -4566,7 +4626,7 @@ export default function Home() {
               </p>
             )}
             <div className={`feedback ${recallAnswerRevealed ? "warning" : ""}`} aria-live="polite">
-              {feedback || "大小寫與頭尾空格會寬鬆判定，拼字仍需正確。"}
+              {feedback || "拼字要正確；大小寫不影響判定。"}
             </div>
             <div className="button-row">
               <button className="secondary-button" onClick={requestHint}>給我提示</button>
@@ -4603,28 +4663,51 @@ export default function Home() {
                 )}
               </div>
             </div>
-            <div className="detail-grid">
-              <div className={settings.phonetic === "KK" ? "preferred-phonetic" : ""}>
-                <small>KK 音標{settings.phonetic === "KK" ? "・預設" : ""}</small>
-                <strong>{currentToken.kk}</strong>
+            <div className="detail-essential" data-testid="detail-essential">
+              <div className="detail-essential-item preferred-phonetic">
+                <small>
+                  {settings.phonetic === "KK" ? "KK 音標" : "美式 IPA"}
+                </small>
+                <strong>
+                  {settings.phonetic === "KK" ? currentToken.kk : currentToken.ipa}
+                </strong>
               </div>
-              <div className={settings.phonetic === "IPA" ? "preferred-phonetic" : ""}>
-                <small>美式 IPA{settings.phonetic === "IPA" ? "・預設" : ""}</small>
-                <strong>{currentToken.ipa}</strong>
+              <div className="detail-essential-item">
+                <small>句中詞性</small>
+                <strong>{currentToken.contextPos || currentToken.partOfSpeech}</strong>
               </div>
-              <div><small>句中詞性</small><strong>{currentToken.contextPos || currentToken.partOfSpeech}</strong></div>
-              {currentToken.dictionaryPos && (
-                <div><small>字典詞性</small><strong>{currentToken.dictionaryPos}</strong></div>
-              )}
-              <div><small>音節</small><strong>{currentToken.syllables || "單音節／語塊"}</strong></div>
-              <div><small>重音</small><strong>{currentToken.stress || "依語句自然重讀"}</strong></div>
-              <div><small>原形或變化</small><strong>{currentToken.lemma || currentToken.answer}</strong></div>
-              <div><small>單字本體</small><strong>{currentToken.lexemeId || currentToken.tokenId || currentToken.id}</strong></div>
-              {currentToken.senseId && (
-                <div><small>句中用法</small><strong>{currentToken.senseId}</strong></div>
-              )}
-              <div><small>學習單位</small><strong>單字 word</strong></div>
             </div>
+            <details className="detail-more">
+              <summary>更多字詞資訊</summary>
+              <div className="detail-grid detail-grid-secondary">
+                <div>
+                  <small>
+                    {settings.phonetic === "KK" ? "美式 IPA" : "KK 音標"}
+                  </small>
+                  <strong>
+                    {settings.phonetic === "KK" ? currentToken.ipa : currentToken.kk}
+                  </strong>
+                </div>
+                {currentToken.dictionaryPos && (
+                  <div>
+                    <small>字典詞性</small>
+                    <strong>{currentToken.dictionaryPos}</strong>
+                  </div>
+                )}
+                <div>
+                  <small>音節</small>
+                  <strong>{currentToken.syllables || "單音節／語塊"}</strong>
+                </div>
+                <div>
+                  <small>重音</small>
+                  <strong>{currentToken.stress || "依語句自然重讀"}</strong>
+                </div>
+                <div>
+                  <small>原形／變化</small>
+                  <strong>{currentToken.lemma || currentToken.answer}</strong>
+                </div>
+              </div>
+            </details>
             {currentToken.note && <div className="usage-note"><strong>用法提醒</strong><span>{currentToken.note}</span></div>}
             {currentToken.chunk &&
               selectedLesson.tokens[tokenIndex + 1]?.chunk?.id !== currentToken.chunk.id && (
@@ -4677,7 +4760,7 @@ export default function Home() {
             <span className="eyebrow">依中文提示，照順序重組句子</span>
             <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
             <p className="chunk-input-note">
-              每格只輸入一個英文單字；按空白鍵換到下一格，最後一格按 Enter 檢查答案。
+              每格只輸入一個英文單字；空白鍵／→ 前往下一格，← 回上一格，最後一格按 Enter 檢查。
             </p>
             <div className="rebuild-grid">
               {selectedLesson.tokens.map((token, index) => (
@@ -4699,6 +4782,19 @@ export default function Home() {
                     }}
                     onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
                       if (rebuildAnswerRevealed) return;
+                      const previous =
+                        index > 0
+                          ? (document.getElementById(
+                              `rebuild-${index - 1}`,
+                            ) as HTMLInputElement | null)
+                          : null;
+                      const next =
+                        index < selectedLesson.tokens.length - 1
+                          ? (document.getElementById(
+                              `rebuild-${index + 1}`,
+                            ) as HTMLInputElement | null)
+                          : null;
+                      if (moveAcrossInputs(event, previous, next)) return;
                       if (event.key === " ") {
                         const enteredWordCount = (rebuildValues[index] ?? "")
                           .trim()
@@ -4720,6 +4816,7 @@ export default function Home() {
                       }
                       if (event.key === "Enter") {
                         event.preventDefault();
+                        if (event.repeat) return;
                         if (index === selectedLesson.tokens.length - 1) {
                           checkRebuild();
                         } else {
@@ -4898,7 +4995,7 @@ export default function Home() {
                 setPatternTransferValue(event.target.value)
               }
               onKeyDown={(event) => {
-                if (event.key !== "Enter") return;
+                if (event.key !== "Enter" || event.repeat) return;
                 event.preventDefault();
                 if (patternTransferComplete) {
                   continueAfterPatternTransfer();
@@ -5045,7 +5142,7 @@ export default function Home() {
                         setPassageValues(values);
                       }}
                       onKeyDown={(event) => {
-                        if (event.key !== "Enter" || event.shiftKey) return;
+                        if (event.key !== "Enter" || event.shiftKey || event.repeat) return;
                         event.preventDefault();
                         if (index === selectedPassageLessons.length - 1) {
                           checkPassageRebuild();
@@ -5386,6 +5483,7 @@ export default function Home() {
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !weaknessPracticeChecked) {
                     event.preventDefault();
+                    if (event.repeat) return;
                     checkWeaknessPractice();
                   }
                 }}

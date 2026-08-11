@@ -288,6 +288,70 @@ const completePassage = async (
   await expect(page.locator("#lesson-result-next")).toBeVisible();
 };
 
+test("prevents held Enter from skipping a learning unit and keeps the task visually primary", async ({
+  page,
+}) => {
+  await openRecommendedLesson(page, "我是誰");
+
+  const prompt = page.locator('[data-testid="recall-primary-prompt"]');
+  const input = page.locator("#recall-answer-0");
+  const promptFontSize = await prompt.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  const inputFontSize = await input.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(promptFontSize).toBeGreaterThan(inputFontSize);
+
+  await input.fill("I");
+  await input.press("Enter");
+  await expect(page.getByText("學習單位 1/3", { exact: true })).toBeVisible();
+  await expect(page.getByText("回答正確", { exact: true })).toBeVisible();
+  await expect(page.getByText("單字本體", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("句中用法", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("更多字詞資訊", { exact: true })).toBeVisible();
+
+  const next = page.locator("#detail-next-button");
+  await expect(next).toBeFocused();
+  await next.dispatchEvent("keydown", {
+    key: "Enter",
+    code: "Enter",
+    repeat: true,
+    bubbles: true,
+  });
+  await expect(page.getByText("學習單位 1/3", { exact: true })).toBeVisible();
+
+  await next.press("Enter");
+  await expect(page.getByText("學習單位 2/3", { exact: true })).toBeVisible();
+  await expect(page.locator("#recall-answer-0")).toBeFocused();
+});
+
+test("moves across sentence boxes with left and right arrow keys", async ({
+  page,
+}) => {
+  await openRecommendedLesson(page, "我是誰");
+  await answerRecallTokens(page, ["I", "am", "Amy"]);
+
+  const fields = page.locator(".rebuild-field input");
+  await expect(fields).toHaveCount(3);
+  await fields.nth(0).fill("I");
+  await fields.nth(1).fill("am");
+
+  await fields.nth(1).focus();
+  await fields.nth(1).evaluate((element: HTMLInputElement) =>
+    element.setSelectionRange(0, 0),
+  );
+  await fields.nth(1).press("ArrowLeft");
+  await expect(fields.nth(0)).toBeFocused();
+
+  await fields.nth(0).evaluate((element: HTMLInputElement) => {
+    const end = element.value.length;
+    element.setSelectionRange(end, end);
+  });
+  await fields.nth(0).press("ArrowRight");
+  await expect(fields.nth(1)).toBeFocused();
+});
+
 test("completes the original word and rebuild flow and persists it", async ({
   page,
 }) => {

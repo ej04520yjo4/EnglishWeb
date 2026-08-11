@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-- Updated: 2026-08-09
+- Updated: 2026-08-11
 - Branch: `main`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
@@ -39,6 +39,8 @@
 - The weakness center ranks only target lexemes with actual incorrect recognition, clean-spelling, or application attempts; passive exposure never creates a weakness.
 - Daily learning 2.0 now runs as a resumable in-memory session: due review → one current lesson → up to three focused weakness drills → an evidence-based daily summary.
 - Weakness rows can launch direct focus practice for spelling, recognition, or sentence application without changing lesson completion or CEFR unlocks.
+- Lesson input UX now ignores held Enter repeats, supports left/right cross-box navigation, emphasizes the active prompt/input, and collapses secondary word metadata after a correct answer.
+- A1/A2 core and exercise-facing English received a focused language pass on 2026-08-11; no protected source sentence required a grammar correction in this pass.
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
@@ -75,7 +77,7 @@ Manually review the 126-entry baseline, choose one legally reusable frequency/re
 - `npm run test:unit`: exit 0; 114 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 48 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: exit 0; 52 passed across desktop and mobile, 0 failed.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
 - Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.

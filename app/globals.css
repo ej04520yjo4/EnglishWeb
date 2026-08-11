@@ -3003,3 +3003,140 @@ progress::-webkit-progress-value {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Learning input hierarchy: keep the task first, controls second, metadata last. */
+.recall-card {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.recall-task-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 750;
+}
+
+.recall-primary-prompt {
+  margin: 14px 0 8px;
+  font-size: clamp(44px, 6vw, 68px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.recall-task-meta {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.recall-answer-label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.recall-card .answer-input {
+  min-height: 82px;
+  border-width: 2px;
+  font-size: clamp(27px, 3.2vw, 36px);
+  font-weight: 800;
+}
+
+.recall-card .answer-input::placeholder {
+  font-size: 16px;
+}
+
+.recall-audio-row {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.recall-audio-row small {
+  flex-basis: 100%;
+  color: var(--muted);
+  text-align: center;
+}
+
+.recall-card .feedback {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.detail-card {
+  width: min(900px, 100%);
+  margin-inline: auto;
+}
+
+.detail-essential {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.detail-essential-item {
+  min-height: 92px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fcfaf7;
+}
+
+.detail-essential-item.preferred-phonetic {
+  border-color: #f0b39f;
+  background: var(--coral-soft);
+}
+
+.detail-essential-item small {
+  color: var(--muted);
+}
+
+.detail-essential-item strong {
+  font-size: 19px;
+}
+
+.detail-more {
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fcfaf7;
+}
+
+.detail-more summary {
+  padding: 13px 16px;
+  color: #657084;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.detail-grid-secondary {
+  margin: 0;
+  padding: 0 14px 14px;
+}
+
+@media (max-width: 640px) {
+  .recall-card {
+    padding: 26px 18px;
+  }
+
+  .recall-primary-prompt {
+    font-size: clamp(38px, 12vw, 52px);
+  }
+
+  .recall-card .answer-input {
+    min-height: 74px;
+    font-size: 27px;
+  }
+
+  .detail-essential {
+    grid-template-columns: 1fr;
+  }
+}

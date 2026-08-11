@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-11 - Learning Input UX Polish
+
+### Changed
+
+- Reviewed the current A1/A2 core and exercise-facing English; no protected course sentence required a grammar correction in this pass.
+- Prevented held/repeated Enter key events from advancing through more than one learning step.
+- Added cross-box left/right arrow navigation (plus existing empty-box Backspace behavior) for word and sentence input grids.
+- Reworked recall screens so the learner prompt is visually dominant, the answer input is second, and audio/status text is secondary.
+- Simplified the post-answer word detail to the selected phonetic system and contextual part of speech, with secondary linguistic metadata collapsed under `更多字詞資訊`.
+- Removed internal lexeme/sense identifiers from the normal learner-facing detail screen.
+
+
 ## 2026-08-09 - Daily Learning 2.0 and Focused Weakness Practice
 
 ### Added
