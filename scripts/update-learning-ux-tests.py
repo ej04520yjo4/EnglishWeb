@@ -8,9 +8,10 @@ page_path = root / "app" / "page.tsx"
 page = page_path.read_text(encoding="utf-8")
 old_recall_feedback = '''    if (\n      clean(recallAnswer).length > 1 &&\n      editDistance(clean(recallAnswer), clean(currentToken.answer)) <= 2\n    ) {\n      setFeedback("拼字很接近，再檢查一次。");\n    } else if (nextAttempt === 1) {\n      setFeedback(`字母數：${patternFor(currentToken.answer)}`);\n    } else if (nextAttempt === 2) {\n      setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);\n      playTokenAudio(currentToken, 1, false);\n    } else {\n      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);\n      setRecallAnswerRevealed(true);\n    }\n'''
 new_recall_feedback = '''    if (nextAttempt >= 3) {\n      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);\n      setRecallAnswerRevealed(true);\n    } else if (\n      clean(recallAnswer).length > 1 &&\n      editDistance(clean(recallAnswer), clean(currentToken.answer)) <= 2\n    ) {\n      setFeedback("拼字很接近，再檢查一次。");\n    } else if (nextAttempt === 1) {\n      setFeedback(`字母數：${patternFor(currentToken.answer)}`);\n    } else {\n      setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);\n      playTokenAudio(currentToken, 1, false);\n    }\n'''
-if old_recall_feedback not in page:
+if old_recall_feedback in page:
+    page = page.replace(old_recall_feedback, new_recall_feedback, 1)
+elif new_recall_feedback not in page:
     raise RuntimeError("recall feedback block not found")
-page = page.replace(old_recall_feedback, new_recall_feedback, 1)
 page_path.write_text(page, encoding="utf-8", newline="\n")
 
 path = root / "tests" / "rendered-html.test.mjs"
@@ -19,6 +20,10 @@ text = path.read_text(encoding="utf-8")
 text = text.replace(
     'assert.match(page, /按空白鍵換到下一格/);',
     'assert.match(page, /空白鍵／→ 前往下一格/);',
+)
+text = text.replace(
+    'assert.match(page, /最後一格按 Enter 檢查答案/);',
+    'assert.match(page, /最後一格按 Enter 檢查/);',
 )
 text = text.replace(
     'assert.match(page, /中文提示｜直接回想單字/);',
