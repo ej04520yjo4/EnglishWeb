@@ -1,6 +1,8 @@
 from pathlib import Path
 
-path = Path(__file__).resolve().parents[1] / "tests" / "rendered-html.test.mjs"
+root = Path(__file__).resolve().parents[1]
+
+path = root / "tests" / "rendered-html.test.mjs"
 text = path.read_text(encoding="utf-8")
 
 text = text.replace(
@@ -24,4 +26,16 @@ if extra not in text:
     text = text.replace(marker, marker + extra, 1)
 
 path.write_text(text, encoding="utf-8", newline="\n")
-print("Updated rendered HTML assertions for the polished learning UX.")
+
+# The generated browser test should assert the stable transition into the
+# detail stage instead of depending on optional feedback copy.
+e2e_path = root / "tests" / "e2e" / "learning-flow.spec.ts"
+e2e = e2e_path.read_text(encoding="utf-8")
+old = '  await expect(page.getByText("回答正確", { exact: true })).toBeVisible();\n'
+new = '  await expect(page.locator("#detail-next-button")).toBeVisible();\n'
+if old not in e2e:
+    raise RuntimeError("expected generated feedback assertion not found")
+e2e = e2e.replace(old, new, 1)
+e2e_path.write_text(e2e, encoding="utf-8", newline="\n")
+
+print("Updated rendered HTML and browser assertions for the polished learning UX.")
