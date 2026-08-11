@@ -1,0 +1,42 @@
+name: Sentence audit
+
+on:
+  push:
+    branches:
+      - feat/learning-ux-polish
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Print unique A1/A2 lesson sentences
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+
+          for level, path in [
+              ("A1", Path("public/data/a1-course-v3.csv")),
+              ("A2", Path("public/data/a2-course-v1.csv")),
+          ]:
+              seen = set()
+              print(f"=== {level} ===")
+              with path.open("r", encoding="utf-8-sig", newline="") as f:
+                  for row in csv.DictReader(f):
+                      lesson_id = row["lesson_id"]
+                      if lesson_id in seen:
+                          continue
+                      seen.add(lesson_id)
+                      print("\t".join([
+                          lesson_id,
+                          row["lesson_title"],
+                          row["sentence"],
+                          row["translation"],
+                          row["grammar"],
+                      ]))
+              print(f"COUNT={len(seen)}")
+          PY
