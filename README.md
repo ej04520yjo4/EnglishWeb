@@ -13,7 +13,7 @@
 - KK 音標獨立練習區。
 - 單字、語意、句型、句子與文章層級的本機進度。
 - A1＋A2 canonical lexeme 目標、全站 exposure／recognition／spelling／application 證據與跨日熟練判定。
-- 今日學習 2.0：依序完成到期複習、目前課程、最多三個弱點加強，再顯示今日完成總結。
+- 今日學習 2.0：依序完成到期複習、目前課程、最多三個弱點加強；F5 或關閉頁面後可在同一天繼續，隔天自動失效。
 - 弱點中心可直接進入拼寫、辨認或句子運用練習，且不會偽造課程完成或程度通過。
 - Excel、CSV、JSON 課程資料匯出與驗證匯入。
 - 桌面與手機瀏覽器流程測試。
@@ -39,6 +39,8 @@ npm run audit:project
 npm run audit:vocabulary
 npm run report:vocabulary
 npm run validate:curriculum
+npm run verify
+npm test
 npm run dev
 npm run build
 npm run test:unit
@@ -46,6 +48,8 @@ npm run test:e2e
 npm run lint
 npx tsc --noEmit --incremental false
 ```
+
+`npm run verify` 是本機與 GitHub CI 共用的品質門檻；`npm test` 會再加跑完整桌面／手機 Playwright。
 
 預設開發網址為 `http://localhost:3000`；若連接埠被占用，啟動器會選擇其他可用連接埠。
 

@@ -66,6 +66,8 @@ npm run audit:project
 npm run audit:vocabulary
 npm run report:vocabulary
 npm run validate:curriculum
+npm run verify
+npm test
 npm run dev
 npm run build
 npm run test:unit
