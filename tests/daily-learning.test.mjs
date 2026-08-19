@@ -6,6 +6,7 @@ import {
   createDailySession,
   markDailySessionStep,
   nextDailySessionStep,
+  restoreDailySession,
   summarizeDailySession,
 } from "../app/daily-session.ts";
 
@@ -94,6 +95,8 @@ test("daily session follows review, lesson, weakness, then summary", () => {
     weaknessLexemeIds: ["i", "be", "name"],
     beforeVocabulary: { exposed: 10, receptive: 4, active: 2 },
   });
+  assert.equal(session.version, 1);
+  assert.match(session.localDate, /^\d{4}-\d{2}-\d{2}$/);
   assert.equal(nextDailySessionStep(session), "review");
   session = markDailySessionStep(session, "review");
   assert.equal(nextDailySessionStep(session), "lesson");
@@ -101,6 +104,57 @@ test("daily session follows review, lesson, weakness, then summary", () => {
   assert.equal(nextDailySessionStep(session), "weakness");
   session = markDailySessionStep(session, "weakness");
   assert.equal(nextDailySessionStep(session), "summary");
+});
+
+test("restores only an unfinished session from the same local day", () => {
+  let session = createDailySession({
+    startedAt: Date.parse("2026-08-20T02:00:00.000Z"),
+    localDate: "2026-08-20",
+    lessonId: "a1-u1-l1",
+    reviewCount: 2,
+    weaknessLexemeIds: ["i"],
+    beforeVocabulary: { exposed: 1, receptive: 0, active: 0 },
+  });
+  session = markDailySessionStep(session, "review");
+  const serialized = JSON.stringify(session);
+  assert.deepEqual(
+    restoreDailySession(serialized, "2026-08-20"),
+    session,
+  );
+  assert.equal(restoreDailySession(serialized, "2026-08-21"), null);
+  assert.equal(restoreDailySession("not-json", "2026-08-20"), null);
+});
+
+test("restoring a session does not create or duplicate learning evidence", () => {
+  const session = markDailySessionStep(
+    createDailySession({
+      localDate: "2026-08-20",
+      lessonId: "a1-u1-l1",
+      reviewCount: 1,
+      weaknessLexemeIds: ["i"],
+      beforeVocabulary: { exposed: 3, receptive: 1, active: 0 },
+    }),
+    "review",
+  );
+  const progressBefore = {
+    vocabularyProgress: {
+      i: { spellingAttemptEvidenceIds: ["s1"] },
+    },
+    completedLessonIds: [],
+    passedUnitIds: [],
+  };
+  const restored = restoreDailySession(
+    JSON.stringify(session),
+    "2026-08-20",
+  );
+  assert.ok(restored);
+  assert.deepEqual(progressBefore, {
+    vocabularyProgress: {
+      i: { spellingAttemptEvidenceIds: ["s1"] },
+    },
+    completedLessonIds: [],
+    passedUnitIds: [],
+  });
 });
 
 test("daily session skips empty review and weakness stages", () => {

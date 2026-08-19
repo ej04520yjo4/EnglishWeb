@@ -4,6 +4,7 @@ import path from "node:path";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
+const dailySessionKey = "yingju-daily-session-v1";
 const lessonsThroughUnit = (lastUnit: number) =>
   Array.from({ length: lastUnit }, (_, unitIndex) =>
     Array.from(
@@ -53,6 +54,73 @@ const seedProgress = async (
     ({ key, value }) =>
       localStorage.setItem(key, JSON.stringify(value)),
     { key: progressKey, value: progress },
+  );
+};
+
+const seedDailyLearningFixture = async (page: Page) => {
+  const a1Progress = levelProgressFixture();
+  a1Progress.reviewItems = {
+    "a1-u1-l1-t01": {
+      tokenId: "a1-u1-l1-t01",
+      answer: "I",
+      prompt: "我",
+      familiarity: "不熟",
+      dueAt: "2000-01-01T00:00:00.000Z",
+      intervalDays: 1,
+      successfulDays: 0,
+    },
+  };
+  const progress = {
+    schemaVersion: 6,
+    selectedLevel: "A1",
+    passedLevelIds: [],
+    levelProgress: {
+      A1: a1Progress,
+      A2: levelProgressFixture(),
+      B1: levelProgressFixture(),
+      B2: levelProgressFixture(),
+    },
+    vocabularyProgress: {
+      i: {
+        firstSeenAt: "2026-08-19T01:00:00.000Z",
+        lastSeenAt: "2026-08-19T01:00:00.000Z",
+        exposureEvidenceIds: [],
+        recognitionCorrectEvidenceIds: [],
+        recognitionAttemptEvidenceIds: [],
+        spellingCorrectEvidenceIds: [],
+        spellingAttemptEvidenceIds: ["seed-spelling-miss"],
+        applicationCorrectEvidenceIds: [],
+        applicationAttemptEvidenceIds: [],
+        evidenceStudyDates: {
+          "seed-spelling-miss": "2026-08-19",
+        },
+        studyDates: ["2026-08-19"],
+        sourceLevels: ["A1"],
+      },
+    },
+  };
+  await page.addInitScript(
+    ({ progressStorageKey, settingsStorageKey, progressValue }) => {
+      if (localStorage.getItem(progressStorageKey) === null) {
+        localStorage.setItem(progressStorageKey, JSON.stringify(progressValue));
+      }
+      if (localStorage.getItem(settingsStorageKey) === null) {
+        localStorage.setItem(
+          settingsStorageKey,
+          JSON.stringify({
+            phonetic: "KK",
+            autoplay: false,
+            slowRate: 0.85,
+            showAdvancedPilots: false,
+          }),
+        );
+      }
+    },
+    {
+      progressStorageKey: progressKey,
+      settingsStorageKey: settingsKey,
+      progressValue: progress,
+    },
   );
 };
 
@@ -1192,6 +1260,93 @@ test("daily learning v2 starts a deterministic session and exposes resume contro
     page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
   ).toBeVisible();
   await expect(page.locator('[data-testid="daily-session-resume"]')).toBeVisible();
+});
+
+test("daily learning restores the correct lesson and weakness steps after reload", async ({ page }) => {
+  await seedDailyLearningFixture(page);
+  await page.goto("/");
+  await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await expect(page.locator('[data-testid="daily-review-complete"]')).toBeVisible();
+  await page.locator('[data-testid="daily-review-complete"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return value?.completedSteps ?? [];
+      }, dailySessionKey),
+    )
+    .toContain("review");
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: /從中文提示與逐字輸入開始/ })
+    .click();
+  await answerRecallTokens(page, ["I", "am", "Amy"]);
+  await submitRebuild(page, ["I", "am", "Amy"]);
+  await expect(page.locator("#lesson-result-next")).toBeVisible();
+  await page.locator("#lesson-result-next").click();
+  await expect(page.locator('[data-testid="weakness-practice"]')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return value?.completedSteps ?? [];
+      }, dailySessionKey),
+    )
+    .toContain("lesson");
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.locator('[data-testid="weakness-practice"]')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await page.locator('[data-testid="weakness-practice-input"]').fill("I");
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(
+    page.getByText("這次答對了，已記錄為有效的弱點練習。", { exact: true }),
+  ).toBeVisible();
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(page.locator('[data-testid="daily-learning-summary"]')).toBeVisible();
+  await page.locator('[data-testid="finish-daily-session"]').click();
+  await expect
+    .poll(() => page.evaluate((key) => localStorage.getItem(key), dailySessionKey))
+    .toBeNull();
+});
+
+test("daily learning expires a session saved on a previous local day", async ({ page }) => {
+  await page.addInitScript(
+    ({ key }) => {
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          version: 1,
+          localDate: "2000-01-01",
+          startedAt: 946684800000,
+          lessonId: "a1-u1-l1",
+          reviewCount: 1,
+          weaknessLexemeIds: ["i"],
+          completedSteps: ["review"],
+          beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+        }),
+      );
+    },
+    { key: dailySessionKey },
+  );
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await expect(page.locator('[data-testid="daily-session-resume"]')).toHaveCount(0);
+  await expect
+    .poll(() => page.evaluate((key) => localStorage.getItem(key), dailySessionKey))
+    .toBeNull();
 });
 
 test("weakness center opens focused spelling practice after a real mistake", async ({ page }) => {

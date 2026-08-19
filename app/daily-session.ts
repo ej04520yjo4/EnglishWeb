@@ -1,3 +1,5 @@
+import { localDateKey } from "./local-date.ts";
+
 export type DailyVocabularySummary = {
   exposed: number;
   receptive: number;
@@ -7,6 +9,8 @@ export type DailyVocabularySummary = {
 export type DailySessionStep = "review" | "lesson" | "weakness";
 
 export type DailySessionState = {
+  version: 1;
+  localDate: string;
   startedAt: number;
   lessonId: string;
   reviewCount: number;
@@ -17,18 +21,75 @@ export type DailySessionState = {
 
 export const createDailySession = (input: {
   startedAt?: number;
+  localDate?: string;
   lessonId: string;
   reviewCount: number;
   weaknessLexemeIds: string[];
   beforeVocabulary: DailyVocabularySummary;
-}): DailySessionState => ({
-  startedAt: input.startedAt ?? Date.now(),
-  lessonId: input.lessonId,
-  reviewCount: Math.max(0, input.reviewCount),
-  weaknessLexemeIds: [...new Set(input.weaknessLexemeIds)].slice(0, 3),
-  completedSteps: [],
-  beforeVocabulary: { ...input.beforeVocabulary },
-});
+}): DailySessionState => {
+  const startedAt = input.startedAt ?? Date.now();
+  return {
+    version: 1,
+    localDate: input.localDate ?? localDateKey(new Date(startedAt)),
+    startedAt,
+    lessonId: input.lessonId,
+    reviewCount: Math.max(0, input.reviewCount),
+    weaknessLexemeIds: [...new Set(input.weaknessLexemeIds)].slice(0, 3),
+    completedSteps: [],
+    beforeVocabulary: { ...input.beforeVocabulary },
+  };
+};
+
+const isDailyVocabularySummary = (
+  value: unknown,
+): value is DailyVocabularySummary => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const summary = value as Record<string, unknown>;
+  return ["exposed", "receptive", "active"].every(
+    (key) => Number.isFinite(summary[key]) && Number(summary[key]) >= 0,
+  );
+};
+
+export const restoreDailySession = (
+  serialized: string,
+  todayLocalDate = localDateKey(),
+): DailySessionState | null => {
+  let value: unknown;
+  try {
+    value = JSON.parse(serialized);
+  } catch {
+    return null;
+  }
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const session = value as Partial<DailySessionState>;
+  const completedSteps = session.completedSteps;
+  if (
+    session.version !== 1 ||
+    session.localDate !== todayLocalDate ||
+    !Number.isFinite(session.startedAt) ||
+    typeof session.lessonId !== "string" ||
+    !Number.isFinite(session.reviewCount) ||
+    !Array.isArray(session.weaknessLexemeIds) ||
+    !session.weaknessLexemeIds.every((item) => typeof item === "string") ||
+    !Array.isArray(completedSteps) ||
+    !completedSteps.every((step) =>
+      (["review", "lesson", "weakness"] as DailySessionStep[]).includes(step),
+    ) ||
+    !isDailyVocabularySummary(session.beforeVocabulary)
+  ) {
+    return null;
+  }
+  return {
+    version: 1,
+    localDate: session.localDate,
+    startedAt: Number(session.startedAt),
+    lessonId: session.lessonId,
+    reviewCount: Math.max(0, Number(session.reviewCount)),
+    weaknessLexemeIds: [...new Set(session.weaknessLexemeIds)].slice(0, 3),
+    completedSteps: [...new Set(completedSteps)],
+    beforeVocabulary: { ...session.beforeVocabulary },
+  };
+};
 
 export const markDailySessionStep = (
   session: DailySessionState,

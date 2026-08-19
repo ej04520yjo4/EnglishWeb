@@ -135,9 +135,11 @@ import {
   createDailySession,
   markDailySessionStep,
   nextDailySessionStep,
+  restoreDailySession,
   summarizeDailySession,
   type DailySessionState,
 } from "./daily-session.ts";
+import { localDateKey } from "./local-date.ts";
 
 type Screen =
   | "home"
@@ -226,6 +228,7 @@ const STORAGE = {
   b1CourseRows: "yingju-course-rows-b1-v1",
   b2CourseRows: "yingju-course-rows-b2-v1",
   lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
+  dailySession: "yingju-daily-session-v1",
 };
 
 const emptyRowsByLevel = (): Record<CefrLevel, CourseCsvRow[]> => ({
@@ -339,7 +342,7 @@ const clean = (value: string) =>
 
 const cleanSentence = (value: string) => clean(value).replace(/[.!?。！？]+$/g, "");
 
-const dateKey = () => new Date().toISOString().slice(0, 10);
+const dateKey = () => localDateKey();
 const timestamp = () => Date.now();
 
 const addDays = (days: number) => {
@@ -758,6 +761,7 @@ export default function Home() {
           evidenceId,
           sourceLevel,
           studiedAt,
+          studyDate: localDateKey(new Date(studiedAt)),
         },
       ),
     }));
@@ -1003,6 +1007,7 @@ export default function Home() {
     const timer = window.setTimeout(() => {
       const storedProgress = localStorage.getItem(STORAGE.progress);
       const storedSettings = localStorage.getItem(STORAGE.settings);
+      const storedDailySession = localStorage.getItem(STORAGE.dailySession);
       try {
         if (storedProgress) {
           setMultiProgress(
@@ -1021,9 +1026,19 @@ export default function Home() {
         }
       } catch {
         setToast("偏好設定無法讀取，已使用安全的預設值。");
-      } finally {
-        setLoaded(true);
       }
+      if (storedDailySession) {
+        const restoredSession = restoreDailySession(
+          storedDailySession,
+          localDateKey(),
+        );
+        if (restoredSession) {
+          setDailySession(restoredSession);
+        } else {
+          localStorage.removeItem(STORAGE.dailySession);
+        }
+      }
+      setLoaded(true);
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
@@ -1040,6 +1055,15 @@ export default function Home() {
     if (!loaded) return;
     localStorage.setItem(STORAGE.settings, JSON.stringify(settings));
   }, [loaded, settings]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    if (dailySession) {
+      localStorage.setItem(STORAGE.dailySession, JSON.stringify(dailySession));
+      return;
+    }
+    localStorage.removeItem(STORAGE.dailySession);
+  }, [dailySession, loaded]);
 
   useEffect(() => {
     if (
@@ -1833,17 +1857,12 @@ export default function Home() {
         },
       ),
     }));
-    if (level === 1) {
-      setFeedback(
-        recallIncorrectFeedback("", currentToken.answer, 1).message,
-      );
-    }
-    if (level === 2) {
-      setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
+    const hint = recallIncorrectFeedback("", currentToken.answer, level);
+    setFeedback(hint.message);
+    if (hint.replayAudio) {
       playTokenAudio(currentToken, 1, false);
     }
-    if (level === 3) {
-      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
+    if (hint.revealAnswer) {
       setRecallAnswerRevealed(true);
     }
   };
@@ -1934,9 +1953,11 @@ export default function Home() {
     }
     const nextAttempt = recallAttempts + 1;
     setRecallAttempts(nextAttempt);
+    setHintLevel((level) => Math.max(level, Math.min(3, nextAttempt)));
     setSessionTokenProgress((value) =>
       updateTokenLearningProgress(value, currentToken.occurrenceId, {
         attemptDelta: 1,
+        hintDelta: 1,
         elapsedDelta: elapsed,
         usedPaste,
         answerRevealed: nextAttempt >= 3,
@@ -1952,6 +1973,7 @@ export default function Home() {
         currentToken.occurrenceId,
         {
           attemptDelta: 1,
+          hintDelta: 1,
           elapsedDelta: elapsed,
           usedPaste,
           answerRevealed: nextAttempt >= 3,
@@ -5346,7 +5368,9 @@ export default function Home() {
                     <strong>{item.lemma}</strong>
                     <small>
                       {item.focus}・答錯 {item.wrongAttempts} / 嘗試 {item.totalAttempts}
-                      {item.lastSeenAt ? "・最近 " + item.lastSeenAt.slice(0, 10) : ""}
+                      {item.lastSeenAt
+                        ? "・最近 " + localDateKey(new Date(item.lastSeenAt))
+                        : ""}
                     </small>
                   </div>
                   <div className="button-row">

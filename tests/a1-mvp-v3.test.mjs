@@ -81,13 +81,36 @@ test("reads the official v3 curriculum from the ASCII CSV path", async () => {
   assert.equal(OFFICIAL_A1_SOURCE_VERSION, "a1-course-v3.csv");
 });
 
-test("reveals a near-miss answer on the third attempt and requires retyping", () => {
+test("keeps the fixed three-stage hint flow for near misses", () => {
   assert.deepEqual(recallIncorrectFeedback("becaus", "because", 1), {
-    message: "拼字很接近，再檢查一次。",
+    message: "拼字很接近。\n字母數：7",
     revealAnswer: false,
     replayAudio: false,
   });
+  assert.deepEqual(recallIncorrectFeedback("becaus", "because", 2), {
+    message: "拼字很接近。\n第一個字母：b",
+    revealAnswer: false,
+    replayAudio: true,
+  });
   assert.deepEqual(recallIncorrectFeedback("becaus", "because", 3), {
+    message: "正確答案是 because。請重新輸入一次。",
+    revealAnswer: true,
+    replayAudio: false,
+  });
+});
+
+test("keeps the same three-stage hint flow for unrelated spelling", () => {
+  assert.deepEqual(recallIncorrectFeedback("hello", "because", 1), {
+    message: "字母數：7",
+    revealAnswer: false,
+    replayAudio: false,
+  });
+  assert.deepEqual(recallIncorrectFeedback("hello", "because", 2), {
+    message: "第一個字母：b",
+    revealAnswer: false,
+    replayAudio: true,
+  });
+  assert.deepEqual(recallIncorrectFeedback("hello", "because", 3), {
     message: "正確答案是 because。請重新輸入一次。",
     revealAnswer: true,
     replayAudio: false,

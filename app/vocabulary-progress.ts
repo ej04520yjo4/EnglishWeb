@@ -1,4 +1,5 @@
 import type { CefrLevel } from "./curriculum/types.ts";
+import { localDateKey } from "./local-date.ts";
 import { canonicalizeLexemeId } from "./vocabulary-targets.ts";
 
 export type VocabularyMasteryState = "unseen" | "exposed" | "receptive" | "active";
@@ -106,7 +107,6 @@ export const normalizeGlobalVocabularyProgress = (
   );
 };
 
-const dateKey = (iso: string) => iso.slice(0, 10);
 const addUnique = (items: string[], value: string) =>
   items.includes(value) ? items : [...items, value];
 
@@ -117,11 +117,12 @@ export const recordGlobalVocabularyEvidence = (
     kind: VocabularyEvidenceKind;
     evidenceId: string;
     studiedAt?: string;
+    studyDate?: string;
     sourceLevel: CefrLevel;
   },
 ): GlobalVocabularyProgress => {
   const studiedAt = input.studiedAt ?? new Date().toISOString();
-  const studyDate = dateKey(studiedAt);
+  const studyDate = input.studyDate ?? localDateKey(new Date(studiedAt));
   const field = evidenceField[input.kind];
   let changed = false;
   const next = { ...progress };

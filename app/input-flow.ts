@@ -94,24 +94,20 @@ export const recallIncorrectFeedback = (
 
   const attempted = normalizeRecallAnswer(attemptedAnswer);
   const expected = normalizeRecallAnswer(expectedAnswer);
-  if (attempted.length > 1 && editDistance(attempted, expected) <= 2) {
-    return {
-      message: "拼字很接近，再檢查一次。",
-      revealAnswer: false,
-      replayAudio: false,
-    };
-  }
+  const nearMiss =
+    attempted.length > 1 && editDistance(attempted, expected) <= 2;
+  const nearMissMessage = nearMiss ? "拼字很接近。\n" : "";
 
   if (nextAttempt === 1) {
     return {
-      message: `字母數：${answerLengthPattern(expectedAnswer)}`,
+      message: `${nearMissMessage}字母數：${answerLengthPattern(expectedAnswer)}`,
       revealAnswer: false,
       replayAudio: false,
     };
   }
 
   return {
-    message: `第一個字母：${expectedAnswer.trim()[0]}`,
+    message: `${nearMissMessage}第一個字母：${expectedAnswer.trim()[0]}`,
     revealAnswer: false,
     replayAudio: true,
   };
