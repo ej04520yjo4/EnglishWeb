@@ -13,6 +13,7 @@ import {
   loadAvailableCourseLevels,
   loadCourseLevel,
 } from "../app/curriculum/loader.ts";
+import { parseCourseCsv } from "../app/curriculum/validation.ts";
 import {
   buildVocabularyCoverageReport,
   canonicalizeLexemeId,
@@ -94,6 +95,32 @@ test("builds a partial baseline from A1, A2, and reference-only lexemes", () => 
   const iTarget = targets.entries.find((entry) => entry.lexemeId === "i");
   assert.ok(iTarget.sourceLexemeIds.includes("me"));
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "me"));
+});
+
+test("keeps every baseline source reference attached to a real source record", () => {
+  const rowsByVersion = new Map([
+    ["a1-course-v3.csv", parseCourseCsv(readText("public/data/a1-course-v3.csv"))],
+    ["a2-course-v1.csv", parseCourseCsv(readText("public/data/a2-course-v1.csv"))],
+  ]);
+  const referenceIds = new Set(
+    readJson("public/data/reference-vocabulary-v1.json").vocabulary.map(
+      (entry) => entry.lexemeId,
+    ),
+  );
+  for (const entry of targets.entries) {
+    for (const source of entry.sourceRefs) {
+      if (source.sourceType === "reference") {
+        assert.ok(referenceIds.has(source.reference), `${entry.lexemeId} reference source is missing`);
+        continue;
+      }
+      const rows = rowsByVersion.get(source.sourceVersion);
+      assert.ok(rows, `${entry.lexemeId} uses an unknown curriculum version`);
+      const row = rows.find((item) => item.occurrence_id === source.reference);
+      assert.ok(row, `${entry.lexemeId} curriculum occurrence is missing`);
+      const rowLexeme = canonicalizeLexemeId(row.lemma || row.lexeme_id);
+      assert.equal(rowLexeme, entry.lexemeId);
+    }
+  }
 });
 
 test("canonical lexeme counting merges forms and senses and excludes chunks", () => {
