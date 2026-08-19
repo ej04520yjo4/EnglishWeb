@@ -2,6 +2,20 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-19 - Learning Foundation Hardening
+
+### Fixed
+
+- Changed study-day and vocabulary-mastery evidence from UTC date slicing to the learner device's local calendar day, including Taiwan early-morning coverage.
+- Made recall hints deterministic for every error: letter count, first letter with audio replay, then full-answer reveal and required retyping. Near-miss wording no longer skips a hint level.
+- Preserved clean-spelling rules so revealed or pasted answers still cannot create productive mastery evidence.
+
+### Added
+
+- Persisted unfinished Daily Learning position under an isolated same-day localStorage record; F5/close resumes the next review, lesson, or weakness step, while stale days expire and completed summaries clear the record.
+- Added a 126-entry vocabulary baseline review artifact and executable source-reference checks. No target was added, removed, or promoted; unresolved source/license and reference-only human review are recorded explicitly.
+- Added `npm run verify` as the shared local and GitHub quality gate; `npm test` now adds the full Playwright matrix.
+
 ## 2026-08-19 - Learning UX Verification and Content QA
 
 ### Fixed

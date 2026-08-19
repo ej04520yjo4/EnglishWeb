@@ -109,6 +109,8 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Build only a sourced baseline from existing A1/A2 curriculum and reference vocabulary; do not generate words merely to reach 3000.
 - Track exposure, recognition, clean spelling, and sentence application globally by canonical `lexemeId` in progress schema v6.
 - Require repeated evidence across different study dates before receptive or active mastery.
+- Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
+- The 126-entry identity, CEFR, mastery-target, topic, and source-classification pass is complete; source/license and reference-only human language review remain open.
 - Keep CEFR completion independent from the incomplete vocabulary target until both curriculum and target data pass human review.
 - Expand the target list in small licensed, manually reviewed batches while A2 units 1–4 continue language QA.
 

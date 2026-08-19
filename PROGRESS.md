@@ -21,6 +21,9 @@
 - Target baseline: 126 entries; 100 active candidates and 26 receptive candidates.
 - Target stage counts: A1 92, A2 34; 2874 entries remain unbuilt.
 - Target status: `partial_review_required`; all entries remain `pilot_review_required`.
+- All 126 entries received an item-by-item identity, normalization, CEFR, mastery-target, topic, and curriculum/reference classification pass. No rejection, duplicate, or count change was required.
+- Provenance is still open: 100 curriculum targets have `license: pending`; all 26 reference-only targets need an external lexical/content source and license review. Their Taiwan Chinese and blank KK/IPA also remain for user review.
+- Durable findings are recorded in `docs/vocabulary-baseline-review-2026-08-19.md`; the reviewed target SHA-256 is `c1342d65a8aa6f39cf5efa6e40ca5fc68cabf536e92af46dcd1ff122b6d4afc1`.
 - Source report records one A2 source-ID/lemma projection, `me -> I`; target aliases map both to canonical `i`, with no target ID or lemma conflict.
 - Lesson-specific proper names Amy and Ben remain in A1 course practice but are excluded from the 3000 general-vocabulary target.
 
@@ -37,10 +40,12 @@
 - The progress page separates the 3000 goal, current target coverage, personal evidence-based mastery, senses, chunks, and due reviews.
 - The home page now shows a deterministic daily learning plan: due review first, then the current recommended lesson, then up to three evidence-backed weak lexemes.
 - The weakness center ranks only target lexemes with actual incorrect recognition, clean-spelling, or application attempts; passive exposure never creates a weakness.
-- Daily learning 2.0 now runs as a resumable in-memory session: due review → one current lesson → up to three focused weakness drills → an evidence-based daily summary.
+- Daily learning 2.0 persists its active review → lesson → weakness position under `yingju-daily-session-v1`, restores only on the same local calendar day, and clears after the learner completes the summary.
+- Study dates now use one shared device-local `YYYY-MM-DD` helper. New vocabulary evidence stores the local date when it is created, so backup/import or later timezone changes do not reinterpret mastery dates.
 - Weakness rows can launch direct focus practice for spelling, recognition, or sentence application without changing lesson completion or CEFR unlocks.
 - Lesson input UX now ignores held Enter repeats across recall, detail, transfer, passage, weakness, and assessment paths; shared boundary logic supports left/right navigation and empty-box Backspace.
-- A third incorrect recall always reveals the target before the learner must retype it, including a near-miss such as `becaus` for `because`; revealed or pasted input still cannot create clean spelling evidence.
+- Recall now always advances through the same three hints: letter count, first letter plus audio replay, then full-answer reveal and required retyping. Near-miss text may accompany but never replace the fixed hint level; revealed or pasted input still cannot create clean spelling evidence.
+- `npm run verify` is the shared local and GitHub quality gate for context, project/vocabulary audits and report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds the full Playwright matrix.
 - Recall keeps the prompt and input visually primary, while post-answer detail shows the selected phonetic system and contextual part of speech before collapsed secondary metadata.
 - A1 32 lessons/145 occurrences and A2 16 lessons/95 occurrences were re-audited with their transfer, recognition, response, passage, and comprehension content on 2026-08-19. Core sentences required no correction; the generic A1 `a` note was corrected so the pen occurrence no longer refers to “一本書”.
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
@@ -53,13 +58,15 @@
 - Added protected-file hashes, disabled-runtime checks, canonical counting tests, mastery tests, backup/reload tests, and desktop/mobile browser coverage.
 - Fixed an A2 Playwright hydration race by seeding storage before navigation and waiting for observable A2/map readiness.
 - Added executable regression coverage for third-attempt near-miss reveal, cross-input boundary movement, empty-box Backspace, and Windows CRLF-safe protected-source checks.
+- Added Taiwan UTC+8 local-date regressions, fixed near-miss/unrelated spelling hint progression, same-day daily-session restore/expiry checks, source-reference validation, and desktop/mobile F5 session flows.
+- Reviewed all 126 baseline entries without changing the target file; documented unresolved provenance rather than inventing source or license claims.
 - Removed all temporary sentence-audit workflows and UX patch helpers from the final feature tree; permanent audit scripts and CI remain.
 - Updated the roadmap, architecture, decisions, task priorities, memory, README, changelog, and B1/B2 status documentation.
 
 ## Known Limits
 
 - The target contract is not a complete 3000-word list and must not be presented as one.
-- The 126 baseline entries need manual source, license, target-level, mastery-target, and language review; the progress-page note identifies them as a待審 baseline rather than reviewed vocabulary.
+- The 126-entry content-metadata pass is complete, but all 126 still need license evidence, 26 reference-only entries still need an external lexical source, and those 26 still need user language/phonetic review. The progress-page note correctly keeps the baseline待審.
 - A2 units 1–4 remain pilot content; units 5–10 are blueprint-only.
 - All 27 related-vocabulary reference records still need phonetic/content review; deduplication produces 26 unique reference-only target lexemes.
 - B1/B2 language, phonetics, distractors, passages, and CEFR placement remain unreviewed and disabled.
@@ -67,22 +74,25 @@
 
 ## Next Concrete Step
 
-Manually review the 126-entry baseline, choose one legally reusable frequency/reference source, and prepare one small deduplicated candidate batch before adding any new target entries.
+Resolve the 126-entry provenance findings: choose and record one legally reusable lexical/frequency source, settle curriculum ownership/license terms, and have the user review the 26 reference-only language/phonetic entries before adding any new target batch.
 
 ## Verification
 
 - `npm ci`: exit 0; 494 packages installed and 495 audited; 18 dependency vulnerabilities reported (2 low, 16 high), with no automatic fixes applied.
-- `npm audit --json`: exit 1 because the same 18 known vulnerabilities remain; 0 critical. Direct affected tools include Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; upgrades are deferred to a dedicated compatibility pass.
+- `npm audit --json`: exit 1 because 18 known vulnerabilities remain (0 critical, 16 high, 0 moderate, 2 low). Direct affected tools are Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; coupled compatibility upgrades remain under `DEPENDENCY-QA-001`, with no force fix applied.
+- `npm run verify`: exit 0; the shared local/CI gate completed every command below.
+- `npm test`: exit 0; reran `verify` and the complete Playwright matrix through the public contributor command.
 - `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
 - `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 sources, 0 orphan/duplicate data files.
 - `npm run audit:vocabulary`: exit 0; 126 unique targets, 100 active, 26 receptive.
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.
-- `npm run test:unit`: exit 0; 116 passed, 0 failed.
+- `npm run test:unit`: exit 0; 123 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
-- `npx tsc --noEmit --incremental false`: exit 0.
-- `npm run test:e2e`: exit 0; 52 passed across desktop and mobile, 0 failed.
+- `npm run typecheck` (`tsc --noEmit --incremental false`): exit 0.
+- `npm run test:e2e`: exit 0; 56 passed across desktop and mobile, 0 failed.
+- Focused Daily Learning persistence E2E: exit 0; 8 passed across desktop and mobile, including lesson/weakness reload, stale-day expiry, and final storage cleanup.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
 - Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.

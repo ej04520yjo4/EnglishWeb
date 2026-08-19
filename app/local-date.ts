@@ -6,4 +6,3 @@ const padCalendarPart = (value: number) => String(value).padStart(2, "0");
  */
 export const localDateKey = (date = new Date()): string =>
   `${date.getFullYear()}-${padCalendarPart(date.getMonth() + 1)}-${padCalendarPart(date.getDate())}`;
-

@@ -23,6 +23,7 @@ flowchart LR
   Vocabulary --> Page
   TargetModule --> Page
   Page <--> Storage["localStorage schema v6 + global vocabulary evidence"]
+  Page <--> DailyStorage["yingju-daily-session-v1 temporary flow state"]
   Page --> UI["Course map and learning stages"]
 ```
 
@@ -47,12 +48,13 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/learning-progress.ts`: token/entity history and review scheduling.
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
 - `app/input-flow.ts`: pure third-attempt recall feedback and cross-input boundary-navigation rules shared by recall and rebuild UI.
+- `app/local-date.ts`: device-local `YYYY-MM-DD` semantics shared by course study days, evidence, and temporary sessions; timestamps remain ISO instants.
 - `app/rebuild-flow.ts`, `app/passage-flow.ts`, `app/assessment-scoring.ts`: pure evaluation rules.
 - `app/kk-phonetics.ts`: separate KK symbol curriculum and audio metadata mapping.
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, and exposed/receptive/active derivation.
-- `app/daily-session.ts`: pure daily-session sequencing and evidence-delta summary rules; the active session itself remains transient UI state.
+- `app/daily-session.ts`: pure daily-session sequencing, same-local-day restore validation, and evidence-delta summary rules; `page.tsx` owns the isolated storage lifecycle.
 - `scripts/create-vocabulary-target-baseline.mjs`: reproducibly projects current A1/A2/reference sources into the partial target contract.
 - `scripts/audit-vocabulary-targets.mjs` and `scripts/report-vocabulary-coverage.mjs`: target integrity and occurrence/form/sense/chunk/lexeme reporting.
 - `worker/index.ts`: Vinext request and image handling for hosted deployment.
@@ -80,7 +82,7 @@ Passage comprehension keeps `options` as strings for UI and A1 compatibility. Ne
 
 ## Persistence
 
-Browser storage holds progress schema v6, settings, and validated per-level course overrides. A v3 record preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; all old records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and is shared across A1/A2. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
+Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate versioned `yingju-daily-session-v1` temporary flow record. A v3 record preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; all old records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and is shared across A1/A2. Daily-session restore only resumes an already-recorded position on the same device-local day; it never creates course completion or evidence and does not require schema v7. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 ## Context Documentation Flow
 
@@ -106,6 +108,8 @@ flowchart LR
 
 ## Quality Gates
 
+- `npm run verify` is the shared local/CI quality gate: context, project audit, vocabulary audit/report, curriculum validation, build, unit, lint, and TypeScript.
+- `npm test` runs the shared gate and then Playwright; CI keeps Playwright in a separate dependent job for diagnostics and artifacts.
 - `npm run check:context` verifies the project-context files and encoding.
 - `npm run audit:project` verifies catalog coverage, source uniqueness, intentional review repetitions, generator dictionaries, and ignored build outputs.
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.

@@ -233,3 +233,27 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** The baseline contains only current A1/A2 curriculum and reference vocabulary. Future additions must arrive in small deduplicated batches with source version, reference, license, topic, target level, mastery target, and QA state. The project will not copy protected lists or generate filler entries to reach 3000.
 
 **Reason:** Legal provenance and human language review are product requirements, not cleanup work after bulk generation.
+
+## ADR-030 - Study Dates Use the Learner's Local Calendar Day
+
+**Status:** Accepted
+
+**Decision:** ISO timestamps continue to record exact instants, but course study days and new vocabulary evidence dates use `localDateKey()` from device-local year, month, and day. Each new evidence record preserves its local date in `evidenceStudyDates`; existing dates are never recomputed after import or timezone changes.
+
+**Reason:** UTC slicing assigns early Taiwan-morning study to the previous day and can corrupt cross-date mastery evidence. Preserving the date at creation keeps backup/import behavior stable without schema v7.
+
+## ADR-031 - Daily Session Persistence Is an Isolated Temporary Record
+
+**Status:** Accepted
+
+**Decision:** Active Daily Learning position is stored in versioned key `yingju-daily-session-v1`, restored only when its local date equals today, and removed after the summary is completed or when stale/invalid. The record contains sequencing inputs and completed steps, not scores or evidence.
+
+**Reason:** F5 should not discard the learner's place, but resuming UI position must never become a second progress truth source or invent learning results.
+
+## ADR-032 - Local and CI Quality Gates Share One Command
+
+**Status:** Accepted
+
+**Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while its dependent Playwright job remains separate for browser setup and artifacts.
+
+**Reason:** One maintained command prevents local documentation and GitHub Actions from silently enforcing different release standards.

@@ -33,7 +33,7 @@ This file stores long-lived product facts and working preferences. Current task 
   2. `I eat breakfast at home.`
   3. `I go to work at eight.`
   4. `I go to work by bus.`
-- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, and `yingju-course-rows-v3`.
+- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, `yingju-course-rows-v3`, and isolated temporary session key `yingju-daily-session-v1`.
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
@@ -50,6 +50,9 @@ This file stores long-lived product facts and working preferences. Current task 
 - The current target file is intentionally partial and contains 126 sourced baseline entries: 100 active curriculum-covered candidates and 26 receptive reference-only candidates. A1/A2 contains 102 union curriculum lexemes; lesson-specific names Amy and Ben are intentionally excluded from the general-vocabulary target.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one correct application; reveal and paste cannot create clean spelling evidence.
+- A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.
+- Daily Learning restores only unfinished same-day flow position; restore never creates evidence, completion, unit pass, or CEFR pass, and finishing the summary removes the temporary record.
+- The 126-entry metadata QA found no duplicate or rejection, but provenance remains unresolved: all 126 need license evidence and 26 reference-only targets need a lexical/content source plus user language/phonetic review.
 
 ## Content and Audio Guardrails
 
@@ -79,3 +82,4 @@ This file stores long-lived product facts and working preferences. Current task 
 - Preserve the existing simple, Duolingo-like visual direction unless redesign is explicitly requested.
 - Report concrete outcomes and actual test results in Traditional Chinese.
 - Do not describe unverified work as complete.
+- Use `npm run verify` for the shared local/CI quality gate; `npm test` adds Playwright.

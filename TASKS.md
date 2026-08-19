@@ -4,8 +4,11 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **VOCAB-3000-QA-001:** Manually review the 126-entry A1/A2 baseline target contract.
-  - Confirm the 102 curriculum lexemes, 26 reference-only lexemes, canonical lemmas, A1/A2 placement, active/receptive target, topic, and source/license fields.
+- [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 126-entry A1/A2 baseline.
+  - [x] Reviewed all 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity; no count change was needed.
+  - [ ] Resolve `license: pending` for 100 curriculum targets.
+  - [ ] Record an external lexical/content source and license for 26 reference-only targets.
+  - [ ] Have the user review the 26 reference-only Taiwan Chinese and blank KK/IPA fields.
 - [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
 - [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
@@ -25,6 +28,10 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **LEARNING-LOOP-001:** Add a deterministic daily learning plan and evidence-backed weakness center without changing schema v6 or CEFR unlock rules.
 - [x] **LEARNING-LOOP-002:** Turn the daily plan into a resumable review → lesson → weakness → summary session and add direct evidence-backed weakness practice.
 - [x] **UX-INPUT-001:** Prevent Enter key skip-through across all learning inputs, enforce third-attempt reveal, add boundary arrow/empty-Backspace navigation, and simplify recall/detail visual hierarchy.
+- [x] **LEARNING-DATE-001:** Replace UTC-derived study-day keys with stable device-local calendar dates without changing schema v6.
+- [x] **UX-HINT-001:** Enforce letter count → first letter/audio → full reveal for both near-miss and unrelated recall errors.
+- [x] **CI-VERIFY-001:** Use `npm run verify` as the single local and GitHub quality gate; keep Playwright as the independent second CI job.
+- [x] **DAILY-SESSION-PERSIST-001:** Restore same-day Daily Learning state across F5/close, expire old-day state, and clear it after summary completion.
 - [ ] **DEPENDENCY-QA-001:** Review compatible upgrades for Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; rerun the complete matrix without using forced audit fixes.
 - [x] **CI-E2E-001:** GitHub Actions passes browser tests and exposes the retained Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
