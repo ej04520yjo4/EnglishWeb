@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-19 - Daily Session Context Hardening
+
+### Fixed
+
+- Bound resumable Daily Learning sessions to their original CEFR level and exact lesson, removing the cross-level fallback that could open an unrelated course after switching levels.
+- Stored completed weakness lexeme IDs in the temporary v2 session so F5 resumes at the first unfinished item; invalid or duplicate saved IDs are sanitized without creating learning evidence.
+- Replaced the last-seven-record weekly display with one deduplicated device-local Monday-to-Sunday calculation shared by the home card and top bar.
+
+### Preserved
+
+- Progress remains schema v6; discarded v1 temporary sessions are not migrated into course completion, assessment results, CEFR passing, or vocabulary evidence.
+- A1/A2 course data, B1/B2 runtime gating, vocabulary targets, and existing learning rules remain unchanged.
+
 ## 2026-08-19 - Learning Foundation Hardening
 
 ### Fixed

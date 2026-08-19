@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { localDateKey } from "../app/local-date.ts";
+import { localDateKey, studyDaysThisWeek } from "../app/local-date.ts";
 import {
   deriveVocabularyMasteryState,
   recordGlobalVocabularyEvidence,
@@ -65,5 +65,52 @@ test("counts two Taiwan local calendar days as cross-date evidence", () => {
     process.env.TZ = "UTC";
     assert.deepEqual(progress.apple.studyDates, ["2026-08-20", "2026-08-21"]);
     assert.equal(deriveVocabularyMasteryState(progress.apple), "receptive");
+  });
+});
+
+test("counts unique study dates in the current Monday-Sunday week", () => {
+  withTaipeiTimeZone(() => {
+    const today = new Date("2026-08-19T04:00:00.000Z");
+    assert.equal(
+      studyDaysThisWeek(
+        [
+          "2026-08-16",
+          "2026-08-17",
+          "2026-08-18",
+          "2026-08-19",
+          "2026-08-19",
+          "2026-08-24",
+        ],
+        today,
+      ),
+      3,
+    );
+  });
+});
+
+test("includes both Monday and Sunday boundaries", () => {
+  withTaipeiTimeZone(() => {
+    const sunday = new Date("2026-08-23T04:00:00.000Z");
+    assert.equal(
+      studyDaysThisWeek(
+        ["2026-08-16", "2026-08-17", "2026-08-23", "2026-08-24"],
+        sunday,
+      ),
+      2,
+    );
+  });
+});
+
+test("uses the Taiwan Monday even while UTC is still Sunday", () => {
+  withTaipeiTimeZone(() => {
+    const taiwanMonday = new Date("2026-08-16T16:30:00.000Z");
+    assert.equal(localDateKey(taiwanMonday), "2026-08-17");
+    assert.equal(
+      studyDaysThisWeek(
+        ["2026-08-16", "2026-08-17", "2026-08-23", "2026-08-24"],
+        taiwanMonday,
+      ),
+      2,
+    );
   });
 });

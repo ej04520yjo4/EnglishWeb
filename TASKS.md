@@ -32,6 +32,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **UX-HINT-001:** Enforce letter count → first letter/audio → full reveal for both near-miss and unrelated recall errors.
 - [x] **CI-VERIFY-001:** Use `npm run verify` as the single local and GitHub quality gate; keep Playwright as the independent second CI job.
 - [x] **DAILY-SESSION-PERSIST-001:** Restore same-day Daily Learning state across F5/close, expire old-day state, and clear it after summary completion.
+- [x] **DAILY-SESSION-LEVEL-001:** Bind each temporary Daily Learning session to its originating CEFR level and exact lesson; reject missing or inaccessible context without cross-level fallback.
+- [x] **DAILY-WEAKNESS-RESUME-001:** Persist completed weakness lexeme IDs and resume the first unfinished item after reload without inventing evidence.
+- [x] **STUDY-WEEK-001:** Count unique selected-level study dates in the learner's device-local Monday-to-Sunday week on both home and top bar.
 - [ ] **DEPENDENCY-QA-001:** Review compatible upgrades for Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; rerun the complete matrix without using forced audit fixes.
 - [x] **CI-E2E-001:** GitHub Actions passes browser tests and exposes the retained Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.

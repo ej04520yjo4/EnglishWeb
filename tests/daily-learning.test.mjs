@@ -4,8 +4,10 @@ import { buildVocabularyWeaknesses } from "../app/daily-learning.ts";
 import { createEmptyVocabularyEvidence } from "../app/vocabulary-progress.ts";
 import {
   createDailySession,
+  markDailyWeaknessCompleted,
   markDailySessionStep,
   nextDailySessionStep,
+  remainingDailyWeaknessLexemeIds,
   restoreDailySession,
   summarizeDailySession,
 } from "../app/daily-session.ts";
@@ -90,19 +92,23 @@ test("weakness center ignores correct-only and non-target evidence", () => {
 test("daily session follows review, lesson, weakness, then summary", () => {
   let session = createDailySession({
     startedAt: 1_000,
+    level: "A1",
     lessonId: "a1-u1-l1",
     reviewCount: 4,
     weaknessLexemeIds: ["i", "be", "name"],
     beforeVocabulary: { exposed: 10, receptive: 4, active: 2 },
   });
-  assert.equal(session.version, 1);
+  assert.equal(session.version, 2);
+  assert.equal(session.level, "A1");
   assert.match(session.localDate, /^\d{4}-\d{2}-\d{2}$/);
   assert.equal(nextDailySessionStep(session), "review");
   session = markDailySessionStep(session, "review");
   assert.equal(nextDailySessionStep(session), "lesson");
   session = markDailySessionStep(session, "lesson");
   assert.equal(nextDailySessionStep(session), "weakness");
-  session = markDailySessionStep(session, "weakness");
+  for (const lexemeId of session.weaknessLexemeIds) {
+    session = markDailyWeaknessCompleted(session, lexemeId);
+  }
   assert.equal(nextDailySessionStep(session), "summary");
 });
 
@@ -110,6 +116,7 @@ test("restores only an unfinished session from the same local day", () => {
   let session = createDailySession({
     startedAt: Date.parse("2026-08-20T02:00:00.000Z"),
     localDate: "2026-08-20",
+    level: "A1",
     lessonId: "a1-u1-l1",
     reviewCount: 2,
     weaknessLexemeIds: ["i"],
@@ -129,6 +136,7 @@ test("restoring a session does not create or duplicate learning evidence", () =>
   const session = markDailySessionStep(
     createDailySession({
       localDate: "2026-08-20",
+      level: "A1",
       lessonId: "a1-u1-l1",
       reviewCount: 1,
       weaknessLexemeIds: ["i"],
@@ -159,6 +167,7 @@ test("restoring a session does not create or duplicate learning evidence", () =>
 
 test("daily session skips empty review and weakness stages", () => {
   let session = createDailySession({
+    level: "A1",
     lessonId: "a1-u1-l1",
     reviewCount: 0,
     weaknessLexemeIds: [],
@@ -171,6 +180,7 @@ test("daily session skips empty review and weakness stages", () => {
 
 test("daily session keeps only three unique weakness targets", () => {
   const session = createDailySession({
+    level: "A1",
     lessonId: "a1-u1-l1",
     reviewCount: 0,
     weaknessLexemeIds: ["i", "i", "be", "name", "water"],
@@ -182,6 +192,7 @@ test("daily session keeps only three unique weakness targets", () => {
 test("daily summary reports non-negative mastery gains", () => {
   let session = createDailySession({
     startedAt: 0,
+    level: "A1",
     lessonId: "a1-u1-l1",
     reviewCount: 2,
     weaknessLexemeIds: ["i"],
@@ -189,7 +200,7 @@ test("daily summary reports non-negative mastery gains", () => {
   });
   session = markDailySessionStep(session, "review");
   session = markDailySessionStep(session, "lesson");
-  session = markDailySessionStep(session, "weakness");
+  session = markDailyWeaknessCompleted(session, "i");
   const summary = summarizeDailySession(
     session,
     { exposed: 12, receptive: 7, active: 2 },
@@ -202,4 +213,88 @@ test("daily summary reports non-negative mastery gains", () => {
   assert.equal(summary.receptiveDelta, 1);
   assert.equal(summary.activeDelta, 0);
   assert.equal(summary.complete, true);
+});
+
+test("restores an A1 daily session independently from a selected A2 UI", () => {
+  const selectedLevel = "A2";
+  const session = createDailySession({
+    localDate: "2026-08-20",
+    level: "A1",
+    lessonId: "a1-u1-l1",
+    reviewCount: 0,
+    weaknessLexemeIds: [],
+    beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+  });
+  const restored = restoreDailySession(JSON.stringify(session), "2026-08-20");
+  assert.equal(selectedLevel, "A2");
+  assert.equal(restored?.level, "A1");
+  assert.equal(restored?.lessonId, "a1-u1-l1");
+});
+
+test("restores weakness practice from the first unfinished lexeme", () => {
+  let session = createDailySession({
+    localDate: "2026-08-20",
+    level: "A1",
+    lessonId: "a1-u1-l1",
+    reviewCount: 0,
+    weaknessLexemeIds: ["i", "be", "name"],
+    beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+  });
+  session = markDailySessionStep(session, "lesson");
+  session = markDailyWeaknessCompleted(session, "i");
+  const restored = restoreDailySession(
+    JSON.stringify(session),
+    "2026-08-20",
+  );
+  assert.ok(restored);
+  assert.deepEqual(restored.completedWeaknessLexemeIds, ["i"]);
+  assert.deepEqual(remainingDailyWeaknessLexemeIds(restored), ["be", "name"]);
+  assert.equal(nextDailySessionStep(restored), "weakness");
+
+  const afterBe = markDailyWeaknessCompleted(restored, "be");
+  const afterName = markDailyWeaknessCompleted(afterBe, "name");
+  assert.deepEqual(afterName.completedWeaknessLexemeIds, ["i", "be", "name"]);
+  assert.equal(nextDailySessionStep(afterName), "summary");
+});
+
+test("sanitizes duplicate and unknown completed weakness IDs", () => {
+  const session = createDailySession({
+    localDate: "2026-08-20",
+    level: "A1",
+    lessonId: "a1-u1-l1",
+    reviewCount: 0,
+    weaknessLexemeIds: ["i", "be", "name"],
+    beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+  });
+  const restored = restoreDailySession(
+    JSON.stringify({
+      ...session,
+      completedWeaknessLexemeIds: ["i", "i", "unknown"],
+      completedSteps: ["lesson", "weakness"],
+    }),
+    "2026-08-20",
+  );
+  assert.ok(restored);
+  assert.deepEqual(restored.completedWeaknessLexemeIds, ["i"]);
+  assert.deepEqual(restored.completedSteps, ["lesson"]);
+  assert.deepEqual(remainingDailyWeaknessLexemeIds(restored), ["be", "name"]);
+});
+
+test("rejects legacy daily session v1 instead of guessing its level", () => {
+  assert.equal(
+    restoreDailySession(
+      JSON.stringify({
+        version: 1,
+        localDate: "2026-08-20",
+        startedAt: 1,
+        lessonId: "a1-u1-l1",
+        reviewCount: 0,
+        weaknessLexemeIds: [],
+        completedSteps: [],
+        beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+      }),
+      "2026-08-20",
+    ),
+    null,
+  );
 });

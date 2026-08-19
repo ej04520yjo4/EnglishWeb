@@ -4,7 +4,7 @@ import path from "node:path";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
-const dailySessionKey = "yingju-daily-session-v1";
+const dailySessionKey = "yingju-daily-session-v2";
 const lessonsThroughUnit = (lastUnit: number) =>
   Array.from({ length: lastUnit }, (_, unitIndex) =>
     Array.from(
@@ -57,7 +57,14 @@ const seedProgress = async (
   );
 };
 
-const seedDailyLearningFixture = async (page: Page) => {
+const seedDailyLearningFixture = async (
+  page: Page,
+  options: {
+    weaknessLexemeIds?: string[];
+    showAdvancedPilots?: boolean;
+  } = {},
+) => {
+  const weaknessLexemeIds = options.weaknessLexemeIds ?? ["i"];
   const a1Progress = levelProgressFixture();
   a1Progress.reviewItems = {
     "a1-u1-l1-t01": {
@@ -80,27 +87,35 @@ const seedDailyLearningFixture = async (page: Page) => {
       B1: levelProgressFixture(),
       B2: levelProgressFixture(),
     },
-    vocabularyProgress: {
-      i: {
-        firstSeenAt: "2026-08-19T01:00:00.000Z",
-        lastSeenAt: "2026-08-19T01:00:00.000Z",
-        exposureEvidenceIds: [],
-        recognitionCorrectEvidenceIds: [],
-        recognitionAttemptEvidenceIds: [],
-        spellingCorrectEvidenceIds: [],
-        spellingAttemptEvidenceIds: ["seed-spelling-miss"],
-        applicationCorrectEvidenceIds: [],
-        applicationAttemptEvidenceIds: [],
-        evidenceStudyDates: {
-          "seed-spelling-miss": "2026-08-19",
+    vocabularyProgress: Object.fromEntries(
+      weaknessLexemeIds.map((lexemeId) => [
+        lexemeId,
+        {
+          firstSeenAt: "2026-08-19T01:00:00.000Z",
+          lastSeenAt: "2026-08-19T01:00:00.000Z",
+          exposureEvidenceIds: [],
+          recognitionCorrectEvidenceIds: [],
+          recognitionAttemptEvidenceIds: [],
+          spellingCorrectEvidenceIds: [],
+          spellingAttemptEvidenceIds: [`seed-spelling-miss-${lexemeId}`],
+          applicationCorrectEvidenceIds: [],
+          applicationAttemptEvidenceIds: [],
+          evidenceStudyDates: {
+            [`seed-spelling-miss-${lexemeId}`]: "2026-08-19",
+          },
+          studyDates: ["2026-08-19"],
+          sourceLevels: ["A1"],
         },
-        studyDates: ["2026-08-19"],
-        sourceLevels: ["A1"],
-      },
-    },
+      ]),
+    ),
   };
   await page.addInitScript(
-    ({ progressStorageKey, settingsStorageKey, progressValue }) => {
+    ({
+      progressStorageKey,
+      settingsStorageKey,
+      progressValue,
+      showAdvancedPilots,
+    }) => {
       if (localStorage.getItem(progressStorageKey) === null) {
         localStorage.setItem(progressStorageKey, JSON.stringify(progressValue));
       }
@@ -111,7 +126,7 @@ const seedDailyLearningFixture = async (page: Page) => {
             phonetic: "KK",
             autoplay: false,
             slowRate: 0.85,
-            showAdvancedPilots: false,
+            showAdvancedPilots,
           }),
         );
       }
@@ -120,7 +135,39 @@ const seedDailyLearningFixture = async (page: Page) => {
       progressStorageKey: progressKey,
       settingsStorageKey: settingsKey,
       progressValue: progress,
+      showAdvancedPilots: options.showAdvancedPilots ?? false,
     },
+  );
+};
+
+const seedDailySessionRecord = async (
+  page: Page,
+  overrides: Record<string, unknown> = {},
+) => {
+  await page.addInitScript(
+    ({ key, overrides }) => {
+      if (localStorage.getItem(key) !== null) return;
+      const now = new Date();
+      const pad = (value: number) => String(value).padStart(2, "0");
+      const localDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          version: 2,
+          localDate,
+          level: "A1",
+          startedAt: now.getTime(),
+          lessonId: "a1-u1-l1",
+          reviewCount: 0,
+          weaknessLexemeIds: [],
+          completedWeaknessLexemeIds: [],
+          completedSteps: [],
+          beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+          ...overrides,
+        }),
+      );
+    },
+    { key: dailySessionKey, overrides },
   );
 };
 
@@ -1322,18 +1369,144 @@ test("daily learning restores the correct lesson and weakness steps after reload
     .toBeNull();
 });
 
+test("daily learning restores its original A1 lesson after switching to A2", async ({ page }) => {
+  await seedDailyLearningFixture(page, { showAdvancedPilots: true });
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await page.locator('[data-testid="daily-review-complete"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "前往課程地圖", exact: true }).click();
+  await page.locator('[data-testid="level-selector-a2"]').click();
+  await expect(
+    page.getByRole("heading", { name: "A2 課程地圖" }),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return value?.selectedLevel;
+      }, progressKey),
+    )
+    .toBe("A2");
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A2");
+  const beforeResumeProgress = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "null");
+    return {
+      levelProgress: value?.levelProgress,
+      passedLevelIds: value?.passedLevelIds,
+      vocabularyProgress: value?.vocabularyProgress,
+    };
+  }, progressKey);
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  await expect(page.getByText("A1・單元 1・第 1 課", { exact: true })).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return {
+          selectedLevel: value?.selectedLevel,
+          levelProgress: value?.levelProgress,
+          passedLevelIds: value?.passedLevelIds,
+          vocabularyProgress: value?.vocabularyProgress,
+        };
+      }, progressKey),
+    )
+    .toEqual({
+      selectedLevel: "A1",
+      ...beforeResumeProgress,
+    });
+});
+
+test("daily learning clears a missing lesson instead of opening another course", async ({ page }) => {
+  await seedDailyLearningFixture(page);
+  await seedDailySessionRecord(page, { lessonId: "a1-u99-l99" });
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(
+    page.getByText("今日學習內容已更新，已重新建立今日學習流程。", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(page.locator('[data-testid="daily-session-resume"]')).toHaveCount(0);
+  await expect
+    .poll(() => page.evaluate((key) => localStorage.getItem(key), dailySessionKey))
+    .toBeNull();
+  await expectLevelHomeReady(page, "A1");
+});
+
+test("daily weakness practice resumes at the first unfinished lexeme after reload", async ({ page }) => {
+  await seedDailyLearningFixture(page, {
+    weaknessLexemeIds: ["i", "be", "name"],
+  });
+  await seedDailySessionRecord(page, {
+    weaknessLexemeIds: ["i", "be", "name"],
+    completedSteps: ["lesson"],
+  });
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.getByText("弱點加強・1/3", { exact: true })).toBeVisible();
+  await page.locator('[data-testid="weakness-practice-input"]').fill("I");
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return value?.completedWeaknessLexemeIds ?? [];
+      }, dailySessionKey),
+    )
+    .toEqual(["i"]);
+  await expect(page.getByText("弱點加強・2/3", { exact: true })).toBeVisible();
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.getByText("弱點加強・2/3", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "be", exact: true })).toBeVisible();
+  await page.locator('[data-testid="weakness-practice-input"]').fill("am");
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return value?.completedWeaknessLexemeIds ?? [];
+      }, dailySessionKey),
+    )
+    .toEqual(["i", "be"]);
+  await expect(page.getByText("弱點加強・3/3", { exact: true })).toBeVisible();
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.getByText("弱點加強・3/3", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "name", exact: true })).toBeVisible();
+});
+
 test("daily learning expires a session saved on a previous local day", async ({ page }) => {
   await page.addInitScript(
     ({ key }) => {
       localStorage.setItem(
         key,
         JSON.stringify({
-          version: 1,
+          version: 2,
           localDate: "2000-01-01",
+          level: "A1",
           startedAt: 946684800000,
           lessonId: "a1-u1-l1",
           reviewCount: 1,
           weaknessLexemeIds: ["i"],
+          completedWeaknessLexemeIds: [],
           completedSteps: ["review"],
           beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
         }),
@@ -1347,6 +1520,31 @@ test("daily learning expires a session saved on a previous local day", async ({ 
   await expect
     .poll(() => page.evaluate((key) => localStorage.getItem(key), dailySessionKey))
     .toBeNull();
+});
+
+test("shows the same true Monday-Sunday study count on home and top bar", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-08-19T04:00:00.000Z"));
+  const progress = {
+    ...progressFixture(),
+    studyDates: [
+      "2026-07-01",
+      "2026-08-16",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19",
+      "2026-08-19",
+      "2026-08-24",
+    ],
+  };
+  await page.addInitScript(
+    ({ key, progress }) =>
+      localStorage.setItem(key, JSON.stringify(progress)),
+    { key: progressKey, progress },
+  );
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await expect(page.locator('[data-testid="home-weekly-study-days"]')).toContainText("3 天");
+  await expect(page.locator('[data-testid="topbar-weekly-study-days"]')).toHaveText("◆ 本週 3 天");
 });
 
 test("weakness center opens focused spelling practice after a real mistake", async ({ page }) => {

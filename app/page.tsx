@@ -133,13 +133,15 @@ import {
 import { buildVocabularyWeaknesses } from "./daily-learning.ts";
 import {
   createDailySession,
+  markDailyWeaknessCompleted,
   markDailySessionStep,
   nextDailySessionStep,
+  remainingDailyWeaknessLexemeIds,
   restoreDailySession,
   summarizeDailySession,
   type DailySessionState,
 } from "./daily-session.ts";
-import { localDateKey } from "./local-date.ts";
+import { localDateKey, studyDaysThisWeek } from "./local-date.ts";
 
 type Screen =
   | "home"
@@ -228,7 +230,8 @@ const STORAGE = {
   b1CourseRows: "yingju-course-rows-b1-v1",
   b2CourseRows: "yingju-course-rows-b2-v1",
   lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
-  dailySession: "yingju-daily-session-v1",
+  dailySession: "yingju-daily-session-v2",
+  legacyDailySession: "yingju-daily-session-v1",
 };
 
 const emptyRowsByLevel = (): Record<CefrLevel, CourseCsvRow[]> => ({
@@ -478,9 +481,19 @@ function ProgressRing({ value, label }: { value: number; label: string }) {
   );
 }
 
-function StatCard({ label, value, note }: { label: string; value: string | number; note?: string }) {
+function StatCard({
+  label,
+  value,
+  note,
+  testId,
+}: {
+  label: string;
+  value: string | number;
+  note?: string;
+  testId?: string;
+}) {
   return (
-    <article className="stat-card">
+    <article className="stat-card" data-testid={testId}>
       <span>{label}</span>
       <strong>{value}</strong>
       {note && <small>{note}</small>}
@@ -1038,6 +1051,7 @@ export default function Home() {
           localStorage.removeItem(STORAGE.dailySession);
         }
       }
+      localStorage.removeItem(STORAGE.legacyDailySession);
       setLoaded(true);
     }, 0);
     return () => window.clearTimeout(timer);
@@ -1294,6 +1308,7 @@ export default function Home() {
   const accuracy = progress.totalAttempts
     ? Math.round((progress.correctAnswers / progress.totalAttempts) * 100)
     : 0;
+  const weeklyStudyDays = studyDaysThisWeek(progress.studyDates);
 
   const getToken = (_lessonItem: Lesson, token: LearningToken) => token;
 
@@ -1743,12 +1758,16 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, stage, tokenIndex, selectedLesson.id]);
 
-  const startLesson = (item: Lesson) => {
-    if (courseDataStatus !== "ready" || !item.id) {
+  const startLesson = (
+    item: Lesson,
+    sourceLevel: CefrLevel = selectedLevel,
+  ) => {
+    const sourceStatus = courseDataStatusByLevel[sourceLevel];
+    if (sourceStatus !== "ready" || !item.id) {
       setToast(
-        courseDataStatus === "error"
-          ? "正式課程資料載入失敗，請重新整理後再試。"
-          : "正式課程資料準備中，請稍候一秒。",
+        sourceStatus === "error"
+          ? `${sourceLevel} 課程資料載入失敗，請重新整理後再試。`
+          : `${sourceLevel} 課程資料準備中，請稍候一秒。`,
       );
       return;
     }
@@ -3118,6 +3137,17 @@ export default function Home() {
     setWeaknessPracticeFeedback("");
   };
 
+  const discardDailySession = (message: string) => {
+    setDailySession(null);
+    localStorage.removeItem(STORAGE.dailySession);
+    localStorage.removeItem(STORAGE.legacyDailySession);
+    setWeaknessPracticeQueue([]);
+    setWeaknessPracticeIndex(0);
+    resetWeaknessPractice();
+    setScreen("home");
+    setToast(message);
+  };
+
   const startWeaknessPractice = (
     lexemeIds: string[],
     returnScreen: "weakness" | "daily-summary" = "weakness",
@@ -3127,9 +3157,9 @@ export default function Home() {
     );
     if (!queue.length) {
       if (returnScreen === "daily-summary" && dailySession) {
-        const updated = markDailySessionStep(dailySession, "weakness");
-        setDailySession(updated);
-        setScreen("daily-summary");
+        discardDailySession(
+          "今日學習內容已更新，已重新建立今日學習流程。",
+        );
       } else {
         setToast("目前找不到這個弱點可使用的正式課程例句。");
       }
@@ -3168,19 +3198,70 @@ export default function Home() {
   };
 
   const goToDailySessionStep = (session: DailySessionState) => {
+    if (!catalog) {
+      setToast("課程資料準備中，請稍候一秒。");
+      return;
+    }
+    const entry = catalog.levels.find((item) => item.level === session.level);
+    if (
+      !entry ||
+      entry.status === "disabled" ||
+      !canAccessLevel(
+        session.level,
+        multiProgress.passedLevelIds,
+        settings.showAdvancedPilots,
+        entry.status,
+      )
+    ) {
+      discardDailySession(
+        "今日學習的程度目前無法使用，已重新建立今日學習流程。",
+      );
+      return;
+    }
+    if (courseDataStatusByLevel[session.level] !== "ready") {
+      setToast(
+        courseDataStatusByLevel[session.level] === "error"
+          ? `${session.level} 課程資料載入失敗，請重新整理後再試。`
+          : `${session.level} 課程資料準備中，請稍候一秒。`,
+      );
+      return;
+    }
+    const sessionLesson = flattenCourseLessons(
+      courseUnitsByLevel[session.level],
+    ).find((item) => item.id === session.lessonId);
+    if (!sessionLesson) {
+      discardDailySession(
+        "今日學習內容已更新，已重新建立今日學習流程。",
+      );
+      return;
+    }
+    setMultiProgress((current) => ({
+      ...current,
+      selectedLevel: session.level,
+    }));
+    setSelectedLesson(sessionLesson);
     const nextStep = nextDailySessionStep(session);
     if (nextStep === "review") {
       setScreen("review");
       return;
     }
     if (nextStep === "lesson") {
-      const lesson =
-        allLessons.find((item) => item.id === session.lessonId) ?? nextLesson;
-      startLesson(lesson);
+      startLesson(sessionLesson, session.level);
       return;
     }
     if (nextStep === "weakness") {
-      startWeaknessPractice(session.weaknessLexemeIds, "daily-summary");
+      const remaining = remainingDailyWeaknessLexemeIds(session);
+      if (
+        remaining.some(
+          (lexemeId) => !vocabularyPracticeSources.has(lexemeId),
+        )
+      ) {
+        discardDailySession(
+          "今日學習內容已更新，已重新建立今日學習流程。",
+        );
+        return;
+      }
+      startWeaknessPractice(remaining, "daily-summary");
       return;
     }
     setScreen("daily-summary");
@@ -3189,11 +3270,13 @@ export default function Home() {
   const startDailyLearning = () => {
     const session = createDailySession({
       startedAt: timestamp(),
+      level: selectedLevel,
       lessonId: nextLesson.id,
       reviewCount: dueReviews.length,
       weaknessLexemeIds: vocabularyWeaknesses
         .slice(0, 3)
-        .map((item) => item.lexemeId),
+        .map((item) => item.lexemeId)
+        .filter((lexemeId) => vocabularyPracticeSources.has(lexemeId)),
       beforeVocabulary: personalVocabularySummary,
     });
     setDailySession(session);
@@ -3208,7 +3291,11 @@ export default function Home() {
   };
 
   const continueDailyAfterLesson = () => {
-    if (!dailySession || dailySession.lessonId !== selectedLesson.id) {
+    if (
+      !dailySession ||
+      dailySession.level !== selectedLevel ||
+      dailySession.lessonId !== selectedLesson.id
+    ) {
       continueAfterLesson();
       return;
     }
@@ -3307,15 +3394,38 @@ export default function Home() {
   };
 
   const continueWeaknessPractice = () => {
-    if (weaknessPracticeIndex < weaknessPracticeQueue.length - 1) {
-      setWeaknessPracticeIndex((value) => value + 1);
+    if (weaknessPracticeReturnScreen === "daily-summary" && dailySession) {
+      const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex];
+      const updated = markDailyWeaknessCompleted(dailySession, lexemeId);
+      setDailySession(updated);
+      const remaining = remainingDailyWeaknessLexemeIds(updated);
+      if (remaining.length === 0) {
+        setWeaknessPracticeQueue([]);
+        setWeaknessPracticeIndex(0);
+        resetWeaknessPractice();
+        setScreen("daily-summary");
+        return;
+      }
+      if (
+        remaining.some(
+          (remainingLexemeId) =>
+            !vocabularyPracticeSources.has(remainingLexemeId),
+        )
+      ) {
+        discardDailySession(
+          "今日學習內容已更新，已重新建立今日學習流程。",
+        );
+        return;
+      }
+      setWeaknessPracticeQueue(remaining);
+      setWeaknessPracticeIndex(0);
+      setWeaknessPracticeStartedAt(timestamp());
       resetWeaknessPractice();
       return;
     }
-    if (weaknessPracticeReturnScreen === "daily-summary" && dailySession) {
-      const updated = markDailySessionStep(dailySession, "weakness");
-      setDailySession(updated);
-      setScreen("daily-summary");
+    if (weaknessPracticeIndex < weaknessPracticeQueue.length - 1) {
+      setWeaknessPracticeIndex((value) => value + 1);
+      resetWeaknessPractice();
       return;
     }
     setScreen("weakness");
@@ -3486,7 +3596,12 @@ export default function Home() {
         <div className="three-grid">
           <StatCard label="已完成課程" value={`${completedCount} / ${allLessons.length}`} note="完成後不會再次鎖定" />
           <StatCard label="待複習內容" value={dueReviews.length} note="複習不會擋住新課程" />
-          <StatCard label="本週學習" value={`${progress.studyDates.slice(-7).length} 天`} note="依自己的步調前進" />
+          <StatCard
+            label="本週學習"
+            value={`${weeklyStudyDays} 天`}
+            note="依自己的步調前進"
+            testId="home-weekly-study-days"
+          />
         </div>
 
         <section className="section-card">
@@ -4348,6 +4463,7 @@ export default function Home() {
           : []),
       ];
       const dailyLessonPending =
+        dailySession?.level === selectedLevel &&
         dailySession?.lessonId === selectedLesson.id &&
         !dailySession.completedSteps.includes("lesson");
       const resultNextAction = dailyLessonPending
@@ -5411,6 +5527,16 @@ export default function Home() {
   };
   const renderWeaknessPractice = () => {
     const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex] ?? "";
+    const dailyWeaknessSession =
+      weaknessPracticeReturnScreen === "daily-summary" ? dailySession : null;
+    const weaknessDisplayIndex = dailyWeaknessSession
+      ? dailyWeaknessSession.completedWeaknessLexemeIds.length +
+        weaknessPracticeIndex +
+        1
+      : weaknessPracticeIndex + 1;
+    const weaknessDisplayTotal = dailyWeaknessSession
+      ? dailyWeaknessSession.weaknessLexemeIds.length
+      : weaknessPracticeQueue.length;
     const weakness = vocabularyWeaknesses.find(
       (item) => item.lexemeId === lexemeId,
     );
@@ -5443,7 +5569,7 @@ export default function Home() {
         <section className="page-title">
           <div>
             <span className="eyebrow">
-              弱點加強・{weaknessPracticeIndex + 1}/{weaknessPracticeQueue.length}
+              弱點加強・{weaknessDisplayIndex}/{weaknessDisplayTotal}
             </span>
             <h1>{weakness.lemma}</h1>
             <p>
@@ -6120,7 +6246,12 @@ export default function Home() {
         <header className="topbar">
           <div><span className="online-dot" /> 本機進度已儲存</div>
           <div className="top-actions">
-            <span className="streak">◆ 本週 {progress.studyDates.slice(-7).length} 天</span>
+            <span
+              className="streak"
+              data-testid="topbar-weekly-study-days"
+            >
+              ◆ 本週 {weeklyStudyDays} 天
+            </span>
             {dailySession && (
               <button
                 data-testid="daily-session-resume"

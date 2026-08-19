@@ -23,7 +23,7 @@ flowchart LR
   Vocabulary --> Page
   TargetModule --> Page
   Page <--> Storage["localStorage schema v6 + global vocabulary evidence"]
-  Page <--> DailyStorage["yingju-daily-session-v1 temporary flow state"]
+  Page <--> DailyStorage["yingju-daily-session-v2 temporary flow state"]
   Page --> UI["Course map and learning stages"]
 ```
 
@@ -48,13 +48,13 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/learning-progress.ts`: token/entity history and review scheduling.
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
 - `app/input-flow.ts`: pure third-attempt recall feedback and cross-input boundary-navigation rules shared by recall and rebuild UI.
-- `app/local-date.ts`: device-local `YYYY-MM-DD` semantics shared by course study days, evidence, and temporary sessions; timestamps remain ISO instants.
+- `app/local-date.ts`: device-local `YYYY-MM-DD` semantics shared by course study days, evidence, temporary sessions, and the current Monday-to-Sunday study count; timestamps remain ISO instants.
 - `app/rebuild-flow.ts`, `app/passage-flow.ts`, `app/assessment-scoring.ts`: pure evaluation rules.
 - `app/kk-phonetics.ts`: separate KK symbol curriculum and audio metadata mapping.
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, and exposed/receptive/active derivation.
-- `app/daily-session.ts`: pure daily-session sequencing, same-local-day restore validation, and evidence-delta summary rules; `page.tsx` owns the isolated storage lifecycle.
+- `app/daily-session.ts`: pure daily-session sequencing, CEFR-bound same-local-day restore validation, completed-weakness tracking, remaining-queue derivation, and evidence-delta summary rules; `page.tsx` owns the isolated storage lifecycle.
 - `scripts/create-vocabulary-target-baseline.mjs`: reproducibly projects current A1/A2/reference sources into the partial target contract.
 - `scripts/audit-vocabulary-targets.mjs` and `scripts/report-vocabulary-coverage.mjs`: target integrity and occurrence/form/sense/chunk/lexeme reporting.
 - `worker/index.ts`: Vinext request and image handling for hosted deployment.
@@ -82,7 +82,7 @@ Passage comprehension keeps `options` as strings for UI and A1 compatibility. Ne
 
 ## Persistence
 
-Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate versioned `yingju-daily-session-v1` temporary flow record. A v3 record preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; all old records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and is shared across A1/A2. Daily-session restore only resumes an already-recorded position on the same device-local day; it never creates course completion or evidence and does not require schema v7. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
+Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate versioned `yingju-daily-session-v2` temporary flow record. A v3 record preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; all old records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and is shared across A1/A2. Daily-session v2 stores the originating CEFR level plus completed weakness lexeme IDs, resumes only a valid exact lesson on the same device-local day, and derives the remaining weakness queue from stable IDs. Invalid or missing lesson context clears the temporary record instead of falling back to another course; legacy v1 session records are discarded. Resume never creates course completion or evidence and does not require schema v7. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 ## Context Documentation Flow
 

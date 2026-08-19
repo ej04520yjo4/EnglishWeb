@@ -246,7 +246,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Active Daily Learning position is stored in versioned key `yingju-daily-session-v1`, restored only when its local date equals today, and removed after the summary is completed or when stale/invalid. The record contains sequencing inputs and completed steps, not scores or evidence.
+**Decision:** Active Daily Learning position is stored in versioned key `yingju-daily-session-v2`, restored only when its local date equals today, and removed after the summary is completed or when stale/invalid. The record binds `lessonId` to its originating CEFR `level` and stores deduplicated `completedWeaknessLexemeIds`; remaining weakness work is derived from those stable IDs rather than a transient array index. Restore must find the exact lesson in that level and must never fall back to another course. Legacy v1 session records are discarded. The record contains sequencing inputs and completed steps, not scores or evidence.
 
 **Reason:** F5 should not discard the learner's place, but resuming UI position must never become a second progress truth source or invent learning results.
 
@@ -257,3 +257,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while its dependent Playwright job remains separate for browser setup and artifacts.
 
 **Reason:** One maintained command prevents local documentation and GitHub Actions from silently enforcing different release standards.
+
+## ADR-033 - Current Week Uses the Learner's Local Monday-to-Sunday Calendar
+
+**Status:** Accepted
+
+**Decision:** The learner-facing “本週學習” count uses unique study-date keys from the currently selected CEFR level that fall inside the device-local Monday-to-Sunday week containing today. It is not a rolling last-seven-record count and does not combine global vocabulary evidence dates.
+
+**Reason:** A calendar-week label must exclude older and future-week activity, remain stable around UTC/Taiwan date boundaries, and agree everywhere it is displayed.
