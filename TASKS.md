@@ -24,7 +24,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 - [x] **LEARNING-LOOP-001:** Add a deterministic daily learning plan and evidence-backed weakness center without changing schema v6 or CEFR unlock rules.
 - [x] **LEARNING-LOOP-002:** Turn the daily plan into a resumable review → lesson → weakness → summary session and add direct evidence-backed weakness practice.
-- [x] **UX-INPUT-001:** Prevent Enter key skip-through, add cross-box arrow navigation, and simplify recall/detail visual hierarchy.
+- [x] **UX-INPUT-001:** Prevent Enter key skip-through across all learning inputs, enforce third-attempt reveal, add boundary arrow/empty-Backspace navigation, and simplify recall/detail visual hierarchy.
+- [ ] **DEPENDENCY-QA-001:** Review compatible upgrades for Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; rerun the complete matrix without using forced audit fixes.
 - [x] **CI-E2E-001:** GitHub Actions passes browser tests and exposes the retained Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
@@ -88,3 +89,4 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] Added the partial A1/A2 canonical target baseline, target audit, and coverage report.
 - [x] Added global vocabulary evidence and schema v6 migration without inventing legacy mastery.
 - [x] Added progress UI, explicit-detail exposure rules, clean spelling safeguards, backup persistence, and desktop/mobile coverage.
+- [x] Completed the 2026-08-19 A1/A2 language audit, corrected the shared A1 `a` note, and added deterministic input-flow regressions.

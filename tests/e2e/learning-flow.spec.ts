@@ -326,7 +326,7 @@ test("prevents held Enter from skipping a learning unit and keeps the task visua
   await expect(page.locator("#recall-answer-0")).toBeFocused();
 });
 
-test("moves across sentence boxes with left and right arrow keys", async ({
+test("moves across sentence boxes with arrows and empty Backspace", async ({
   page,
 }) => {
   await openRecommendedLesson(page, "我是誰");
@@ -350,6 +350,10 @@ test("moves across sentence boxes with left and right arrow keys", async ({
   });
   await fields.nth(0).press("ArrowRight");
   await expect(fields.nth(1)).toBeFocused();
+
+  await fields.nth(1).fill("");
+  await fields.nth(1).press("Backspace");
+  await expect(fields.nth(0)).toBeFocused();
 });
 
 test("completes the original word and rebuild flow and persists it", async ({

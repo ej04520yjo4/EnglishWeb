@@ -46,6 +46,7 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/course-data.ts`: stable TypeScript course types plus A-Z static data; it is not a second A1 lesson source.
 - `app/learning-progress.ts`: token/entity history and review scheduling.
 - `app/learning-adaptation.ts`: hint level and review-exercise selection.
+- `app/input-flow.ts`: pure third-attempt recall feedback and cross-input boundary-navigation rules shared by recall and rebuild UI.
 - `app/rebuild-flow.ts`, `app/passage-flow.ts`, `app/assessment-scoring.ts`: pure evaluation rules.
 - `app/kk-phonetics.ts`: separate KK symbol curriculum and audio metadata mapping.
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.

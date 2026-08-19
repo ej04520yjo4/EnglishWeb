@@ -36,7 +36,7 @@ const targets = parseVocabularyTargets(
 const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
-  "public/data/a1-course-v3.csv": "a3eeeb1c7d32978dc436bf87886f7081886a82ae5064c0b50c51778f589de470",
+  "public/data/a1-course-v3.csv": "425625f5765318521ad78efb21461e41f7274d8de4faf6ab0f0c0ac719be7932",
   "public/data/a2-course-v1.csv": "1049e810a535f65261b06a55438bbdeb72c42b33d0d4f3fadd49c3cbaceccfa7",
   "public/data/a1-pattern-exercises.json": "a7fd2a2e6eeb262fc0fdeaa0b49ceff655998db5f11f85e72d31aa57bee4a5da",
   "public/data/a1-reading-exercises.json": "fb666547af28b97607e9de45593731a09a0612543ce10fcda5c263a84feec99c",
@@ -73,9 +73,10 @@ test("keeps B1 and B2 disabled while runtime loading only A1 and A2", async () =
   );
 });
 
-test("keeps all protected A1 and A2 sources byte-for-byte unchanged", () => {
+test("keeps protected A1 and A2 source content unchanged across line endings", () => {
   for (const [relativePath, expected] of Object.entries(protectedHashes)) {
-    assert.equal(createHash("sha256").update(readBuffer(relativePath)).digest("hex"), expected);
+    const canonicalBytes = readText(relativePath).replace(/\r\n/g, "\n");
+    assert.equal(createHash("sha256").update(canonicalBytes).digest("hex"), expected);
   }
 });
 

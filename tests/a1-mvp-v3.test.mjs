@@ -32,6 +32,10 @@ import {
   lessonsForPassage,
 } from "../app/passage-flow.ts";
 import { evaluateRebuildAttempt } from "../app/rebuild-flow.ts";
+import {
+  recallIncorrectFeedback,
+  resolveCrossInputNavigation,
+} from "../app/input-flow.ts";
 import { kkPhoneticGroups } from "../app/kk-phonetics.ts";
 import {
   isPatternTransferCorrect,
@@ -75,6 +79,59 @@ test("reads the official v3 curriculum from the ASCII CSV path", async () => {
   await assert.rejects(access(oldCsvUrl));
   assert.equal(OFFICIAL_A1_MVP_CSV_URL, "/data/a1-course-v3.csv");
   assert.equal(OFFICIAL_A1_SOURCE_VERSION, "a1-course-v3.csv");
+});
+
+test("reveals a near-miss answer on the third attempt and requires retyping", () => {
+  assert.deepEqual(recallIncorrectFeedback("becaus", "because", 1), {
+    message: "拼字很接近，再檢查一次。",
+    revealAnswer: false,
+    replayAudio: false,
+  });
+  assert.deepEqual(recallIncorrectFeedback("becaus", "because", 3), {
+    message: "正確答案是 because。請重新輸入一次。",
+    revealAnswer: true,
+    replayAudio: false,
+  });
+});
+
+test("moves between recall or rebuild inputs only at field boundaries", () => {
+  const base = {
+    valueLength: 3,
+    selectionStart: 0,
+    selectionEnd: 0,
+    hasPrevious: true,
+    hasNext: true,
+  };
+  assert.equal(
+    resolveCrossInputNavigation({ ...base, key: "ArrowLeft" }),
+    "previous-end",
+  );
+  assert.equal(
+    resolveCrossInputNavigation({
+      ...base,
+      key: "ArrowRight",
+      selectionStart: 3,
+      selectionEnd: 3,
+    }),
+    "next-start",
+  );
+  assert.equal(
+    resolveCrossInputNavigation({
+      ...base,
+      key: "Backspace",
+      valueLength: 0,
+    }),
+    "previous-end",
+  );
+  assert.equal(
+    resolveCrossInputNavigation({
+      ...base,
+      key: "ArrowLeft",
+      selectionStart: 1,
+      selectionEnd: 1,
+    }),
+    null,
+  );
 });
 
 test("builds all 8 units, 32 lessons, and 145 word tokens from v3 CSV", async () => {

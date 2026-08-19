@@ -46,7 +46,7 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M4 - A2 Pilot Review and Controlled Expansion
 
-**Status:** Current
+**Status:** Parallel manual QA track
 
 - Preserve unit 1 and review the new travel, shopping, and health pilot units.
 - Verify all 16 lessons, four unit passages, and prerequisite/slot constraints.

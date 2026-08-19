@@ -47,7 +47,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
-- The current target file is intentionally partial and contains 128 sourced baseline entries: 102 curriculum and 26 reference-only.
+- The current target file is intentionally partial and contains 126 sourced baseline entries: 100 active curriculum-covered candidates and 26 receptive reference-only candidates. A1/A2 contains 102 union curriculum lexemes; lesson-specific names Amy and Ben are intentionally excluded from the general-vocabulary target.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one correct application; reveal and paste cannot create clean spelling evidence.
 

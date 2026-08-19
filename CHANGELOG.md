@@ -2,6 +2,22 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-19 - Learning UX Verification and Content QA
+
+### Fixed
+
+- Made third-attempt recall reveal authoritative even when the spelling is a near miss, then required the learner to retype the shown answer without granting clean spelling evidence.
+- Added repeated-Enter protection to the remaining weakness and assessment text inputs, completing the guard across learning flows.
+- Centralized left/right and empty-box Backspace boundary behavior for recall and sentence input grids and added executable regressions.
+- Made protected A1/A2 content hashes stable across LF and Windows CRLF checkouts without weakening the expected source hashes.
+- Corrected the shared A1 `a` usage note so `I have a pen.` no longer refers to the book-specific measure word.
+
+### Verified
+
+- Re-audited all 32 A1 lessons/145 occurrences and 16 A2 lessons/95 occurrences together with transfer, recognition, response, passage, and comprehension content.
+- Found no core-sentence grammar, person, or translation error that required changing an A1/A2 sentence or stable ID.
+- Kept B1/B2 runtime-disabled and added no course, level, topic, or progress-schema feature.
+
 ## 2026-08-11 - Learning Input UX Polish
 
 ### Changed

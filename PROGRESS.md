@@ -2,14 +2,14 @@
 
 ## Snapshot
 
-- Updated: 2026-08-11
+- Updated: 2026-08-19
 - Branch: `main`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A2: 4 units, 16 lessons, 95 occurrences
-- Protected A1/A2 CSV and exercise JSON hashes: unchanged
+- Protected source status: one A1 article note corrected; all other A1/A2 CSV and exercise JSON content unchanged
 - Progress schema: v6 with top-level global `vocabularyProgress`
 
 ## Vocabulary Baseline
@@ -39,8 +39,10 @@
 - The weakness center ranks only target lexemes with actual incorrect recognition, clean-spelling, or application attempts; passive exposure never creates a weakness.
 - Daily learning 2.0 now runs as a resumable in-memory session: due review → one current lesson → up to three focused weakness drills → an evidence-based daily summary.
 - Weakness rows can launch direct focus practice for spelling, recognition, or sentence application without changing lesson completion or CEFR unlocks.
-- Lesson input UX now ignores held Enter repeats, supports left/right cross-box navigation, emphasizes the active prompt/input, and collapses secondary word metadata after a correct answer.
-- A1/A2 core and exercise-facing English received a focused language pass on 2026-08-11; no protected source sentence required a grammar correction in this pass.
+- Lesson input UX now ignores held Enter repeats across recall, detail, transfer, passage, weakness, and assessment paths; shared boundary logic supports left/right navigation and empty-box Backspace.
+- A third incorrect recall always reveals the target before the learner must retype it, including a near-miss such as `becaus` for `because`; revealed or pasted input still cannot create clean spelling evidence.
+- Recall keeps the prompt and input visually primary, while post-answer detail shows the selected phonetic system and contextual part of speech before collapsed secondary metadata.
+- A1 32 lessons/145 occurrences and A2 16 lessons/95 occurrences were re-audited with their transfer, recognition, response, passage, and comprehension content on 2026-08-19. Core sentences required no correction; the generic A1 `a` note was corrected so the pen occurrence no longer refers to “一本書”.
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
@@ -50,6 +52,8 @@
 - Added schema v6 global evidence wiring to course detail, word recall, reading recognition, sentence rebuild, pattern transfer, and explicit related-word details.
 - Added protected-file hashes, disabled-runtime checks, canonical counting tests, mastery tests, backup/reload tests, and desktop/mobile browser coverage.
 - Fixed an A2 Playwright hydration race by seeding storage before navigation and waiting for observable A2/map readiness.
+- Added executable regression coverage for third-attempt near-miss reveal, cross-input boundary movement, empty-box Backspace, and Windows CRLF-safe protected-source checks.
+- Removed all temporary sentence-audit workflows and UX patch helpers from the final feature tree; permanent audit scripts and CI remain.
 - Updated the roadmap, architecture, decisions, task priorities, memory, README, changelog, and B1/B2 status documentation.
 
 ## Known Limits
@@ -67,14 +71,15 @@ Manually review the 126-entry baseline, choose one legally reusable frequency/re
 
 ## Verification
 
-- `npm ci`: exit 0; 494 packages audited; existing report lists 15 dependency vulnerabilities (2 low, 13 high), with no forced upgrades applied.
+- `npm ci`: exit 0; 494 packages installed and 495 audited; 18 dependency vulnerabilities reported (2 low, 16 high), with no automatic fixes applied.
+- `npm audit --json`: exit 1 because the same 18 known vulnerabilities remain; 0 critical. Direct affected tools include Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; upgrades are deferred to a dedicated compatibility pass.
 - `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
 - `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 sources, 0 orphan/duplicate data files.
 - `npm run audit:vocabulary`: exit 0; 126 unique targets, 100 active, 26 receptive.
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.
-- `npm run test:unit`: exit 0; 114 passed, 0 failed.
+- `npm run test:unit`: exit 0; 116 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npx tsc --noEmit --incremental false`: exit 0.
 - `npm run test:e2e`: exit 0; 52 passed across desktop and mobile, 0 failed.

@@ -36,6 +36,10 @@ import {
   evaluateRebuildAttempt,
   RebuildStatus,
 } from "./rebuild-flow";
+import {
+  recallIncorrectFeedback,
+  resolveCrossInputNavigation,
+} from "./input-flow";
 import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
 import { wordAccuracy } from "./assessment-scoring";
 import {
@@ -335,28 +339,6 @@ const clean = (value: string) =>
 
 const cleanSentence = (value: string) => clean(value).replace(/[.!?。！？]+$/g, "");
 
-const patternFor = (answer: string) =>
-  answer
-    .split(/\s+/)
-    .map((part) => part.replace(/[^a-z]/gi, "").length)
-    .join("－");
-
-const editDistance = (a: string, b: string) => {
-  const rows = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
-  for (let i = 0; i <= a.length; i += 1) rows[i][0] = i;
-  for (let j = 0; j <= b.length; j += 1) rows[0][j] = j;
-  for (let i = 1; i <= a.length; i += 1) {
-    for (let j = 1; j <= b.length; j += 1) {
-      rows[i][j] = Math.min(
-        rows[i - 1][j] + 1,
-        rows[i][j - 1] + 1,
-        rows[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
-      );
-    }
-  }
-  return rows[a.length][b.length];
-};
-
 const dateKey = () => new Date().toISOString().slice(0, 10);
 const timestamp = () => Date.now();
 
@@ -392,40 +374,28 @@ const moveAcrossInputs = (
   const input = event.currentTarget;
   const selectionStart = input.selectionStart ?? 0;
   const selectionEnd = input.selectionEnd ?? selectionStart;
+  const target = resolveCrossInputNavigation({
+    key: event.key,
+    valueLength: input.value.length,
+    selectionStart,
+    selectionEnd,
+    hasPrevious: Boolean(previous),
+    hasNext: Boolean(next),
+  });
+  if (!target) return false;
 
-  if (
-    event.key === "ArrowLeft" &&
-    selectionStart === 0 &&
-    selectionEnd === 0 &&
-    previous
-  ) {
-    event.preventDefault();
-    previous.focus();
-    const end = previous.value.length;
-    previous.setSelectionRange(end, end);
-    return true;
-  }
-
-  if (
-    event.key === "ArrowRight" &&
-    selectionStart === input.value.length &&
-    selectionEnd === input.value.length &&
-    next
-  ) {
-    event.preventDefault();
+  event.preventDefault();
+  if (target === "next-start" && next) {
     next.focus();
     next.setSelectionRange(0, 0);
     return true;
   }
-
-  if (event.key === "Backspace" && input.value.length === 0 && previous) {
-    event.preventDefault();
+  if (previous) {
     previous.focus();
     const end = previous.value.length;
     previous.setSelectionRange(end, end);
     return true;
   }
-
   return false;
 };
 
@@ -1863,7 +1833,11 @@ export default function Home() {
         },
       ),
     }));
-    if (level === 1) setFeedback(`字母數：${patternFor(currentToken.answer)}`);
+    if (level === 1) {
+      setFeedback(
+        recallIncorrectFeedback("", currentToken.answer, 1).message,
+      );
+    }
     if (level === 2) {
       setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
       playTokenAudio(currentToken, 1, false);
@@ -2003,18 +1977,16 @@ export default function Home() {
         ),
       },
     }));
-    if (nextAttempt >= 3) {
-      setFeedback(`正確答案是 ${currentToken.answer}。請重新輸入一次。`);
+    const incorrectFeedback = recallIncorrectFeedback(
+      recallAnswer,
+      currentToken.answer,
+      nextAttempt,
+    );
+    setFeedback(incorrectFeedback.message);
+    if (incorrectFeedback.revealAnswer) {
       setRecallAnswerRevealed(true);
-    } else if (
-      clean(recallAnswer).length > 1 &&
-      editDistance(clean(recallAnswer), clean(currentToken.answer)) <= 2
-    ) {
-      setFeedback("拼字很接近，再檢查一次。");
-    } else if (nextAttempt === 1) {
-      setFeedback(`字母數：${patternFor(currentToken.answer)}`);
-    } else {
-      setFeedback(`第一個字母：${currentToken.answer.trim()[0]}`);
+    }
+    if (incorrectFeedback.replayAudio) {
       playTokenAudio(currentToken, 1, false);
     }
     setStartedAt(timestamp());
@@ -5533,6 +5505,7 @@ export default function Home() {
                   if (
                     event.key === "Enter" &&
                     !event.shiftKey &&
+                    !event.repeat &&
                     !weaknessPracticeChecked
                   ) {
                     event.preventDefault();
@@ -5993,7 +5966,7 @@ export default function Home() {
             autoFocus={!assessment.checked}
             onChange={(event) => setAssessmentValue(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey) {
+              if (event.key === "Enter" && !event.shiftKey && !event.repeat) {
                 event.preventDefault();
                 checkAssessment();
               }

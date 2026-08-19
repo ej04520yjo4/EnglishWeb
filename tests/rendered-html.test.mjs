@@ -71,10 +71,8 @@ test("keeps course data and product metadata ready for the MVP", async () => {
   assert.match(page, /把下面提示寫成英文/);
   assert.match(page, /你的英文答案/);
   assert.match(page, /event\.repeat/);
-  const thirdAttemptGuard = page.indexOf("if (nextAttempt >= 3)");
-  const nearMissCheck = page.indexOf("editDistance(clean(recallAnswer)", thirdAttemptGuard);
-  assert.ok(thirdAttemptGuard >= 0);
-  assert.ok(nearMissCheck > thirdAttemptGuard);
+  assert.match(page, /recallIncorrectFeedback\(/);
+  assert.match(page, /resolveCrossInputNavigation\(/);
   assert.match(page, /這是一個 \{currentTokenWords\.length\} 詞語塊/);
   assert.match(page, /event\.key === " "/);
   assert.match(page, /expectedWordCount/);
