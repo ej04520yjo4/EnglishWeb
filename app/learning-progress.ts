@@ -151,6 +151,37 @@ export const scheduleTokenReview = (
   };
 };
 
+export const rescheduleCompletedReview = (
+  existing: ReviewScheduleItem,
+  successful: boolean,
+  now = new Date(),
+): ReviewScheduleItem => {
+  const scheduled = scheduleTokenReview(
+    existing,
+    {
+      tokenId: existing.tokenId,
+      answer: existing.answer,
+      prompt: existing.prompt,
+    },
+    successful ? 3 : 1,
+    now,
+  );
+  if (successful) {
+    return {
+      ...scheduled,
+      successfulDays: existing.successfulDays + 1,
+    };
+  }
+  const dueAt = new Date(now);
+  dueAt.setDate(dueAt.getDate() + 1);
+  return {
+    ...scheduled,
+    intervalDays: 1,
+    dueAt: dueAt.toISOString(),
+    successfulDays: existing.successfulDays,
+  };
+};
+
 export const serializeLearningProgress = <T>(progress: T) =>
   JSON.stringify(progress);
 

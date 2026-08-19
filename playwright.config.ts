@@ -15,6 +15,7 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:4173",
     channel: "chrome",
+    timezoneId: "Asia/Taipei",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },

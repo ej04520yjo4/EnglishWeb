@@ -246,7 +246,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Active Daily Learning position is stored in versioned key `yingju-daily-session-v2`, restored only when its local date equals today, and removed after the summary is completed or when stale/invalid. The record binds `lessonId` to its originating CEFR `level` and stores deduplicated `completedWeaknessLexemeIds`; remaining weakness work is derived from those stable IDs rather than a transient array index. Restore must find the exact lesson in that level and must never fall back to another course. Legacy v1 session records are discarded. The record contains sequencing inputs and completed steps, not scores or evidence.
+**Decision:** Active Daily Learning position is stored in versioned key `yingju-daily-session-v3`, restored only when its local date equals today, and removed after the summary is completed or when stale/invalid. The record binds `lessonId` to its originating CEFR `level` and stores stable review/weakness queue identity, completed IDs, hint-safety state, and active-time fields. Remaining work is derived from IDs rather than transient array indexes. Restore must find the exact lesson in that level and must never fall back to another course. Legacy v1/v2 session records are discarded. The record sequences UI work but does not replace scores, evidence, or progress schema v6.
 
 **Reason:** F5 should not discard the learner's place, but resuming UI position must never become a second progress truth source or invent learning results.
 
@@ -265,3 +265,27 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** The learner-facing “本週學習” count uses unique study-date keys from the currently selected CEFR level that fall inside the device-local Monday-to-Sunday week containing today. It is not a rolling last-seven-record count and does not combine global vocabulary evidence dates.
 
 **Reason:** A calendar-week label must exclude older and future-week activity, remain stable around UTC/Taiwan date boundaries, and agree everywhere it is displayed.
+
+## ADR-034 - Daily Sessions Expire at the Device-Local Midnight Boundary
+
+**Status:** Accepted
+
+**Decision:** Every Daily Learning resume, answer, continue, and finish path reuses `isDailySessionCurrentDay()` before writing evidence or completion. A stale record is removed and returns to the home page; its lesson, completed review/weakness IDs, and time are never migrated to the new day.
+
+**Reason:** Hydration-only validation cannot protect a page left open across midnight. A Daily Session belongs to one local calendar day and must fail closed before any learning side effect.
+
+## ADR-035 - Daily Time Measures Visible Active Learning Segments
+
+**Status:** Accepted
+
+**Decision:** Temporary Daily Session v3 accumulates `activeStudySeconds` only while a Daily review, its exact lesson, or Daily weakness practice is visible. `visibilitychange` and `pagehide` flush the current segment; restore always starts a fresh segment. User interactions checkpoint at most every 15 seconds, and each uninterrupted segment contributes at most five minutes. Home, summary, hidden, closed, sleeping, and offline time do not count.
+
+**Reason:** This deliberately simple estimate reflects actual learning far better than wall-clock time while avoiding invasive activity surveillance. The cap prevents a forgotten visible page from becoming hours of false study time.
+
+## ADR-036 - Daily Review Is an Evidence-Backed Active Queue
+
+**Status:** Accepted
+
+**Decision:** `buildDailyReviewQueue()` selects at most five due formal occurrences in deterministic order, deduplicates canonical lexemes, prioritizes the strongest existing evidence weakness, and otherwise rotates spelling, recognition, and safe formal-sentence application. The temporary session stores only stable queue identity, completion IDs, attempts, reveal state, and paste state; answers are resolved from authoritative curriculum data. Attempts and correct results use the existing global vocabulary evidence and review schedule, not a second mastery model.
+
+**Reason:** Daily review must require a learner response, survive F5 without duplicate credit, preserve clean-spelling safeguards, and remain consistent with the site's cross-level evidence and mastery rules.

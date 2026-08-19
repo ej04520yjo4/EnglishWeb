@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   alphabet,
   CourseUnit,
@@ -28,6 +28,7 @@ import {
   ReviewFamiliarity,
   ReviewScheduleItem,
   reviewIntervalForToken,
+  rescheduleCompletedReview,
   scheduleTokenReview,
   TokenLearningProgressMap,
   updateTokenLearningProgress,
@@ -132,13 +133,27 @@ import {
 } from "./vocabulary-progress.ts";
 import { buildVocabularyWeaknesses } from "./daily-learning.ts";
 import {
+  buildDailyRecognitionOptions,
+  buildDailyReviewQueue,
+  resolveDailyReviewSource,
+  type DailyReviewQueueItem,
+  type DailyReviewSource,
+} from "./daily-review.ts";
+import {
+  checkpointDailyActiveSegment,
   createDailySession,
+  isDailySessionCurrentDay,
+  markDailyReviewCompleted,
   markDailyWeaknessCompleted,
   markDailySessionStep,
   nextDailySessionStep,
+  pauseDailyActiveSegment,
+  remainingDailyReviewItems,
   remainingDailyWeaknessLexemeIds,
   restoreDailySession,
+  startDailyActiveSegment,
   summarizeDailySession,
+  updateDailyReviewItemProgress,
   type DailySessionState,
 } from "./daily-session.ts";
 import { localDateKey, studyDaysThisWeek } from "./local-date.ts";
@@ -183,9 +198,12 @@ type Assessment = {
 type ReviewItem = ReviewScheduleItem;
 
 type WeaknessPracticeSource = {
+  occurrenceId: string;
   lexemeId: string;
   answer: string;
   prompt: string;
+  lessonId: string;
+  sentenceId: string;
   sentence: string;
   translation: string;
   level: CefrLevel;
@@ -230,8 +248,8 @@ const STORAGE = {
   b1CourseRows: "yingju-course-rows-b1-v1",
   b2CourseRows: "yingju-course-rows-b2-v1",
   lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
-  dailySession: "yingju-daily-session-v2",
-  legacyDailySession: "yingju-daily-session-v1",
+  dailySession: "yingju-daily-session-v3",
+  legacyDailySessions: ["yingju-daily-session-v2", "yingju-daily-session-v1"],
 };
 
 const emptyRowsByLevel = (): Record<CefrLevel, CourseCsvRow[]> => ({
@@ -668,6 +686,12 @@ export default function Home() {
     useState<TokenLearningProgressMap>({});
   const [dailySession, setDailySession] =
     useState<DailySessionState | null>(null);
+  const dailySessionRef = useRef<DailySessionState | null>(null);
+  const dailyLastCheckpointRef = useRef(0);
+  const [dailyReviewValue, setDailyReviewValue] = useState("");
+  const [dailyReviewFeedback, setDailyReviewFeedback] = useState("");
+  const [dailyReviewResultItemId, setDailyReviewResultItemId] = useState("");
+  const dailyReviewInputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const [weaknessPracticeQueue, setWeaknessPracticeQueue] =
     useState<string[]>([]);
   const [weaknessPracticeIndex, setWeaknessPracticeIndex] = useState(0);
@@ -688,6 +712,48 @@ export default function Home() {
     useState<"weakness" | "daily-summary">("weakness");
   const [speechSupported, setSpeechSupported] = useState(
     () => typeof window === "undefined" || "speechSynthesis" in window,
+  );
+  const commitDailySession = useCallback(
+    (next: DailySessionState | null, persistImmediately = false) => {
+      dailySessionRef.current = next;
+      setDailySession(next);
+      if (!persistImmediately || typeof window === "undefined") return;
+      if (next) {
+        localStorage.setItem(STORAGE.dailySession, JSON.stringify(next));
+      } else {
+        localStorage.removeItem(STORAGE.dailySession);
+      }
+    },
+    [],
+  );
+  const clearDailySession = useCallback(
+    (message = "") => {
+      commitDailySession(null, true);
+      STORAGE.legacyDailySessions.forEach((key) => localStorage.removeItem(key));
+      setDailyReviewValue("");
+      setDailyReviewFeedback("");
+      setDailyReviewResultItemId("");
+      setWeaknessPracticeQueue([]);
+      setWeaknessPracticeIndex(0);
+      setWeaknessPracticeValue("");
+      setWeaknessPracticeChecked(false);
+      setWeaknessPracticeAttempts(0);
+      setWeaknessPracticeRevealed(false);
+      setWeaknessPracticeUsedPaste(false);
+      setWeaknessPracticeFeedback("");
+      setScreen("home");
+      if (message) setToast(message);
+    },
+    [commitDailySession],
+  );
+  const dailyFlowIsActive = Boolean(
+    dailySession &&
+      ((screen === "review" && nextDailySessionStep(dailySession) === "review") ||
+        (screen === "learning" &&
+          dailySession.level === selectedLevel &&
+          dailySession.lessonId === selectedLesson.id) ||
+        (screen === "weakness-practice" &&
+          weaknessPracticeReturnScreen === "daily-summary")),
   );
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
   const kkAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -729,9 +795,12 @@ export default function Home() {
             return;
           }
           sources.set(canonical, {
+            occurrenceId: token.occurrenceId,
             lexemeId: canonical,
             answer: token.answer,
             prompt: token.prompt,
+            lessonId: lesson.id,
+            sentenceId: lesson.sentenceId,
             sentence: lesson.sentence,
             translation: lesson.translation,
             level,
@@ -745,6 +814,37 @@ export default function Home() {
     curriculumLexemeAliasIndex,
     targetLexemeAliasIndex,
     vocabularyTargets,
+  ]);
+  const dailyReviewSources = useMemo<DailyReviewSource[]>(() => {
+    return (["A1", "A2"] as CefrLevel[]).flatMap((level) =>
+      flattenCourseLessons(courseUnitsByLevel[level]).flatMap((lesson) =>
+        lesson.tokens.flatMap((token) => {
+          const sourceId = canonicalizeLexemeId(
+            token.lexemeId ?? token.tokenId ?? token.id,
+          );
+          const lexemeId =
+            targetLexemeAliasIndex.get(sourceId) ??
+            curriculumLexemeAliasIndex.get(sourceId) ??
+            sourceId;
+          if (!lexemeId) return [];
+          return [{
+            occurrenceId: token.occurrenceId,
+            lexemeId,
+            level,
+            answer: token.answer,
+            prompt: token.prompt,
+            lessonId: lesson.id,
+            sentenceId: lesson.sentenceId,
+            sentence: lesson.sentence,
+            translation: lesson.translation,
+          }];
+        }),
+      ),
+    );
+  }, [
+    courseUnitsByLevel,
+    curriculumLexemeAliasIndex,
+    targetLexemeAliasIndex,
   ]);
 
   const recordVocabularyEvidence = (
@@ -1046,16 +1146,16 @@ export default function Home() {
           localDateKey(),
         );
         if (restoredSession) {
-          setDailySession(restoredSession);
+          commitDailySession(restoredSession);
         } else {
           localStorage.removeItem(STORAGE.dailySession);
         }
       }
-      localStorage.removeItem(STORAGE.legacyDailySession);
+      STORAGE.legacyDailySessions.forEach((key) => localStorage.removeItem(key));
       setLoaded(true);
     }, 0);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [commitDailySession]);
 
   useEffect(() => {
     if (!loaded || !progressStorageWritable) return;
@@ -1078,6 +1178,96 @@ export default function Home() {
     }
     localStorage.removeItem(STORAGE.dailySession);
   }, [dailySession, loaded]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    const syncActivity = (shouldStart: boolean) => {
+      const current = dailySessionRef.current;
+      if (!current) return;
+      if (!isDailySessionCurrentDay(current)) {
+        clearDailySession(
+          "日期已變更，昨天的今日學習已結束，請重新開始今天的學習。",
+        );
+        return;
+      }
+      const next = shouldStart
+        ? startDailyActiveSegment(current, timestamp())
+        : pauseDailyActiveSegment(current, timestamp());
+      if (next !== current) commitDailySession(next, !shouldStart);
+    };
+    const handleVisibilityChange = () =>
+      syncActivity(
+        document.visibilityState === "visible" && dailyFlowIsActive,
+      );
+    const handlePageHide = () => syncActivity(false);
+    const handleBeforeUnload = () => syncActivity(false);
+    handleVisibilityChange();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    const current = new Date();
+    const nextMidnight = new Date(
+      current.getFullYear(),
+      current.getMonth(),
+      current.getDate() + 1,
+    ).getTime();
+    const midnightTimer = window.setTimeout(() => {
+      const session = dailySessionRef.current;
+      if (session && !isDailySessionCurrentDay(session)) {
+        clearDailySession(
+          "日期已變更，昨天的今日學習已結束，請重新開始今天的學習。",
+        );
+      }
+    }, Math.max(0, nextMidnight - timestamp()) + 50);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.clearTimeout(midnightTimer);
+      if (dailyFlowIsActive) syncActivity(false);
+    };
+  }, [
+    clearDailySession,
+    commitDailySession,
+    dailyFlowIsActive,
+    dailySession?.localDate,
+    loaded,
+  ]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    const checkpointActivity = (event: Event) => {
+      const current = dailySessionRef.current;
+      if (!current) return;
+      if (!isDailySessionCurrentDay(current)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        clearDailySession(
+          "日期已變更，昨天的今日學習已結束，請重新開始今天的學習。",
+        );
+        return;
+      }
+      if (!dailyFlowIsActive || document.visibilityState !== "visible") return;
+      const now = timestamp();
+      if (now - dailyLastCheckpointRef.current < 15_000) return;
+      dailyLastCheckpointRef.current = now;
+      const next = checkpointDailyActiveSegment(current, now);
+      if (next !== current) commitDailySession(next, true);
+    };
+    document.addEventListener("pointerdown", checkpointActivity, true);
+    document.addEventListener("keydown", checkpointActivity, true);
+    return () => {
+      document.removeEventListener("pointerdown", checkpointActivity, true);
+      document.removeEventListener("keydown", checkpointActivity, true);
+    };
+  }, [
+    clearDailySession,
+    commitDailySession,
+    dailyFlowIsActive,
+    loaded,
+  ]);
 
   useEffect(() => {
     if (
@@ -3138,14 +3328,15 @@ export default function Home() {
   };
 
   const discardDailySession = (message: string) => {
-    setDailySession(null);
-    localStorage.removeItem(STORAGE.dailySession);
-    localStorage.removeItem(STORAGE.legacyDailySession);
-    setWeaknessPracticeQueue([]);
-    setWeaknessPracticeIndex(0);
-    resetWeaknessPractice();
-    setScreen("home");
-    setToast(message);
+    clearDailySession(message);
+  };
+
+  const ensureCurrentDailySession = (session: DailySessionState) => {
+    if (isDailySessionCurrentDay(session)) return true;
+    discardDailySession(
+      "日期已變更，昨天的今日學習已結束，請重新開始今天的學習。",
+    );
+    return false;
   };
 
   const startWeaknessPractice = (
@@ -3198,6 +3389,7 @@ export default function Home() {
   };
 
   const goToDailySessionStep = (session: DailySessionState) => {
+    if (!ensureCurrentDailySession(session)) return;
     if (!catalog) {
       setToast("課程資料準備中，請稍候一秒。");
       return;
@@ -3268,44 +3460,271 @@ export default function Home() {
   };
 
   const startDailyLearning = () => {
+    const reviewItems = buildDailyReviewQueue({
+      dueReviews,
+      vocabularyProgress: multiProgress.vocabularyProgress,
+      vocabularyTargets,
+      sources: dailyReviewSources,
+    });
     const session = createDailySession({
       startedAt: timestamp(),
       level: selectedLevel,
       lessonId: nextLesson.id,
-      reviewCount: dueReviews.length,
+      reviewItems,
       weaknessLexemeIds: vocabularyWeaknesses
         .slice(0, 3)
         .map((item) => item.lexemeId)
         .filter((lexemeId) => vocabularyPracticeSources.has(lexemeId)),
       beforeVocabulary: personalVocabularySummary,
     });
-    setDailySession(session);
+    commitDailySession(session, true);
     goToDailySessionStep(session);
   };
 
-  const completeDailyReview = () => {
-    if (!dailySession) return;
-    const updated = markDailySessionStep(dailySession, "review");
-    setDailySession(updated);
-    goToDailySessionStep(updated);
+  const recordDailyReviewAttempt = (
+    session: DailySessionState,
+    item: DailyReviewQueueItem,
+    attempt: number,
+    correct: boolean,
+    creditCorrect: boolean,
+  ) => {
+    const evidenceId =
+      `daily-review:${session.localDate}:${item.id}:${attempt}`;
+    const attemptKind: VocabularyEvidenceKind =
+      item.mode === "spelling"
+        ? "spellingAttempt"
+        : item.mode === "recognition"
+          ? "recognitionAttempt"
+          : "applicationAttempt";
+    const correctKind: VocabularyEvidenceKind =
+      item.mode === "spelling"
+        ? "spellingCorrect"
+        : item.mode === "recognition"
+          ? "recognitionCorrect"
+          : "applicationCorrect";
+    const studiedAt = new Date().toISOString();
+    setMultiProgress((current) => {
+      let vocabularyProgress = recordGlobalVocabularyEvidence(
+        current.vocabularyProgress,
+        {
+          lexemeIds: [item.lexemeId],
+          kind: attemptKind,
+          evidenceId,
+          sourceLevel: item.level,
+          studiedAt,
+          studyDate: session.localDate,
+        },
+      );
+      if (correct && creditCorrect) {
+        vocabularyProgress = recordGlobalVocabularyEvidence(
+          vocabularyProgress,
+          {
+            lexemeIds: [item.lexemeId],
+            kind: correctKind,
+            evidenceId,
+            sourceLevel: item.level,
+            studiedAt,
+            studyDate: session.localDate,
+          },
+        );
+      }
+      return { ...current, vocabularyProgress };
+    });
+  };
+
+  const rescheduleDailyReview = (
+    item: DailyReviewQueueItem,
+    source: DailyReviewSource,
+    successful: boolean,
+  ) => {
+    setMultiProgress((current) => {
+      const levelProgress = current.levelProgress[item.level];
+      const existing = levelProgress.reviewItems[item.occurrenceId];
+      if (!existing) return current;
+      return {
+        ...current,
+        levelProgress: {
+          ...current.levelProgress,
+          [item.level]: {
+            ...levelProgress,
+            reviewItems: {
+              ...levelProgress.reviewItems,
+              [item.occurrenceId]: rescheduleCompletedReview(
+                {
+                  ...existing,
+                  answer: source.answer,
+                  prompt: source.prompt,
+                },
+                successful,
+              ),
+            },
+          },
+        },
+      };
+    });
+  };
+
+  const completeDailyReviewItem = (
+    session: DailySessionState,
+    item: DailyReviewQueueItem,
+    source: DailyReviewSource,
+    successful: boolean,
+    feedbackMessage: string,
+  ) => {
+    const updated = markDailyReviewCompleted(session, item.id);
+    rescheduleDailyReview(item, source, successful);
+    commitDailySession(updated, true);
+    setDailyReviewResultItemId(item.id);
+    setDailyReviewFeedback(feedbackMessage);
+  };
+
+  const checkDailyReview = (selectedOption?: string) => {
+    const session = dailySessionRef.current;
+    if (!session || !ensureCurrentDailySession(session)) return;
+    const item = remainingDailyReviewItems(session)[0];
+    if (!item) {
+      goToDailySessionStep(session);
+      return;
+    }
+    const source = resolveDailyReviewSource(item, dailyReviewSources);
+    if (!source) {
+      discardDailySession(
+        "今日複習的正式課程來源已更新，請重新開始今天的學習。",
+      );
+      return;
+    }
+    const currentProgress = session.reviewItemProgress[item.id] ?? {
+      attempts: 0,
+      answerRevealed: false,
+      usedPaste: false,
+    };
+    const submittedValue = selectedOption ?? dailyReviewValue;
+    if (!submittedValue.trim()) {
+      setDailyReviewFeedback("請先作答。");
+      return;
+    }
+    const nextAttempt = currentProgress.attempts + 1;
+    const correct =
+      item.mode === "spelling"
+        ? clean(submittedValue) === clean(source.answer)
+        : item.mode === "recognition"
+          ? submittedValue === source.prompt.trim().replace(/\s+/g, " ")
+          : cleanSentence(submittedValue) === cleanSentence(source.sentence);
+    const progressUpdated = updateDailyReviewItemProgress(
+      session,
+      item.id,
+      { attempts: nextAttempt },
+    );
+    const creditCorrect =
+      item.mode === "spelling"
+        ? canCreditSpellingCorrect({
+            correct,
+            answerRevealed: currentProgress.answerRevealed,
+            usedPaste: currentProgress.usedPaste,
+          })
+        : correct && !currentProgress.answerRevealed;
+    recordDailyReviewAttempt(
+      session,
+      item,
+      nextAttempt,
+      correct,
+      creditCorrect,
+    );
+
+    if (item.mode === "recognition") {
+      setDailyReviewValue(submittedValue);
+      completeDailyReviewItem(
+        progressUpdated,
+        item,
+        source,
+        correct,
+        correct
+          ? "答對了，已記錄這次辨認練習。"
+          : `這次答案是「${source.prompt}」，明天會更早再複習。`,
+      );
+      return;
+    }
+    if (correct) {
+      completeDailyReviewItem(
+        progressUpdated,
+        item,
+        source,
+        creditCorrect,
+        creditCorrect
+          ? "答對了，已記錄這次主動作答。"
+          : currentProgress.usedPaste
+            ? "答案正確，但使用貼上不會記為乾淨的拼寫證據。"
+            : "已正確重新輸入；揭示過答案，所以不計入乾淨正確證據。",
+      );
+      return;
+    }
+    const revealAnswer = nextAttempt >= 3;
+    const updated = updateDailyReviewItemProgress(
+      progressUpdated,
+      item.id,
+      { answerRevealed: revealAnswer },
+    );
+    commitDailySession(updated, true);
+    if (item.mode === "spelling") {
+      const hint = recallIncorrectFeedback(
+        submittedValue,
+        source.answer,
+        nextAttempt,
+      );
+      setDailyReviewFeedback(hint.message);
+      if (hint.replayAudio) speak(source.answer, 1, false);
+    } else {
+      setDailyReviewFeedback(
+        revealAnswer
+          ? `正確答案是 ${source.sentence}。請重新輸入一次。`
+          : nextAttempt === 1
+            ? "句子還不完全正確，再聽一次提示後重試。"
+            : `提示：英文句子共有 ${source.sentence.split(/\s+/).length} 個單字。`,
+      );
+    }
+  };
+
+  const continueDailyReview = () => {
+    const session = dailySessionRef.current;
+    if (!session || !ensureCurrentDailySession(session)) return;
+    setDailyReviewValue("");
+    setDailyReviewFeedback("");
+    setDailyReviewResultItemId("");
+    goToDailySessionStep(session);
+    window.setTimeout(() => dailyReviewInputRef.current?.focus(), 0);
+  };
+
+  const leaveDailyReview = () => {
+    const session = dailySessionRef.current;
+    if (!session || !ensureCurrentDailySession(session)) return;
+    setDailyReviewValue("");
+    setDailyReviewFeedback("");
+    setDailyReviewResultItemId("");
+    setScreen("home");
   };
 
   const continueDailyAfterLesson = () => {
+    const session = dailySessionRef.current;
     if (
-      !dailySession ||
-      dailySession.level !== selectedLevel ||
-      dailySession.lessonId !== selectedLesson.id
+      !session ||
+      session.level !== selectedLevel ||
+      session.lessonId !== selectedLesson.id
     ) {
       continueAfterLesson();
       return;
     }
-    const updated = markDailySessionStep(dailySession, "lesson");
-    setDailySession(updated);
+    if (!ensureCurrentDailySession(session)) return;
+    const updated = markDailySessionStep(session, "lesson");
+    commitDailySession(updated, true);
     goToDailySessionStep(updated);
   };
 
   const checkWeaknessPractice = () => {
     if (weaknessPracticeChecked) return;
+    if (weaknessPracticeReturnScreen === "daily-summary") {
+      const session = dailySessionRef.current;
+      if (!session || !ensureCurrentDailySession(session)) return;
+    }
     const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex];
     const source = vocabularyPracticeSources.get(lexemeId);
     const weakness = vocabularyWeaknesses.find(
@@ -3394,10 +3813,12 @@ export default function Home() {
   };
 
   const continueWeaknessPractice = () => {
-    if (weaknessPracticeReturnScreen === "daily-summary" && dailySession) {
+    if (weaknessPracticeReturnScreen === "daily-summary") {
+      const session = dailySessionRef.current;
+      if (!session || !ensureCurrentDailySession(session)) return;
       const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex];
-      const updated = markDailyWeaknessCompleted(dailySession, lexemeId);
-      setDailySession(updated);
+      const updated = markDailyWeaknessCompleted(session, lexemeId);
+      commitDailySession(updated, true);
       const remaining = remainingDailyWeaknessLexemeIds(updated);
       if (remaining.length === 0) {
         setWeaknessPracticeQueue([]);
@@ -3432,7 +3853,9 @@ export default function Home() {
   };
 
   const finishDailySession = () => {
-    setDailySession(null);
+    const session = dailySessionRef.current;
+    if (session && !ensureCurrentDailySession(session)) return;
+    commitDailySession(null, true);
     setWeaknessPracticeQueue([]);
     setWeaknessPracticeIndex(0);
     resetWeaknessPractice();
@@ -5375,7 +5798,255 @@ export default function Home() {
     );
   };
 
-  const renderReview = () => (
+  const renderReview = () => {
+    const dailyReviewSession =
+      dailySession &&
+      (nextDailySessionStep(dailySession) === "review" ||
+        Boolean(dailyReviewResultItemId))
+        ? dailySession
+        : null;
+    if (dailyReviewSession) {
+      const remaining = remainingDailyReviewItems(dailyReviewSession);
+      const item = dailyReviewResultItemId
+        ? dailyReviewSession.reviewItems.find(
+            (candidate) => candidate.id === dailyReviewResultItemId,
+          ) ?? remaining[0]
+        : remaining[0];
+      const source = item
+        ? resolveDailyReviewSource(item, dailyReviewSources)
+        : null;
+      if (!item || !source) {
+        return (
+          <div className="page-stack" data-testid="daily-review-active">
+            <section className="section-card">
+              <h1>今日複習內容已更新</h1>
+              <p>正式課程來源已變更，請重新開始今天的學習。</p>
+              <button
+                className="primary-button"
+                onClick={() =>
+                  discardDailySession(
+                    "今日複習的正式課程來源已更新，請重新開始今天的學習。",
+                  )
+                }
+              >
+                返回首頁
+              </button>
+            </section>
+          </div>
+        );
+      }
+      const itemProgress = dailyReviewSession.reviewItemProgress[item.id] ?? {
+        attempts: 0,
+        answerRevealed: false,
+        usedPaste: false,
+      };
+      const resultVisible = dailyReviewResultItemId === item.id;
+      const displayIndex = resultVisible
+        ? dailyReviewSession.completedReviewItemIds.length
+        : dailyReviewSession.completedReviewItemIds.length + 1;
+      const recognitionOptions = buildDailyRecognitionOptions(
+        source,
+        dailyReviewSources,
+      );
+      const markPasteUsed = () => {
+        const current = dailySessionRef.current;
+        if (!current || !ensureCurrentDailySession(current)) return;
+        commitDailySession(
+          updateDailyReviewItemProgress(current, item.id, { usedPaste: true }),
+          true,
+        );
+      };
+      return (
+        <div className="page-stack" data-testid="daily-review-active">
+          <section className="page-title">
+            <div>
+              <span className="eyebrow">先主動回想，再進入今日課程</span>
+              <h1
+                data-testid="daily-review-counter"
+              >
+                今日複習 {displayIndex} / {dailyReviewSession.reviewItems.length}
+              </h1>
+              <p>每次只做一題；已完成的題目重新整理後不會重做。</p>
+            </div>
+            <button
+              className="secondary-button"
+              data-testid="leave-daily-review"
+              onClick={leaveDailyReview}
+            >
+              離開今日學習
+            </button>
+          </section>
+          <section className="exercise-card recall-card">
+            {item.mode === "spelling" && (
+              <>
+                <span className="eyebrow">看中文，拼出英文</span>
+                <h2
+                  className="chinese-prompt recall-primary-prompt"
+                  data-testid="daily-review-prompt"
+                >
+                  {source.prompt}
+                </h2>
+                <label className="field-label" htmlFor="daily-review-input">
+                  你的英文答案
+                </label>
+                <input
+                  ref={(element) => {
+                    dailyReviewInputRef.current = element;
+                  }}
+                  id="daily-review-input"
+                  className="answer-input"
+                  data-testid="daily-review-input"
+                  value={dailyReviewValue}
+                  readOnly={resultVisible}
+                  autoFocus
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  onPaste={markPasteUsed}
+                  onChange={(event) => setDailyReviewValue(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" &&
+                      !event.repeat &&
+                      !resultVisible
+                    ) {
+                      event.preventDefault();
+                      checkDailyReview();
+                    }
+                  }}
+                  placeholder="輸入英文單字"
+                />
+                <button
+                  className="audio-button"
+                  onClick={() => speak(source.answer, 1, false)}
+                  disabled={!speechSupported}
+                >
+                  ▶ 聽發音
+                </button>
+              </>
+            )}
+            {item.mode === "recognition" && (
+              <>
+                <span className="eyebrow">看到英文，選出正確意思</span>
+                <h2
+                  className="chinese-prompt recall-primary-prompt"
+                  data-testid="daily-review-prompt"
+                >
+                  {source.answer}
+                </h2>
+                <div className="exercise-choice-list">
+                  {recognitionOptions.map((option) => (
+                    <button
+                      key={option}
+                      className={`exercise-choice ${
+                        dailyReviewValue === option ? "selected" : ""
+                      }`}
+                      data-testid="daily-review-option"
+                      disabled={resultVisible}
+                      onClick={() => checkDailyReview(option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            {item.mode === "application" && (
+              <>
+                <span className="eyebrow">把單字用回正式課程句子</span>
+                <h2
+                  className="chinese-prompt recall-primary-prompt"
+                  data-testid="daily-review-prompt"
+                >
+                  {source.translation}
+                </h2>
+                <label className="field-label" htmlFor="daily-review-input">
+                  請輸入完整英文句子
+                </label>
+                <textarea
+                  ref={(element) => {
+                    dailyReviewInputRef.current = element;
+                  }}
+                  id="daily-review-input"
+                  className="answer-input sentence-input"
+                  data-testid="daily-review-input"
+                  rows={3}
+                  value={dailyReviewValue}
+                  readOnly={resultVisible}
+                  autoFocus
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  onPaste={markPasteUsed}
+                  onChange={(event) => setDailyReviewValue(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" &&
+                      !event.shiftKey &&
+                      !event.repeat &&
+                      !resultVisible
+                    ) {
+                      event.preventDefault();
+                      checkDailyReview();
+                    }
+                  }}
+                  placeholder="輸入完整英文句子"
+                />
+              </>
+            )}
+            <div
+              className={`feedback ${
+                itemProgress.answerRevealed ? "warning" : ""
+              }`}
+              data-testid="daily-review-feedback"
+              aria-live="polite"
+            >
+              {dailyReviewFeedback ||
+                (item.mode === "recognition"
+                  ? "請選出課程中對應的繁體中文意思。"
+                  : "答錯後會逐步提供提示；第三次才顯示答案。")}
+            </div>
+            {itemProgress.answerRevealed && !resultVisible && (
+              <div
+                className="correct-format"
+                data-testid="daily-review-revealed-answer"
+              >
+                {item.mode === "spelling" ? source.answer : source.sentence}
+              </div>
+            )}
+            {item.mode !== "recognition" && !resultVisible && (
+              <button
+                className="primary-button full-button"
+                data-testid="daily-review-check"
+                onClick={() => checkDailyReview()}
+              >
+                檢查答案
+              </button>
+            )}
+            {resultVisible && (
+              <button
+                className="primary-button full-button detail-next-button"
+                data-testid="daily-review-next"
+                onClick={continueDailyReview}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, continueDailyReview)
+                }
+                autoFocus
+                aria-keyshortcuts="Enter"
+              >
+                <span>
+                  {remaining.length > 0
+                    ? "下一題 →"
+                    : "前往今日課程 →"}
+                </span>
+                <kbd>Enter</kbd>
+              </button>
+            )}
+          </section>
+        </div>
+      );
+    }
+    return (
     <div className="page-stack">
       <section className="page-title">
         <div>
@@ -5422,23 +6093,10 @@ export default function Home() {
             </div>
           )}
         </div>
-        {dailySession && nextDailySessionStep(dailySession) === "review" && (
-          <button
-            className="primary-button full-button detail-next-button"
-            data-testid="daily-review-complete"
-            onClick={completeDailyReview}
-            onKeyDown={(event) =>
-              activateButtonOnEnter(event, completeDailyReview)
-            }
-            aria-keyshortcuts="Enter"
-          >
-            <span>完成今日複習，前往今日課程 →</span>
-            <kbd>Enter</kbd>
-          </button>
-        )}
       </section>
     </div>
-  );
+    );
+  };
 
   const renderWeakness = () => {
     const spellingCount = vocabularyWeaknesses.filter(

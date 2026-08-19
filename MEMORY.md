@@ -33,7 +33,7 @@ This file stores long-lived product facts and working preferences. Current task 
   2. `I eat breakfast at home.`
   3. `I go to work at eight.`
   4. `I go to work by bus.`
-- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, `yingju-course-rows-v3`, and isolated temporary session key `yingju-daily-session-v2`; legacy daily-session v1 records are discarded.
+- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, `yingju-course-rows-v3`, and isolated temporary session key `yingju-daily-session-v3`; legacy daily-session v1/v2 records are discarded.
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
@@ -51,7 +51,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one correct application; reveal and paste cannot create clean spelling evidence.
 - A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.
-- Daily Learning v2 stores its originating CEFR level and completed weakness lexeme IDs. It restores only an exact valid lesson and the first unfinished same-day weakness item; restore never creates evidence, completion, unit pass, or CEFR pass, and finishing the summary removes the temporary record.
+- Daily Learning v3 stores its originating CEFR/lesson, stable active-review queue and completion IDs, reveal/paste safety state, completed weakness IDs, and active seconds. It restores only on the same local date, restarts timing without offline gaps, resumes the first unfinished item, and never turns restore/expiry into evidence, completion, unit pass, or CEFR pass.
 - “本週學習” means unique selected-level study dates inside the learner device's local Monday-to-Sunday week; it is not a rolling seven-record count and does not use global vocabulary evidence dates.
 - The 126-entry metadata QA found no duplicate or rejection, but provenance remains unresolved: all 126 need license evidence and 26 reference-only targets need a lexical/content source plus user language/phonetic review.
 

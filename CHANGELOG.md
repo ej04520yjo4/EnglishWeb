@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-20 - Active Daily Review and Session Lifecycle
+
+### Changed
+
+- Replaced the passive Daily Learning review list with up to five real spelling, recognition, or formal-sentence application questions selected from due reviews and existing evidence.
+- Stored the fixed review queue, completed item IDs, reveal/paste safety state, and active study seconds in temporary Daily Session v3 state, so F5 resumes the first unfinished question without granting duplicate evidence.
+- Changed 「今日時間」 to visible active learning time with lifecycle flushes, a five-minute idle cap per uninterrupted segment, and no offline-gap accumulation.
+
+### Fixed
+
+- Revalidate the learner's device-local date before resume, answer, continue, and finish actions; yesterday's open session now returns home without writing evidence, course completion, unit passing, or CEFR passing.
+- Kept third-error spelling reveal as a required retype and blocked revealed or pasted answers from clean spelling evidence.
+
 ## 2026-08-19 - Daily Session Context Hardening
 
 ### Fixed

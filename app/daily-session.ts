@@ -1,4 +1,5 @@
 import { CEFR_LEVELS, type CefrLevel } from "./curriculum/types.ts";
+import type { DailyReviewQueueItem } from "./daily-review.ts";
 import { localDateKey } from "./local-date.ts";
 
 export type DailyVocabularySummary = {
@@ -9,41 +10,118 @@ export type DailyVocabularySummary = {
 
 export type DailySessionStep = "review" | "lesson" | "weakness";
 
+export type DailyReviewItemProgress = {
+  attempts: number;
+  answerRevealed: boolean;
+  usedPaste: boolean;
+};
+
 export type DailySessionState = {
-  version: 2;
+  version: 3;
   localDate: string;
   level: CefrLevel;
   startedAt: number;
   lessonId: string;
   reviewCount: number;
+  reviewItems: DailyReviewQueueItem[];
+  completedReviewItemIds: string[];
+  reviewItemProgress: Record<string, DailyReviewItemProgress>;
   weaknessLexemeIds: string[];
   completedWeaknessLexemeIds: string[];
   completedSteps: DailySessionStep[];
   beforeVocabulary: DailyVocabularySummary;
+  activeStudySeconds: number;
+  activeStartedAt: number | null;
 };
+
+export const DAILY_ACTIVE_SEGMENT_CAP_SECONDS = 5 * 60;
 
 export const createDailySession = (input: {
   startedAt?: number;
   localDate?: string;
   level: CefrLevel;
   lessonId: string;
-  reviewCount: number;
+  reviewItems: DailyReviewQueueItem[];
   weaknessLexemeIds: string[];
   beforeVocabulary: DailyVocabularySummary;
 }): DailySessionState => {
   const startedAt = input.startedAt ?? Date.now();
+  const reviewItems = uniqueDailyReviewItems(input.reviewItems)
+    .filter((item) => item.level === input.level)
+    .slice(0, 5);
   return {
-    version: 2,
+    version: 3,
     localDate: input.localDate ?? localDateKey(new Date(startedAt)),
     level: input.level,
     startedAt,
     lessonId: input.lessonId,
-    reviewCount: Math.max(0, input.reviewCount),
+    reviewCount: reviewItems.length,
+    reviewItems,
+    completedReviewItemIds: [],
+    reviewItemProgress: {},
     weaknessLexemeIds: [...new Set(input.weaknessLexemeIds)].slice(0, 3),
     completedWeaknessLexemeIds: [],
     completedSteps: [],
     beforeVocabulary: { ...input.beforeVocabulary },
+    activeStudySeconds: 0,
+    activeStartedAt: null,
   };
+};
+
+const isDailyReviewQueueItem = (
+  value: unknown,
+): value is DailyReviewQueueItem => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const item = value as Record<string, unknown>;
+  return (
+    typeof item.id === "string" &&
+    item.id.length > 0 &&
+    CEFR_LEVELS.includes(item.level as CefrLevel) &&
+    typeof item.occurrenceId === "string" &&
+    item.occurrenceId.length > 0 &&
+    typeof item.lexemeId === "string" &&
+    item.lexemeId.length > 0 &&
+    ["spelling", "recognition", "application"].includes(String(item.mode))
+  );
+};
+
+const uniqueDailyReviewItems = (
+  items: readonly DailyReviewQueueItem[],
+): DailyReviewQueueItem[] => {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (!isDailyReviewQueueItem(item) || seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+};
+
+const normalizeDailyReviewItemProgress = (
+  value: unknown,
+  itemIds: Set<string>,
+): Record<string, DailyReviewItemProgress> => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).flatMap(([itemId, raw]) => {
+      if (!itemIds.has(itemId) || !raw || typeof raw !== "object" || Array.isArray(raw)) {
+        return [];
+      }
+      const progress = raw as Partial<DailyReviewItemProgress>;
+      if (
+        !Number.isFinite(progress.attempts) ||
+        Number(progress.attempts) < 0 ||
+        typeof progress.answerRevealed !== "boolean" ||
+        typeof progress.usedPaste !== "boolean"
+      ) {
+        return [];
+      }
+      return [[itemId, {
+        attempts: Math.floor(Number(progress.attempts)),
+        answerRevealed: progress.answerRevealed,
+        usedPaste: progress.usedPaste,
+      }]];
+    }),
+  );
 };
 
 const isDailyVocabularySummary = (
@@ -70,12 +148,16 @@ export const restoreDailySession = (
   const session = value as Partial<DailySessionState>;
   const completedSteps = session.completedSteps;
   if (
-    session.version !== 2 ||
+    session.version !== 3 ||
     session.localDate !== todayLocalDate ||
     !CEFR_LEVELS.includes(session.level as CefrLevel) ||
     !Number.isFinite(session.startedAt) ||
     typeof session.lessonId !== "string" ||
-    !Number.isFinite(session.reviewCount) ||
+    !Array.isArray(session.reviewItems) ||
+    !session.reviewItems.every(isDailyReviewQueueItem) ||
+    !session.reviewItems.every((item) => item.level === session.level) ||
+    !Array.isArray(session.completedReviewItemIds) ||
+    !session.completedReviewItemIds.every((item) => typeof item === "string") ||
     !Array.isArray(session.weaknessLexemeIds) ||
     !session.weaknessLexemeIds.every((item) => typeof item === "string") ||
     !Array.isArray(session.completedWeaknessLexemeIds) ||
@@ -86,18 +168,44 @@ export const restoreDailySession = (
     !completedSteps.every((step) =>
       (["review", "lesson", "weakness"] as DailySessionStep[]).includes(step),
     ) ||
-    !isDailyVocabularySummary(session.beforeVocabulary)
+    !isDailyVocabularySummary(session.beforeVocabulary) ||
+    !Number.isFinite(session.activeStudySeconds) ||
+    Number(session.activeStudySeconds) < 0 ||
+    !(
+      session.activeStartedAt === null ||
+      (Number.isFinite(session.activeStartedAt) &&
+        Number(session.activeStartedAt) >= 0)
+    )
   ) {
     return null;
   }
+  const reviewItems = uniqueDailyReviewItems(session.reviewItems).slice(0, 5);
+  const reviewItemIds = new Set(reviewItems.map((item) => item.id));
+  const completedReviewItemIds = [
+    ...new Set(session.completedReviewItemIds),
+  ].filter((itemId) => reviewItemIds.has(itemId));
+  const reviewItemProgress = normalizeDailyReviewItemProgress(
+    session.reviewItemProgress,
+    reviewItemIds,
+  );
   const weaknessLexemeIds = [...new Set(session.weaknessLexemeIds)].slice(0, 3);
   const weaknessLexemeIdSet = new Set(weaknessLexemeIds);
   const completedWeaknessLexemeIds = [
     ...new Set(session.completedWeaknessLexemeIds),
   ].filter((lexemeId) => weaknessLexemeIdSet.has(lexemeId));
   const normalizedCompletedSteps: DailySessionStep[] = [
-    ...new Set(completedSteps.filter((step) => step !== "weakness")),
+    ...new Set(
+      completedSteps.filter(
+        (step) => step !== "review" && step !== "weakness",
+      ),
+    ),
   ];
+  if (
+    reviewItems.length > 0 &&
+    completedReviewItemIds.length === reviewItems.length
+  ) {
+    normalizedCompletedSteps.push("review");
+  }
   if (
     weaknessLexemeIds.length > 0 &&
     completedWeaknessLexemeIds.length === weaknessLexemeIds.length
@@ -105,24 +213,35 @@ export const restoreDailySession = (
     normalizedCompletedSteps.push("weakness");
   }
   return {
-    version: 2,
+    version: 3,
     localDate: session.localDate,
     level: session.level as CefrLevel,
     startedAt: Number(session.startedAt),
     lessonId: session.lessonId,
-    reviewCount: Math.max(0, Number(session.reviewCount)),
+    reviewCount: reviewItems.length,
+    reviewItems,
+    completedReviewItemIds,
+    reviewItemProgress,
     weaknessLexemeIds,
     completedWeaknessLexemeIds,
     completedSteps: normalizedCompletedSteps,
     beforeVocabulary: { ...session.beforeVocabulary },
+    activeStudySeconds: Number(session.activeStudySeconds),
+    activeStartedAt: null,
   };
 };
+
+export const isDailySessionCurrentDay = (
+  session: Pick<DailySessionState, "localDate">,
+  todayLocalDate = localDateKey(),
+) => session.localDate === todayLocalDate;
 
 export const markDailySessionStep = (
   session: DailySessionState,
   step: DailySessionStep,
 ): DailySessionState => {
   if (
+    (step === "review" && remainingDailyReviewItems(session).length > 0) ||
     step === "weakness" &&
     remainingDailyWeaknessLexemeIds(session).length > 0
   ) {
@@ -134,6 +253,62 @@ export const markDailySessionStep = (
         ...session,
         completedSteps: [...session.completedSteps, step],
       };
+};
+
+export const remainingDailyReviewItems = (
+  session: DailySessionState,
+): DailyReviewQueueItem[] => {
+  const completed = new Set(session.completedReviewItemIds);
+  return session.reviewItems.filter((item) => !completed.has(item.id));
+};
+
+export const updateDailyReviewItemProgress = (
+  session: DailySessionState,
+  itemId: string,
+  update: Partial<DailyReviewItemProgress>,
+): DailySessionState => {
+  if (!session.reviewItems.some((item) => item.id === itemId)) return session;
+  const current = session.reviewItemProgress[itemId] ?? {
+    attempts: 0,
+    answerRevealed: false,
+    usedPaste: false,
+  };
+  return {
+    ...session,
+    reviewItemProgress: {
+      ...session.reviewItemProgress,
+      [itemId]: {
+        attempts: Math.max(0, Math.floor(update.attempts ?? current.attempts)),
+        answerRevealed:
+          current.answerRevealed || Boolean(update.answerRevealed),
+        usedPaste: current.usedPaste || Boolean(update.usedPaste),
+      },
+    },
+  };
+};
+
+export const markDailyReviewCompleted = (
+  session: DailySessionState,
+  itemId: string,
+): DailySessionState => {
+  if (
+    !session.reviewItems.some((item) => item.id === itemId) ||
+    session.completedReviewItemIds.includes(itemId)
+  ) {
+    return session;
+  }
+  const updated: DailySessionState = {
+    ...session,
+    completedReviewItemIds: [...session.completedReviewItemIds, itemId],
+  };
+  return remainingDailyReviewItems(updated).length === 0
+    ? {
+        ...updated,
+        completedSteps: updated.completedSteps.includes("review")
+          ? updated.completedSteps
+          : [...updated.completedSteps, "review"],
+      }
+    : updated;
 };
 
 export const remainingDailyWeaknessLexemeIds = (
@@ -176,8 +351,7 @@ export const nextDailySessionStep = (
   session: DailySessionState,
 ): DailySessionStep | "summary" => {
   if (
-    session.reviewCount > 0 &&
-    !session.completedSteps.includes("review")
+    remainingDailyReviewItems(session).length > 0
   ) {
     return "review";
   }
@@ -193,17 +367,69 @@ export const nextDailySessionStep = (
   return "summary";
 };
 
+const activeSegmentSeconds = (
+  session: DailySessionState,
+  now: number,
+  capSeconds: number,
+) => {
+  if (session.activeStartedAt === null) return 0;
+  return Math.min(
+    Math.max(0, capSeconds),
+    Math.max(0, now - session.activeStartedAt) / 1_000,
+  );
+};
+
+export const startDailyActiveSegment = (
+  session: DailySessionState,
+  now = Date.now(),
+): DailySessionState =>
+  session.activeStartedAt === null
+    ? { ...session, activeStartedAt: now }
+    : session;
+
+export const pauseDailyActiveSegment = (
+  session: DailySessionState,
+  now = Date.now(),
+  capSeconds = DAILY_ACTIVE_SEGMENT_CAP_SECONDS,
+): DailySessionState => {
+  if (session.activeStartedAt === null) return session;
+  return {
+    ...session,
+    activeStudySeconds:
+      session.activeStudySeconds + activeSegmentSeconds(session, now, capSeconds),
+    activeStartedAt: null,
+  };
+};
+
+export const checkpointDailyActiveSegment = (
+  session: DailySessionState,
+  now = Date.now(),
+  capSeconds = DAILY_ACTIVE_SEGMENT_CAP_SECONDS,
+): DailySessionState => {
+  if (session.activeStartedAt === null) return session;
+  return {
+    ...pauseDailyActiveSegment(session, now, capSeconds),
+    activeStartedAt: now,
+  };
+};
+
+export const dailyActiveStudySeconds = (
+  session: DailySessionState,
+  now = Date.now(),
+  capSeconds = DAILY_ACTIVE_SEGMENT_CAP_SECONDS,
+) => session.activeStudySeconds + activeSegmentSeconds(session, now, capSeconds);
+
 export const summarizeDailySession = (
   session: DailySessionState,
   afterVocabulary: DailyVocabularySummary,
   now = Date.now(),
 ) => ({
-  elapsedMinutes: Math.max(
-    1,
-    Math.ceil(Math.max(0, now - session.startedAt) / 60_000),
-  ),
+  elapsedMinutes:
+    dailyActiveStudySeconds(session, now) > 0
+      ? Math.max(1, Math.ceil(dailyActiveStudySeconds(session, now) / 60))
+      : 0,
   reviewCount: session.completedSteps.includes("review")
-    ? session.reviewCount
+    ? session.completedReviewItemIds.length
     : 0,
   lessonCompleted: session.completedSteps.includes("lesson"),
   weaknessCount: session.completedSteps.includes("weakness")

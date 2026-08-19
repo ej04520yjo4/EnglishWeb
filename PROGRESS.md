@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-- Updated: 2026-08-19
+- Updated: 2026-08-20
 - Branch: `main`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
@@ -40,7 +40,9 @@
 - The progress page separates the 3000 goal, current target coverage, personal evidence-based mastery, senses, chunks, and due reviews.
 - The home page now shows a deterministic daily learning plan: due review first, then the current recommended lesson, then up to three evidence-backed weak lexemes.
 - The weakness center ranks only target lexemes with actual incorrect recognition, clean-spelling, or application attempts; passive exposure never creates a weakness.
-- Daily learning 2.0 persists its active review → lesson → weakness position under `yingju-daily-session-v2`, binds the session to its original CEFR level, resumes the first unfinished weakness lexeme, and clears after the learner completes the summary. Legacy v1 temporary records are discarded rather than migrated into learning evidence.
+- Daily Learning v3 uses a deterministic queue of at most five due formal occurrences. Each item requires spelling, recognition, or safe formal-sentence application; stable completed IDs and per-item reveal/paste state resume the first unfinished item after F5 without duplicate clean evidence.
+- `yingju-daily-session-v3` remains separate from progress schema v6. It binds the exact CEFR/lesson and local date, revalidates before every Daily action, discards stale v1/v2/current-day-invalid state without learning side effects, and resumes unfinished weakness IDs after the active review and lesson.
+- 「今日時間」 now accumulates only visible Daily review, exact Daily lesson, and Daily weakness activity. Lifecycle flushes exclude reload/offline gaps, a 15-second interaction checkpoint supports longer study, and each uninterrupted idle segment is capped at five minutes.
 - Home and top-bar weekly study counts use the selected level's unique local study dates inside the learner's current Monday-to-Sunday week; older dates and future-week dates are excluded.
 - Study dates now use one shared device-local `YYYY-MM-DD` helper. New vocabulary evidence stores the local date when it is created, so backup/import or later timezone changes do not reinterpret mastery dates.
 - Weakness rows can launch direct focus practice for spelling, recognition, or sentence application without changing lesson completion or CEFR unlocks.
@@ -63,6 +65,8 @@
 - Hardened Daily Learning restore so an A1/A2 session always reopens its exact recorded level and lesson, missing lessons fail safely without fallback, and resume never creates completion or evidence.
 - Persisted completed weakness lexeme IDs so repeated F5 resumes at the first unfinished item and an already-finished weakness queue proceeds to summary.
 - Replaced the rolling last-seven-date display with a deduplicated device-local Monday-to-Sunday count shared by the home card and top bar.
+- Replaced passive Daily review completion with an evidence-backed, occurrence-resolved active queue and deterministic recognition choices; zero due items skip directly to the lesson.
+- Added live-page midnight expiry and active-time lifecycle handling so yesterday's session cannot create evidence or completion after the local date changes.
 - Reviewed all 126 baseline entries without changing the target file; documented unresolved provenance rather than inventing source or license claims.
 - Removed all temporary sentence-audit workflows and UX patch helpers from the final feature tree; permanent audit scripts and CI remain.
 - Updated the roadmap, architecture, decisions, task priorities, memory, README, changelog, and B1/B2 status documentation.
@@ -92,11 +96,11 @@ Resolve the 126-entry provenance findings: choose and record one legally reusabl
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.
-- `npm run test:unit`: exit 0; 130 passed, 0 failed.
+- `npm run test:unit`: exit 0; 143 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npm run typecheck` (`tsc --noEmit --incremental false`): exit 0.
-- `npm run test:e2e`: exit 0; 64 passed across desktop and mobile, 0 failed.
-- Focused Daily Session context E2E: exit 0; 8 passed across desktop and mobile, covering cross-level exact-lesson restore, missing-lesson cleanup, first-unfinished weakness resume, and Monday-to-Sunday UI agreement.
+- `npm run test:e2e`: exit 0; 78 passed across desktop and mobile, 0 failed.
+- Daily Session and active-review browser coverage now includes live midnight expiry with a progress snapshot, active-time reload/offline exclusion, a five-item queue resuming at item three, spelling reveal/retype evidence safety, recognition/application evidence, zero-review skip, leave-without-completion, cross-level exact-lesson restore, and first-unfinished weakness resume.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
 - Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.
