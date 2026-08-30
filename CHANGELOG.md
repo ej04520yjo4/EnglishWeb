@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-08-30 - Deterministic Browser CI
+
+### Fixed
+
+- Reused the GitHub-hosted runner's verified Google Chrome instead of running Playwright's system-package installer, which could hang on an unavailable Ubuntu mirror before browser tests started.
+- Added a 30-minute browser-job boundary so infrastructure failures stop with a clear failed check instead of consuming the six-hour runner maximum.
+
 ## 2026-08-20 - Active Daily Review and Session Lifecycle
 
 ### Changed

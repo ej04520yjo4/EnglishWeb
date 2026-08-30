@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-- Updated: 2026-08-20
+- Updated: 2026-08-30
 - Branch: `main`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
@@ -70,6 +70,7 @@
 - Reviewed all 126 baseline entries without changing the target file; documented unresolved provenance rather than inventing source or license claims.
 - Removed all temporary sentence-audit workflows and UX patch helpers from the final feature tree; permanent audit scripts and CI remain.
 - Updated the roadmap, architecture, decisions, task priorities, memory, README, changelog, and B1/B2 status documentation.
+- Replaced the CI system-package installation step with an explicit check of the GitHub runner's preinstalled Chrome and bounded the Playwright job at 30 minutes after the Ubuntu package mirror stalled before tests could start.
 
 ## Known Limits
 
