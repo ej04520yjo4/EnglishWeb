@@ -4,7 +4,26 @@ import path from "node:path";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
-const dailySessionKey = "yingju-daily-session-v2";
+const dailySessionKey = "yingju-daily-session-v3";
+const reviewDefinitions = {
+  "a1-u1-l1-t01": { answer: "I", prompt: "我" },
+  "a1-u1-l1-t02": { answer: "am", prompt: "是" },
+  "a1-u1-l1-t03": { answer: "Amy", prompt: "Amy（人名）" },
+  "a1-u1-l2-t01": { answer: "My", prompt: "我的" },
+  "a1-u1-l2-t02": { answer: "name", prompt: "名字" },
+  "a1-u1-l3-t01": { answer: "Nice", prompt: "用於表達「很高興」" },
+} as const;
+const dailyReviewQueueItem = (
+  occurrenceId: keyof typeof reviewDefinitions,
+  lexemeId: string,
+  mode: "spelling" | "recognition" | "application",
+) => ({
+  id: `daily-review:${occurrenceId}:${mode}`,
+  level: "A1",
+  occurrenceId,
+  lexemeId,
+  mode,
+});
 const lessonsThroughUnit = (lastUnit: number) =>
   Array.from({ length: lastUnit }, (_, unitIndex) =>
     Array.from(
@@ -61,22 +80,28 @@ const seedDailyLearningFixture = async (
   page: Page,
   options: {
     weaknessLexemeIds?: string[];
+    reviewOccurrenceIds?: Array<keyof typeof reviewDefinitions>;
     showAdvancedPilots?: boolean;
   } = {},
 ) => {
   const weaknessLexemeIds = options.weaknessLexemeIds ?? ["i"];
+  const reviewOccurrenceIds =
+    options.reviewOccurrenceIds ?? ["a1-u1-l1-t01"];
   const a1Progress = levelProgressFixture();
-  a1Progress.reviewItems = {
-    "a1-u1-l1-t01": {
-      tokenId: "a1-u1-l1-t01",
-      answer: "I",
-      prompt: "我",
+  a1Progress.reviewItems = Object.fromEntries(
+    reviewOccurrenceIds.map((occurrenceId) => {
+      const definition = reviewDefinitions[occurrenceId];
+      return [occurrenceId, {
+      tokenId: occurrenceId,
+      answer: definition.answer,
+      prompt: definition.prompt,
       familiarity: "不熟",
       dueAt: "2000-01-01T00:00:00.000Z",
       intervalDays: 1,
       successfulDays: 0,
-    },
-  };
+      }];
+    }),
+  );
   const progress = {
     schemaVersion: 6,
     selectedLevel: "A1",
@@ -153,16 +178,21 @@ const seedDailySessionRecord = async (
       localStorage.setItem(
         key,
         JSON.stringify({
-          version: 2,
+          version: 3,
           localDate,
           level: "A1",
           startedAt: now.getTime(),
           lessonId: "a1-u1-l1",
           reviewCount: 0,
+          reviewItems: [],
+          completedReviewItemIds: [],
+          reviewItemProgress: {},
           weaknessLexemeIds: [],
           completedWeaknessLexemeIds: [],
           completedSteps: [],
           beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+          activeStudySeconds: 0,
+          activeStartedAt: null,
           ...overrides,
         }),
       );
@@ -368,6 +398,16 @@ const completeEnhancedStages = async (
   if (expectResult) {
     await expect(page.locator("#lesson-result-next")).toBeVisible();
   }
+};
+
+const completeSpellingDailyReview = async (
+  page: Page,
+  answer: string,
+) => {
+  await expect(page.locator('[data-testid="daily-review-active"]')).toBeVisible();
+  await page.locator('[data-testid="daily-review-input"]').fill(answer);
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
 };
 
 const expectNoHorizontalOverflow = async (page: Page) => {
@@ -1299,7 +1339,7 @@ test("keeps the Windows one-click launchers in the project root", async () => {
 });
 
 
-test("daily learning v2 starts a deterministic session and exposes resume control", async ({ page }) => {
+test("daily learning v3 with zero due reviews goes directly to the lesson", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
   await page.locator('[data-testid="start-daily-learning"]').click();
@@ -1309,13 +1349,241 @@ test("daily learning v2 starts a deterministic session and exposes resume contro
   await expect(page.locator('[data-testid="daily-session-resume"]')).toBeVisible();
 });
 
+test("due reviews remain active when vocabulary target metadata cannot load", async ({ page }) => {
+  await page.route("**/data/vocabulary-targets-v1.json", (route) =>
+    route.fulfill({
+      status: 500,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "simulated vocabulary target failure" }),
+    }),
+  );
+  await seedDailyLearningFixture(page);
+  await page.goto("/");
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 1 / 1",
+  );
+});
+
+test("active daily review resumes at item three and records all three evidence modes", async ({ page }) => {
+  await seedDailyLearningFixture(page, {
+    reviewOccurrenceIds: [
+      "a1-u1-l1-t01",
+      "a1-u1-l1-t02",
+      "a1-u1-l2-t01",
+      "a1-u1-l2-t02",
+      "a1-u1-l3-t01",
+    ],
+  });
+  await page.goto("/");
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 1 / 5",
+  );
+  await page.locator('[data-testid="daily-review-input"]').fill("I");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 2 / 5",
+  );
+  await page.getByRole("button", { name: "是", exact: true }).click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 3 / 5",
+  );
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 3 / 5",
+  );
+  await page.locator('[data-testid="daily-review-input"]').fill("My name is Ben.");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await page.locator('[data-testid="daily-review-input"]').fill("name");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await page
+    .getByRole("button", { name: "用於表達「很高興」", exact: true })
+    .click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(
+    page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
+  ).toBeVisible();
+  const evidence = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "null");
+    return {
+      spelling: value?.vocabularyProgress?.i?.spellingCorrectEvidenceIds ?? [],
+      recognition:
+        value?.vocabularyProgress?.be?.recognitionCorrectEvidenceIds ?? [],
+      application:
+        value?.vocabularyProgress?.my?.applicationCorrectEvidenceIds ?? [],
+    };
+  }, progressKey);
+  expect(evidence.spelling).toHaveLength(1);
+  expect(evidence.recognition).toHaveLength(1);
+  expect(evidence.application).toHaveLength(1);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("revealed spelling must be retyped and never creates clean spelling evidence", async ({ page }) => {
+  await seedDailyLearningFixture(page);
+  await page.goto("/");
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  const input = page.locator('[data-testid="daily-review-input"]');
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    await input.fill("x");
+    await page.locator('[data-testid="daily-review-check"]').click();
+  }
+  await expect(
+    page.locator('[data-testid="daily-review-revealed-answer"]'),
+  ).toHaveText("I");
+  await input.fill("I");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await expect(page.locator('[data-testid="daily-review-next"]')).toBeVisible();
+  const spellingCorrect = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "null");
+    return value?.vocabularyProgress?.i?.spellingCorrectEvidenceIds ?? [];
+  }, progressKey);
+  expect(spellingCorrect).toEqual([]);
+});
+
+test("leaving an active daily review keeps it unfinished", async ({ page }) => {
+  await seedDailyLearningFixture(page);
+  await page.goto("/");
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await page.locator('[data-testid="leave-daily-review"]').click();
+  await expectLevelHomeReady(page, "A1");
+  const completedSteps = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "null");
+    return value?.completedSteps ?? [];
+  }, dailySessionKey);
+  expect(completedSteps).not.toContain("review");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 1 / 1",
+  );
+});
+
+test("an open daily session expires after local midnight without changing progress", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-08-19T15:50:00.000Z"));
+  await seedDailyLearningFixture(page, { reviewOccurrenceIds: [] });
+  await seedDailySessionRecord(page);
+  await page.goto("/");
+  await expect(page.locator('[data-testid="daily-session-resume"]')).toBeVisible();
+  const before = await page.evaluate((key) => localStorage.getItem(key), progressKey);
+  await page.clock.setFixedTime(new Date("2026-08-19T16:10:00.000Z"));
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(
+    page.getByText(
+      "日期已變更，昨天的今日學習已結束，請重新開始今天的學習。",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(page.locator('[data-testid="daily-session-resume"]')).toHaveCount(0);
+  await expect
+    .poll(() => page.evaluate((key) => localStorage.getItem(key), dailySessionKey))
+    .toBeNull();
+  const after = await page.evaluate((key) => localStorage.getItem(key), progressKey);
+  expect(after).toBe(before);
+  await expectLevelHomeReady(page, "A1");
+});
+
+test("daily summary counts two active five-minute segments but excludes a ten-hour reload gap", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-08-19T00:00:00.000Z"));
+  await seedDailyLearningFixture(page);
+  const item = dailyReviewQueueItem("a1-u1-l1-t01", "i", "spelling");
+  await seedDailySessionRecord(page, {
+    reviewCount: 1,
+    reviewItems: [item],
+    completedSteps: ["lesson"],
+  });
+  await page.goto("/");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await page.clock.setFixedTime(new Date("2026-08-19T00:05:00.000Z"));
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.clock.setFixedTime(new Date("2026-08-19T10:05:00.000Z"));
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await page.clock.setFixedTime(new Date("2026-08-19T10:10:00.000Z"));
+  await page.locator('[data-testid="daily-review-input"]').fill("I");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(page.locator('[data-testid="daily-learning-summary"]')).toBeVisible();
+  await expect(
+    page.locator('[data-testid="daily-learning-summary"] .stat-card').filter({
+      hasText: "今日時間",
+    }),
+  ).toContainText("10 分鐘");
+});
+
+test("active lesson and weakness transitions preserve the latest time checkpoint", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-08-19T00:00:00.000Z"));
+  await seedDailyLearningFixture(page, {
+    reviewOccurrenceIds: [],
+    weaknessLexemeIds: ["i", "be"],
+  });
+  await seedDailySessionRecord(page, {
+    completedSteps: ["review"],
+    weaknessLexemeIds: ["i", "be"],
+  });
+  await page.goto("/");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await page
+    .getByRole("button", { name: /從中文提示與逐字輸入開始/ })
+    .click();
+  await answerRecallTokens(page, ["I", "am", "Amy"]);
+  await submitRebuild(page, ["I", "am", "Amy"]);
+  await expect(page.locator("#lesson-result-next")).toBeVisible();
+
+  await page.clock.setFixedTime(new Date("2026-08-19T00:05:00.000Z"));
+  await page.locator("#lesson-result-next").click();
+  await expect(page.getByText("弱點加強・1/2", { exact: true })).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return {
+          seconds: value?.activeStudySeconds ?? 0,
+          activeStartedAt: value?.activeStartedAt ?? null,
+        };
+      }, dailySessionKey),
+    )
+    .toEqual({
+      seconds: 300,
+      activeStartedAt: new Date("2026-08-19T00:05:00.000Z").getTime(),
+    });
+
+  await page.locator('[data-testid="weakness-practice-input"]').fill("I");
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await page.clock.setFixedTime(new Date("2026-08-19T00:06:00.000Z"));
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(page.getByText("弱點加強・2/2", { exact: true })).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "null");
+        return {
+          seconds: value?.activeStudySeconds ?? 0,
+          activeStartedAt: value?.activeStartedAt ?? null,
+          completed: value?.completedWeaknessLexemeIds ?? [],
+        };
+      }, dailySessionKey),
+    )
+    .toEqual({
+      seconds: 360,
+      activeStartedAt: new Date("2026-08-19T00:06:00.000Z").getTime(),
+      completed: ["i"],
+    });
+});
+
 test("daily learning restores the correct lesson and weakness steps after reload", async ({ page }) => {
   await seedDailyLearningFixture(page);
   await page.goto("/");
   await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
   await page.locator('[data-testid="start-daily-learning"]').click();
-  await expect(page.locator('[data-testid="daily-review-complete"]')).toBeVisible();
-  await page.locator('[data-testid="daily-review-complete"]').click();
+  await completeSpellingDailyReview(page, "I");
   await expect(
     page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
   ).toBeVisible();
@@ -1374,7 +1642,7 @@ test("daily learning restores its original A1 lesson after switching to A2", asy
   await page.goto("/");
   await expectLevelHomeReady(page, "A1");
   await page.locator('[data-testid="start-daily-learning"]').click();
-  await page.locator('[data-testid="daily-review-complete"]').click();
+  await completeSpellingDailyReview(page, "I");
   await expect(
     page.getByRole("button", { name: /從中文提示與逐字輸入開始/ }),
   ).toBeVisible();
@@ -1499,16 +1767,21 @@ test("daily learning expires a session saved on a previous local day", async ({ 
       localStorage.setItem(
         key,
         JSON.stringify({
-          version: 2,
+          version: 3,
           localDate: "2000-01-01",
           level: "A1",
           startedAt: 946684800000,
           lessonId: "a1-u1-l1",
-          reviewCount: 1,
+          reviewCount: 0,
+          reviewItems: [],
+          completedReviewItemIds: [],
+          reviewItemProgress: {},
           weaknessLexemeIds: ["i"],
           completedWeaknessLexemeIds: [],
           completedSteps: ["review"],
           beforeVocabulary: { exposed: 0, receptive: 0, active: 0 },
+          activeStudySeconds: 120,
+          activeStartedAt: null,
         }),
       );
     },

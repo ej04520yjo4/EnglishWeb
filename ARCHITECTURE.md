@@ -23,7 +23,7 @@ flowchart LR
   Vocabulary --> Page
   TargetModule --> Page
   Page <--> Storage["localStorage schema v6 + global vocabulary evidence"]
-  Page <--> DailyStorage["yingju-daily-session-v2 temporary flow state"]
+  Page <--> DailyStorage["yingju-daily-session-v3 queue + active-time state"]
   Page --> UI["Course map and learning stages"]
 ```
 
@@ -54,6 +54,8 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, and exposed/receptive/active derivation.
+- `app/daily-review.ts`: deterministic due-review queue construction, formal occurrence resolution, and reproducible recognition options.
+- `app/daily-session.ts`: isolated Daily Learning v3 sequencing, stable completed-item IDs, same-day validation, and active-time checkpoints.
 - `app/daily-session.ts`: pure daily-session sequencing, CEFR-bound same-local-day restore validation, completed-weakness tracking, remaining-queue derivation, and evidence-delta summary rules; `page.tsx` owns the isolated storage lifecycle.
 - `scripts/create-vocabulary-target-baseline.mjs`: reproducibly projects current A1/A2/reference sources into the partial target contract.
 - `scripts/audit-vocabulary-targets.mjs` and `scripts/report-vocabulary-coverage.mjs`: target integrity and occurrence/form/sense/chunk/lexeme reporting.
@@ -82,7 +84,7 @@ Passage comprehension keeps `options` as strings for UI and A1 compatibility. Ne
 
 ## Persistence
 
-Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate versioned `yingju-daily-session-v2` temporary flow record. A v3 record preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; all old records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and is shared across A1/A2. Daily-session v2 stores the originating CEFR level plus completed weakness lexeme IDs, resumes only a valid exact lesson on the same device-local day, and derives the remaining weakness queue from stable IDs. Invalid or missing lesson context clears the temporary record instead of falling back to another course; legacy v1 session records are discarded. Resume never creates course completion or evidence and does not require schema v7. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
+Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 ## Context Documentation Flow
 
