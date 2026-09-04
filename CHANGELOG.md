@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-09-04 - Clean Application Evidence
+
+### Fixed
+
+- Free-text sentence answers that use paste or a revealed answer can still complete the exercise but no longer create `applicationCorrect` mastery evidence.
+- Sentence rebuild, pattern transfer, Daily Review application, and weakness application now use one shared eligibility rule with exercise-scoped paste state.
+- Daily Review retains paste safety across refresh, while moving to a new exercise or pattern example starts with a clean item state.
+
+### Preserved
+
+- Recognition choices, clean-spelling safeguards, course completion, CEFR unlocking, assessments, passages, and protected curriculum data are unchanged.
+
 ## 2026-08-30 - Deterministic Browser CI
 
 ### Fixed

@@ -81,10 +81,12 @@ const seedDailyLearningFixture = async (
   options: {
     weaknessLexemeIds?: string[];
     reviewOccurrenceIds?: Array<keyof typeof reviewDefinitions>;
+    weaknessFocus?: "spelling" | "application";
     showAdvancedPilots?: boolean;
   } = {},
 ) => {
   const weaknessLexemeIds = options.weaknessLexemeIds ?? ["i"];
+  const applicationWeakness = options.weaknessFocus === "application";
   const reviewOccurrenceIds =
     options.reviewOccurrenceIds ?? ["a1-u1-l1-t01"];
   const a1Progress = levelProgressFixture();
@@ -122,11 +124,17 @@ const seedDailyLearningFixture = async (
           recognitionCorrectEvidenceIds: [],
           recognitionAttemptEvidenceIds: [],
           spellingCorrectEvidenceIds: [],
-          spellingAttemptEvidenceIds: [`seed-spelling-miss-${lexemeId}`],
+          spellingAttemptEvidenceIds: applicationWeakness
+            ? []
+            : [`seed-spelling-miss-${lexemeId}`],
           applicationCorrectEvidenceIds: [],
-          applicationAttemptEvidenceIds: [],
+          applicationAttemptEvidenceIds: applicationWeakness
+            ? [`seed-application-miss-${lexemeId}`]
+            : [],
           evidenceStudyDates: {
-            [`seed-spelling-miss-${lexemeId}`]: "2026-08-19",
+            [applicationWeakness
+              ? `seed-application-miss-${lexemeId}`
+              : `seed-spelling-miss-${lexemeId}`]: "2026-08-19",
           },
           studyDates: ["2026-08-19"],
           sourceLevels: ["A1"],
@@ -408,6 +416,78 @@ const completeSpellingDailyReview = async (
   await page.locator('[data-testid="daily-review-input"]').fill(answer);
   await page.locator('[data-testid="daily-review-check"]').click();
   await page.locator('[data-testid="daily-review-next"]').click();
+};
+
+const pasteValue = async (
+  page: Page,
+  selector: string,
+  value: string,
+) => {
+  const input = page.locator(selector);
+  await input.fill(value);
+  await input.dispatchEvent("paste", {
+    bubbles: true,
+    cancelable: true,
+  });
+};
+
+const openDailyApplicationReview = async (page: Page) => {
+  await page.goto("/");
+  await expect(page.locator('[data-testid="daily-learning-plan"]')).toBeVisible();
+  await page.locator('[data-testid="start-daily-learning"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 1 / 3",
+  );
+
+  await page.locator('[data-testid="daily-review-input"]').fill("I");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 2 / 3",
+  );
+
+  await page.getByRole("button", { name: "是", exact: true }).click();
+  await page.locator('[data-testid="daily-review-next"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 3 / 3",
+  );
+  await expect(
+    page.getByText("請輸入完整英文句子", { exact: true }),
+  ).toBeVisible();
+};
+
+const expectNoDuplicateEvidenceIds = async (page: Page) => {
+  const duplicates = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    const fields = [
+      "exposureEvidenceIds",
+      "recognitionAttemptEvidenceIds",
+      "recognitionCorrectEvidenceIds",
+      "spellingAttemptEvidenceIds",
+      "spellingCorrectEvidenceIds",
+      "applicationAttemptEvidenceIds",
+      "applicationCorrectEvidenceIds",
+    ];
+    const duplicateIds: string[] = [];
+    for (const [lexemeId, evidence] of Object.entries(
+      value.vocabularyProgress ?? {},
+    )) {
+      const evidenceFields = evidence as Record<string, unknown>;
+      for (const field of fields) {
+        const fieldValue = evidenceFields[field];
+        const ids = Array.isArray(fieldValue)
+          ? fieldValue.filter((id): id is string => typeof id === "string")
+          : [];
+        const seen = new Set<string>();
+        for (const id of ids) {
+          if (seen.has(id)) duplicateIds.push(`${lexemeId}.${field}:${id}`);
+          seen.add(id);
+        }
+      }
+    }
+    return duplicateIds;
+  }, progressKey);
+  expect(duplicates).toEqual([]);
 };
 
 const expectNoHorizontalOverflow = async (page: Page) => {
@@ -1425,6 +1505,313 @@ test("active daily review resumes at item three and records all three evidence m
   expect(evidence.recognition).toHaveLength(1);
   expect(evidence.application).toHaveLength(1);
   await expectNoHorizontalOverflow(page);
+});
+
+test("[PR1] daily application typed by hand records an attempt and clean correct evidence", async ({
+  page,
+}) => {
+  await seedDailyLearningFixture(page, {
+    weaknessLexemeIds: [],
+    reviewOccurrenceIds: [
+      "a1-u1-l1-t01",
+      "a1-u1-l1-t02",
+      "a1-u1-l2-t01",
+    ],
+  });
+  await openDailyApplicationReview(page);
+
+  await page.locator('[data-testid="daily-review-input"]').fill("My name is Ben.");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await expect(page.locator('[data-testid="daily-review-next"]')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const progress = value.vocabularyProgress?.my ?? {};
+        const attempts = Array.isArray(progress.applicationAttemptEvidenceIds)
+          ? progress.applicationAttemptEvidenceIds.filter((id: unknown) =>
+              typeof id === "string" && id.startsWith("daily-review:"),
+            )
+          : [];
+        const correct = Array.isArray(progress.applicationCorrectEvidenceIds)
+          ? progress.applicationCorrectEvidenceIds.filter((id: unknown) =>
+              typeof id === "string" && id.startsWith("daily-review:"),
+            )
+          : [];
+        return { attempts: attempts.length, correct: correct.length };
+      }, progressKey),
+    )
+    .toEqual({ attempts: 1, correct: 1 });
+  await expectNoDuplicateEvidenceIds(page);
+});
+
+test("[PR1] daily application paste state survives F5 and does not create clean correct evidence", async ({
+  page,
+}) => {
+  await seedDailyLearningFixture(page, {
+    weaknessLexemeIds: [],
+    reviewOccurrenceIds: [
+      "a1-u1-l1-t01",
+      "a1-u1-l1-t02",
+      "a1-u1-l2-t01",
+    ],
+  });
+  await openDailyApplicationReview(page);
+
+  const reviewItemId = "daily-review:a1-u1-l2-t01:application";
+  await pasteValue(
+    page,
+    '[data-testid="daily-review-input"]',
+    "My name is Ben.",
+  );
+  await expect
+    .poll(() =>
+      page.evaluate(
+        ({ key, itemId }) => {
+          const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+          return value.reviewItemProgress?.[itemId]?.usedPaste ?? false;
+        },
+        { key: dailySessionKey, itemId: reviewItemId },
+      ),
+    )
+    .toBe(true);
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await page.locator('[data-testid="daily-session-resume"]').click();
+  await expect(page.locator('[data-testid="daily-review-counter"]')).toHaveText(
+    "今日複習 3 / 3",
+  );
+  await expect(page.getByText("請輸入完整英文句子", { exact: true })).toBeVisible();
+
+  // The answer remains editable after reload; this verifies that the persisted
+  // paste flag, rather than the current DOM event, controls attribution.
+  await page.locator('[data-testid="daily-review-input"]').fill("My name is Ben.");
+  await page.locator('[data-testid="daily-review-check"]').click();
+  await expect(page.locator('[data-testid="daily-review-next"]')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        ({ progressStorageKey, sessionStorageKey, itemId }) => {
+          const progress = JSON.parse(
+            localStorage.getItem(progressStorageKey) ?? "{}",
+          );
+          const session = JSON.parse(
+            localStorage.getItem(sessionStorageKey) ?? "{}",
+          );
+          const lexeme = progress.vocabularyProgress?.my ?? {};
+          const dailyAttempts = Array.isArray(
+            lexeme.applicationAttemptEvidenceIds,
+          )
+            ? lexeme.applicationAttemptEvidenceIds.filter((id: unknown) =>
+                typeof id === "string" && id.startsWith("daily-review:"),
+              )
+            : [];
+          const dailyCorrect = Array.isArray(
+            lexeme.applicationCorrectEvidenceIds,
+          )
+            ? lexeme.applicationCorrectEvidenceIds.filter((id: unknown) =>
+                typeof id === "string" && id.startsWith("daily-review:"),
+              )
+            : [];
+          return {
+            attempts: dailyAttempts.length,
+            correct: dailyCorrect.length,
+            usedPaste: session.reviewItemProgress?.[itemId]?.usedPaste ?? false,
+            completed:
+              session.completedReviewItemIds?.includes(itemId) ?? false,
+          };
+        },
+        {
+          progressStorageKey: progressKey,
+          sessionStorageKey: dailySessionKey,
+          itemId: reviewItemId,
+        },
+      ),
+    )
+    .toEqual({ attempts: 1, correct: 0, usedPaste: true, completed: true });
+  await expectNoDuplicateEvidenceIds(page);
+});
+
+test("[PR1] weakness application paste completes without clean evidence or course completion", async ({
+  page,
+}) => {
+  await seedDailyLearningFixture(page, {
+    weaknessLexemeIds: ["my"],
+    reviewOccurrenceIds: [],
+    weaknessFocus: "application",
+  });
+  await page.goto("/");
+  await expectLevelHomeReady(page, "A1");
+  await page.getByRole("button", { name: "前往弱點中心", exact: true }).click();
+  await expect(page.locator('[data-testid="weakness-center"]')).toBeVisible();
+  const completedBefore = await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    return value.levelProgress?.A1?.completedLessonIds ?? [];
+  }, progressKey);
+
+  await page.locator('[data-testid="practice-weakness-my"]').click();
+  await expect(page.locator('[data-testid="weakness-practice"]')).toBeVisible();
+  await expect(page.getByText("目前優先加強「運用」", { exact: false })).toBeVisible();
+  await pasteValue(
+    page,
+    '[data-testid="weakness-practice-input"]',
+    "My name is Ben.",
+  );
+  await page.locator('[data-testid="weakness-practice-action"]').click();
+  await expect(page.locator('[data-testid="weakness-practice-action"]')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        ({ key, completedBefore }) => {
+          const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+          const progress = value.vocabularyProgress?.my ?? {};
+          const attempts = Array.isArray(progress.applicationAttemptEvidenceIds)
+            ? progress.applicationAttemptEvidenceIds.filter((id: unknown) =>
+                typeof id === "string" && id.startsWith("weakness:application:"),
+              )
+            : [];
+          const correct = Array.isArray(progress.applicationCorrectEvidenceIds)
+            ? progress.applicationCorrectEvidenceIds.filter((id: unknown) =>
+                typeof id === "string" && id.startsWith("weakness:application:"),
+              )
+            : [];
+          const completed = value.levelProgress?.A1?.completedLessonIds ?? [];
+          return {
+            attempts: attempts.length,
+            correct: correct.length,
+            courseCompleted: JSON.stringify(completed) !==
+              JSON.stringify(completedBefore),
+          };
+        },
+        { key: progressKey, completedBefore },
+      ),
+    )
+    .toEqual({ attempts: 1, correct: 0, courseCompleted: false });
+  await expectNoDuplicateEvidenceIds(page);
+});
+
+test("[PR1] pattern transfer paste is isolated from the next hand-typed example", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    lessonsThroughUnit(3),
+    ["a1-u1", "a1-u2", "a1-u3"],
+  );
+  await openRecommendedLesson(page, "我有一顆蘋果");
+  await answerRecallTokens(page, ["I", "have", "an", "apple"]);
+  await submitRebuild(page, ["I", "have", "an", "apple"]);
+  await page.locator("#recognition-option-correct").click();
+  await page.locator("#recognition-check-button").click();
+  await page.locator("#recognition-next-button").click();
+
+  const transfer = page.locator("#pattern-transfer-answer");
+  await pasteValue(page, "#pattern-transfer-answer", "I have a book.");
+  await transfer.press("Enter");
+  await expect(page.locator("#pattern-transfer-next-button")).toBeVisible();
+  await page.locator("#pattern-transfer-next-button").click();
+  await expect(transfer).toBeFocused();
+
+  await transfer.fill("I have a pen.");
+  await transfer.press("Enter");
+  await expect(page.locator("#pattern-transfer-next-button")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const evidenceFor = (lexemeId: string, field: string) => {
+          const progress = value.vocabularyProgress?.[lexemeId] ?? {};
+          const ids = progress[field];
+          return Array.isArray(ids)
+            ? ids.filter(
+                (id: unknown) =>
+                  typeof id === "string" && id.startsWith("transfer:"),
+              )
+            : [];
+        };
+        const bookCorrect = evidenceFor("book", "applicationCorrectEvidenceIds");
+        const penCorrect = evidenceFor("pen", "applicationCorrectEvidenceIds");
+        return {
+          attempts: evidenceFor("i", "applicationAttemptEvidenceIds").length,
+          firstExampleCorrect: bookCorrect.some((id: string) =>
+            id.includes("have-possession-book"),
+          ),
+          secondExampleCorrect: penCorrect.some((id: string) =>
+            id.includes("have-possession-pen"),
+          ),
+        };
+      }, progressKey),
+    )
+    .toEqual({
+      attempts: 2,
+      firstExampleCorrect: false,
+      secondExampleCorrect: true,
+    });
+  await expectNoDuplicateEvidenceIds(page);
+});
+
+test("[PR1] pasted sentence rebuild records an attempt without clean evidence and survives reload", async ({
+  page,
+}) => {
+  await openRecommendedLesson(page, "我是誰");
+  await answerRecallTokens(page, ["I", "am", "Amy"]);
+
+  const words = ["I", "am", "Amy"];
+  const fields = page.locator(".rebuild-field input");
+  await expect(fields).toHaveCount(words.length);
+  await expect(fields.first()).toBeFocused();
+  for (let index = 0; index < words.length; index += 1) {
+    const field = fields.nth(index);
+    await field.fill(words[index]);
+    await field.dispatchEvent("paste", {
+      bubbles: true,
+      cancelable: true,
+    });
+  }
+  await page.getByRole("button", { name: /檢查順序與拼字/ }).click();
+  await expect(
+    page.getByRole("heading", { name: "做得好！你已完成本課文字練習" }),
+  ).toBeVisible();
+
+  const expectedEvidence = {
+    attempts: 1,
+    correct: 0,
+    rebuildAttempts: 1,
+    completed: true,
+  };
+  const readRebuildEvidence = () =>
+    page.evaluate((key) => {
+      const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+      const progress = value.vocabularyProgress?.i ?? {};
+      const attempts = Array.isArray(progress.applicationAttemptEvidenceIds)
+        ? progress.applicationAttemptEvidenceIds.filter((id: unknown) =>
+            typeof id === "string" && id.startsWith("rebuild:"),
+          )
+        : [];
+      const correct = Array.isArray(progress.applicationCorrectEvidenceIds)
+        ? progress.applicationCorrectEvidenceIds.filter((id: unknown) =>
+            typeof id === "string" && id.startsWith("rebuild:"),
+          )
+        : [];
+      return {
+        attempts: attempts.length,
+        correct: correct.length,
+        rebuildAttempts:
+          value.levelProgress?.A1?.sentenceStats?.["a1-u1-l1-p01-s01"]
+            ?.rebuildAttempts ?? 0,
+        completed:
+          value.levelProgress?.A1?.completedLessonIds?.includes("a1-u1-l1") ??
+          false,
+      };
+    }, progressKey);
+  await expect.poll(readRebuildEvidence).toEqual(expectedEvidence);
+  await expectNoDuplicateEvidenceIds(page);
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await expect.poll(readRebuildEvidence).toEqual(expectedEvidence);
+  await expectNoDuplicateEvidenceIds(page);
 });
 
 test("revealed spelling must be retyped and never creates clean spelling evidence", async ({ page }) => {

@@ -289,3 +289,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** `buildDailyReviewQueue()` selects at most five due formal occurrences in deterministic order, deduplicates canonical lexemes, prioritizes the strongest existing evidence weakness, and otherwise rotates spelling, recognition, and safe formal-sentence application. The temporary session stores only stable queue identity, completion IDs, attempts, reveal state, and paste state; answers are resolved from authoritative curriculum data. Attempts and correct results use the existing global vocabulary evidence and review schedule, not a second mastery model.
 
 **Reason:** Daily review must require a learner response, survive F5 without duplicate credit, preserve clean-spelling safeguards, and remain consistent with the site's cross-level evidence and mastery rules.
+
+## ADR-037 - Application Evidence Requires Unassisted Text Input
+
+**Status:** Accepted
+
+**Decision:** A free-text sentence answer records `applicationCorrect` only when it is correct, has not been revealed, and was not pasted. Assisted correct answers may complete the exercise and record `applicationAttempt`, but they do not count toward active vocabulary mastery. Paste state belongs to the current exercise item or pattern example; Daily Review persists that item state across reload. Recognition choices and existing clean-spelling rules are unchanged.
+
+**Reason:** Completing an assisted sentence is useful practice, but it is not evidence that the learner independently produced the sentence. One shared paste flag could also incorrectly contaminate a later exercise.

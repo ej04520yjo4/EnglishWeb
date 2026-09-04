@@ -36,6 +36,12 @@ export const canCreditSpellingCorrect = (input: {
   usedPaste: boolean;
 }) => input.correct && !input.answerRevealed && !input.usedPaste;
 
+export const canCreditApplicationCorrect = (input: {
+  correct: boolean;
+  answerRevealed: boolean;
+  usedPaste: boolean;
+}) => input.correct && !input.answerRevealed && !input.usedPaste;
+
 const evidenceField: Record<
   VocabularyEvidenceKind,
   keyof Pick<
