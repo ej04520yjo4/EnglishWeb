@@ -2,8 +2,8 @@
 
 ## Snapshot
 
-- Updated: 2026-08-30
-- Branch: `main`
+- Updated: 2026-09-04
+- Branch: `fix/clean-application-evidence`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -34,8 +34,8 @@
 - The old `showA2Pilot` setting is readable; new storage/export uses `showAdvancedPilots` and currently exposes A2 QA only.
 - The partial target contract loads from `public/data/vocabulary-targets-v1.json`; target logic is isolated in `app/vocabulary-targets.ts`.
 - Exposure, recognition, spelling, and application evidence is deduplicated by stable ID and shared by canonical lexeme across A1/A2.
-- Receptive mastery requires two correct recognition records on different dates. Active also requires two clean spelling records on different dates and one correct application.
-- Revealed or pasted spelling never creates clean spelling evidence.
+- Receptive mastery requires two correct recognition records on different dates. Active also requires two clean spelling records on different dates and one clean application.
+- Revealed or pasted spelling never creates clean spelling evidence; revealed or pasted free-text application can complete an exercise but never creates `applicationCorrect`.
 - Related-vocabulary search/render/audio remains neutral; an explicit detail open records exposure only and leaves completion, accuracy, review intervals, and passed IDs unchanged.
 - The progress page separates the 3000 goal, current target coverage, personal evidence-based mastery, senses, chunks, and due reviews.
 - The home page now shows a deterministic daily learning plan: due review first, then the current recommended lesson, then up to three evidence-backed weak lexemes.
@@ -55,6 +55,9 @@
 
 ## Latest Completed Work
 
+- Centralized clean application eligibility and applied it to sentence rebuild, pattern transfer, Daily Review application, and weakness application without changing recognition, course completion, CEFR unlock, or protected curriculum data.
+- Split recall, rebuild, and pattern-transfer paste state so one exercise cannot contaminate the next; Daily Review continues to persist its per-item paste state across F5.
+- Added desktop/mobile storage-level browser coverage for manual application, pasted application with F5, weakness practice, pattern-example isolation, rebuild completion, and duplicate evidence IDs.
 - Returned active development to A1/A2 and paused B1/B2 manual review.
 - Added target generation, validation, per-level indexes, alias resolution, audit, and coverage reporting.
 - Added schema v6 global evidence wiring to course detail, word recall, reading recognition, sentence rebuild, pattern transfer, and explicit related-word details.
@@ -87,8 +90,8 @@ Resolve the 126-entry provenance findings: choose and record one legally reusabl
 
 ## Verification
 
-- `npm ci`: exit 0; 494 packages installed and 495 audited; 18 dependency vulnerabilities reported (2 low, 16 high), with no automatic fixes applied.
-- `npm audit --json`: exit 1 because 18 known vulnerabilities remain (0 critical, 16 high, 0 moderate, 2 low). Direct affected tools are Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; coupled compatibility upgrades remain under `DEPENDENCY-QA-001`, with no force fix applied.
+- `npm ci`: exit 0; 494 packages installed and 495 audited; 54 dependency vulnerabilities reported, with no automatic fixes applied.
+- `npm audit --json`: exit 1 because 54 known vulnerabilities remain (0 critical, 44 high, 8 moderate, 2 low). These are an explicit follow-up dependency-review concern; this evidence fix did not change packages or use a force fix.
 - `npm run verify`: exit 0; the shared local/CI gate completed every command below.
 - `npm test`: exit 0; reran `verify` and the complete Playwright matrix through the public contributor command.
 - `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
@@ -97,11 +100,12 @@ Resolve the 126-entry provenance findings: choose and record one legally reusabl
 - `npm run report:vocabulary`: exit 0; 102 A1/A2 union lexemes, 26 reference-only, 0 invalid target IDs, 0 target lemma conflicts.
 - `npm run validate:curriculum`: exit 0; A1 8/32/145, A2 4/16/95, retained B1 8/32/249, retained B2 8/32/298.
 - `npm run build`: exit 0; Vinext production build completed.
-- `npm run test:unit`: exit 0; 143 passed, 0 failed.
+- `npm run test:unit`: exit 0; 148 passed, 0 failed.
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npm run typecheck` (`tsc --noEmit --incremental false`): exit 0.
-- `npm run test:e2e`: exit 0; 78 passed across desktop and mobile, 0 failed.
+- `npm run test:e2e`: exit 0; 88 passed across desktop and mobile, 0 failed.
 - Daily Session and active-review browser coverage now includes live midnight expiry with a progress snapshot, active-time reload/offline exclusion, a five-item queue resuming at item three, spelling reveal/retype evidence safety, recognition/application evidence, zero-review skip, leave-without-completion, cross-level exact-lesson restore, and first-unfinished weakness resume.
+- Focused clean-application E2E: exit 0; 5 desktop and 5 mobile cases passed, including Daily F5 paste persistence and item-scoped paste isolation.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
 - Focused A2 hydration/unlock E2E: exit 0; 2 passed.
 - Windows launcher scenarios: exit 0; 7 passed, 0 failed.

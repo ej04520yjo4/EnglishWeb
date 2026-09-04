@@ -126,6 +126,7 @@ import {
   type VocabularyTargetsData,
 } from "./vocabulary-targets.ts";
 import {
+  canCreditApplicationCorrect,
   canCreditSpellingCorrect,
   recordGlobalVocabularyEvidence,
   summarizeVocabularyProgress,
@@ -628,7 +629,10 @@ export default function Home() {
   const [textResponseSelectedId, setTextResponseSelectedId] = useState("");
   const [textResponseChecked, setTextResponseChecked] = useState(false);
   const [audioReplays, setAudioReplays] = useState(0);
-  const [usedPaste, setUsedPaste] = useState(false);
+  const [recallUsedPaste, setRecallUsedPaste] = useState(false);
+  const [rebuildUsedPaste, setRebuildUsedPaste] = useState(false);
+  const [patternTransferUsedPaste, setPatternTransferUsedPaste] =
+    useState(false);
   const [startedAt, setStartedAt] = useState(0);
   const [audioMessage, setAudioMessage] = useState("");
   const [kkAudioMessage, setKkAudioMessage] = useState("");
@@ -1988,7 +1992,9 @@ export default function Home() {
     setTextResponseSelectedId("");
     setTextResponseChecked(false);
     setAudioReplays(0);
-    setUsedPaste(false);
+    setRecallUsedPaste(false);
+    setRebuildUsedPaste(false);
+    setPatternTransferUsedPaste(false);
     setStartedAt(timestamp());
     setRebuildAttempts(0);
     setRebuildAnswerRevealed(false);
@@ -2024,7 +2030,7 @@ export default function Home() {
     setRecallAnswerRevealed(false);
     setFeedback("");
     setStartedAt(timestamp());
-    setUsedPaste(false);
+    setRecallUsedPaste(false);
   };
 
   const advanceFromDetail = () => {
@@ -2040,6 +2046,7 @@ export default function Home() {
       setRebuildStatus(selectedLesson.tokens.map(() => ""));
       setRebuildAttempts(0);
       setRebuildAnswerRevealed(false);
+      setRebuildUsedPaste(false);
       setStartedAt(timestamp());
       setStage("rebuild");
     }
@@ -2094,7 +2101,7 @@ export default function Home() {
         canCreditSpellingCorrect({
           correct: true,
           answerRevealed: recallAnswerRevealed,
-          usedPaste,
+          usedPaste: recallUsedPaste,
         })
       ) {
         recordVocabularyEvidence(
@@ -2107,7 +2114,7 @@ export default function Home() {
         updateTokenLearningProgress(value, currentToken.occurrenceId, {
           attemptDelta: 1,
           elapsedDelta: elapsed,
-          usedPaste,
+          usedPaste: recallUsedPaste,
           answerRevealed: recallAnswerRevealed,
           correctDelta: recallAnswerRevealed ? 0 : 1,
         }),
@@ -2118,14 +2125,14 @@ export default function Home() {
         correctAnswers:
           value.correctAnswers + (recallAnswerRevealed ? 0 : 1),
         totalSeconds: value.totalSeconds + elapsed,
-        pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+        pasteCount: value.pasteCount + (recallUsedPaste ? 1 : 0),
         tokenProgress: updateTokenLearningProgress(
           value.tokenProgress,
           currentToken.occurrenceId,
           {
             attemptDelta: 1,
             elapsedDelta: elapsed,
-            usedPaste,
+            usedPaste: recallUsedPaste,
             answerRevealed: recallAnswerRevealed,
             correctDelta: recallAnswerRevealed ? 0 : 1,
           },
@@ -2168,7 +2175,7 @@ export default function Home() {
         attemptDelta: 1,
         hintDelta: 1,
         elapsedDelta: elapsed,
-        usedPaste,
+        usedPaste: recallUsedPaste,
         answerRevealed: nextAttempt >= 3,
       }),
     );
@@ -2176,7 +2183,7 @@ export default function Home() {
       ...value,
       totalAttempts: value.totalAttempts + 1,
       totalSeconds: value.totalSeconds + elapsed,
-      pasteCount: value.pasteCount + (usedPaste ? 1 : 0),
+      pasteCount: value.pasteCount + (recallUsedPaste ? 1 : 0),
       tokenProgress: updateTokenLearningProgress(
         value.tokenProgress,
         currentToken.occurrenceId,
@@ -2184,7 +2191,7 @@ export default function Home() {
           attemptDelta: 1,
           hintDelta: 1,
           elapsedDelta: elapsed,
-          usedPaste,
+          usedPaste: recallUsedPaste,
           answerRevealed: nextAttempt >= 3,
         },
       ),
@@ -2235,7 +2242,7 @@ export default function Home() {
     setRebuildAttempts(result.attempts);
     setRebuildStatus(result.statuses);
     const rebuildEvidenceId =
-      `rebuild:${selectedLesson.sentenceId}:${dateKey()}:${result.attempts}`;
+      `rebuild:${selectedLesson.sentenceId}:${dateKey()}:${startedAt}:${result.attempts}`;
     const rebuildLexemeIds = selectedLesson.tokens.map(
       (token) => token.lexemeId ?? token.tokenId ?? token.id,
     );
@@ -2244,7 +2251,12 @@ export default function Home() {
       "applicationAttempt",
       rebuildEvidenceId,
     );
-    if (result.correct) {
+    const creditApplicationCorrect = canCreditApplicationCorrect({
+      correct: result.correct,
+      answerRevealed: rebuildAnswerRevealed,
+      usedPaste: rebuildUsedPaste,
+    });
+    if (creditApplicationCorrect) {
       recordVocabularyEvidence(
         rebuildLexemeIds,
         "applicationCorrect",
@@ -2286,7 +2298,11 @@ export default function Home() {
       };
     });
     if (result.correct) {
-      setFeedback("順序與拼字都正確！完成格式如下：");
+      setFeedback(
+        creditApplicationCorrect
+          ? "順序與拼字都正確！完成格式如下："
+          : "答案正確，但使用貼上不會記為主動運用證據。",
+      );
       window.setTimeout(() => {
         setFeedback("");
         setRecallAnswerRevealed(false);
@@ -2520,6 +2536,7 @@ export default function Home() {
       setPatternTransferAttempts(0);
       setPatternTransferRevealed(false);
       setPatternTransferComplete(false);
+      setPatternTransferUsedPaste(false);
       setStartedAt(timestamp());
       setStage("pattern-transfer");
       window.setTimeout(
@@ -2547,15 +2564,20 @@ export default function Home() {
       currentPatternExample,
     );
     const credited = correct && !patternTransferRevealed;
+    const creditApplicationCorrect = canCreditApplicationCorrect({
+      correct,
+      answerRevealed: patternTransferRevealed,
+      usedPaste: patternTransferUsedPaste,
+    });
     const nextAttempt = patternTransferAttempts + 1;
     const transferEvidenceId =
-      `transfer:${currentPatternExample.id}:${dateKey()}:${nextAttempt}`;
+      `transfer:${currentPatternExample.id}:${dateKey()}:${startedAt}:${nextAttempt}`;
     recordVocabularyEvidence(
       currentPatternExample.requiredLexemeIds,
       "applicationAttempt",
       transferEvidenceId,
     );
-    if (credited) {
+    if (creditApplicationCorrect) {
       recordVocabularyEvidence(
         currentPatternExample.requiredLexemeIds,
         "applicationCorrect",
@@ -2624,6 +2646,8 @@ export default function Home() {
       setFeedback(
         patternTransferRevealed
           ? "已重新輸入正確答案，現在可以繼續。"
+          : patternTransferUsedPaste
+            ? "答案正確，但使用貼上不會記為主動運用證據。"
           : "句型換字正確！",
       );
       return;
@@ -2650,6 +2674,7 @@ export default function Home() {
       setPatternTransferAttempts(0);
       setPatternTransferRevealed(false);
       setPatternTransferComplete(false);
+      setPatternTransferUsedPaste(false);
       setFeedback("");
       setStartedAt(timestamp());
       window.setTimeout(
@@ -3622,7 +3647,13 @@ export default function Home() {
             answerRevealed: currentProgress.answerRevealed,
             usedPaste: currentProgress.usedPaste,
           })
-        : correct && !currentProgress.answerRevealed;
+        : item.mode === "application"
+          ? canCreditApplicationCorrect({
+              correct,
+              answerRevealed: currentProgress.answerRevealed,
+              usedPaste: currentProgress.usedPaste,
+            })
+          : correct && !currentProgress.answerRevealed;
     recordDailyReviewAttempt(
       session,
       item,
@@ -3653,8 +3684,12 @@ export default function Home() {
         creditCorrect
           ? "答對了，已記錄這次主動作答。"
           : currentProgress.usedPaste
-            ? "答案正確，但使用貼上不會記為乾淨的拼寫證據。"
-            : "已正確重新輸入；揭示過答案，所以不計入乾淨正確證據。",
+            ? item.mode === "application"
+              ? "答案正確，但使用貼上不會記為主動運用證據。"
+              : "答案正確，但使用貼上不會記為乾淨的拼寫證據。"
+            : item.mode === "application"
+              ? "已正確重新輸入；揭示過答案，所以不計入主動運用證據。"
+              : "已正確重新輸入；揭示過答案，所以不計入乾淨正確證據。",
       );
       return;
     }
@@ -3776,7 +3811,19 @@ export default function Home() {
     setWeaknessPracticeAttempts(nextAttempt);
     if (correct) {
       const cleanCredit =
-        focus !== "拼寫" || !weaknessPracticeUsedPaste;
+        focus === "拼寫"
+          ? canCreditSpellingCorrect({
+              correct,
+              answerRevealed: weaknessPracticeRevealed,
+              usedPaste: weaknessPracticeUsedPaste,
+            })
+          : focus === "運用"
+            ? canCreditApplicationCorrect({
+                correct,
+                answerRevealed: weaknessPracticeRevealed,
+                usedPaste: weaknessPracticeUsedPaste,
+              })
+            : true;
       if (cleanCredit) {
         recordVocabularyEvidence(
           [lexemeId],
@@ -3789,7 +3836,9 @@ export default function Home() {
       setWeaknessPracticeFeedback(
         cleanCredit
           ? "這次答對了，已記錄為有效的弱點練習。"
-          : "答案正確，但使用貼上不會記為乾淨的拼寫證據。",
+          : focus === "運用"
+            ? "答案正確，但使用貼上不會記為主動運用證據。"
+            : "答案正確，但使用貼上不會記為乾淨的拼寫證據。",
       );
       return;
     }
@@ -5065,7 +5114,7 @@ export default function Home() {
                     autoCorrect="off"
                     spellCheck={false}
                     onPaste={(event) => {
-                      setUsedPaste(true);
+                      setRecallUsedPaste(true);
                       const pastedWords = event.clipboardData.getData("text").trim().split(/\s+/).filter(Boolean);
                       if (pastedWords.length <= 1 || currentTokenWords.length === 1) return;
                       event.preventDefault();
@@ -5307,7 +5356,7 @@ export default function Home() {
                     autoCorrect="off"
                     spellCheck={false}
                     readOnly={rebuildAnswerRevealed}
-                    onPaste={() => setUsedPaste(true)}
+                    onPaste={() => setRebuildUsedPaste(true)}
                     onChange={(event) => {
                       const values = [...rebuildValues];
                       values[index] = event.target.value;
@@ -5523,7 +5572,7 @@ export default function Home() {
               autoCorrect="off"
               spellCheck={false}
               readOnly={patternTransferComplete}
-              onPaste={() => setUsedPaste(true)}
+              onPaste={() => setPatternTransferUsedPaste(true)}
               onChange={(event) =>
                 setPatternTransferValue(event.target.value)
               }

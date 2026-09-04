@@ -22,6 +22,7 @@ import {
   validateVocabularyTargets,
 } from "../app/vocabulary-targets.ts";
 import {
+  canCreditApplicationCorrect,
   canCreditSpellingCorrect,
   deriveVocabularyMasteryState,
   recordGlobalVocabularyEvidence,
@@ -253,6 +254,34 @@ test("does not credit revealed or pasted spelling as clean evidence", () => {
   );
 });
 
+test("credits clean application as correct evidence", () => {
+  assert.equal(
+    canCreditApplicationCorrect({ correct: true, answerRevealed: false, usedPaste: false }),
+    true,
+  );
+});
+
+test("does not credit revealed application as correct evidence", () => {
+  assert.equal(
+    canCreditApplicationCorrect({ correct: true, answerRevealed: true, usedPaste: false }),
+    false,
+  );
+});
+
+test("does not credit pasted application as correct evidence", () => {
+  assert.equal(
+    canCreditApplicationCorrect({ correct: true, answerRevealed: false, usedPaste: true }),
+    false,
+  );
+});
+
+test("does not credit incorrect application as correct evidence", () => {
+  assert.equal(
+    canCreditApplicationCorrect({ correct: false, answerRevealed: false, usedPaste: false }),
+    false,
+  );
+});
+
 test("records recognition and sentence application evidence separately", () => {
   let progress = recordGlobalVocabularyEvidence({}, {
     lexemeIds: ["book"],
@@ -286,6 +315,28 @@ test("records recognition and sentence application evidence separately", () => {
   assert.equal(progress.book.recognitionCorrectEvidenceIds.length, 1);
   assert.equal(progress.book.applicationAttemptEvidenceIds.length, 1);
   assert.equal(progress.book.applicationCorrectEvidenceIds.length, 1);
+});
+
+test("deduplicates repeated application attempt and correct evidence IDs", () => {
+  const attempt = {
+    lexemeIds: ["shirt"],
+    kind: "applicationAttempt",
+    evidenceId: "rebuild:a2-u2-l1-s1:2026-07-31:1",
+    studiedAt: "2026-07-31T10:00:00.000Z",
+    sourceLevel: "A2",
+  };
+  const correct = {
+    ...attempt,
+    kind: "applicationCorrect",
+  };
+
+  let progress = recordGlobalVocabularyEvidence({}, attempt);
+  progress = recordGlobalVocabularyEvidence(progress, attempt);
+  progress = recordGlobalVocabularyEvidence(progress, correct);
+  progress = recordGlobalVocabularyEvidence(progress, correct);
+
+  assert.equal(progress.shirt.applicationAttemptEvidenceIds.length, 1);
+  assert.equal(progress.shirt.applicationCorrectEvidenceIds.length, 1);
 });
 
 test("requires clean cross-date recognition, spelling, and application for mastery", () => {
