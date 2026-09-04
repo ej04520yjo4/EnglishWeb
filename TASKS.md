@@ -39,6 +39,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **DAILY-ACTIVE-TIME-001:** Persist visible active study seconds with a five-minute idle cap, lifecycle flushes, and reload-safe segment restart in Daily Session v3.
 - [x] **ACTIVE-REVIEW-001:** Replace passive Daily Learning review completion with a deterministic five-item evidence-backed spelling, recognition, and formal-sentence application queue that resumes by stable ID.
 - [x] **APPLICATION-EVIDENCE-001:** Require every free-text `applicationCorrect` record to be correct, unrevealed, and unpasted while allowing assisted answers to complete the exercise and retain `applicationAttempt`.
+- [x] **CI-REPOSITORY-001:** Scope full CI to pull requests and `main`, add same-change concurrency, pin verified stable Actions releases, configure bounded weekly Dependabot updates, and document dependency and remote-branch maintenance findings.
 - [ ] **DEPENDENCY-QA-001:** Review compatible upgrades for Next, Vite, Vinext, React Server DOM, Wrangler, and the Cloudflare Vite plugin; rerun the complete matrix without using forced audit fixes.
 - [x] **CI-E2E-001:** GitHub Actions passes browser tests and exposes the retained Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.

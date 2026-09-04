@@ -3,7 +3,7 @@
 ## Snapshot
 
 - Updated: 2026-09-04
-- Branch: `fix/clean-application-evidence`
+- Branch: `chore/ci-repository-maintenance`
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -55,6 +55,11 @@
 
 ## Latest Completed Work
 
+- Scoped full GitHub Actions execution to pull requests targeting `main` and pushes to `main`; preserved both required-check display names and added same-change concurrency cancellation.
+- Pinned checkout, Node setup, and Playwright artifact upload to the full commit SHA of their verified stable v7 releases without changing Node 22, npm cache, test scope, read-only permissions, or seven-day artifact retention.
+- Added bounded weekly npm and GitHub Actions Dependabot checks with no auto-merge or automatic rebase.
+- Consolidated the duplicate `app/daily-session.ts` architecture entry and recorded dependency and remote-branch reviews in `docs/dependency-review-2026-09-04.md` and `docs/remote-branch-review-2026-09-04.md`.
+- Confirmed workflow concurrency against PR #3: run `33838507891` was cancelled after commit `1707046` started replacement run `33838975879`; no unrelated PR or `main` run shared that concurrency key.
 - Centralized clean application eligibility and applied it to sentence rebuild, pattern transfer, Daily Review application, and weakness application without changing recognition, course completion, CEFR unlock, or protected curriculum data.
 - Split recall, rebuild, and pattern-transfer paste state so one exercise cannot contaminate the next; Daily Review continues to persist its per-item paste state across F5.
 - Added desktop/mobile storage-level browser coverage for manual application, pasted application with F5, weakness practice, pattern-example isolation, rebuild completion, and duplicate evidence IDs.
@@ -77,6 +82,8 @@
 
 ## Known Limits
 
+- `npm audit` currently reports 54 affected package names (`44 high / 8 moderate / 2 low / 0 critical`), including 11 direct and 43 transitive dependencies. No forced or untested upgrade was applied; the compatibility batches are documented in the dependency review.
+- Two remote feature branches are not completely merged and must remain pending manual review: `feat/a2-shopping-comparison` and `feat/daily-learning-weakness-center`. Seven merged `feat/*` branches plus the merged PR1 fix branch are deletion candidates only; no branch was deleted.
 - The target contract is not a complete 3000-word list and must not be presented as one.
 - The 126-entry content-metadata pass is complete, but all 126 still need license evidence, 26 reference-only entries still need an external lexical source, and those 26 still need user language/phonetic review. The progress-page note correctly keeps the baseline待審.
 - A2 units 1–4 remain pilot content; units 5–10 are blueprint-only.
@@ -86,14 +93,15 @@
 
 ## Next Concrete Step
 
-Resolve the 126-entry provenance findings: choose and record one legally reusable lexical/frequency source, settle curriculum ownership/license terms, and have the user review the 26 reference-only language/phonetic entries before adding any new target batch.
+Open a separate compatibility PR for the coupled Next/React/RSC patch set described in the dependency review, then rerun the complete local and GitHub matrix. Vocabulary provenance remains a separate content priority: choose a legally reusable lexical/frequency source and review the 26 reference-only entries before adding a new target batch.
 
 ## Verification
 
 - `npm ci`: exit 0; 494 packages installed and 495 audited; 54 dependency vulnerabilities reported, with no automatic fixes applied.
-- `npm audit --json`: exit 1 because 54 known vulnerabilities remain (0 critical, 44 high, 8 moderate, 2 low). These are an explicit follow-up dependency-review concern; this evidence fix did not change packages or use a force fix.
+- `npm audit --json`: exit 1 because 54 affected package names remain (0 critical, 44 high, 8 moderate, 2 low); 11 are direct and 43 transitive. This maintenance PR did not change packages or use a force fix.
+- `npm outdated --json`: final exit 1 because 19 direct packages have newer registry versions; the first sandboxed attempt hit npm-cache `EPERM`, and the authorized retry completed successfully. No update was applied.
 - `npm run verify`: exit 0; the shared local/CI gate completed every command below.
-- `npm test`: exit 0; reran `verify` and the complete Playwright matrix through the public contributor command.
+- `npm test`: exit 0; reran `verify` and the complete Playwright matrix through the public contributor command in 5.1 minutes.
 - `npm run check:context`: exit 0; 10 required context files passed UTF-8 and structure checks.
 - `npm run audit:project`: exit 0; 4 levels, 787 occurrences, 12 sources, 0 orphan/duplicate data files.
 - `npm run audit:vocabulary`: exit 0; 126 unique targets, 100 active, 26 receptive.
@@ -104,6 +112,7 @@ Resolve the 126-entry provenance findings: choose and record one legally reusabl
 - `npm run lint`: exit 0; 0 errors and 0 warnings.
 - `npm run typecheck` (`tsc --noEmit --incremental false`): exit 0.
 - `npm run test:e2e`: exit 0; 88 passed across desktop and mobile, 0 failed.
+- GitHub Actions YAML parse and contract check: exit 0; triggers are `main` push and target-`main` pull request only, both required-check names are exact, `contents: read` remains, and both Dependabot ecosystems parse.
 - Daily Session and active-review browser coverage now includes live midnight expiry with a progress snapshot, active-time reload/offline exclusion, a five-item queue resuming at item three, spelling reveal/retype evidence safety, recognition/application evidence, zero-review skip, leave-without-completion, cross-level exact-lesson restore, and first-unfinished weakness resume.
 - Focused clean-application E2E: exit 0; 5 desktop and 5 mobile cases passed, including Daily F5 paste persistence and item-scoped paste isolation.
 - Focused related-vocabulary evidence/backup E2E: exit 0; 10 passed.
