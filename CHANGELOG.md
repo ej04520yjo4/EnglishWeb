@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-09-04 - CI and Repository Maintenance
+
+### Changed
+
+- Scoped full GitHub Actions runs to pull requests targeting `main` and pushes to `main`, with same-PR concurrency cancellation and unchanged required-check names.
+- Pinned checkout, Node setup, and artifact upload to the full SHA of their verified v7 stable releases while preserving Node 22, read-only contents permission, Playwright coverage, and seven-day artifacts.
+- Added bounded weekly npm and GitHub Actions Dependabot checks without auto-merge or automatic rebasing.
+
+### Documented
+
+- Consolidated the duplicate Daily Session architecture entry without changing its storage contract.
+- Added dated dependency-risk and remote-branch reviews; no application dependency was upgraded and no remote branch was deleted.
+
 ## 2026-09-04 - Clean Application Evidence
 
 ### Fixed

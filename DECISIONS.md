@@ -297,3 +297,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** A free-text sentence answer records `applicationCorrect` only when it is correct, has not been revealed, and was not pasted. Assisted correct answers may complete the exercise and record `applicationAttempt`, but they do not count toward active vocabulary mastery. Paste state belongs to the current exercise item or pattern example; Daily Review persists that item state across reload. Recognition choices and existing clean-spelling rules are unchanged.
 
 **Reason:** Completing an assisted sentence is useful practice, but it is not evidence that the learner independently produced the sentence. One shared paste flag could also incorrectly contaminate a later exercise.
+
+## ADR-038 - CI Runs Once Per Change Lifecycle
+
+**Status:** Accepted
+
+**Decision:** Full CI runs for pull requests targeting `main` and for pushes to `main`, but not for standalone feature-branch pushes. Workflow concurrency is isolated by pull-request number or ref and cancels only an older run for the same change. Third-party GitHub Actions are pinned to the full commit SHA of a verified stable release. Weekly npm and GitHub Actions Dependabot updates are limited, do not auto-merge, and do not automatically rebase; application dependency upgrades require their own compatibility-tested pull requests. Existing audit findings remain documented rather than becoming a blocking gate before compatible fixes exist.
+
+**Reason:** One required-check run per change avoids duplicate runner work, while an immutable action reference, bounded update queue, and explicit compatibility review reduce supply-chain and upgrade risk without permanently blocking unrelated development.
