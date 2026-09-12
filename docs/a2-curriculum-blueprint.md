@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This blueprint reserves a ten-unit A2 route without creating hidden lessons. Only units 1–4 have formal CSV/JSON data; units 5–10 remain planning notes until the current pilot is manually reviewed.
+This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–5 have versioned pilot CSV/JSON data; units 6–10 remain planning notes until the current pilot is manually reviewed.
 
 ## Ten-Unit Route
 
@@ -12,14 +12,14 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Onl
 | 2 | 旅行與交通 | Pilot data |
 | 3 | 購物與比較 | Pilot data |
 | 4 | 健康與建議 | Pilot data |
-| 5 | 工作與約會安排 | Blueprint only |
+| 5 | 工作與約會安排 | Pilot data |
 | 6 | 居家與日常家務 | Blueprint only |
 | 7 | 經驗與生活改變 | Blueprint only |
 | 8 | 問題與簡單解決方式 | Blueprint only |
 | 9 | 社交、邀請與回應 | Blueprint only |
 | 10 | 綜合郵件、行程與生活故事 | Blueprint only |
 
-## Deferred Unit Details
+## Pilot Unit 5
 
 ### Unit 5 — 工作與約會安排
 
@@ -29,6 +29,10 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Onl
 - 句型方向：`I am meeting...`、`Can we meet at...?`
 - 短文類型：簡短行事曆與約會對話。
 - 前置能力：單元 1 的未來計畫與單元 2 的時刻表達。
+
+試行內容共有四課：安排明天與主管見面、確認星期與時段、說明會議時間、把會議改到其他日期。內容保持逐字拼寫、語塊整體理解，並附兩題句型換字、閱讀辨識、文字選答，以及四句文章與五題理解題。全部資料仍為 `pilot_review_required`。
+
+## Deferred Unit Details
 
 ### Unit 6 — 居家與日常家務
 
@@ -86,4 +90,4 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Onl
 
 ## Deferred Boundary
 
-Units 5–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress until units 1–4 finish manual English, Traditional Chinese, phonetic, difficulty, and browser-flow review.
+Units 6–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress until units 1–5 finish manual English, Traditional Chinese, phonetic, difficulty, and browser-flow review.

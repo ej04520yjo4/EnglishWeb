@@ -39,11 +39,11 @@ const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
   "public/data/a1-course-v3.csv": "425625f5765318521ad78efb21461e41f7274d8de4faf6ab0f0c0ac719be7932",
-  "public/data/a2-course-v1.csv": "1049e810a535f65261b06a55438bbdeb72c42b33d0d4f3fadd49c3cbaceccfa7",
+  "public/data/a2-course-v1.csv": "20a8d5a11e6950631a7c61df75deb22000f88f594ebd22f9ea28297e97d086e1",
   "public/data/a1-pattern-exercises.json": "a7fd2a2e6eeb262fc0fdeaa0b49ceff655998db5f11f85e72d31aa57bee4a5da",
   "public/data/a1-reading-exercises.json": "fb666547af28b97607e9de45593731a09a0612543ce10fcda5c263a84feec99c",
-  "public/data/a2-pattern-exercises.json": "f586f42cf707912970ecf7fd51d2f85b1d1a03724977e63e8d5dbb2ce088c8e9",
-  "public/data/a2-reading-exercises.json": "3bcde8b4506147791e9d3df88c1be84b304c2a8e387458e4305b52f57beed3d5",
+  "public/data/a2-pattern-exercises.json": "9e1355c8ceaea46ea5fda5915dc84f85be4e52b7025860c2425a207599cb54e5",
+  "public/data/a2-reading-exercises.json": "e7b4f8ecd47ab9cbc3f89b5c6afe3403a96117ede325485f2db9de735d9f5059",
 };
 
 const response = (body, status = 200) =>
@@ -85,12 +85,12 @@ test("keeps protected A1 and A2 source content unchanged across line endings", (
 test("builds a partial baseline from A1, A2, and reference-only lexemes", () => {
   const report = buildVocabularyCoverageReport(targets);
   assert.equal(targets.status, "partial_review_required");
-  assert.equal(report.targetEntries, 126);
-  assert.equal(report.activeEntries, 100);
-  assert.equal(report.receptiveEntries, 26);
-  assert.equal(report.curriculumCovered, 100);
-  assert.equal(report.referenceOnlyCovered, 26);
-  assert.equal(report.missingEntries, 2874);
+  assert.equal(report.targetEntries, 132);
+  assert.equal(report.activeEntries, 108);
+  assert.equal(report.receptiveEntries, 24);
+  assert.equal(report.curriculumCovered, 108);
+  assert.equal(report.referenceOnlyCovered, 24);
+  assert.equal(report.missingEntries, 2868);
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "amy"));
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "ben"));
   const iTarget = targets.entries.find((entry) => entry.lexemeId === "i");

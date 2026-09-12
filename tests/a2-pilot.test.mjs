@@ -110,23 +110,23 @@ test("rejects a catalog with an out-of-order advanced prerequisite", () => {
   );
 });
 
-test("loads the A2 pilot as 4 units and 16 lessons", async () => {
+test("loads the A2 pilot as 5 units and 20 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 4);
+  assert.equal(level.units.length, 5);
   assert.equal(
     level.units.flatMap((unit) => unit.lessons).length,
-    16,
+    20,
   );
-  assert.equal(level.rows.length, 95);
+  assert.equal(level.rows.length, 122);
   assert.equal(level.status, "pilot");
 });
 
-test("keeps A2 unit 1 unchanged while adding units 2 through 4", () => {
+test("keeps A2 unit 1 unchanged while adding units 2 through 5", () => {
   const unitOneRows = a2Rows.filter((row) => row.unit_id === "a2-u01");
   assert.equal(unitOneRows.length, 25);
   assert.equal(
@@ -137,11 +137,11 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 4", () => {
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_id))],
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05"],
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_title))],
-    ["昨天與明天", "旅行與交通", "購物與比較", "健康與建議"],
+    ["昨天與明天", "旅行與交通", "購物與比較", "健康與建議", "工作與約會安排"],
   );
   const unitOnePatterns = a2Patterns.patterns.filter((pattern) =>
     pattern.examples.every((example) =>
@@ -180,22 +180,45 @@ test("keeps four ordered lessons per A2 unit and all structural IDs unique", () 
   );
   assert.deepEqual(
     units.map((unit) => unit.lessons.length),
-    [4, 4, 4, 4],
+    [4, 4, 4, 4, 4],
   );
   assert.deepEqual(
     units.map((unit) => unit.number),
-    [1, 2, 3, 4],
+    [1, 2, 3, 4, 5],
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.lesson_id)).size,
-    16,
+    20,
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.sentence_id)).size,
-    16,
+    20,
   );
   const occurrenceIds = a2Rows.map((row) => row.occurrence_id);
   assert.equal(new Set(occurrenceIds).size, occurrenceIds.length);
+});
+
+test("adds the four ordered work and appointment lessons in A2 unit 5", () => {
+  const unitFiveRows = a2Rows.filter((row) => row.unit_id === "a2-u05");
+  assert.equal(unitFiveRows.length, 27);
+  assert.deepEqual(
+    [...new Set(unitFiveRows.map((row) => row.lesson_id))],
+    ["a2-u05-l01", "a2-u05-l02", "a2-u05-l03", "a2-u05-l04"],
+  );
+  assert.deepEqual(
+    [...new Set(unitFiveRows.map((row) => row.sentence))],
+    [
+      "I am meeting my manager at ten tomorrow.",
+      "Can we meet on Tuesday afternoon?",
+      "I have a meeting at three.",
+      "Can we move the meeting to Friday?",
+    ],
+  );
+  assert.ok(
+    unitFiveRows.every(
+      (row) => row.qa_status === "pilot_review_required",
+    ),
+  );
 });
 
 test("maps A2 inflected answers to dictionary-form lexemes", () => {
@@ -227,8 +250,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 4,
-    expectedLessons: 16,
+    expectedUnits: 5,
+    expectedLessons: 20,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -331,7 +354,7 @@ test("validates passage option prerequisites without breaking A1 reading data", 
   );
   assert.equal(a2Report.valid, true, a2Report.errors.join("\n"));
   a2Reading.passages
-    .filter((passage) => /^a2-u0[2-4]-p01$/.test(passage.passageId))
+    .filter((passage) => /^a2-u0[2-5]-p01$/.test(passage.passageId))
     .forEach((passage) => {
       passage.questions.forEach((question) => {
         assert.equal(
@@ -433,7 +456,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
         .map((row) => row.lesson_id),
     ),
   ];
-  assert.equal(newLessonIds.length, 12);
+  assert.equal(newLessonIds.length, 16);
   newLessonIds.forEach((lessonId) => {
     const newLexemes = new Set(
       a2Rows
@@ -451,7 +474,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
   });
 });
 
-test("gives all 12 new lessons recognition, two transfers, and text response", () => {
+test("gives all 16 new lessons recognition, two transfers, and text response", () => {
   const newLessonIds = [
     ...new Set(
       a2Rows
@@ -487,7 +510,7 @@ test("gives all 12 new lessons recognition, two transfers, and text response", (
 test("adds one supported passage per A2 unit", () => {
   assert.deepEqual(
     a2Reading.passages.map((passage) => passage.passageId),
-    ["a2-u01-p01", "a2-u02-p01", "a2-u03-p01", "a2-u04-p01"],
+    ["a2-u01-p01", "a2-u02-p01", "a2-u03-p01", "a2-u04-p01", "a2-u05-p01"],
   );
   a2Reading.passages.forEach((passage) => {
     assert.ok(passage.sentences.length >= 4);
@@ -503,7 +526,29 @@ test("adds one supported passage per A2 unit", () => {
             (question.evidenceSentenceIds?.length ?? 0) >= 2,
         ),
       );
-    });
+  });
+});
+
+test("builds the A2 unit 5 appointment passage with supported comprehension", () => {
+  const passage = a2Reading.passages.find(
+    (entry) => entry.passageId === "a2-u05-p01",
+  );
+  assert.ok(passage);
+  assert.equal(passage.sentences.length, 4);
+  assert.equal(passage.questions.length, 5);
+  assert.deepEqual(
+    passage.sentences.map((entry) => entry.sentence),
+    [
+      "I am meeting my manager at ten tomorrow.",
+      "I have a meeting at three.",
+      "Can we meet on Tuesday afternoon?",
+      "Can we move the meeting to Friday?",
+    ],
+  );
+  assert.deepEqual(
+    passage.questions.map((entry) => entry.correctAnswer),
+    ["My manager.", "At ten tomorrow.", "A meeting.", "Tuesday.", "Friday."],
+  );
 });
 
 test("keeps every newly added A2 row and exercise in pilot QA", () => {

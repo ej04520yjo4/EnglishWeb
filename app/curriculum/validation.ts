@@ -297,6 +297,10 @@ const UNIT_PRESENTATION: Record<string, { description: string; accent: string }>
     description: "描述身體狀況、給予建議，並理解簡單服藥指示。",
     accent: "#5a95db",
   },
+  "a2-u05": {
+    description: "安排工作會面、確認時間，並練習更改約會日期。",
+    accent: "#5a95db",
+  },
 };
 
 export const buildCourseUnitsFromRows = (

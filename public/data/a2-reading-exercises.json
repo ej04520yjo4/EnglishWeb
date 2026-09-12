@@ -681,6 +681,181 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u05-l01",
+      "lessonId": "a2-u05-l01",
+      "sentenceId": "a2-u05-l01-p01-s01",
+      "sentencePatternId": "present-continuous-arrangement",
+      "passageId": "a2-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am meeting my manager at ten tomorrow.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "meet",
+        "my",
+        "manager",
+        "at",
+        "ten",
+        "tomorrow"
+      ],
+      "requiredChunkIds": [
+        "meeting-my-manager",
+        "at-ten-tomorrow"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我明天十點要和主管見面。",
+          "sourceSentenceId": "a2-u05-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我明天十點要去上班。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我今天三點有一個會議。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我星期二下午要和朋友見面。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u05-l02",
+      "lessonId": "a2-u05-l02",
+      "sentenceId": "a2-u05-l02-p01-s01",
+      "sentencePatternId": "can-we-meet-day-time",
+      "passageId": "a2-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Can we meet on Tuesday afternoon?",
+      "requiredLexemeIds": [
+        "can",
+        "we",
+        "meet",
+        "on",
+        "tuesday",
+        "afternoon"
+      ],
+      "requiredChunkIds": [
+        "can-we-meet",
+        "on-tuesday-afternoon"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們可以星期二下午見面嗎？",
+          "sourceSentenceId": "a2-u05-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們可以星期五下午見面嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我明天十點要和主管見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們可以把會議改到星期二嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u05-l03",
+      "lessonId": "a2-u05-l03",
+      "sentenceId": "a2-u05-l03-p01-s01",
+      "sentencePatternId": "have-meeting-at-time",
+      "passageId": "a2-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have a meeting at three.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "a",
+        "meeting",
+        "at",
+        "three"
+      ],
+      "requiredChunkIds": [
+        "have-a-meeting",
+        "at-three"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我三點有一個會議。",
+          "sourceSentenceId": "a2-u05-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我明天三點要看醫生。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我星期二下午要和朋友見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我八點去上班。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u05-l04",
+      "lessonId": "a2-u05-l04",
+      "sentenceId": "a2-u05-l04-p01-s01",
+      "sentencePatternId": "can-move-meeting-to-day",
+      "passageId": "a2-u05-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Can we move the meeting to Friday?",
+      "requiredLexemeIds": [
+        "can",
+        "we",
+        "move",
+        "the",
+        "meeting",
+        "to",
+        "friday"
+      ],
+      "requiredChunkIds": [
+        "move-the-meeting",
+        "to-friday"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們可以把會議改到星期五嗎？",
+          "sourceSentenceId": "a2-u05-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們可以星期五下午見面嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我明天十點要和主管見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我三點有一個會議。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -1927,6 +2102,326 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u05-l01",
+      "lessonId": "a2-u05-l01",
+      "sourceSentenceId": "a2-u05-l01-p01-s01",
+      "sentencePatternId": "present-continuous-arrangement",
+      "passageId": "a2-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我明天十點要和主管見面」的英文句子。",
+      "targetTranslation": "我明天十點要和主管見面。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am meeting my manager at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "manager",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "meeting-my-manager",
+            "at-ten-tomorrow"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am meeting my friend at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "friend",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "at-ten-tomorrow"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I am meeting my wife at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "wife",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "at-ten-tomorrow"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Take this medicine after dinner.",
+          "requiredLexemeIds": [
+            "take",
+            "this",
+            "medicine",
+            "after",
+            "dinner"
+          ],
+          "requiredChunkIds": [
+            "take-this-medicine",
+            "after-dinner"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u05-l02",
+      "lessonId": "a2-u05-l02",
+      "sourceSentenceId": "a2-u05-l02-p01-s01",
+      "sentencePatternId": "can-we-meet-day-time",
+      "passageId": "a2-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們可以星期二下午見面嗎」的英文句子。",
+      "targetTranslation": "我們可以星期二下午見面嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Can we meet on Tuesday afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet",
+            "on-tuesday-afternoon"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Can we meet on Monday afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "monday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Can we meet on Friday afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "friday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I am meeting my manager at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "manager",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "meeting-my-manager",
+            "at-ten-tomorrow"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u05-l03",
+      "lessonId": "a2-u05-l03",
+      "sourceSentenceId": "a2-u05-l03-p01-s01",
+      "sentencePatternId": "have-meeting-at-time",
+      "passageId": "a2-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我三點有一個會議」的英文句子。",
+      "targetTranslation": "我三點有一個會議。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have a meeting at three.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "three"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-three"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have a meeting at seven.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "seven"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-seven"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have a meeting at eight.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "eight"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-eight"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Can we meet on Tuesday afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet",
+            "on-tuesday-afternoon"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u05-l04",
+      "lessonId": "a2-u05-l04",
+      "sourceSentenceId": "a2-u05-l04-p01-s01",
+      "sentencePatternId": "can-move-meeting-to-day",
+      "passageId": "a2-u05-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們可以把會議改到星期五嗎」的英文句子。",
+      "targetTranslation": "我們可以把會議改到星期五嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Can we move the meeting to Friday?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting",
+            "to-friday"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Can we move the meeting to Tuesday?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "tuesday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Can we move the meeting to Monday?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "monday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a meeting at three.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "three"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-three"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -3052,6 +3547,356 @@
           "evidenceSentenceIds": [
             "a2-u04-p01-s01",
             "a2-u04-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u05-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u05-p01-s01",
+          "order": 1,
+          "sentence": "I am meeting my manager at ten tomorrow.",
+          "translation": "我明天十點要和主管見面。",
+          "lessonId": "a2-u05-l04",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "manager",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "meeting-my-manager",
+            "at-ten-tomorrow"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-s02",
+          "order": 2,
+          "sentence": "I have a meeting at three.",
+          "translation": "我三點有一個會議。",
+          "lessonId": "a2-u05-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "three"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-three"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-s03",
+          "order": 3,
+          "sentence": "Can we meet on Tuesday afternoon?",
+          "translation": "我們可以星期二下午見面嗎？",
+          "lessonId": "a2-u05-l04",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet",
+            "on-tuesday-afternoon"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-s04",
+          "order": 4,
+          "sentence": "Can we move the meeting to Friday?",
+          "translation": "我們可以把會議改到星期五嗎？",
+          "lessonId": "a2-u05-l04",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting",
+            "to-friday"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u05-p01-q01",
+          "sourceSentenceId": "a2-u05-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人明天十點要和誰見面？",
+          "options": [
+            "My manager.",
+            "My friend.",
+            "My wife.",
+            "A doctor."
+          ],
+          "optionMetadata": [
+            {
+              "text": "My manager.",
+              "requiredLexemeIds": [
+                "my",
+                "manager"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "My friend.",
+              "requiredLexemeIds": [
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "My wife.",
+              "requiredLexemeIds": [
+                "my",
+                "wife"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A doctor.",
+              "requiredLexemeIds": [
+                "a",
+                "doctor"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "My manager.",
+          "evidenceSentenceIds": [
+            "a2-u05-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-q02",
+          "sourceSentenceId": "a2-u05-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "和主管見面的時間是什麼時候？",
+          "options": [
+            "At ten tomorrow.",
+            "At nine tomorrow.",
+            "At eight tomorrow.",
+            "At seven tomorrow."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At ten tomorrow.",
+              "requiredLexemeIds": [
+                "at",
+                "ten",
+                "tomorrow"
+              ],
+              "requiredChunkIds": [
+                "at-ten-tomorrow"
+              ]
+            },
+            {
+              "text": "At nine tomorrow.",
+              "requiredLexemeIds": [
+                "at",
+                "nine",
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At eight tomorrow.",
+              "requiredLexemeIds": [
+                "at",
+                "eight",
+                "tomorrow"
+              ],
+              "requiredChunkIds": [
+                "at-eight"
+              ]
+            },
+            {
+              "text": "At seven tomorrow.",
+              "requiredLexemeIds": [
+                "at",
+                "seven",
+                "tomorrow"
+              ],
+              "requiredChunkIds": [
+                "at-seven"
+              ]
+            }
+          ],
+          "correctAnswer": "At ten tomorrow.",
+          "evidenceSentenceIds": [
+            "a2-u05-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-q03",
+          "sourceSentenceId": "a2-u05-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "三點安排了什麼？",
+          "options": [
+            "A meeting.",
+            "A train.",
+            "The bus.",
+            "A doctor."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A meeting.",
+              "requiredLexemeIds": [
+                "a",
+                "meeting"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A train.",
+              "requiredLexemeIds": [
+                "a",
+                "train"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The bus.",
+              "requiredLexemeIds": [
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A doctor.",
+              "requiredLexemeIds": [
+                "a",
+                "doctor"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "A meeting.",
+          "evidenceSentenceIds": [
+            "a2-u05-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-q04",
+          "sourceSentenceId": "a2-u05-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "原本提議星期幾下午見面？",
+          "options": [
+            "Tuesday.",
+            "Monday.",
+            "Friday.",
+            "Tomorrow."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Tuesday.",
+              "requiredLexemeIds": [
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Monday.",
+              "requiredLexemeIds": [
+                "monday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Friday.",
+              "requiredLexemeIds": [
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Tuesday.",
+          "evidenceSentenceIds": [
+            "a2-u05-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-p01-q05",
+          "sourceSentenceId": "a2-u05-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "最後想把會議改到哪一天？",
+          "options": [
+            "Friday.",
+            "Tuesday.",
+            "Monday.",
+            "Tomorrow."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Friday.",
+              "requiredLexemeIds": [
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tuesday.",
+              "requiredLexemeIds": [
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Monday.",
+              "requiredLexemeIds": [
+                "monday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Friday.",
+          "evidenceSentenceIds": [
+            "a2-u05-p01-s03",
+            "a2-u05-p01-s04"
           ],
           "qaStatus": "pilot_review_required"
         }

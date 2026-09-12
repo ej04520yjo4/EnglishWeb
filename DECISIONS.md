@@ -305,3 +305,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Full CI runs for pull requests targeting `main` and for pushes to `main`, but not for standalone feature-branch pushes. Workflow concurrency is isolated by pull-request number or ref and cancels only an older run for the same change. Third-party GitHub Actions are pinned to the full commit SHA of a verified stable release. Weekly npm and GitHub Actions Dependabot updates are limited, do not auto-merge, and do not automatically rebase; application dependency upgrades require their own compatibility-tested pull requests. Existing audit findings remain documented rather than becoming a blocking gate before compatible fixes exist.
 
 **Reason:** One required-check run per change avoids duplicate runner work, while an immutable action reference, bounded update queue, and explicit compatibility review reduce supply-chain and upgrade risk without permanently blocking unrelated development.
+
+## ADR-039 - A2 Expands One Reviewed Pilot Unit at a Time
+
+**Status:** Accepted
+
+**Decision:** A2 unit 5「工作與約會安排」is added to the existing A2 CSV and exercise JSON sources as `pilot_review_required`. It contains four lessons and reuses the shared one-word answer, chunk, prerequisite, passage, progress, and sequential-unlock contracts. Units 6–10 remain blueprint-only until unit 5 receives learner and language review.
+
+**Reason:** A small end-to-end unit provides real material to test without bulk-generating the remaining A2 route or weakening the existing content and progress safeguards.

@@ -72,6 +72,18 @@ const waitForHome = async (page: Page) => {
   ).toBeVisible();
 };
 
+const openSettings = async (page: Page) => {
+  const settingsButton = page.getByRole("button", {
+    name: "設定",
+    exact: true,
+  });
+  const settingsHeading = page.getByRole("heading", { name: "設定" });
+  await expect(async () => {
+    await settingsButton.click();
+    await expect(settingsHeading).toBeVisible();
+  }).toPass();
+};
+
 const openRelatedVocabulary = async (page: Page) => {
   const relatedNav = page.getByRole("button", {
     name: "前往相關字詞",
@@ -492,7 +504,7 @@ test("persists global vocabulary evidence and includes it in backup import and e
   await expect(page.getByText("A1＋A2總目標")).toBeVisible();
   await expect(page.getByText("3000詞彙清單仍在分批建置")).toBeVisible();
 
-  await page.getByRole("button", { name: "設定" }).click();
+  await openSettings(page);
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "匯出進度備份" }).click();
   const download = await downloadPromise;
@@ -522,8 +534,7 @@ test("persists global vocabulary evidence and includes it in backup import and e
     )
     .toBe(0);
 
-  await page.getByRole("button", { name: "設定", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "設定" })).toBeVisible();
+  await openSettings(page);
   await page
     .locator('label:has-text("匯入進度備份") input[type="file"]')
     .setInputFiles({

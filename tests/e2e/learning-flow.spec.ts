@@ -945,7 +945,7 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
     });
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("1 / 16", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 / 20", { exact: true })).toBeVisible();
   await page.getByRole("button", {
     name: "前往課程地圖",
     exact: true,
@@ -1072,9 +1072,13 @@ test("keeps formal A2 units sequential while QA preview exposes all pilot units"
   const healthLesson = page.getByRole("button", {
     name: /我頭痛/,
   });
+  const workLesson = page.getByRole("button", {
+    name: /明天的工作安排/,
+  });
   await expect(travelLesson).toBeDisabled();
   await expect(shoppingLesson).toBeDisabled();
   await expect(healthLesson).toBeDisabled();
+  await expect(workLesson).toBeDisabled();
 
   await page.evaluate((key) => {
     const value = JSON.parse(localStorage.getItem(key) ?? "{}");
@@ -1122,6 +1126,22 @@ test("keeps formal A2 units sequential while QA preview exposes all pilot units"
   await page.reload();
   await openCurrentA2Map(page);
   await expect(healthLesson).toBeEnabled();
+  await expect(workLesson).toBeDisabled();
+
+  await page.evaluate((key) => {
+    const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+    value.levelProgress.A2.completedLessonIds.push(
+      "a2-u04-l01",
+      "a2-u04-l02",
+      "a2-u04-l03",
+      "a2-u04-l04",
+    );
+    value.levelProgress.A2.passedUnitIds.push("a2-u04");
+    localStorage.setItem(key, JSON.stringify(value));
+  }, progressKey);
+  await page.reload();
+  await openCurrentA2Map(page);
+  await expect(workLesson).toBeEnabled();
 
   await page.evaluate((key) => {
     const value = JSON.parse(localStorage.getItem(key) ?? "{}");
@@ -1130,7 +1150,8 @@ test("keeps formal A2 units sequential while QA preview exposes all pilot units"
   }, progressKey);
   await page.reload();
   await openCurrentA2Map(page);
-  await expect(healthLesson).toBeDisabled();
+  await expect(healthLesson).toBeEnabled();
+  await expect(workLesson).toBeDisabled();
 
   await page.getByRole("button", { name: "設定" }).click();
   await page.locator('[data-testid="a2-pilot-toggle"]').check();
@@ -1138,13 +1159,14 @@ test("keeps formal A2 units sequential while QA preview exposes all pilot units"
   await expect(
     healthLesson,
   ).toBeEnabled();
+  await expect(workLesson).toBeEnabled();
   await expectNoHorizontalOverflow(page);
 });
 
-test("completes all 12 new A2 lessons and three new passages", async ({
+test("completes all 16 new A2 lessons and four new passages", async ({
   page,
 }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(240_000);
   await seedA2Pilot(page);
   const lessons = [
     {
@@ -1261,6 +1283,45 @@ test("completes all 12 new A2 lessons and three new passages", async ({
       ],
       questions: 5,
     },
+    {
+      title: "明天的工作安排",
+      recall: ["I", "am", "meeting", "my", "manager", "at", "ten", "tomorrow"],
+      transfers: [
+        "I am meeting my friend at ten tomorrow.",
+        "I am meeting my wife at ten tomorrow.",
+      ],
+    },
+    {
+      title: "確認見面時間",
+      recall: ["Can", "we", "meet", "on", "Tuesday", "afternoon"],
+      transfers: [
+        "Can we meet on Monday afternoon?",
+        "Can we meet on Friday afternoon?",
+      ],
+    },
+    {
+      title: "說明會議時間",
+      recall: ["I", "have", "a", "meeting", "at", "three"],
+      transfers: [
+        "I have a meeting at seven.",
+        "I have a meeting at eight.",
+      ],
+    },
+    {
+      title: "更改會議日期",
+      recall: ["Can", "we", "move", "the", "meeting", "to", "Friday"],
+      transfers: [
+        "Can we move the meeting to Tuesday?",
+        "Can we move the meeting to Monday?",
+      ],
+      passage: [
+        "I am meeting my manager at ten tomorrow.",
+        "I have a meeting at three.",
+        "Can we meet on Tuesday afternoon?",
+        "Can we move the meeting to Friday?",
+      ],
+      questions: 5,
+    },
   ];
 
   for (const lesson of lessons) {
@@ -1296,11 +1357,11 @@ test("completes all 12 new A2 lessons and three new passages", async ({
         };
       }, progressKey),
     )
-    .toEqual({ completed: 12, passages: 3 });
+    .toEqual({ completed: 16, passages: 4 });
 
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("12 / 16", { exact: true })).toBeVisible();
+  await expect(page.getByText("16 / 20", { exact: true })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
@@ -1318,7 +1379,7 @@ test("finishing current A2 pilot content never marks A2 formally passed", async 
     [],
     [],
     "A2",
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05"],
   );
   await page.goto("/");
   await expectLevelHomeReady(page, "A2");

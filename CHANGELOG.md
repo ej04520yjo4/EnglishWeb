@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-09-12 - A2 Work and Appointment Unit
+
+### Added
+
+- Added A2 pilot unit 5「工作與約會安排」with four one-word recall lessons, chunk explanations, reading recognition, two transfer exercises per lesson, and text response practice.
+- Added a four-sentence appointment passage with five supported comprehension questions.
+- Added sequential unlock, desktop/mobile browser coverage, stable-ID validation, and six new curriculum vocabulary targets.
+
+### Preserved
+
+- A1 remains unchanged at 8 units, 32 lessons, and 145 occurrences. A2 unit 1 remains protected by its existing content hashes, and all A2 unit 5 content remains `pilot_review_required`.
+
 ## 2026-09-04 - CI and Repository Maintenance
 
 ### Changed

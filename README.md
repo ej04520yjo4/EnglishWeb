@@ -2,7 +2,7 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 4 單元、16 課、95 個出現位置。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。試行完成不等於正式通過程度。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 5 單元、20 課、122 個出現位置；第五單元練習工作會面與約會安排。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。試行完成不等於正式通過程度。
 
 ## 主要功能
 
@@ -68,7 +68,7 @@ npx tsc --noEmit --incremental false
 - `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
 - `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
 - `docs/b1-b2-curriculum-overview.md`：B1／B2 規模、單元與人工 QA 邊界。
-- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 5–10 只保留規劃，不是正式課程資料。
+- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–5 已有試行資料，單元 6–10 仍只保留規劃。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
 - `docs/a1-a2-vocabulary-3000-plan.md`：3000詞目標、來源、批次審核、計數及熟練規則。

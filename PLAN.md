@@ -48,10 +48,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve unit 1 and review the new travel, shopping, and health pilot units.
-- Verify all 16 lessons, four unit passages, and prerequisite/slot constraints.
+- Preserve units 1–4 and review the new work-and-appointment pilot unit together with the existing travel, shopping, and health units.
+- Verify all 20 lessons, five unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- Keep units 5–10 as blueprint-only planning until units 1–4 are accepted.
+- Keep units 6–10 as blueprint-only planning until the current five-unit pilot is accepted.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -110,9 +110,9 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Track exposure, recognition, clean spelling, and sentence application globally by canonical `lexemeId` in progress schema v6.
 - Require repeated evidence across different study dates before receptive or active mastery.
 - Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
-- The 126-entry identity, CEFR, mastery-target, topic, and source-classification pass is complete; source/license and reference-only human language review remain open.
+- The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. The six curriculum targets added with A2 unit 5 still require that review, and all source/license work remains open.
 - Keep CEFR completion independent from the incomplete vocabulary target until both curriculum and target data pass human review.
-- Expand the target list in small licensed, manually reviewed batches while A2 units 1–4 continue language QA.
+- Expand the target list in small licensed, manually reviewed batches while A2 units 1–5 continue language QA.
 
 ## Milestone Completion Rule
 

@@ -758,6 +758,213 @@ const newPatterns = [
       },
     ],
   }),
+  makePattern({
+    id: "present-continuous-arrangement",
+    lessonId: "a2-u05-l01",
+    template: "I am meeting {person} at ten tomorrow.",
+    slots: [
+      {
+        slotId: "arrangement",
+        role: "已安排的見面",
+        allowedLexemeIds: ["i", "be", "meet"],
+      },
+      {
+        slotId: "person",
+        role: "已學人物",
+        allowedLexemeIds: ["my", "manager", "friend", "wife"],
+      },
+      {
+        slotId: "time",
+        role: "已學時間",
+        allowedLexemeIds: ["at", "ten", "tomorrow"],
+        allowedChunkIds: ["at-ten-tomorrow"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u05-l01-transfer-friend",
+        sentence: "I am meeting my friend at ten tomorrow.",
+        translation: "我明天十點要和朋友見面。",
+        hintKeywords: "我／要和朋友見面／明天十點",
+        skeleton: "I am meeting my ______ at ten tomorrow.",
+        slotValues: [
+          slotValue("arrangement", "I am meeting", ["i", "be", "meet"]),
+          slotValue("person", "my friend", ["my", "friend"]),
+          slotValue("time", "at ten tomorrow", ["at", "ten", "tomorrow"], [
+            "at-ten-tomorrow",
+          ]),
+        ],
+      },
+      {
+        id: "a2-u05-l01-transfer-wife",
+        sentence: "I am meeting my wife at ten tomorrow.",
+        translation: "我明天十點要和太太見面。",
+        hintKeywords: "我／要和太太見面／明天十點",
+        skeleton: "I am meeting my ______ at ten tomorrow.",
+        slotValues: [
+          slotValue("arrangement", "I am meeting", ["i", "be", "meet"]),
+          slotValue("person", "my wife", ["my", "wife"]),
+          slotValue("time", "at ten tomorrow", ["at", "ten", "tomorrow"], [
+            "at-ten-tomorrow",
+          ]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "can-we-meet-day-time",
+    lessonId: "a2-u05-l02",
+    template: "Can we meet on {day} afternoon?",
+    slots: [
+      {
+        slotId: "request",
+        role: "提出共同見面安排",
+        allowedLexemeIds: ["can", "we", "meet"],
+        allowedChunkIds: ["can-we-meet"],
+      },
+      {
+        slotId: "day-time",
+        role: "已學星期與時段",
+        allowedLexemeIds: ["on", "tuesday", "monday", "friday", "afternoon"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u05-l02-transfer-monday",
+        sentence: "Can we meet on Monday afternoon?",
+        translation: "我們可以星期一下午見面嗎？",
+        hintKeywords: "我們可以見面嗎／星期一下午",
+        skeleton: "Can we meet on ______ afternoon?",
+        slotValues: [
+          slotValue("request", "Can we meet", ["can", "we", "meet"], [
+            "can-we-meet",
+          ]),
+          slotValue("day-time", "on Monday afternoon", [
+            "on",
+            "monday",
+            "afternoon",
+          ]),
+        ],
+      },
+      {
+        id: "a2-u05-l02-transfer-friday",
+        sentence: "Can we meet on Friday afternoon?",
+        translation: "我們可以星期五下午見面嗎？",
+        hintKeywords: "我們可以見面嗎／星期五下午",
+        skeleton: "Can we meet on ______ afternoon?",
+        slotValues: [
+          slotValue("request", "Can we meet", ["can", "we", "meet"], [
+            "can-we-meet",
+          ]),
+          slotValue("day-time", "on Friday afternoon", [
+            "on",
+            "friday",
+            "afternoon",
+          ]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "have-meeting-at-time",
+    lessonId: "a2-u05-l03",
+    template: "I have a meeting at {time}.",
+    slots: [
+      {
+        slotId: "schedule",
+        role: "說明已有會議",
+        allowedLexemeIds: ["i", "have", "a", "meeting"],
+        allowedChunkIds: ["have-a-meeting"],
+      },
+      {
+        slotId: "time",
+        role: "已學鐘點",
+        allowedLexemeIds: ["at", "three", "seven", "eight", "ten"],
+        allowedChunkIds: ["at-three", "at-seven", "at-eight"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u05-l03-transfer-seven",
+        sentence: "I have a meeting at seven.",
+        translation: "我七點有一個會議。",
+        hintKeywords: "我／有會議／七點",
+        skeleton: "I have a meeting at ______.",
+        slotValues: [
+          slotValue("schedule", "I have a meeting", ["i", "have", "a", "meeting"], [
+            "have-a-meeting",
+          ]),
+          slotValue("time", "at seven", ["at", "seven"], ["at-seven"]),
+        ],
+      },
+      {
+        id: "a2-u05-l03-transfer-eight",
+        sentence: "I have a meeting at eight.",
+        translation: "我八點有一個會議。",
+        hintKeywords: "我／有會議／八點",
+        skeleton: "I have a meeting at ______.",
+        slotValues: [
+          slotValue("schedule", "I have a meeting", ["i", "have", "a", "meeting"], [
+            "have-a-meeting",
+          ]),
+          slotValue("time", "at eight", ["at", "eight"], ["at-eight"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "can-move-meeting-to-day",
+    lessonId: "a2-u05-l04",
+    template: "Can we move the meeting to {day}?",
+    slots: [
+      {
+        slotId: "request",
+        role: "共同提出改約",
+        allowedLexemeIds: ["can", "we"],
+      },
+      {
+        slotId: "event",
+        role: "更改已知會議",
+        allowedLexemeIds: ["move", "the", "meeting"],
+        allowedChunkIds: ["move-the-meeting"],
+      },
+      {
+        slotId: "new-day",
+        role: "新的星期",
+        allowedLexemeIds: ["to", "friday", "tuesday", "monday"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u05-l04-transfer-tuesday",
+        sentence: "Can we move the meeting to Tuesday?",
+        translation: "我們可以把會議改到星期二嗎？",
+        hintKeywords: "我們可以／把會議改到／星期二",
+        skeleton: "Can we move the meeting to ______?",
+        slotValues: [
+          slotValue("request", "Can we", ["can", "we"]),
+          slotValue("event", "move the meeting", ["move", "the", "meeting"], [
+            "move-the-meeting",
+          ]),
+          slotValue("new-day", "to Tuesday", ["to", "tuesday"]),
+        ],
+      },
+      {
+        id: "a2-u05-l04-transfer-monday",
+        sentence: "Can we move the meeting to Monday?",
+        translation: "我們可以把會議改到星期一嗎？",
+        hintKeywords: "我們可以／把會議改到／星期一",
+        skeleton: "Can we move the meeting to ______?",
+        slotValues: [
+          slotValue("request", "Can we", ["can", "we"]),
+          slotValue("event", "move the meeting", ["move", "the", "meeting"], [
+            "move-the-meeting",
+          ]),
+          slotValue("new-day", "to Monday", ["to", "monday"]),
+        ],
+      },
+    ],
+  }),
 ];
 
 const recognitionDistractors = {
@@ -773,6 +980,10 @@ const recognitionDistractors = {
   "a2-u04-l02": ["你明天應該看醫生。", "你晚餐後應該服藥。", "你有一點水。"],
   "a2-u04-l03": ["我明天應該多喝水。", "我今天已經看過醫生。", "我明天想去上班。"],
   "a2-u04-l04": ["早餐後服用這個藥。", "晚餐前服用這個藥。", "明天服用這個藥。"],
+  "a2-u05-l01": ["我明天十點要去上班。", "我今天三點有一個會議。", "我星期二下午要和朋友見面。"],
+  "a2-u05-l02": ["我們可以星期五下午見面嗎？", "我明天十點要和主管見面。", "我們可以把會議改到星期二嗎？"],
+  "a2-u05-l03": ["我明天三點要看醫生。", "我星期二下午要和朋友見面。", "我八點去上班。"],
+  "a2-u05-l04": ["我們可以星期五下午見面嗎？", "我明天十點要和主管見面。", "我三點有一個會議。"],
 };
 
 const newLessonIds = [
@@ -788,6 +999,10 @@ const newLessonIds = [
   "a2-u04-l02",
   "a2-u04-l03",
   "a2-u04-l04",
+  "a2-u05-l01",
+  "a2-u05-l02",
+  "a2-u05-l03",
+  "a2-u05-l04",
 ];
 
 const recognition = newLessonIds.map((lessonId) => {
@@ -846,6 +1061,10 @@ const previousLesson = {
   "a2-u04-l02": "a2-u04-l01",
   "a2-u04-l03": "a2-u04-l02",
   "a2-u04-l04": "a2-u04-l03",
+  "a2-u05-l01": "a2-u04-l04",
+  "a2-u05-l02": "a2-u05-l01",
+  "a2-u05-l03": "a2-u05-l02",
+  "a2-u05-l04": "a2-u05-l03",
 };
 const patternByLesson = new Map(
   newPatterns.map((pattern) => [
@@ -1262,6 +1481,118 @@ const newPassages = [
         ],
         "A headache.",
         ["a2-u04-p01-s01", "a2-u04-p01-s03"],
+      ),
+    ],
+  },
+  {
+    passageId: "a2-u05-p01",
+    level: "A2",
+    qaStatus,
+    sentences: [
+      passageSentence(
+        "a2-u05-p01-s01",
+        1,
+        "I am meeting my manager at ten tomorrow.",
+        "我明天十點要和主管見面。",
+        "a2-u05-l04",
+        ["i", "be", "meet", "my", "manager", "at", "ten", "tomorrow"],
+        ["meeting-my-manager", "at-ten-tomorrow"],
+      ),
+      passageSentence(
+        "a2-u05-p01-s02",
+        2,
+        "I have a meeting at three.",
+        "我三點有一個會議。",
+        "a2-u05-l04",
+        ["i", "have", "a", "meeting", "at", "three"],
+        ["have-a-meeting", "at-three"],
+      ),
+      passageSentence(
+        "a2-u05-p01-s03",
+        3,
+        "Can we meet on Tuesday afternoon?",
+        "我們可以星期二下午見面嗎？",
+        "a2-u05-l04",
+        ["can", "we", "meet", "on", "tuesday", "afternoon"],
+        ["can-we-meet", "on-tuesday-afternoon"],
+      ),
+      passageSentence(
+        "a2-u05-p01-s04",
+        4,
+        "Can we move the meeting to Friday?",
+        "我們可以把會議改到星期五嗎？",
+        "a2-u05-l04",
+        ["can", "we", "move", "the", "meeting", "to", "friday"],
+        ["move-the-meeting", "to-friday"],
+      ),
+    ],
+    questions: [
+      passageQuestion(
+        "a2-u05-p01-q01",
+        "a2-u05-p01-s01",
+        "這個人明天十點要和誰見面？",
+        [
+          passageOption("My manager.", ["my", "manager"]),
+          passageOption("My friend.", ["my", "friend"]),
+          passageOption("My wife.", ["my", "wife"]),
+          passageOption("A doctor.", ["a", "doctor"]),
+        ],
+        "My manager.",
+      ),
+      passageQuestion(
+        "a2-u05-p01-q02",
+        "a2-u05-p01-s01",
+        "和主管見面的時間是什麼時候？",
+        [
+          passageOption("At ten tomorrow.", ["at", "ten", "tomorrow"], [
+            "at-ten-tomorrow",
+          ]),
+          passageOption("At nine tomorrow.", ["at", "nine", "tomorrow"]),
+          passageOption("At eight tomorrow.", ["at", "eight", "tomorrow"], [
+            "at-eight",
+          ]),
+          passageOption("At seven tomorrow.", ["at", "seven", "tomorrow"], [
+            "at-seven",
+          ]),
+        ],
+        "At ten tomorrow.",
+      ),
+      passageQuestion(
+        "a2-u05-p01-q03",
+        "a2-u05-p01-s02",
+        "三點安排了什麼？",
+        [
+          passageOption("A meeting.", ["a", "meeting"]),
+          passageOption("A train.", ["a", "train"]),
+          passageOption("The bus.", ["the", "bus"]),
+          passageOption("A doctor.", ["a", "doctor"]),
+        ],
+        "A meeting.",
+      ),
+      passageQuestion(
+        "a2-u05-p01-q04",
+        "a2-u05-p01-s03",
+        "原本提議星期幾下午見面？",
+        [
+          passageOption("Tuesday.", ["tuesday"]),
+          passageOption("Monday.", ["monday"]),
+          passageOption("Friday.", ["friday"]),
+          passageOption("Tomorrow.", ["tomorrow"]),
+        ],
+        "Tuesday.",
+      ),
+      passageQuestion(
+        "a2-u05-p01-q05",
+        "a2-u05-p01-s04",
+        "最後想把會議改到哪一天？",
+        [
+          passageOption("Friday.", ["friday"]),
+          passageOption("Tuesday.", ["tuesday"]),
+          passageOption("Monday.", ["monday"]),
+          passageOption("Tomorrow.", ["tomorrow"]),
+        ],
+        "Friday.",
+        ["a2-u05-p01-s03", "a2-u05-p01-s04"],
       ),
     ],
   },
