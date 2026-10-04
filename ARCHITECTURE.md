@@ -77,6 +77,8 @@ These layers are additive and must not be collapsed into one input model.
 
 Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
 
+Resolved cards have normalized, deduplicated `searchAliases` derived from occurrence answers/lemmas/prompts, formal and configured chunk text/translations, and optional validated group-item aliases. `withVocabularySearchAliases()` adds matching rows from the already validated, ready A2 dataset to a pure search projection; it never promotes a reference card, replaces A1 source fields, or changes progress. A2 loading failure removes only those supplemental aliases. Disabled B1/B2 sources are never fetched for search.
+
 A2 uses one CSV and two exercise JSON files for all five pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
 
 The 3000 goal counts canonical single-word lexemes only. The current partial baseline contains every A1/A2 curriculum lexeme plus unique reference-only lexemes. Word forms, occurrences, senses, and chunks are reported separately. The baseline does not imply that the full 3000 list exists.

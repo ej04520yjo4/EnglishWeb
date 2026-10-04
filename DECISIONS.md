@@ -321,3 +321,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Add narrowly scoped executable checks for documented lemma/POS mistakes, shared sentence/chunk metadata, and passage-option prerequisites derived from both CSV and custom sentences. Preserve the one-word answer model while allowing correct sentence punctuation and compound hyphens. Grading may normalize taught punctuation but must not discard unexpected learner words or characters.
 
 **Reason:** Valid IDs and matching row counts did not catch misleading grammar labels or reading questions. Deterministic regression checks prevent known mistakes from returning, but cannot certify English naturalness, passage coherence, CEFR placement, or human review. B1/B2 therefore remain disabled after editorial repair.
+
+## ADR-041 - Search Aliases Do Not Replace Vocabulary Identity
+
+**Status:** Accepted
+
+**Decision:** Search may match course occurrence answers, lemmas, prompts, chunk English/Chinese, and explicitly curated group-item aliases. The index normalizes case and whitespace and deduplicates values. Ready A2 rows may supplement this index, but canonical labels, occurrences, audio, QA status, source priority, and progress remain unchanged. Group-item aliases use one validated optional field, never word-specific branches in code.
+
+**Reason:** A learner searching `brothers`, `my brother`, or `我的哥哥` should find the canonical `brother` card. Discovery is not proof of learning or permission to promote reference content; an unavailable pilot must not break A1 reference browsing.

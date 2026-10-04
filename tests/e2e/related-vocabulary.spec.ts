@@ -554,6 +554,69 @@ test("persists global vocabulary evidence and includes it in backup import and e
   await expectNoHorizontalOverflow(page);
 });
 
+test("searches occurrence and chunk aliases without changing canonical cards or progress", async ({ page }) => {
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+  const search = page.getByRole("searchbox", {
+    name: "搜尋英文、中文、主題名稱或 lexeme ID",
+  });
+  // A2 aliases arrive asynchronously; finding this chunk confirms the ready projection.
+  await search.fill("last night");
+  await expect(page.getByTestId("vocabulary-word-night")).toBeVisible();
+  await expect.poll(() => page.evaluate((key) => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored).schemaVersion : null;
+  }, progressKey)).toBe(6);
+  const progressBefore = await page.evaluate((key) => localStorage.getItem(key), progressKey);
+
+  for (const query of ["brothers", "my brother", "我的哥哥", "我的弟弟", "  MY   BROTHER  "]) {
+    await search.fill(query);
+    const brother = page.getByTestId("vocabulary-word-brother");
+    await expect(brother.getByRole("heading", { name: "brother", exact: true })).toBeVisible();
+    await expect(brother).not.toContainText("brothers");
+    await expect(page.getByTestId("vocabulary-topic-family-members")).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  }
+  for (const query of ["last night", "昨晚"]) {
+    await search.fill(query);
+    await expect(page.getByTestId("vocabulary-word-night").getByRole("heading", {
+      name: "night", exact: true,
+    })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  }
+  await search.fill("no-such-alias-xyz");
+  await expect(page.getByTestId("vocabulary-global-empty")).toContainText("找不到相關字詞");
+  await expect(page.locator(".vocabulary-topic-detail")).toHaveCount(0);
+  await search.fill("");
+  await expect(page.getByTestId("vocabulary-topic-times-of-day")).toBeVisible();
+  expect(await page.evaluate((key) => localStorage.getItem(key), progressKey)).toBe(progressBefore);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("keeps A1 occurrence and configured chunk aliases available when A2 fails", async ({ page }) => {
+  await page.route("**/data/a2-course-v1.csv", (route) => route.fulfill({
+    status: 503,
+    contentType: "text/plain",
+    body: "simulated A2 source outage",
+  }));
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+  const search = page.getByRole("searchbox", {
+    name: "搜尋英文、中文、主題名稱或 lexeme ID",
+  });
+  for (const query of ["brothers", "my brother", "我的哥哥"]) {
+    await search.fill(query);
+    await expect(page.getByTestId("vocabulary-word-brother")).toBeVisible();
+  }
+  await search.fill("last night");
+  await expect(page.getByTestId("vocabulary-global-empty")).toBeVisible();
+  await page.getByRole("button", { name: "前往首頁" }).click();
+  await expect(page.getByRole("heading", {
+    name: "把英文從「看得懂」練成「寫得出來」",
+  })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
 test("keeps A1 usable when related-vocabulary data fails", async ({
   page,
 }) => {

@@ -386,6 +386,7 @@
           "lexemeId": "brother",
           "order": 5,
           "chunkIds": ["my-brother"],
+          "searchAliases": ["我的哥哥", "我的弟弟"],
           "canonicalTranslationZhTw": "哥哥／弟弟／兄弟"
         },
         { "lexemeId": "sister", "order": 6, "chunkIds": ["my-sister"] },

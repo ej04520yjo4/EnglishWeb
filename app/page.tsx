@@ -118,6 +118,7 @@ import {
   vocabularyItemMatchesSearch,
   vocabularyLearningState,
   vocabularyStatusMatchesFilter,
+  withVocabularySearchAliases,
 } from "./vocabulary-groups";
 import {
   buildVocabularyTargetAliasIndex,
@@ -639,6 +640,15 @@ export default function Home() {
   const [kkAudioMessage, setKkAudioMessage] = useState("");
   const [vocabularyDataset, setVocabularyDataset] =
     useState<VocabularyDataset | null>(null);
+  const searchableVocabularyDataset = useMemo(
+    () => vocabularyDataset
+      ? withVocabularySearchAliases(
+          vocabularyDataset,
+          courseDataStatusByLevel.A2 === "ready" ? courseRowsByLevel.A2 : [],
+        )
+      : null,
+    [vocabularyDataset, courseDataStatusByLevel.A2, courseRowsByLevel.A2],
+  );
   const [vocabularyDataStatus, setVocabularyDataStatus] = useState<
     "loading" | "ready" | "error"
   >("loading");
@@ -4466,7 +4476,7 @@ export default function Home() {
         </section>
       );
     }
-    if (vocabularyDataStatus === "error" || !vocabularyDataset) {
+    if (vocabularyDataStatus === "error" || !vocabularyDataset || !searchableVocabularyDataset) {
       return (
         <section
           className="section-card vocabulary-load-state"
@@ -4509,7 +4519,7 @@ export default function Home() {
       activeGroupId = activeVocabularyGroupId,
     ) =>
       resolveVocabularyGroupSelection(
-        vocabularyDataset.groups,
+        searchableVocabularyDataset.groups,
         activeGroupId,
         (group, item) => itemIsVisible(group, item, query, filter),
       );

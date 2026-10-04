@@ -73,6 +73,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Completed
 
+- [x] **VOCAB-SEARCH-ALIAS-001:** Match occurrence forms, lemmas, prompts, chunk English/Chinese, and curated aliases while preserving canonical display, source fields, progress neutrality, cross-topic selection, and A2 failure isolation.
 - [x] **CURRICULUM-CONSISTENCY-001:** Repair A2 hints/distractors and retained B1/B2 lexical/POS/punctuation/reading issues; add bounded validation, 20 regressions, reproducibility checks, and full runtime regression verification without changing protected content or enabling advanced levels.
 - [x] Eight root project-context files with a required read/update workflow.
 - [x] New-conversation handoff template and milestone boundary rules.

@@ -57,6 +57,8 @@
 
 ## Latest Completed Work
 
+- Committed the previous consistency repairs locally as `20a563d`, `bb9439f`, and `25d3954`; no GitHub push or merge was requested or performed in this follow-up.
+- Added normalized occurrence/chunk search aliases plus generic curated Chinese aliases. `brothers`, `my brother`, `我的哥哥`, and `我的弟弟` find the canonical `brother`; ready A2 aliases make `last night`/`昨晚` find `night`. Canonical/source fields, reference QA, and local progress remain unchanged; A2 failure leaves base A1 search working.
 - Completed a machine-assisted curriculum-consistency repair without adding units, changing A1 data, or enabling B1/B2. A2 article/chunk explanations and one ambiguous shopping distractor were corrected in both generators and generated sources.
 - Corrected 24 B1/B2 be/have lexeme references, contextual POS, proper lemma casing, punctuation, and mismatched transfer constructions. Replaced all 64 generic passage questions with content-specific wording while preserving their question IDs.
 - A final independent read-through prompted another small editorial pass: clarified question/answer alignment and negative travel experience, and replaced an ambiguous passive comparison with `The report was completed earlier than the manager expected.` This is machine-assisted review, not human approval.
@@ -105,11 +107,19 @@
 
 ## Next Concrete Step
 
-The user authorized local commits on 2026-10-04: `20a563d` records the A2 corrections and `bb9439f` records the validation/grading and retained B1/B2 repairs. No push, merge, or deployment was performed. Continue with a bounded related-vocabulary search review, while separately reconciling the untouched D-drive A1 batch and obtaining user trial feedback on A2 unit 5 before adding unit 6.
+Try the improved search and A2 unit 5, then separately reconcile the untouched D-drive A1 batch with this newer checkout before another curriculum expansion. Unit 6 still requires learner/language feedback. Current work stays local: no push, merge, or deployment was performed.
 
 ## Verification
 
-### Current verification (2026-10-04)
+### Search alias follow-up verification (2026-10-04)
+
+- `npm run verify`: exit 0; all nine gates completed, including 174 unit tests (0 failed, 0 skipped), build, lint, and TypeScript.
+- Focused related-vocabulary Playwright: exit 0; 14 passed (7 desktop, 7 mobile), covering canonical labels, Chinese/English aliases, exact progress-storage neutrality, no-result state, no horizontal overflow, and A2 source failure isolation.
+- Full `npm run test:e2e`: exit 0; 92 passed (46 desktop, 46 mobile), 0 failed, in 6.1 minutes. Final strengthened unit assertions were rerun: 174 passed, 0 failed.
+- Independent read-only review found no actionable source-priority, progress-mutation, A2 isolation, or alias-validation regression. Context and whitespace checks passed; no dependency, launcher, or deployment code changed in this follow-up.
+- Formal curriculum/reference data and the 132-entry target file are unchanged from the committed consistency baseline; only the existing topic definition gains two explicit Chinese search aliases.
+
+### Curriculum consistency verification (2026-10-04)
 
 Baseline `npm run verify` passed before changes (150 unit tests). During development, the stronger validators exposed retained B1/B2 metadata defects; old punctuation-sensitive test expectations and one new optional-field fixture were corrected without removing the checks. The final results are:
 

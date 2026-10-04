@@ -20,6 +20,7 @@ import {
   vocabularyItemMatchesSearch,
   vocabularyLearningState,
   vocabularyStatusMatchesFilter,
+  withVocabularySearchAliases,
 } from "../app/vocabulary-groups.ts";
 
 const root = path.resolve(
@@ -394,6 +395,170 @@ test("finds a Traditional Chinese translation", () => {
   assert.equal(
     vocabularyItemMatchesSearch(days, saturday, "星期六"),
     true,
+  );
+});
+
+test("searches occurrence, lemma, prompt, chunk, and configured aliases", () => {
+  const brother = family.items.find((item) => item.lexemeId === "brother");
+  assert.equal(vocabularyItemMatchesSearch(family, brother, "brothers"), true);
+  assert.equal(vocabularyItemMatchesSearch(family, brother, "my brother"), true);
+  assert.equal(vocabularyItemMatchesSearch(family, brother, "我的兄弟"), true);
+  assert.equal(vocabularyItemMatchesSearch(family, brother, "我的哥哥"), true);
+  assert.equal(brother.displayEnglish, "brother");
+  assert.equal(brother.translationZhTw, "哥哥／弟弟／兄弟");
+
+  const night = times.items.find((item) => item.lexemeId === "night");
+  assert.equal(vocabularyItemMatchesSearch(times, night, "at night"), true);
+  assert.equal(vocabularyItemMatchesSearch(times, night, "在晚上"), true);
+});
+
+test("normalizes and deduplicates a generic explicit search alias", () => {
+  const syntheticGroups = structuredClone(groupData);
+  const saturday = syntheticGroups.groups
+    .find((group) => group.id === "days-of-week")
+    .items.find((item) => item.lexemeId === "saturday");
+  saturday.searchAliases = ["  Weekend   Day ", "weekend day", "WEEKEND DAY"];
+  const syntheticDataset = buildVocabularyDataset(
+    syntheticGroups,
+    referenceData,
+    a1Rows,
+  );
+  const resolvedSaturday = syntheticDataset.groups
+    .find((group) => group.id === "days-of-week")
+    .items.find((item) => item.lexemeId === "saturday");
+  assert.equal(
+    resolvedSaturday.searchAliases.filter((alias) => alias === "weekend day")
+      .length,
+    1,
+  );
+  assert.equal(
+    vocabularyItemMatchesSearch(
+      syntheticDataset.groups.find((group) => group.id === "days-of-week"),
+      resolvedSaturday,
+      " WEEKEND   DAY ",
+    ),
+    true,
+  );
+});
+
+test("rejects missing or malformed explicit search aliases", () => {
+  const blankAliasGroups = structuredClone(groupData);
+  blankAliasGroups.groups[0].items[0].searchAliases = [" "];
+  const blankReport = validateVocabularyData(
+    blankAliasGroups,
+    referenceData,
+    a1Rows,
+  );
+  assert.equal(blankReport.valid, false);
+  assert.ok(blankReport.errors.some((error) => error.includes("searchAliases")));
+
+  const scalarAliasGroups = structuredClone(groupData);
+  scalarAliasGroups.groups[0].items[0].searchAliases = "Saturday";
+  const scalarReport = validateVocabularyData(
+    scalarAliasGroups,
+    referenceData,
+    a1Rows,
+  );
+  assert.equal(scalarReport.valid, false);
+  assert.ok(scalarReport.errors.some((error) => error.includes("searchAliases")));
+
+  const invalidEntryGroups = structuredClone(groupData);
+  invalidEntryGroups.groups[0].items[0].searchAliases = ["Saturday", 42, null];
+  const invalidEntryReport = validateVocabularyData(
+    invalidEntryGroups,
+    referenceData,
+    a1Rows,
+  );
+  assert.equal(invalidEntryReport.valid, false);
+  assert.ok(
+    invalidEntryReport.errors.some((error) => error.includes("searchAliases")),
+  );
+});
+
+test("adds matching later-course aliases without changing canonical or reference fields", () => {
+  const before = structuredClone(dataset);
+  const augmented = withVocabularySearchAliases(dataset, [
+    {
+      lexeme_id: "night",
+      answer: "night",
+      lemma: "night",
+      prompt: "晚上",
+      chunk_text: "last night",
+      chunk_translation: "昨晚",
+    },
+    {
+      lexeme_id: "january",
+      answer: "January",
+      lemma: "January",
+      prompt: "一月",
+      chunk_text: "the first month",
+      chunk_translation: "第一個月",
+    },
+    {
+      lexeme_id: "not-in-a-topic",
+      answer: "should not leak",
+      lemma: "should not leak",
+      prompt: "不應出現",
+      chunk_text: "unrelated chunk",
+      chunk_translation: "不相關語塊",
+    },
+  ]);
+  const augmentedTimes = augmented.groups.find(
+    (group) => group.id === "times-of-day",
+  );
+  const augmentedNight = augmentedTimes.items.find(
+    (item) => item.lexemeId === "night",
+  );
+  assert.equal(vocabularyItemMatchesSearch(augmentedTimes, augmentedNight, "last night"), true);
+  assert.equal(vocabularyItemMatchesSearch(augmentedTimes, augmentedNight, "昨晚"), true);
+
+  const augmentedMonths = augmented.groups.find(
+    (group) => group.id === "months-of-year",
+  );
+  const january = augmentedMonths.items.find((item) => item.lexemeId === "january");
+  const originalJanuary = months.items.find((item) => item.lexemeId === "january");
+  assert.equal(january.source, "reference");
+  assert.equal(january.displayEnglish, originalJanuary.displayEnglish);
+  assert.equal(january.translationZhTw, originalJanuary.translationZhTw);
+  assert.equal(january.audioStatus, originalJanuary.audioStatus);
+  assert.deepEqual(january.occurrenceIds, originalJanuary.occurrenceIds);
+  assert.equal(vocabularyItemMatchesSearch(augmentedMonths, january, "the first month"), true);
+
+  const withoutSearchAliases = (item) => {
+    const copy = { ...item };
+    delete copy.searchAliases;
+    return copy;
+  };
+  for (const augmentedGroup of augmented.groups) {
+    const originalGroup = dataset.groups.find(
+      (group) => group.id === augmentedGroup.id,
+    );
+    for (const augmentedItem of augmentedGroup.items) {
+      const originalItem = originalGroup.items.find(
+        (item) => item.lexemeId === augmentedItem.lexemeId,
+      );
+      assert.deepEqual(
+        withoutSearchAliases(augmentedItem),
+        withoutSearchAliases(originalItem),
+        `${augmentedGroup.id}:${augmentedItem.lexemeId}`,
+      );
+    }
+  }
+
+  const selected = resolveVocabularyGroupSelection(
+    augmented.groups,
+    "days-of-week",
+    (group, item) => vocabularyItemMatchesSearch(group, item, "last night"),
+  );
+  assert.equal(selected.activeGroup?.id, "times-of-day");
+  assert.deepEqual(dataset, before);
+  assert.equal(
+    vocabularyItemMatchesSearch(
+      augmented.groups.find((group) => group.id === "family-members"),
+      augmented.groups.find((group) => group.id === "family-members").items[0],
+      "last night",
+    ),
+    false,
   );
 });
 

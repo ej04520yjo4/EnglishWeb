@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Related Vocabulary Search Aliases
+
+### Fixed
+
+- Searching occurrence forms such as `brothers` now finds the canonical `brother` card; configured chunks and Chinese aliases support `my brother`, `我的哥哥`, and `我的弟弟` without changing the card label.
+- Added ready A2 occurrence/chunk aliases so `last night` and `昨晚` find `night`. An A2 source failure leaves A1 and configured aliases usable.
+- Validated generic optional item aliases and kept case/whitespace normalization, cross-topic selection, and the global no-result state.
+
+### Preserved
+
+- No course CSV/JSON, stable curriculum ID, source-priority field, reference QA status, or learning progress is changed by this search update. All four existing topics remain unchanged in scope; B1/B2 remain disabled.
+
 ## 2026-10-04 - Curriculum Consistency and Grading Safeguards
 
 ### Fixed
