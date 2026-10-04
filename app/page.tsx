@@ -388,8 +388,9 @@ const activateButtonOnEnter = (
   event: KeyboardEvent<HTMLButtonElement>,
   action: () => void,
 ) => {
-  if (event.key !== "Enter" || event.repeat) return;
+  if (event.key !== "Enter") return;
   event.preventDefault();
+  if (event.repeat) return;
   action();
 };
 
@@ -706,7 +707,6 @@ export default function Home() {
   const [dailyReviewValue, setDailyReviewValue] = useState("");
   const [dailyReviewFeedback, setDailyReviewFeedback] = useState("");
   const [dailyReviewResultItemId, setDailyReviewResultItemId] = useState("");
-  const dailyReviewInputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const [weaknessPracticeQueue, setWeaknessPracticeQueue] =
     useState<string[]>([]);
   const [weaknessPracticeIndex, setWeaknessPracticeIndex] = useState(0);
@@ -3798,7 +3798,6 @@ export default function Home() {
     setDailyReviewFeedback("");
     setDailyReviewResultItemId("");
     goToDailySessionStep(session);
-    window.setTimeout(() => dailyReviewInputRef.current?.focus(), 0);
   };
 
   const leaveDailyReview = () => {
@@ -6049,7 +6048,7 @@ export default function Home() {
               離開今日學習
             </button>
           </section>
-          <section className="exercise-card recall-card">
+          <section className="exercise-card recall-card" key={item.id}>
             {item.mode === "spelling" && (
               <>
                 <span className="eyebrow">看中文，拼出英文</span>
@@ -6063,9 +6062,6 @@ export default function Home() {
                   你的英文答案
                 </label>
                 <input
-                  ref={(element) => {
-                    dailyReviewInputRef.current = element;
-                  }}
                   id="daily-review-input"
                   className="answer-input"
                   data-testid="daily-review-input"
@@ -6108,7 +6104,7 @@ export default function Home() {
                   {source.answer}
                 </h2>
                 <div className="exercise-choice-list">
-                  {recognitionOptions.map((option) => (
+                  {recognitionOptions.map((option, index) => (
                     <button
                       key={option}
                       className={`exercise-choice ${
@@ -6116,7 +6112,11 @@ export default function Home() {
                       }`}
                       data-testid="daily-review-option"
                       disabled={resultVisible}
+                      autoFocus={index === 0 && !resultVisible}
                       onClick={() => checkDailyReview(option)}
+                      onKeyDown={(event) =>
+                        activateButtonOnEnter(event, () => checkDailyReview(option))
+                      }
                     >
                       {option}
                     </button>
@@ -6137,9 +6137,6 @@ export default function Home() {
                   請輸入完整英文句子
                 </label>
                 <textarea
-                  ref={(element) => {
-                    dailyReviewInputRef.current = element;
-                  }}
                   id="daily-review-input"
                   className="answer-input sentence-input"
                   data-testid="daily-review-input"
@@ -6192,6 +6189,9 @@ export default function Home() {
                 className="primary-button full-button"
                 data-testid="daily-review-check"
                 onClick={() => checkDailyReview()}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, () => checkDailyReview())
+                }
               >
                 檢查答案
               </button>
@@ -6409,7 +6409,7 @@ export default function Home() {
           </div>
           <span className="level-pill">答錯 {weakness.wrongAttempts} 次</span>
         </section>
-        <section className="exercise-card">
+        <section className="exercise-card" key={lexemeId}>
           {weakness.focus === "拼寫" && (
             <>
               <span className="eyebrow">看中文，自己拼出英文</span>
@@ -6425,7 +6425,7 @@ export default function Home() {
                 data-testid="weakness-practice-input"
                 value={weaknessPracticeValue}
                 readOnly={weaknessPracticeChecked}
-                autoFocus
+                autoFocus={!weaknessPracticeChecked}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
@@ -6449,13 +6449,16 @@ export default function Home() {
               <span className="eyebrow">看到英文，辨認課程中的中文意思</span>
               <h2 className="chinese-prompt">{source.answer}</h2>
               <div className="exercise-choice-list">
-                {recognitionOptions.map((option) => (
+                {recognitionOptions.map((option, index) => (
                   <button
                     key={option}
                     className={`exercise-choice ${
                       weaknessPracticeValue === option ? "selected" : ""
                     }`}
                     disabled={weaknessPracticeChecked}
+                    data-testid="weakness-practice-option"
+                    aria-pressed={weaknessPracticeValue === option}
+                    autoFocus={index === 0 && !weaknessPracticeChecked}
                     onClick={() => setWeaknessPracticeValue(option)}
                   >
                     {option}
@@ -6474,7 +6477,7 @@ export default function Home() {
                 rows={3}
                 value={weaknessPracticeValue}
                 readOnly={weaknessPracticeChecked}
-                autoFocus
+                autoFocus={!weaknessPracticeChecked}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
@@ -6508,17 +6511,20 @@ export default function Home() {
             <div className="correct-format">{expected}</div>
           )}
           <button
+            key={weaknessPracticeChecked ? "weakness-next" : "weakness-check"}
             className="primary-button full-button detail-next-button"
             data-testid="weakness-practice-action"
+            autoFocus={weaknessPracticeChecked}
             onClick={
               weaknessPracticeChecked
                 ? continueWeaknessPractice
                 : checkWeaknessPractice
             }
             onKeyDown={(event) =>
-              weaknessPracticeChecked
-                ? activateButtonOnEnter(event, continueWeaknessPractice)
-                : undefined
+              activateButtonOnEnter(
+                event,
+                weaknessPracticeChecked ? continueWeaknessPractice : checkWeaknessPractice,
+              )
             }
             aria-keyshortcuts={weaknessPracticeChecked ? "Enter" : undefined}
           >
@@ -6587,6 +6593,9 @@ export default function Home() {
             className="primary-button full-button detail-next-button"
             data-testid="finish-daily-session"
             onClick={finishDailySession}
+            onKeyDown={(event) => activateButtonOnEnter(event, finishDailySession)}
+            autoFocus
+            aria-keyshortcuts="Enter"
           >
             完成今天的學習
           </button>
