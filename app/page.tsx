@@ -1595,6 +1595,12 @@ export default function Home() {
     : undefined;
   const currentPatternExample =
     selectedPatternExamples[patternExampleIndex];
+  const transferReviewSource = currentPatternExample
+    ? allLessons.find((lesson) =>
+        lesson.sentenceId === currentPatternExample.sourceSentenceId &&
+        lesson.id !== selectedLesson.id,
+      )
+    : undefined;
   const currentPassageQuestion =
     selectedPassageComprehension?.questions[passageQuestionIndex];
   const currentTokenHintLevel =
@@ -5086,6 +5092,13 @@ export default function Home() {
       );
     }
 
+    const activeExerciseQaStatus = stage === "reading-recognition"
+      ? selectedRecognition?.qaStatus
+      : stage === "pattern-transfer"
+        ? currentPatternExample?.qaStatus
+        : stage === "text-response"
+          ? selectedTextResponse?.qaStatus
+          : undefined;
     const stageNumber =
       stage === "recall"
         ? 1
@@ -5122,6 +5135,11 @@ export default function Home() {
           </span>
         </div>
         <div className="stage-progress"><i style={{ width: `${(stageNumber / 7) * 100}%` }} /></div>
+        {selectedLevel === "A1" && activeExerciseQaStatus === "pilot_review_required" && (
+          <p className="exercise-instruction" data-testid="a1-exercise-trial-notice">
+            新增練習試行中，英文與中文內容仍待人工複核。
+          </p>
+        )}
 
         {stage === "recall" && (
           <section className="exercise-card recall-card">
@@ -5579,6 +5597,12 @@ export default function Home() {
             <h1 className="chinese-prompt">
               {currentPatternExample.translation}
             </h1>
+            {transferReviewSource && (
+              <p className="exercise-instruction" data-testid="pattern-review-context">
+                複習已學句型：{selectedTransferPatternName}。參考句：
+                <span lang="en-US">{transferReviewSource.sentence}</span>
+              </p>
+            )}
             <div className="pattern-hint-card">
               <span>
                 提示 Level{" "}
@@ -5613,7 +5637,9 @@ export default function Home() {
               className="field-label"
               htmlFor="pattern-transfer-answer"
             >
-              請使用相同句型輸入完整英文
+              {transferReviewSource
+                ? "請使用上方複習句型輸入完整英文"
+                : "請使用相同句型輸入完整英文"}
             </label>
             <input
               id="pattern-transfer-answer"

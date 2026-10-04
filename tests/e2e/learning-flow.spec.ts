@@ -70,8 +70,11 @@ const seedProgress = async (
     passedUnitIds,
   );
   await page.addInitScript(
-    ({ key, value }) =>
-      localStorage.setItem(key, JSON.stringify(value)),
+    ({ key, value }) => {
+      if (localStorage.getItem(key) === null) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    },
     { key: progressKey, value: progress },
   );
 };
@@ -337,6 +340,7 @@ const openA2Lesson = async (
 const openRecommendedLesson = async (
   page: Page,
   expectedTitle?: string,
+  expectedPatternName?: string,
 ) => {
   await page.goto("/");
   await expect(
@@ -348,6 +352,11 @@ const openRecommendedLesson = async (
   if (expectedTitle) {
     await expect(
       page.getByRole("heading", { name: expectedTitle }),
+    ).toBeVisible();
+  }
+  if (expectedPatternName) {
+    await expect(
+      page.getByText(expectedPatternName, { exact: true }),
     ).toBeVisible();
   }
   await page
@@ -387,25 +396,132 @@ const completeEnhancedStages = async (
   page: Page,
   transferAnswers: string[],
   expectResult = true,
+  {
+    firstWrongTransferAnswer,
+    expectTrialNotice = false,
+    expectNoReviewContext = false,
+    expectedReviewSource,
+    expectedReviewPattern,
+  }: {
+    firstWrongTransferAnswer?: string;
+    expectTrialNotice?: boolean;
+    expectNoReviewContext?: boolean;
+    expectedReviewSource?: string;
+    expectedReviewPattern?: string;
+  } = {},
 ) => {
+  const trialNotice = page.getByTestId("a1-exercise-trial-notice");
+  const reviewContext = page.getByTestId("pattern-review-context");
+  const assertTrialNotice = async () => {
+    if (expectTrialNotice) {
+      await expect(trialNotice).toBeVisible();
+    }
+  };
+  const assertReviewContext = async () => {
+    if (expectedReviewSource || expectedReviewPattern) {
+      await expect(reviewContext).toBeVisible();
+      if (expectedReviewSource) {
+        await expect(
+          reviewContext.locator('span[lang="en-US"]'),
+        ).toHaveText(expectedReviewSource);
+      }
+      if (expectedReviewPattern) {
+        await expect(reviewContext).toContainText(
+          `複習已學句型：${expectedReviewPattern}`,
+        );
+      }
+      await expect(
+        page.getByLabel("請使用上方複習句型輸入完整英文", { exact: true }),
+      ).toBeVisible();
+    } else if (expectNoReviewContext) {
+      await expect(reviewContext).toHaveCount(0);
+      await expect(
+        page.getByLabel("請使用相同句型輸入完整英文", { exact: true }),
+      ).toBeVisible();
+    }
+  };
+
+  await assertTrialNotice();
   await page.locator("#recognition-option-correct").click();
   await page.locator("#recognition-check-button").click();
   await page.locator("#recognition-next-button").click();
+  await assertTrialNotice();
+  await assertReviewContext();
 
   const transfer = page.locator("#pattern-transfer-answer");
-  for (const answer of transferAnswers) {
+  for (const [index, answer] of transferAnswers.entries()) {
+    if (index === 0 && firstWrongTransferAnswer) {
+      await expect(transfer).toBeFocused();
+      await transfer.fill(firstWrongTransferAnswer);
+      await transfer.press("Enter");
+      await expect(
+        page.getByText(/第 1 次尚未正確/, { exact: true }),
+      ).toBeVisible();
+    }
     await expect(transfer).toBeFocused();
     await transfer.fill(answer);
     await transfer.press("Enter");
-    await page.locator("#pattern-transfer-next-button").click();
+    const nextButton = page.locator("#pattern-transfer-next-button");
+    await expect(nextButton).toBeVisible();
+    await nextButton.press("Enter");
+    await assertTrialNotice();
+    if (index < transferAnswers.length - 1) {
+      await assertReviewContext();
+    }
   }
 
+  await assertTrialNotice();
   await page.locator("#text-response-option-correct").click();
   await page.locator("#text-response-check-button").click();
   await page.locator("#text-response-next-button").click();
   if (expectResult) {
     await expect(page.locator("#lesson-result-next")).toBeVisible();
   }
+};
+
+const expectPersistedA1Lesson = async (
+  page: Page,
+  {
+    lessonId,
+    completedCount,
+    transferPatternId,
+    transferCount,
+    attemptCount = transferCount,
+  }: {
+    lessonId: string;
+    completedCount: number;
+    transferPatternId: string;
+    transferCount: number;
+    attemptCount?: number;
+  },
+) => {
+  const readProgress = () =>
+    page.evaluate(
+      ({ key, lessonId: expectedLessonId, transferPatternId: expectedPatternId }) => {
+        const value = JSON.parse(localStorage.getItem(key) ?? "{}");
+        const completedLessonIds = value.levelProgress?.A1?.completedLessonIds ?? [];
+        const patternStats = value.levelProgress?.A1?.patternStats?.[expectedPatternId];
+        return {
+          completed: completedLessonIds.includes(expectedLessonId),
+          transferAttempts: patternStats?.transferAttempts ?? 0,
+          transferCorrect: patternStats?.transferCorrect ?? 0,
+        };
+      },
+      { key: progressKey, lessonId, transferPatternId },
+    );
+  const expected = {
+    completed: true,
+    transferAttempts: attemptCount,
+    transferCorrect: transferCount,
+  };
+  await expect.poll(readProgress).toEqual(expected);
+
+  await page.reload();
+  await expectLevelHomeReady(page, "A1");
+  await expect(
+    page.getByText(`${completedCount} / 32`, { exact: true }),
+  ).toBeVisible();
+  await expect.poll(readProgress).toEqual(expected);
 };
 
 const completeSpellingDailyReview = async (
@@ -738,6 +854,135 @@ test("completes the be-location second-batch flow", async ({
     "The store is on the left.",
     "The bathroom is near the station.",
   ]);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the name-identification third-batch flow and persists its pattern", async ({
+  page,
+}) => {
+  await seedProgress(page, ["a1-u1-l1"], []);
+  await openRecommendedLesson(page, "我的名字", "介紹姓名");
+  await answerRecallTokens(page, ["My", "name", "is", "Ben"]);
+  await submitRebuild(page, ["My", "name", "is", "Ben"]);
+  await completeEnhancedStages(
+    page,
+    ["My name is Amy."],
+    true,
+    { expectTrialNotice: true, expectNoReviewContext: true },
+  );
+  await expectPersistedA1Lesson(page, {
+    lessonId: "a1-u1-l2",
+    completedCount: 2,
+    transferPatternId: "name-identification",
+    transferCount: 1,
+  });
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the demonstrative-identification third-batch flow and persists its pattern", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [...lessonsThroughUnit(1), "a1-u2-l1", "a1-u2-l2"],
+    ["a1-u1"],
+  );
+  await openRecommendedLesson(
+    page,
+    "那是我的包包",
+    "This／That + be + 名詞",
+  );
+  await answerRecallTokens(page, ["That", "is", "my", "bag"]);
+  await submitRebuild(page, ["That", "is", "my", "bag"]);
+  await completeEnhancedStages(
+    page,
+    ["That is a book.", "This is my bag."],
+    true,
+    {
+      expectTrialNotice: true,
+      expectedReviewSource: "This is a book.",
+      expectedReviewPattern: "This／That + be + 名詞",
+    },
+  );
+  await expectPersistedA1Lesson(page, {
+    lessonId: "a1-u2-l3",
+    completedCount: 7,
+    transferPatternId: "demonstrative-identification",
+    transferCount: 2,
+  });
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the be-identification review-mode third-batch flow and persists its pattern", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [...lessonsThroughUnit(2), "a1-u3-l1", "a1-u3-l2"],
+    ["a1-u1", "a1-u2"],
+  );
+  await openRecommendedLesson(page, "我有兩個兄弟", "have 表示擁有");
+  await answerRecallTokens(page, ["I", "have", "two", "brothers"]);
+  await submitRebuild(page, ["I", "have", "two", "brothers"]);
+  await completeEnhancedStages(
+    page,
+    ["He is Ben.", "She is Amy."],
+    true,
+    {
+      firstWrongTransferAnswer: "He is Amy.",
+      expectTrialNotice: true,
+      expectedReviewSource: "I am Amy.",
+      expectedReviewPattern: "主詞 + be + 身分／名稱",
+    },
+  );
+  await expect(
+    page.getByText("句型：主詞 + be + 身分／名稱", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("句型：have 表示擁有", { exact: true }),
+  ).toHaveCount(0);
+  await expectPersistedA1Lesson(page, {
+    lessonId: "a1-u3-l3",
+    completedCount: 11,
+    transferPatternId: "be-identification",
+    transferCount: 2,
+    attemptCount: 3,
+  });
+  await expectNoHorizontalOverflow(page);
+});
+
+test("completes the go-to-place review third-batch flow and persists its pattern", async ({
+  page,
+}) => {
+  await seedProgress(
+    page,
+    [
+      ...lessonsThroughUnit(6),
+      "a1-u7-l1",
+      "a1-u7-l2",
+      "a1-u7-l3",
+    ],
+    ["a1-u1", "a1-u2", "a1-u3", "a1-u4", "a1-u5", "a1-u6"],
+  );
+  await openRecommendedLesson(page, "搭公車上學", "go to + 地點 + by + 交通工具");
+  await answerRecallTokens(page, ["I", "go", "to", "school", "by", "bus"]);
+  await submitRebuild(page, ["I", "go", "to", "school", "by", "bus"]);
+  await completeEnhancedStages(
+    page,
+    ["I go to school.", "I go to the store."],
+    true,
+    {
+      expectTrialNotice: true,
+      expectedReviewSource: "I go to work.",
+      expectedReviewPattern: "go to + 地點／目的地",
+    },
+  );
+  await expectPersistedA1Lesson(page, {
+    lessonId: "a1-u7-l4",
+    completedCount: 28,
+    transferPatternId: "go-to-place",
+    transferCount: 2,
+  });
   await expectNoHorizontalOverflow(page);
 });
 
