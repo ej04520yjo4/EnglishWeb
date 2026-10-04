@@ -2,6 +2,70 @@
   "schemaVersion": 2,
   "recognition": [
     {
+      "id": "recognition-a1-u1-l2-name-identification",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u1-l2",
+      "sentenceId": "a1-u1-l2-p01-s01",
+      "sentencePatternId": "name-identification",
+      "passageId": "a1-u1-l2-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "My name is Ben.",
+      "requiredLexemeIds": ["my", "name", "be", "ben"],
+      "requiredChunkIds": [],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我的名字是 Ben。",
+          "sourceSentenceId": "a1-u1-l2-p01-s01"
+        },
+        {
+          "id": "amy-name",
+          "text": "我的名字是 Amy。",
+          "requiredLexemeIds": ["my", "name", "be", "amy"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u2-l3-demonstrative-identification",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u2-l3",
+      "sentenceId": "a1-u2-l3-p01-s01",
+      "sentencePatternId": "demonstrative-identification",
+      "passageId": "a1-u2-l3-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "That is my bag.",
+      "requiredLexemeIds": ["that", "be", "my", "bag"],
+      "requiredChunkIds": [],
+      "options": [
+        {
+          "id": "correct",
+          "text": "那是我的包包。",
+          "sourceSentenceId": "a1-u2-l3-p01-s01"
+        },
+        {
+          "id": "book",
+          "text": "這是一本書。",
+          "sourceSentenceId": "a1-u2-l1-p01-s01"
+        },
+        {
+          "id": "pen",
+          "text": "我有一枝筆。",
+          "sourceSentenceId": "a1-u2-l2-p01-s01"
+        },
+        {
+          "id": "this-bag",
+          "text": "這是我的包包。",
+          "requiredLexemeIds": ["this", "be", "my", "bag"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
       "id": "recognition-a1-u3-l2-be-relationship",
       "lessonId": "a1-u3-l2",
       "sentenceId": "a1-u3-l2-p01-s01",
@@ -32,6 +96,42 @@
           "id": "origin",
           "text": "我來自台灣。",
           "sourceSentenceId": "a1-u1-l4-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u3-l3-be-identification-review",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u3-l3",
+      "sentenceId": "a1-u1-l1-p01-s01",
+      "sentencePatternId": "be-identification",
+      "passageId": "a1-u1-l1-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am Amy.",
+      "requiredLexemeIds": ["i", "be", "amy"],
+      "requiredChunkIds": [],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我是 Amy。",
+          "sourceSentenceId": "a1-u1-l1-p01-s01"
+        },
+        {
+          "id": "wife",
+          "text": "她是我的太太。",
+          "sourceSentenceId": "a1-u3-l1-p01-s01"
+        },
+        {
+          "id": "friend",
+          "text": "他是我的朋友。",
+          "sourceSentenceId": "a1-u3-l2-p01-s01"
+        },
+        {
+          "id": "name",
+          "text": "我的名字是 Ben。",
+          "sourceSentenceId": "a1-u1-l2-p01-s01"
         }
       ],
       "correctOptionId": "correct"
@@ -140,9 +240,111 @@
         }
       ],
       "correctOptionId": "correct"
+    },
+    {
+      "id": "recognition-a1-u7-l4-go-to-place-review",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u7-l4",
+      "sentenceId": "a1-u5-l1-p01-s01",
+      "sentencePatternId": "go-to-place",
+      "passageId": "a1-u5-l1-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I go to work.",
+      "requiredLexemeIds": ["i", "go", "to", "work"],
+      "requiredChunkIds": ["go-to-work"],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我去上班。",
+          "sourceSentenceId": "a1-u5-l1-p01-s01"
+        },
+        {
+          "id": "school-by-bus",
+          "text": "我搭公車上學。",
+          "sourceSentenceId": "a1-u7-l4-p01-s01"
+        },
+        {
+          "id": "store",
+          "text": "商店在車站附近。",
+          "sourceSentenceId": "a1-u7-l2-p01-s01"
+        },
+        {
+          "id": "home",
+          "text": "我在家。",
+          "sourceSentenceId": "a1-u7-l1-p01-s01"
+        }
+      ],
+      "correctOptionId": "correct"
     }
   ],
   "textResponses": [
+    {
+      "id": "response-a1-u1-l2-name-identification",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u1-l2",
+      "sourceSentenceId": "a1-u1-l2-p01-s01",
+      "sentencePatternId": "name-identification",
+      "passageId": "a1-u1-l2-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我的名字是 Amy」的英文句子。",
+      "targetTranslation": "我的名字是 Amy。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "My name is Amy.",
+          "requiredLexemeIds": ["my", "name", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "ben-name",
+          "text": "My name is Ben.",
+          "requiredLexemeIds": ["my", "name", "be", "ben"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u2-l3-demonstrative-identification",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u2-l3",
+      "sourceSentenceId": "a1-u2-l3-p01-s01",
+      "sentencePatternId": "demonstrative-identification",
+      "passageId": "a1-u2-l3-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「這是我的包包」的英文句子。",
+      "targetTranslation": "這是我的包包。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "This is my bag.",
+          "requiredLexemeIds": ["this", "be", "my", "bag"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "that-bag",
+          "text": "That is my bag.",
+          "requiredLexemeIds": ["that", "be", "my", "bag"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "that-book",
+          "text": "That is a book.",
+          "requiredLexemeIds": ["that", "be", "a", "book"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "this-book",
+          "text": "This is a book.",
+          "requiredLexemeIds": ["this", "be", "a", "book"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
     {
       "id": "response-a1-u3-l2-be-relationship",
       "lessonId": "a1-u3-l2",
@@ -176,6 +378,45 @@
           "id": "name",
           "text": "My name is Ben.",
           "requiredLexemeIds": ["my", "name", "be", "ben"],
+          "requiredChunkIds": []
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u3-l3-be-identification-review",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u3-l3",
+      "sourceSentenceId": "a1-u1-l1-p01-s01",
+      "sentencePatternId": "be-identification",
+      "passageId": "a1-u1-l1-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「她是 Amy」的英文句子。",
+      "targetTranslation": "她是 Amy。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "She is Amy.",
+          "requiredLexemeIds": ["she", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "he-ben",
+          "text": "He is Ben.",
+          "requiredLexemeIds": ["he", "be", "ben"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "i-amy",
+          "text": "I am Amy.",
+          "requiredLexemeIds": ["i", "be", "amy"],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "she-wife",
+          "text": "She is my wife.",
+          "requiredLexemeIds": ["she", "be", "my", "wife"],
           "requiredChunkIds": []
         }
       ],
@@ -291,6 +532,45 @@
           "text": "My mother is at home.",
           "requiredLexemeIds": ["my", "mother", "be", "at", "home"],
           "requiredChunkIds": ["at-home"]
+        }
+      ],
+      "correctOptionId": "correct"
+    },
+    {
+      "id": "response-a1-u7-l4-go-to-place-review",
+      "qaStatus": "pilot_review_required",
+      "lessonId": "a1-u7-l4",
+      "sourceSentenceId": "a1-u5-l1-p01-s01",
+      "sentencePatternId": "go-to-place",
+      "passageId": "a1-u5-l1-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我去上學」的英文句子。",
+      "targetTranslation": "我去上學。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I go to school.",
+          "requiredLexemeIds": ["i", "go", "to", "school"],
+          "requiredChunkIds": ["go-to-school"]
+        },
+        {
+          "id": "work",
+          "text": "I go to work.",
+          "requiredLexemeIds": ["i", "go", "to", "work"],
+          "requiredChunkIds": ["go-to-work"]
+        },
+        {
+          "id": "home",
+          "text": "I am at home.",
+          "requiredLexemeIds": ["i", "be", "at", "home"],
+          "requiredChunkIds": ["at-home"]
+        },
+        {
+          "id": "store",
+          "text": "I go to the store.",
+          "requiredLexemeIds": ["i", "go", "to", "the", "store"],
+          "requiredChunkIds": []
         }
       ],
       "correctOptionId": "correct"

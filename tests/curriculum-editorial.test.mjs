@@ -206,12 +206,16 @@ test("pattern coverage separates missing enabled exercises from explicitly defer
   const patterns = JSON.parse(read("a1-pattern-exercises.json"));
   const enabled = patterns.patterns.find((pattern) => pattern.enabledForTransfer);
   const deferred = patterns.patterns.find((pattern) => !pattern.enabledForTransfer);
+  const remainingDeferredIds = patterns.patterns
+    .filter((pattern) => !pattern.enabledForTransfer && pattern.id !== deferred.id)
+    .map((pattern) => pattern.id)
+    .sort();
   enabled.examples = [];
   patterns.patterns = patterns.patterns.filter((pattern) => pattern.id !== deferred.id);
   const result = patternCoverageSummary(patterns, rows.A1);
   assert.deepEqual(result.uncoveredPatternIds, [enabled.id]);
   assert.deepEqual(result.unconfiguredPatternIds, [deferred.id]);
-  assert.equal(result.deferredPatternIds.length, 15);
+  assert.deepEqual(result.deferredPatternIds, remainingDeferredIds);
 });
 
 test("legacy A1 reading and original A2 unit 1 remain valid without option metadata", () => {

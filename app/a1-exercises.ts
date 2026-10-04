@@ -680,6 +680,24 @@ export const validateReadingExerciseData = (
         `${exercise.id} 的選項提前使用 ${earlyDistractor.sourceSentenceId}。`,
       );
     }
+    for (const option of exercise.options) {
+      const earlyOptionLexemes = (
+        option.requiredLexemeIds ?? []
+      ).filter((lexemeId) => !learnedLexemes.has(lexemeId));
+      if (earlyOptionLexemes.length) {
+        errors.push(
+          `${exercise.id}/${option.id} 的選項提前使用 lexeme：${earlyOptionLexemes.join("、")}。`,
+        );
+      }
+      const earlyOptionChunks = (
+        option.requiredChunkIds ?? []
+      ).filter((chunkId) => !learnedChunks.has(chunkId));
+      if (earlyOptionChunks.length) {
+        errors.push(
+          `${exercise.id}/${option.id} 的選項提前使用 chunk：${earlyOptionChunks.join("、")}。`,
+        );
+      }
+    }
   }
 
   for (const exercise of data.textResponses) {

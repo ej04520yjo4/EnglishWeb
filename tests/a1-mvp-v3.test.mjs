@@ -662,6 +662,86 @@ test("keeps reading-recognition distractors unique and different from the answer
   }
 });
 
+test("rejects recognition options that declare unlearned lexemes or chunks", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+
+  const invalidLexeme = structuredClone(reading);
+  invalidLexeme.recognition[0].options[0].requiredLexemeIds = [
+    "not-yet-learned",
+  ];
+  const lexemeReport = validateReadingExerciseData(
+    invalidLexeme,
+    rows,
+    patterns,
+  );
+  assert.equal(lexemeReport.valid, false);
+  assert.ok(
+    lexemeReport.errors.some(
+      (message) =>
+        message.includes("not-yet-learned") &&
+        message.includes("提前使用 lexeme"),
+    ),
+  );
+
+  const invalidChunk = structuredClone(reading);
+  invalidChunk.recognition[0].options[0].requiredChunkIds = [
+    "not-yet-learned-chunk",
+  ];
+  const chunkReport = validateReadingExerciseData(
+    invalidChunk,
+    rows,
+    patterns,
+  );
+  assert.equal(chunkReport.valid, false);
+  assert.ok(
+    chunkReport.errors.some(
+      (message) =>
+        message.includes("not-yet-learned-chunk") &&
+        message.includes("提前使用 chunk"),
+    ),
+  );
+});
+
+test("rejects recognition options with missing or future source sentence IDs", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+
+  const missingSource = structuredClone(reading);
+  missingSource.recognition[0].options[0].sourceSentenceId =
+    "a1-u99-p01-s01";
+  const missingReport = validateReadingExerciseData(
+    missingSource,
+    rows,
+    patterns,
+  );
+  assert.equal(missingReport.valid, false);
+  assert.ok(
+    missingReport.errors.some(
+      (message) =>
+        message.includes("找不到選項來源句") &&
+        message.includes("a1-u99-p01-s01"),
+    ),
+  );
+
+  const futureSource = structuredClone(reading);
+  futureSource.recognition[0].options[0].sourceSentenceId =
+    "a1-u2-l1-p01-s01";
+  const futureReport = validateReadingExerciseData(
+    futureSource,
+    rows,
+    patterns,
+  );
+  assert.equal(futureReport.valid, false);
+  assert.ok(
+    futureReport.errors.some(
+      (message) =>
+        message.includes("選項提前使用") &&
+        message.includes("a1-u2-l1-p01-s01"),
+    ),
+  );
+});
+
 test("covers every enabled CSV sentence pattern with a valid non-source variation", async (t) => {
   const rows = await loadRows();
   const { patterns } = await loadExerciseData();
@@ -684,10 +764,10 @@ test("covers every enabled CSV sentence pattern with a valid non-source variatio
       .every((pattern) => pattern.examples.length >= 1),
   );
   assert.equal(coverage.csvPatternCount, 20);
-  assert.equal(coverage.enabledPatternCount, 4);
-  assert.equal(coverage.exercisedPatternCount, 4);
+  assert.equal(coverage.enabledPatternCount, 8);
+  assert.equal(coverage.exercisedPatternCount, 8);
   assert.equal(coverage.uncoveredPatternIds.length, 0);
-  assert.equal(coverage.deferredPatternIds.length, 16);
+  assert.equal(coverage.deferredPatternIds.length, 12);
   assert.equal(coverage.unconfiguredPatternIds.length, 0);
   t.diagnostic(`CSV句型總數：${coverage.csvPatternCount}`);
   t.diagnostic(`已啟用句型數：${coverage.enabledPatternCount}`);
@@ -786,15 +866,138 @@ test("keeps a1-u3-l2 transfer practice aligned with its be-relationship source",
         example.sentencePatternId === "be-relationship",
     ),
   );
-  assert.equal(identification.enabledForTransfer, false);
-  assert.equal(
-    identification.deferReason,
-    "等待未來單元複習模式使用。",
+  assert.equal(identification.enabledForTransfer, true);
+  assert.equal(identification.examples.length, 2);
+  assert.ok(
+    identification.examples.every(
+      (example) => example.practiceLessonId === "a1-u3-l3",
+    ),
   );
-  assert.deepEqual(identification.examples, []);
   assert.equal(recognition.sentencePatternId, "be-relationship");
   assert.equal(recognition.stem, "He is my friend.");
   assert.equal(response.sentencePatternId, "be-relationship");
+});
+
+test("adds the third trial A1 pattern batch with recognition and response practice", async () => {
+  const rows = await loadRows();
+  const { patterns, reading } = await loadExerciseData();
+  const batch = [
+    ["name-identification", "a1-u1-l2"],
+    ["demonstrative-identification", "a1-u2-l3"],
+    ["be-identification", "a1-u3-l3"],
+    ["go-to-place", "a1-u7-l4"],
+  ];
+
+  for (const [patternId, lessonId] of batch) {
+    const pattern = patterns.patterns.find(
+      (item) => item.id === patternId,
+    );
+    assert.equal(pattern.enabledForTransfer, true);
+    assert.ok(pattern.examples.length >= 1);
+    assert.ok(
+      pattern.examples.every(
+        (example) => example.practiceLessonId === lessonId,
+      ),
+    );
+    assert.ok(
+      reading.recognition.some(
+        (exercise) =>
+          exercise.lessonId === lessonId &&
+          exercise.sentencePatternId === patternId,
+      ),
+    );
+    assert.ok(
+      reading.textResponses.some(
+        (exercise) =>
+          exercise.lessonId === lessonId &&
+          exercise.sentencePatternId === patternId,
+      ),
+    );
+  }
+
+  const patternReport = validatePatternExerciseData(patterns, rows);
+  const readingReport = validateReadingExerciseData(
+    reading,
+    rows,
+    patterns,
+  );
+  assert.equal(patternReport.valid, true, patternReport.errors.join("\n"));
+  assert.equal(readingReport.valid, true, readingReport.errors.join("\n"));
+});
+
+test("keeps the name pattern intentionally narrow while offering two name choices", async () => {
+  const { patterns, reading } = await loadExerciseData();
+  const namePattern = patterns.patterns.find(
+    (pattern) => pattern.id === "name-identification",
+  );
+  const nameExample = namePattern.examples[0];
+  const recognition = reading.recognition.find(
+    (exercise) => exercise.id === "recognition-a1-u1-l2-name-identification",
+  );
+  const response = reading.textResponses.find(
+    (exercise) => exercise.id === "response-a1-u1-l2-name-identification",
+  );
+
+  assert.equal(namePattern.examples.length, 1);
+  assert.equal(nameExample.sentence, "My name is Amy.");
+  assert.equal(recognition.options.length, 2);
+  assert.equal(response.options.length, 2);
+  assert.equal(
+    new Set(response.options.map((option) => option.text)).size,
+    2,
+  );
+});
+
+test("rejects a new batch slot value when a pattern-allowed lexeme is in the wrong slot", async () => {
+  const rows = await loadRows();
+  const { patterns } = await loadExerciseData();
+  const invalid = structuredClone(patterns);
+  const example = invalid.patterns
+    .find((pattern) => pattern.id === "demonstrative-identification")
+    .examples.find(
+      (item) => item.id === "demonstrative-identification-this-bag",
+    );
+  const demonstrative = example.slotValues.find(
+    (value) => value.slotId === "demonstrative",
+  );
+  demonstrative.requiredLexemeIds = ["my"];
+
+  const report = validatePatternExerciseData(invalid, rows);
+  assert.equal(report.valid, false);
+  assert.ok(
+    report.errors.some(
+      (message) =>
+        message.includes("demonstrative") &&
+        message.includes("使用不允許的 lexeme") &&
+        message.includes("my"),
+    ),
+  );
+});
+
+test("keeps every third-batch exercise explicitly pending pilot review", async () => {
+  const { patterns, reading } = await loadExerciseData();
+  const patternIds = new Set([
+    "name-identification",
+    "demonstrative-identification",
+    "be-identification",
+    "go-to-place",
+  ]);
+  const lessonIds = new Set(["a1-u1-l2", "a1-u2-l3", "a1-u3-l3", "a1-u7-l4"]);
+
+  for (const pattern of patterns.patterns.filter((item) => patternIds.has(item.id))) {
+    assert.equal(pattern.qaStatus, "pilot_review_required");
+    assert.ok(
+      pattern.examples.every(
+        (example) => example.qaStatus === "pilot_review_required",
+      ),
+    );
+  }
+  for (const exercise of [
+    ...reading.recognition,
+    ...reading.textResponses,
+  ].filter((item) => lessonIds.has(item.lessonId))) {
+    assert.equal(exercise.qaStatus, "pilot_review_required");
+  }
 });
 
 test("keeps Chinese prompts and English answers consistent in person and meaning", async () => {
