@@ -6,7 +6,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 - [ ] **WORKTREE-RECONCILE-001:** Review this branch and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
   - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
-  - [ ] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
+  - [x] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
+  - [ ] Decide the authoritative day-to-day checkout before synchronizing the preserved D-drive copy; its original 20 pending files have not been overwritten or committed.
+- [ ] **A1-EX-003-QA:** Try the third A1 practice batch and review its English, Taiwan Chinese, difficulty, two-choice name lesson, and explicit source-pattern review context before authorizing the fourth batch.
 - [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 132-entry A1/A2 baseline.
   - [x] Reviewed the original 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity.
   - [ ] Review the six new A2 unit 5 targets: `manager`, `ten`, `we`, `meeting`, `three`, and `move`.
@@ -56,9 +58,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **A2-PLAN-005:** After the unit 6 decision, complete any authorized units 6–10 in separate reviewed batches.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
-- [ ] **A1-EX-003:** Add the third reviewed pattern batch.
+- [x] **A1-EX-003:** Integrate the third pattern batch for explicitly pending-review trial.
   - Patterns: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
-  - Accept when prerequisites, slot allowlists, natural Taiwan Chinese, non-source variations, unit tests, and Playwright flows pass.
+  - Seven transfers use ordered slots; four recognition/four response exercises enforce prerequisites. Automated acceptance is separate from **A1-EX-003-QA** human review.
 - [ ] **AUDIO-001:** Audit all 41 KK recordings against displayed symbols and attribution.
 - [ ] **AUDIO-002:** Define a reproducible open-license word/sentence audio manifest.
 - [ ] **QA-001:** Split high-risk orchestration from `app/page.tsx` only where existing tests protect behavior.

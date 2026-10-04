@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - A1 Third Practice Batch Integration
+
+### Added
+
+- Integrated name introduction, demonstrative identification, be-identification review, and go-to-place review: seven transfers, four recognition exercises, and four text responses. New content remains explicitly pending human review.
+- Added ordered slot values, recognition-option lexeme/chunk prerequisite checks, and browser coverage for completion, actual-pattern scores, keyboard use, and refresh persistence.
+- Show the previous source sentence and actual pattern for review exercises so they are not confused with the current lesson's original pattern.
+
+### Corrected and Preserved
+
+- Kept only two distinct-name choices and one legal transfer in the early name lesson; equivalent identity phrases are not marked wrong to fill extra choices. Replaced an overlapping school-by-bus distractor with being at home.
+- Preserved the original two A1 exercise batches and passage with regression hashes. A1 CSV, all A2/B1/B2 sources, target data, alias behavior, and schema v6 are unchanged. D-drive files were read, not overwritten.
+
 ## 2026-10-04 - Vocabulary Keyboard Access and Verification Reliability
 
 ### Fixed

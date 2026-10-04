@@ -27,7 +27,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - Hierarchy: Level -> Unit -> Lesson -> Stage -> Exercise.
 - A1 v3 contains 8 units, 32 lessons, and 145 word occurrences.
 - Official source: `public/data/a1-course-v3.csv`.
-- Reviewed additions: `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`.
+- Practice additions: `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`; third-batch entries remain `pilot_review_required` despite being enabled for trial.
+- A1 has eight enabled practice patterns and twelve deliberately deferred patterns. Third-batch name practice has one legal Amy/Ben transfer and two distinct-name choices; review-mode exercises display their actual source sentence/pattern without changing the lesson's original pattern or progress identity.
 - Unit 8 passage order:
   1. `I get up at seven.`
   2. `I eat breakfast at home.`

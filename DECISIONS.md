@@ -329,3 +329,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Search may match course occurrence answers, lemmas, prompts, chunk English/Chinese, and explicitly curated group-item aliases. The index normalizes case and whitespace and deduplicates values. Ready A2 rows may supplement this index, but canonical labels, occurrences, audio, QA status, source priority, and progress remain unchanged. Group-item aliases use one validated optional field, never word-specific branches in code.
 
 **Reason:** A learner searching `brothers`, `my brother`, or `我的哥哥` should find the canonical `brother` card. Discovery is not proof of learning or permission to promote reference content; an unavailable pilot must not break A1 reference browsing.
+
+## ADR-042 - A1 Trial Exercises Preserve Meaning and Learning Order
+
+**Status:** Accepted
+
+**Decision:** Integrate the third A1 practice batch as explicitly labeled `pilot_review_required` exercises, not as human-approved content. All seven new transfers declare ordered slot values. The name lesson uses its single legal alternative (Amy versus source Ben) and two distinct-name choices; other lessons retain two transfers and four choices. When the exercise reviews a different source lesson, show its actual pattern and reference sentence and keep scoring under that exercise pattern.
+
+**Reason:** `I am Amy.` and `My name is Amy.` cannot serve as opposing meanings, and adding untaught names merely to increase option counts would break prerequisites. Explicit review context avoids presenting a previous be-pattern as a variation of the current have-pattern. Structural and machine-assisted review permits a bounded trial, not a claim of human approval.

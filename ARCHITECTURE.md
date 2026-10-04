@@ -9,7 +9,7 @@
 ```mermaid
 flowchart LR
   Catalog["course-catalog.json"] --> LevelLoader["curriculum/loader.ts"]
-  A1["A1 v3 CSV + reviewed JSON"] --> Adapter["A1 legacy adapter"]
+  A1["A1 v3 CSV + exercise JSON"] --> Adapter["A1 legacy adapter"]
   A2["A2 v1 CSV + pilot JSON"] --> LevelLoader
   Disabled["B1/B2 retained disabled sources"] --> Audit["Direct data audit only"]
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
@@ -84,6 +84,8 @@ A2 uses one CSV and two exercise JSON files for all five pilot units. B1 and B2 
 The 3000 goal counts canonical single-word lexemes only. The current partial baseline contains every A1/A2 curriculum lexeme plus unique reference-only lexemes. Word forms, occurrences, senses, and chunks are reported separately. The baseline does not imply that the full 3000 list exists.
 
 Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 and retained B1/B2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation derives the latest lesson from both formal CSV passage rows and custom passage sentences, so CSV-only passages cannot bypass prerequisite checks. Declared option chunks must occur in the option text, and text-response option source IDs must exist and be already taught. Original A1 and A2 unit 1 data remain explicit legacy exceptions to required option metadata; their unannotated options are not certified by this prerequisite check. Evidence uses complete word-phrase boundaries rather than substrings; this structural support check does not establish that a question is semantically unambiguous.
+
+Reading-recognition options also validate declared lexeme/chunk prerequisites, including options without a source sentence. Third-batch A1 patterns use existing optional `slotValues` and `qaStatus` fields without changing schema v2 or CSV v3. When a transfer's source belongs to another lesson, the UI identifies it as review and displays that source sentence; trial A1 reading/transfer/response stages show pending-human-review status. Neither display changes progress schema v6 or the course's original sentence-pattern ID.
 
 ## Persistence
 

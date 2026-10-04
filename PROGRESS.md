@@ -5,12 +5,13 @@
 - Updated: 2026-10-04
 - Branch: `codex/curriculum-consistency`
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
-- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files; read-only inventory completed, with no overwrite or integration.
-- Publication: pushed `codex/curriculum-consistency` through `82046f6` on 2026-10-04 and verified the remote SHA. Remote `main` remained `3402e4b`; no merge, pull request, or deployment was performed.
+- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
+- Publication: the previous keyboard/accessibility cycle was pushed through `dc032f2` on 2026-10-04 and remotely verified. This A1 integration is a separate local follow-up; no push, main merge, pull request, or deployment is claimed for it.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
+- A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
 - A2: 5 units, 20 lessons, 122 occurrences
 - Protected source status: A1 remains unchanged; A2 unit 1 remains hash-locked while unit 5 is generated reproducibly as pilot content
 - Progress schema: v6 with top-level global `vocabularyProgress`
@@ -58,6 +59,10 @@
 
 ## Latest Completed Work
 
+- Selectively integrated the D-drive third A1 batch: seven transfers, four reading-recognition exercises, and four text responses at `a1-u1-l2`, `a1-u2-l3`, `a1-u3-l3`, and `a1-u7-l4`. No CSV, stable course ID, A2 unit, vocabulary target, alias implementation, or progress schema changed.
+- Removed synonymous identity distractors from the early name lesson: it has one legitimate transfer and two distinct-name options, not untaught names or artificial wrong answers. The place response uses `I am at home.` instead of an overlapping school-by-bus distractor.
+- Added ordered slots and pending-review metadata to the new exercises, recognition-option prerequisite rejection, and explicit previous-source/pattern review context. A1 trial stages visibly state that human review is still pending.
+- Preserved the first two A1 exercise batches and original Unit 8 passage with independent digest checks; retained all existing advanced/alias safeguards. The D-drive alternative alias code and older A2/target/context snapshots were not copied.
 - Published consistency commits `20a563d`, `bb9439f`, `25d3954`, and search-alias commit `82046f6` on the feature branch at the user's request, without changing `main`.
 - Fixed course-to-related-vocabulary navigation retaining an unrelated search/filter and hiding the current course word. The shortcut now clears those constraints, focuses the matching card after rendering, honors reduced motion, and returns to the exact course stage without adding learning evidence.
 - Added named keyboard-operated word disclosures, linked hidden regions, selected-topic/main-navigation semantics, polite result-count/no-result announcements, and stronger focus indicators. Related-page secondary text is darker; the layout and course data are unchanged. This is a scoped improvement, not a completed accessibility/conformance audit.
@@ -113,9 +118,32 @@
 
 ## Next Concrete Step
 
-Try the improved keyboard/search behavior and A2 unit 5. Next, selectively reconcile the untouched D-drive A1 exercise batch: retain this branch's alias architecture and newer A2 unit 5/132-target state, adapt its prerequisite validator and tests, and rerun the full gate before integration. Never overwrite the D-drive working copy. Unit 6 still requires learner/language feedback; B1/B2 remain disabled. Feature-branch publication is separate from `main` integration and deployment.
+Try the third A1 practice batch and record English/Chinese/difficulty feedback before enabling the fourth batch. Separately decide the authoritative day-to-day checkout before synchronizing D: this integration resides in the newer C-drive feature branch, while all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
 
 ## Verification
+
+### A1 third-batch integration verification (2026-10-04)
+
+- Baseline at `dc032f2`: `npm run verify` exit 0, 175 unit tests. The active checkout was clean; D had 20 unstaged tracked files. Post-integration SHA-256 comparison of all 20 D files matched the initial inventory exactly; none were staged, rewritten, or deleted.
+- First focused browser run: exit 1, 6 passed/2 failed because the new test expected the old `go-to-place` label on the transport lesson's introduction. Corrected the assertion to the actual unchanged CSV grammar (`go to + 地點 + by + 交通工具`), not the product data.
+- First combined unit run: exit 1, 181 passed/1 failed because a deferred-coverage regression fixture retained the old numeric count. It now verifies the exact remaining deferred IDs; the separate 20/8/8/0/12 coverage assertion remains strict.
+- Final focused third-batch browser run: exit 0, 8 passed (4 desktop, 4 mobile). Each completes recall/rebuild/recognition/transfer/response and reloads preserved completion/pattern statistics. The be-review test deliberately gets one transfer wrong and verifies the actual review-pattern label plus 3 attempts/2 correct, not the original lesson's have-pattern.
+
+| Executed final check | Exit | Result |
+|---|---:|---|
+| `npm run verify` | 0 | All nine gates completed |
+| `npm run check:context` | 0 | 10 required context files; rerun after documentation changes |
+| `npm run audit:project` | 0 | 4 levels, 814 occurrences, 12 sources; no orphan/duplicate files |
+| `npm run audit:vocabulary` / `report:vocabulary` | 0 / 0 | 132 targets; 110 A1/A2 union lexemes; no invalid IDs/lemma conflicts |
+| `npm run validate:curriculum` | 0 | A1 8/32/145; A2 5/20/122; retained B1 8/32/249 and B2 8/32/298 |
+| `npm run build` | 0 | Production build succeeded |
+| `npm run test:unit` | 0 | 182 passed, 0 failed, 0 skipped; rerun after the final test-label edit |
+| `npm run lint` / `npm run typecheck` | 0 / 0 | No lint errors/warnings or TypeScript errors |
+| Focused third-batch Playwright | 0 | 8 passed, 0 failed |
+| `npm run test:e2e` | 0 | 102 passed in 5.8 minutes: 51 desktop (1440×900), 51 mobile (375×812); 0 failed, 0 skipped |
+| `git diff --check` | 0 | No whitespace errors |
+
+Only the two A1 exercise JSON files changed in `public/data`; all formal CSVs, A2/B1/B2 JSON, target/reference/topic data, and original A1 exercise records remain protected. The added trials reuse existing schema fields, and no learner-progress migration is involved. Independent machine-assisted content/code reviews found no remaining actionable issue in this batch; human language/difficulty approval remains pending. No dependency update, `npm ci`, launcher scenario rerun, generator replay, GitHub Actions run, push, main merge, or deployment was performed in this follow-up.
 
 ### Keyboard and publication follow-up verification (2026-10-04)
 

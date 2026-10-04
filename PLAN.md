@@ -19,10 +19,12 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M1 - Reviewed A1 Practice Expansion
 
-**Status:** Paused after two reviewed batches
+**Status:** Third batch integrated for trial; human review pending
 
 - Expand transfer practice in small, manually reviewed batches.
-- Next batch: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
+- Third batch: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`; seven transfers plus four recognition/four response exercises remain `pilot_review_required`.
+- The early name lesson intentionally has one transfer and two distinct-name choices; no untaught name or synonymous distractor is added to meet an arbitrary count.
+- Next: trial and review this batch before enabling the fourth batch; 8 of 20 patterns are enabled and 12 remain deliberately deferred.
 - Require learned lexeme/chunk checks, natural Taiwan Chinese, non-source variations, and matching source patterns.
 - Finish when every enabled A1 pattern has validated exercises and browser coverage.
 

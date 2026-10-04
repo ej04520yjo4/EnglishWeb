@@ -11,6 +11,7 @@
 - 相關字詞搜尋支援課程字形與語塊：`brothers`、`my brother`、`我的哥哥` 可找到 `brother`；A2 資料載入後，`last night`／`昨晚` 可找到 `night`。搜尋不會改變學習進度。
 - 單字回想、三層提示、字義與片語說明。
 - 句子重組、閱讀辨識、句型遷移與文章重組。
+- A1 第三批附加練習已供試用：第 1 單元第 2 課、第 2 單元第 3 課、第 3 單元第 3 課、第 7 單元第 4 課。共 7 題換字、4 題閱讀與 4 題文字選答；姓名課使用兩個不同姓名選項。新內容仍待人工複核，複習題會標示來源句與實際句型。
 - KK 音標獨立練習區。
 - 單字、語意、句型、句子與文章層級的本機進度。
 - A1＋A2 canonical lexeme 目標、全站 exposure／recognition／spelling／application 證據與跨日熟練判定。
@@ -63,8 +64,8 @@ npx tsc --noEmit --incremental false
 - `public/data/b1-course-v1.csv`、`public/data/b2-course-v1.csv`：保留但停用的試行資料，只由直接稽核與資料測試讀取。
 - `public/data/course-catalog.json`：各程度的狀態、資料檔與版本目錄。
 - `public/data/vocabulary-targets-v1.json`：A1＋A2 canonical lexeme 目標契約；目前是分批審核中的 partial baseline。
-- `public/data/a1-pattern-exercises.json`：人工審核的句型練習。
-- `public/data/a1-reading-exercises.json`：人工審核的閱讀練習。
+- `public/data/a1-pattern-exercises.json`：A1 句型練習；第三批保留 `pilot_review_required`。
+- `public/data/a1-reading-exercises.json`：A1 閱讀練習；第三批保留 `pilot_review_required`。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
 - `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
 - `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
