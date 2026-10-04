@@ -771,6 +771,8 @@ export default function Home() {
           weaknessPracticeReturnScreen === "daily-summary")),
   );
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
+  const pageContentRef = useRef<HTMLDivElement | null>(null);
+  const pageFocusRouteRef = useRef<string | null>(null);
   const kkAudioRef = useRef<HTMLAudioElement | null>(null);
   const kkPlaybackToken = useRef(0);
   const targetLexemeAliasIndex = useMemo(
@@ -1408,6 +1410,25 @@ export default function Home() {
   }, [screen, vocabularyReturnContext, relatedCurrentLexemeId, vocabularyDataStatus]);
 
   useEffect(() => {
+    const route = `${selectedLevel}:${screen}`;
+    const frame = window.requestAnimationFrame(() => {
+      const content = pageContentRef.current;
+      if (!content) return;
+      const routeChanged = pageFocusRouteRef.current !== route;
+      pageFocusRouteRef.current = route;
+      const active = document.activeElement;
+      // Keep input autofocus and the course-to-vocabulary card shortcut.
+      if (active !== content && content.contains(active)) return;
+      // Late data loading must not steal focus after the learner moves away.
+      if (!routeChanged && active !== content) return;
+      const target = content.querySelector<HTMLElement>("h1") ?? content;
+      target.tabIndex = -1;
+      target.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [screen, selectedLevel, courseDataStatus, vocabularyDataStatus]);
+
+  useEffect(() => {
     let active = true;
     loadVocabularyTargets()
       .then((data) => {
@@ -1603,6 +1624,28 @@ export default function Home() {
     : undefined;
   const currentPassageQuestion =
     selectedPassageComprehension?.questions[passageQuestionIndex];
+  const choiceStageFocusId = screen !== "learning"
+    ? ""
+    : stage === "reading-recognition" && selectedRecognition
+      ? recognitionChecked
+        ? "recognition-next-button"
+        : `recognition-option-${selectedRecognition.options[0]?.id}`
+      : stage === "text-response" && selectedTextResponse
+        ? textResponseChecked
+          ? "text-response-next-button"
+          : `text-response-option-${selectedTextResponse.options[0]?.id}`
+        : stage === "passage-comprehension" && currentPassageQuestion
+          ? passageQuestionChecked
+            ? "passage-question-next-button"
+            : "passage-answer-0"
+          : "";
+  useEffect(() => {
+    if (!choiceStageFocusId) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(choiceStageFocusId)?.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [choiceStageFocusId]);
   const currentTokenHintLevel =
     progress.tokenHintLevels[currentToken.occurrenceId] ?? 1;
   const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
@@ -5548,6 +5591,7 @@ export default function Home() {
                       wrong ? "wrong" : ""
                     }`}
                     disabled={recognitionChecked}
+                    aria-pressed={selected}
                     onClick={() => setRecognitionSelectedId(option.id)}
                   >
                     {option.text}
@@ -5729,6 +5773,7 @@ export default function Home() {
                       wrong ? "wrong" : ""
                     }`}
                     disabled={textResponseChecked}
+                    aria-pressed={selected}
                     onClick={() => setTextResponseSelectedId(option.id)}
                   >
                     {option.text}
@@ -5877,6 +5922,7 @@ export default function Home() {
                         wrong ? "wrong" : ""
                       }`}
                       disabled={passageQuestionChecked}
+                      aria-pressed={selected}
                       onClick={() => setPassageAnswer(option)}
                     >
                       {option}
@@ -6995,6 +7041,16 @@ export default function Home() {
 
   return (
     <div className="app-shell">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          pageContentRef.current?.focus();
+        }}
+      >
+        跳到主要內容
+      </a>
       <aside className="sidebar">
         <button className="brand" onClick={() => setScreen("home")} aria-label="回首頁">
           <span className="brand-mark">E</span>
@@ -7012,11 +7068,26 @@ export default function Home() {
               }
               aria-label={`前往${item.label}`}
               aria-current={screen === item.screen ? "page" : undefined}
+              aria-describedby={item.screen === "review"
+                ? "review-count-description"
+                : item.screen === "weakness" ? "weakness-count-description" : undefined}
             >
-              <span className="nav-icon">{item.icon}</span>{item.label}
-              {item.screen === "review" && dueReviews.length > 0 && <b>{dueReviews.length}</b>}
+              <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
+              {item.screen === "review" && (
+                <>
+                  {dueReviews.length > 0 && <b aria-hidden="true">{dueReviews.length}</b>}
+                  <span id="review-count-description" className="visually-hidden">
+                    {dueReviews.length} 項待複習內容
+                  </span>
+                </>
+              )}
+              {item.screen === "weakness" && (
+                <span id="weakness-count-description" className="visually-hidden">
+                  {vocabularyWeaknesses.length} 個待加強單字
+                </span>
+              )}
               {item.screen === "weakness" && vocabularyWeaknesses.length > 0 && (
-                <b>{vocabularyWeaknesses.length}</b>
+                <b aria-hidden="true">{vocabularyWeaknesses.length}</b>
               )}
             </button>
           ))}
@@ -7046,10 +7117,23 @@ export default function Home() {
                 今日學習進行中
               </button>
             )}
-            <button onClick={() => setScreen("settings")} className={screen === "settings" ? "active" : ""}>設定</button>
+            <button
+              onClick={() => setScreen("settings")}
+              className={screen === "settings" ? "active" : ""}
+              aria-current={screen === "settings" ? "page" : undefined}
+            >設定</button>
           </div>
         </header>
-        <div className="page-content">{renderScreen()}</div>
+        <div
+          className="page-content"
+          id="main-content"
+          ref={pageContentRef}
+          tabIndex={-1}
+          role="region"
+          aria-label="主要內容"
+        >
+          {renderScreen()}
+        </div>
       </main>
       {toast && <div className="toast" role="status">{toast}</div>}
     </div>
