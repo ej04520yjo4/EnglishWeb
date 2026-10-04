@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Build, worker, and browser-test artifacts are not maintained source.
+    "dist/**",
+    ".vinext/**",
+    ".wrangler/**",
+    "playwright-report/**",
+    "test-results/**",
+    "coverage/**",
   ]),
 ]);
 

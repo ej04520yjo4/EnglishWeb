@@ -1,10 +1,4 @@
-const normalizeSentence = (value: string) =>
-  value
-    .trim()
-    .replace(/[’‘]/g, "'")
-    .replace(/[.!?。！？]+$/g, "")
-    .replace(/\s+/g, " ")
-    .toLowerCase();
+import { normalizeSentenceForComparison as normalizeSentence } from "./curriculum/sentence-words.ts";
 
 export const wordAccuracy = (given: string, expected: string) => {
   const actualWords = normalizeSentence(given).split(" ").filter(Boolean);

@@ -220,7 +220,7 @@
           "role": "完整句型變化",
           "allowedLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -246,7 +246,7 @@
           "skeleton": "past continuous with when",
           "requiredLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -259,7 +259,7 @@
               "text": "I was cooking when you called.",
               "requiredLexemeIds": [
                 "i",
-                "was",
+                "be",
                 "cook",
                 "when",
                 "you",
@@ -286,7 +286,7 @@
             "me",
             "when",
             "i",
-            "was",
+            "be",
             "cook"
           ],
           "requiredChunkIds": [],
@@ -300,7 +300,7 @@
                 "me",
                 "when",
                 "i",
-                "was",
+                "be",
                 "cook"
               ],
               "requiredChunkIds": []
@@ -380,7 +380,7 @@
           "sourceSentenceId": "b1-u01-l04-s01",
           "sentencePatternId": "b1-u01-l04-pattern",
           "passageId": "b1-u01-p01",
-          "sentence": "After I arrived I called my friend.",
+          "sentence": "After I arrived, I called my friend.",
           "translation": "我抵達後打電話給朋友。",
           "hintKeywords": "past events with after",
           "skeleton": "past events with after",
@@ -396,7 +396,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "After I arrived I called my friend.",
+              "text": "After I arrived, I called my friend.",
               "requiredLexemeIds": [
                 "after",
                 "i",
@@ -689,30 +689,32 @@
           "sourceSentenceId": "b1-u02-l03-s01",
           "sentencePatternId": "b1-u02-l03-pattern",
           "passageId": "b1-u02-p01",
-          "sentence": "If I finish I will meet you.",
-          "translation": "如果我完成了，我會去見你。",
+          "sentence": "If you finish early, I will meet you.",
+          "translation": "如果你提早完成，我會去見你。",
           "hintKeywords": "first conditional",
           "skeleton": "first conditional",
           "requiredLexemeIds": [
             "if",
-            "i",
+            "you",
             "finish",
+            "early",
+            "i",
             "will",
-            "meet",
-            "you"
+            "meet"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "If I finish I will meet you.",
+              "text": "If you finish early, I will meet you.",
               "requiredLexemeIds": [
                 "if",
-                "i",
+                "you",
                 "finish",
+                "early",
+                "i",
                 "will",
-                "meet",
-                "you"
+                "meet"
               ],
               "requiredChunkIds": []
             }
@@ -1048,7 +1050,7 @@
           "allowedLexemeIds": [
             "although",
             "it",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -1068,14 +1070,14 @@
           "sourceSentenceId": "b1-u03-l03-s01",
           "sentencePatternId": "b1-u03-l03-pattern",
           "passageId": "b1-u03-p01",
-          "sentence": "Although it was difficult I finished the task.",
+          "sentence": "Although it was difficult, I finished the task.",
           "translation": "雖然很困難，我仍完成了任務。",
           "hintKeywords": "although for contrast",
           "skeleton": "although for contrast",
           "requiredLexemeIds": [
             "although",
             "it",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -1086,11 +1088,11 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Although it was difficult I finished the task.",
+              "text": "Although it was difficult, I finished the task.",
               "requiredLexemeIds": [
                 "although",
                 "it",
-                "was",
+                "be",
                 "difficult",
                 "i",
                 "finish",
@@ -1119,7 +1121,7 @@
             "task",
             "although",
             "it",
-            "was",
+            "be",
             "difficult"
           ],
           "requiredChunkIds": [],
@@ -1134,7 +1136,7 @@
                 "task",
                 "although",
                 "it",
-                "was",
+                "be",
                 "difficult"
               ],
               "requiredChunkIds": []
@@ -1162,8 +1164,8 @@
             "option",
             "that",
             "help",
-            "i",
-            "think"
+            "plan",
+            "everyone"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -1216,32 +1218,34 @@
           "sourceSentenceId": "b1-u03-l04-s01",
           "sentencePatternId": "b1-u03-l04-pattern",
           "passageId": "b1-u03-p01",
-          "sentence": "I think we should choose that option.",
-          "translation": "我認為我們應該選擇那個方案。",
+          "sentence": "We should choose the plan that helps everyone.",
+          "translation": "我們應該選擇能幫助大家的計畫。",
           "hintKeywords": "relative clause with that",
           "skeleton": "relative clause with that",
           "requiredLexemeIds": [
-            "i",
-            "think",
             "we",
             "should",
             "choose",
+            "the",
+            "plan",
             "that",
-            "option"
+            "help",
+            "everyone"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "I think we should choose that option.",
+              "text": "We should choose the plan that helps everyone.",
               "requiredLexemeIds": [
-                "i",
-                "think",
                 "we",
                 "should",
                 "choose",
+                "the",
+                "plan",
                 "that",
-                "option"
+                "help",
+                "everyone"
               ],
               "requiredChunkIds": []
             }
@@ -1282,7 +1286,7 @@
           "sourceSentenceId": "b1-u04-l01-s01",
           "sentencePatternId": "b1-u04-l01-pattern",
           "passageId": "b1-u04-p01",
-          "sentence": "Could you explain this again please?",
+          "sentence": "Could you explain this again, please?",
           "translation": "可以請你再說明一次嗎？",
           "hintKeywords": "polite request with could",
           "skeleton": "polite request with could",
@@ -1298,7 +1302,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Could you explain this again please?",
+              "text": "Could you explain this again, please?",
               "requiredLexemeIds": [
                 "could",
                 "you",
@@ -1475,10 +1479,9 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "patient",
-            "i",
-            "think",
+            "friend",
             "very"
           ],
           "allowedChunkIds": [],
@@ -1504,7 +1507,7 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "patient"
           ],
           "requiredChunkIds": [],
@@ -1518,7 +1521,7 @@
                 "who",
                 "help",
                 "me",
-                "was",
+                "be",
                 "patient"
               ],
               "requiredChunkIds": []
@@ -1532,16 +1535,17 @@
           "sourceSentenceId": "b1-u04-l03-s01",
           "sentencePatternId": "b1-u04-l03-pattern",
           "passageId": "b1-u04-p01",
-          "sentence": "I think the colleague was very patient.",
-          "translation": "我認為那位同事非常有耐心。",
+          "sentence": "The friend who helped me was very patient.",
+          "translation": "幫助我的朋友非常有耐心。",
           "hintKeywords": "relative clause with who",
           "skeleton": "relative clause with who",
           "requiredLexemeIds": [
-            "i",
-            "think",
             "the",
-            "colleague",
-            "was",
+            "friend",
+            "who",
+            "help",
+            "me",
+            "be",
             "very",
             "patient"
           ],
@@ -1549,13 +1553,14 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "I think the colleague was very patient.",
+              "text": "The friend who helped me was very patient.",
               "requiredLexemeIds": [
-                "i",
-                "think",
                 "the",
-                "colleague",
-                "was",
+                "friend",
+                "who",
+                "help",
+                "me",
+                "be",
                 "very",
                 "patient"
               ],
@@ -1685,7 +1690,7 @@
           "allowedLexemeIds": [
             "the",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -1714,7 +1719,7 @@
           "requiredLexemeIds": [
             "the",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -1729,7 +1734,7 @@
               "requiredLexemeIds": [
                 "the",
                 "train",
-                "was",
+                "be",
                 "delay",
                 "so",
                 "i",
@@ -1759,7 +1764,7 @@
             "because",
             "my",
             "train",
-            "was",
+            "be",
             "delay"
           ],
           "requiredChunkIds": [],
@@ -1775,7 +1780,7 @@
                 "because",
                 "my",
                 "train",
-                "was",
+                "be",
                 "delay"
               ],
               "requiredChunkIds": []
@@ -1860,7 +1865,7 @@
           "sourceSentenceId": "b1-u05-l02-s01",
           "sentencePatternId": "b1-u05-l02-pattern",
           "passageId": "b1-u05-p01",
-          "sentence": "Tell me where the station is please.",
+          "sentence": "Tell me where the station is, please.",
           "translation": "請告訴我車站在哪裡。",
           "hintKeywords": "indirect question",
           "skeleton": "indirect question",
@@ -1877,7 +1882,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Tell me where the station is please.",
+              "text": "Tell me where the station is, please.",
               "requiredLexemeIds": [
                 "tell",
                 "me",
@@ -2079,7 +2084,7 @@
           "sourceSentenceId": "b1-u05-l04-s01",
           "sentencePatternId": "b1-u05-l04-pattern",
           "passageId": "b1-u05-p01",
-          "sentence": "If the weather improves I will leave early.",
+          "sentence": "If the weather improves, I will leave early.",
           "translation": "如果天氣好轉，我會提早出發。",
           "hintKeywords": "first conditional for travel",
           "skeleton": "first conditional for travel",
@@ -2097,7 +2102,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "If the weather improves I will leave early.",
+              "text": "If the weather improves, I will leave early.",
               "requiredLexemeIds": [
                 "if",
                 "the",
@@ -2133,10 +2138,7 @@
             "to",
             "organize",
             "my",
-            "schedule",
-            "this",
-            "help",
-            "me"
+            "schedule"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -2191,31 +2193,31 @@
           "sourceSentenceId": "b1-u06-l01-s01",
           "sentencePatternId": "b1-u06-l01-pattern",
           "passageId": "b1-u06-p01",
-          "sentence": "This app helps me organize my schedule.",
-          "translation": "這個應用程式幫助我安排行程。",
+          "sentence": "I use my app to organize my schedule.",
+          "translation": "我使用我的應用程式安排自己的行程。",
           "hintKeywords": "use something to plus verb",
           "skeleton": "use something to plus verb",
           "requiredLexemeIds": [
-            "this",
-            "app",
-            "help",
-            "me",
-            "organize",
+            "i",
+            "use",
             "my",
+            "app",
+            "to",
+            "organize",
             "schedule"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "This app helps me organize my schedule.",
+              "text": "I use my app to organize my schedule.",
               "requiredLexemeIds": [
-                "this",
-                "app",
-                "help",
-                "me",
-                "organize",
+                "i",
+                "use",
                 "my",
+                "app",
+                "to",
+                "organize",
                 "schedule"
               ],
               "requiredChunkIds": []
@@ -2238,7 +2240,7 @@
           "allowedLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -2265,7 +2267,7 @@
           "requiredLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -2279,7 +2281,7 @@
               "requiredLexemeIds": [
                 "the",
                 "message",
-                "was",
+                "be",
                 "send",
                 "to",
                 "wrong",
@@ -2304,7 +2306,7 @@
             "the",
             "wrong",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "me"
@@ -2318,7 +2320,7 @@
                 "the",
                 "wrong",
                 "message",
-                "was",
+                "be",
                 "send",
                 "to",
                 "me"
@@ -2549,7 +2551,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "the",
             "birthday",
@@ -2577,7 +2579,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "the",
             "birthday"
@@ -2591,7 +2593,7 @@
                 "i",
                 "apologize",
                 "because",
-                "had",
+                "have",
                 "forget",
                 "the",
                 "birthday"
@@ -2613,7 +2615,7 @@
           "skeleton": "past perfect for an earlier event",
           "requiredLexemeIds": [
             "i",
-            "had",
+            "have",
             "forget",
             "her",
             "birthday",
@@ -2627,7 +2629,7 @@
               "text": "I had forgotten her birthday so I apologized.",
               "requiredLexemeIds": [
                 "i",
-                "had",
+                "have",
                 "forget",
                 "her",
                 "birthday",
@@ -3083,7 +3085,7 @@
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow",
@@ -3112,7 +3114,7 @@
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow",
@@ -3128,7 +3130,7 @@
                 "the",
                 "new",
                 "schedule",
-                "was",
+                "be",
                 "difficult",
                 "to",
                 "follow",
@@ -3146,7 +3148,7 @@
           "sourceSentenceId": "b1-u08-l02-s01",
           "sentencePatternId": "b1-u08-l02-pattern",
           "passageId": "b1-u08-p01",
-          "sentence": "At first it was difficult to follow the schedule.",
+          "sentence": "At first, it was difficult to follow the schedule.",
           "translation": "一開始很難遵循這套作息。",
           "hintKeywords": "adjective plus infinitive",
           "skeleton": "adjective plus infinitive",
@@ -3154,7 +3156,7 @@
             "at",
             "first",
             "it",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow",
@@ -3165,12 +3167,12 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "At first it was difficult to follow the schedule.",
+              "text": "At first, it was difficult to follow the schedule.",
               "requiredLexemeIds": [
                 "at",
                 "first",
                 "it",
-                "was",
+                "be",
                 "difficult",
                 "to",
                 "follow",
@@ -3362,14 +3364,15 @@
           "sourceSentenceId": "b1-u08-l04-s01",
           "sentencePatternId": "b1-u08-l04-pattern",
           "passageId": "b1-u08-p01",
-          "sentence": "Now I feel confident about the results.",
-          "translation": "現在我對成果有信心。",
+          "sentence": "Now, I feel more confident about the results.",
+          "translation": "現在我對成果更有信心。",
           "hintKeywords": "comparative adjective for change",
           "skeleton": "comparative adjective for change",
           "requiredLexemeIds": [
             "now",
             "i",
             "feel",
+            "more",
             "confident",
             "about",
             "the",
@@ -3379,11 +3382,12 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Now I feel confident about the results.",
+              "text": "Now, I feel more confident about the results.",
               "requiredLexemeIds": [
                 "now",
                 "i",
                 "feel",
+                "more",
                 "confident",
                 "about",
                 "the",

@@ -3,9 +3,9 @@
   "patterns": [
     {
       "id": "be-identification",
+      "qaStatus": "pilot_review_required",
       "cefr": "A1",
-      "enabledForTransfer": false,
-      "deferReason": "等待未來單元複習模式使用。",
+      "enabledForTransfer": true,
       "template": "{subject} {be} {name}.",
       "slots": [
         {
@@ -14,21 +14,107 @@
           "allowedLexemeIds": ["i", "he", "she"]
         },
         {
+          "slotId": "be",
+          "role": "be 動詞",
+          "allowedLexemeIds": ["be"]
+        },
+        {
           "slotId": "name",
           "role": "姓名",
           "allowedLexemeIds": ["amy", "ben"]
         }
       ],
-      "examples": []
+      "examples": [
+        {
+          "id": "be-identification-he-ben-review",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u3-l3",
+          "sourceSentenceId": "a1-u1-l1-p01-s01",
+          "sentencePatternId": "be-identification",
+          "passageId": "a1-u1-l1-p01",
+          "sentence": "He is Ben.",
+          "translation": "他是 Ben。",
+          "hintKeywords": "他／Ben",
+          "skeleton": "______ is Ben.",
+          "requiredLexemeIds": ["he", "be", "ben"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "subject", "text": "He", "requiredLexemeIds": ["he"] },
+            { "slotId": "be", "text": "is", "requiredLexemeIds": ["be"] },
+            { "slotId": "name", "text": "Ben", "requiredLexemeIds": ["ben"] }
+          ]
+        },
+        {
+          "id": "be-identification-she-amy-review",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u3-l3",
+          "sourceSentenceId": "a1-u1-l1-p01-s01",
+          "sentencePatternId": "be-identification",
+          "passageId": "a1-u1-l1-p01",
+          "sentence": "She is Amy.",
+          "translation": "她是 Amy。",
+          "hintKeywords": "她／Amy",
+          "skeleton": "______ is Amy.",
+          "requiredLexemeIds": ["she", "be", "amy"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "subject", "text": "She", "requiredLexemeIds": ["she"] },
+            { "slotId": "be", "text": "is", "requiredLexemeIds": ["be"] },
+            { "slotId": "name", "text": "Amy", "requiredLexemeIds": ["amy"] }
+          ]
+        }
+      ]
     },
     {
       "id": "name-identification",
+      "qaStatus": "pilot_review_required",
       "cefr": "A1",
-      "enabledForTransfer": false,
-      "deferReason": "尚未完成下一批人工內容 QA。",
-      "template": "",
-      "slots": [],
-      "examples": []
+      "enabledForTransfer": true,
+      "template": "{possessive} {nameNoun} {be} {name}.",
+      "slots": [
+        {
+          "slotId": "possessive",
+          "role": "所有格",
+          "allowedLexemeIds": ["my"]
+        },
+        {
+          "slotId": "nameNoun",
+          "role": "名字",
+          "allowedLexemeIds": ["name"]
+        },
+        {
+          "slotId": "be",
+          "role": "be 動詞",
+          "allowedLexemeIds": ["be"]
+        },
+        {
+          "slotId": "name",
+          "role": "姓名",
+          "allowedLexemeIds": ["amy", "ben"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "name-identification-amy",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u1-l2",
+          "sourceSentenceId": "a1-u1-l2-p01-s01",
+          "sentencePatternId": "name-identification",
+          "passageId": "a1-u1-l2-p01",
+          "sentence": "My name is Amy.",
+          "translation": "我的名字是 Amy。",
+          "hintKeywords": "我的名字／Amy",
+          "skeleton": "My name is ______.",
+          "requiredLexemeIds": ["my", "name", "be", "amy"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "possessive", "text": "My", "requiredLexemeIds": ["my"] },
+            { "slotId": "nameNoun", "text": "name", "requiredLexemeIds": ["name"] },
+            { "slotId": "be", "text": "is", "requiredLexemeIds": ["be"] },
+            { "slotId": "name", "text": "Amy", "requiredLexemeIds": ["amy"] }
+          ]
+        }
+      ]
     },
     {
       "id": "fixed-social-expression",
@@ -50,12 +136,67 @@
     },
     {
       "id": "demonstrative-identification",
+      "qaStatus": "pilot_review_required",
       "cefr": "A1",
-      "enabledForTransfer": false,
-      "deferReason": "尚未完成下一批人工內容 QA。",
-      "template": "",
-      "slots": [],
-      "examples": []
+      "enabledForTransfer": true,
+      "template": "{demonstrative} {be} {object}.",
+      "slots": [
+        {
+          "slotId": "demonstrative",
+          "role": "指示代名詞",
+          "allowedLexemeIds": ["this", "that"]
+        },
+        {
+          "slotId": "be",
+          "role": "be 動詞",
+          "allowedLexemeIds": ["be"]
+        },
+        {
+          "slotId": "object",
+          "role": "指認的物品",
+          "allowedLexemeIds": ["a", "book", "my", "bag"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "demonstrative-identification-that-book",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u2-l3",
+          "sourceSentenceId": "a1-u2-l1-p01-s01",
+          "sentencePatternId": "demonstrative-identification",
+          "passageId": "a1-u2-l1-p01",
+          "sentence": "That is a book.",
+          "translation": "那是一本書。",
+          "hintKeywords": "那／書",
+          "skeleton": "______ is a book.",
+          "requiredLexemeIds": ["that", "be", "a", "book"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "demonstrative", "text": "That", "requiredLexemeIds": ["that"] },
+            { "slotId": "be", "text": "is", "requiredLexemeIds": ["be"] },
+            { "slotId": "object", "text": "a book", "requiredLexemeIds": ["a", "book"] }
+          ]
+        },
+        {
+          "id": "demonstrative-identification-this-bag",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u2-l3",
+          "sourceSentenceId": "a1-u2-l1-p01-s01",
+          "sentencePatternId": "demonstrative-identification",
+          "passageId": "a1-u2-l1-p01",
+          "sentence": "This is my bag.",
+          "translation": "這是我的包包。",
+          "hintKeywords": "這／我的包包",
+          "skeleton": "This is ______ bag.",
+          "requiredLexemeIds": ["this", "be", "my", "bag"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "demonstrative", "text": "This", "requiredLexemeIds": ["this"] },
+            { "slotId": "be", "text": "is", "requiredLexemeIds": ["be"] },
+            { "slotId": "object", "text": "my bag", "requiredLexemeIds": ["my", "bag"] }
+          ]
+        }
+      ]
     },
     {
       "id": "have-possession",
@@ -251,12 +392,61 @@
     },
     {
       "id": "go-to-place",
+      "qaStatus": "pilot_review_required",
       "cefr": "A1",
-      "enabledForTransfer": false,
-      "deferReason": "尚未完成下一批人工內容 QA。",
-      "template": "",
-      "slots": [],
-      "examples": []
+      "enabledForTransfer": true,
+      "template": "{subject} {destination}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "人物主詞",
+          "allowedLexemeIds": ["i"]
+        },
+        {
+          "slotId": "destination",
+          "role": "前往的地點",
+          "allowedLexemeIds": ["go", "to", "work", "school", "the", "store"],
+          "allowedChunkIds": ["go-to-work", "go-to-school"]
+        }
+      ],
+      "examples": [
+        {
+          "id": "go-to-place-school",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u7-l4",
+          "sourceSentenceId": "a1-u5-l1-p01-s01",
+          "sentencePatternId": "go-to-place",
+          "passageId": "a1-u5-l1-p01",
+          "sentence": "I go to school.",
+          "translation": "我去上學。",
+          "hintKeywords": "我／上學",
+          "skeleton": "I go to ______.",
+          "requiredLexemeIds": ["i", "go", "to", "school"],
+          "requiredChunkIds": ["go-to-school"],
+          "slotValues": [
+            { "slotId": "subject", "text": "I", "requiredLexemeIds": ["i"] },
+            { "slotId": "destination", "text": "go to school", "requiredLexemeIds": ["go", "to", "school"], "requiredChunkIds": ["go-to-school"] }
+          ]
+        },
+        {
+          "id": "go-to-place-store",
+          "qaStatus": "pilot_review_required",
+          "practiceLessonId": "a1-u7-l4",
+          "sourceSentenceId": "a1-u5-l1-p01-s01",
+          "sentencePatternId": "go-to-place",
+          "passageId": "a1-u5-l1-p01",
+          "sentence": "I go to the store.",
+          "translation": "我去商店。",
+          "hintKeywords": "我／商店",
+          "skeleton": "I go to ______ store.",
+          "requiredLexemeIds": ["i", "go", "to", "the", "store"],
+          "requiredChunkIds": [],
+          "slotValues": [
+            { "slotId": "subject", "text": "I", "requiredLexemeIds": ["i"] },
+            { "slotId": "destination", "text": "go to the store", "requiredLexemeIds": ["go", "to", "the", "store"] }
+          ]
+        }
+      ]
     },
     {
       "id": "action-at-time",

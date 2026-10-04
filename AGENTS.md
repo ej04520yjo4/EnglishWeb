@@ -48,7 +48,7 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `public/data/course-catalog.json`: the runtime source registry for A1 through B2.
 - `public/data/vocabulary-targets-v1.json`: reviewed-in-batches A1＋A2 canonical lexeme target contract.
 - `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
-- `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: reviewed practice additions.
+- `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: versioned practice additions; enabled trial entries retain their pending-review status.
 - `tests/`: unit, rendered-content, and Playwright coverage.
 - `docs/`: product specifications, content plans, and context workflow.
 - `scripts/`: development, QA, and launcher utilities.

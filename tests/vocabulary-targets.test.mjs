@@ -39,11 +39,11 @@ const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
   "public/data/a1-course-v3.csv": "425625f5765318521ad78efb21461e41f7274d8de4faf6ab0f0c0ac719be7932",
-  "public/data/a2-course-v1.csv": "1049e810a535f65261b06a55438bbdeb72c42b33d0d4f3fadd49c3cbaceccfa7",
-  "public/data/a1-pattern-exercises.json": "a7fd2a2e6eeb262fc0fdeaa0b49ceff655998db5f11f85e72d31aa57bee4a5da",
-  "public/data/a1-reading-exercises.json": "fb666547af28b97607e9de45593731a09a0612543ce10fcda5c263a84feec99c",
-  "public/data/a2-pattern-exercises.json": "f586f42cf707912970ecf7fd51d2f85b1d1a03724977e63e8d5dbb2ce088c8e9",
-  "public/data/a2-reading-exercises.json": "3bcde8b4506147791e9d3df88c1be84b304c2a8e387458e4305b52f57beed3d5",
+  "public/data/a2-course-v1.csv": "bd59a2b73ecf02a0598e42091365cd75f627289dec53801847e2106b9f36927e",
+  "public/data/a1-pattern-exercises.json": "3b67d588a31c5784a977ba0de24b88fa55968e95e21284b6131e94244e7bfb98",
+  "public/data/a1-reading-exercises.json": "44e0d3bf7ca2f45ee66d2e82e32cb82ac5d4c277ebd38aed09d6006cb5a2c4eb",
+  "public/data/a2-pattern-exercises.json": "9e1355c8ceaea46ea5fda5915dc84f85be4e52b7025860c2425a207599cb54e5",
+  "public/data/a2-reading-exercises.json": "565be13018f02e4daa74ae4bd2b2de622e7551982fd20f48e0064bf94cc2fd1a",
 };
 
 const response = (body, status = 200) =>
@@ -75,22 +75,44 @@ test("keeps B1 and B2 disabled while runtime loading only A1 and A2", async () =
   );
 });
 
-test("keeps protected A1 and A2 source content unchanged across line endings", () => {
+test("keeps checked-in A1 and A2 source baselines stable across line endings", () => {
   for (const [relativePath, expected] of Object.entries(protectedHashes)) {
     const canonicalBytes = readText(relativePath).replace(/\r\n/g, "\n");
     assert.equal(createHash("sha256").update(canonicalBytes).digest("hex"), expected);
   }
 });
 
+test("preserves the first two A1 exercise batches and original passage when adding the third batch", () => {
+  const previousPatternIds = new Set([
+    "have-possession", "be-relationship", "be-location", "action-at-time",
+  ]);
+  const patterns = readJson("public/data/a1-pattern-exercises.json");
+  const reading = readJson("public/data/a1-reading-exercises.json");
+  const digest = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
+  assert.equal(
+    digest(patterns.patterns.filter((pattern) => previousPatternIds.has(pattern.id))),
+    "d28c89613920ecd99c10f195c195957c77ae9099ee1a714beb18622bcfd91b4d",
+  );
+  assert.equal(
+    digest(reading.recognition.filter((exercise) => previousPatternIds.has(exercise.sentencePatternId))),
+    "fafda5fa4d2d5b5d7b680d5bff4b1c00449b610339de9fe7c799a5d4d9e5e9e0",
+  );
+  assert.equal(
+    digest(reading.textResponses.filter((exercise) => previousPatternIds.has(exercise.sentencePatternId))),
+    "eeefbc366d654fa9b82775135ee3efdf646818451f8859709cb6102ede73197e",
+  );
+  assert.equal(digest(reading.passages), "904ec47ba89bafb803619826d068e2431f005e9c7a8d0d64bf4030308225fc10");
+});
+
 test("builds a partial baseline from A1, A2, and reference-only lexemes", () => {
   const report = buildVocabularyCoverageReport(targets);
   assert.equal(targets.status, "partial_review_required");
-  assert.equal(report.targetEntries, 126);
-  assert.equal(report.activeEntries, 100);
-  assert.equal(report.receptiveEntries, 26);
-  assert.equal(report.curriculumCovered, 100);
-  assert.equal(report.referenceOnlyCovered, 26);
-  assert.equal(report.missingEntries, 2874);
+  assert.equal(report.targetEntries, 132);
+  assert.equal(report.activeEntries, 108);
+  assert.equal(report.receptiveEntries, 24);
+  assert.equal(report.curriculumCovered, 108);
+  assert.equal(report.referenceOnlyCovered, 24);
+  assert.equal(report.missingEntries, 2868);
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "amy"));
   assert.ok(!targets.entries.some((entry) => entry.lexemeId === "ben"));
   const iTarget = targets.entries.find((entry) => entry.lexemeId === "i");

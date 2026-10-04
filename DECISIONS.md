@@ -305,3 +305,51 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Full CI runs for pull requests targeting `main` and for pushes to `main`, but not for standalone feature-branch pushes. Workflow concurrency is isolated by pull-request number or ref and cancels only an older run for the same change. Third-party GitHub Actions are pinned to the full commit SHA of a verified stable release. Weekly npm and GitHub Actions Dependabot updates are limited, do not auto-merge, and do not automatically rebase; application dependency upgrades require their own compatibility-tested pull requests. Existing audit findings remain documented rather than becoming a blocking gate before compatible fixes exist.
 
 **Reason:** One required-check run per change avoids duplicate runner work, while an immutable action reference, bounded update queue, and explicit compatibility review reduce supply-chain and upgrade risk without permanently blocking unrelated development.
+
+## ADR-039 - A2 Expands One Reviewed Pilot Unit at a Time
+
+**Status:** Accepted
+
+**Decision:** A2 unit 5「工作與約會安排」is added to the existing A2 CSV and exercise JSON sources as `pilot_review_required`. It contains four lessons and reuses the shared one-word answer, chunk, prerequisite, passage, progress, and sequential-unlock contracts. Units 6–10 remain blueprint-only until unit 5 receives learner and language review.
+
+**Reason:** A small end-to-end unit provides real material to test without bulk-generating the remaining A2 route or weakening the existing content and progress safeguards.
+
+## ADR-040 - Editorial Checks Complement Structural Validation
+
+**Status:** Accepted
+
+**Decision:** Add narrowly scoped executable checks for documented lemma/POS mistakes, shared sentence/chunk metadata, and passage-option prerequisites derived from both CSV and custom sentences. Preserve the one-word answer model while allowing correct sentence punctuation and compound hyphens. Grading may normalize taught punctuation but must not discard unexpected learner words or characters.
+
+**Reason:** Valid IDs and matching row counts did not catch misleading grammar labels or reading questions. Deterministic regression checks prevent known mistakes from returning, but cannot certify English naturalness, passage coherence, CEFR placement, or human review. B1/B2 therefore remain disabled after editorial repair.
+
+## ADR-041 - Search Aliases Do Not Replace Vocabulary Identity
+
+**Status:** Accepted
+
+**Decision:** Search may match course occurrence answers, lemmas, prompts, chunk English/Chinese, and explicitly curated group-item aliases. The index normalizes case and whitespace and deduplicates values. Ready A2 rows may supplement this index, but canonical labels, occurrences, audio, QA status, source priority, and progress remain unchanged. Group-item aliases use one validated optional field, never word-specific branches in code.
+
+**Reason:** A learner searching `brothers`, `my brother`, or `我的哥哥` should find the canonical `brother` card. Discovery is not proof of learning or permission to promote reference content; an unavailable pilot must not break A1 reference browsing.
+
+## ADR-042 - A1 Trial Exercises Preserve Meaning and Learning Order
+
+**Status:** Accepted
+
+**Decision:** Integrate the third A1 practice batch as explicitly labeled `pilot_review_required` exercises, not as human-approved content. All seven new transfers declare ordered slot values. The name lesson uses its single legal alternative (Amy versus source Ben) and two distinct-name choices; other lessons retain two transfers and four choices. When the exercise reviews a different source lesson, show its actual pattern and reference sentence and keep scoring under that exercise pattern.
+
+**Reason:** `I am Amy.` and `My name is Amy.` cannot serve as opposing meanings, and adding untaught names merely to increase option counts would break prerequisites. Explicit review context avoids presenting a previous be-pattern as a variation of the current have-pattern. Structural and machine-assisted review permits a bounded trial, not a claim of human approval.
+
+## ADR-043 - Navigation Focus Never Answers a Question
+
+**Status:** Accepted
+
+**Decision:** A keyboard skip link focuses the named content region. Screen transitions focus its heading only when existing input/action/card autofocus has not already placed focus inside it. Late source loading must not pull focus back from a learner-selected control. Reading, response, and passage choices focus the first option on entry without selecting or grading it; checked results focus their next action. These focus changes never write learning progress.
+
+**Reason:** Predictable focus removes repeated navigation and mouse dependence without weakening explicit-answer, scoring, or existing Enter-safety rules. Automated browser checks supplement, but do not replace, native assistive-technology review.
+
+## ADR-044 - Practice Focus Follows Item Identity, Not Answer Changes
+
+**Status:** Accepted
+
+**Decision:** Key Daily review and weakness exercise containers by their existing stable item/lexeme IDs, with autofocus on the next editable input or first unselected choice. Checked weakness actions remount and focus the next button. Cancel Enter's native default before rejecting repeated key events. Do not add focus dependencies on typed values, option selection, or active-time checkpoints.
+
+**Reason:** An input's initial autofocus does not run when React reuses it for the next item, while refocusing on every answer change would interrupt typing or selection. Returning early for a repeated Enter without cancelling its default still permits a native button click. These UI-only safeguards must not grant evidence or modify learning rules.

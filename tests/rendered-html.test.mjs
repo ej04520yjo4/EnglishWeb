@@ -39,6 +39,19 @@ test("server-renders the Traditional Chinese learning experience", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/);
 });
 
+test("server-renders a keyboard skip target and described navigation counts", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<a[^>]+class="skip-link"[^>]+href="#main-content"[^>]*>跳到主要內容<\/a>/);
+  assert.ok(html.indexOf('class="skip-link"') < html.indexOf('<aside'));
+  assert.match(html, /<div[^>]+id="main-content"[^>]+tabindex="-1"[^>]+aria-label="主要內容"/);
+  assert.match(html, /aria-describedby="review-count-description"/);
+  assert.match(html, /id="review-count-description"/);
+  assert.match(html, /aria-describedby="weakness-count-description"/);
+  assert.match(html, /id="weakness-count-description"/);
+});
+
 test("keeps course data and product metadata ready for the MVP", async () => {
   const [
     page,

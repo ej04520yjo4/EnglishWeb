@@ -9,7 +9,7 @@
 ```mermaid
 flowchart LR
   Catalog["course-catalog.json"] --> LevelLoader["curriculum/loader.ts"]
-  A1["A1 v3 CSV + reviewed JSON"] --> Adapter["A1 legacy adapter"]
+  A1["A1 v3 CSV + exercise JSON"] --> Adapter["A1 legacy adapter"]
   A2["A2 v1 CSV + pilot JSON"] --> LevelLoader
   Disabled["B1/B2 retained disabled sources"] --> Audit["Direct data audit only"]
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
@@ -35,13 +35,15 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/curriculum/catalog.ts`: catalog parsing, release state, formal unlock, and QA-preview access.
 - `app/curriculum/loader.ts`: common level loading and source revision calculation.
 - `app/curriculum/validation.ts`: generic one-word, identity, relation, chunk, pattern, passage, and audio-state checks.
+- `app/curriculum/editorial-validation.ts`: bounded regression checks for canonical verb lemmas and documented contextual POS mistakes; also used across levels by curriculum validation. This is not a full English grammar parser.
+- `app/curriculum/sentence-words.ts`: projects source punctuation/hyphens into ordered spelling units and shares punctuation-tolerant sentence comparison without discarding extra learner words, numbers, or unknown characters.
 - `app/curriculum/progress.ts`: schema v6 migration, isolated course progress, and top-level global vocabulary progress.
 - `app/curriculum/storage.ts`: level-aware source version, revision, update time, and override storage.
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
 - `app/a1-mvp-data.ts`: CSV parsing, normalization, validation, checksums, versioned storage, and course construction.
 - `app/a1-exercises.ts`: pattern/reading schemas, prerequisite and slot validation, coverage reporting, and answer checks.
 - `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV while preserving unit 1 definitions.
-- `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–4 exercises and passages to the existing unit 1 JSON.
+- `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–5 exercises and passages to the existing unit 1 JSON.
 - `scripts/create-b1-b2-curriculum.mjs`: reproducibly generates the B1/B2 pilot CSV and exercise JSON sources.
 - `scripts/audit-project-data.mjs`: detects catalog-orphaned sources, duplicate files/IDs, unsafe repetitions, generator key collisions, and tracked build artifacts.
 - `app/course-data.ts`: stable TypeScript course types plus A-Z static data; it is not a second A1 lesson source.
@@ -75,17 +77,27 @@ These layers are additive and must not be collapsed into one input model.
 
 Related vocabulary is a read-only projection over formal A1 lexemes plus explicitly reference-only gaps. Topic and chunk relationships use stable IDs. Cards display the canonical lemma and may apply a validated group-level Traditional Chinese override, while progress, occurrences, audio, and source identity stay formal. Search resolution keeps the active topic when it matches, otherwise selects the first matching topic, and returns no active detail when no group matches.
 
-A2 uses one CSV and two exercise JSON files for all four pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
+Resolved cards have normalized, deduplicated `searchAliases` derived from occurrence answers/lemmas/prompts, formal and configured chunk text/translations, and optional validated group-item aliases. `withVocabularySearchAliases()` adds matching rows from the already validated, ready A2 dataset to a pure search projection; it never promotes a reference card, replaces A1 source fields, or changes progress. A2 loading failure removes only those supplemental aliases. Disabled B1/B2 sources are never fetched for search.
+
+A2 uses one CSV and two exercise JSON files for all five pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
 
 The 3000 goal counts canonical single-word lexemes only. The current partial baseline contains every A1/A2 curriculum lexeme plus unique reference-only lexemes. Word forms, occurrences, senses, and chunks are reported separately. The baseline does not imply that the full 3000 list exists.
 
-Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation uses the latest lesson attached to the passage as the prerequisite boundary, so a distractor cannot introduce vocabulary or chunks from a later unit.
+Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 and retained B1/B2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation derives the latest lesson from both formal CSV passage rows and custom passage sentences, so CSV-only passages cannot bypass prerequisite checks. Declared option chunks must occur in the option text, and text-response option source IDs must exist and be already taught. Original A1 and A2 unit 1 data remain explicit legacy exceptions to required option metadata; their unannotated options are not certified by this prerequisite check. Evidence uses complete word-phrase boundaries rather than substrings; this structural support check does not establish that a question is semantically unambiguous.
+
+Reading-recognition options also validate declared lexeme/chunk prerequisites, including options without a source sentence. Third-batch A1 patterns use existing optional `slotValues` and `qaStatus` fields without changing schema v2 or CSV v3. When a transfer's source belongs to another lesson, the UI identifies it as review and displays that source sentence; trial A1 reading/transfer/response stages show pending-human-review status. Neither display changes progress schema v6 or the course's original sentence-pattern ID.
 
 ## Persistence
 
 Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 Free-text sentence flows always record a stable `applicationAttempt`. They add `applicationCorrect` only through the shared unassisted-answer rule: correct, not revealed, and not pasted. Recall, sentence rebuild, pattern transfer, Daily Review, and weakness practice keep paste state at the exercise-item boundary; Daily Review includes that state in its reload-safe temporary record.
+
+## Keyboard Focus Boundary
+
+`page.tsx` owns a named, programmatically focusable content region and a keyboard-visible skip link. Screen changes use a cancellable animation frame and preserve focus already placed inside the content by existing course inputs, primary actions, or related-word shortcuts. Late source readiness only upgrades focus still parked on the content container. A separate target-ID effect handles reading-recognition, text-response, and passage-comprehension choices/results; it does not run on answer selection and never changes progress or scores. Navigation count descriptions and choice `aria-pressed` states provide semantics without changing the visual layout.
+
+Daily review and weakness exercise containers are keyed by their stable queue-item/lexeme identity so consecutive items remount their input or first choice. Checked weakness actions have a separate key and autofocus; the daily summary focuses its finish action. This replaces the Daily input-only timeout, without adding a second focus state machine or changing stored state. The shared Enter handler prevents the native default even on repeat events; only a fresh Enter may invoke its action. Browser regressions use actual held-key events rather than synthetic keydown alone.
 
 ## Context Documentation Flow
 
@@ -120,6 +132,6 @@ flowchart LR
 - Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, vocabulary-evidence, and persistence flows. B1/B2 remain in direct data tests only while disabled.
 - Saved-state Playwright fixtures are installed with `page.addInitScript` before application hydration and never overwrite progress produced later in the same test.
 - Browser interactions wait for observable level-home and course-map readiness rather than fixed sleeps.
-- A2 browser coverage walks all 12 newly added lesson flows, all three new passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary.
+- A2 browser coverage walks all 16 post-unit-1 lesson flows, all four post-unit-1 passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary.
 - Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
 - CI requires context checks, build, unit tests, lint, TypeScript, and browser tests, then retains the Playwright HTML report, failure screenshots, error context, and traces for diagnosis.

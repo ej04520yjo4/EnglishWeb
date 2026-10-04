@@ -19,10 +19,12 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M1 - Reviewed A1 Practice Expansion
 
-**Status:** Paused after two reviewed batches
+**Status:** Third batch integrated for trial; human review pending
 
 - Expand transfer practice in small, manually reviewed batches.
-- Next batch: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
+- Third batch: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`; seven transfers plus four recognition/four response exercises remain `pilot_review_required`.
+- The early name lesson intentionally has one transfer and two distinct-name choices; no untaught name or synonymous distractor is added to meet an arbitrary count.
+- Next: trial and review this batch before enabling the fourth batch; 8 of 20 patterns are enabled and 12 remain deliberately deferred.
 - Require learned lexeme/chunk checks, natural Taiwan Chinese, non-source variations, and matching source patterns.
 - Finish when every enabled A1 pattern has validated exercises and browser coverage.
 
@@ -48,10 +50,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve unit 1 and review the new travel, shopping, and health pilot units.
-- Verify all 16 lessons, four unit passages, and prerequisite/slot constraints.
+- Preserve units 1–4 and review the new work-and-appointment pilot unit together with the existing travel, shopping, and health units.
+- Verify all 20 lessons, five unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- Keep units 5–10 as blueprint-only planning until units 1–4 are accepted.
+- Keep units 6–10 as blueprint-only planning until the current five-unit pilot is accepted.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -96,6 +98,8 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Paused
 
+- The 2026-10-04 machine-assisted consistency repairs address known lemma/POS, punctuation, transfer, and reading-question defects; they do not complete this manual review or enable either level.
+
 - Try B1 and B2 in current Windows Chrome and at mobile width.
 - Review every English sentence, Taiwan Traditional Chinese prompt, chunk, grammar label, distractor, and passage.
 - Supply or verify KK／IPA and licensed audio before changing any audio state to `ready`.
@@ -110,9 +114,9 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Track exposure, recognition, clean spelling, and sentence application globally by canonical `lexemeId` in progress schema v6.
 - Require repeated evidence across different study dates before receptive or active mastery.
 - Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
-- The 126-entry identity, CEFR, mastery-target, topic, and source-classification pass is complete; source/license and reference-only human language review remain open.
+- The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. The six curriculum targets added with A2 unit 5 still require that review, and all source/license work remains open.
 - Keep CEFR completion independent from the incomplete vocabulary target until both curriculum and target data pass human review.
-- Expand the target list in small licensed, manually reviewed batches while A2 units 1–4 continue language QA.
+- Expand the target list in small licensed, manually reviewed batches while A2 units 1–5 continue language QA.
 
 ## Milestone Completion Rule
 

@@ -40,7 +40,8 @@
         "昨天與明天",
         "旅行與交通",
         "購物與比較",
-        "健康與建議"
+        "健康與建議",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -76,7 +77,8 @@
         "時間與日期",
         "地點與方向",
         "昨天與明天",
-        "購物與比較"
+        "購物與比較",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -109,7 +111,8 @@
         "打招呼與自我介紹",
         "身邊物品",
         "家人與人物",
-        "時間與日期"
+        "時間與日期",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -118,6 +121,13 @@
           "sourceType": "curriculum",
           "license": "pending",
           "reference": "a1-u1-l2-t01"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l01-p01-s01-t04"
         }
       ],
       "qaStatus": "pilot_review_required"
@@ -185,7 +195,8 @@
         "A1 綜合短文",
         "昨天與明天",
         "旅行與交通",
-        "健康與建議"
+        "健康與建議",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -215,7 +226,8 @@
       "masteryTarget": "active",
       "curriculumPriority": 7,
       "topics": [
-        "打招呼與自我介紹"
+        "打招呼與自我介紹",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -224,6 +236,13 @@
           "sourceType": "curriculum",
           "license": "pending",
           "reference": "a1-u1-l3-t03"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l01-p01-s01-t03"
         }
       ],
       "qaStatus": "pilot_review_required"
@@ -354,7 +373,8 @@
         "身邊物品",
         "旅行與交通",
         "購物與比較",
-        "健康與建議"
+        "健康與建議",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -411,7 +431,8 @@
         "家人與人物",
         "飲食",
         "購物與比較",
-        "健康與建議"
+        "健康與建議",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -521,7 +542,8 @@
         "身邊物品",
         "地點與方向",
         "昨天與明天",
-        "旅行與交通"
+        "旅行與交通",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -575,7 +597,8 @@
       "curriculumPriority": 20,
       "topics": [
         "身邊物品",
-        "地點與方向"
+        "地點與方向",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -584,6 +607,13 @@
           "sourceType": "curriculum",
           "license": "pending",
           "reference": "a1-u2-l4-t04"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l02-p01-s01-t04"
         }
       ],
       "qaStatus": "pilot_review_required"
@@ -787,7 +817,8 @@
         "日常活動",
         "地點與方向",
         "A1 綜合短文",
-        "旅行與交通"
+        "旅行與交通",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -1554,7 +1585,8 @@
       "masteryTarget": "active",
       "curriculumPriority": 58,
       "topics": [
-        "時間與日期"
+        "時間與日期",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -1563,6 +1595,13 @@
           "sourceType": "curriculum",
           "license": "pending",
           "reference": "a1-u6-l4-t06"
+        },
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l04-p01-s01-t07"
         }
       ],
       "qaStatus": "pilot_review_required"
@@ -1836,7 +1875,8 @@
       "topics": [
         "昨天與明天",
         "旅行與交通",
-        "健康與建議"
+        "健康與建議",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -1929,7 +1969,8 @@
       "masteryTarget": "active",
       "curriculumPriority": 73,
       "topics": [
-        "旅行與交通"
+        "旅行與交通",
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
@@ -2565,24 +2606,185 @@
       "qaStatus": "pilot_review_required"
     },
     {
+      "lexemeId": "manager",
+      "lemma": "manager",
+      "sourceLexemeIds": [
+        "manager"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 101,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l01-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "ten",
+      "lemma": "ten",
+      "sourceLexemeIds": [
+        "ten"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 102,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l01-p01-s01-t07"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "we",
+      "lemma": "we",
+      "sourceLexemeIds": [
+        "we"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 103,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l02-p01-s01-t02"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
       "lexemeId": "tuesday",
       "lemma": "Tuesday",
       "sourceLexemeIds": [
         "tuesday"
       ],
-      "targetLevel": "A1",
-      "masteryTarget": "receptive",
-      "curriculumPriority": 101,
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 104,
       "topics": [
-        "days-of-week"
+        "工作與約會安排"
       ],
       "sourceRefs": [
         {
-          "sourceName": "EnglishWeb reference vocabulary",
-          "sourceVersion": "reference-vocabulary-v1.json",
-          "sourceType": "reference",
-          "license": "not_applicable_web_speech_fallback",
-          "reference": "tuesday"
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l02-p01-s01-t05"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "afternoon",
+      "lemma": "afternoon",
+      "sourceLexemeIds": [
+        "afternoon"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 105,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l02-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "meeting",
+      "lemma": "meeting",
+      "sourceLexemeIds": [
+        "meeting"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 106,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l03-p01-s01-t04"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "three",
+      "lemma": "three",
+      "sourceLexemeIds": [
+        "three"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 107,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l03-p01-s01-t06"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "lexemeId": "move",
+      "lemma": "move",
+      "sourceLexemeIds": [
+        "move"
+      ],
+      "targetLevel": "A2",
+      "masteryTarget": "active",
+      "curriculumPriority": 108,
+      "topics": [
+        "工作與約會安排"
+      ],
+      "sourceRefs": [
+        {
+          "sourceName": "EnglishWeb A2 curriculum",
+          "sourceVersion": "a2-course-v1.csv",
+          "sourceType": "curriculum",
+          "license": "pending",
+          "reference": "a2-u05-l04-p01-s01-t03"
         }
       ],
       "qaStatus": "pilot_review_required"
@@ -2595,7 +2797,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 102,
+      "curriculumPriority": 109,
       "topics": [
         "days-of-week"
       ],
@@ -2618,7 +2820,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 103,
+      "curriculumPriority": 110,
       "topics": [
         "days-of-week"
       ],
@@ -2641,7 +2843,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 104,
+      "curriculumPriority": 111,
       "topics": [
         "days-of-week"
       ],
@@ -2664,7 +2866,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 105,
+      "curriculumPriority": 112,
       "topics": [
         "days-of-week"
       ],
@@ -2687,7 +2889,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 106,
+      "curriculumPriority": 113,
       "topics": [
         "times-of-day"
       ],
@@ -2703,29 +2905,6 @@
       "qaStatus": "pilot_review_required"
     },
     {
-      "lexemeId": "afternoon",
-      "lemma": "afternoon",
-      "sourceLexemeIds": [
-        "afternoon"
-      ],
-      "targetLevel": "A1",
-      "masteryTarget": "receptive",
-      "curriculumPriority": 107,
-      "topics": [
-        "times-of-day"
-      ],
-      "sourceRefs": [
-        {
-          "sourceName": "EnglishWeb reference vocabulary",
-          "sourceVersion": "reference-vocabulary-v1.json",
-          "sourceType": "reference",
-          "license": "not_applicable_web_speech_fallback",
-          "reference": "afternoon"
-        }
-      ],
-      "qaStatus": "pilot_review_required"
-    },
-    {
       "lexemeId": "evening",
       "lemma": "evening",
       "sourceLexemeIds": [
@@ -2733,7 +2912,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 108,
+      "curriculumPriority": 114,
       "topics": [
         "times-of-day"
       ],
@@ -2756,7 +2935,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 109,
+      "curriculumPriority": 115,
       "topics": [
         "months-of-year"
       ],
@@ -2779,7 +2958,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 110,
+      "curriculumPriority": 116,
       "topics": [
         "months-of-year"
       ],
@@ -2802,7 +2981,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 111,
+      "curriculumPriority": 117,
       "topics": [
         "months-of-year"
       ],
@@ -2825,7 +3004,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 112,
+      "curriculumPriority": 118,
       "topics": [
         "months-of-year"
       ],
@@ -2848,7 +3027,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 113,
+      "curriculumPriority": 119,
       "topics": [
         "months-of-year"
       ],
@@ -2871,7 +3050,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 114,
+      "curriculumPriority": 120,
       "topics": [
         "months-of-year"
       ],
@@ -2894,7 +3073,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 115,
+      "curriculumPriority": 121,
       "topics": [
         "months-of-year"
       ],
@@ -2917,7 +3096,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 116,
+      "curriculumPriority": 122,
       "topics": [
         "months-of-year"
       ],
@@ -2940,7 +3119,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 117,
+      "curriculumPriority": 123,
       "topics": [
         "months-of-year"
       ],
@@ -2963,7 +3142,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 118,
+      "curriculumPriority": 124,
       "topics": [
         "months-of-year"
       ],
@@ -2986,7 +3165,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 119,
+      "curriculumPriority": 125,
       "topics": [
         "months-of-year"
       ],
@@ -3009,7 +3188,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 120,
+      "curriculumPriority": 126,
       "topics": [
         "family-members"
       ],
@@ -3032,7 +3211,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 121,
+      "curriculumPriority": 127,
       "topics": [
         "family-members"
       ],
@@ -3055,7 +3234,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 122,
+      "curriculumPriority": 128,
       "topics": [
         "family-members"
       ],
@@ -3078,7 +3257,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 123,
+      "curriculumPriority": 129,
       "topics": [
         "family-members"
       ],
@@ -3101,7 +3280,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 124,
+      "curriculumPriority": 130,
       "topics": [
         "family-members"
       ],
@@ -3124,7 +3303,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 125,
+      "curriculumPriority": 131,
       "topics": [
         "family-members"
       ],
@@ -3147,7 +3326,7 @@
       ],
       "targetLevel": "A1",
       "masteryTarget": "receptive",
-      "curriculumPriority": 126,
+      "curriculumPriority": 132,
       "topics": [
         "family-members"
       ],

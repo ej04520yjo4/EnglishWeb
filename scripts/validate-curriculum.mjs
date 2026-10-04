@@ -12,6 +12,7 @@ import {
   validateReadingExerciseData,
 } from "../app/a1-exercises.ts";
 import { validateCurriculumCatalog } from "../app/curriculum/catalog.ts";
+import { validateEditorialRows } from "../app/curriculum/editorial-validation.ts";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -86,6 +87,8 @@ for (const entry of catalog.levels) {
       `${new Set(rows.map((row) => row.lesson_id)).size} lessons`,
   );
 }
+
+errors.push(...validateEditorialRows(prerequisiteRows).map((issue) => issue.message));
 
 if (errors.length) {
   console.error("Curriculum validation failed:");

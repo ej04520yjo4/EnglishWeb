@@ -290,8 +290,8 @@
           "sourceSentenceId": "b2-u01-l03-s01",
           "sentencePatternId": "b2-u01-l03-pattern",
           "passageId": "b2-u01-p01",
-          "sentence": "I think the main issue is whether the plan is effective.",
-          "translation": "我認為主要問題是這個方案是否有效。",
+          "sentence": "I think the main issue is whether the plan will remain effective.",
+          "translation": "我認為主要問題是這個方案是否會持續有效。",
           "hintKeywords": "whether clause as complement",
           "skeleton": "whether clause as complement",
           "requiredLexemeIds": [
@@ -303,13 +303,15 @@
             "be",
             "whether",
             "plan",
+            "will",
+            "remain",
             "effective"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "I think the main issue is whether the plan is effective.",
+              "text": "I think the main issue is whether the plan will remain effective.",
               "requiredLexemeIds": [
                 "i",
                 "think",
@@ -319,6 +321,8 @@
                 "be",
                 "whether",
                 "plan",
+                "will",
+                "remain",
                 "effective"
               ],
               "requiredChunkIds": []
@@ -347,9 +351,7 @@
             "should",
             "encourage",
             "thinking",
-            "in",
-            "my",
-            "view",
+            "public",
             "independent"
           ],
           "allowedChunkIds": [],
@@ -405,14 +407,16 @@
           "sourceSentenceId": "b2-u01-l04-s01",
           "sentencePatternId": "b2-u01-l04-pattern",
           "passageId": "b2-u01-p01",
-          "sentence": "In my view education should encourage independent thinking.",
-          "translation": "依我看，教育應該鼓勵獨立思考。",
+          "sentence": "I would argue that public education should encourage independent thinking.",
+          "translation": "我會主張公共教育應該鼓勵獨立思考。",
           "hintKeywords": "hedged argument with would",
           "skeleton": "hedged argument with would",
           "requiredLexemeIds": [
-            "in",
-            "my",
-            "view",
+            "i",
+            "would",
+            "argue",
+            "that",
+            "public",
             "education",
             "should",
             "encourage",
@@ -423,11 +427,13 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "In my view education should encourage independent thinking.",
+              "text": "I would argue that public education should encourage independent thinking.",
               "requiredLexemeIds": [
-                "in",
-                "my",
-                "view",
+                "i",
+                "would",
+                "argue",
+                "that",
+                "public",
                 "education",
                 "should",
                 "encourage",
@@ -675,18 +681,18 @@
           "slotId": "sentence",
           "role": "完整句型變化",
           "allowedLexemeIds": [
-            "we",
+            "i",
             "should",
             "consider",
+            "both",
             "the",
             "cost",
             "and",
             "long",
             "term",
             "impact",
-            "i",
             "think",
-            "both"
+            "we"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -701,14 +707,15 @@
           "sourceSentenceId": "b2-u02-l03-s01",
           "sentencePatternId": "b2-u02-l03-pattern",
           "passageId": "b2-u02-p01",
-          "sentence": "We should consider the cost and the long term impact.",
-          "translation": "我們應該考量成本與長期影響。",
+          "sentence": "I should consider both the cost and the long-term impact.",
+          "translation": "我應該同時考量成本與長期影響。",
           "hintKeywords": "both and coordination",
           "skeleton": "both and coordination",
           "requiredLexemeIds": [
-            "we",
+            "i",
             "should",
             "consider",
+            "both",
             "the",
             "cost",
             "and",
@@ -720,11 +727,12 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "We should consider the cost and the long term impact.",
+              "text": "I should consider both the cost and the long-term impact.",
               "requiredLexemeIds": [
-                "we",
+                "i",
                 "should",
                 "consider",
+                "both",
                 "the",
                 "cost",
                 "and",
@@ -743,8 +751,8 @@
           "sourceSentenceId": "b2-u02-l03-s01",
           "sentencePatternId": "b2-u02-l03-pattern",
           "passageId": "b2-u02-p01",
-          "sentence": "I think we should consider both the cost and the impact.",
-          "translation": "我認為我們應該同時考量成本與影響。",
+          "sentence": "I think we should consider both the cost and the long-term impact.",
+          "translation": "我認為我們應該同時考量成本與長期影響。",
           "hintKeywords": "both and coordination",
           "skeleton": "both and coordination",
           "requiredLexemeIds": [
@@ -757,13 +765,15 @@
             "the",
             "cost",
             "and",
+            "long",
+            "term",
             "impact"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "I think we should consider both the cost and the impact.",
+              "text": "I think we should consider both the cost and the long-term impact.",
               "requiredLexemeIds": [
                 "i",
                 "think",
@@ -774,6 +784,8 @@
                 "the",
                 "cost",
                 "and",
+                "long",
+                "term",
                 "impact"
               ],
               "requiredChunkIds": []
@@ -801,7 +813,7 @@
             "result",
             "carefully",
             "if",
-            "had",
+            "have",
             "more",
             "time",
             "i"
@@ -831,7 +843,7 @@
             "result",
             "carefully",
             "if",
-            "had",
+            "have",
             "more",
             "time"
           ],
@@ -848,7 +860,7 @@
                 "result",
                 "carefully",
                 "if",
-                "had",
+                "have",
                 "more",
                 "time"
               ],
@@ -863,14 +875,14 @@
           "sourceSentenceId": "b2-u02-l04-s01",
           "sentencePatternId": "b2-u02-l04-pattern",
           "passageId": "b2-u02-p01",
-          "sentence": "If I had more time I could compare the results carefully.",
+          "sentence": "If I had more time, I could compare the results carefully.",
           "translation": "如果我有更多時間，就能仔細比較結果。",
           "hintKeywords": "second conditional",
           "skeleton": "second conditional",
           "requiredLexemeIds": [
             "if",
             "i",
-            "had",
+            "have",
             "more",
             "time",
             "could",
@@ -883,11 +895,11 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "If I had more time I could compare the results carefully.",
+              "text": "If I had more time, I could compare the results carefully.",
               "requiredLexemeIds": [
                 "if",
                 "i",
-                "had",
+                "have",
                 "more",
                 "time",
                 "could",
@@ -916,14 +928,13 @@
           "allowedLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
             "expect",
-            "manager",
-            "to",
-            "finish"
+            "report",
+            "manager"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -945,7 +956,7 @@
           "requiredLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
@@ -959,7 +970,7 @@
               "requiredLexemeIds": [
                 "the",
                 "project",
-                "was",
+                "be",
                 "complete",
                 "earlier",
                 "than",
@@ -976,32 +987,34 @@
           "sourceSentenceId": "b2-u03-l01-s01",
           "sentencePatternId": "b2-u03-l01-pattern",
           "passageId": "b2-u03-p01",
-          "sentence": "The manager expected the project to finish earlier.",
-          "translation": "經理原本預期專案會更早完成。",
+          "sentence": "The report was completed earlier than the manager expected.",
+          "translation": "報告比經理預期的更早完成。",
           "hintKeywords": "passive voice with comparison",
           "skeleton": "passive voice with comparison",
           "requiredLexemeIds": [
             "the",
+            "report",
+            "be",
+            "complete",
+            "earlier",
+            "than",
             "manager",
-            "expect",
-            "project",
-            "to",
-            "finish",
-            "earlier"
+            "expect"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "The manager expected the project to finish earlier.",
+              "text": "The report was completed earlier than the manager expected.",
               "requiredLexemeIds": [
                 "the",
+                "report",
+                "be",
+                "complete",
+                "earlier",
+                "than",
                 "manager",
-                "expect",
-                "project",
-                "to",
-                "finish",
-                "earlier"
+                "expect"
               ],
               "requiredChunkIds": []
             }
@@ -1239,15 +1252,14 @@
           "allowedLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "project",
             "for",
             "month",
             "we",
-            "have",
             "this",
             "issue"
           ],
@@ -1271,8 +1283,8 @@
           "requiredLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "project",
@@ -1287,8 +1299,8 @@
               "requiredLexemeIds": [
                 "the",
                 "team",
-                "has",
-                "been",
+                "have",
+                "be",
                 "work",
                 "on",
                 "project",
@@ -1313,7 +1325,7 @@
           "requiredLexemeIds": [
             "we",
             "have",
-            "been",
+            "be",
             "work",
             "on",
             "this",
@@ -1329,7 +1341,7 @@
               "requiredLexemeIds": [
                 "we",
                 "have",
-                "been",
+                "be",
                 "work",
                 "on",
                 "this",
@@ -1360,7 +1372,7 @@
             "claim",
             "that",
             "support",
-            "has",
+            "have",
             "increase",
             "recently",
             "public"
@@ -1388,7 +1400,7 @@
             "claim",
             "that",
             "support",
-            "has",
+            "have",
             "increase",
             "recently"
           ],
@@ -1403,7 +1415,7 @@
                 "claim",
                 "that",
                 "support",
-                "has",
+                "have",
                 "increase",
                 "recently"
               ],
@@ -1467,7 +1479,7 @@
           "allowedLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "expert",
@@ -1495,7 +1507,7 @@
           "requiredLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "expert",
@@ -1510,7 +1522,7 @@
               "requiredLexemeIds": [
                 "the",
                 "policy",
-                "was",
+                "be",
                 "introduce",
                 "after",
                 "expert",
@@ -1540,7 +1552,7 @@
             "after",
             "the",
             "policy",
-            "was",
+            "be",
             "introduce"
           ],
           "requiredChunkIds": [],
@@ -1556,7 +1568,7 @@
                 "after",
                 "the",
                 "policy",
-                "was",
+                "be",
                 "introduce"
               ],
               "requiredChunkIds": []
@@ -1585,9 +1597,6 @@
             "may",
             "affect",
             "business",
-            "article",
-            "claim",
-            "that",
             "small"
           ],
           "allowedChunkIds": [],
@@ -1643,15 +1652,15 @@
           "sourceSentenceId": "b2-u04-l03-s01",
           "sentencePatternId": "b2-u04-l03-pattern",
           "passageId": "b2-u04-p01",
-          "sentence": "The article claims that the decision may affect small businesses.",
-          "translation": "文章聲稱這項決定可能影響小型企業。",
+          "sentence": "According to the report, the decision may affect small businesses.",
+          "translation": "根據這份報告，這項決定可能影響小型企業。",
           "hintKeywords": "source attribution with according to",
           "skeleton": "source attribution with according to",
           "requiredLexemeIds": [
+            "according",
+            "to",
             "the",
-            "article",
-            "claim",
-            "that",
+            "report",
             "decision",
             "may",
             "affect",
@@ -1662,12 +1671,12 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "The article claims that the decision may affect small businesses.",
+              "text": "According to the report, the decision may affect small businesses.",
               "requiredLexemeIds": [
+                "according",
+                "to",
                 "the",
-                "article",
-                "claim",
-                "that",
+                "report",
                 "decision",
                 "may",
                 "affect",
@@ -1701,6 +1710,7 @@
             "provide",
             "reliable",
             "evidence",
+            "team",
             "source"
           ],
           "allowedChunkIds": [],
@@ -1758,12 +1768,16 @@
           "sourceSentenceId": "b2-u04-l04-s01",
           "sentencePatternId": "b2-u04-l04-pattern",
           "passageId": "b2-u04-p01",
-          "sentence": "The source provides reliable evidence.",
-          "translation": "這個來源提供可靠證據。",
+          "sentence": "The team should check whether the source provides reliable evidence.",
+          "translation": "團隊應該檢查這個來源是否提供可靠證據。",
           "hintKeywords": "whether clause for source checking",
           "skeleton": "whether clause for source checking",
           "requiredLexemeIds": [
             "the",
+            "team",
+            "should",
+            "check",
+            "whether",
             "source",
             "provide",
             "reliable",
@@ -1773,9 +1787,13 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "The source provides reliable evidence.",
+              "text": "The team should check whether the source provides reliable evidence.",
               "requiredLexemeIds": [
                 "the",
+                "team",
+                "should",
+                "check",
+                "whether",
                 "source",
                 "provide",
                 "reliable",
@@ -2300,7 +2318,7 @@
           "sourceSentenceId": "b2-u06-l01-s01",
           "sentencePatternId": "b2-u06-l01-pattern",
           "passageId": "b2-u06-p01",
-          "sentence": "While creating privacy risks new technology can improve access.",
+          "sentence": "While creating privacy risks, new technology can improve access.",
           "translation": "新科技雖然帶來隱私風險，也能改善使用機會。",
           "hintKeywords": "while for simultaneous contrast",
           "skeleton": "while for simultaneous contrast",
@@ -2319,7 +2337,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "While creating privacy risks new technology can improve access.",
+              "text": "While creating privacy risks, new technology can improve access.",
               "requiredLexemeIds": [
                 "while",
                 "create",
@@ -2357,7 +2375,7 @@
             "power",
             "if",
             "energy",
-            "were",
+            "be",
             "cheap"
           ],
           "allowedChunkIds": [],
@@ -2386,7 +2404,7 @@
             "power",
             "if",
             "energy",
-            "were",
+            "be",
             "cheap"
           ],
           "requiredChunkIds": [],
@@ -2403,7 +2421,7 @@
                 "power",
                 "if",
                 "energy",
-                "were",
+                "be",
                 "cheap"
               ],
               "requiredChunkIds": []
@@ -2417,14 +2435,14 @@
           "sourceSentenceId": "b2-u06-l02-s01",
           "sentencePatternId": "b2-u06-l02-pattern",
           "passageId": "b2-u06-p01",
-          "sentence": "If power were cheaper more companies would use clean energy.",
+          "sentence": "If power were cheaper, more companies would use clean energy.",
           "translation": "如果電力更便宜，會有更多公司使用潔淨能源。",
           "hintKeywords": "second conditional with were",
           "skeleton": "second conditional with were",
           "requiredLexemeIds": [
             "if",
             "power",
-            "were",
+            "be",
             "cheap",
             "more",
             "company",
@@ -2437,11 +2455,11 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "If power were cheaper more companies would use clean energy.",
+              "text": "If power were cheaper, more companies would use clean energy.",
               "requiredLexemeIds": [
                 "if",
                 "power",
-                "were",
+                "be",
                 "cheap",
                 "more",
                 "company",
@@ -2584,8 +2602,7 @@
             "progress",
             "benefit",
             "everyone",
-            "the",
-            "community"
+            "person"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -2638,32 +2655,32 @@
           "sourceSentenceId": "b2-u06-l04-s01",
           "sentencePatternId": "b2-u06-l04-pattern",
           "passageId": "b2-u06-p01",
-          "sentence": "Governments should ensure progress benefits the community.",
-          "translation": "政府應確保進步能讓社群受益。",
+          "sentence": "Governments should ensure that progress benefits people.",
+          "translation": "政府應確保進步能讓人們受益。",
           "hintKeywords": "ensure that clause",
           "skeleton": "ensure that clause",
           "requiredLexemeIds": [
             "government",
             "should",
             "ensure",
+            "that",
             "progress",
             "benefit",
-            "the",
-            "community"
+            "person"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Governments should ensure progress benefits the community.",
+              "text": "Governments should ensure that progress benefits people.",
               "requiredLexemeIds": [
                 "government",
                 "should",
                 "ensure",
+                "that",
                 "progress",
                 "benefit",
-                "the",
-                "community"
+                "person"
               ],
               "requiredChunkIds": []
             }
@@ -2750,7 +2767,7 @@
           "sourceSentenceId": "b2-u07-l01-s01",
           "sentencePatternId": "b2-u07-l01-pattern",
           "passageId": "b2-u07-p01",
-          "sentence": "Our proposal focuses on long term benefits rather than short term savings.",
+          "sentence": "Our proposal focuses on long-term benefits rather than short-term savings.",
           "translation": "我們的提案著重長期效益，而不是短期節省。",
           "hintKeywords": "rather than for priority",
           "skeleton": "rather than for priority",
@@ -2771,7 +2788,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Our proposal focuses on long term benefits rather than short term savings.",
+              "text": "Our proposal focuses on long-term benefits rather than short-term savings.",
               "requiredLexemeIds": [
                 "our",
                 "proposal",
@@ -2807,13 +2824,13 @@
             "could",
             "accept",
             "the",
-            "offer",
-            "if",
+            "proposal",
+            "provided",
+            "that",
             "deadline",
             "change",
             "team",
-            "provided",
-            "that"
+            "offer"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -2828,8 +2845,8 @@
           "sourceSentenceId": "b2-u07-l02-s01",
           "sentencePatternId": "b2-u07-l02-pattern",
           "passageId": "b2-u07-p01",
-          "sentence": "We could accept the offer if the deadline changes.",
-          "translation": "如果期限調整，我們可以接受這項提議。",
+          "sentence": "We could accept the proposal provided that the deadline changes.",
+          "translation": "只要期限調整，我們可以接受這項提案。",
           "hintKeywords": "provided that condition",
           "skeleton": "provided that condition",
           "requiredLexemeIds": [
@@ -2837,8 +2854,9 @@
             "could",
             "accept",
             "the",
-            "offer",
-            "if",
+            "proposal",
+            "provided",
+            "that",
             "deadline",
             "change"
           ],
@@ -2846,14 +2864,15 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "We could accept the offer if the deadline changes.",
+              "text": "We could accept the proposal provided that the deadline changes.",
               "requiredLexemeIds": [
                 "we",
                 "could",
                 "accept",
                 "the",
-                "offer",
-                "if",
+                "proposal",
+                "provided",
+                "that",
                 "deadline",
                 "change"
               ],
@@ -3097,7 +3116,7 @@
           "sourceSentenceId": "b2-u07-l04-s01",
           "sentencePatternId": "b2-u07-l04-pattern",
           "passageId": "b2-u07-p01",
-          "sentence": "After reviewing the proposal we reached an agreement.",
+          "sentence": "After reviewing the proposal, we reached an agreement.",
           "translation": "檢視提案後，我們達成了協議。",
           "hintKeywords": "after plus gerund",
           "skeleton": "after plus gerund",
@@ -3115,7 +3134,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "After reviewing the proposal we reached an agreement.",
+              "text": "After reviewing the proposal, we reached an agreement.",
               "requiredLexemeIds": [
                 "after",
                 "review",
@@ -3152,7 +3171,8 @@
             "long",
             "term",
             "planning",
-            "modern"
+            "modern",
+            "more"
           ],
           "allowedChunkIds": [],
           "restrictions": [
@@ -3167,7 +3187,7 @@
           "sourceSentenceId": "b2-u08-l01-s01",
           "sentencePatternId": "b2-u08-l01-pattern",
           "passageId": "b2-u08-p01",
-          "sentence": "Cities face problems that require long term planning.",
+          "sentence": "Cities face problems that require long-term planning.",
           "translation": "城市面臨需要長期規劃的問題。",
           "hintKeywords": "relative clause for complex issues",
           "skeleton": "relative clause for complex issues",
@@ -3185,7 +3205,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Cities face problems that require long term planning.",
+              "text": "Cities face problems that require long-term planning.",
               "requiredLexemeIds": [
                 "city",
                 "face",
@@ -3207,29 +3227,33 @@
           "sourceSentenceId": "b2-u08-l01-s01",
           "sentencePatternId": "b2-u08-l01-pattern",
           "passageId": "b2-u08-p01",
-          "sentence": "Modern cities require long term planning.",
-          "translation": "現代城市需要長期規劃。",
+          "sentence": "Modern cities face problems that require more planning.",
+          "translation": "現代城市面臨需要更多規劃的問題。",
           "hintKeywords": "relative clause for complex issues",
           "skeleton": "relative clause for complex issues",
           "requiredLexemeIds": [
             "modern",
             "city",
+            "face",
+            "problem",
+            "that",
             "require",
-            "long",
-            "term",
+            "more",
             "planning"
           ],
           "requiredChunkIds": [],
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "Modern cities require long term planning.",
+              "text": "Modern cities face problems that require more planning.",
               "requiredLexemeIds": [
                 "modern",
                 "city",
+                "face",
+                "problem",
+                "that",
                 "require",
-                "long",
-                "term",
+                "more",
                 "planning"
               ],
               "requiredChunkIds": []
@@ -3365,7 +3389,7 @@
           "role": "完整句型變化",
           "allowedLexemeIds": [
             "policy",
-            "are",
+            "be",
             "effective",
             "when",
             "resident",
@@ -3393,7 +3417,7 @@
           "skeleton": "when clause for effectiveness",
           "requiredLexemeIds": [
             "policy",
-            "are",
+            "be",
             "effective",
             "when",
             "resident",
@@ -3408,7 +3432,7 @@
               "text": "Policies are effective when residents understand their purpose.",
               "requiredLexemeIds": [
                 "policy",
-                "are",
+                "be",
                 "effective",
                 "when",
                 "resident",
@@ -3427,7 +3451,7 @@
           "sourceSentenceId": "b2-u08-l03-s01",
           "sentencePatternId": "b2-u08-l03-pattern",
           "passageId": "b2-u08-p01",
-          "sentence": "When residents understand their purpose policies are more effective.",
+          "sentence": "When residents understand their purpose, policies are more effective.",
           "translation": "當居民理解政策目的時，政策會更有效。",
           "hintKeywords": "when clause for effectiveness",
           "skeleton": "when clause for effectiveness",
@@ -3438,7 +3462,7 @@
             "their",
             "purpose",
             "policy",
-            "are",
+            "be",
             "more",
             "effective"
           ],
@@ -3446,7 +3470,7 @@
           "slotValues": [
             {
               "slotId": "sentence",
-              "text": "When residents understand their purpose policies are more effective.",
+              "text": "When residents understand their purpose, policies are more effective.",
               "requiredLexemeIds": [
                 "when",
                 "resident",
@@ -3454,7 +3478,7 @@
                 "their",
                 "purpose",
                 "policy",
-                "are",
+                "be",
                 "more",
                 "effective"
               ],

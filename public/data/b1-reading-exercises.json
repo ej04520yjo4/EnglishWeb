@@ -31,15 +31,15 @@
         },
         {
           "id": "distractor-1",
-          "text": "晚餐後服用這個藥。"
+          "text": "我們可以把會議改到星期五嗎？"
         },
         {
           "id": "distractor-2",
-          "text": "我明天必須去看醫生。"
+          "text": "我三點有一個會議。"
         },
         {
           "id": "distractor-3",
-          "text": "你應該多喝一點水。"
+          "text": "我們可以星期二下午見面嗎？"
         }
       ],
       "correctOptionId": "correct",
@@ -76,11 +76,11 @@
         },
         {
           "id": "distractor-2",
-          "text": "晚餐後服用這個藥。"
+          "text": "我們可以把會議改到星期五嗎？"
         },
         {
           "id": "distractor-3",
-          "text": "我明天必須去看醫生。"
+          "text": "我三點有一個會議。"
         }
       ],
       "correctOptionId": "correct",
@@ -97,7 +97,7 @@
       "stem": "I was cooking when you called me.",
       "requiredLexemeIds": [
         "i",
-        "was",
+        "be",
         "cook",
         "when",
         "you",
@@ -122,7 +122,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "晚餐後服用這個藥。"
+          "text": "我們可以把會議改到星期五嗎？"
         }
       ],
       "correctOptionId": "correct",
@@ -136,7 +136,7 @@
       "passageId": "b1-u01-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "After I arrived home I called my friend.",
+      "stem": "After I arrived home, I called my friend.",
       "requiredLexemeIds": [
         "after",
         "i",
@@ -263,7 +263,7 @@
       "passageId": "b1-u02-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "If I finish early I will meet you.",
+      "stem": "If I finish early, I will meet you.",
       "requiredLexemeIds": [
         "if",
         "i",
@@ -433,12 +433,12 @@
       "passageId": "b1-u03-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Although the task was difficult I finished it.",
+      "stem": "Although the task was difficult, I finished it.",
       "requiredLexemeIds": [
         "although",
         "the",
         "task",
-        "was",
+        "be",
         "difficult",
         "i",
         "finish",
@@ -519,7 +519,7 @@
       "passageId": "b1-u04-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Could you explain this problem again please?",
+      "stem": "Could you explain this problem again, please?",
       "requiredLexemeIds": [
         "could",
         "you",
@@ -611,7 +611,7 @@
         "who",
         "help",
         "me",
-        "was",
+        "be",
         "very",
         "patient"
       ],
@@ -694,7 +694,7 @@
       "requiredLexemeIds": [
         "my",
         "train",
-        "was",
+        "be",
         "delay",
         "so",
         "i",
@@ -820,7 +820,7 @@
       "passageId": "b1-u05-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "If the weather improves we will leave early.",
+      "stem": "If the weather improves, we will leave early.",
       "requiredLexemeIds": [
         "if",
         "the",
@@ -910,7 +910,7 @@
       "requiredLexemeIds": [
         "the",
         "message",
-        "was",
+        "be",
         "send",
         "to",
         "wrong",
@@ -1038,7 +1038,7 @@
         "i",
         "apologize",
         "because",
-        "had",
+        "have",
         "forget",
         "her",
         "birthday"
@@ -1203,7 +1203,7 @@
       "passageId": "b1-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Last year I decided to change my daily routine.",
+      "stem": "Last year, I decided to change my daily routine.",
       "requiredLexemeIds": [
         "last",
         "year",
@@ -1247,14 +1247,14 @@
       "passageId": "b1-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "At first the new schedule was difficult to follow.",
+      "stem": "At first, the new schedule was difficult to follow.",
       "requiredLexemeIds": [
         "at",
         "first",
         "the",
         "new",
         "schedule",
-        "was",
+        "be",
         "difficult",
         "to",
         "follow"
@@ -1333,7 +1333,7 @@
       "passageId": "b1-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Now I feel more confident about my goals.",
+      "stem": "Now, I feel more confident about my goals.",
       "requiredLexemeIds": [
         "now",
         "i",
@@ -1397,39 +1397,41 @@
         },
         {
           "id": "distractor-1",
-          "text": "Take this medicine after dinner.",
+          "text": "Can we move the meeting to Friday?",
           "requiredLexemeIds": [
-            "take",
-            "this",
-            "medicine",
-            "after",
-            "dinner"
+            "can",
+            "we",
+            "move",
+            "the",
+            "meet",
+            "to",
+            "friday"
           ],
           "requiredChunkIds": []
         },
         {
           "id": "distractor-2",
-          "text": "I have to see a doctor tomorrow.",
+          "text": "I have a meeting at three.",
           "requiredLexemeIds": [
             "i",
             "have",
-            "to",
-            "see",
             "a",
-            "doctor",
-            "tomorrow"
+            "meet",
+            "at",
+            "three"
           ],
           "requiredChunkIds": []
         },
         {
           "id": "distractor-3",
-          "text": "You should drink more water.",
+          "text": "Can we meet on Tuesday afternoon?",
           "requiredLexemeIds": [
-            "you",
-            "should",
-            "drink",
-            "more",
-            "water"
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "afternoon"
           ],
           "requiredChunkIds": []
         }
@@ -1477,27 +1479,28 @@
         },
         {
           "id": "distractor-2",
-          "text": "Take this medicine after dinner.",
+          "text": "Can we move the meeting to Friday?",
           "requiredLexemeIds": [
-            "take",
-            "this",
-            "medicine",
-            "after",
-            "dinner"
+            "can",
+            "we",
+            "move",
+            "the",
+            "meet",
+            "to",
+            "friday"
           ],
           "requiredChunkIds": []
         },
         {
           "id": "distractor-3",
-          "text": "I have to see a doctor tomorrow.",
+          "text": "I have a meeting at three.",
           "requiredLexemeIds": [
             "i",
             "have",
-            "to",
-            "see",
             "a",
-            "doctor",
-            "tomorrow"
+            "meet",
+            "at",
+            "three"
           ],
           "requiredChunkIds": []
         }
@@ -1521,7 +1524,7 @@
           "text": "I was cooking when you called me.",
           "requiredLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -1559,13 +1562,15 @@
         },
         {
           "id": "distractor-3",
-          "text": "Take this medicine after dinner.",
+          "text": "Can we move the meeting to Friday?",
           "requiredLexemeIds": [
-            "take",
-            "this",
-            "medicine",
-            "after",
-            "dinner"
+            "can",
+            "we",
+            "move",
+            "the",
+            "meet",
+            "to",
+            "friday"
           ],
           "requiredChunkIds": []
         }
@@ -1586,7 +1591,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "After I arrived home I called my friend.",
+          "text": "After I arrived home, I called my friend.",
           "requiredLexemeIds": [
             "after",
             "i",
@@ -1603,7 +1608,7 @@
           "text": "I was cooking when you called me.",
           "requiredLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -1671,7 +1676,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "After I arrived home I called my friend.",
+          "text": "After I arrived home, I called my friend.",
           "requiredLexemeIds": [
             "after",
             "i",
@@ -1688,7 +1693,7 @@
           "text": "I was cooking when you called me.",
           "requiredLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -1756,7 +1761,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "After I arrived home I called my friend.",
+          "text": "After I arrived home, I called my friend.",
           "requiredLexemeIds": [
             "after",
             "i",
@@ -1773,7 +1778,7 @@
           "text": "I was cooking when you called me.",
           "requiredLexemeIds": [
             "i",
-            "was",
+            "be",
             "cook",
             "when",
             "you",
@@ -1799,7 +1804,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "If I finish early I will meet you.",
+          "text": "If I finish early, I will meet you.",
           "requiredLexemeIds": [
             "if",
             "i",
@@ -1842,7 +1847,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "After I arrived home I called my friend.",
+          "text": "After I arrived home, I called my friend.",
           "requiredLexemeIds": [
             "after",
             "i",
@@ -1886,7 +1891,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "If I finish early I will meet you.",
+          "text": "If I finish early, I will meet you.",
           "requiredLexemeIds": [
             "if",
             "i",
@@ -1973,7 +1978,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "If I finish early I will meet you.",
+          "text": "If I finish early, I will meet you.",
           "requiredLexemeIds": [
             "if",
             "i",
@@ -2060,7 +2065,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "If I finish early I will meet you.",
+          "text": "If I finish early, I will meet you.",
           "requiredLexemeIds": [
             "if",
             "i",
@@ -2089,12 +2094,12 @@
       "options": [
         {
           "id": "correct",
-          "text": "Although the task was difficult I finished it.",
+          "text": "Although the task was difficult, I finished it.",
           "requiredLexemeIds": [
             "although",
             "the",
             "task",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -2178,12 +2183,12 @@
         },
         {
           "id": "distractor-1",
-          "text": "Although the task was difficult I finished it.",
+          "text": "Although the task was difficult, I finished it.",
           "requiredLexemeIds": [
             "although",
             "the",
             "task",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -2237,7 +2242,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Could you explain this problem again please?",
+          "text": "Could you explain this problem again, please?",
           "requiredLexemeIds": [
             "could",
             "you",
@@ -2266,12 +2271,12 @@
         },
         {
           "id": "distractor-2",
-          "text": "Although the task was difficult I finished it.",
+          "text": "Although the task was difficult, I finished it.",
           "requiredLexemeIds": [
             "although",
             "the",
             "task",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -2326,7 +2331,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Could you explain this problem again please?",
+          "text": "Could you explain this problem again, please?",
           "requiredLexemeIds": [
             "could",
             "you",
@@ -2355,12 +2360,12 @@
         },
         {
           "id": "distractor-3",
-          "text": "Although the task was difficult I finished it.",
+          "text": "Although the task was difficult, I finished it.",
           "requiredLexemeIds": [
             "although",
             "the",
             "task",
-            "was",
+            "be",
             "difficult",
             "i",
             "finish",
@@ -2392,7 +2397,7 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "very",
             "patient"
           ],
@@ -2415,7 +2420,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Could you explain this problem again please?",
+          "text": "Could you explain this problem again, please?",
           "requiredLexemeIds": [
             "could",
             "you",
@@ -2481,7 +2486,7 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "very",
             "patient"
           ],
@@ -2504,7 +2509,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Could you explain this problem again please?",
+          "text": "Could you explain this problem again, please?",
           "requiredLexemeIds": [
             "could",
             "you",
@@ -2537,7 +2542,7 @@
           "requiredLexemeIds": [
             "my",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -2571,7 +2576,7 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "very",
             "patient"
           ],
@@ -2628,7 +2633,7 @@
           "requiredLexemeIds": [
             "my",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -2662,7 +2667,7 @@
             "who",
             "help",
             "me",
-            "was",
+            "be",
             "very",
             "patient"
           ],
@@ -2719,7 +2724,7 @@
           "requiredLexemeIds": [
             "my",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -2761,7 +2766,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "If the weather improves we will leave early.",
+          "text": "If the weather improves, we will leave early.",
           "requiredLexemeIds": [
             "if",
             "the",
@@ -2810,7 +2815,7 @@
           "requiredLexemeIds": [
             "my",
             "train",
-            "was",
+            "be",
             "delay",
             "so",
             "i",
@@ -2852,7 +2857,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "If the weather improves we will leave early.",
+          "text": "If the weather improves, we will leave early.",
           "requiredLexemeIds": [
             "if",
             "the",
@@ -2916,7 +2921,7 @@
           "requiredLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -2941,7 +2946,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "If the weather improves we will leave early.",
+          "text": "If the weather improves, we will leave early.",
           "requiredLexemeIds": [
             "if",
             "the",
@@ -3005,7 +3010,7 @@
           "requiredLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -3030,7 +3035,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "If the weather improves we will leave early.",
+          "text": "If the weather improves, we will leave early.",
           "requiredLexemeIds": [
             "if",
             "the",
@@ -3093,7 +3098,7 @@
           "requiredLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -3138,7 +3143,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "her",
             "birthday"
@@ -3180,7 +3185,7 @@
           "requiredLexemeIds": [
             "the",
             "message",
-            "was",
+            "be",
             "send",
             "to",
             "wrong",
@@ -3224,7 +3229,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "her",
             "birthday"
@@ -3311,7 +3316,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "her",
             "birthday"
@@ -3397,7 +3402,7 @@
             "i",
             "apologize",
             "because",
-            "had",
+            "have",
             "forget",
             "her",
             "birthday"
@@ -3421,7 +3426,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Last year I decided to change my daily routine.",
+          "text": "Last year, I decided to change my daily routine.",
           "requiredLexemeIds": [
             "last",
             "year",
@@ -3495,14 +3500,14 @@
       "options": [
         {
           "id": "correct",
-          "text": "At first the new schedule was difficult to follow.",
+          "text": "At first, the new schedule was difficult to follow.",
           "requiredLexemeIds": [
             "at",
             "first",
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow"
@@ -3511,7 +3516,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Last year I decided to change my daily routine.",
+          "text": "Last year, I decided to change my daily routine.",
           "requiredLexemeIds": [
             "last",
             "year",
@@ -3585,14 +3590,14 @@
         },
         {
           "id": "distractor-1",
-          "text": "At first the new schedule was difficult to follow.",
+          "text": "At first, the new schedule was difficult to follow.",
           "requiredLexemeIds": [
             "at",
             "first",
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow"
@@ -3601,7 +3606,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Last year I decided to change my daily routine.",
+          "text": "Last year, I decided to change my daily routine.",
           "requiredLexemeIds": [
             "last",
             "year",
@@ -3646,7 +3651,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Now I feel more confident about my goals.",
+          "text": "Now, I feel more confident about my goals.",
           "requiredLexemeIds": [
             "now",
             "i",
@@ -3675,14 +3680,14 @@
         },
         {
           "id": "distractor-2",
-          "text": "At first the new schedule was difficult to follow.",
+          "text": "At first, the new schedule was difficult to follow.",
           "requiredLexemeIds": [
             "at",
             "first",
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow"
@@ -3691,7 +3696,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Last year I decided to change my daily routine.",
+          "text": "Last year, I decided to change my daily routine.",
           "requiredLexemeIds": [
             "last",
             "year",
@@ -3719,24 +3724,25 @@
           "id": "b1-u01-p01-q01",
           "sourceSentenceId": "b1-u01-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "這個人在這裡工作多久了？",
           "options": [
-            "three years",
-            "traveled alone",
-            "was cooking",
-            "called my friend"
+            "For three years",
+            "Traveled alone",
+            "Was cooking",
+            "Called my friend"
           ],
           "optionMetadata": [
             {
-              "text": "three years",
+              "text": "For three years",
               "requiredLexemeIds": [
+                "for",
                 "three",
                 "year"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "traveled alone",
+              "text": "Traveled alone",
               "requiredLexemeIds": [
                 "travel",
                 "alone"
@@ -3744,15 +3750,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "was cooking",
+              "text": "Was cooking",
               "requiredLexemeIds": [
-                "was",
+                "be",
                 "cook"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "called my friend",
+              "text": "Called my friend",
               "requiredLexemeIds": [
                 "call",
                 "my",
@@ -3761,7 +3767,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "three years",
+          "correctAnswer": "For three years",
           "evidenceSentenceIds": [
             "b1-u01-l01-s01"
           ],
@@ -3771,24 +3777,16 @@
           "id": "b1-u01-p01-q02",
           "sourceSentenceId": "b1-u01-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "這個人以前從未做過什麼事？",
           "options": [
-            "three years",
-            "traveled alone",
-            "was cooking",
-            "called my friend"
+            "Traveled alone",
+            "For three years",
+            "Was cooking",
+            "Called my friend"
           ],
           "optionMetadata": [
             {
-              "text": "three years",
-              "requiredLexemeIds": [
-                "three",
-                "year"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "traveled alone",
+              "text": "Traveled alone",
               "requiredLexemeIds": [
                 "travel",
                 "alone"
@@ -3796,15 +3794,24 @@
               "requiredChunkIds": []
             },
             {
-              "text": "was cooking",
+              "text": "For three years",
               "requiredLexemeIds": [
-                "was",
+                "for",
+                "three",
+                "year"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Was cooking",
+              "requiredLexemeIds": [
+                "be",
                 "cook"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "called my friend",
+              "text": "Called my friend",
               "requiredLexemeIds": [
                 "call",
                 "my",
@@ -3813,7 +3820,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "traveled alone",
+          "correctAnswer": "Traveled alone",
           "evidenceSentenceIds": [
             "b1-u01-l02-s01"
           ],
@@ -3823,24 +3830,24 @@
           "id": "b1-u01-p01-q03",
           "sourceSentenceId": "b1-u01-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "朋友打電話來時，這個人正在做什麼？",
           "options": [
-            "three years",
-            "traveled alone",
-            "was cooking",
-            "called my friend"
+            "Was cooking",
+            "Traveled alone",
+            "Arrived home",
+            "Worked here"
           ],
           "optionMetadata": [
             {
-              "text": "three years",
+              "text": "Was cooking",
               "requiredLexemeIds": [
-                "three",
-                "year"
+                "be",
+                "cook"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "traveled alone",
+              "text": "Traveled alone",
               "requiredLexemeIds": [
                 "travel",
                 "alone"
@@ -3848,24 +3855,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "was cooking",
+              "text": "Arrived home",
               "requiredLexemeIds": [
-                "was",
-                "cook"
+                "arrive",
+                "home"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "called my friend",
+              "text": "Worked here",
               "requiredLexemeIds": [
-                "call",
-                "my",
-                "friend"
+                "work",
+                "here"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "was cooking",
+          "correctAnswer": "Was cooking",
           "evidenceSentenceIds": [
             "b1-u01-l03-s01"
           ],
@@ -3875,24 +3881,33 @@
           "id": "b1-u01-p01-q04",
           "sourceSentenceId": "b1-u01-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "到家後，這個人做了什麼？",
           "options": [
-            "three years",
-            "traveled alone",
-            "was cooking",
-            "called my friend"
+            "Called my friend",
+            "Was cooking",
+            "Traveled alone",
+            "Worked here"
           ],
           "optionMetadata": [
             {
-              "text": "three years",
+              "text": "Called my friend",
               "requiredLexemeIds": [
-                "three",
-                "year"
+                "call",
+                "my",
+                "friend"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "traveled alone",
+              "text": "Was cooking",
+              "requiredLexemeIds": [
+                "be",
+                "cook"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Traveled alone",
               "requiredLexemeIds": [
                 "travel",
                 "alone"
@@ -3900,24 +3915,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "was cooking",
+              "text": "Worked here",
               "requiredLexemeIds": [
-                "was",
-                "cook"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "called my friend",
-              "requiredLexemeIds": [
-                "call",
-                "my",
-                "friend"
+                "work",
+                "here"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "called my friend",
+          "correctAnswer": "Called my friend",
           "evidenceSentenceIds": [
             "b1-u01-l04-s01"
           ],
@@ -3934,16 +3940,16 @@
           "id": "b1-u02-p01-q01",
           "sourceSentenceId": "b1-u02-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "這個人希望明年做什麼？",
           "options": [
-            "study English abroad",
-            "saving money",
-            "finish early",
-            "better job"
+            "Study English abroad",
+            "Saving money",
+            "Finish early",
+            "Find a better job"
           ],
           "optionMetadata": [
             {
-              "text": "study English abroad",
+              "text": "Study English abroad",
               "requiredLexemeIds": [
                 "study",
                 "english",
@@ -3952,7 +3958,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "saving money",
+              "text": "Saving money",
               "requiredLexemeIds": [
                 "save",
                 "money"
@@ -3960,7 +3966,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "finish early",
+              "text": "Finish early",
               "requiredLexemeIds": [
                 "finish",
                 "early"
@@ -3968,15 +3974,17 @@
               "requiredChunkIds": []
             },
             {
-              "text": "better job",
+              "text": "Find a better job",
               "requiredLexemeIds": [
+                "find",
+                "a",
                 "better",
                 "job"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "study English abroad",
+          "correctAnswer": "Study English abroad",
           "evidenceSentenceIds": [
             "b1-u02-l01-s01"
           ],
@@ -3986,16 +3994,24 @@
           "id": "b1-u02-p01-q02",
           "sourceSentenceId": "b1-u02-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "這個人目前正在做什麼準備？",
           "options": [
-            "study English abroad",
-            "saving money",
-            "finish early",
-            "better job"
+            "Saving money",
+            "Study English abroad",
+            "Finish early",
+            "Find a better job"
           ],
           "optionMetadata": [
             {
-              "text": "study English abroad",
+              "text": "Saving money",
+              "requiredLexemeIds": [
+                "save",
+                "money"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Study English abroad",
               "requiredLexemeIds": [
                 "study",
                 "english",
@@ -4004,15 +4020,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "saving money",
-              "requiredLexemeIds": [
-                "save",
-                "money"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "finish early",
+              "text": "Finish early",
               "requiredLexemeIds": [
                 "finish",
                 "early"
@@ -4020,15 +4028,17 @@
               "requiredChunkIds": []
             },
             {
-              "text": "better job",
+              "text": "Find a better job",
               "requiredLexemeIds": [
+                "find",
+                "a",
                 "better",
                 "job"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "saving money",
+          "correctAnswer": "Saving money",
           "evidenceSentenceIds": [
             "b1-u02-l02-s01"
           ],
@@ -4038,16 +4048,24 @@
           "id": "b1-u02-p01-q03",
           "sourceSentenceId": "b1-u02-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "如果提早完成，這個人會做什麼？",
           "options": [
-            "study English abroad",
-            "saving money",
-            "finish early",
-            "better job"
+            "Meet you",
+            "Study English abroad",
+            "Saving money",
+            "Find a job"
           ],
           "optionMetadata": [
             {
-              "text": "study English abroad",
+              "text": "Meet you",
+              "requiredLexemeIds": [
+                "meet",
+                "you"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Study English abroad",
               "requiredLexemeIds": [
                 "study",
                 "english",
@@ -4056,7 +4074,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "saving money",
+              "text": "Saving money",
               "requiredLexemeIds": [
                 "save",
                 "money"
@@ -4064,23 +4082,16 @@
               "requiredChunkIds": []
             },
             {
-              "text": "finish early",
+              "text": "Find a job",
               "requiredLexemeIds": [
-                "finish",
-                "early"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "better job",
-              "requiredLexemeIds": [
-                "better",
+                "find",
+                "a",
                 "job"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "finish early",
+          "correctAnswer": "Meet you",
           "evidenceSentenceIds": [
             "b1-u02-l03-s01"
           ],
@@ -4090,16 +4101,26 @@
           "id": "b1-u02-p01-q04",
           "sourceSentenceId": "b1-u02-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "這個人的目標是什麼？",
           "options": [
-            "study English abroad",
-            "saving money",
-            "finish early",
-            "better job"
+            "Find a better job",
+            "Study English abroad",
+            "Saving money",
+            "Meet you"
           ],
           "optionMetadata": [
             {
-              "text": "study English abroad",
+              "text": "Find a better job",
+              "requiredLexemeIds": [
+                "find",
+                "a",
+                "better",
+                "job"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Study English abroad",
               "requiredLexemeIds": [
                 "study",
                 "english",
@@ -4108,7 +4129,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "saving money",
+              "text": "Saving money",
               "requiredLexemeIds": [
                 "save",
                 "money"
@@ -4116,23 +4137,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "finish early",
+              "text": "Meet you",
               "requiredLexemeIds": [
-                "finish",
-                "early"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "better job",
-              "requiredLexemeIds": [
-                "better",
-                "job"
+                "meet",
+                "you"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "better job",
+          "correctAnswer": "Find a better job",
           "evidenceSentenceIds": [
             "b1-u02-l04-s01"
           ],
@@ -4149,16 +4162,16 @@
           "id": "b1-u03-p01-q01",
           "sourceSentenceId": "b1-u03-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "哪一項被說成很實用？",
           "options": [
-            "public transportation",
-            "costs less",
-            "although the task was difficult",
-            "helps everyone"
+            "Public transportation",
+            "This plan",
+            "The task",
+            "The option"
           ],
           "optionMetadata": [
             {
-              "text": "public transportation",
+              "text": "Public transportation",
               "requiredLexemeIds": [
                 "public",
                 "transportation"
@@ -4166,34 +4179,31 @@
               "requiredChunkIds": []
             },
             {
-              "text": "costs less",
+              "text": "This plan",
               "requiredLexemeIds": [
-                "cost",
-                "less"
+                "this",
+                "plan"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "although the task was difficult",
+              "text": "The task",
               "requiredLexemeIds": [
-                "although",
                 "the",
-                "task",
-                "was",
-                "difficult"
+                "task"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "helps everyone",
+              "text": "The option",
               "requiredLexemeIds": [
-                "help",
-                "everyone"
+                "the",
+                "option"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "public transportation",
+          "correctAnswer": "Public transportation",
           "evidenceSentenceIds": [
             "b1-u03-l01-s01"
           ],
@@ -4203,24 +4213,16 @@
           "id": "b1-u03-p01-q02",
           "sourceSentenceId": "b1-u03-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "這個方案為什麼比較受偏好？",
           "options": [
-            "public transportation",
-            "costs less",
-            "although the task was difficult",
-            "helps everyone"
+            "Costs less",
+            "Helps everyone",
+            "Is useful",
+            "Was difficult"
           ],
           "optionMetadata": [
             {
-              "text": "public transportation",
-              "requiredLexemeIds": [
-                "public",
-                "transportation"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "costs less",
+              "text": "Costs less",
               "requiredLexemeIds": [
                 "cost",
                 "less"
@@ -4228,26 +4230,31 @@
               "requiredChunkIds": []
             },
             {
-              "text": "although the task was difficult",
-              "requiredLexemeIds": [
-                "although",
-                "the",
-                "task",
-                "was",
-                "difficult"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "helps everyone",
+              "text": "Helps everyone",
               "requiredLexemeIds": [
                 "help",
                 "everyone"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Is useful",
+              "requiredLexemeIds": [
+                "be",
+                "useful"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Was difficult",
+              "requiredLexemeIds": [
+                "be",
+                "difficult"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "costs less",
+          "correctAnswer": "Costs less",
           "evidenceSentenceIds": [
             "b1-u03-l02-s01"
           ],
@@ -4257,24 +4264,24 @@
           "id": "b1-u03-p01-q03",
           "sourceSentenceId": "b1-u03-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "文中如何描述這個人完成的任務？",
           "options": [
-            "public transportation",
-            "costs less",
-            "although the task was difficult",
-            "helps everyone"
+            "Was difficult",
+            "Costs less",
+            "Is useful",
+            "Helps everyone"
           ],
           "optionMetadata": [
             {
-              "text": "public transportation",
+              "text": "Was difficult",
               "requiredLexemeIds": [
-                "public",
-                "transportation"
+                "be",
+                "difficult"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "costs less",
+              "text": "Costs less",
               "requiredLexemeIds": [
                 "cost",
                 "less"
@@ -4282,18 +4289,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "although the task was difficult",
+              "text": "Is useful",
               "requiredLexemeIds": [
-                "although",
-                "the",
-                "task",
-                "was",
-                "difficult"
+                "be",
+                "useful"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "helps everyone",
+              "text": "Helps everyone",
               "requiredLexemeIds": [
                 "help",
                 "everyone"
@@ -4301,7 +4305,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "although the task was difficult",
+          "correctAnswer": "Was difficult",
           "evidenceSentenceIds": [
             "b1-u03-l03-s01"
           ],
@@ -4311,24 +4315,24 @@
           "id": "b1-u03-p01-q04",
           "sourceSentenceId": "b1-u03-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "這個方案具備什麼特點？",
           "options": [
-            "public transportation",
-            "costs less",
-            "although the task was difficult",
-            "helps everyone"
+            "Helps everyone",
+            "Costs less",
+            "Is useful",
+            "Was difficult"
           ],
           "optionMetadata": [
             {
-              "text": "public transportation",
+              "text": "Helps everyone",
               "requiredLexemeIds": [
-                "public",
-                "transportation"
+                "help",
+                "everyone"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "costs less",
+              "text": "Costs less",
               "requiredLexemeIds": [
                 "cost",
                 "less"
@@ -4336,26 +4340,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "although the task was difficult",
+              "text": "Is useful",
               "requiredLexemeIds": [
-                "although",
-                "the",
-                "task",
-                "was",
-                "difficult"
+                "be",
+                "useful"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "helps everyone",
+              "text": "Was difficult",
               "requiredLexemeIds": [
-                "help",
-                "everyone"
+                "be",
+                "difficult"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "helps everyone",
+          "correctAnswer": "Helps everyone",
           "evidenceSentenceIds": [
             "b1-u03-l04-s01"
           ],
@@ -4372,16 +4373,16 @@
           "id": "b1-u04-p01-q01",
           "sourceSentenceId": "b1-u04-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "這個人請對方做什麼？",
           "options": [
-            "explain this problem",
-            "before Friday",
-            "who helped me",
-            "agreed to meet"
+            "Explain this problem",
+            "Finish the report",
+            "Meet after class",
+            "Helped me"
           ],
           "optionMetadata": [
             {
-              "text": "explain this problem",
+              "text": "Explain this problem",
               "requiredLexemeIds": [
                 "explain",
                 "this",
@@ -4390,33 +4391,33 @@
               "requiredChunkIds": []
             },
             {
-              "text": "before Friday",
+              "text": "Finish the report",
               "requiredLexemeIds": [
-                "before",
-                "friday"
+                "finish",
+                "the",
+                "report"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "who helped me",
+              "text": "Meet after class",
               "requiredLexemeIds": [
-                "who",
+                "meet",
+                "after",
+                "class"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Helped me",
+              "requiredLexemeIds": [
                 "help",
                 "me"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "agreed to meet",
-              "requiredLexemeIds": [
-                "agree",
-                "to",
-                "meet"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "explain this problem",
+          "correctAnswer": "Explain this problem",
           "evidenceSentenceIds": [
             "b1-u04-l01-s01"
           ],
@@ -4426,25 +4427,16 @@
           "id": "b1-u04-p01-q02",
           "sourceSentenceId": "b1-u04-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "報告的期限是什麼時候？",
           "options": [
-            "explain this problem",
-            "before Friday",
-            "who helped me",
-            "agreed to meet"
+            "Before Friday",
+            "After class",
+            "Again",
+            "Very patient"
           ],
           "optionMetadata": [
             {
-              "text": "explain this problem",
-              "requiredLexemeIds": [
-                "explain",
-                "this",
-                "problem"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "before Friday",
+              "text": "Before Friday",
               "requiredLexemeIds": [
                 "before",
                 "friday"
@@ -4452,25 +4444,30 @@
               "requiredChunkIds": []
             },
             {
-              "text": "who helped me",
+              "text": "After class",
               "requiredLexemeIds": [
-                "who",
-                "help",
-                "me"
+                "after",
+                "class"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "agreed to meet",
+              "text": "Again",
               "requiredLexemeIds": [
-                "agree",
-                "to",
-                "meet"
+                "again"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Very patient",
+              "requiredLexemeIds": [
+                "very",
+                "patient"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "before Friday",
+          "correctAnswer": "Before Friday",
           "evidenceSentenceIds": [
             "b1-u04-l02-s01"
           ],
@@ -4480,51 +4477,48 @@
           "id": "b1-u04-p01-q03",
           "sourceSentenceId": "b1-u04-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "文中提到，是誰幫助了這個人？",
           "options": [
-            "explain this problem",
-            "before Friday",
-            "who helped me",
-            "agreed to meet"
+            "The colleague",
+            "The problem",
+            "The report",
+            "The class"
           ],
           "optionMetadata": [
             {
-              "text": "explain this problem",
+              "text": "The colleague",
               "requiredLexemeIds": [
-                "explain",
-                "this",
+                "the",
+                "colleague"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The problem",
+              "requiredLexemeIds": [
+                "the",
                 "problem"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "before Friday",
+              "text": "The report",
               "requiredLexemeIds": [
-                "before",
-                "friday"
+                "the",
+                "report"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "who helped me",
+              "text": "The class",
               "requiredLexemeIds": [
-                "who",
-                "help",
-                "me"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "agreed to meet",
-              "requiredLexemeIds": [
-                "agree",
-                "to",
-                "meet"
+                "the",
+                "class"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "who helped me",
+          "correctAnswer": "The colleague",
           "evidenceSentenceIds": [
             "b1-u04-l03-s01"
           ],
@@ -4534,51 +4528,52 @@
           "id": "b1-u04-p01-q04",
           "sourceSentenceId": "b1-u04-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "他們最後同意做什麼？",
           "options": [
-            "explain this problem",
-            "before Friday",
-            "who helped me",
-            "agreed to meet"
+            "Agreed to meet",
+            "Explain the problem",
+            "Finish before Friday",
+            "Helped the colleague"
           ],
           "optionMetadata": [
             {
-              "text": "explain this problem",
-              "requiredLexemeIds": [
-                "explain",
-                "this",
-                "problem"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "before Friday",
-              "requiredLexemeIds": [
-                "before",
-                "friday"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "who helped me",
-              "requiredLexemeIds": [
-                "who",
-                "help",
-                "me"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "agreed to meet",
+              "text": "Agreed to meet",
               "requiredLexemeIds": [
                 "agree",
                 "to",
                 "meet"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Explain the problem",
+              "requiredLexemeIds": [
+                "explain",
+                "the",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Finish before Friday",
+              "requiredLexemeIds": [
+                "finish",
+                "before",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Helped the colleague",
+              "requiredLexemeIds": [
+                "help",
+                "the",
+                "colleague"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "agreed to meet",
+          "correctAnswer": "Agreed to meet",
           "evidenceSentenceIds": [
             "b1-u04-l04-s01"
           ],
@@ -4595,16 +4590,16 @@
           "id": "b1-u05-p01-q01",
           "sourceSentenceId": "b1-u05-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "火車延誤造成什麼結果？",
           "options": [
-            "missed the bus",
-            "where the station is",
-            "change my booking",
-            "weather improves"
+            "Missed the bus",
+            "Change my booking",
+            "Weather improves",
+            "Where the station is"
           ],
           "optionMetadata": [
             {
-              "text": "missed the bus",
+              "text": "Missed the bus",
               "requiredLexemeIds": [
                 "miss",
                 "the",
@@ -4613,17 +4608,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "where the station is",
-              "requiredLexemeIds": [
-                "where",
-                "the",
-                "station",
-                "be"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "change my booking",
+              "text": "Change my booking",
               "requiredLexemeIds": [
                 "change",
                 "my",
@@ -4632,15 +4617,25 @@
               "requiredChunkIds": []
             },
             {
-              "text": "weather improves",
+              "text": "Weather improves",
               "requiredLexemeIds": [
                 "weather",
                 "improve"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Where the station is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "station",
+                "be"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "missed the bus",
+          "correctAnswer": "Missed the bus",
           "evidenceSentenceIds": [
             "b1-u05-l01-s01"
           ],
@@ -4650,25 +4645,16 @@
           "id": "b1-u05-p01-q02",
           "sourceSentenceId": "b1-u05-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "這個人想知道車站的什麼？",
           "options": [
-            "missed the bus",
-            "where the station is",
-            "change my booking",
-            "weather improves"
+            "Where the station is",
+            "Where the bus is",
+            "Change my booking",
+            "Missed the bus"
           ],
           "optionMetadata": [
             {
-              "text": "missed the bus",
-              "requiredLexemeIds": [
-                "miss",
-                "the",
-                "bus"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "where the station is",
+              "text": "Where the station is",
               "requiredLexemeIds": [
                 "where",
                 "the",
@@ -4678,7 +4664,17 @@
               "requiredChunkIds": []
             },
             {
-              "text": "change my booking",
+              "text": "Where the bus is",
+              "requiredLexemeIds": [
+                "where",
+                "the",
+                "bus",
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Change my booking",
               "requiredLexemeIds": [
                 "change",
                 "my",
@@ -4687,15 +4683,16 @@
               "requiredChunkIds": []
             },
             {
-              "text": "weather improves",
+              "text": "Missed the bus",
               "requiredLexemeIds": [
-                "weather",
-                "improve"
+                "miss",
+                "the",
+                "bus"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "where the station is",
+          "correctAnswer": "Where the station is",
           "evidenceSentenceIds": [
             "b1-u05-l02-s01"
           ],
@@ -4705,52 +4702,48 @@
           "id": "b1-u05-p01-q03",
           "sourceSentenceId": "b1-u05-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這個人需要更改什麼？",
           "options": [
-            "missed the bus",
-            "where the station is",
-            "change my booking",
-            "weather improves"
+            "My booking",
+            "The train",
+            "The bus",
+            "The weather"
           ],
           "optionMetadata": [
             {
-              "text": "missed the bus",
+              "text": "My booking",
               "requiredLexemeIds": [
-                "miss",
-                "the",
-                "bus"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "where the station is",
-              "requiredLexemeIds": [
-                "where",
-                "the",
-                "station",
-                "be"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "change my booking",
-              "requiredLexemeIds": [
-                "change",
                 "my",
                 "booking"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "weather improves",
+              "text": "The train",
               "requiredLexemeIds": [
-                "weather",
-                "improve"
+                "the",
+                "train"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The bus",
+              "requiredLexemeIds": [
+                "the",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The weather",
+              "requiredLexemeIds": [
+                "the",
+                "weather"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "change my booking",
+          "correctAnswer": "My booking",
           "evidenceSentenceIds": [
             "b1-u05-l03-s01"
           ],
@@ -4760,16 +4753,24 @@
           "id": "b1-u05-p01-q04",
           "sourceSentenceId": "b1-u05-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "什麼情況會讓他們提早出發？",
           "options": [
-            "missed the bus",
-            "where the station is",
-            "change my booking",
-            "weather improves"
+            "Weather improves",
+            "Missed the bus",
+            "Change my booking",
+            "Where the station is"
           ],
           "optionMetadata": [
             {
-              "text": "missed the bus",
+              "text": "Weather improves",
+              "requiredLexemeIds": [
+                "weather",
+                "improve"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Missed the bus",
               "requiredLexemeIds": [
                 "miss",
                 "the",
@@ -4778,17 +4779,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "where the station is",
-              "requiredLexemeIds": [
-                "where",
-                "the",
-                "station",
-                "be"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "change my booking",
+              "text": "Change my booking",
               "requiredLexemeIds": [
                 "change",
                 "my",
@@ -4797,15 +4788,17 @@
               "requiredChunkIds": []
             },
             {
-              "text": "weather improves",
+              "text": "Where the station is",
               "requiredLexemeIds": [
-                "weather",
-                "improve"
+                "where",
+                "the",
+                "station",
+                "be"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "weather improves",
+          "correctAnswer": "Weather improves",
           "evidenceSentenceIds": [
             "b1-u05-l04-s01"
           ],
@@ -4822,16 +4815,16 @@
           "id": "b1-u06-p01-q01",
           "sourceSentenceId": "b1-u06-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "這個人使用 app 做什麼？",
           "options": [
-            "organize my schedule",
-            "was sent",
-            "spent less time online",
-            "more convenient"
+            "Organize my schedule",
+            "Make tasks",
+            "Spent time online",
+            "Sent a message"
           ],
           "optionMetadata": [
             {
-              "text": "organize my schedule",
+              "text": "Organize my schedule",
               "requiredLexemeIds": [
                 "organize",
                 "my",
@@ -4840,33 +4833,33 @@
               "requiredChunkIds": []
             },
             {
-              "text": "was sent",
+              "text": "Make tasks",
               "requiredLexemeIds": [
-                "was",
-                "send"
+                "make",
+                "task"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "spent less time online",
+              "text": "Spent time online",
               "requiredLexemeIds": [
                 "spend",
-                "less",
                 "time",
                 "online"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "more convenient",
+              "text": "Sent a message",
               "requiredLexemeIds": [
-                "more",
-                "convenient"
+                "send",
+                "a",
+                "message"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "organize my schedule",
+          "correctAnswer": "Organize my schedule",
           "evidenceSentenceIds": [
             "b1-u06-l01-s01"
           ],
@@ -4876,51 +4869,50 @@
           "id": "b1-u06-p01-q02",
           "sourceSentenceId": "b1-u06-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "訊息被發給了誰？",
           "options": [
-            "organize my schedule",
-            "was sent",
-            "spent less time online",
-            "more convenient"
+            "The wrong person",
+            "The wrong friend",
+            "My schedule",
+            "The app"
           ],
           "optionMetadata": [
             {
-              "text": "organize my schedule",
+              "text": "The wrong person",
               "requiredLexemeIds": [
-                "organize",
+                "the",
+                "wrong",
+                "person"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The wrong friend",
+              "requiredLexemeIds": [
+                "the",
+                "wrong",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "My schedule",
+              "requiredLexemeIds": [
                 "my",
                 "schedule"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "was sent",
+              "text": "The app",
               "requiredLexemeIds": [
-                "was",
-                "send"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "spent less time online",
-              "requiredLexemeIds": [
-                "spend",
-                "less",
-                "time",
-                "online"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "more convenient",
-              "requiredLexemeIds": [
-                "more",
-                "convenient"
+                "the",
+                "app"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "was sent",
+          "correctAnswer": "The wrong person",
           "evidenceSentenceIds": [
             "b1-u06-l02-s01"
           ],
@@ -4930,33 +4922,16 @@
           "id": "b1-u06-p01-q03",
           "sourceSentenceId": "b1-u06-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這個人這星期花在網路上的時間如何？",
           "options": [
-            "organize my schedule",
-            "was sent",
-            "spent less time online",
-            "more convenient"
+            "Spent less time online",
+            "More convenient",
+            "Sent the message",
+            "Organize my schedule"
           ],
           "optionMetadata": [
             {
-              "text": "organize my schedule",
-              "requiredLexemeIds": [
-                "organize",
-                "my",
-                "schedule"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "was sent",
-              "requiredLexemeIds": [
-                "was",
-                "send"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "spent less time online",
+              "text": "Spent less time online",
               "requiredLexemeIds": [
                 "spend",
                 "less",
@@ -4966,15 +4941,33 @@
               "requiredChunkIds": []
             },
             {
-              "text": "more convenient",
+              "text": "More convenient",
               "requiredLexemeIds": [
                 "more",
                 "convenient"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Sent the message",
+              "requiredLexemeIds": [
+                "send",
+                "the",
+                "message"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Organize my schedule",
+              "requiredLexemeIds": [
+                "organize",
+                "my",
+                "schedule"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "spent less time online",
+          "correctAnswer": "Spent less time online",
           "evidenceSentenceIds": [
             "b1-u06-l03-s01"
           ],
@@ -4984,35 +4977,25 @@
           "id": "b1-u06-p01-q04",
           "sourceSentenceId": "b1-u06-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "科技可以讓日常工作怎樣？",
           "options": [
-            "organize my schedule",
-            "was sent",
-            "spent less time online",
-            "more convenient"
+            "More convenient",
+            "Less time online",
+            "Wrong person",
+            "Sent a message"
           ],
           "optionMetadata": [
             {
-              "text": "organize my schedule",
+              "text": "More convenient",
               "requiredLexemeIds": [
-                "organize",
-                "my",
-                "schedule"
+                "more",
+                "convenient"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "was sent",
+              "text": "Less time online",
               "requiredLexemeIds": [
-                "was",
-                "send"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "spent less time online",
-              "requiredLexemeIds": [
-                "spend",
                 "less",
                 "time",
                 "online"
@@ -5020,15 +5003,24 @@
               "requiredChunkIds": []
             },
             {
-              "text": "more convenient",
+              "text": "Wrong person",
               "requiredLexemeIds": [
-                "more",
-                "convenient"
+                "wrong",
+                "person"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Sent a message",
+              "requiredLexemeIds": [
+                "send",
+                "a",
+                "message"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "more convenient",
+          "correctAnswer": "More convenient",
           "evidenceSentenceIds": [
             "b1-u06-l04-s01"
           ],
@@ -5045,24 +5037,26 @@
           "id": "b1-u07-p01-q01",
           "sourceSentenceId": "b1-u07-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "這個人為什麼道歉？",
           "options": [
-            "had forgotten",
-            "needs support",
-            "since high school",
-            "respect different opinions"
+            "Had forgotten her birthday",
+            "Needs support",
+            "Known each other",
+            "Respect opinions"
           ],
           "optionMetadata": [
             {
-              "text": "had forgotten",
+              "text": "Had forgotten her birthday",
               "requiredLexemeIds": [
-                "had",
-                "forget"
+                "have",
+                "forget",
+                "her",
+                "birthday"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "needs support",
+              "text": "Needs support",
               "requiredLexemeIds": [
                 "need",
                 "support"
@@ -5070,25 +5064,24 @@
               "requiredChunkIds": []
             },
             {
-              "text": "since high school",
+              "text": "Known each other",
               "requiredLexemeIds": [
-                "since",
-                "high",
-                "school"
+                "know",
+                "each",
+                "other"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "respect different opinions",
+              "text": "Respect opinions",
               "requiredLexemeIds": [
                 "respect",
-                "different",
                 "opinion"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "had forgotten",
+          "correctAnswer": "Had forgotten her birthday",
           "evidenceSentenceIds": [
             "b1-u07-l01-s01"
           ],
@@ -5098,24 +5091,16 @@
           "id": "b1-u07-p01-q02",
           "sourceSentenceId": "b1-u07-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "好朋友會在別人處於什麼情況時傾聽？",
           "options": [
-            "had forgotten",
-            "needs support",
-            "since high school",
-            "respect different opinions"
+            "Needs support",
+            "Forgotten birthday",
+            "Since high school",
+            "Different opinions"
           ],
           "optionMetadata": [
             {
-              "text": "had forgotten",
-              "requiredLexemeIds": [
-                "had",
-                "forget"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "needs support",
+              "text": "Needs support",
               "requiredLexemeIds": [
                 "need",
                 "support"
@@ -5123,7 +5108,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "since high school",
+              "text": "Forgotten birthday",
+              "requiredLexemeIds": [
+                "forget",
+                "birthday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Since high school",
               "requiredLexemeIds": [
                 "since",
                 "high",
@@ -5132,16 +5125,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "respect different opinions",
+              "text": "Different opinions",
               "requiredLexemeIds": [
-                "respect",
                 "different",
                 "opinion"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "needs support",
+          "correctAnswer": "Needs support",
           "evidenceSentenceIds": [
             "b1-u07-l02-s01"
           ],
@@ -5151,32 +5143,16 @@
           "id": "b1-u07-p01-q03",
           "sourceSentenceId": "b1-u07-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這兩個人從什麼時候認識彼此？",
           "options": [
-            "had forgotten",
-            "needs support",
-            "since high school",
-            "respect different opinions"
+            "Since high school",
+            "Needs support",
+            "Forgotten birthday",
+            "Respect opinions"
           ],
           "optionMetadata": [
             {
-              "text": "had forgotten",
-              "requiredLexemeIds": [
-                "had",
-                "forget"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "needs support",
-              "requiredLexemeIds": [
-                "need",
-                "support"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "since high school",
+              "text": "Since high school",
               "requiredLexemeIds": [
                 "since",
                 "high",
@@ -5185,16 +5161,31 @@
               "requiredChunkIds": []
             },
             {
-              "text": "respect different opinions",
+              "text": "Needs support",
+              "requiredLexemeIds": [
+                "need",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Forgotten birthday",
+              "requiredLexemeIds": [
+                "forget",
+                "birthday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Respect opinions",
               "requiredLexemeIds": [
                 "respect",
-                "different",
                 "opinion"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "since high school",
+          "correctAnswer": "Since high school",
           "evidenceSentenceIds": [
             "b1-u07-l03-s01"
           ],
@@ -5204,50 +5195,51 @@
           "id": "b1-u07-p01-q04",
           "sourceSentenceId": "b1-u07-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "這句話主張什麼很重要？",
           "options": [
-            "had forgotten",
-            "needs support",
-            "since high school",
-            "respect different opinions"
+            "Respect different opinions",
+            "Listen to friends",
+            "Forgotten birthday",
+            "Known each other"
           ],
           "optionMetadata": [
             {
-              "text": "had forgotten",
-              "requiredLexemeIds": [
-                "had",
-                "forget"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "needs support",
-              "requiredLexemeIds": [
-                "need",
-                "support"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "since high school",
-              "requiredLexemeIds": [
-                "since",
-                "high",
-                "school"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "respect different opinions",
+              "text": "Respect different opinions",
               "requiredLexemeIds": [
                 "respect",
                 "different",
                 "opinion"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Listen to friends",
+              "requiredLexemeIds": [
+                "listen",
+                "to",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Forgotten birthday",
+              "requiredLexemeIds": [
+                "forget",
+                "birthday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Known each other",
+              "requiredLexemeIds": [
+                "know",
+                "each",
+                "other"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "respect different opinions",
+          "correctAnswer": "Respect different opinions",
           "evidenceSentenceIds": [
             "b1-u07-l04-s01"
           ],
@@ -5264,43 +5256,40 @@
           "id": "b1-u08-p01-q01",
           "sourceSentenceId": "b1-u08-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "去年這個人決定改變什麼？",
           "options": [
-            "change my daily routine",
-            "difficult to follow",
-            "kept practicing",
-            "more confident"
+            "Daily routine",
+            "New schedule",
+            "Better results",
+            "More confident"
           ],
           "optionMetadata": [
             {
-              "text": "change my daily routine",
+              "text": "Daily routine",
               "requiredLexemeIds": [
-                "change",
-                "my",
                 "daily",
                 "routine"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "difficult to follow",
+              "text": "New schedule",
               "requiredLexemeIds": [
-                "difficult",
-                "to",
-                "follow"
+                "new",
+                "schedule"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "kept practicing",
+              "text": "Better results",
               "requiredLexemeIds": [
-                "keep",
-                "practice"
+                "better",
+                "result"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "more confident",
+              "text": "More confident",
               "requiredLexemeIds": [
                 "more",
                 "confident"
@@ -5308,7 +5297,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "change my daily routine",
+          "correctAnswer": "Daily routine",
           "evidenceSentenceIds": [
             "b1-u08-l01-s01"
           ],
@@ -5318,26 +5307,16 @@
           "id": "b1-u08-p01-q02",
           "sourceSentenceId": "b1-u08-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "新的作息一開始如何？",
           "options": [
-            "change my daily routine",
-            "difficult to follow",
-            "kept practicing",
-            "more confident"
+            "Difficult to follow",
+            "Daily routine",
+            "Kept practicing",
+            "Wanted results"
           ],
           "optionMetadata": [
             {
-              "text": "change my daily routine",
-              "requiredLexemeIds": [
-                "change",
-                "my",
-                "daily",
-                "routine"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "difficult to follow",
+              "text": "Difficult to follow",
               "requiredLexemeIds": [
                 "difficult",
                 "to",
@@ -5346,7 +5325,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "kept practicing",
+              "text": "Daily routine",
+              "requiredLexemeIds": [
+                "daily",
+                "routine"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Kept practicing",
               "requiredLexemeIds": [
                 "keep",
                 "practice"
@@ -5354,15 +5341,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "more confident",
+              "text": "Wanted results",
               "requiredLexemeIds": [
-                "more",
-                "confident"
+                "want",
+                "result"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "difficult to follow",
+          "correctAnswer": "Difficult to follow",
           "evidenceSentenceIds": [
             "b1-u08-l02-s01"
           ],
@@ -5372,43 +5359,41 @@
           "id": "b1-u08-p01-q03",
           "sourceSentenceId": "b1-u08-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這個人為什麼持續練習？",
           "options": [
-            "change my daily routine",
-            "difficult to follow",
-            "kept practicing",
-            "more confident"
+            "Wanted better results",
+            "Daily routine",
+            "Follow schedule",
+            "More confident"
           ],
           "optionMetadata": [
             {
-              "text": "change my daily routine",
+              "text": "Wanted better results",
               "requiredLexemeIds": [
-                "change",
-                "my",
+                "want",
+                "better",
+                "result"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Daily routine",
+              "requiredLexemeIds": [
                 "daily",
                 "routine"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "difficult to follow",
+              "text": "Follow schedule",
               "requiredLexemeIds": [
-                "difficult",
-                "to",
-                "follow"
+                "follow",
+                "schedule"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "kept practicing",
-              "requiredLexemeIds": [
-                "keep",
-                "practice"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "more confident",
+              "text": "More confident",
               "requiredLexemeIds": [
                 "more",
                 "confident"
@@ -5416,7 +5401,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "kept practicing",
+          "correctAnswer": "Wanted better results",
           "evidenceSentenceIds": [
             "b1-u08-l03-s01"
           ],
@@ -5426,26 +5411,24 @@
           "id": "b1-u08-p01-q04",
           "sourceSentenceId": "b1-u08-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "現在這個人對目標有什麼感覺？",
           "options": [
-            "change my daily routine",
-            "difficult to follow",
-            "kept practicing",
-            "more confident"
+            "More confident",
+            "Difficult to follow",
+            "Wanted results",
+            "Daily routine"
           ],
           "optionMetadata": [
             {
-              "text": "change my daily routine",
+              "text": "More confident",
               "requiredLexemeIds": [
-                "change",
-                "my",
-                "daily",
-                "routine"
+                "more",
+                "confident"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "difficult to follow",
+              "text": "Difficult to follow",
               "requiredLexemeIds": [
                 "difficult",
                 "to",
@@ -5454,23 +5437,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "kept practicing",
+              "text": "Wanted results",
               "requiredLexemeIds": [
-                "keep",
-                "practice"
+                "want",
+                "result"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "more confident",
+              "text": "Daily routine",
               "requiredLexemeIds": [
-                "more",
-                "confident"
+                "daily",
+                "routine"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "more confident",
+          "correctAnswer": "More confident",
           "evidenceSentenceIds": [
             "b1-u08-l04-s01"
           ],

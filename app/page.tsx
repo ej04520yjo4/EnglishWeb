@@ -43,6 +43,7 @@ import {
 } from "./input-flow";
 import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
 import { wordAccuracy } from "./assessment-scoring";
+import { normalizeSentenceForComparison } from "./curriculum/sentence-words";
 import {
   evaluatePassageRebuild,
   lessonsForPassage,
@@ -117,6 +118,7 @@ import {
   vocabularyItemMatchesSearch,
   vocabularyLearningState,
   vocabularyStatusMatchesFilter,
+  withVocabularySearchAliases,
 } from "./vocabulary-groups";
 import {
   buildVocabularyTargetAliasIndex,
@@ -362,7 +364,7 @@ const clean = (value: string) =>
     .replace(/\s+/g, " ")
     .toLowerCase();
 
-const cleanSentence = (value: string) => clean(value).replace(/[.!?。！？]+$/g, "");
+const cleanSentence = normalizeSentenceForComparison;
 
 const dateKey = () => localDateKey();
 const timestamp = () => Date.now();
@@ -386,8 +388,9 @@ const activateButtonOnEnter = (
   event: KeyboardEvent<HTMLButtonElement>,
   action: () => void,
 ) => {
-  if (event.key !== "Enter" || event.repeat) return;
+  if (event.key !== "Enter") return;
   event.preventDefault();
+  if (event.repeat) return;
   action();
 };
 
@@ -638,6 +641,15 @@ export default function Home() {
   const [kkAudioMessage, setKkAudioMessage] = useState("");
   const [vocabularyDataset, setVocabularyDataset] =
     useState<VocabularyDataset | null>(null);
+  const searchableVocabularyDataset = useMemo(
+    () => vocabularyDataset
+      ? withVocabularySearchAliases(
+          vocabularyDataset,
+          courseDataStatusByLevel.A2 === "ready" ? courseRowsByLevel.A2 : [],
+        )
+      : null,
+    [vocabularyDataset, courseDataStatusByLevel.A2, courseRowsByLevel.A2],
+  );
   const [vocabularyDataStatus, setVocabularyDataStatus] = useState<
     "loading" | "ready" | "error"
   >("loading");
@@ -695,7 +707,6 @@ export default function Home() {
   const [dailyReviewValue, setDailyReviewValue] = useState("");
   const [dailyReviewFeedback, setDailyReviewFeedback] = useState("");
   const [dailyReviewResultItemId, setDailyReviewResultItemId] = useState("");
-  const dailyReviewInputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const [weaknessPracticeQueue, setWeaknessPracticeQueue] =
     useState<string[]>([]);
   const [weaknessPracticeIndex, setWeaknessPracticeIndex] = useState(0);
@@ -760,6 +771,8 @@ export default function Home() {
           weaknessPracticeReturnScreen === "daily-summary")),
   );
   const recallInputs = useRef<Array<HTMLInputElement | null>>([]);
+  const pageContentRef = useRef<HTMLDivElement | null>(null);
+  const pageFocusRouteRef = useRef<string | null>(null);
   const kkAudioRef = useRef<HTMLAudioElement | null>(null);
   const kkPlaybackToken = useRef(0);
   const targetLexemeAliasIndex = useMemo(
@@ -1377,6 +1390,45 @@ export default function Home() {
   }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
 
   useEffect(() => {
+    if (
+      screen !== "related-vocabulary" ||
+      !vocabularyReturnContext ||
+      !relatedCurrentLexemeId ||
+      vocabularyDataStatus !== "ready"
+    ) return;
+    const frame = window.requestAnimationFrame(() => {
+      const card = document.getElementById(`related-word-${relatedCurrentLexemeId}`);
+      card?.focus({ preventScroll: true });
+      card?.scrollIntoView({
+        block: "center",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [screen, vocabularyReturnContext, relatedCurrentLexemeId, vocabularyDataStatus]);
+
+  useEffect(() => {
+    const route = `${selectedLevel}:${screen}`;
+    const frame = window.requestAnimationFrame(() => {
+      const content = pageContentRef.current;
+      if (!content) return;
+      const routeChanged = pageFocusRouteRef.current !== route;
+      pageFocusRouteRef.current = route;
+      const active = document.activeElement;
+      // Keep input autofocus and the course-to-vocabulary card shortcut.
+      if (active !== content && content.contains(active)) return;
+      // Late data loading must not steal focus after the learner moves away.
+      if (!routeChanged && active !== content) return;
+      const target = content.querySelector<HTMLElement>("h1") ?? content;
+      target.tabIndex = -1;
+      target.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [screen, selectedLevel, courseDataStatus, vocabularyDataStatus]);
+
+  useEffect(() => {
     let active = true;
     loadVocabularyTargets()
       .then((data) => {
@@ -1564,8 +1616,36 @@ export default function Home() {
     : undefined;
   const currentPatternExample =
     selectedPatternExamples[patternExampleIndex];
+  const transferReviewSource = currentPatternExample
+    ? allLessons.find((lesson) =>
+        lesson.sentenceId === currentPatternExample.sourceSentenceId &&
+        lesson.id !== selectedLesson.id,
+      )
+    : undefined;
   const currentPassageQuestion =
     selectedPassageComprehension?.questions[passageQuestionIndex];
+  const choiceStageFocusId = screen !== "learning"
+    ? ""
+    : stage === "reading-recognition" && selectedRecognition
+      ? recognitionChecked
+        ? "recognition-next-button"
+        : `recognition-option-${selectedRecognition.options[0]?.id}`
+      : stage === "text-response" && selectedTextResponse
+        ? textResponseChecked
+          ? "text-response-next-button"
+          : `text-response-option-${selectedTextResponse.options[0]?.id}`
+        : stage === "passage-comprehension" && currentPassageQuestion
+          ? passageQuestionChecked
+            ? "passage-question-next-button"
+            : "passage-answer-0"
+          : "";
+  useEffect(() => {
+    if (!choiceStageFocusId) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(choiceStageFocusId)?.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [choiceStageFocusId]);
   const currentTokenHintLevel =
     progress.tokenHintLevels[currentToken.occurrenceId] ?? 1;
   const currentTokenWords = currentToken.answer.trim().split(/\s+/).filter(Boolean);
@@ -1761,15 +1841,6 @@ export default function Home() {
       countReplay,
     );
 
-  const scrollToRelatedLexeme = (lexemeId: string) => {
-    if (!lexemeId) return;
-    window.setTimeout(() => {
-      document
-        .getElementById(`related-word-${lexemeId}`)
-        ?.scrollIntoView({ block: "center", behavior: "smooth" });
-    }, 120);
-  };
-
   const selectVocabularyGroup = (
     groupId: string,
     lexemeId = "",
@@ -1777,7 +1848,6 @@ export default function Home() {
     setActiveVocabularyGroupId(groupId);
     setOpenedVocabularyLexemeId(lexemeId);
     localStorage.setItem(STORAGE.lastVocabularyGroup, groupId);
-    scrollToRelatedLexeme(lexemeId);
   };
 
   const openVocabularyItem = (
@@ -1827,6 +1897,8 @@ export default function Home() {
       ),
     );
     setRelatedCurrentLexemeId(lexemeId);
+    setVocabularySearch("");
+    setVocabularyFilter("all");
     setScreen("related-vocabulary");
     selectVocabularyGroup(group.id, lexemeId);
   };
@@ -3726,7 +3798,6 @@ export default function Home() {
     setDailyReviewFeedback("");
     setDailyReviewResultItemId("");
     goToDailySessionStep(session);
-    window.setTimeout(() => dailyReviewInputRef.current?.focus(), 0);
   };
 
   const leaveDailyReview = () => {
@@ -4465,7 +4536,7 @@ export default function Home() {
         </section>
       );
     }
-    if (vocabularyDataStatus === "error" || !vocabularyDataset) {
+    if (vocabularyDataStatus === "error" || !vocabularyDataset || !searchableVocabularyDataset) {
       return (
         <section
           className="section-card vocabulary-load-state"
@@ -4508,7 +4579,7 @@ export default function Home() {
       activeGroupId = activeVocabularyGroupId,
     ) =>
       resolveVocabularyGroupSelection(
-        vocabularyDataset.groups,
+        searchableVocabularyDataset.groups,
         activeGroupId,
         (group, item) => itemIsVisible(group, item, query, filter),
       );
@@ -4521,6 +4592,10 @@ export default function Home() {
           itemIsVisible(activeGroup, item),
         )
       : [];
+    const matchingItemCount = visibleGroups.reduce(
+      (count, group) => count + group.items.filter((item) => itemIsVisible(group, item)).length,
+      0,
+    );
     const updateVocabularySearch = (query: string) => {
       setVocabularySearch(query);
       const nextGroup = resolveSelection(
@@ -4583,6 +4658,8 @@ export default function Home() {
               }
               placeholder="例如：Saturday、星期六"
               aria-label="搜尋英文、中文、主題名稱或 lexeme ID"
+              aria-controls="vocabulary-search-results"
+              aria-describedby="vocabulary-search-summary"
             />
           </label>
           <div
@@ -4605,7 +4682,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="vocabulary-groups-title">
+        <p
+          id="vocabulary-search-summary"
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          data-testid="vocabulary-search-summary"
+        >
+          {activeGroup
+            ? `找到 ${visibleGroups.length} 個主題、${matchingItemCount} 個符合的字詞。目前顯示${activeGroup.titleZhTw}：${activeItems.length} 個字詞。`
+            : "找不到相關字詞，請調整搜尋文字或已學狀態篩選。"}
+        </p>
+
+        <section id="vocabulary-search-results" aria-labelledby="vocabulary-groups-title">
           <div className="section-heading vocabulary-section-heading">
             <div>
               <span className="eyebrow">主題分類</span>
@@ -4629,6 +4719,8 @@ export default function Home() {
                   key={group.id}
                   onClick={() => selectVocabularyGroup(group.id)}
                   aria-label={`進入${group.titleZhTw}主題`}
+                  aria-pressed={activeGroup?.id === group.id}
+                  aria-describedby={`vocabulary-group-info-${group.id}`}
                   data-testid={`vocabulary-group-${group.id}`}
                 >
                   <span className="vocabulary-group-icon">▦</span>
@@ -4637,7 +4729,7 @@ export default function Home() {
                     <b>{group.titleEn}</b>
                     <small>{group.descriptionZhTw}</small>
                   </span>
-                  <span className="vocabulary-group-counts">
+                  <span className="vocabulary-group-counts" id={`vocabulary-group-info-${group.id}`}>
                     <b>{group.items.length} 個字詞</b>
                     <small>已學 {learnedCount} 個</small>
                   </span>
@@ -4698,6 +4790,8 @@ export default function Home() {
                   }`}
                   key={item.lexemeId}
                   data-testid={`vocabulary-word-${item.lexemeId}`}
+                  tabIndex={-1}
+                  aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
                   aria-current={
                     state.status === "current" ? "true" : undefined
                   }
@@ -4708,7 +4802,7 @@ export default function Home() {
                         {item.order}
                       </span>
                       <div>
-                        <h3>{item.displayEnglish}</h3>
+                        <h3 id={`vocabulary-word-title-${item.lexemeId}`} lang="en-US">{item.displayEnglish}</h3>
                         <p>{item.translationZhTw}</p>
                       </div>
                     </div>
@@ -4723,14 +4817,21 @@ export default function Home() {
                     type="button"
                     data-testid={`open-vocabulary-${item.lexemeId}`}
                     aria-expanded={openedVocabularyLexemeId === item.lexemeId}
+                    aria-controls={`vocabulary-detail-${item.lexemeId}`}
+                    aria-label={`${openedVocabularyLexemeId === item.lexemeId ? "收合字詞詳情" : "開啟字詞詳情"}：${item.displayEnglish}`}
                     onClick={() => openVocabularyItem(activeGroup.id, item)}
                   >
                     {openedVocabularyLexemeId === item.lexemeId
                       ? "收合字詞詳情"
                       : "開啟字詞詳情"}
                   </button>
-                  {openedVocabularyLexemeId === item.lexemeId && (
-                    <div data-testid={`vocabulary-detail-${item.lexemeId}`}>
+                    <div
+                      id={`vocabulary-detail-${item.lexemeId}`}
+                      data-testid={`vocabulary-detail-${item.lexemeId}`}
+                      role="region"
+                      aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
+                      hidden={openedVocabularyLexemeId !== item.lexemeId}
+                    >
                   <div className="vocabulary-phonetics">
                     <span>
                       <small>KK</small>
@@ -4798,7 +4899,6 @@ export default function Home() {
                     </p>
                   )}
                     </div>
-                  )}
                 </article>
               );
             })}
@@ -5034,6 +5134,13 @@ export default function Home() {
       );
     }
 
+    const activeExerciseQaStatus = stage === "reading-recognition"
+      ? selectedRecognition?.qaStatus
+      : stage === "pattern-transfer"
+        ? currentPatternExample?.qaStatus
+        : stage === "text-response"
+          ? selectedTextResponse?.qaStatus
+          : undefined;
     const stageNumber =
       stage === "recall"
         ? 1
@@ -5070,6 +5177,11 @@ export default function Home() {
           </span>
         </div>
         <div className="stage-progress"><i style={{ width: `${(stageNumber / 7) * 100}%` }} /></div>
+        {selectedLevel === "A1" && activeExerciseQaStatus === "pilot_review_required" && (
+          <p className="exercise-instruction" data-testid="a1-exercise-trial-notice">
+            新增練習試行中，英文與中文內容仍待人工複核。
+          </p>
+        )}
 
         {stage === "recall" && (
           <section className="exercise-card recall-card">
@@ -5478,6 +5590,7 @@ export default function Home() {
                       wrong ? "wrong" : ""
                     }`}
                     disabled={recognitionChecked}
+                    aria-pressed={selected}
                     onClick={() => setRecognitionSelectedId(option.id)}
                   >
                     {option.text}
@@ -5527,6 +5640,12 @@ export default function Home() {
             <h1 className="chinese-prompt">
               {currentPatternExample.translation}
             </h1>
+            {transferReviewSource && (
+              <p className="exercise-instruction" data-testid="pattern-review-context">
+                複習已學句型：{selectedTransferPatternName}。參考句：
+                <span lang="en-US">{transferReviewSource.sentence}</span>
+              </p>
+            )}
             <div className="pattern-hint-card">
               <span>
                 提示 Level{" "}
@@ -5561,7 +5680,9 @@ export default function Home() {
               className="field-label"
               htmlFor="pattern-transfer-answer"
             >
-              請使用相同句型輸入完整英文
+              {transferReviewSource
+                ? "請使用上方複習句型輸入完整英文"
+                : "請使用相同句型輸入完整英文"}
             </label>
             <input
               id="pattern-transfer-answer"
@@ -5651,6 +5772,7 @@ export default function Home() {
                       wrong ? "wrong" : ""
                     }`}
                     disabled={textResponseChecked}
+                    aria-pressed={selected}
                     onClick={() => setTextResponseSelectedId(option.id)}
                   >
                     {option.text}
@@ -5799,6 +5921,7 @@ export default function Home() {
                         wrong ? "wrong" : ""
                       }`}
                       disabled={passageQuestionChecked}
+                      aria-pressed={selected}
                       onClick={() => setPassageAnswer(option)}
                     >
                       {option}
@@ -5925,7 +6048,7 @@ export default function Home() {
               離開今日學習
             </button>
           </section>
-          <section className="exercise-card recall-card">
+          <section className="exercise-card recall-card" key={item.id}>
             {item.mode === "spelling" && (
               <>
                 <span className="eyebrow">看中文，拼出英文</span>
@@ -5939,9 +6062,6 @@ export default function Home() {
                   你的英文答案
                 </label>
                 <input
-                  ref={(element) => {
-                    dailyReviewInputRef.current = element;
-                  }}
                   id="daily-review-input"
                   className="answer-input"
                   data-testid="daily-review-input"
@@ -5984,7 +6104,7 @@ export default function Home() {
                   {source.answer}
                 </h2>
                 <div className="exercise-choice-list">
-                  {recognitionOptions.map((option) => (
+                  {recognitionOptions.map((option, index) => (
                     <button
                       key={option}
                       className={`exercise-choice ${
@@ -5992,7 +6112,11 @@ export default function Home() {
                       }`}
                       data-testid="daily-review-option"
                       disabled={resultVisible}
+                      autoFocus={index === 0 && !resultVisible}
                       onClick={() => checkDailyReview(option)}
+                      onKeyDown={(event) =>
+                        activateButtonOnEnter(event, () => checkDailyReview(option))
+                      }
                     >
                       {option}
                     </button>
@@ -6013,9 +6137,6 @@ export default function Home() {
                   請輸入完整英文句子
                 </label>
                 <textarea
-                  ref={(element) => {
-                    dailyReviewInputRef.current = element;
-                  }}
                   id="daily-review-input"
                   className="answer-input sentence-input"
                   data-testid="daily-review-input"
@@ -6068,6 +6189,9 @@ export default function Home() {
                 className="primary-button full-button"
                 data-testid="daily-review-check"
                 onClick={() => checkDailyReview()}
+                onKeyDown={(event) =>
+                  activateButtonOnEnter(event, () => checkDailyReview())
+                }
               >
                 檢查答案
               </button>
@@ -6285,7 +6409,7 @@ export default function Home() {
           </div>
           <span className="level-pill">答錯 {weakness.wrongAttempts} 次</span>
         </section>
-        <section className="exercise-card">
+        <section className="exercise-card" key={lexemeId}>
           {weakness.focus === "拼寫" && (
             <>
               <span className="eyebrow">看中文，自己拼出英文</span>
@@ -6301,7 +6425,7 @@ export default function Home() {
                 data-testid="weakness-practice-input"
                 value={weaknessPracticeValue}
                 readOnly={weaknessPracticeChecked}
-                autoFocus
+                autoFocus={!weaknessPracticeChecked}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
@@ -6325,13 +6449,16 @@ export default function Home() {
               <span className="eyebrow">看到英文，辨認課程中的中文意思</span>
               <h2 className="chinese-prompt">{source.answer}</h2>
               <div className="exercise-choice-list">
-                {recognitionOptions.map((option) => (
+                {recognitionOptions.map((option, index) => (
                   <button
                     key={option}
                     className={`exercise-choice ${
                       weaknessPracticeValue === option ? "selected" : ""
                     }`}
                     disabled={weaknessPracticeChecked}
+                    data-testid="weakness-practice-option"
+                    aria-pressed={weaknessPracticeValue === option}
+                    autoFocus={index === 0 && !weaknessPracticeChecked}
                     onClick={() => setWeaknessPracticeValue(option)}
                   >
                     {option}
@@ -6350,7 +6477,7 @@ export default function Home() {
                 rows={3}
                 value={weaknessPracticeValue}
                 readOnly={weaknessPracticeChecked}
-                autoFocus
+                autoFocus={!weaknessPracticeChecked}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
@@ -6384,17 +6511,20 @@ export default function Home() {
             <div className="correct-format">{expected}</div>
           )}
           <button
+            key={weaknessPracticeChecked ? "weakness-next" : "weakness-check"}
             className="primary-button full-button detail-next-button"
             data-testid="weakness-practice-action"
+            autoFocus={weaknessPracticeChecked}
             onClick={
               weaknessPracticeChecked
                 ? continueWeaknessPractice
                 : checkWeaknessPractice
             }
             onKeyDown={(event) =>
-              weaknessPracticeChecked
-                ? activateButtonOnEnter(event, continueWeaknessPractice)
-                : undefined
+              activateButtonOnEnter(
+                event,
+                weaknessPracticeChecked ? continueWeaknessPractice : checkWeaknessPractice,
+              )
             }
             aria-keyshortcuts={weaknessPracticeChecked ? "Enter" : undefined}
           >
@@ -6463,6 +6593,9 @@ export default function Home() {
             className="primary-button full-button detail-next-button"
             data-testid="finish-daily-session"
             onClick={finishDailySession}
+            onKeyDown={(event) => activateButtonOnEnter(event, finishDailySession)}
+            autoFocus
+            aria-keyshortcuts="Enter"
           >
             完成今天的學習
           </button>
@@ -6917,6 +7050,16 @@ export default function Home() {
 
   return (
     <div className="app-shell">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          pageContentRef.current?.focus();
+        }}
+      >
+        跳到主要內容
+      </a>
       <aside className="sidebar">
         <button className="brand" onClick={() => setScreen("home")} aria-label="回首頁">
           <span className="brand-mark">E</span>
@@ -6933,11 +7076,27 @@ export default function Home() {
                   : setScreen(item.screen)
               }
               aria-label={`前往${item.label}`}
+              aria-current={screen === item.screen ? "page" : undefined}
+              aria-describedby={item.screen === "review"
+                ? "review-count-description"
+                : item.screen === "weakness" ? "weakness-count-description" : undefined}
             >
-              <span className="nav-icon">{item.icon}</span>{item.label}
-              {item.screen === "review" && dueReviews.length > 0 && <b>{dueReviews.length}</b>}
+              <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
+              {item.screen === "review" && (
+                <>
+                  {dueReviews.length > 0 && <b aria-hidden="true">{dueReviews.length}</b>}
+                  <span id="review-count-description" className="visually-hidden">
+                    {dueReviews.length} 項待複習內容
+                  </span>
+                </>
+              )}
+              {item.screen === "weakness" && (
+                <span id="weakness-count-description" className="visually-hidden">
+                  {vocabularyWeaknesses.length} 個待加強單字
+                </span>
+              )}
               {item.screen === "weakness" && vocabularyWeaknesses.length > 0 && (
-                <b>{vocabularyWeaknesses.length}</b>
+                <b aria-hidden="true">{vocabularyWeaknesses.length}</b>
               )}
             </button>
           ))}
@@ -6967,10 +7126,23 @@ export default function Home() {
                 今日學習進行中
               </button>
             )}
-            <button onClick={() => setScreen("settings")} className={screen === "settings" ? "active" : ""}>設定</button>
+            <button
+              onClick={() => setScreen("settings")}
+              className={screen === "settings" ? "active" : ""}
+              aria-current={screen === "settings" ? "page" : undefined}
+            >設定</button>
           </div>
         </header>
-        <div className="page-content">{renderScreen()}</div>
+        <div
+          className="page-content"
+          id="main-content"
+          ref={pageContentRef}
+          tabIndex={-1}
+          role="region"
+          aria-label="主要內容"
+        >
+          {renderScreen()}
+        </div>
       </main>
       {toast && <div className="toast" role="status">{toast}</div>}
     </div>

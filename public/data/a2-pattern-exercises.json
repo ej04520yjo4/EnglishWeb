@@ -2282,6 +2282,585 @@
         }
       ],
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "present-continuous-arrangement",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I am meeting {person} at ten tomorrow.",
+      "slots": [
+        {
+          "slotId": "arrangement",
+          "role": "已安排的見面",
+          "allowedLexemeIds": [
+            "i",
+            "be",
+            "meet"
+          ]
+        },
+        {
+          "slotId": "person",
+          "role": "已學人物",
+          "allowedLexemeIds": [
+            "my",
+            "manager",
+            "friend",
+            "wife"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "已學時間",
+          "allowedLexemeIds": [
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "allowedChunkIds": [
+            "at-ten-tomorrow"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u05-l01-transfer-friend",
+          "practiceLessonId": "a2-u05-l01",
+          "sourceSentenceId": "a2-u05-l01-p01-s01",
+          "sentencePatternId": "present-continuous-arrangement",
+          "passageId": "a2-u05-p01",
+          "sentence": "I am meeting my friend at ten tomorrow.",
+          "translation": "我明天十點要和朋友見面。",
+          "hintKeywords": "我／要和朋友見面／明天十點",
+          "skeleton": "I am meeting my ______ at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "friend",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "at-ten-tomorrow"
+          ],
+          "slotValues": [
+            {
+              "slotId": "arrangement",
+              "text": "I am meeting",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "person",
+              "text": "my friend",
+              "requiredLexemeIds": [
+                "my",
+                "friend"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "at ten tomorrow",
+              "requiredLexemeIds": [
+                "at",
+                "ten",
+                "tomorrow"
+              ],
+              "requiredChunkIds": [
+                "at-ten-tomorrow"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-l01-transfer-wife",
+          "practiceLessonId": "a2-u05-l01",
+          "sourceSentenceId": "a2-u05-l01-p01-s01",
+          "sentencePatternId": "present-continuous-arrangement",
+          "passageId": "a2-u05-p01",
+          "sentence": "I am meeting my wife at ten tomorrow.",
+          "translation": "我明天十點要和太太見面。",
+          "hintKeywords": "我／要和太太見面／明天十點",
+          "skeleton": "I am meeting my ______ at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "wife",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "at-ten-tomorrow"
+          ],
+          "slotValues": [
+            {
+              "slotId": "arrangement",
+              "text": "I am meeting",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "person",
+              "text": "my wife",
+              "requiredLexemeIds": [
+                "my",
+                "wife"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "at ten tomorrow",
+              "requiredLexemeIds": [
+                "at",
+                "ten",
+                "tomorrow"
+              ],
+              "requiredChunkIds": [
+                "at-ten-tomorrow"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "can-we-meet-day-time",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Can we meet on {day} afternoon?",
+      "slots": [
+        {
+          "slotId": "request",
+          "role": "提出共同見面安排",
+          "allowedLexemeIds": [
+            "can",
+            "we",
+            "meet"
+          ],
+          "allowedChunkIds": [
+            "can-we-meet"
+          ]
+        },
+        {
+          "slotId": "day-time",
+          "role": "已學星期與時段",
+          "allowedLexemeIds": [
+            "on",
+            "tuesday",
+            "monday",
+            "friday",
+            "afternoon"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u05-l02-transfer-monday",
+          "practiceLessonId": "a2-u05-l02",
+          "sourceSentenceId": "a2-u05-l02-p01-s01",
+          "sentencePatternId": "can-we-meet-day-time",
+          "passageId": "a2-u05-p01",
+          "sentence": "Can we meet on Monday afternoon?",
+          "translation": "我們可以星期一下午見面嗎？",
+          "hintKeywords": "我們可以見面嗎／星期一下午",
+          "skeleton": "Can we meet on ______ afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "monday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can we meet",
+              "requiredLexemeIds": [
+                "can",
+                "we",
+                "meet"
+              ],
+              "requiredChunkIds": [
+                "can-we-meet"
+              ]
+            },
+            {
+              "slotId": "day-time",
+              "text": "on Monday afternoon",
+              "requiredLexemeIds": [
+                "on",
+                "monday",
+                "afternoon"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-l02-transfer-friday",
+          "practiceLessonId": "a2-u05-l02",
+          "sourceSentenceId": "a2-u05-l02-p01-s01",
+          "sentencePatternId": "can-we-meet-day-time",
+          "passageId": "a2-u05-p01",
+          "sentence": "Can we meet on Friday afternoon?",
+          "translation": "我們可以星期五下午見面嗎？",
+          "hintKeywords": "我們可以見面嗎／星期五下午",
+          "skeleton": "Can we meet on ______ afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "friday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can we meet",
+              "requiredLexemeIds": [
+                "can",
+                "we",
+                "meet"
+              ],
+              "requiredChunkIds": [
+                "can-we-meet"
+              ]
+            },
+            {
+              "slotId": "day-time",
+              "text": "on Friday afternoon",
+              "requiredLexemeIds": [
+                "on",
+                "friday",
+                "afternoon"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "have-meeting-at-time",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I have a meeting at {time}.",
+      "slots": [
+        {
+          "slotId": "schedule",
+          "role": "說明已有會議",
+          "allowedLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting"
+          ],
+          "allowedChunkIds": [
+            "have-a-meeting"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "已學鐘點",
+          "allowedLexemeIds": [
+            "at",
+            "three",
+            "seven",
+            "eight",
+            "ten"
+          ],
+          "allowedChunkIds": [
+            "at-three",
+            "at-seven",
+            "at-eight"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u05-l03-transfer-seven",
+          "practiceLessonId": "a2-u05-l03",
+          "sourceSentenceId": "a2-u05-l03-p01-s01",
+          "sentencePatternId": "have-meeting-at-time",
+          "passageId": "a2-u05-p01",
+          "sentence": "I have a meeting at seven.",
+          "translation": "我七點有一個會議。",
+          "hintKeywords": "我／有會議／七點",
+          "skeleton": "I have a meeting at ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "seven"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-seven"
+          ],
+          "slotValues": [
+            {
+              "slotId": "schedule",
+              "text": "I have a meeting",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "a",
+                "meeting"
+              ],
+              "requiredChunkIds": [
+                "have-a-meeting"
+              ]
+            },
+            {
+              "slotId": "time",
+              "text": "at seven",
+              "requiredLexemeIds": [
+                "at",
+                "seven"
+              ],
+              "requiredChunkIds": [
+                "at-seven"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-l03-transfer-eight",
+          "practiceLessonId": "a2-u05-l03",
+          "sourceSentenceId": "a2-u05-l03-p01-s01",
+          "sentencePatternId": "have-meeting-at-time",
+          "passageId": "a2-u05-p01",
+          "sentence": "I have a meeting at eight.",
+          "translation": "我八點有一個會議。",
+          "hintKeywords": "我／有會議／八點",
+          "skeleton": "I have a meeting at ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "eight"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-eight"
+          ],
+          "slotValues": [
+            {
+              "slotId": "schedule",
+              "text": "I have a meeting",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "a",
+                "meeting"
+              ],
+              "requiredChunkIds": [
+                "have-a-meeting"
+              ]
+            },
+            {
+              "slotId": "time",
+              "text": "at eight",
+              "requiredLexemeIds": [
+                "at",
+                "eight"
+              ],
+              "requiredChunkIds": [
+                "at-eight"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "can-move-meeting-to-day",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Can we move the meeting to {day}?",
+      "slots": [
+        {
+          "slotId": "request",
+          "role": "共同提出改約",
+          "allowedLexemeIds": [
+            "can",
+            "we"
+          ]
+        },
+        {
+          "slotId": "event",
+          "role": "更改已知會議",
+          "allowedLexemeIds": [
+            "move",
+            "the",
+            "meeting"
+          ],
+          "allowedChunkIds": [
+            "move-the-meeting"
+          ]
+        },
+        {
+          "slotId": "new-day",
+          "role": "新的星期",
+          "allowedLexemeIds": [
+            "to",
+            "friday",
+            "tuesday",
+            "monday"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u05-l04-transfer-tuesday",
+          "practiceLessonId": "a2-u05-l04",
+          "sourceSentenceId": "a2-u05-l04-p01-s01",
+          "sentencePatternId": "can-move-meeting-to-day",
+          "passageId": "a2-u05-p01",
+          "sentence": "Can we move the meeting to Tuesday?",
+          "translation": "我們可以把會議改到星期二嗎？",
+          "hintKeywords": "我們可以／把會議改到／星期二",
+          "skeleton": "Can we move the meeting to ______?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "tuesday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can we",
+              "requiredLexemeIds": [
+                "can",
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "event",
+              "text": "move the meeting",
+              "requiredLexemeIds": [
+                "move",
+                "the",
+                "meeting"
+              ],
+              "requiredChunkIds": [
+                "move-the-meeting"
+              ]
+            },
+            {
+              "slotId": "new-day",
+              "text": "to Tuesday",
+              "requiredLexemeIds": [
+                "to",
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u05-l04-transfer-monday",
+          "practiceLessonId": "a2-u05-l04",
+          "sourceSentenceId": "a2-u05-l04-p01-s01",
+          "sentencePatternId": "can-move-meeting-to-day",
+          "passageId": "a2-u05-p01",
+          "sentence": "Can we move the meeting to Monday?",
+          "translation": "我們可以把會議改到星期一嗎？",
+          "hintKeywords": "我們可以／把會議改到／星期一",
+          "skeleton": "Can we move the meeting to ______?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "monday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can we",
+              "requiredLexemeIds": [
+                "can",
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "event",
+              "text": "move the meeting",
+              "requiredLexemeIds": [
+                "move",
+                "the",
+                "meeting"
+              ],
+              "requiredChunkIds": [
+                "move-the-meeting"
+              ]
+            },
+            {
+              "slotId": "new-day",
+              "text": "to Monday",
+              "requiredLexemeIds": [
+                "to",
+                "monday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
     }
   ]
 }

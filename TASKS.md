@@ -4,23 +4,29 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 126-entry A1/A2 baseline.
-  - [x] Reviewed all 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity; no count change was needed.
-  - [ ] Resolve `license: pending` for 100 curriculum targets.
-  - [ ] Record an external lexical/content source and license for 26 reference-only targets.
-  - [ ] Have the user review the 26 reference-only Taiwan Chinese and blank KK/IPA fields.
+- [ ] **WORKTREE-RECONCILE-001:** Complete the protected PR #10 integration and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
+  - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
+  - [x] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
+  - [ ] Decide the authoritative day-to-day checkout before synchronizing the preserved D-drive copy; its original 20 pending files have not been overwritten or committed.
+- [ ] **A1-EX-003-QA:** Try the third A1 practice batch and review its English, Taiwan Chinese, difficulty, two-choice name lesson, and explicit source-pattern review context before authorizing the fourth batch.
+- [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 132-entry A1/A2 baseline.
+  - [x] Reviewed the original 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity.
+  - [ ] Review the six new A2 unit 5 targets: `manager`, `ten`, `we`, `meeting`, `three`, and `move`.
+  - [ ] Resolve `license: pending` for 108 curriculum targets.
+  - [ ] Record an external lexical/content source and license for 24 reference-only targets.
+  - [ ] Have the user review the 24 reference-only Taiwan Chinese and blank KK/IPA fields.
 - [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
 - [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
-- [ ] **A2-QA-001:** Manually review all 16 A2 pilot lessons.
-  - Preserve unit 1 and check units 2–4 for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
+- [ ] **A2-QA-001:** Manually review all 20 A2 pilot lessons.
+  - Preserve units 1–4 and check unit 5 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
   - Accept only after findings and corrections are recorded.
-- [ ] **A2-QA-003:** Try the 12 new lesson flows on current Windows Chrome and at mobile width.
-- [ ] **A2-QA-004:** Check that every unit 2–4 new lexeme is appropriate for A2 and repeated naturally.
-- [ ] **A2-QA-005:** Review comparative, transportation, and health hints for sufficient clarity.
-- [ ] **A2-QA-006:** Review all three new passages for natural continuity and supported answers.
+- [ ] **A2-QA-003:** Try the 16 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
+- [ ] **A2-QA-004:** Check that every unit 2–5 new lexeme is appropriate for A2 and repeated naturally.
+- [ ] **A2-QA-005:** Review comparative, transportation, health, and appointment hints for sufficient clarity.
+- [ ] **A2-QA-006:** Review all four post-unit-1 passages for natural continuity and supported answers.
 - [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
 
 ## Next - P1
@@ -46,28 +52,41 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
 - [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
-- [ ] **A2-PLAN-002:** After units 1–4 are accepted, decide whether blueprint unit 5 should receive formal data.
-- [ ] **A2-PLAN-003:** Build A2 unit 5 only after units 1–4 manual review.
-- [ ] **A2-PLAN-004:** Complete units 5–10 in separate reviewed batches.
+- [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
+- [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
+- [ ] **A2-PLAN-004:** Decide whether blueprint unit 6 should receive formal data only after the user tries and reviews unit 5.
+- [ ] **A2-PLAN-005:** After the unit 6 decision, complete any authorized units 6–10 in separate reviewed batches.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
-- [ ] **A1-EX-003:** Add the third reviewed pattern batch.
+- [x] **A1-EX-003:** Integrate the third pattern batch for explicitly pending-review trial.
   - Patterns: `name-identification`, `demonstrative-identification`, review-mode `be-identification`, and `go-to-place`.
-  - Accept when prerequisites, slot allowlists, natural Taiwan Chinese, non-source variations, unit tests, and Playwright flows pass.
+  - Seven transfers use ordered slots; four recognition/four response exercises enforce prerequisites. Automated acceptance is separate from **A1-EX-003-QA** human review.
 - [ ] **AUDIO-001:** Audit all 41 KK recordings against displayed symbols and attribution.
 - [ ] **AUDIO-002:** Define a reproducible open-license word/sentence audio manifest.
 - [ ] **QA-001:** Split high-risk orchestration from `app/page.tsx` only where existing tests protect behavior.
 
 ## Later - P2
 
+- [ ] **B1B2-ID-COMPAT-001:** Before re-enabling either retained level, review old lexeme/sense statistics against the 2026-10-04 canonical/POS corrections; do not silently rewrite local learner history.
+- [ ] **LEGACY-READING-QA-001:** Plan a separately approved metadata migration for protected A1/A2 unit 1 passage options, which remain explicit legacy exceptions to complete prerequisite validation.
 - [ ] **B1B2-QA-001 (paused):** Manually review all 64 retained B1/B2 lessons before either level can return to runtime.
 - [ ] **B1B2-QA-002 (paused):** After review resumes, try the first and last lesson of every B1/B2 unit in desktop/mobile Chrome.
 - [ ] **B1B2-QA-003 (paused):** Verify KK/IPA and free/open audio attribution; keep `audio_status=pending` until playable.
 - [ ] **REVIEW-002:** Validate mastery after delayed review across word, sense, pattern, and passage.
 - [ ] **ACCESS-001:** Complete keyboard, focus, screen-reader label, contrast, desktop, and mobile audits.
+  - [x] Related-vocabulary result announcements, unique disclosure names/states, topic selection, current navigation, shortcut focus, reduced motion, and stale search/filter recovery.
+  - [x] Add skip navigation, screen-heading focus that preserves existing input/card autofocus, and pending-count descriptions.
+  - [x] Focus reading/response/passage choices without selecting them; checked results focus their next action and expose option selection semantics.
+  - [x] Audit Daily/weakness transitions and the existing unit-assessment flow; use actual held Enter events, initial input/choice focus, progress-neutral navigation, and reload persistence checks.
+  - [ ] Audit all remaining contrast states and try a native screen reader before claiming complete accessibility.
 
 ## Completed
 
+- [x] **DAILY-KEYBOARD-001:** Focus each Daily/weakness item and its next action, preserve choice focus, finish the Daily summary with Enter, and suppress repeated native Enter clicks without changing evidence or grading.
+- [x] **ACCESS-VOCAB-001:** Keep course shortcuts visible and keyboard-focused, announce search results, and test disclosures/search/storage neutrality on desktop and mobile without redesigning the UI.
+- [x] **LINT-GENERATED-001:** Exclude generated worker/build/test artifacts while testing that application, script, and test source paths remain included.
+- [x] **VOCAB-SEARCH-ALIAS-001:** Match occurrence forms, lemmas, prompts, chunk English/Chinese, and curated aliases while preserving canonical display, source fields, progress neutrality, cross-topic selection, and A2 failure isolation.
+- [x] **CURRICULUM-CONSISTENCY-001:** Repair A2 hints/distractors and retained B1/B2 lexical/POS/punctuation/reading issues; add bounded validation, 20 regressions, reproducibility checks, and full runtime regression verification without changing protected content or enabling advanced levels.
 - [x] Eight root project-context files with a required read/update workflow.
 - [x] New-conversation handoff template and milestone boundary rules.
 - [x] Automated UTF-8 and required-section checks for project-context files.

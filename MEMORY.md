@@ -27,7 +27,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - Hierarchy: Level -> Unit -> Lesson -> Stage -> Exercise.
 - A1 v3 contains 8 units, 32 lessons, and 145 word occurrences.
 - Official source: `public/data/a1-course-v3.csv`.
-- Reviewed additions: `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`.
+- Practice additions: `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`; third-batch entries remain `pilot_review_required` despite being enabled for trial.
+- A1 has eight enabled practice patterns and twelve deliberately deferred patterns. Third-batch name practice has one legal Amy/Ben transfer and two distinct-name choices; review-mode exercises display their actual source sentence/pattern without changing the lesson's original pattern or progress identity.
 - Unit 8 passage order:
   1. `I get up at seven.`
   2. `I eat breakfast at home.`
@@ -37,23 +38,23 @@ This file stores long-lived product facts and working preferences. Current task 
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
-- A2 pilot source `public/data/a2-course-v1.csv` contains 4 units, 16 lessons, and 95 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
-- A2 units 2–4 cover travel/transportation, shopping/comparison, and health/advice. All remain `pilot_review_required`.
+- A2 pilot source `public/data/a2-course-v1.csv` contains 5 units, 20 lessons, and 122 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
+- A2 units 2–5 cover travel/transportation, shopping/comparison, health/advice, and work/appointment arrangements. All remain `pilot_review_required`.
 - B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
 - B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
 - B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
 - B1/B2 source data remains structurally validated and `pilot_review_required`, but both catalog entries are `disabled`; startup, selectors, and advanced preview must not load them.
-- `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 5–10 have no formal CSV/JSON data.
+- `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 6–10 have no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
-- The current target file is intentionally partial and contains 126 sourced baseline entries: 100 active curriculum-covered candidates and 26 receptive reference-only candidates. A1/A2 contains 102 union curriculum lexemes; lesson-specific names Amy and Ben are intentionally excluded from the general-vocabulary target.
+- The current target file is intentionally partial and contains 132 sourced baseline entries: 108 active curriculum-covered candidates and 24 receptive reference-only candidates. A1/A2 contains 110 union curriculum lexemes (108 countable after excluding names); lesson-specific names Amy and Ben are intentionally excluded from the general-vocabulary target.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one clean application; reveal and paste cannot create correct spelling or application evidence.
 - A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.
 - Daily Learning v3 stores its originating CEFR/lesson, stable active-review queue and completion IDs, reveal/paste safety state, completed weakness IDs, and active seconds. It restores only on the same local date, restarts timing without offline gaps, resumes the first unfinished item, and never turns restore/expiry into evidence, completion, unit pass, or CEFR pass.
 - “本週學習” means unique selected-level study dates inside the learner device's local Monday-to-Sunday week; it is not a rolling seven-record count and does not use global vocabulary evidence dates.
-- The 126-entry metadata QA found no duplicate or rejection, but provenance remains unresolved: all 126 need license evidence and 26 reference-only targets need a lexical/content source plus user language/phonetic review.
+- The original 126-entry metadata QA found no duplicate or rejection. The six targets introduced by A2 unit 5 still need equivalent review, and provenance remains unresolved: 108 curriculum targets need license evidence while 24 reference-only targets need a lexical/content source plus user language/phonetic review.
 
 ## Content and Audio Guardrails
 

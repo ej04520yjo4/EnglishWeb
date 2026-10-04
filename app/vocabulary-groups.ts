@@ -16,6 +16,7 @@ export type VocabularyGroupItemDefinition = {
   order: number;
   chunkIds: string[];
   canonicalTranslationZhTw?: string;
+  searchAliases?: string[];
 };
 
 type CanonicalCourseVocabulary = {
@@ -70,6 +71,7 @@ export type ResolvedVocabularyItem = {
   lemma: string;
   displayEnglish: string;
   translationZhTw: string;
+  searchAliases: string[];
   kkUs: string;
   ipaUs: string;
   usageNoteZhTw: string;
@@ -182,6 +184,52 @@ const FORBIDDEN_PROGRESS_KEYS = new Set([
 
 const clean = (value: string | undefined) =>
   (value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
+
+const normalizeSearchAliases = (values: unknown[]) =>
+  [...new Set(
+    values
+      .filter((value): value is string => typeof value === "string")
+      .map((value) => clean(value))
+      .filter(Boolean),
+  )];
+
+const courseRowSearchValues = (rows: CourseCsvRow[]) =>
+  rows.flatMap((row) => [
+    row.answer,
+    row.lemma,
+    row.prompt,
+    row.chunk_text,
+    row.chunk_translation,
+  ]);
+
+const resolvedVocabularySearchAliases = (
+  item: Pick<
+    VocabularyGroupItemDefinition,
+    "lexemeId" | "canonicalTranslationZhTw" | "searchAliases"
+  >,
+  formalRows: CourseCsvRow[],
+  formal: CourseCsvRow | undefined,
+  reference:
+    | Pick<
+        ReferenceVocabularyItem,
+        "lemma" | "displayEnglish" | "translationZhTw"
+      >
+    | undefined,
+  chunks: VocabularyChunkDefinition[],
+) =>
+  normalizeSearchAliases([
+    item.lexemeId,
+    item.canonicalTranslationZhTw,
+    ...(item.searchAliases ?? []),
+    formal?.answer,
+    formal?.lemma,
+    formal?.prompt,
+    reference?.lemma,
+    reference?.displayEnglish,
+    reference?.translationZhTw,
+    ...courseRowSearchValues(formalRows),
+    ...chunks.flatMap((chunk) => [chunk.text, chunk.translationZhTw]),
+  ]);
 
 const courseRowsForLexeme = (
   courseRows: CourseCsvRow[],
@@ -411,6 +459,17 @@ export const validateVocabularyData = (
           `詞彙 ${item.lexemeId} 的 canonicalTranslationZhTw 不可空白。`,
         );
       }
+      if (
+        item.searchAliases !== undefined &&
+        (!Array.isArray(item.searchAliases) ||
+          item.searchAliases.some(
+            (alias) => typeof alias !== "string" || !alias.trim(),
+          ))
+      ) {
+        errors.push(
+          `詞彙 ${item.lexemeId} 的 searchAliases 必須是非空字串陣列。`,
+        );
+      }
       for (const chunkId of item.chunkIds) {
         if (!courseChunks.has(chunkId) && !groupChunks.has(chunkId)) {
           errors.push(`主題 ${group.id} 的語塊 ${chunkId} 不存在。`);
@@ -523,12 +582,23 @@ export const buildVocabularyDataset = (
               formal,
               reference,
             );
+            const chunks = item.chunkIds.map(
+              (chunkId) =>
+                courseChunks.get(chunkId) ?? groupChunks.get(chunkId)!,
+            );
             return {
               lexemeId: item.lexemeId,
               order: item.order,
               lemma: canonical.lemma,
               displayEnglish: canonical.displayEnglish,
               translationZhTw: canonical.translationZhTw,
+              searchAliases: resolvedVocabularySearchAliases(
+                item,
+                formalRows,
+                formal,
+                reference,
+                chunks,
+              ),
               kkUs: formal
                 ? formal.kk_us || formal.kk || ""
                 : reference?.kkUs || "",
@@ -563,11 +633,7 @@ export const buildVocabularyDataset = (
               occurrenceIds: formalRows
                 .map((row) => row.occurrence_id?.trim())
                 .filter((value): value is string => Boolean(value)),
-              chunks: item.chunkIds.map(
-                (chunkId) =>
-                  courseChunks.get(chunkId) ??
-                  groupChunks.get(chunkId)!,
-              ),
+              chunks,
             };
           }),
       })),
@@ -623,6 +689,33 @@ export const createVocabularyCourseReturnContext = (
 
 export const normalizeVocabularySearch = (value: string) => clean(value);
 
+export const withVocabularySearchAliases = (
+  dataset: VocabularyDataset,
+  additionalCourseRows: CourseCsvRow[],
+): VocabularyDataset => ({
+  schemaVersion: dataset.schemaVersion,
+  groups: dataset.groups.map((group) => ({
+    ...group,
+    items: group.items.map((item) => {
+      const matchingRows = courseRowsForLexeme(
+        additionalCourseRows,
+        item.lexemeId,
+      );
+      return {
+        ...item,
+        searchAliases: normalizeSearchAliases([
+          ...(item.searchAliases ?? []),
+          ...courseRowSearchValues(matchingRows),
+        ]),
+        chunks: item.chunks.map((chunk) => ({
+          ...chunk,
+          lexemeIds: [...chunk.lexemeIds],
+        })),
+      };
+    }),
+  })),
+});
+
 export const vocabularyItemMatchesSearch = (
   group: ResolvedVocabularyGroup,
   item: ResolvedVocabularyItem,
@@ -636,6 +729,7 @@ export const vocabularyItemMatchesSearch = (
     item.displayEnglish,
     item.translationZhTw,
     item.lexemeId,
+    ...(item.searchAliases ?? []),
   ].some((value) => clean(value).includes(normalized));
 };
 

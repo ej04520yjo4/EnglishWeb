@@ -2,6 +2,97 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Daily Learning Keyboard Continuity
+
+### Fixed
+
+- Daily recognition review now focuses the first choice without answering it, including consecutive recognition items.
+- Weakness practice focuses the continue action after a correct or revealed answer and the next input/choice when moving between words. The daily summary can also be finished with Enter.
+- Repeated Enter on primary actions now cancels the browser's default click before returning, preventing a held key from answering or advancing another item.
+
+### Preserved
+
+- No curriculum, progress schema, evidence eligibility, scoring, review scheduling, or unlock rules changed. Tests cover existing assessment focus and reload persistence without altering assessment behavior.
+
+## 2026-10-04 - Keyboard Navigation and Choice Focus
+
+### Improved
+
+- Added a keyboard-visible 「跳到主要內容」 link and content-heading focus after screen navigation, while preserving existing home/course autofocus and related-word shortcut focus.
+- Reading recognition, text response, and passage comprehension focus the first option without selecting it; checked answers focus the next action. Options expose their selected state to assistive technology.
+- Review and weakness navigation buttons now describe their pending counts; the settings button identifies its active screen.
+- Constrained the content-management grid so its wide editable table scrolls inside the table container instead of widening the whole page.
+
+### Preserved
+
+- No curriculum, exercise content, stable ID, progress schema, score, unlock, or review rule changed. Native screen-reader testing and the full accessibility audit remain pending.
+
+## 2026-10-04 - A1 Third Practice Batch Integration
+
+### Added
+
+- Integrated name introduction, demonstrative identification, be-identification review, and go-to-place review: seven transfers, four recognition exercises, and four text responses. New content remains explicitly pending human review.
+- Added ordered slot values, recognition-option lexeme/chunk prerequisite checks, and browser coverage for completion, actual-pattern scores, keyboard use, and refresh persistence.
+- Show the previous source sentence and actual pattern for review exercises so they are not confused with the current lesson's original pattern.
+
+### Corrected and Preserved
+
+- Kept only two distinct-name choices and one legal transfer in the early name lesson; equivalent identity phrases are not marked wrong to fill extra choices. Replaced an overlapping school-by-bus distractor with being at home.
+- Preserved the original two A1 exercise batches and passage with regression hashes. A1 CSV, all A2/B1/B2 sources, target data, alias behavior, and schema v6 are unchanged. D-drive files were read, not overwritten.
+
+## 2026-10-04 - Vocabulary Keyboard Access and Verification Reliability
+
+### Fixed
+
+- Opening related vocabulary from a correct course word now clears stale search/filter constraints and focuses the matching word card; returning still restores the same course detail stage. Reduced-motion settings are honored.
+- Added distinct word-detail button names, disclosure relationships and states, selected-topic/current-page semantics, and polite search-result announcements. Focus outlines and related-page secondary text are easier to see without layout changes.
+- Excluded generated worker/build, coverage, and Playwright output from ESLint. A configuration regression test ensures maintained application, scripts, and tests remain checked.
+
+### Preserved
+
+- Formal course data, stable IDs, schema v6 progress, four-topic scope, and disabled B1/B2 runtime status are unchanged. The separate D-drive working copy was inventoried read-only and remains unmodified.
+- Feature-branch push is not a `main` merge or deployment; full accessibility and human content/phonetic review remain pending.
+
+## 2026-10-04 - Related Vocabulary Search Aliases
+
+### Fixed
+
+- Searching occurrence forms such as `brothers` now finds the canonical `brother` card; configured chunks and Chinese aliases support `my brother`, `我的哥哥`, and `我的弟弟` without changing the card label.
+- Added ready A2 occurrence/chunk aliases so `last night` and `昨晚` find `night`. An A2 source failure leaves A1 and configured aliases usable.
+- Validated generic optional item aliases and kept case/whitespace normalization, cross-topic selection, and the global no-result state.
+
+### Preserved
+
+- No course CSV/JSON, stable curriculum ID, source-priority field, reference QA status, or learning progress is changed by this search update. All four existing topics remain unchanged in scope; B1/B2 remain disabled.
+
+## 2026-10-04 - Curriculum Consistency and Grading Safeguards
+
+### Fixed
+
+- Unified A2 article hints around 「一個」 while keeping natural Chinese classifiers in the explanation; clarified definite-article chunks and removed a same-meaning shopping distractor.
+- Repaired retained B1/B2 canonical verb forms, contextual grammar labels, punctuation, and mismatched transfer examples; replaced 64 generic passage questions with content-specific questions and regenerated the official files.
+- Required a complete, non-empty set of sentence-rebuild answers; incomplete arrays can no longer pass merely because their entered prefix is correct.
+- Applied one punctuation-tolerant sentence comparison to transfers, passages, assessments, and sentence practice without ignoring extra learner words or unknown characters.
+
+### Validation
+
+- Added shared sentence/chunk consistency and bounded canonical-lemma/contextual-POS regression checks.
+- Closed the prerequisite-validation gap for CSV-backed passage options, rejected normalized duplicate options, and required complete phrase boundaries for answer evidence.
+- Validated text-response option source IDs and rejected declared option chunks absent from the text. Coverage reports now distinguish intentionally deferred patterns from missing enabled exercises and unconfigured CSV patterns.
+- Kept original A1/A2 unit 1 reading-data compatibility, stable course identities, progress schema v6, and B1/B2 runtime restrictions.
+
+## 2026-09-12 - A2 Work and Appointment Unit
+
+### Added
+
+- Added A2 pilot unit 5「工作與約會安排」with four one-word recall lessons, chunk explanations, reading recognition, two transfer exercises per lesson, and text response practice.
+- Added a four-sentence appointment passage with five supported comprehension questions.
+- Added sequential unlock, desktop/mobile browser coverage, stable-ID validation, and six new curriculum vocabulary targets.
+
+### Preserved
+
+- A1 remains unchanged at 8 units, 32 lessons, and 145 occurrences. A2 unit 1 remains protected by its existing content hashes, and all A2 unit 5 content remains `pilot_review_required`.
+
 ## 2026-09-04 - CI and Repository Maintenance
 
 ### Changed
