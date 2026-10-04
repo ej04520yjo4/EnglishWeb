@@ -2682,9 +2682,7 @@
                 "the",
                 "station"
               ],
-              "requiredChunkIds": [
-                "the-station"
-              ]
+              "requiredChunkIds": []
             }
           ],
           "correctAnswer": "The bus.",
@@ -3013,7 +3011,7 @@
           "options": [
             "This shirt.",
             "That one.",
-            "This one.",
+            "That book.",
             "That shirt."
           ],
           "optionMetadata": [
@@ -3038,10 +3036,10 @@
               ]
             },
             {
-              "text": "This one.",
+              "text": "That book.",
               "requiredLexemeIds": [
-                "this",
-                "one"
+                "that",
+                "book"
               ],
               "requiredChunkIds": []
             },

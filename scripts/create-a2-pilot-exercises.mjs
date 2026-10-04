@@ -1209,7 +1209,7 @@ const newPassages = [
           passageOption("The bus.", ["the", "bus"]),
           passageOption("The train.", ["the", "train"], ["the-train"]),
           passageOption("A train ticket.", ["a", "train", "ticket"]),
-          passageOption("The station.", ["the", "station"], ["the-station"]),
+          passageOption("The station.", ["the", "station"]),
         ],
         "The bus.",
       ),
@@ -1326,7 +1326,7 @@ const newPassages = [
         [
           passageOption("This shirt.", ["this", "shirt"], ["this-shirt"]),
           passageOption("That one.", ["that", "one"], ["that-one"]),
-          passageOption("This one.", ["this", "one"]),
+          passageOption("That book.", ["that", "book"]),
           passageOption("That shirt.", ["that", "shirt"]),
         ],
         "This shirt.",

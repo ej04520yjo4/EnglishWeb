@@ -448,6 +448,51 @@ test("keeps the final A2 passage wording and direct-answer forms", () => {
   );
 });
 
+test("keeps A2 article prompts and contextual definite-article chunks consistent", () => {
+  const articleRows = a2Rows.filter((row) => /^a$/i.test(row.answer));
+  assert.ok(articleRows.length > 0);
+  assert.ok(articleRows.every((row) => row.prompt === "一個"));
+  assert.ok(
+    articleRows.every((row) => row.note.includes("a 的核心功能是不定冠詞")),
+  );
+
+  const stationRows = a2Rows.filter(
+    (row) => row.chunk_text.toLowerCase() === "the station",
+  );
+  assert.ok(stationRows.every((row) => row.chunk_translation === "特定的車站"));
+  assert.ok(
+    stationRows.every((row) =>
+      row.chunk_note.includes("雙方知道的特定車站"),
+    ),
+  );
+
+  const trainRows = a2Rows.filter(
+    (row) => row.chunk_text === "The train",
+  );
+  assert.ok(
+    trainRows.every((row) => row.chunk_translation === "特定班次的火車"),
+  );
+});
+
+test("keeps A2 passage distractors semantically distinct", () => {
+  const transportQuestion = a2Reading.passages
+    .find((passage) => passage.passageId === "a2-u02-p01")
+    .questions.find((question) => question.id === "a2-u02-p01-q02");
+  assert.equal(transportQuestion.correctAnswer, "The bus.");
+  assert.ok(!transportQuestion.options.includes("Take the bus."));
+
+  const comparisonQuestion = a2Reading.passages
+    .find((passage) => passage.passageId === "a2-u03-p01")
+    .questions.find((question) => question.id === "a2-u03-p01-q02");
+  assert.deepEqual(comparisonQuestion.options, [
+    "This shirt.",
+    "That one.",
+    "That book.",
+    "That shirt.",
+  ]);
+  assert.ok(!comparisonQuestion.options.includes("This one."));
+});
+
 test("keeps every new A2 lesson within the new-lexeme limit", () => {
   const newLessonIds = [
     ...new Set(

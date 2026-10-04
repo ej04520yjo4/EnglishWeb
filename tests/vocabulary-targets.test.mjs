@@ -39,11 +39,11 @@ const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
   "public/data/a1-course-v3.csv": "425625f5765318521ad78efb21461e41f7274d8de4faf6ab0f0c0ac719be7932",
-  "public/data/a2-course-v1.csv": "20a8d5a11e6950631a7c61df75deb22000f88f594ebd22f9ea28297e97d086e1",
+  "public/data/a2-course-v1.csv": "bd59a2b73ecf02a0598e42091365cd75f627289dec53801847e2106b9f36927e",
   "public/data/a1-pattern-exercises.json": "a7fd2a2e6eeb262fc0fdeaa0b49ceff655998db5f11f85e72d31aa57bee4a5da",
   "public/data/a1-reading-exercises.json": "fb666547af28b97607e9de45593731a09a0612543ce10fcda5c263a84feec99c",
   "public/data/a2-pattern-exercises.json": "9e1355c8ceaea46ea5fda5915dc84f85be4e52b7025860c2425a207599cb54e5",
-  "public/data/a2-reading-exercises.json": "e7b4f8ecd47ab9cbc3f89b5c6afe3403a96117ede325485f2db9de735d9f5059",
+  "public/data/a2-reading-exercises.json": "565be13018f02e4daa74ae4bd2b2de622e7551982fd20f48e0064bf94cc2fd1a",
 };
 
 const response = (body, status = 200) =>

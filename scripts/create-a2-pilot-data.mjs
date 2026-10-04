@@ -846,9 +846,9 @@ const travelLessons = [
         ...chunk(
           "the-station",
           "the station",
-          "那個／這個車站",
+          "特定的車站",
           3,
-          "the station 在交通情境中通常自然翻成「車站」。",
+          "the station 指雙方知道的特定車站；中文通常直接說「車站」。",
         ),
       },
       {
@@ -863,9 +863,9 @@ const travelLessons = [
         ...chunk(
           "the-station",
           "the station",
-          "那個／這個車站",
+          "特定的車站",
           3,
-          "the station 在交通情境中通常自然翻成「車站」。",
+          "the station 指雙方知道的特定車站；中文通常直接說「車站」。",
         ),
       },
     ],
@@ -1010,7 +1010,7 @@ const travelLessons = [
         prompt_type: "grammar",
         context_pos: "article 冠詞",
         semanticRole: "單數冠詞",
-        note: "a 表示一張票；中文量詞依名詞自然翻譯。",
+        note: "a 的核心功能是不定冠詞；中文量詞依名詞自然翻譯，此處 train ticket 翻成「一張火車票」。",
         ...chunk(
           "bought-a-train-ticket",
           "bought a train ticket",
@@ -1098,9 +1098,9 @@ const travelLessons = [
         ...chunk(
           "the-train",
           "The train",
-          "這班／那班火車",
+          "特定班次的火車",
           1,
-          "The train 指目前談論的特定火車。",
+          "The train 指目前談論的特定班次；中文通常直接說「這班火車」。",
         ),
       },
       {
@@ -1115,9 +1115,9 @@ const travelLessons = [
         ...chunk(
           "the-train",
           "The train",
-          "這班／那班火車",
+          "特定班次的火車",
           1,
-          "The train 指目前談論的特定火車。",
+          "The train 指目前談論的特定班次；中文通常直接說「這班火車」。",
         ),
       },
       {
@@ -1587,7 +1587,7 @@ const shoppingLessons = [
         prompt_type: "grammar",
         context_pos: "article 冠詞",
         semanticRole: "單數冠詞",
-        note: "a 放在單數名詞 size 前；中文量詞依語境翻譯。",
+        note: "a 的核心功能是不定冠詞；放在單數名詞 size 前，中文量詞依語境翻譯。",
         ...chunk(
           "a-larger-size",
           "a larger size",
@@ -1846,7 +1846,7 @@ const healthLessons = [
         prompt_type: "grammar",
         context_pos: "article 冠詞",
         semanticRole: "不定冠詞",
-        note: "headache 以子音音素開頭，所以使用 a。",
+        note: "a 的核心功能是不定冠詞；headache 以子音音素開頭，所以使用 a。中文通常不另外翻譯「一個」。",
         ...chunk(
           "have-a-headache",
           "have a headache",
@@ -2091,11 +2091,11 @@ const healthLessons = [
         answer: "a",
         ...healthPriorToken("a", "a"),
         sense_id: "a-before-consonant-sound",
-        prompt: "一位",
+        prompt: "一個",
         prompt_type: "grammar",
         context_pos: "article 冠詞",
         semanticRole: "不定冠詞",
-        note: "中文依 doctor 的語境可譯為一位，但 a 的核心功能是不定冠詞。",
+        note: "a 的核心功能是不定冠詞；中文可依 doctor 的語境翻成「一位醫生」，「一位」不是 a 本身的意思。",
         ...chunk(
           "see-a-doctor",
           "see a doctor",
@@ -2656,11 +2656,11 @@ const schedulingLessons = [
         answer: "a",
         ...schedulingPriorToken("a", "a"),
         sense_id: "a-before-consonant-sound",
-        prompt: "不定冠詞（中文通常不單獨翻譯）",
+        prompt: "一個",
         prompt_type: "grammar",
         context_pos: "article 冠詞",
         semanticRole: "單數會議限定",
-        note: "meeting 以子音音素開頭，因此使用 a。",
+        note: "a 的核心功能是不定冠詞；meeting 以子音音素開頭，因此使用 a，中文量詞依語境翻譯。",
         ...chunk(
           "have-a-meeting",
           "have a meeting",
