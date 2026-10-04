@@ -6,7 +6,7 @@
 - Branch: `codex/curriculum-consistency`
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
-- Publication: the previous keyboard/accessibility cycle was pushed through `dc032f2` on 2026-10-04 and remotely verified. This A1 integration is a separate local follow-up; no push, main merge, pull request, or deployment is claimed for it.
+- Publication: the A1 third-batch commits through `15de3ad` and keyboard-navigation code `87249fd` were pushed on 2026-10-04 and remotely verified at the user's request. Remote `main` remains `3402e4b`. No main merge, new pull request, or deployment is claimed.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -59,6 +59,8 @@
 
 ## Latest Completed Work
 
+- Added skip navigation, content-heading focus, pending-count descriptions, and explicit choice/result focus for reading, text-response, and passage-comprehension stages. Existing home/course autofocus, related-word shortcut focus, and all learning/data contracts are preserved.
+- Fixed desktop content-management overflow exposed by the new browser tests; the editable table scrolls inside its own container instead of widening the page. Final verification passed 183 unit tests and 114 desktop/mobile browser cases.
 - Selectively integrated the D-drive third A1 batch: seven transfers, four reading-recognition exercises, and four text responses at `a1-u1-l2`, `a1-u2-l3`, `a1-u3-l3`, and `a1-u7-l4`. No CSV, stable course ID, A2 unit, vocabulary target, alias implementation, or progress schema changed.
 - Removed synonymous identity distractors from the early name lesson: it has one legitimate transfer and two distinct-name options, not untaught names or artificial wrong answers. The place response uses `I am at home.` instead of an overlapping school-by-bus distractor.
 - Added ordered slots and pending-review metadata to the new exercises, recognition-option prerequisite rejection, and explicit previous-source/pattern review context. A1 trial stages visibly state that human review is still pending.
@@ -114,13 +116,26 @@
 - All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
-- Native screen-reader testing, app-wide route/stage focus, skip navigation, and a complete contrast audit remain open. Automated disclosure/focus tests do not establish full accessibility compliance.
+- Native screen-reader testing, remaining Daily/assessment stage-focus audits, and a complete contrast audit remain open. Skip navigation, screen-heading focus, navigation count descriptions, and reading/response/passage choice focus now have scoped automated coverage; these checks do not establish full accessibility compliance.
 
 ## Next Concrete Step
 
 Try the third A1 practice batch and record English/Chinese/difficulty feedback before enabling the fourth batch. Separately decide the authoritative day-to-day checkout before synchronizing D: this integration resides in the newer C-drive feature branch, while all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
 
 ## Verification
+
+### Navigation and choice-focus verification (2026-10-04)
+
+- Baseline at `15de3ad`: `npm run verify` exit 0, 182 unit tests before edits. The active checkout was clean.
+- First new browser suite: exit 1, 7 passed/3 failed. Two test-only lesson-title assumptions were corrected against the existing source; the remaining failure exposed actual desktop content-management overflow. A `minmax(0, 1fr)` grid track now keeps the wide table inside its existing scroll container without hiding table columns or changing data.
+- Focused suite after correction: exit 0, 10 passed (5 per viewport). The final matrix additionally checks delayed vocabulary readiness and strengthens selection, input autofocus, accessible-description, table-scroll, and progress-neutrality assertions.
+- Final `npm run verify`: exit 0, all nine gates completed. Unit tests: 183 passed, 0 failed, 0 skipped. Context, project/vocabulary audits/report, curriculum validation, build, lint, and TypeScript all exited 0.
+- Final `npm run test:e2e`: exit 0, 114 passed in 6.7 minutes, 0 failed, 0 skipped: 57 desktop (1440×900), 57 mobile (375×812). All 12 new navigation/choice-focus checks passed alongside the existing 102 learning/vocabulary cases, including exact related-card focus, reload persistence, and level isolation.
+- Protected source comparison: `git diff --exit-code -- public/data package.json package-lock.json` exit 0. No course/reference/target data, dependencies, progress contract, or unlock rule changed.
+- `git diff --check`: exit 0. The D-drive checkout still has its original 20 unstaged tracked files; this cycle did not write or stage that copy.
+- Push/readback: normal authenticated Git confirmed code commit `87249fd` on `codex/curriculum-consistency`; `main` remained `3402e4b`. The initial restricted push of the A1 batch failed with Schannel `SEC_E_NO_CREDENTIALS`; the approved normal-environment retry succeeded without weakening transport security.
+
+Browser coverage uses isolated test storage, not the learner's real profile. Native screen-reader review, dependency/launcher checks, generator replay, main integration, and deployment are outside this follow-up. Feature publication is checked by Git remote readback, not inferred from local test results.
 
 ### A1 third-batch integration verification (2026-10-04)
 

@@ -93,6 +93,10 @@ Browser storage holds progress schema v6, settings, validated per-level course o
 
 Free-text sentence flows always record a stable `applicationAttempt`. They add `applicationCorrect` only through the shared unassisted-answer rule: correct, not revealed, and not pasted. Recall, sentence rebuild, pattern transfer, Daily Review, and weakness practice keep paste state at the exercise-item boundary; Daily Review includes that state in its reload-safe temporary record.
 
+## Keyboard Focus Boundary
+
+`page.tsx` owns a named, programmatically focusable content region and a keyboard-visible skip link. Screen changes use a cancellable animation frame and preserve focus already placed inside the content by existing course inputs, primary actions, or related-word shortcuts. Late source readiness only upgrades focus still parked on the content container. A separate target-ID effect handles reading-recognition, text-response, and passage-comprehension choices/results; it does not run on answer selection and never changes progress or scores. Navigation count descriptions and choice `aria-pressed` states provide semantics without changing the visual layout.
+
 ## Context Documentation Flow
 
 ```mermaid

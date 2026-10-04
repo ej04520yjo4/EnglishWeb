@@ -75,7 +75,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **REVIEW-002:** Validate mastery after delayed review across word, sense, pattern, and passage.
 - [ ] **ACCESS-001:** Complete keyboard, focus, screen-reader label, contrast, desktop, and mobile audits.
   - [x] Related-vocabulary result announcements, unique disclosure names/states, topic selection, current navigation, shortcut focus, reduced motion, and stale search/filter recovery.
-  - [ ] Review SPA/stage focus transitions, skip navigation, navigation badge descriptions, and all contrast states; try a native screen reader before claiming complete accessibility.
+  - [x] Add skip navigation, screen-heading focus that preserves existing input/card autofocus, and pending-count descriptions.
+  - [x] Focus reading/response/passage choices without selecting them; checked results focus their next action and expose option selection semantics.
+  - [ ] Audit remaining Daily/assessment stage transitions and all contrast states; try a native screen reader before claiming complete accessibility.
 
 ## Completed
 

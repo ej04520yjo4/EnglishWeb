@@ -337,3 +337,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Integrate the third A1 practice batch as explicitly labeled `pilot_review_required` exercises, not as human-approved content. All seven new transfers declare ordered slot values. The name lesson uses its single legal alternative (Amy versus source Ben) and two distinct-name choices; other lessons retain two transfers and four choices. When the exercise reviews a different source lesson, show its actual pattern and reference sentence and keep scoring under that exercise pattern.
 
 **Reason:** `I am Amy.` and `My name is Amy.` cannot serve as opposing meanings, and adding untaught names merely to increase option counts would break prerequisites. Explicit review context avoids presenting a previous be-pattern as a variation of the current have-pattern. Structural and machine-assisted review permits a bounded trial, not a claim of human approval.
+
+## ADR-043 - Navigation Focus Never Answers a Question
+
+**Status:** Accepted
+
+**Decision:** A keyboard skip link focuses the named content region. Screen transitions focus its heading only when existing input/action/card autofocus has not already placed focus inside it. Late source loading must not pull focus back from a learner-selected control. Reading, response, and passage choices focus the first option on entry without selecting or grading it; checked results focus their next action. These focus changes never write learning progress.
+
+**Reason:** Predictable focus removes repeated navigation and mouse dependence without weakening explicit-answer, scoring, or existing Enter-safety rules. Automated browser checks supplement, but do not replace, native assistive-technology review.

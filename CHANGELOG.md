@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Keyboard Navigation and Choice Focus
+
+### Improved
+
+- Added a keyboard-visible 「跳到主要內容」 link and content-heading focus after screen navigation, while preserving existing home/course autofocus and related-word shortcut focus.
+- Reading recognition, text response, and passage comprehension focus the first option without selecting it; checked answers focus the next action. Options expose their selected state to assistive technology.
+- Review and weakness navigation buttons now describe their pending counts; the settings button identifies its active screen.
+- Constrained the content-management grid so its wide editable table scrolls inside the table container instead of widening the whole page.
+
+### Preserved
+
+- No curriculum, exercise content, stable ID, progress schema, score, unlock, or review rule changed. Native screen-reader testing and the full accessibility audit remain pending.
+
 ## 2026-10-04 - A1 Third Practice Batch Integration
 
 ### Added
