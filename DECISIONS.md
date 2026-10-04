@@ -345,3 +345,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** A keyboard skip link focuses the named content region. Screen transitions focus its heading only when existing input/action/card autofocus has not already placed focus inside it. Late source loading must not pull focus back from a learner-selected control. Reading, response, and passage choices focus the first option on entry without selecting or grading it; checked results focus their next action. These focus changes never write learning progress.
 
 **Reason:** Predictable focus removes repeated navigation and mouse dependence without weakening explicit-answer, scoring, or existing Enter-safety rules. Automated browser checks supplement, but do not replace, native assistive-technology review.
+
+## ADR-044 - Practice Focus Follows Item Identity, Not Answer Changes
+
+**Status:** Accepted
+
+**Decision:** Key Daily review and weakness exercise containers by their existing stable item/lexeme IDs, with autofocus on the next editable input or first unselected choice. Checked weakness actions remount and focus the next button. Cancel Enter's native default before rejecting repeated key events. Do not add focus dependencies on typed values, option selection, or active-time checkpoints.
+
+**Reason:** An input's initial autofocus does not run when React reuses it for the next item, while refocusing on every answer change would interrupt typing or selection. Returning early for a repeated Enter without cancelling its default still permits a native button click. These UI-only safeguards must not grant evidence or modify learning rules.

@@ -4,7 +4,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **WORKTREE-RECONCILE-001:** Review this branch and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
+- [ ] **WORKTREE-RECONCILE-001:** Complete the protected PR #10 integration and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
   - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
   - [x] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
   - [ ] Decide the authoritative day-to-day checkout before synchronizing the preserved D-drive copy; its original 20 pending files have not been overwritten or committed.
@@ -77,10 +77,12 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [x] Related-vocabulary result announcements, unique disclosure names/states, topic selection, current navigation, shortcut focus, reduced motion, and stale search/filter recovery.
   - [x] Add skip navigation, screen-heading focus that preserves existing input/card autofocus, and pending-count descriptions.
   - [x] Focus reading/response/passage choices without selecting them; checked results focus their next action and expose option selection semantics.
-  - [ ] Audit remaining Daily/assessment stage transitions and all contrast states; try a native screen reader before claiming complete accessibility.
+  - [x] Audit Daily/weakness transitions and the existing unit-assessment flow; use actual held Enter events, initial input/choice focus, progress-neutral navigation, and reload persistence checks.
+  - [ ] Audit all remaining contrast states and try a native screen reader before claiming complete accessibility.
 
 ## Completed
 
+- [x] **DAILY-KEYBOARD-001:** Focus each Daily/weakness item and its next action, preserve choice focus, finish the Daily summary with Enter, and suppress repeated native Enter clicks without changing evidence or grading.
 - [x] **ACCESS-VOCAB-001:** Keep course shortcuts visible and keyboard-focused, announce search results, and test disclosures/search/storage neutrality on desktop and mobile without redesigning the UI.
 - [x] **LINT-GENERATED-001:** Exclude generated worker/build/test artifacts while testing that application, script, and test source paths remain included.
 - [x] **VOCAB-SEARCH-ALIAS-001:** Match occurrence forms, lemmas, prompts, chunk English/Chinese, and curated aliases while preserving canonical display, source fields, progress neutrality, cross-topic selection, and A2 failure isolation.

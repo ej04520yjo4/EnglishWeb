@@ -97,6 +97,8 @@ Free-text sentence flows always record a stable `applicationAttempt`. They add `
 
 `page.tsx` owns a named, programmatically focusable content region and a keyboard-visible skip link. Screen changes use a cancellable animation frame and preserve focus already placed inside the content by existing course inputs, primary actions, or related-word shortcuts. Late source readiness only upgrades focus still parked on the content container. A separate target-ID effect handles reading-recognition, text-response, and passage-comprehension choices/results; it does not run on answer selection and never changes progress or scores. Navigation count descriptions and choice `aria-pressed` states provide semantics without changing the visual layout.
 
+Daily review and weakness exercise containers are keyed by their stable queue-item/lexeme identity so consecutive items remount their input or first choice. Checked weakness actions have a separate key and autofocus; the daily summary focuses its finish action. This replaces the Daily input-only timeout, without adding a second focus state machine or changing stored state. The shared Enter handler prevents the native default even on repeat events; only a fresh Enter may invoke its action. Browser regressions use actual held-key events rather than synthetic keydown alone.
+
 ## Context Documentation Flow
 
 ```mermaid

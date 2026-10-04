@@ -3,10 +3,10 @@
 ## Snapshot
 
 - Updated: 2026-10-04
-- Branch: `codex/curriculum-consistency`
+- Branch: `codex/curriculum-consistency` (integration source for [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10), targeting `main`)
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
-- Publication: the A1 third-batch commits through `15de3ad` and keyboard-navigation code `87249fd` were pushed on 2026-10-04 and remotely verified at the user's request. Remote `main` remains `3402e4b`. No main merge, new pull request, or deployment is claimed.
+- Integration: PR #10 combines the published curriculum/A1/A2/search/navigation changes and the Daily keyboard follow-up. The user authorized a normal merge after verification; both protected quality and Playwright checks must succeed at the final head. The PR is the live merge/check receipt; local validation alone is not a merge or deployment claim. Last pre-integration `main` readback: `3402e4b`.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -59,6 +59,8 @@
 
 ## Latest Completed Work
 
+- Completed the scoped Daily/weakness keyboard follow-up: stable item keys reapply input/choice autofocus, checked weakness actions receive focus, and the Daily summary is keyboard-completable. Repeated Enter now cancels native button activation instead of silently falling through to a browser click.
+- Added six desktop/mobile keyboard scenarios covering consecutive recognition items, same-type weakness queues, three-error application reveal without mastery, selection-focus stability, summary completion, and the existing full unit-assessment/reload flow. No curriculum, scoring, storage, schedule, or unlock contract changed.
 - Added skip navigation, content-heading focus, pending-count descriptions, and explicit choice/result focus for reading, text-response, and passage-comprehension stages. Existing home/course autofocus, related-word shortcut focus, and all learning/data contracts are preserved.
 - Fixed desktop content-management overflow exposed by the new browser tests; the editable table scrolls inside its own container instead of widening the page. Final verification passed 183 unit tests and 114 desktop/mobile browser cases.
 - Selectively integrated the D-drive third A1 batch: seven transfers, four reading-recognition exercises, and four text responses at `a1-u1-l2`, `a1-u2-l3`, `a1-u3-l3`, and `a1-u7-l4`. No CSV, stable course ID, A2 unit, vocabulary target, alias implementation, or progress schema changed.
@@ -116,13 +118,25 @@
 - All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
-- Native screen-reader testing, remaining Daily/assessment stage-focus audits, and a complete contrast audit remain open. Skip navigation, screen-heading focus, navigation count descriptions, and reading/response/passage choice focus now have scoped automated coverage; these checks do not establish full accessibility compliance.
+- Native screen-reader testing and a complete contrast audit remain open. Daily/weakness transitions and the existing assessment path now join skip navigation, screen headings, counts, and reading/response/passage choices in scoped automated keyboard coverage; these checks do not establish full accessibility compliance.
 
 ## Next Concrete Step
 
-Try the third A1 practice batch and record English/Chinese/difficulty feedback before enabling the fourth batch. Separately decide the authoritative day-to-day checkout before synchronizing D: this integration resides in the newer C-drive feature branch, while all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
+Try the third A1 practice batch, A2 unit 5, and the keyboard-only Daily flow; record English/Chinese/difficulty and usability feedback before expanding content. The next bounded technical audit is remaining contrast states/native screen-reader behavior, not another unreviewed curriculum batch. Separately decide the authoritative day-to-day checkout before synchronizing D: all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
 
 ## Verification
+
+### Main integration and Daily keyboard follow-up (2026-10-04)
+
+- Refreshed `origin/main` and confirmed the original integration candidate `1f98e7f` was 13 commits ahead with no main-only commits. Created PR #10 rather than bypassing main's two required checks; no admin override, force push, protection change, or D-drive write.
+- Baseline `npm run verify`: exit 0, all nine gates and 183 unit tests passed. Baseline full `npm run test:e2e`: exit 0, 114 passed (57 desktop / 57 mobile) in 6.6 minutes. Independent scoped code review found no blocking regression in the existing integration candidate.
+- New desktop keyboard draft baseline: exit 1, six failures. Five exposed absent Daily/weakness focus behavior or selectors; the assessment case made an incorrect reload-page assumption. The assessment implementation was not changed. The fixture was corrected to seed once and preserve earned state on reload.
+- Initial source typecheck: exit 1 because an item key was briefly attached to the unrelated recall section; corrected to the Daily section, then typecheck exited 0. No such intermediate state was committed.
+- First corrected desktop/mobile focused run: exit 1, 10 passed / 2 failed because an exact accessible-button-name assertion omitted the existing `前往` prefix. Corrected the assertion, not the product label.
+- Final focused `npm run test:e2e -- tests/e2e/daily-keyboard.spec.ts`: exit 0, 12 passed (6 desktop 1440×900 / 6 mobile 375×812), 0 failed/skipped, 14.5 seconds. Real repeated keydown events are tested across the answer/result/next-item boundary, not just synthetic source checks.
+- Final local `npm run verify`: exit 0; all nine gates completed, 183 unit tests passed / 0 failed / 0 skipped, build/lint/typecheck passed. The full browser matrix now contains 126 cases; its final local and protected CI outcomes are linked from PR #10 before merge.
+- Protected comparison against `1f98e7f`: no changes in `public/data`, `package.json`, or `package-lock.json`; progress remains v6. `git diff --check` exited 0. Final whole-project local/CI gates are recorded in the PR verification receipt before merge.
+- No new dependency audit/install, Windows launcher scenario run, generator replay, deployment, or native screen-reader review is claimed for this keyboard-only follow-up.
 
 ### Navigation and choice-focus verification (2026-10-04)
 

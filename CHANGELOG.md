@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Daily Learning Keyboard Continuity
+
+### Fixed
+
+- Daily recognition review now focuses the first choice without answering it, including consecutive recognition items.
+- Weakness practice focuses the continue action after a correct or revealed answer and the next input/choice when moving between words. The daily summary can also be finished with Enter.
+- Repeated Enter on primary actions now cancels the browser's default click before returning, preventing a held key from answering or advancing another item.
+
+### Preserved
+
+- No curriculum, progress schema, evidence eligibility, scoring, review scheduling, or unlock rules changed. Tests cover existing assessment focus and reload persistence without altering assessment behavior.
+
 ## 2026-10-04 - Keyboard Navigation and Choice Focus
 
 ### Improved
