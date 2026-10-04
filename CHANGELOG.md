@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Vocabulary Keyboard Access and Verification Reliability
+
+### Fixed
+
+- Opening related vocabulary from a correct course word now clears stale search/filter constraints and focuses the matching word card; returning still restores the same course detail stage. Reduced-motion settings are honored.
+- Added distinct word-detail button names, disclosure relationships and states, selected-topic/current-page semantics, and polite search-result announcements. Focus outlines and related-page secondary text are easier to see without layout changes.
+- Excluded generated worker/build, coverage, and Playwright output from ESLint. A configuration regression test ensures maintained application, scripts, and tests remain checked.
+
+### Preserved
+
+- Formal course data, stable IDs, schema v6 progress, four-topic scope, and disabled B1/B2 runtime status are unchanged. The separate D-drive working copy was inventoried read-only and remains unmodified.
+- Feature-branch push is not a `main` merge or deployment; full accessibility and human content/phonetic review remain pending.
+
 ## 2026-10-04 - Related Vocabulary Search Aliases
 
 ### Fixed

@@ -5,7 +5,8 @@
 - Updated: 2026-10-04
 - Branch: `codex/curriculum-consistency`
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
-- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with uncommitted A1 changes; this cycle does not overwrite or integrate them.
+- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files; read-only inventory completed, with no overwrite or integration.
+- Publication: pushed `codex/curriculum-consistency` through `82046f6` on 2026-10-04 and verified the remote SHA. Remote `main` remained `3402e4b`; no merge, pull request, or deployment was performed.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -57,7 +58,11 @@
 
 ## Latest Completed Work
 
-- Committed the previous consistency repairs locally as `20a563d`, `bb9439f`, and `25d3954`; no GitHub push or merge was requested or performed in this follow-up.
+- Published consistency commits `20a563d`, `bb9439f`, `25d3954`, and search-alias commit `82046f6` on the feature branch at the user's request, without changing `main`.
+- Fixed course-to-related-vocabulary navigation retaining an unrelated search/filter and hiding the current course word. The shortcut now clears those constraints, focuses the matching card after rendering, honors reduced motion, and returns to the exact course stage without adding learning evidence.
+- Added named keyboard-operated word disclosures, linked hidden regions, selected-topic/main-navigation semantics, polite result-count/no-result announcements, and stronger focus indicators. Related-page secondary text is darker; the layout and course data are unchanged. This is a scoped improvement, not a completed accessibility/conformance audit.
+- Prevented ESLint from scanning generated worker, build, coverage, and browser-report files, with a regression test proving maintained application/test sources remain linted.
+- Inventoried the D-drive patch without altering either copy. Its A1 batch adds seven transfers plus four recognition/four response exercises; the A1 CSV is byte-identical here. Its alternative alias implementation and older A2/target metadata must not be copied wholesale over the newer active branch.
 - Added normalized occurrence/chunk search aliases plus generic curated Chinese aliases. `brothers`, `my brother`, `我的哥哥`, and `我的弟弟` find the canonical `brother`; ready A2 aliases make `last night`/`昨晚` find `night`. Canonical/source fields, reference QA, and local progress remain unchanged; A2 failure leaves base A1 search working.
 - Completed a machine-assisted curriculum-consistency repair without adding units, changing A1 data, or enabling B1/B2. A2 article/chunk explanations and one ambiguous shopping distractor were corrected in both generators and generated sources.
 - Corrected 24 B1/B2 be/have lexeme references, contextual POS, proper lemma casing, punctuation, and mismatched transfer constructions. Replaced all 64 generic passage questions with content-specific wording while preserving their question IDs.
@@ -104,12 +109,37 @@
 - All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
+- Native screen-reader testing, app-wide route/stage focus, skip navigation, and a complete contrast audit remain open. Automated disclosure/focus tests do not establish full accessibility compliance.
 
 ## Next Concrete Step
 
-Try the improved search and A2 unit 5, then separately reconcile the untouched D-drive A1 batch with this newer checkout before another curriculum expansion. Unit 6 still requires learner/language feedback. Current work stays local: no push, merge, or deployment was performed.
+Try the improved keyboard/search behavior and A2 unit 5. Next, selectively reconcile the untouched D-drive A1 exercise batch: retain this branch's alias architecture and newer A2 unit 5/132-target state, adapt its prerequisite validator and tests, and rerun the full gate before integration. Never overwrite the D-drive working copy. Unit 6 still requires learner/language feedback; B1/B2 remain disabled. Feature-branch publication is separate from `main` integration and deployment.
 
 ## Verification
+
+### Keyboard and publication follow-up verification (2026-10-04)
+
+- Baseline `npm run verify`: exit 0, 174 unit tests before changes.
+- Regression-first desktop shortcut test: exit 1, one failure before the fix because the prior `December` search hid the course's `Monday` card. The strengthened test passes after the search/filter reset.
+- The first parallel verification attempt exited 1 during lint, reporting 248 errors/2773 warnings with minified hook names. Isolated lint then passed at the same source state; the exact transient generated-file path was not retained. Known generated paths are now explicitly excluded, and a direct ESLint API test proves maintained app/script/test paths remain included. Final verification ran serially after the browser runner stopped.
+
+| Executed final check | Exit | Result |
+|---|---:|---|
+| `npm run verify` | 0 | All nine gates completed after the final style changes |
+| `npm run check:context` | 0 | 10 required context files |
+| `npm run audit:project` | 0 | 4 levels, 814 occurrences, 12 sources; no orphan/duplicate files |
+| `npm run audit:vocabulary` / `report:vocabulary` | 0 / 0 | 132 targets; 110 A1/A2 union lexemes; no invalid IDs/lemma conflicts |
+| `npm run validate:curriculum` | 0 | A1 8/32/145; A2 5/20/122; retained B1 8/32/249 and B2 8/32/298 |
+| `npm run build` | 0 | Production build succeeded |
+| `npm run test:unit` | 0 | 175 passed, 0 failed, 0 skipped |
+| `npm run lint` / `npm run typecheck` | 0 / 0 | No lint errors/warnings or TypeScript errors |
+| Full `npm run test:e2e` | 0 | 94 passed, 0 failed; 47 desktop and 47 mobile, 5.4 minutes |
+| Final focused related-vocabulary E2E | 0 | 16 passed, 0 failed; 8 per viewport, including computed focus/selected text contrast |
+| `git diff --check` | 0 | No whitespace errors |
+
+The full 94-case run preceded a final related-page color/search-outline correction; all 16 affected browser cases and `verify` were rerun afterward. Browser assertions cover disclosure behavior, scoped contrast samples, normal/reduced-motion shortcut focus, stored-progress neutrality, reload and return behavior, and no horizontal overflow. They do not replace native screen-reader or full contrast review. Formal data files have no changes in this follow-up.
+
+Git push and remote readback succeeded using normal authenticated Git after a restricted-environment Schannel failure. No insecure transport flags were used. No new PR, main merge, deployment, dependency audit, or GitHub Actions execution is claimed: this branch-only push does not trigger the main/PR workflow. Windows launcher implementation/scenarios were unchanged and not rerun in this follow-up; the prior seven-scenario result remains historical.
 
 ### Search alias follow-up verification (2026-10-04)
 

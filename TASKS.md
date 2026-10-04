@@ -5,6 +5,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 ## Now - P0
 
 - [ ] **WORKTREE-RECONCILE-001:** Review this branch and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
+  - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
+  - [ ] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
 - [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 132-entry A1/A2 baseline.
   - [x] Reviewed the original 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity.
   - [ ] Review the six new A2 unit 5 targets: `manager`, `ten`, `we`, `meeting`, `three`, and `move`.
@@ -70,9 +72,13 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **B1B2-QA-003 (paused):** Verify KK/IPA and free/open audio attribution; keep `audio_status=pending` until playable.
 - [ ] **REVIEW-002:** Validate mastery after delayed review across word, sense, pattern, and passage.
 - [ ] **ACCESS-001:** Complete keyboard, focus, screen-reader label, contrast, desktop, and mobile audits.
+  - [x] Related-vocabulary result announcements, unique disclosure names/states, topic selection, current navigation, shortcut focus, reduced motion, and stale search/filter recovery.
+  - [ ] Review SPA/stage focus transitions, skip navigation, navigation badge descriptions, and all contrast states; try a native screen reader before claiming complete accessibility.
 
 ## Completed
 
+- [x] **ACCESS-VOCAB-001:** Keep course shortcuts visible and keyboard-focused, announce search results, and test disclosures/search/storage neutrality on desktop and mobile without redesigning the UI.
+- [x] **LINT-GENERATED-001:** Exclude generated worker/build/test artifacts while testing that application, script, and test source paths remain included.
 - [x] **VOCAB-SEARCH-ALIAS-001:** Match occurrence forms, lemmas, prompts, chunk English/Chinese, and curated aliases while preserving canonical display, source fields, progress neutrality, cross-topic selection, and A2 failure isolation.
 - [x] **CURRICULUM-CONSISTENCY-001:** Repair A2 hints/distractors and retained B1/B2 lexical/POS/punctuation/reading issues; add bounded validation, 20 regressions, reproducibility checks, and full runtime regression verification without changing protected content or enabling advanced levels.
 - [x] Eight root project-context files with a required read/update workflow.
