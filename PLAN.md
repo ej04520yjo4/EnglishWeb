@@ -96,6 +96,8 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Paused
 
+- The 2026-10-04 machine-assisted consistency repairs address known lemma/POS, punctuation, transfer, and reading-question defects; they do not complete this manual review or enable either level.
+
 - Try B1 and B2 in current Windows Chrome and at mobile width.
 - Review every English sentence, Taiwan Traditional Chinese prompt, chunk, grammar label, distractor, and passage.
 - Supply or verify KK／IPA and licensed audio before changing any audio state to `ready`.

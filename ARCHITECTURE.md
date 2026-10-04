@@ -35,6 +35,8 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/curriculum/catalog.ts`: catalog parsing, release state, formal unlock, and QA-preview access.
 - `app/curriculum/loader.ts`: common level loading and source revision calculation.
 - `app/curriculum/validation.ts`: generic one-word, identity, relation, chunk, pattern, passage, and audio-state checks.
+- `app/curriculum/editorial-validation.ts`: bounded regression checks for canonical verb lemmas and documented contextual POS mistakes; also used across levels by curriculum validation. This is not a full English grammar parser.
+- `app/curriculum/sentence-words.ts`: projects source punctuation/hyphens into ordered spelling units and shares punctuation-tolerant sentence comparison without discarding extra learner words, numbers, or unknown characters.
 - `app/curriculum/progress.ts`: schema v6 migration, isolated course progress, and top-level global vocabulary progress.
 - `app/curriculum/storage.ts`: level-aware source version, revision, update time, and override storage.
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
@@ -79,7 +81,7 @@ A2 uses one CSV and two exercise JSON files for all five pilot units. B1 and B2 
 
 The 3000 goal counts canonical single-word lexemes only. The current partial baseline contains every A1/A2 curriculum lexeme plus unique reference-only lexemes. Word forms, occurrences, senses, and chunks are reported separately. The baseline does not imply that the full 3000 list exists.
 
-Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation uses the latest lesson attached to the passage as the prerequisite boundary, so a distractor cannot introduce vocabulary or chunks from a later unit.
+Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 and retained B1/B2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation derives the latest lesson from both formal CSV passage rows and custom passage sentences, so CSV-only passages cannot bypass prerequisite checks. Declared option chunks must occur in the option text, and text-response option source IDs must exist and be already taught. Original A1 and A2 unit 1 data remain explicit legacy exceptions to required option metadata; their unannotated options are not certified by this prerequisite check. Evidence uses complete word-phrase boundaries rather than substrings; this structural support check does not establish that a question is semantically unambiguous.
 
 ## Persistence
 

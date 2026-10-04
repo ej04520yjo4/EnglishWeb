@@ -2,6 +2,22 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Curriculum Consistency and Grading Safeguards
+
+### Fixed
+
+- Unified A2 article hints around 「一個」 while keeping natural Chinese classifiers in the explanation; clarified definite-article chunks and removed a same-meaning shopping distractor.
+- Repaired retained B1/B2 canonical verb forms, contextual grammar labels, punctuation, and mismatched transfer examples; replaced 64 generic passage questions with content-specific questions and regenerated the official files.
+- Required a complete, non-empty set of sentence-rebuild answers; incomplete arrays can no longer pass merely because their entered prefix is correct.
+- Applied one punctuation-tolerant sentence comparison to transfers, passages, assessments, and sentence practice without ignoring extra learner words or unknown characters.
+
+### Validation
+
+- Added shared sentence/chunk consistency and bounded canonical-lemma/contextual-POS regression checks.
+- Closed the prerequisite-validation gap for CSV-backed passage options, rejected normalized duplicate options, and required complete phrase boundaries for answer evidence.
+- Validated text-response option source IDs and rejected declared option chunks absent from the text. Coverage reports now distinguish intentionally deferred patterns from missing enabled exercises and unconfigured CSV patterns.
+- Kept original A1/A2 unit 1 reading-data compatibility, stable course identities, progress schema v6, and B1/B2 runtime restrictions.
+
 ## 2026-09-12 - A2 Work and Appointment Unit
 
 ### Added

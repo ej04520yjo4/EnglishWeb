@@ -2,8 +2,10 @@
 
 ## Snapshot
 
-- Updated: 2026-09-12
-- Branch: `codex/a2-unit5`
+- Updated: 2026-10-04
+- Branch: `codex/curriculum-consistency`
+- Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
+- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with uncommitted A1 changes; this cycle does not overwrite or integrate them.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -55,6 +57,12 @@
 
 ## Latest Completed Work
 
+- Completed a machine-assisted curriculum-consistency repair without adding units, changing A1 data, or enabling B1/B2. A2 article/chunk explanations and one ambiguous shopping distractor were corrected in both generators and generated sources.
+- Corrected 24 B1/B2 be/have lexeme references, contextual POS, proper lemma casing, punctuation, and mismatched transfer constructions. Replaced all 64 generic passage questions with content-specific wording while preserving their question IDs.
+- A final independent read-through prompted another small editorial pass: clarified question/answer alignment and negative travel experience, and replaced an ambiguous passive comparison with `The report was completed earlier than the manager expected.` This is machine-assisted review, not human approval.
+- Added 20 regression tests overall (150 to 170), including complete rebuild-array validation, punctuation-safe grading, formal-passage prerequisite boundaries, text-response source IDs, actual chunk usage, optional stable-ID formats, and distinct deferred/uncovered pattern counts.
+- Kept all 814 occurrence answers and structural IDs/order unchanged. B1/B2 token/sense IDs changed for 23/20 rows as part of the lexical repair; those disabled levels need a legacy-statistics compatibility review before re-enablement.
+- Replayed all three A2/B1/B2 generators and confirmed all 17 CSV/JSON data files remained byte-identical. Full quality checks, 88 desktop/mobile browser cases, and seven Windows launcher scenarios passed.
 - Added A2 unit 5「工作與約會安排」as four lessons and 27 one-word occurrences without changing A1 or A2 unit 1.
 - Added four recognition exercises, eight sentence transfers, four text responses, and a four-sentence appointment passage with five comprehension questions.
 - Extended A2 sequential unlocking, full post-unit-1 browser traversal, target-baseline projection, catalog counts, and generator reproducibility to unit 5.
@@ -85,20 +93,48 @@
 
 ## Known Limits
 
-- `npm audit` currently reports 54 affected package names (`44 high / 8 moderate / 2 low / 0 critical`), including 11 direct and 43 transitive dependencies. No forced or untested upgrade was applied; the compatibility batches are documented in the dependency review.
+- The 2026-09-04 dependency review reported 54 affected package names (`44 high / 8 moderate / 2 low / 0 critical`), including 11 direct and 43 transitive dependencies. This is a dated snapshot, not a fresh October audit; no forced or untested upgrade was applied.
 - Two remote feature branches are not completely merged and must remain pending manual review: `feat/a2-shopping-comparison` and `feat/daily-learning-weakness-center`. Seven merged `feat/*` branches plus the merged PR1 fix branch are deletion candidates only; no branch was deleted.
 - The target contract is not a complete 3000-word list and must not be presented as one.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
 - A2 units 1–5 remain pilot content; units 6–10 are blueprint-only.
+- Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
 - All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
-- B1/B2 language, phonetics, distractors, passages, and CEFR placement remain unreviewed and disabled.
+- B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
 
 ## Next Concrete Step
 
-Have the user try A2 unit 5 on Windows Chrome, then manually review its English, Taiwan Traditional Chinese, KK/IPA, difficulty, transfers, and passage before deciding whether unit 6 should receive formal data.
+The user authorized local commits on 2026-10-04: `20a563d` records the A2 corrections and `bb9439f` records the validation/grading and retained B1/B2 repairs. No push, merge, or deployment was performed. Continue with a bounded related-vocabulary search review, while separately reconciling the untouched D-drive A1 batch and obtaining user trial feedback on A2 unit 5 before adding unit 6.
 
 ## Verification
+
+### Current verification (2026-10-04)
+
+Baseline `npm run verify` passed before changes (150 unit tests). During development, the stronger validators exposed retained B1/B2 metadata defects; old punctuation-sensitive test expectations and one new optional-field fixture were corrected without removing the checks. The final results are:
+
+| Executed check | Exit | Result |
+|---|---:|---|
+| `npm run verify` | 0 | All nine constituent gates completed |
+| `npm run check:context` | 0 | 10 required context files |
+| `npm run audit:project` | 0 | 4 levels, 814 occurrences, 12 sources; 0 orphan/duplicate files |
+| `npm run audit:vocabulary` | 0 | 132 targets: 108 active, 24 receptive |
+| `npm run report:vocabulary` | 0 | 110 A1/A2 union lexemes; 0 invalid target IDs or lemma conflicts |
+| `npm run validate:curriculum` | 0 | A1 8/32/145; A2 5/20/122; B1 8/32/249; B2 8/32/298 |
+| `npm run build` | 0 | Vinext production build succeeded |
+| `npm run test:unit` | 0 | 170 passed, 0 failed, 0 skipped |
+| `npm run lint` | 0 | 0 errors, 0 warnings |
+| `npm run typecheck` | 0 | `tsc --noEmit --incremental false` |
+| `npm run test:e2e` | 0 | 88 passed, 0 failed: 44 desktop 1440×900 and 44 mobile 375×812 |
+| Windows launcher scenario script | 0 | 7 passed, 0 failed; missing Node/install failure cases use isolated command fixtures |
+| A2/B1/B2 generator replay | 0 | 17 data files remained byte-identical |
+| `git diff --check` | 0 | No whitespace errors |
+
+`npm test` was not invoked as a wrapper; both of its commands (`verify` and `test:e2e`) ran. No fresh `npm ci`, dependency audit, GitHub Actions run, or publication is claimed. Browser runs use isolated Playwright storage, not the user's learning profile.
+
+The final wording-only changes affect disabled B1/B2 sources and their generator/regression assertions; `verify` and generator reproducibility were rerun afterward. The 88-case browser run covers the unchanged runtime A1/A2 state, not browser access to disabled B1/B2.
+
+### Previous verification (2026-09-12)
 
 - `npm ci`: exit 0; 494 packages installed and 495 audited; 54 dependency vulnerabilities reported, with no automatic fixes applied.
 - `npm audit --json`: exit 1 because 54 affected package names remain (0 critical, 44 high, 8 moderate, 2 low); 11 are direct and 43 transitive. This maintenance PR did not change packages or use a force fix.

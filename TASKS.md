@@ -4,6 +4,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
+- [ ] **WORKTREE-RECONCILE-001:** Review this branch and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
 - [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 132-entry A1/A2 baseline.
   - [x] Reviewed the original 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity.
   - [ ] Review the six new A2 unit 5 targets: `manager`, `ten`, `we`, `meeting`, `three`, and `move`.
@@ -50,7 +51,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
 - [ ] **A2-PLAN-004:** Decide whether blueprint unit 6 should receive formal data only after the user tries and reviews unit 5.
-- [ ] **A2-PLAN-004:** Complete units 5–10 in separate reviewed batches.
+- [ ] **A2-PLAN-005:** After the unit 6 decision, complete any authorized units 6–10 in separate reviewed batches.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [ ] **A1-EX-003:** Add the third reviewed pattern batch.
@@ -62,6 +63,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Later - P2
 
+- [ ] **B1B2-ID-COMPAT-001:** Before re-enabling either retained level, review old lexeme/sense statistics against the 2026-10-04 canonical/POS corrections; do not silently rewrite local learner history.
+- [ ] **LEGACY-READING-QA-001:** Plan a separately approved metadata migration for protected A1/A2 unit 1 passage options, which remain explicit legacy exceptions to complete prerequisite validation.
 - [ ] **B1B2-QA-001 (paused):** Manually review all 64 retained B1/B2 lessons before either level can return to runtime.
 - [ ] **B1B2-QA-002 (paused):** After review resumes, try the first and last lesson of every B1/B2 unit in desktop/mobile Chrome.
 - [ ] **B1B2-QA-003 (paused):** Verify KK/IPA and free/open audio attribution; keep `audio_status=pending` until playable.
@@ -70,6 +73,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Completed
 
+- [x] **CURRICULUM-CONSISTENCY-001:** Repair A2 hints/distractors and retained B1/B2 lexical/POS/punctuation/reading issues; add bounded validation, 20 regressions, reproducibility checks, and full runtime regression verification without changing protected content or enabling advanced levels.
 - [x] Eight root project-context files with a required read/update workflow.
 - [x] New-conversation handoff template and milestone boundary rules.
 - [x] Automated UTF-8 and required-section checks for project-context files.

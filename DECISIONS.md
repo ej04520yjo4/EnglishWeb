@@ -313,3 +313,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** A2 unit 5「工作與約會安排」is added to the existing A2 CSV and exercise JSON sources as `pilot_review_required`. It contains four lessons and reuses the shared one-word answer, chunk, prerequisite, passage, progress, and sequential-unlock contracts. Units 6–10 remain blueprint-only until unit 5 receives learner and language review.
 
 **Reason:** A small end-to-end unit provides real material to test without bulk-generating the remaining A2 route or weakening the existing content and progress safeguards.
+
+## ADR-040 - Editorial Checks Complement Structural Validation
+
+**Status:** Accepted
+
+**Decision:** Add narrowly scoped executable checks for documented lemma/POS mistakes, shared sentence/chunk metadata, and passage-option prerequisites derived from both CSV and custom sentences. Preserve the one-word answer model while allowing correct sentence punctuation and compound hyphens. Grading may normalize taught punctuation but must not discard unexpected learner words or characters.
+
+**Reason:** Valid IDs and matching row counts did not catch misleading grammar labels or reading questions. Deterministic regression checks prevent known mistakes from returning, but cannot certify English naturalness, passage coherence, CEFR placement, or human review. B1/B2 therefore remain disabled after editorial repair.
