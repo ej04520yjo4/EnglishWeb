@@ -686,11 +686,15 @@ test("covers every enabled CSV sentence pattern with a valid non-source variatio
   assert.equal(coverage.csvPatternCount, 20);
   assert.equal(coverage.enabledPatternCount, 4);
   assert.equal(coverage.exercisedPatternCount, 4);
-  assert.equal(coverage.uncoveredPatternIds.length, 16);
+  assert.equal(coverage.uncoveredPatternIds.length, 0);
+  assert.equal(coverage.deferredPatternIds.length, 16);
+  assert.equal(coverage.unconfiguredPatternIds.length, 0);
   t.diagnostic(`CSV句型總數：${coverage.csvPatternCount}`);
   t.diagnostic(`已啟用句型數：${coverage.enabledPatternCount}`);
   t.diagnostic(`已有練習句型數：${coverage.exercisedPatternCount}`);
-  t.diagnostic(`尚未覆蓋句型數：${coverage.uncoveredPatternIds.length}`);
+  t.diagnostic(`已啟用但尚未覆蓋句型數：${coverage.uncoveredPatternIds.length}`);
+  t.diagnostic(`刻意延後句型數：${coverage.deferredPatternIds.length}`);
+  t.diagnostic(`未設定句型數：${coverage.unconfiguredPatternIds.length}`);
 });
 
 test("unit 8 comprehension answers stay consistent with their source passage", async () => {

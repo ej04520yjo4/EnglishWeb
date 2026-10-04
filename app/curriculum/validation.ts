@@ -10,6 +10,11 @@ import type {
   CourseValidationReport,
 } from "./types";
 import { CEFR_LEVELS } from "./types.ts";
+import { validateEditorialRows } from "./editorial-validation.ts";
+import {
+  hasSupportedSentenceCharacters,
+  sentenceSpellingUnits,
+} from "./sentence-words.ts";
 
 export const COURSE_CSV_HEADERS = [
   "level",
@@ -222,9 +227,6 @@ const idNumber = (id: string, marker: "u" | "l") => {
   return match ? Number(match[1]) : 0;
 };
 
-const terminalPunctuation = (sentence: string) =>
-  sentence.trim().match(/[.!?]$/)?.[0] ?? ".";
-
 const tokenFromRow = (row: CourseCsvRow): LearningToken => ({
   id: row.occurrence_id,
   occurrenceId: row.occurrence_id,
@@ -428,6 +430,10 @@ export const validateCourseRows = (
     "machine_checked",
   ]);
 
+  validateEditorialRows(rows).forEach(({ rowIndex, message }) =>
+    addRowError(rowIssues, errors, rowIndex, message),
+  );
+
   rows.forEach((row, rowIndex) => {
     const missing = REQUIRED_ROW_FIELDS.filter(
       (field) => !String(row[field] ?? "").trim(),
@@ -499,6 +505,9 @@ export const validateCourseRows = (
         errors,
       ),
     );
+    ["chunk_id", "pattern_id"].forEach((field) => {
+      if (row[field]) assertStableId(row[field], field, rowIndex, rowIssues, errors);
+    });
     if (occurrenceIds.has(row.occurrence_id)) {
       addRowError(
         rowIssues,
@@ -565,10 +574,7 @@ export const validateCourseRows = (
           `語塊欄位不可空白：${missingChunkFields.join("、")}。`,
         );
       }
-      const chunkWords = row.chunk_text
-        .toLowerCase()
-        .split(/\s+/)
-        .filter(Boolean);
+      const chunkWords = sentenceSpellingUnits(row.chunk_text.toLowerCase());
       if (!chunkWords.includes(row.answer.toLowerCase())) {
         addRowError(
           rowIssues,
@@ -660,15 +666,51 @@ export const validateCourseRows = (
     });
     const first = lessonRows[0]?.row;
     if (!first) return;
-    const reconstructed =
-      lessonRows.map(({ row }) => row.answer).join(" ") +
-      terminalPunctuation(first.sentence);
-    if (reconstructed !== first.sentence) {
+    const reconstructed = lessonRows.map(({ row }) => row.answer).join(" ");
+    const expectedWords = sentenceSpellingUnits(first.sentence).join(" ");
+    if (
+      !hasSupportedSentenceCharacters(first.sentence) ||
+      !/[.!?]$/.test(first.sentence) ||
+      reconstructed !== expectedWords
+    ) {
       lessonRows.forEach(({ index }) => rowIssues.add(index));
       errors.push(
         `${lessonId} 的 occurrence 無法重建句子「${first.sentence}」。`,
       );
     }
+    for (const { row, index } of lessonRows) {
+      const sharedFields = [
+        "sentence_id", "sentence", "translation", "grammar", "lesson_title",
+        "passage_id", "passage_order", "sentence_order", "sentence_pattern_id",
+        "pattern_name", "pattern_cefr",
+      ];
+      const differences = sharedFields.filter((field) => row[field] !== first[field]);
+      if (differences.length) {
+        addRowError(rowIssues, errors, index,
+          `${row.level}/${row.unit_id}/${lessonId}/${row.occurrence_id} 的句子共用欄位不一致：${differences.join("、")}。`);
+      }
+    }
+    const chunks = new Map<string, typeof lessonRows>();
+    lessonRows.forEach((entry) => {
+      if (entry.row.chunk_id) {
+        chunks.set(entry.row.chunk_id, [...(chunks.get(entry.row.chunk_id) ?? []), entry]);
+      }
+    });
+    chunks.forEach((entries, chunkId) => {
+      const chunk = entries[0].row;
+      const actual = entries.map(({ row }) => row.answer.toLowerCase()).join(" ");
+      const expected = sentenceSpellingUnits(chunk.chunk_text.toLowerCase()).join(" ");
+      const contiguous = entries.every(({ row }, index) =>
+        Number(row.token_order) === Number(chunk.token_order) + index);
+      const consistent = entries.every(({ row }) =>
+        ["chunk_text", "chunk_translation", "chunk_order", "chunk_note"].every(
+          (field) => row[field] === chunk[field],
+        ));
+      if (actual !== expected || !contiguous || !consistent) {
+        entries.forEach(({ index }) => rowIssues.add(index));
+        errors.push(`${first.level}/${first.unit_id}/${lessonId}/${chunkId} 的語塊必須由連續且一致的逐字 occurrence 完整重建。`);
+      }
+    });
   });
 
   const unitIds = Array.from(new Set(rows.map((row) => row.unit_id)));

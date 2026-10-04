@@ -10,7 +10,7 @@
       "passageId": "b2-u01-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "In my view the proposal offers several practical benefits.",
+      "stem": "In my view, the proposal offers several practical benefits.",
       "requiredLexemeIds": [
         "in",
         "my",
@@ -54,7 +54,7 @@
       "passageId": "b2-u01-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Although I understand your concern I support the change.",
+      "stem": "Although I understand your concern, I support the change.",
       "requiredLexemeIds": [
         "although",
         "i",
@@ -185,7 +185,7 @@
       "passageId": "b2-u02-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "This option is more flexible whereas the other is cheaper.",
+      "stem": "This option is more flexible, whereas the other is cheaper.",
       "requiredLexemeIds": [
         "this",
         "option",
@@ -272,7 +272,7 @@
       "passageId": "b2-u02-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "We should consider both the cost and the long term impact.",
+      "stem": "We should consider both the cost and the long-term impact.",
       "requiredLexemeIds": [
         "we",
         "should",
@@ -317,11 +317,11 @@
       "passageId": "b2-u02-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "If we had more time we could compare the results carefully.",
+      "stem": "If we had more time, we could compare the results carefully.",
       "requiredLexemeIds": [
         "if",
         "we",
-        "had",
+        "have",
         "more",
         "time",
         "could",
@@ -366,7 +366,7 @@
       "requiredLexemeIds": [
         "the",
         "project",
-        "was",
+        "be",
         "complete",
         "earlier",
         "than",
@@ -497,8 +497,8 @@
       "requiredLexemeIds": [
         "the",
         "team",
-        "has",
-        "been",
+        "have",
+        "be",
         "work",
         "on",
         "this",
@@ -546,7 +546,7 @@
         "that",
         "public",
         "support",
-        "has",
+        "have",
         "increase",
         "recently"
       ],
@@ -586,7 +586,7 @@
       "requiredLexemeIds": [
         "the",
         "policy",
-        "was",
+        "be",
         "introduce",
         "after",
         "several",
@@ -626,7 +626,7 @@
       "passageId": "b2-u04-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "According to the article the decision may affect small businesses.",
+      "stem": "According to the article, the decision may affect small businesses.",
       "requiredLexemeIds": [
         "according",
         "to",
@@ -933,11 +933,11 @@
       "passageId": "b2-u06-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "If energy were cheaper more companies would use clean power.",
+      "stem": "If energy were cheaper, more companies would use clean power.",
       "requiredLexemeIds": [
         "if",
         "energy",
-        "were",
+        "be",
         "cheap",
         "more",
         "company",
@@ -1065,7 +1065,7 @@
       "passageId": "b2-u07-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Our proposal focuses on quality rather than short term savings.",
+      "stem": "Our proposal focuses on quality rather than short-term savings.",
       "requiredLexemeIds": [
         "our",
         "proposal",
@@ -1198,7 +1198,7 @@
       "passageId": "b2-u07-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "After reviewing both sides we reached a reasonable agreement.",
+      "stem": "After reviewing both sides, we reached a reasonable agreement.",
       "requiredLexemeIds": [
         "after",
         "review",
@@ -1242,7 +1242,7 @@
       "passageId": "b2-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "Modern cities face problems that require long term planning.",
+      "stem": "Modern cities face problems that require long-term planning.",
       "requiredLexemeIds": [
         "modern",
         "city",
@@ -1286,7 +1286,7 @@
       "passageId": "b2-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "While technology offers solutions it cannot replace public cooperation.",
+      "stem": "While technology offers solutions, it cannot replace public cooperation.",
       "requiredLexemeIds": [
         "while",
         "technology",
@@ -1333,7 +1333,7 @@
       "stem": "Policies are more effective when residents understand their purpose.",
       "requiredLexemeIds": [
         "policy",
-        "are",
+        "be",
         "more",
         "effective",
         "when",
@@ -1374,7 +1374,7 @@
       "passageId": "b2-u08-p01",
       "type": "english-to-chinese",
       "instruction": "請選出最符合英文句子的繁體中文意思。",
-      "stem": "If communities worked together they could create lasting change.",
+      "stem": "If communities worked together, they could create lasting change.",
       "requiredLexemeIds": [
         "if",
         "community",
@@ -1425,7 +1425,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "In my view the proposal offers several practical benefits.",
+          "text": "In my view, the proposal offers several practical benefits.",
           "requiredLexemeIds": [
             "in",
             "my",
@@ -1441,7 +1441,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Now I feel more confident about my goals.",
+          "text": "Now, I feel more confident about my goals.",
           "requiredLexemeIds": [
             "now",
             "i",
@@ -1470,14 +1470,14 @@
         },
         {
           "id": "distractor-3",
-          "text": "At first the new schedule was difficult to follow.",
+          "text": "At first, the new schedule was difficult to follow.",
           "requiredLexemeIds": [
             "at",
             "first",
             "the",
             "new",
             "schedule",
-            "was",
+            "be",
             "difficult",
             "to",
             "follow"
@@ -1501,7 +1501,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Although I understand your concern I support the change.",
+          "text": "Although I understand your concern, I support the change.",
           "requiredLexemeIds": [
             "although",
             "i",
@@ -1516,7 +1516,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "In my view the proposal offers several practical benefits.",
+          "text": "In my view, the proposal offers several practical benefits.",
           "requiredLexemeIds": [
             "in",
             "my",
@@ -1532,7 +1532,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Now I feel more confident about my goals.",
+          "text": "Now, I feel more confident about my goals.",
           "requiredLexemeIds": [
             "now",
             "i",
@@ -1592,7 +1592,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Although I understand your concern I support the change.",
+          "text": "Although I understand your concern, I support the change.",
           "requiredLexemeIds": [
             "although",
             "i",
@@ -1607,7 +1607,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "In my view the proposal offers several practical benefits.",
+          "text": "In my view, the proposal offers several practical benefits.",
           "requiredLexemeIds": [
             "in",
             "my",
@@ -1623,7 +1623,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Now I feel more confident about my goals.",
+          "text": "Now, I feel more confident about my goals.",
           "requiredLexemeIds": [
             "now",
             "i",
@@ -1685,7 +1685,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Although I understand your concern I support the change.",
+          "text": "Although I understand your concern, I support the change.",
           "requiredLexemeIds": [
             "although",
             "i",
@@ -1700,7 +1700,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "In my view the proposal offers several practical benefits.",
+          "text": "In my view, the proposal offers several practical benefits.",
           "requiredLexemeIds": [
             "in",
             "my",
@@ -1731,7 +1731,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "This option is more flexible whereas the other is cheaper.",
+          "text": "This option is more flexible, whereas the other is cheaper.",
           "requiredLexemeIds": [
             "this",
             "option",
@@ -1779,7 +1779,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Although I understand your concern I support the change.",
+          "text": "Although I understand your concern, I support the change.",
           "requiredLexemeIds": [
             "although",
             "i",
@@ -1824,7 +1824,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "This option is more flexible whereas the other is cheaper.",
+          "text": "This option is more flexible, whereas the other is cheaper.",
           "requiredLexemeIds": [
             "this",
             "option",
@@ -1887,7 +1887,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "We should consider both the cost and the long term impact.",
+          "text": "We should consider both the cost and the long-term impact.",
           "requiredLexemeIds": [
             "we",
             "should",
@@ -1919,7 +1919,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "This option is more flexible whereas the other is cheaper.",
+          "text": "This option is more flexible, whereas the other is cheaper.",
           "requiredLexemeIds": [
             "this",
             "option",
@@ -1966,11 +1966,11 @@
       "options": [
         {
           "id": "correct",
-          "text": "If we had more time we could compare the results carefully.",
+          "text": "If we had more time, we could compare the results carefully.",
           "requiredLexemeIds": [
             "if",
             "we",
-            "had",
+            "have",
             "more",
             "time",
             "could",
@@ -1983,7 +1983,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "We should consider both the cost and the long term impact.",
+          "text": "We should consider both the cost and the long-term impact.",
           "requiredLexemeIds": [
             "we",
             "should",
@@ -2015,7 +2015,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "This option is more flexible whereas the other is cheaper.",
+          "text": "This option is more flexible, whereas the other is cheaper.",
           "requiredLexemeIds": [
             "this",
             "option",
@@ -2050,7 +2050,7 @@
           "requiredLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
@@ -2061,11 +2061,11 @@
         },
         {
           "id": "distractor-1",
-          "text": "If we had more time we could compare the results carefully.",
+          "text": "If we had more time, we could compare the results carefully.",
           "requiredLexemeIds": [
             "if",
             "we",
-            "had",
+            "have",
             "more",
             "time",
             "could",
@@ -2078,7 +2078,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "We should consider both the cost and the long term impact.",
+          "text": "We should consider both the cost and the long-term impact.",
           "requiredLexemeIds": [
             "we",
             "should",
@@ -2144,7 +2144,7 @@
           "requiredLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
@@ -2155,11 +2155,11 @@
         },
         {
           "id": "distractor-2",
-          "text": "If we had more time we could compare the results carefully.",
+          "text": "If we had more time, we could compare the results carefully.",
           "requiredLexemeIds": [
             "if",
             "we",
-            "had",
+            "have",
             "more",
             "time",
             "could",
@@ -2172,7 +2172,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "We should consider both the cost and the long term impact.",
+          "text": "We should consider both the cost and the long-term impact.",
           "requiredLexemeIds": [
             "we",
             "should",
@@ -2240,7 +2240,7 @@
           "requiredLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
@@ -2251,11 +2251,11 @@
         },
         {
           "id": "distractor-3",
-          "text": "If we had more time we could compare the results carefully.",
+          "text": "If we had more time, we could compare the results carefully.",
           "requiredLexemeIds": [
             "if",
             "we",
-            "had",
+            "have",
             "more",
             "time",
             "could",
@@ -2287,8 +2287,8 @@
           "requiredLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "this",
@@ -2336,7 +2336,7 @@
           "requiredLexemeIds": [
             "the",
             "project",
-            "was",
+            "be",
             "complete",
             "earlier",
             "than",
@@ -2370,7 +2370,7 @@
             "that",
             "public",
             "support",
-            "has",
+            "have",
             "increase",
             "recently"
           ],
@@ -2382,8 +2382,8 @@
           "requiredLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "this",
@@ -2446,7 +2446,7 @@
           "requiredLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "several",
@@ -2466,7 +2466,7 @@
             "that",
             "public",
             "support",
-            "has",
+            "have",
             "increase",
             "recently"
           ],
@@ -2478,8 +2478,8 @@
           "requiredLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "this",
@@ -2523,7 +2523,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "According to the article the decision may affect small businesses.",
+          "text": "According to the article, the decision may affect small businesses.",
           "requiredLexemeIds": [
             "according",
             "to",
@@ -2543,7 +2543,7 @@
           "requiredLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "several",
@@ -2563,7 +2563,7 @@
             "that",
             "public",
             "support",
-            "has",
+            "have",
             "increase",
             "recently"
           ],
@@ -2575,8 +2575,8 @@
           "requiredLexemeIds": [
             "the",
             "team",
-            "has",
-            "been",
+            "have",
+            "be",
             "work",
             "on",
             "this",
@@ -2619,7 +2619,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "According to the article the decision may affect small businesses.",
+          "text": "According to the article, the decision may affect small businesses.",
           "requiredLexemeIds": [
             "according",
             "to",
@@ -2639,7 +2639,7 @@
           "requiredLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "several",
@@ -2659,7 +2659,7 @@
             "that",
             "public",
             "support",
-            "has",
+            "have",
             "increase",
             "recently"
           ],
@@ -2714,7 +2714,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "According to the article the decision may affect small businesses.",
+          "text": "According to the article, the decision may affect small businesses.",
           "requiredLexemeIds": [
             "according",
             "to",
@@ -2734,7 +2734,7 @@
           "requiredLexemeIds": [
             "the",
             "policy",
-            "was",
+            "be",
             "introduce",
             "after",
             "several",
@@ -2810,7 +2810,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "According to the article the decision may affect small businesses.",
+          "text": "According to the article, the decision may affect small businesses.",
           "requiredLexemeIds": [
             "according",
             "to",
@@ -3077,11 +3077,11 @@
       "options": [
         {
           "id": "correct",
-          "text": "If energy were cheaper more companies would use clean power.",
+          "text": "If energy were cheaper, more companies would use clean power.",
           "requiredLexemeIds": [
             "if",
             "energy",
-            "were",
+            "be",
             "cheap",
             "more",
             "company",
@@ -3170,11 +3170,11 @@
         },
         {
           "id": "distractor-1",
-          "text": "If energy were cheaper more companies would use clean power.",
+          "text": "If energy were cheaper, more companies would use clean power.",
           "requiredLexemeIds": [
             "if",
             "energy",
-            "were",
+            "be",
             "cheap",
             "more",
             "company",
@@ -3263,11 +3263,11 @@
         },
         {
           "id": "distractor-2",
-          "text": "If energy were cheaper more companies would use clean power.",
+          "text": "If energy were cheaper, more companies would use clean power.",
           "requiredLexemeIds": [
             "if",
             "energy",
-            "were",
+            "be",
             "cheap",
             "more",
             "company",
@@ -3311,7 +3311,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Our proposal focuses on quality rather than short term savings.",
+          "text": "Our proposal focuses on quality rather than short-term savings.",
           "requiredLexemeIds": [
             "our",
             "proposal",
@@ -3359,11 +3359,11 @@
         },
         {
           "id": "distractor-3",
-          "text": "If energy were cheaper more companies would use clean power.",
+          "text": "If energy were cheaper, more companies would use clean power.",
           "requiredLexemeIds": [
             "if",
             "energy",
-            "were",
+            "be",
             "cheap",
             "more",
             "company",
@@ -3407,7 +3407,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Our proposal focuses on quality rather than short term savings.",
+          "text": "Our proposal focuses on quality rather than short-term savings.",
           "requiredLexemeIds": [
             "our",
             "proposal",
@@ -3502,7 +3502,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Our proposal focuses on quality rather than short term savings.",
+          "text": "Our proposal focuses on quality rather than short-term savings.",
           "requiredLexemeIds": [
             "our",
             "proposal",
@@ -3550,7 +3550,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "After reviewing both sides we reached a reasonable agreement.",
+          "text": "After reviewing both sides, we reached a reasonable agreement.",
           "requiredLexemeIds": [
             "after",
             "review",
@@ -3598,7 +3598,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Our proposal focuses on quality rather than short term savings.",
+          "text": "Our proposal focuses on quality rather than short-term savings.",
           "requiredLexemeIds": [
             "our",
             "proposal",
@@ -3630,7 +3630,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "Modern cities face problems that require long term planning.",
+          "text": "Modern cities face problems that require long-term planning.",
           "requiredLexemeIds": [
             "modern",
             "city",
@@ -3646,7 +3646,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "After reviewing both sides we reached a reasonable agreement.",
+          "text": "After reviewing both sides, we reached a reasonable agreement.",
           "requiredLexemeIds": [
             "after",
             "review",
@@ -3709,7 +3709,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "While technology offers solutions it cannot replace public cooperation.",
+          "text": "While technology offers solutions, it cannot replace public cooperation.",
           "requiredLexemeIds": [
             "while",
             "technology",
@@ -3725,7 +3725,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "Modern cities face problems that require long term planning.",
+          "text": "Modern cities face problems that require long-term planning.",
           "requiredLexemeIds": [
             "modern",
             "city",
@@ -3741,7 +3741,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "After reviewing both sides we reached a reasonable agreement.",
+          "text": "After reviewing both sides, we reached a reasonable agreement.",
           "requiredLexemeIds": [
             "after",
             "review",
@@ -3791,7 +3791,7 @@
           "text": "Policies are more effective when residents understand their purpose.",
           "requiredLexemeIds": [
             "policy",
-            "are",
+            "be",
             "more",
             "effective",
             "when",
@@ -3804,7 +3804,7 @@
         },
         {
           "id": "distractor-1",
-          "text": "While technology offers solutions it cannot replace public cooperation.",
+          "text": "While technology offers solutions, it cannot replace public cooperation.",
           "requiredLexemeIds": [
             "while",
             "technology",
@@ -3820,7 +3820,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "Modern cities face problems that require long term planning.",
+          "text": "Modern cities face problems that require long-term planning.",
           "requiredLexemeIds": [
             "modern",
             "city",
@@ -3836,7 +3836,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "After reviewing both sides we reached a reasonable agreement.",
+          "text": "After reviewing both sides, we reached a reasonable agreement.",
           "requiredLexemeIds": [
             "after",
             "review",
@@ -3867,7 +3867,7 @@
       "options": [
         {
           "id": "correct",
-          "text": "If communities worked together they could create lasting change.",
+          "text": "If communities worked together, they could create lasting change.",
           "requiredLexemeIds": [
             "if",
             "community",
@@ -3886,7 +3886,7 @@
           "text": "Policies are more effective when residents understand their purpose.",
           "requiredLexemeIds": [
             "policy",
-            "are",
+            "be",
             "more",
             "effective",
             "when",
@@ -3899,7 +3899,7 @@
         },
         {
           "id": "distractor-2",
-          "text": "While technology offers solutions it cannot replace public cooperation.",
+          "text": "While technology offers solutions, it cannot replace public cooperation.",
           "requiredLexemeIds": [
             "while",
             "technology",
@@ -3915,7 +3915,7 @@
         },
         {
           "id": "distractor-3",
-          "text": "Modern cities face problems that require long term planning.",
+          "text": "Modern cities face problems that require long-term planning.",
           "requiredLexemeIds": [
             "modern",
             "city",
@@ -3943,16 +3943,16 @@
           "id": "b2-u01-p01-q01",
           "sourceSentenceId": "b2-u01-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "依這個人的看法，提案帶來什麼？",
           "options": [
-            "practical benefits",
-            "support the change",
-            "remain effective",
-            "independent thinking"
+            "Practical benefits",
+            "Support the change",
+            "Remain effective",
+            "Independent thinking"
           ],
           "optionMetadata": [
             {
-              "text": "practical benefits",
+              "text": "Practical benefits",
               "requiredLexemeIds": [
                 "practical",
                 "benefit"
@@ -3960,7 +3960,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "support the change",
+              "text": "Support the change",
               "requiredLexemeIds": [
                 "support",
                 "the",
@@ -3969,7 +3969,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "remain effective",
+              "text": "Remain effective",
               "requiredLexemeIds": [
                 "remain",
                 "effective"
@@ -3977,7 +3977,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "independent thinking",
+              "text": "Independent thinking",
               "requiredLexemeIds": [
                 "independent",
                 "thinking"
@@ -3985,7 +3985,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "practical benefits",
+          "correctAnswer": "Practical benefits",
           "evidenceSentenceIds": [
             "b2-u01-l01-s01"
           ],
@@ -3995,16 +3995,24 @@
           "id": "b2-u01-p01-q02",
           "sourceSentenceId": "b2-u01-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "雖然這個人理解什麼，他仍支持改變？",
           "options": [
-            "practical benefits",
-            "support the change",
-            "remain effective",
-            "independent thinking"
+            "Your concern",
+            "Practical benefits",
+            "Independent thinking",
+            "Remain effective"
           ],
           "optionMetadata": [
             {
-              "text": "practical benefits",
+              "text": "Your concern",
+              "requiredLexemeIds": [
+                "your",
+                "concern"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Practical benefits",
               "requiredLexemeIds": [
                 "practical",
                 "benefit"
@@ -4012,32 +4020,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "support the change",
-              "requiredLexemeIds": [
-                "support",
-                "the",
-                "change"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "remain effective",
-              "requiredLexemeIds": [
-                "remain",
-                "effective"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "independent thinking",
+              "text": "Independent thinking",
               "requiredLexemeIds": [
                 "independent",
                 "thinking"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Remain effective",
+              "requiredLexemeIds": [
+                "remain",
+                "effective"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "support the change",
+          "correctAnswer": "Your concern",
           "evidenceSentenceIds": [
             "b2-u01-l02-s01"
           ],
@@ -4047,16 +4046,24 @@
           "id": "b2-u01-p01-q03",
           "sourceSentenceId": "b2-u01-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "主要問題是方案是否會怎樣？",
           "options": [
-            "practical benefits",
-            "support the change",
-            "remain effective",
-            "independent thinking"
+            "Remain effective",
+            "Practical benefits",
+            "Support the change",
+            "Encourage thinking"
           ],
           "optionMetadata": [
             {
-              "text": "practical benefits",
+              "text": "Remain effective",
+              "requiredLexemeIds": [
+                "remain",
+                "effective"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Practical benefits",
               "requiredLexemeIds": [
                 "practical",
                 "benefit"
@@ -4064,7 +4071,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "support the change",
+              "text": "Support the change",
               "requiredLexemeIds": [
                 "support",
                 "the",
@@ -4073,23 +4080,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "remain effective",
+              "text": "Encourage thinking",
               "requiredLexemeIds": [
-                "remain",
-                "effective"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "independent thinking",
-              "requiredLexemeIds": [
-                "independent",
+                "encourage",
                 "thinking"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "remain effective",
+          "correctAnswer": "Remain effective",
           "evidenceSentenceIds": [
             "b2-u01-l03-s01"
           ],
@@ -4099,16 +4098,24 @@
           "id": "b2-u01-p01-q04",
           "sourceSentenceId": "b2-u01-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "教育應鼓勵什麼？",
           "options": [
-            "practical benefits",
-            "support the change",
-            "remain effective",
-            "independent thinking"
+            "Independent thinking",
+            "Practical benefits",
+            "Support the change",
+            "Remain effective"
           ],
           "optionMetadata": [
             {
-              "text": "practical benefits",
+              "text": "Independent thinking",
+              "requiredLexemeIds": [
+                "independent",
+                "thinking"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Practical benefits",
               "requiredLexemeIds": [
                 "practical",
                 "benefit"
@@ -4116,7 +4123,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "support the change",
+              "text": "Support the change",
               "requiredLexemeIds": [
                 "support",
                 "the",
@@ -4125,23 +4132,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "remain effective",
+              "text": "Remain effective",
               "requiredLexemeIds": [
                 "remain",
                 "effective"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "independent thinking",
-              "requiredLexemeIds": [
-                "independent",
-                "thinking"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "independent thinking",
+          "correctAnswer": "Independent thinking",
           "evidenceSentenceIds": [
             "b2-u01-l04-s01"
           ],
@@ -4158,16 +4157,16 @@
           "id": "b2-u02-p01-q01",
           "sourceSentenceId": "b2-u02-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "文中提到，這個方案與另一個相比有什麼優點？",
           "options": [
-            "more flexible",
-            "additional problems",
-            "long term impact",
-            "compare the results carefully"
+            "More flexible",
+            "Cheaper",
+            "Additional problems",
+            "Long-term impact"
           ],
           "optionMetadata": [
             {
-              "text": "more flexible",
+              "text": "More flexible",
               "requiredLexemeIds": [
                 "more",
                 "flexible"
@@ -4175,7 +4174,14 @@
               "requiredChunkIds": []
             },
             {
-              "text": "additional problems",
+              "text": "Cheaper",
+              "requiredLexemeIds": [
+                "cheap"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Additional problems",
               "requiredLexemeIds": [
                 "additional",
                 "problem"
@@ -4183,26 +4189,16 @@
               "requiredChunkIds": []
             },
             {
-              "text": "long term impact",
+              "text": "Long-term impact",
               "requiredLexemeIds": [
                 "long",
                 "term",
                 "impact"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "compare the results carefully",
-              "requiredLexemeIds": [
-                "compare",
-                "the",
-                "result",
-                "carefully"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "more flexible",
+          "correctAnswer": "More flexible",
           "evidenceSentenceIds": [
             "b2-u02-l01-s01"
           ],
@@ -4212,24 +4208,16 @@
           "id": "b2-u02-p01-q02",
           "sourceSentenceId": "b2-u02-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "較便宜的解決方案之後可能造成什麼？",
           "options": [
-            "more flexible",
-            "additional problems",
-            "long term impact",
-            "compare the results carefully"
+            "Additional problems",
+            "More flexible",
+            "Long-term impact",
+            "Compare results"
           ],
           "optionMetadata": [
             {
-              "text": "more flexible",
-              "requiredLexemeIds": [
-                "more",
-                "flexible"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "additional problems",
+              "text": "Additional problems",
               "requiredLexemeIds": [
                 "additional",
                 "problem"
@@ -4237,7 +4225,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "long term impact",
+              "text": "More flexible",
+              "requiredLexemeIds": [
+                "more",
+                "flexible"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Long-term impact",
               "requiredLexemeIds": [
                 "long",
                 "term",
@@ -4246,17 +4242,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "compare the results carefully",
+              "text": "Compare results",
               "requiredLexemeIds": [
                 "compare",
-                "the",
-                "result",
-                "carefully"
+                "result"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "additional problems",
+          "correctAnswer": "Additional problems",
           "evidenceSentenceIds": [
             "b2-u02-l02-s01"
           ],
@@ -4266,32 +4260,16 @@
           "id": "b2-u02-p01-q03",
           "sourceSentenceId": "b2-u02-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "除了成本，還要考量什麼？",
           "options": [
-            "more flexible",
-            "additional problems",
-            "long term impact",
-            "compare the results carefully"
+            "Long-term impact",
+            "More flexible",
+            "Additional problems",
+            "Compare results carefully"
           ],
           "optionMetadata": [
             {
-              "text": "more flexible",
-              "requiredLexemeIds": [
-                "more",
-                "flexible"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "additional problems",
-              "requiredLexemeIds": [
-                "additional",
-                "problem"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "long term impact",
+              "text": "Long-term impact",
               "requiredLexemeIds": [
                 "long",
                 "term",
@@ -4300,17 +4278,32 @@
               "requiredChunkIds": []
             },
             {
-              "text": "compare the results carefully",
+              "text": "More flexible",
+              "requiredLexemeIds": [
+                "more",
+                "flexible"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Additional problems",
+              "requiredLexemeIds": [
+                "additional",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Compare results carefully",
               "requiredLexemeIds": [
                 "compare",
-                "the",
                 "result",
                 "carefully"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "long term impact",
+          "correctAnswer": "Long-term impact",
           "evidenceSentenceIds": [
             "b2-u02-l03-s01"
           ],
@@ -4320,41 +4313,16 @@
           "id": "b2-u02-p01-q04",
           "sourceSentenceId": "b2-u02-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "如果有更多時間，他們可以怎麼做？",
           "options": [
-            "more flexible",
-            "additional problems",
-            "long term impact",
-            "compare the results carefully"
+            "Compare the results carefully",
+            "Create additional problems",
+            "Consider the cost",
+            "Choose the option"
           ],
           "optionMetadata": [
             {
-              "text": "more flexible",
-              "requiredLexemeIds": [
-                "more",
-                "flexible"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "additional problems",
-              "requiredLexemeIds": [
-                "additional",
-                "problem"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "long term impact",
-              "requiredLexemeIds": [
-                "long",
-                "term",
-                "impact"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "compare the results carefully",
+              "text": "Compare the results carefully",
               "requiredLexemeIds": [
                 "compare",
                 "the",
@@ -4362,9 +4330,36 @@
                 "carefully"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Create additional problems",
+              "requiredLexemeIds": [
+                "create",
+                "additional",
+                "problem"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Consider the cost",
+              "requiredLexemeIds": [
+                "consider",
+                "the",
+                "cost"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Choose the option",
+              "requiredLexemeIds": [
+                "choose",
+                "the",
+                "option"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "compare the results carefully",
+          "correctAnswer": "Compare the results carefully",
           "evidenceSentenceIds": [
             "b2-u02-l04-s01"
           ],
@@ -4381,16 +4376,16 @@
           "id": "b2-u03-p01-q01",
           "sourceSentenceId": "b2-u03-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "專案的完成時間和經理預期相比如何？",
           "options": [
-            "completed earlier",
-            "revise the final section",
-            "identifies the main weakness",
-            "has been working"
+            "Completed earlier",
+            "Revise section",
+            "Identifies the weakness",
+            "Work for months"
           ],
           "optionMetadata": [
             {
-              "text": "completed earlier",
+              "text": "Completed earlier",
               "requiredLexemeIds": [
                 "complete",
                 "earlier"
@@ -4398,36 +4393,33 @@
               "requiredChunkIds": []
             },
             {
-              "text": "revise the final section",
+              "text": "Revise section",
               "requiredLexemeIds": [
                 "revise",
-                "the",
-                "final",
                 "section"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "identifies the main weakness",
+              "text": "Identifies the weakness",
               "requiredLexemeIds": [
                 "identify",
                 "the",
-                "main",
                 "weakness"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "has been working",
+              "text": "Work for months",
               "requiredLexemeIds": [
-                "has",
-                "been",
-                "work"
+                "work",
+                "for",
+                "month"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "completed earlier",
+          "correctAnswer": "Completed earlier",
           "evidenceSentenceIds": [
             "b2-u03-l01-s01"
           ],
@@ -4437,53 +4429,48 @@
           "id": "b2-u03-p01-q02",
           "sourceSentenceId": "b2-u03-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "她建議修改什麼？",
           "options": [
-            "completed earlier",
-            "revise the final section",
-            "identifies the main weakness",
-            "has been working"
+            "Final section",
+            "Main weakness",
+            "The project",
+            "The feedback"
           ],
           "optionMetadata": [
             {
-              "text": "completed earlier",
+              "text": "Final section",
               "requiredLexemeIds": [
-                "complete",
-                "earlier"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "revise the final section",
-              "requiredLexemeIds": [
-                "revise",
-                "the",
                 "final",
                 "section"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "identifies the main weakness",
+              "text": "Main weakness",
               "requiredLexemeIds": [
-                "identify",
-                "the",
                 "main",
                 "weakness"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "has been working",
+              "text": "The project",
               "requiredLexemeIds": [
-                "has",
-                "been",
-                "work"
+                "the",
+                "project"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The feedback",
+              "requiredLexemeIds": [
+                "the",
+                "feedback"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "revise the final section",
+          "correctAnswer": "Final section",
           "evidenceSentenceIds": [
             "b2-u03-l02-s01"
           ],
@@ -4493,53 +4480,48 @@
           "id": "b2-u03-p01-q03",
           "sourceSentenceId": "b2-u03-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "回饋指出了什麼？",
           "options": [
-            "completed earlier",
-            "revise the final section",
-            "identifies the main weakness",
-            "has been working"
+            "Main weakness",
+            "Final section",
+            "Project completed",
+            "Team working"
           ],
           "optionMetadata": [
             {
-              "text": "completed earlier",
+              "text": "Main weakness",
               "requiredLexemeIds": [
-                "complete",
-                "earlier"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "revise the final section",
-              "requiredLexemeIds": [
-                "revise",
-                "the",
-                "final",
-                "section"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "identifies the main weakness",
-              "requiredLexemeIds": [
-                "identify",
-                "the",
                 "main",
                 "weakness"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "has been working",
+              "text": "Final section",
               "requiredLexemeIds": [
-                "has",
-                "been",
+                "final",
+                "section"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Project completed",
+              "requiredLexemeIds": [
+                "project",
+                "complete"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Team working",
+              "requiredLexemeIds": [
+                "team",
                 "work"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "identifies the main weakness",
+          "correctAnswer": "Main weakness",
           "evidenceSentenceIds": [
             "b2-u03-l03-s01"
           ],
@@ -4549,53 +4531,47 @@
           "id": "b2-u03-p01-q04",
           "sourceSentenceId": "b2-u03-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "團隊已經處理這個問題多久？",
           "options": [
-            "completed earlier",
-            "revise the final section",
-            "identifies the main weakness",
-            "has been working"
+            "For months",
+            "Earlier",
+            "Final section",
+            "Main weakness"
           ],
           "optionMetadata": [
             {
-              "text": "completed earlier",
+              "text": "For months",
               "requiredLexemeIds": [
-                "complete",
+                "for",
+                "month"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Earlier",
+              "requiredLexemeIds": [
                 "earlier"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "revise the final section",
+              "text": "Final section",
               "requiredLexemeIds": [
-                "revise",
-                "the",
                 "final",
                 "section"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "identifies the main weakness",
+              "text": "Main weakness",
               "requiredLexemeIds": [
-                "identify",
-                "the",
                 "main",
                 "weakness"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "has been working",
-              "requiredLexemeIds": [
-                "has",
-                "been",
-                "work"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "has been working",
+          "correctAnswer": "For months",
           "evidenceSentenceIds": [
             "b2-u03-l04-s01"
           ],
@@ -4612,16 +4588,16 @@
           "id": "b2-u04-p01-q01",
           "sourceSentenceId": "b2-u04-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "報告聲稱大眾支持最近怎樣？",
           "options": [
-            "increased recently",
-            "experts raised concerns",
-            "affect small businesses",
-            "reliable evidence"
+            "Increased recently",
+            "Raised concerns",
+            "Small businesses",
+            "Reliable evidence"
           ],
           "optionMetadata": [
             {
-              "text": "increased recently",
+              "text": "Increased recently",
               "requiredLexemeIds": [
                 "increase",
                 "recently"
@@ -4629,25 +4605,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "experts raised concerns",
+              "text": "Raised concerns",
               "requiredLexemeIds": [
-                "expert",
                 "raise",
                 "concern"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "affect small businesses",
+              "text": "Small businesses",
               "requiredLexemeIds": [
-                "affect",
                 "small",
                 "business"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reliable evidence",
+              "text": "Reliable evidence",
               "requiredLexemeIds": [
                 "reliable",
                 "evidence"
@@ -4655,7 +4629,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "increased recently",
+          "correctAnswer": "Increased recently",
           "evidenceSentenceIds": [
             "b2-u04-l01-s01"
           ],
@@ -4665,16 +4639,24 @@
           "id": "b2-u04-p01-q02",
           "sourceSentenceId": "b2-u04-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "專家在文中做了什麼？",
           "options": [
-            "increased recently",
-            "experts raised concerns",
-            "affect small businesses",
-            "reliable evidence"
+            "Raised concerns",
+            "Increased recently",
+            "Reliable evidence",
+            "Small businesses"
           ],
           "optionMetadata": [
             {
-              "text": "increased recently",
+              "text": "Raised concerns",
+              "requiredLexemeIds": [
+                "raise",
+                "concern"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Increased recently",
               "requiredLexemeIds": [
                 "increase",
                 "recently"
@@ -4682,33 +4664,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "experts raised concerns",
-              "requiredLexemeIds": [
-                "expert",
-                "raise",
-                "concern"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "affect small businesses",
-              "requiredLexemeIds": [
-                "affect",
-                "small",
-                "business"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "reliable evidence",
+              "text": "Reliable evidence",
               "requiredLexemeIds": [
                 "reliable",
                 "evidence"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Small businesses",
+              "requiredLexemeIds": [
+                "small",
+                "business"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "experts raised concerns",
+          "correctAnswer": "Raised concerns",
           "evidenceSentenceIds": [
             "b2-u04-l02-s01"
           ],
@@ -4718,42 +4690,39 @@
           "id": "b2-u04-p01-q03",
           "sourceSentenceId": "b2-u04-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這項決定可能影響誰？",
           "options": [
-            "increased recently",
-            "experts raised concerns",
-            "affect small businesses",
-            "reliable evidence"
+            "Small businesses",
+            "Experts",
+            "Public support",
+            "Reliable evidence"
           ],
           "optionMetadata": [
             {
-              "text": "increased recently",
+              "text": "Small businesses",
               "requiredLexemeIds": [
-                "increase",
-                "recently"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "experts raised concerns",
-              "requiredLexemeIds": [
-                "expert",
-                "raise",
-                "concern"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "affect small businesses",
-              "requiredLexemeIds": [
-                "affect",
                 "small",
                 "business"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reliable evidence",
+              "text": "Experts",
+              "requiredLexemeIds": [
+                "expert"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Public support",
+              "requiredLexemeIds": [
+                "public",
+                "support"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Reliable evidence",
               "requiredLexemeIds": [
                 "reliable",
                 "evidence"
@@ -4761,7 +4730,7 @@
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "affect small businesses",
+          "correctAnswer": "Small businesses",
           "evidenceSentenceIds": [
             "b2-u04-l03-s01"
           ],
@@ -4771,50 +4740,48 @@
           "id": "b2-u04-p01-q04",
           "sourceSentenceId": "b2-u04-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "文中提醒，應檢查來源是否提供哪項內容？",
           "options": [
-            "increased recently",
-            "experts raised concerns",
-            "affect small businesses",
-            "reliable evidence"
+            "Reliable evidence",
+            "Small businesses",
+            "Raised concerns",
+            "Increased support"
           ],
           "optionMetadata": [
             {
-              "text": "increased recently",
+              "text": "Reliable evidence",
               "requiredLexemeIds": [
-                "increase",
-                "recently"
+                "reliable",
+                "evidence"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "experts raised concerns",
+              "text": "Small businesses",
               "requiredLexemeIds": [
-                "expert",
-                "raise",
-                "concern"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "affect small businesses",
-              "requiredLexemeIds": [
-                "affect",
                 "small",
                 "business"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reliable evidence",
+              "text": "Raised concerns",
               "requiredLexemeIds": [
-                "reliable",
-                "evidence"
+                "raise",
+                "concern"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Increased support",
+              "requiredLexemeIds": [
+                "increase",
+                "support"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "reliable evidence",
+          "correctAnswer": "Reliable evidence",
           "evidenceSentenceIds": [
             "b2-u04-l04-s01"
           ],
@@ -4831,16 +4798,16 @@
           "id": "b2-u05-p01-q01",
           "sourceSentenceId": "b2-u05-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "人們可能用哪些方式解讀同一個行為？",
           "options": [
-            "different ways",
-            "feel distant",
-            "instead of making assumptions",
-            "avoid unnecessary misunderstandings"
+            "Different ways",
+            "Feel distant",
+            "Making assumptions",
+            "Avoid misunderstandings"
           ],
           "optionMetadata": [
             {
-              "text": "different ways",
+              "text": "Different ways",
               "requiredLexemeIds": [
                 "different",
                 "way"
@@ -4848,7 +4815,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "feel distant",
+              "text": "Feel distant",
               "requiredLexemeIds": [
                 "feel",
                 "distant"
@@ -4856,26 +4823,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "instead of making assumptions",
+              "text": "Making assumptions",
               "requiredLexemeIds": [
-                "instead",
-                "of",
                 "make",
                 "assumption"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "avoid unnecessary misunderstandings",
+              "text": "Avoid misunderstandings",
               "requiredLexemeIds": [
                 "avoid",
-                "unnecessary",
                 "misunderstanding"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "different ways",
+          "correctAnswer": "Different ways",
           "evidenceSentenceIds": [
             "b2-u05-l01-s01"
           ],
@@ -4885,24 +4849,16 @@
           "id": "b2-u05-p01-q02",
           "sourceSentenceId": "b2-u05-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "在另一種文化中，有禮貌的行為可能讓人感覺如何？",
           "options": [
-            "different ways",
-            "feel distant",
-            "instead of making assumptions",
-            "avoid unnecessary misunderstandings"
+            "Feel distant",
+            "Different ways",
+            "Making assumptions",
+            "Ask questions"
           ],
           "optionMetadata": [
             {
-              "text": "different ways",
-              "requiredLexemeIds": [
-                "different",
-                "way"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "feel distant",
+              "text": "Feel distant",
               "requiredLexemeIds": [
                 "feel",
                 "distant"
@@ -4910,26 +4866,31 @@
               "requiredChunkIds": []
             },
             {
-              "text": "instead of making assumptions",
+              "text": "Different ways",
               "requiredLexemeIds": [
-                "instead",
-                "of",
+                "different",
+                "way"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Making assumptions",
+              "requiredLexemeIds": [
                 "make",
                 "assumption"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "avoid unnecessary misunderstandings",
+              "text": "Ask questions",
               "requiredLexemeIds": [
-                "avoid",
-                "unnecessary",
-                "misunderstanding"
+                "ask",
+                "question"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "feel distant",
+          "correctAnswer": "Feel distant",
           "evidenceSentenceIds": [
             "b2-u05-l02-s01"
           ],
@@ -4939,24 +4900,32 @@
           "id": "b2-u05-p01-q03",
           "sourceSentenceId": "b2-u05-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這個人學會先做什麼，而不是自行假設？",
           "options": [
-            "different ways",
-            "feel distant",
-            "instead of making assumptions",
-            "avoid unnecessary misunderstandings"
+            "Ask questions",
+            "Interpret behavior",
+            "Feel distant",
+            "Avoid misunderstandings"
           ],
           "optionMetadata": [
             {
-              "text": "different ways",
+              "text": "Ask questions",
               "requiredLexemeIds": [
-                "different",
-                "way"
+                "ask",
+                "question"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "feel distant",
+              "text": "Interpret behavior",
+              "requiredLexemeIds": [
+                "interpret",
+                "behavior"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Feel distant",
               "requiredLexemeIds": [
                 "feel",
                 "distant"
@@ -4964,26 +4933,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "instead of making assumptions",
-              "requiredLexemeIds": [
-                "instead",
-                "of",
-                "make",
-                "assumption"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "avoid unnecessary misunderstandings",
+              "text": "Avoid misunderstandings",
               "requiredLexemeIds": [
                 "avoid",
-                "unnecessary",
                 "misunderstanding"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "instead of making assumptions",
+          "correctAnswer": "Ask questions",
           "evidenceSentenceIds": [
             "b2-u05-l03-s01"
           ],
@@ -4993,16 +4951,24 @@
           "id": "b2-u05-p01-q04",
           "sourceSentenceId": "b2-u05-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "文化意識能幫助團隊避免什麼？",
           "options": [
-            "different ways",
-            "feel distant",
-            "instead of making assumptions",
-            "avoid unnecessary misunderstandings"
+            "Unnecessary misunderstandings",
+            "Different ways",
+            "Ask questions",
+            "Feel distant"
           ],
           "optionMetadata": [
             {
-              "text": "different ways",
+              "text": "Unnecessary misunderstandings",
+              "requiredLexemeIds": [
+                "unnecessary",
+                "misunderstanding"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Different ways",
               "requiredLexemeIds": [
                 "different",
                 "way"
@@ -5010,34 +4976,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "feel distant",
+              "text": "Ask questions",
+              "requiredLexemeIds": [
+                "ask",
+                "question"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Feel distant",
               "requiredLexemeIds": [
                 "feel",
                 "distant"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "instead of making assumptions",
-              "requiredLexemeIds": [
-                "instead",
-                "of",
-                "make",
-                "assumption"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "avoid unnecessary misunderstandings",
-              "requiredLexemeIds": [
-                "avoid",
-                "unnecessary",
-                "misunderstanding"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "avoid unnecessary misunderstandings",
+          "correctAnswer": "Unnecessary misunderstandings",
           "evidenceSentenceIds": [
             "b2-u05-l04-s01"
           ],
@@ -5054,50 +5009,49 @@
           "id": "b2-u06-p01-q01",
           "sourceSentenceId": "b2-u06-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "文中提到新科技有什麼好處，但也會帶來隱私風險？",
           "options": [
-            "privacy risks",
-            "clean power",
-            "reduce unnecessary waste",
-            "the whole community"
+            "Improve access",
+            "Create risks",
+            "Use clean power",
+            "Reduce waste"
           ],
           "optionMetadata": [
             {
-              "text": "privacy risks",
+              "text": "Improve access",
               "requiredLexemeIds": [
-                "privacy",
+                "improve",
+                "access"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Create risks",
+              "requiredLexemeIds": [
+                "create",
                 "risk"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "clean power",
+              "text": "Use clean power",
               "requiredLexemeIds": [
+                "use",
                 "clean",
                 "power"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reduce unnecessary waste",
+              "text": "Reduce waste",
               "requiredLexemeIds": [
                 "reduce",
-                "unnecessary",
                 "waste"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "the whole community",
-              "requiredLexemeIds": [
-                "the",
-                "whole",
-                "community"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "privacy risks",
+          "correctAnswer": "Improve access",
           "evidenceSentenceIds": [
             "b2-u06-l01-s01"
           ],
@@ -5107,24 +5061,16 @@
           "id": "b2-u06-p01-q02",
           "sourceSentenceId": "b2-u06-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "若能源更便宜，更多公司會使用什麼？",
           "options": [
-            "privacy risks",
-            "clean power",
-            "reduce unnecessary waste",
-            "the whole community"
+            "Clean power",
+            "Privacy risks",
+            "Unnecessary waste",
+            "Improve access"
           ],
           "optionMetadata": [
             {
-              "text": "privacy risks",
-              "requiredLexemeIds": [
-                "privacy",
-                "risk"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "clean power",
+              "text": "Clean power",
               "requiredLexemeIds": [
                 "clean",
                 "power"
@@ -5132,25 +5078,31 @@
               "requiredChunkIds": []
             },
             {
-              "text": "reduce unnecessary waste",
+              "text": "Privacy risks",
               "requiredLexemeIds": [
-                "reduce",
+                "privacy",
+                "risk"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Unnecessary waste",
+              "requiredLexemeIds": [
                 "unnecessary",
                 "waste"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "the whole community",
+              "text": "Improve access",
               "requiredLexemeIds": [
-                "the",
-                "whole",
-                "community"
+                "improve",
+                "access"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "clean power",
+          "correctAnswer": "Clean power",
           "evidenceSentenceIds": [
             "b2-u06-l02-s01"
           ],
@@ -5160,32 +5112,16 @@
           "id": "b2-u06-p01-q03",
           "sourceSentenceId": "b2-u06-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "這個系統的設計目的是什麼？",
           "options": [
-            "privacy risks",
-            "clean power",
-            "reduce unnecessary waste",
-            "the whole community"
+            "Reduce unnecessary waste",
+            "Improve access",
+            "Create privacy risks",
+            "Use clean power"
           ],
           "optionMetadata": [
             {
-              "text": "privacy risks",
-              "requiredLexemeIds": [
-                "privacy",
-                "risk"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "clean power",
-              "requiredLexemeIds": [
-                "clean",
-                "power"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "reduce unnecessary waste",
+              "text": "Reduce unnecessary waste",
               "requiredLexemeIds": [
                 "reduce",
                 "unnecessary",
@@ -5194,16 +5130,33 @@
               "requiredChunkIds": []
             },
             {
-              "text": "the whole community",
+              "text": "Improve access",
               "requiredLexemeIds": [
-                "the",
-                "whole",
-                "community"
+                "improve",
+                "access"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Create privacy risks",
+              "requiredLexemeIds": [
+                "create",
+                "privacy",
+                "risk"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Use clean power",
+              "requiredLexemeIds": [
+                "use",
+                "clean",
+                "power"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "reduce unnecessary waste",
+          "correctAnswer": "Reduce unnecessary waste",
           "evidenceSentenceIds": [
             "b2-u06-l03-s01"
           ],
@@ -5213,24 +5166,33 @@
           "id": "b2-u06-p01-q04",
           "sourceSentenceId": "b2-u06-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "政府應確保進步讓誰受益？",
           "options": [
-            "privacy risks",
-            "clean power",
-            "reduce unnecessary waste",
-            "the whole community"
+            "The whole community",
+            "More companies",
+            "Clean power",
+            "Privacy risks"
           ],
           "optionMetadata": [
             {
-              "text": "privacy risks",
+              "text": "The whole community",
               "requiredLexemeIds": [
-                "privacy",
-                "risk"
+                "the",
+                "whole",
+                "community"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "clean power",
+              "text": "More companies",
+              "requiredLexemeIds": [
+                "more",
+                "company"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Clean power",
               "requiredLexemeIds": [
                 "clean",
                 "power"
@@ -5238,25 +5200,15 @@
               "requiredChunkIds": []
             },
             {
-              "text": "reduce unnecessary waste",
+              "text": "Privacy risks",
               "requiredLexemeIds": [
-                "reduce",
-                "unnecessary",
-                "waste"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "the whole community",
-              "requiredLexemeIds": [
-                "the",
-                "whole",
-                "community"
+                "privacy",
+                "risk"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "the whole community",
+          "correctAnswer": "The whole community",
           "evidenceSentenceIds": [
             "b2-u06-l04-s01"
           ],
@@ -5273,50 +5225,48 @@
           "id": "b2-u07-p01-q01",
           "sourceSentenceId": "b2-u07-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "提案著重什麼，而不是短期節省？",
           "options": [
-            "focuses on quality",
-            "provided that",
-            "explained more clearly",
-            "reasonable agreement"
+            "Quality",
+            "Short-term savings",
+            "The deadline",
+            "The figures"
           ],
           "optionMetadata": [
             {
-              "text": "focuses on quality",
+              "text": "Quality",
               "requiredLexemeIds": [
-                "focus",
-                "on",
                 "quality"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "provided that",
+              "text": "Short-term savings",
               "requiredLexemeIds": [
-                "provided",
-                "that"
+                "short",
+                "term",
+                "saving"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "explained more clearly",
+              "text": "The deadline",
               "requiredLexemeIds": [
-                "explain",
-                "more",
-                "clearly"
+                "the",
+                "deadline"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reasonable agreement",
+              "text": "The figures",
               "requiredLexemeIds": [
-                "reasonable",
-                "agreement"
+                "the",
+                "figure"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "focuses on quality",
+          "correctAnswer": "Quality",
           "evidenceSentenceIds": [
             "b2-u07-l01-s01"
           ],
@@ -5326,50 +5276,55 @@
           "id": "b2-u07-p01-q02",
           "sourceSentenceId": "b2-u07-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "在什麼條件下可以接受提議？",
           "options": [
-            "focuses on quality",
-            "provided that",
-            "explained more clearly",
-            "reasonable agreement"
+            "Provided that the deadline changes",
+            "During the presentation",
+            "After reviewing both sides",
+            "Focuses on quality"
           ],
           "optionMetadata": [
             {
-              "text": "focuses on quality",
+              "text": "Provided that the deadline changes",
+              "requiredLexemeIds": [
+                "provided",
+                "that",
+                "the",
+                "deadline",
+                "change"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "During the presentation",
+              "requiredLexemeIds": [
+                "during",
+                "the",
+                "presentation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "After reviewing both sides",
+              "requiredLexemeIds": [
+                "after",
+                "review",
+                "both",
+                "side"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Focuses on quality",
               "requiredLexemeIds": [
                 "focus",
                 "on",
                 "quality"
               ],
               "requiredChunkIds": []
-            },
-            {
-              "text": "provided that",
-              "requiredLexemeIds": [
-                "provided",
-                "that"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "explained more clearly",
-              "requiredLexemeIds": [
-                "explain",
-                "more",
-                "clearly"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "reasonable agreement",
-              "requiredLexemeIds": [
-                "reasonable",
-                "agreement"
-              ],
-              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "provided that",
+          "correctAnswer": "Provided that the deadline changes",
           "evidenceSentenceIds": [
             "b2-u07-l02-s01"
           ],
@@ -5379,50 +5334,48 @@
           "id": "b2-u07-p01-q03",
           "sourceSentenceId": "b2-u07-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "簡報時應該更清楚地說明什麼？",
           "options": [
-            "focuses on quality",
-            "provided that",
-            "explained more clearly",
-            "reasonable agreement"
+            "The figures",
+            "The proposal",
+            "The offer",
+            "The agreement"
           ],
           "optionMetadata": [
             {
-              "text": "focuses on quality",
+              "text": "The figures",
               "requiredLexemeIds": [
-                "focus",
-                "on",
-                "quality"
+                "the",
+                "figure"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "provided that",
+              "text": "The proposal",
               "requiredLexemeIds": [
-                "provided",
-                "that"
+                "the",
+                "proposal"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "explained more clearly",
+              "text": "The offer",
               "requiredLexemeIds": [
-                "explain",
-                "more",
-                "clearly"
+                "the",
+                "offer"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "reasonable agreement",
+              "text": "The agreement",
               "requiredLexemeIds": [
-                "reasonable",
+                "the",
                 "agreement"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "explained more clearly",
+          "correctAnswer": "The figures",
           "evidenceSentenceIds": [
             "b2-u07-l03-s01"
           ],
@@ -5432,50 +5385,49 @@
           "id": "b2-u07-p01-q04",
           "sourceSentenceId": "b2-u07-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "檢視雙方立場後，他們達成什麼？",
           "options": [
-            "focuses on quality",
-            "provided that",
-            "explained more clearly",
-            "reasonable agreement"
+            "Reasonable agreement",
+            "Short-term savings",
+            "The deadline",
+            "The figures"
           ],
           "optionMetadata": [
             {
-              "text": "focuses on quality",
-              "requiredLexemeIds": [
-                "focus",
-                "on",
-                "quality"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "provided that",
-              "requiredLexemeIds": [
-                "provided",
-                "that"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "explained more clearly",
-              "requiredLexemeIds": [
-                "explain",
-                "more",
-                "clearly"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "reasonable agreement",
+              "text": "Reasonable agreement",
               "requiredLexemeIds": [
                 "reasonable",
                 "agreement"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Short-term savings",
+              "requiredLexemeIds": [
+                "short",
+                "term",
+                "saving"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The deadline",
+              "requiredLexemeIds": [
+                "the",
+                "deadline"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The figures",
+              "requiredLexemeIds": [
+                "the",
+                "figure"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "reasonable agreement",
+          "correctAnswer": "Reasonable agreement",
           "evidenceSentenceIds": [
             "b2-u07-l04-s01"
           ],
@@ -5492,16 +5444,16 @@
           "id": "b2-u08-p01-q01",
           "sourceSentenceId": "b2-u08-l01-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 1 句提到的重點是什麼？",
+          "question": "現代城市面臨需要什麼的問題？",
           "options": [
-            "long term planning",
-            "public cooperation",
-            "residents understand",
-            "lasting change"
+            "Long-term planning",
+            "Public cooperation",
+            "Lasting change",
+            "Residents understand"
           ],
           "optionMetadata": [
             {
-              "text": "long term planning",
+              "text": "Long-term planning",
               "requiredLexemeIds": [
                 "long",
                 "term",
@@ -5510,7 +5462,7 @@
               "requiredChunkIds": []
             },
             {
-              "text": "public cooperation",
+              "text": "Public cooperation",
               "requiredLexemeIds": [
                 "public",
                 "cooperation"
@@ -5518,23 +5470,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "residents understand",
-              "requiredLexemeIds": [
-                "resident",
-                "understand"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "lasting change",
+              "text": "Lasting change",
               "requiredLexemeIds": [
                 "lasting",
                 "change"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Residents understand",
+              "requiredLexemeIds": [
+                "resident",
+                "understand"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "long term planning",
+          "correctAnswer": "Long-term planning",
           "evidenceSentenceIds": [
             "b2-u08-l01-s01"
           ],
@@ -5544,16 +5496,24 @@
           "id": "b2-u08-p01-q02",
           "sourceSentenceId": "b2-u08-l02-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 2 句提到的重點是什麼？",
+          "question": "雖然科技提供解方，它無法取代什麼？",
           "options": [
-            "long term planning",
-            "public cooperation",
-            "residents understand",
-            "lasting change"
+            "Public cooperation",
+            "Long-term planning",
+            "Lasting change",
+            "Residents understand"
           ],
           "optionMetadata": [
             {
-              "text": "long term planning",
+              "text": "Public cooperation",
+              "requiredLexemeIds": [
+                "public",
+                "cooperation"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Long-term planning",
               "requiredLexemeIds": [
                 "long",
                 "term",
@@ -5562,31 +5522,23 @@
               "requiredChunkIds": []
             },
             {
-              "text": "public cooperation",
-              "requiredLexemeIds": [
-                "public",
-                "cooperation"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "residents understand",
-              "requiredLexemeIds": [
-                "resident",
-                "understand"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "lasting change",
+              "text": "Lasting change",
               "requiredLexemeIds": [
                 "lasting",
                 "change"
               ],
               "requiredChunkIds": []
+            },
+            {
+              "text": "Residents understand",
+              "requiredLexemeIds": [
+                "resident",
+                "understand"
+              ],
+              "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "public cooperation",
+          "correctAnswer": "Public cooperation",
           "evidenceSentenceIds": [
             "b2-u08-l02-s01"
           ],
@@ -5596,25 +5548,32 @@
           "id": "b2-u08-p01-q03",
           "sourceSentenceId": "b2-u08-l03-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 3 句提到的重點是什麼？",
+          "question": "當居民理解政策目的時，政策會怎樣？",
           "options": [
-            "long term planning",
-            "public cooperation",
-            "residents understand",
-            "lasting change"
+            "More effective",
+            "Lasting change",
+            "Public cooperation",
+            "Long-term planning"
           ],
           "optionMetadata": [
             {
-              "text": "long term planning",
+              "text": "More effective",
               "requiredLexemeIds": [
-                "long",
-                "term",
-                "planning"
+                "more",
+                "effective"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "public cooperation",
+              "text": "Lasting change",
+              "requiredLexemeIds": [
+                "lasting",
+                "change"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Public cooperation",
               "requiredLexemeIds": [
                 "public",
                 "cooperation"
@@ -5622,23 +5581,16 @@
               "requiredChunkIds": []
             },
             {
-              "text": "residents understand",
+              "text": "Long-term planning",
               "requiredLexemeIds": [
-                "resident",
-                "understand"
-              ],
-              "requiredChunkIds": []
-            },
-            {
-              "text": "lasting change",
-              "requiredLexemeIds": [
-                "lasting",
-                "change"
+                "long",
+                "term",
+                "planning"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "residents understand",
+          "correctAnswer": "More effective",
           "evidenceSentenceIds": [
             "b2-u08-l03-s01"
           ],
@@ -5648,25 +5600,24 @@
           "id": "b2-u08-p01-q04",
           "sourceSentenceId": "b2-u08-l04-s01",
           "questionLanguage": "zh-Hant",
-          "question": "根據文章，第 4 句提到的重點是什麼？",
+          "question": "如果社群共同合作，可以創造什麼？",
           "options": [
-            "long term planning",
-            "public cooperation",
-            "residents understand",
-            "lasting change"
+            "Lasting change",
+            "Public cooperation",
+            "More effective",
+            "Long-term planning"
           ],
           "optionMetadata": [
             {
-              "text": "long term planning",
+              "text": "Lasting change",
               "requiredLexemeIds": [
-                "long",
-                "term",
-                "planning"
+                "lasting",
+                "change"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "public cooperation",
+              "text": "Public cooperation",
               "requiredLexemeIds": [
                 "public",
                 "cooperation"
@@ -5674,23 +5625,24 @@
               "requiredChunkIds": []
             },
             {
-              "text": "residents understand",
+              "text": "More effective",
               "requiredLexemeIds": [
-                "resident",
-                "understand"
+                "more",
+                "effective"
               ],
               "requiredChunkIds": []
             },
             {
-              "text": "lasting change",
+              "text": "Long-term planning",
               "requiredLexemeIds": [
-                "lasting",
-                "change"
+                "long",
+                "term",
+                "planning"
               ],
               "requiredChunkIds": []
             }
           ],
-          "correctAnswer": "lasting change",
+          "correctAnswer": "Lasting change",
           "evidenceSentenceIds": [
             "b2-u08-l04-s01"
           ],

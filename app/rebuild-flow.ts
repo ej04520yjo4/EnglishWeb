@@ -25,12 +25,20 @@ export const evaluateRebuildAttempt = (
 ): RebuildEvaluation => {
   const normalizedAnswers = expectedValues.map(normalizeWord);
   const normalizedValues = enteredValues.map(normalizeWord);
-  const statuses = normalizedValues.map((value, index): RebuildStatus => {
-    if (value === normalizedAnswers[index]) return "correct";
-    if (normalizedAnswers.includes(value)) return "order";
-    return value ? "spelling" : "missing";
-  });
-  const correct = statuses.every((status) => status === "correct");
+  const statuses = Array.from(
+    { length: Math.max(normalizedValues.length, normalizedAnswers.length) },
+    (_, index): RebuildStatus => {
+      const value = normalizedValues[index] ?? "";
+      if (index >= normalizedAnswers.length) return "spelling";
+      if (!value) return "missing";
+      if (value === normalizedAnswers[index]) return "correct";
+      if (normalizedAnswers.includes(value)) return "order";
+      return "spelling";
+    },
+  );
+  const correct = normalizedAnswers.length > 0 &&
+    normalizedValues.length === normalizedAnswers.length &&
+    statuses.every((status) => status === "correct");
 
   if (correct) {
     return {

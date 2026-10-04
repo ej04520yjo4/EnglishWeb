@@ -1,5 +1,6 @@
 import type { CourseCsvRow } from "./curriculum/types";
 import type { CefrLevel } from "./curriculum/types";
+import { normalizeSentenceForComparison } from "./curriculum/sentence-words.ts";
 
 export type PatternSlot = {
   slotId: string;
@@ -151,6 +152,8 @@ export type PatternCoverageSummary = {
   enabledPatternCount: number;
   exercisedPatternCount: number;
   uncoveredPatternIds: string[];
+  deferredPatternIds: string[];
+  unconfiguredPatternIds: string[];
 };
 
 const lessonRank = (lessonId: string) => {
@@ -165,13 +168,7 @@ const lessonRank = (lessonId: string) => {
   return levelRank + Number(match[2]) * 100 + Number(match[3]);
 };
 
-const normalizeSentence = (value: string) =>
-  value
-    .trim()
-    .replace(/[’‘]/g, "'")
-    .replace(/[.!?。！？]+$/g, "")
-    .replace(/\s+/g, " ")
-    .toLowerCase();
+const normalizeSentence = normalizeSentenceForComparison;
 
 const sentenceWordCount = (value: string) =>
   normalizeSentence(value).split(" ").filter(Boolean).length;
@@ -184,6 +181,20 @@ const sameStringSet = (left: string[], right: string[]) => {
     Array.from(leftSet).every((value) => rightSet.has(value))
   );
 };
+
+const validateReferencedChunks = (
+  text: string,
+  chunkIds: string[],
+  learnedRows: CourseCsvRow[],
+  label: string,
+): string[] => chunkIds.flatMap((chunkId) => {
+  const candidates = learnedRows.filter((row) => row.chunk_id === chunkId && row.chunk_text);
+  // Unknown/unlearned references are reported by the prerequisite check.
+  if (!candidates.length || candidates.some((row) =>
+    ` ${normalizeSentence(text)} `.includes(` ${normalizeSentence(row.chunk_text)} `),
+  )) return [];
+  return [`${label} 未包含所宣告的 chunk：${chunkId}。`];
+});
 
 export const learnedLexemeIdsThroughLesson = (
   rows: CourseCsvRow[],
@@ -238,9 +249,15 @@ export const patternCoverageSummary = (
     csvPatternCount: csvPatternIds.length,
     enabledPatternCount: enabledPatternIds.length,
     exercisedPatternCount: exercisedPatternIds.length,
-    uncoveredPatternIds: csvPatternIds.filter(
+    uncoveredPatternIds: enabledPatternIds.filter(
       (patternId) =>
         (configuredById.get(patternId)?.examples.length ?? 0) === 0,
+    ),
+    deferredPatternIds: csvPatternIds.filter(
+      (patternId) => configuredById.get(patternId)?.enabledForTransfer === false,
+    ),
+    unconfiguredPatternIds: csvPatternIds.filter(
+      (patternId) => !configuredById.has(patternId),
     ),
   };
 };
@@ -479,6 +496,12 @@ export const validatePatternExerciseData = (
               learnedRows,
               `${example.id}/${value.slotId}`,
             ),
+            ...validateReferencedChunks(
+              value.text,
+              value.requiredChunkIds ?? [],
+              learnedRows,
+              `${example.id}/${value.slotId}`,
+            ),
           );
           slotLexemeIds.push(...value.requiredLexemeIds);
           slotChunkIds.push(...(value.requiredChunkIds ?? []));
@@ -500,6 +523,12 @@ export const validatePatternExerciseData = (
         ...validateReferencedLexemes(
           example.sentence,
           example.requiredLexemeIds,
+          learnedRows,
+          example.id,
+        ),
+        ...validateReferencedChunks(
+          example.sentence,
+          example.requiredChunkIds,
           learnedRows,
           example.id,
         ),
@@ -727,6 +756,16 @@ export const validateReadingExerciseData = (
       exercise.lessonId,
     );
     for (const option of exercise.options) {
+      if (option.sourceSentenceId !== undefined) {
+        const optionSource = availableRows.find(
+          (row) => row.sentence_id === option.sourceSentenceId,
+        );
+        if (!optionSource) {
+          errors.push(`${exercise.id}/${option.id} 找不到選項來源句 ${option.sourceSentenceId}。`);
+        } else if (lessonRank(optionSource.lesson_id) > lessonRank(exercise.lessonId)) {
+          errors.push(`${exercise.id}/${option.id} 的選項提前使用 ${option.sourceSentenceId}。`);
+        }
+      }
       const unlearned = (option.requiredLexemeIds ?? []).filter(
         (lexemeId) => !learnedLexemes.has(lexemeId),
       );
@@ -769,10 +808,15 @@ export const validateReadingExerciseData = (
     const sentenceOrders = customSentences
       .map((sentence) => sentence.order)
       .sort((left, right) => left - right);
-    const passageCompletionLessonId = customSentences
-      .map((sentence) => sentence.lessonId)
+    const passageCompletionLessonId = [
+      ...passageRows.map((row) => row.lesson_id),
+      ...customSentences.map((sentence) => sentence.lessonId),
+    ]
       .filter((lessonId): lessonId is string => Boolean(lessonId))
       .sort((left, right) => lessonRank(right) - lessonRank(left))[0];
+    const requiresOptionMetadata =
+      customSentences.some((sentence) => Boolean(sentence.lessonId)) ||
+      passageRows.some((row) => row.level === "B1" || row.level === "B2");
     sentenceOrders.forEach((order, index) => {
       if (order !== index + 1) {
         errors.push(
@@ -855,11 +899,11 @@ export const validateReadingExerciseData = (
       if (!question.options.includes(question.correctAnswer)) {
         errors.push(`${question.id} 的答案不在選項中。`);
       }
-      if (new Set(question.options).size !== question.options.length) {
+      if (new Set(question.options.map(normalizeSentence)).size !== question.options.length) {
         errors.push(`${question.id} 的選項不可重複。`);
       }
       const optionMetadata = question.optionMetadata ?? [];
-      if (passageCompletionLessonId && !question.optionMetadata?.length) {
+      if (requiresOptionMetadata && !question.optionMetadata?.length) {
         errors.push(`${question.id} 缺少選項先備內容 metadata。`);
       }
       if (optionMetadata.length) {
@@ -913,6 +957,12 @@ export const validateReadingExerciseData = (
               `${question.id}/${option.text} 提前使用 chunk：${unlearnedChunks.join("、")}。`,
             );
           }
+          errors.push(...validateReferencedChunks(
+            option.text,
+            option.requiredChunkIds ?? [],
+            learnedRows,
+            `${question.id}/${option.text}`,
+          ));
         }
       }
       const unknownEvidenceIds = (
@@ -937,7 +987,7 @@ export const validateReadingExerciseData = (
       });
       if (
         !evidenceSentences.some((sentence) =>
-          normalizeSentence(sentence).includes(answerPhrase),
+          ` ${normalizeSentence(sentence)} `.includes(` ${answerPhrase} `),
         )
       ) {
         errors.push(

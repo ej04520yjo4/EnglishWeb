@@ -43,6 +43,7 @@ import {
 } from "./input-flow";
 import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
 import { wordAccuracy } from "./assessment-scoring";
+import { normalizeSentenceForComparison } from "./curriculum/sentence-words";
 import {
   evaluatePassageRebuild,
   lessonsForPassage,
@@ -362,7 +363,7 @@ const clean = (value: string) =>
     .replace(/\s+/g, " ")
     .toLowerCase();
 
-const cleanSentence = (value: string) => clean(value).replace(/[.!?。！？]+$/g, "");
+const cleanSentence = normalizeSentenceForComparison;
 
 const dateKey = () => localDateKey();
 const timestamp = () => Date.now();

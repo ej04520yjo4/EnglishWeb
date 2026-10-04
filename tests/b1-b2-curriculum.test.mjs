@@ -12,6 +12,7 @@ import {
   migrateProgressToV6,
   updateSelectedLevelProgress,
 } from "../app/curriculum/progress.ts";
+import { sentenceSpellingUnits } from "../app/curriculum/sentence-words.ts";
 import {
   buildCourseUnitsFromRows,
   findCrossLevelIdCollisions,
@@ -91,11 +92,9 @@ for (const level of ["B1", "B2"]) {
       const ordered = [...sentenceRows].sort(
         (a, b) => Number(a.token_order) - Number(b.token_order),
       );
-      const punctuation =
-        ordered[0].sentence.match(/[.!?]$/)?.[0] ?? ".";
-      assert.equal(
-        `${ordered.map((row) => row.answer).join(" ")}${punctuation}`,
-        ordered[0].sentence,
+      assert.deepEqual(
+        ordered.map((row) => row.answer),
+        sentenceSpellingUnits(ordered[0].sentence),
         sentenceId,
       );
     });
@@ -256,7 +255,7 @@ test("B1 and B2 keep inflected nouns and contextual homographs in the correct pa
   }
 
   expectPos(
-    "Although I understand your concern I support the change.",
+    "Although I understand your concern, I support the change.",
     "support",
     "verb 動詞",
   );
@@ -271,12 +270,12 @@ test("B1 and B2 keep inflected nouns and contextual homographs in the correct pa
     "verb 動詞",
   );
   expectPos(
-    "In my view the proposal offers several practical benefits.",
+    "In my view, the proposal offers several practical benefits.",
     "benefits",
     "noun 名詞",
   );
   expectPos(
-    "If we had more time we could compare the results carefully.",
+    "If we had more time, we could compare the results carefully.",
     "more",
     "determiner 限定詞",
   );
@@ -285,6 +284,55 @@ test("B1 and B2 keep inflected nouns and contextual homographs in the correct pa
     "more",
     "adverb 副詞",
   );
+});
+
+test("B1 and B2 preserve canonical verb and proper-name lemmas", () => {
+  const rows = [...rowsByLevel.B1, ...rowsByLevel.B2];
+  const canonicalVerbs = { am: "be", is: "be", are: "be", was: "be", were: "be", been: "be", has: "have", had: "have" };
+  for (const row of rows) {
+    const lemma = canonicalVerbs[row.answer.toLowerCase()];
+    if (lemma) {
+      assert.equal(row.lemma, lemma, row.occurrence_id);
+      assert.equal(row.lexeme_id, lemma, row.occurrence_id);
+    }
+  }
+  for (const [answer, lemma] of [["I", "I"], ["me", "I"], ["English", "English"], ["Friday", "Friday"]]) {
+    const matching = rows.filter((row) => row.answer === answer);
+    assert.ok(matching.length > 0, answer);
+    assert.ok(matching.every((row) => row.lemma === lemma), answer);
+  }
+});
+
+test("all 64 retained passage questions use content-specific wording", () => {
+  const questions = Object.values(readingByLevel).flatMap((reading) =>
+    reading.passages.flatMap((passage) => passage.questions));
+  assert.equal(questions.length, 64);
+  for (const question of questions) {
+    assert.ok(question.question.trim(), question.id);
+    assert.doesNotMatch(question.question, /第\s*\d+\s*句提到的重點是什麼/, question.id);
+    assert.equal(question.options.filter((text) => text === question.correctAnswer).length, 1, question.id);
+  }
+  const comparison = questions.find((question) => question.id === "b2-u02-p01-q01");
+  assert.equal(comparison.question, "文中提到，這個方案與另一個相比有什麼優點？");
+  assert.equal(comparison.correctAnswer, "More flexible");
+  const travel = questions.find((question) => question.id === "b1-u01-p01-q02");
+  assert.match(travel.question, /從未/);
+});
+
+test("corrected transfer examples retain the source grammatical construction", () => {
+  const requiredConstructions = [
+    ["B1", "b1-u03-l04-pattern", /\bthat helps\b/],
+    ["B1", "b1-u04-l03-pattern", /\bwho helped\b/],
+    ["B1", "b1-u06-l01-pattern", /\buse\b.+\bto organize\b/],
+    ["B2", "b2-u03-l01-pattern", /\bwas completed\b.+\bthan (?:the manager )?expected\b/],
+  ];
+  for (const [level, patternId, construction] of requiredConstructions) {
+    const pattern = patternsByLevel[level].patterns.find((entry) => entry.id === patternId);
+    assert.equal(pattern.examples.length, 2, patternId);
+    for (const example of pattern.examples) assert.match(example.sentence, construction, example.id);
+  }
+  const comparisonPattern = patternsByLevel.B2.patterns.find((entry) => entry.id === "b2-u03-l01-pattern");
+  assert.equal(comparisonPattern.examples[1].sentence, "The report was completed earlier than the manager expected.");
 });
 
 test("B1 and B2 progress remain isolated and schema 4 data migrates without loss", () => {

@@ -5,6 +5,7 @@ import {
   parseCourseCsv,
   serializeCourseCsv,
 } from "../app/curriculum/validation.ts";
+import { sentenceSpellingUnits } from "../app/curriculum/sentence-words.ts";
 
 const QA_STATUS = "pilot_review_required";
 
@@ -75,14 +76,14 @@ const LEVELS = [
           ),
           lesson(
             "依序敘述過去事件",
-            "After I arrived home I called my friend.",
+            "After I arrived home, I called my friend.",
             "我到家後打電話給朋友。",
             "past events with after",
             "called my friend",
             [["after I arrived home", "我到家後", "after 用來標示先發生的事件。"]],
             [
               ["I called my friend after I arrived home.", "我到家後打電話給朋友。"],
-              ["After I arrived I called my friend.", "我抵達後打電話給朋友。"],
+              ["After I arrived, I called my friend.", "我抵達後打電話給朋友。"],
             ],
           ),
         ],
@@ -116,14 +117,14 @@ const LEVELS = [
           ),
           lesson(
             "可能條件與結果",
-            "If I finish early I will meet you.",
+            "If I finish early, I will meet you.",
             "如果我提早完成，我會去見你。",
             "first conditional",
             "finish early",
             [["if I finish early", "如果我提早完成", "第一條件句描述可能發生的未來情況。"]],
             [
               ["I will meet you if I finish early.", "如果我提早完成，我會去見你。"],
-              ["If I finish I will meet you.", "如果我完成了，我會去見你。"],
+              ["If you finish early, I will meet you.", "如果你提早完成，我會去見你。"],
             ],
           ),
           lesson(
@@ -169,13 +170,13 @@ const LEVELS = [
           ),
           lesson(
             "使用讓步連接詞",
-            "Although the task was difficult I finished it.",
+            "Although the task was difficult, I finished it.",
             "雖然任務很困難，我仍完成了。",
             "although for contrast",
             "although the task was difficult",
             [["although the task was difficult", "雖然任務很困難", "although 引出與主句形成對比的情況。"]],
             [
-              ["Although it was difficult I finished the task.", "雖然很困難，我仍完成了任務。"],
+              ["Although it was difficult, I finished the task.", "雖然很困難，我仍完成了任務。"],
               ["I finished the task although it was difficult.", "雖然任務很困難，我仍完成了。"],
             ],
           ),
@@ -188,7 +189,7 @@ const LEVELS = [
             [["the option that helps everyone", "能幫助大家的方案", "that 引導關係子句補充 option。"]],
             [
               ["We should choose the option that helps.", "我們應該選擇有幫助的方案。"],
-              ["I think we should choose that option.", "我認為我們應該選擇那個方案。"],
+              ["We should choose the plan that helps everyone.", "我們應該選擇能幫助大家的計畫。"],
             ],
           ),
         ],
@@ -198,13 +199,13 @@ const LEVELS = [
         lessons: [
           lesson(
             "禮貌請求說明",
-            "Could you explain this problem again please?",
+            "Could you explain this problem again, please?",
             "可以請你再說明一次這個問題嗎？",
             "polite request with could",
             "explain this problem",
             [["could you explain", "可以請你說明嗎", "Could you... 是較有禮貌的請求。"]],
             [
-              ["Could you explain this again please?", "可以請你再說明一次嗎？"],
+              ["Could you explain this again, please?", "可以請你再說明一次嗎？"],
               ["Please explain this problem again.", "請再說明一次這個問題。"],
             ],
           ),
@@ -229,7 +230,7 @@ const LEVELS = [
             [["the colleague who helped me", "幫助我的同事", "who 引導關係子句描述人。"]],
             [
               ["The colleague who helped me was patient.", "幫助我的同事很有耐心。"],
-              ["I think the colleague was very patient.", "我認為那位同事非常有耐心。"],
+              ["The friend who helped me was very patient.", "幫助我的朋友非常有耐心。"],
             ],
           ),
           lesson(
@@ -270,7 +271,7 @@ const LEVELS = [
             [["could you tell me", "可以請你告訴我嗎", "間接問句使用直述句語序。"]],
             [
               ["Could you tell me where the bus is?", "可以請你告訴我公車在哪裡嗎？"],
-              ["Tell me where the station is please.", "請告訴我車站在哪裡。"],
+              ["Tell me where the station is, please.", "請告訴我車站在哪裡。"],
             ],
           ),
           lesson(
@@ -287,14 +288,14 @@ const LEVELS = [
           ),
           lesson(
             "天氣條件與行程",
-            "If the weather improves we will leave early.",
+            "If the weather improves, we will leave early.",
             "如果天氣好轉，我們會提早出發。",
             "first conditional for travel",
             "weather improves",
             [["if the weather improves", "如果天氣好轉", "描述有可能發生的條件。"]],
             [
               ["We will leave early if the weather improves.", "如果天氣好轉，我們會提早出發。"],
-              ["If the weather improves I will leave early.", "如果天氣好轉，我會提早出發。"],
+              ["If the weather improves, I will leave early.", "如果天氣好轉，我會提早出發。"],
             ],
           ),
         ],
@@ -311,7 +312,7 @@ const LEVELS = [
             [["use this app to", "使用這個應用程式來", "to 表示使用工具的目的。"]],
             [
               ["I use the app to organize my schedule.", "我使用這個應用程式安排自己的行程。"],
-              ["This app helps me organize my schedule.", "這個應用程式幫助我安排行程。"],
+              ["I use my app to organize my schedule.", "我使用我的應用程式安排自己的行程。"],
             ],
           ),
           lesson(
@@ -410,7 +411,7 @@ const LEVELS = [
         lessons: [
           lesson(
             "開始改變生活",
-            "Last year I decided to change my daily routine.",
+            "Last year, I decided to change my daily routine.",
             "去年我決定改變日常作息。",
             "past decision with infinitive",
             "change my daily routine",
@@ -422,14 +423,14 @@ const LEVELS = [
           ),
           lesson(
             "描述一開始的困難",
-            "At first the new schedule was difficult to follow.",
+            "At first, the new schedule was difficult to follow.",
             "一開始，新的作息很難遵循。",
             "adjective plus infinitive",
             "difficult to follow",
             [["at first", "一開始", "用來標示故事的初始階段。"]],
             [
               ["The new schedule was difficult to follow at first.", "新的作息一開始很難遵循。"],
-              ["At first it was difficult to follow the schedule.", "一開始很難遵循這套作息。"],
+              ["At first, it was difficult to follow the schedule.", "一開始很難遵循這套作息。"],
             ],
           ),
           lesson(
@@ -446,14 +447,14 @@ const LEVELS = [
           ),
           lesson(
             "說明現在的感受",
-            "Now I feel more confident about my goals.",
+            "Now, I feel more confident about my goals.",
             "現在我對自己的目標更有信心。",
             "comparative adjective for change",
             "more confident",
             [["feel more confident", "感到更有信心", "more 加形容詞表示程度提升。"]],
             [
               ["I feel more confident about my goals now.", "現在我對自己的目標更有信心。"],
-              ["Now I feel confident about the results.", "現在我對成果有信心。"],
+              ["Now, I feel more confident about the results.", "現在我對成果更有信心。"],
             ],
           ),
         ],
@@ -469,7 +470,7 @@ const LEVELS = [
         lessons: [
           lesson(
             "說明立場的好處",
-            "In my view the proposal offers several practical benefits.",
+            "In my view, the proposal offers several practical benefits.",
             "依我看，這項提案帶來幾個實際的好處。",
             "opinion framing with in my view",
             "practical benefits",
@@ -481,7 +482,7 @@ const LEVELS = [
           ),
           lesson(
             "承認疑慮後表態",
-            "Although I understand your concern I support the change.",
+            "Although I understand your concern, I support the change.",
             "雖然我理解你的疑慮，但我支持這項改變。",
             "concession before a position",
             "support the change",
@@ -500,7 +501,7 @@ const LEVELS = [
             [["whether the plan will remain effective", "方案是否會持續有效", "whether 引出需要判斷的兩種可能。"]],
             [
               ["The issue is whether the plan will remain effective.", "問題是這個方案是否會持續有效。"],
-              ["I think the main issue is whether the plan is effective.", "我認為主要問題是這個方案是否有效。"],
+              ["I think the main issue is whether the plan will remain effective.", "我認為主要問題是這個方案是否會持續有效。"],
             ],
           ),
           lesson(
@@ -512,7 +513,7 @@ const LEVELS = [
             [["I would argue that", "我會主張", "用 would 降低語氣強度並提出論點。"]],
             [
               ["I would argue that education should encourage thinking.", "我會主張教育應該鼓勵思考。"],
-              ["In my view education should encourage independent thinking.", "依我看，教育應該鼓勵獨立思考。"],
+              ["I would argue that public education should encourage independent thinking.", "我會主張公共教育應該鼓勵獨立思考。"],
             ],
           ),
         ],
@@ -522,7 +523,7 @@ const LEVELS = [
         lessons: [
           lesson(
             "對照兩個方案",
-            "This option is more flexible whereas the other is cheaper.",
+            "This option is more flexible, whereas the other is cheaper.",
             "這個方案比較有彈性，而另一個比較便宜。",
             "contrast with whereas",
             "more flexible",
@@ -546,26 +547,26 @@ const LEVELS = [
           ),
           lesson(
             "同時考量兩面",
-            "We should consider both the cost and the long term impact.",
+            "We should consider both the cost and the long-term impact.",
             "我們應該同時考量成本與長期影響。",
             "both and coordination",
-            "long term impact",
-            [["both the cost and the long term impact", "成本與長期影響兩者", "both...and... 強調兩項都要考量。"]],
+            "long-term impact",
+            [["both the cost and the long-term impact", "成本與長期影響兩者", "both...and... 強調兩項都要考量。"]],
             [
-              ["We should consider the cost and the long term impact.", "我們應該考量成本與長期影響。"],
-              ["I think we should consider both the cost and the impact.", "我認為我們應該同時考量成本與影響。"],
+              ["I should consider both the cost and the long-term impact.", "我應該同時考量成本與長期影響。"],
+              ["I think we should consider both the cost and the long-term impact.", "我認為我們應該同時考量成本與長期影響。"],
             ],
           ),
           lesson(
             "假設有更多資源",
-            "If we had more time we could compare the results carefully.",
+            "If we had more time, we could compare the results carefully.",
             "如果我們有更多時間，就能仔細比較結果。",
             "second conditional",
             "compare the results carefully",
             [["if we had more time", "如果我們有更多時間", "第二條件句描述目前不太可能或假設的情況。"]],
             [
               ["We could compare the results carefully if we had more time.", "如果我們有更多時間，就能仔細比較結果。"],
-              ["If I had more time I could compare the results carefully.", "如果我有更多時間，就能仔細比較結果。"],
+              ["If I had more time, I could compare the results carefully.", "如果我有更多時間，就能仔細比較結果。"],
             ],
           ),
         ],
@@ -582,7 +583,7 @@ const LEVELS = [
             [["was completed", "已被完成", "被動語態聚焦專案的完成狀態。"]],
             [
               ["The project was completed earlier than expected.", "專案比預期的更早完成。"],
-              ["The manager expected the project to finish earlier.", "經理原本預期專案會更早完成。"],
+              ["The report was completed earlier than the manager expected.", "報告比經理預期的更早完成。"],
             ],
           ),
           lesson(
@@ -652,14 +653,14 @@ const LEVELS = [
           ),
           lesson(
             "轉述文章可能影響",
-            "According to the article the decision may affect small businesses.",
+            "According to the article, the decision may affect small businesses.",
             "根據這篇文章，這項決定可能影響小型企業。",
             "source attribution with according to",
             "affect small businesses",
             [["according to the article", "根據這篇文章", "用來清楚標示資訊來源。"]],
             [
               ["According to the report the decision may affect businesses.", "根據這份報告，這項決定可能影響企業。"],
-              ["The article claims that the decision may affect small businesses.", "文章聲稱這項決定可能影響小型企業。"],
+              ["According to the report, the decision may affect small businesses.", "根據這份報告，這項決定可能影響小型企業。"],
             ],
           ),
           lesson(
@@ -671,7 +672,7 @@ const LEVELS = [
             [["check whether", "檢查是否", "whether 引出需要核實的內容。"]],
             [
               ["We should check whether the article provides reliable evidence.", "我們應該檢查這篇文章是否提供可靠證據。"],
-              ["The source provides reliable evidence.", "這個來源提供可靠證據。"],
+              ["The team should check whether the source provides reliable evidence.", "團隊應該檢查這個來源是否提供可靠證據。"],
             ],
           ),
         ],
@@ -741,19 +742,19 @@ const LEVELS = [
             [["while creating privacy risks", "同時帶來隱私風險", "while 連接同時存在但需權衡的影響。"]],
             [
               ["Technology can improve access while creating risks.", "科技能改善使用機會，同時也會帶來風險。"],
-              ["While creating privacy risks new technology can improve access.", "新科技雖然帶來隱私風險，也能改善使用機會。"],
+              ["While creating privacy risks, new technology can improve access.", "新科技雖然帶來隱私風險，也能改善使用機會。"],
             ],
           ),
           lesson(
             "討論假設性的能源選擇",
-            "If energy were cheaper more companies would use clean power.",
+            "If energy were cheaper, more companies would use clean power.",
             "如果能源更便宜，會有更多公司使用潔淨能源。",
             "second conditional with were",
             "clean power",
             [["if energy were cheaper", "如果能源更便宜", "第二條件句討論與現況不同的假設。"]],
             [
               ["More companies would use clean power if energy were cheaper.", "如果能源更便宜，會有更多公司使用潔淨能源。"],
-              ["If power were cheaper more companies would use clean energy.", "如果電力更便宜，會有更多公司使用潔淨能源。"],
+              ["If power were cheaper, more companies would use clean energy.", "如果電力更便宜，會有更多公司使用潔淨能源。"],
             ],
           ),
           lesson(
@@ -777,7 +778,7 @@ const LEVELS = [
             [["ensure that", "確保", "用來表達必須達成的結果。"]],
             [
               ["Governments should ensure that progress benefits everyone.", "政府應確保進步能讓每個人受益。"],
-              ["Governments should ensure progress benefits the community.", "政府應確保進步能讓社群受益。"],
+              ["Governments should ensure that progress benefits people.", "政府應確保進步能讓人們受益。"],
             ],
           ),
         ],
@@ -787,14 +788,14 @@ const LEVELS = [
         lessons: [
           lesson(
             "說明提案優先順序",
-            "Our proposal focuses on quality rather than short term savings.",
+            "Our proposal focuses on quality rather than short-term savings.",
             "我們的提案著重品質，而不是短期節省。",
             "rather than for priority",
             "focuses on quality",
             [["rather than", "而不是", "用來清楚說明優先考量。"]],
             [
               ["The proposal focuses on quality rather than savings.", "這項提案著重品質，而不是節省。"],
-              ["Our proposal focuses on long term benefits rather than short term savings.", "我們的提案著重長期效益，而不是短期節省。"],
+              ["Our proposal focuses on long-term benefits rather than short-term savings.", "我們的提案著重長期效益，而不是短期節省。"],
             ],
           ),
           lesson(
@@ -805,7 +806,7 @@ const LEVELS = [
             "provided that",
             [["provided that", "只要；條件是", "較正式地提出接受條件。"]],
             [
-              ["We could accept the offer if the deadline changes.", "如果期限調整，我們可以接受這項提議。"],
+              ["We could accept the proposal provided that the deadline changes.", "只要期限調整，我們可以接受這項提案。"],
               ["The team could accept the offer provided that the deadline changes.", "只要期限調整，團隊可以接受這項提議。"],
             ],
           ),
@@ -823,14 +824,14 @@ const LEVELS = [
           ),
           lesson(
             "達成合理協議",
-            "After reviewing both sides we reached a reasonable agreement.",
+            "After reviewing both sides, we reached a reasonable agreement.",
             "檢視雙方立場後，我們達成了合理的協議。",
             "after plus gerund",
             "reasonable agreement",
             [["after reviewing both sides", "檢視雙方立場後", "after 後接動名詞表示完成的前置步驟。"]],
             [
               ["We reached a reasonable agreement after reviewing both sides.", "檢視雙方立場後，我們達成了合理的協議。"],
-              ["After reviewing the proposal we reached an agreement.", "檢視提案後，我們達成了協議。"],
+              ["After reviewing the proposal, we reached an agreement.", "檢視提案後，我們達成了協議。"],
             ],
           ),
         ],
@@ -840,19 +841,19 @@ const LEVELS = [
         lessons: [
           lesson(
             "指出城市長期課題",
-            "Modern cities face problems that require long term planning.",
+            "Modern cities face problems that require long-term planning.",
             "現代城市面臨需要長期規劃的問題。",
             "relative clause for complex issues",
-            "long term planning",
+            "long-term planning",
             [["problems that require", "需要處理的問題", "that 引導關係子句說明問題的特性。"]],
             [
-              ["Cities face problems that require long term planning.", "城市面臨需要長期規劃的問題。"],
-              ["Modern cities require long term planning.", "現代城市需要長期規劃。"],
+              ["Cities face problems that require long-term planning.", "城市面臨需要長期規劃的問題。"],
+              ["Modern cities face problems that require more planning.", "現代城市面臨需要更多規劃的問題。"],
             ],
           ),
           lesson(
             "限制科技解方",
-            "While technology offers solutions it cannot replace public cooperation.",
+            "While technology offers solutions, it cannot replace public cooperation.",
             "雖然科技提供解方，但它無法取代大眾合作。",
             "while for concession",
             "public cooperation",
@@ -871,12 +872,12 @@ const LEVELS = [
             [["when residents understand their purpose", "當居民理解政策目的時", "when 引出成效成立的條件。"]],
             [
               ["Policies are effective when residents understand their purpose.", "當居民理解政策目的時，政策會有效。"],
-              ["When residents understand their purpose policies are more effective.", "當居民理解政策目的時，政策會更有效。"],
+              ["When residents understand their purpose, policies are more effective.", "當居民理解政策目的時，政策會更有效。"],
             ],
           ),
           lesson(
             "提出社群合作假設",
-            "If communities worked together they could create lasting change.",
+            "If communities worked together, they could create lasting change.",
             "如果社群共同合作，就能創造長久的改變。",
             "second conditional for collective action",
             "lasting change",
@@ -891,6 +892,111 @@ const LEVELS = [
     ],
   },
 ];
+
+const passageQuestion = (question, options) => ({ question, options });
+
+const PASSAGE_QUESTIONS = {
+  B1: [
+    [
+      passageQuestion("這個人在這裡工作多久了？", ["For three years", "Traveled alone", "Was cooking", "Called my friend"]),
+      passageQuestion("這個人以前從未做過什麼事？", ["Traveled alone", "For three years", "Was cooking", "Called my friend"]),
+      passageQuestion("朋友打電話來時，這個人正在做什麼？", ["Was cooking", "Traveled alone", "Arrived home", "Worked here"]),
+      passageQuestion("到家後，這個人做了什麼？", ["Called my friend", "Was cooking", "Traveled alone", "Worked here"]),
+    ],
+    [
+      passageQuestion("這個人希望明年做什麼？", ["Study English abroad", "Saving money", "Finish early", "Find a better job"]),
+      passageQuestion("這個人目前正在做什麼準備？", ["Saving money", "Study English abroad", "Finish early", "Find a better job"]),
+      passageQuestion("如果提早完成，這個人會做什麼？", ["Meet you", "Study English abroad", "Saving money", "Find a job"]),
+      passageQuestion("這個人的目標是什麼？", ["Find a better job", "Study English abroad", "Saving money", "Meet you"]),
+    ],
+    [
+      passageQuestion("哪一項被說成很實用？", ["Public transportation", "This plan", "The task", "The option"]),
+      passageQuestion("這個方案為什麼比較受偏好？", ["Costs less", "Helps everyone", "Is useful", "Was difficult"]),
+      passageQuestion("文中如何描述這個人完成的任務？", ["Was difficult", "Costs less", "Is useful", "Helps everyone"]),
+      passageQuestion("這個方案具備什麼特點？", ["Helps everyone", "Costs less", "Is useful", "Was difficult"]),
+    ],
+    [
+      passageQuestion("這個人請對方做什麼？", ["Explain this problem", "Finish the report", "Meet after class", "Helped me"]),
+      passageQuestion("報告的期限是什麼時候？", ["Before Friday", "After class", "Again", "Very patient"]),
+      passageQuestion("文中提到，是誰幫助了這個人？", ["The colleague", "The problem", "The report", "The class"]),
+      passageQuestion("他們最後同意做什麼？", ["Agreed to meet", "Explain the problem", "Finish before Friday", "Helped the colleague"]),
+    ],
+    [
+      passageQuestion("火車延誤造成什麼結果？", ["Missed the bus", "Change my booking", "Weather improves", "Where the station is"]),
+      passageQuestion("這個人想知道車站的什麼？", ["Where the station is", "Where the bus is", "Change my booking", "Missed the bus"]),
+      passageQuestion("這個人需要更改什麼？", ["My booking", "The train", "The bus", "The weather"]),
+      passageQuestion("什麼情況會讓他們提早出發？", ["Weather improves", "Missed the bus", "Change my booking", "Where the station is"]),
+    ],
+    [
+      passageQuestion("這個人使用 app 做什麼？", ["Organize my schedule", "Make tasks", "Spent time online", "Sent a message"]),
+      passageQuestion("訊息被發給了誰？", ["The wrong person", "The wrong friend", "My schedule", "The app"]),
+      passageQuestion("這個人這星期花在網路上的時間如何？", ["Spent less time online", "More convenient", "Sent the message", "Organize my schedule"]),
+      passageQuestion("科技可以讓日常工作怎樣？", ["More convenient", "Less time online", "Wrong person", "Sent a message"]),
+    ],
+    [
+      passageQuestion("這個人為什麼道歉？", ["Had forgotten her birthday", "Needs support", "Known each other", "Respect opinions"]),
+      passageQuestion("好朋友會在別人處於什麼情況時傾聽？", ["Needs support", "Forgotten birthday", "Since high school", "Different opinions"]),
+      passageQuestion("這兩個人從什麼時候認識彼此？", ["Since high school", "Needs support", "Forgotten birthday", "Respect opinions"]),
+      passageQuestion("這句話主張什麼很重要？", ["Respect different opinions", "Listen to friends", "Forgotten birthday", "Known each other"]),
+    ],
+    [
+      passageQuestion("去年這個人決定改變什麼？", ["Daily routine", "New schedule", "Better results", "More confident"]),
+      passageQuestion("新的作息一開始如何？", ["Difficult to follow", "Daily routine", "Kept practicing", "Wanted results"]),
+      passageQuestion("這個人為什麼持續練習？", ["Wanted better results", "Daily routine", "Follow schedule", "More confident"]),
+      passageQuestion("現在這個人對目標有什麼感覺？", ["More confident", "Difficult to follow", "Wanted results", "Daily routine"]),
+    ],
+  ],
+  B2: [
+    [
+      passageQuestion("依這個人的看法，提案帶來什麼？", ["Practical benefits", "Support the change", "Remain effective", "Independent thinking"]),
+      passageQuestion("雖然這個人理解什麼，他仍支持改變？", ["Your concern", "Practical benefits", "Independent thinking", "Remain effective"]),
+      passageQuestion("主要問題是方案是否會怎樣？", ["Remain effective", "Practical benefits", "Support the change", "Encourage thinking"]),
+      passageQuestion("教育應鼓勵什麼？", ["Independent thinking", "Practical benefits", "Support the change", "Remain effective"]),
+    ],
+    [
+      passageQuestion("文中提到，這個方案與另一個相比有什麼優點？", ["More flexible", "Cheaper", "Additional problems", "Long-term impact"]),
+      passageQuestion("較便宜的解決方案之後可能造成什麼？", ["Additional problems", "More flexible", "Long-term impact", "Compare results"]),
+      passageQuestion("除了成本，還要考量什麼？", ["Long-term impact", "More flexible", "Additional problems", "Compare results carefully"]),
+      passageQuestion("如果有更多時間，他們可以怎麼做？", ["Compare the results carefully", "Create additional problems", "Consider the cost", "Choose the option"]),
+    ],
+    [
+      passageQuestion("專案的完成時間和經理預期相比如何？", ["Completed earlier", "Revise section", "Identifies the weakness", "Work for months"]),
+      passageQuestion("她建議修改什麼？", ["Final section", "Main weakness", "The project", "The feedback"]),
+      passageQuestion("回饋指出了什麼？", ["Main weakness", "Final section", "Project completed", "Team working"]),
+      passageQuestion("團隊已經處理這個問題多久？", ["For months", "Earlier", "Final section", "Main weakness"]),
+    ],
+    [
+      passageQuestion("報告聲稱大眾支持最近怎樣？", ["Increased recently", "Raised concerns", "Small businesses", "Reliable evidence"]),
+      passageQuestion("專家在文中做了什麼？", ["Raised concerns", "Increased recently", "Reliable evidence", "Small businesses"]),
+      passageQuestion("這項決定可能影響誰？", ["Small businesses", "Experts", "Public support", "Reliable evidence"]),
+      passageQuestion("文中提醒，應檢查來源是否提供哪項內容？", ["Reliable evidence", "Small businesses", "Raised concerns", "Increased support"]),
+    ],
+    [
+      passageQuestion("人們可能用哪些方式解讀同一個行為？", ["Different ways", "Feel distant", "Making assumptions", "Avoid misunderstandings"]),
+      passageQuestion("在另一種文化中，有禮貌的行為可能讓人感覺如何？", ["Feel distant", "Different ways", "Making assumptions", "Ask questions"]),
+      passageQuestion("這個人學會先做什麼，而不是自行假設？", ["Ask questions", "Interpret behavior", "Feel distant", "Avoid misunderstandings"]),
+      passageQuestion("文化意識能幫助團隊避免什麼？", ["Unnecessary misunderstandings", "Different ways", "Ask questions", "Feel distant"]),
+    ],
+    [
+      passageQuestion("文中提到新科技有什麼好處，但也會帶來隱私風險？", ["Improve access", "Create risks", "Use clean power", "Reduce waste"]),
+      passageQuestion("若能源更便宜，更多公司會使用什麼？", ["Clean power", "Privacy risks", "Unnecessary waste", "Improve access"]),
+      passageQuestion("這個系統的設計目的是什麼？", ["Reduce unnecessary waste", "Improve access", "Create privacy risks", "Use clean power"]),
+      passageQuestion("政府應確保進步讓誰受益？", ["The whole community", "More companies", "Clean power", "Privacy risks"]),
+    ],
+    [
+      passageQuestion("提案著重什麼，而不是短期節省？", ["Quality", "Short-term savings", "The deadline", "The figures"]),
+      passageQuestion("在什麼條件下可以接受提議？", ["Provided that the deadline changes", "During the presentation", "After reviewing both sides", "Focuses on quality"]),
+      passageQuestion("簡報時應該更清楚地說明什麼？", ["The figures", "The proposal", "The offer", "The agreement"]),
+      passageQuestion("檢視雙方立場後，他們達成什麼？", ["Reasonable agreement", "Short-term savings", "The deadline", "The figures"]),
+    ],
+    [
+      passageQuestion("現代城市面臨需要什麼的問題？", ["Long-term planning", "Public cooperation", "Lasting change", "Residents understand"]),
+      passageQuestion("雖然科技提供解方，它無法取代什麼？", ["Public cooperation", "Long-term planning", "Lasting change", "Residents understand"]),
+      passageQuestion("當居民理解政策目的時，政策會怎樣？", ["More effective", "Lasting change", "Public cooperation", "Long-term planning"]),
+      passageQuestion("如果社群共同合作，可以創造什麼？", ["Lasting change", "Public cooperation", "More effective", "Long-term planning"]),
+    ],
+  ],
+};
 
 const PROMPTS = {
   i: "我",
@@ -1224,6 +1330,20 @@ const PROMPTS = {
 };
 
 const LEMMAS = {
+  i: "I",
+  me: "I",
+  english: "English",
+  friday: "Friday",
+  am: "be",
+  are: "be",
+  be: "be",
+  been: "be",
+  had: "have",
+  has: "have",
+  have: "have",
+  is: "be",
+  was: "be",
+  were: "be",
   worked: "work",
   traveled: "travel",
   cooking: "cook",
@@ -1659,15 +1779,30 @@ const ADVERBS = new Set([
   "first",
 ]);
 
+const BE_FORMS = new Set([
+  "am",
+  "is",
+  "are",
+  "was",
+  "were",
+  "been",
+  "be",
+]);
+const HAVE_FORMS = new Set(["have", "has", "had"]);
+const GERUND_FORMS = new Set(["cooking", "saving", "working"]);
+const PASSIVE_PARTICIPLES = new Set([
+  "completed",
+  "delayed",
+  "designed",
+  "explained",
+  "introduced",
+  "sent",
+]);
+
 const normalizeWord = (word) =>
   word.replace(/^[^A-Za-z]+|[^A-Za-z']+$/g, "").toLowerCase();
 
-const wordsOf = (text) =>
-  text
-    .trim()
-    .replace(/[.!?]$/g, "")
-    .split(/\s+/)
-    .filter(Boolean);
+const wordsOf = (text) => sentenceSpellingUnits(text);
 
 const slug = (value) =>
   value
@@ -1676,10 +1811,25 @@ const slug = (value) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
+const contentWordAfter = (sentenceWords, tokenIndex) => {
+  for (let index = tokenIndex + 1; index < sentenceWords.length; index += 1) {
+    const candidate = normalizeWord(sentenceWords[index]);
+    if (!ADVERBS.has(candidate)) return candidate;
+  }
+  return "";
+};
+
+const isVerbForm = (word) =>
+  VERBS.has(normalizeWord(word)) ||
+  GERUND_FORMS.has(normalizeWord(word)) ||
+  PASSIVE_PARTICIPLES.has(normalizeWord(word));
+
 const partOfSpeech = (word, sentenceWords, tokenIndex) => {
   const normalized = normalizeWord(word);
   const previous = normalizeWord(sentenceWords[tokenIndex - 1] ?? "");
   const next = normalizeWord(sentenceWords[tokenIndex + 1] ?? "");
+  const contentNext = contentWordAfter(sentenceWords, tokenIndex);
+  const previousLemma = LEMMAS[previous] ?? previous;
   if (normalized === "support") {
     return ["needs", "additional", "public"].includes(previous)
       ? "noun 名詞"
@@ -1693,6 +1843,46 @@ const partOfSpeech = (word, sentenceWords, tokenIndex) => {
   }
   if (normalized === "more") {
     return NOUNS.has(next) ? "determiner 限定詞" : "adverb 副詞";
+  }
+  if (BE_FORMS.has(normalized)) {
+    if (
+      normalized === "been" ||
+      GERUND_FORMS.has(contentNext) ||
+      PASSIVE_PARTICIPLES.has(contentNext) ||
+      (isVerbForm(contentNext) && !ADJECTIVES.has(contentNext))
+    ) {
+      return "auxiliary verb 助動詞";
+    }
+    return "linking verb 連綴動詞";
+  }
+  if (HAVE_FORMS.has(normalized)) {
+    return contentNext === "been" || isVerbForm(contentNext)
+      ? "auxiliary verb 助動詞"
+      : "verb 動詞";
+  }
+  if (normalized === "to") {
+    const nextLemma = LEMMAS[contentNext] ?? contentNext;
+    if (
+      isVerbForm(contentNext) &&
+      contentNext === nextLemma
+    ) {
+      return "infinitive marker 不定詞標記";
+    }
+  }
+  if (
+    normalized === "after" &&
+    PRONOUNS.has(next) &&
+    isVerbForm(normalizeWord(sentenceWords[tokenIndex + 2] ?? ""))
+  ) {
+    return "conjunction 連接詞";
+  }
+  if (normalized === "that") {
+    if (
+      ["argue", "suggest", "claim", "ensure", "provided"].includes(previousLemma)
+    ) {
+      return "conjunction 連接詞";
+    }
+    if (isVerbForm(next)) return "relative pronoun 關係代名詞";
   }
   if (PRONOUNS.has(normalized)) return "pronoun 代名詞";
   if (DETERMINERS.has(normalized)) return "determiner 限定詞";
@@ -1744,6 +1934,9 @@ const lemmaFor = (word) => {
   const normalized = normalizeWord(word);
   return LEMMAS[normalized] ?? normalized;
 };
+
+const lexemeIdFor = (word, lemma) =>
+  normalizeWord(word) === "me" ? "me" : slug(lemma);
 
 const unique = (values) => [...new Set(values.filter(Boolean))];
 
@@ -1852,7 +2045,7 @@ const buildLevel = (definition, prerequisiteRows) => {
 
       sentenceWords.forEach((answer, tokenIndex) => {
         const lemma = lemmaFor(answer);
-        const lexemeId = slug(lemma);
+        const lexemeId = lexemeIdFor(answer, lemma);
         const pos = partOfSpeech(answer, sentenceWords, tokenIndex);
         const posCode = pos.split(" ")[0].replace(/[^a-z]/g, "");
         const isNewWord = !taughtLexemes.has(lexemeId);
@@ -2089,28 +2282,36 @@ const buildLevel = (definition, prerequisiteRows) => {
         );
       }
     });
+    const questionSpecs = PASSAGE_QUESTIONS[definition.level]?.[unitIndex];
+    if (!questionSpecs || questionSpecs.length !== unitLessonRecords.length) {
+      throw new Error(`${passageId} 缺少與四句文章對應的理解題規格。`);
+    }
     passages.push({
       passageId,
       level: definition.level,
-      questions: unitLessonRecords.map((record, questionIndex) => ({
-        id: `${passageId}-q${String(questionIndex + 1).padStart(2, "0")}`,
-        sourceSentenceId: record.id,
-        questionLanguage: "zh-Hant",
-        question: `根據文章，第 ${questionIndex + 1} 句提到的重點是什麼？`,
-        options: focusOptions,
-        optionMetadata: focusOptions.map((text) => ({
-          text,
-          requiredLexemeIds: resolveLexemes(
+      questions: unitLessonRecords.map((record, questionIndex) => {
+        const specification = questionSpecs[questionIndex];
+        const options = specification.options;
+        return {
+          id: `${passageId}-q${String(questionIndex + 1).padStart(2, "0")}`,
+          sourceSentenceId: record.id,
+          questionLanguage: "zh-Hant",
+          question: specification.question,
+          options,
+          optionMetadata: options.map((text) => ({
             text,
-            answerLexemes,
-            `${passageId}/${text}`,
-          ),
-          requiredChunkIds: [],
-        })),
-        correctAnswer: record.focus,
-        evidenceSentenceIds: [record.id],
-        qaStatus: QA_STATUS,
-      })),
+            requiredLexemeIds: resolveLexemes(
+              text,
+              answerLexemes,
+              `${passageId}/${text}`,
+            ),
+            requiredChunkIds: [],
+          })),
+          correctAnswer: options[0],
+          evidenceSentenceIds: [record.id],
+          qaStatus: QA_STATUS,
+        };
+      }),
       qaStatus: QA_STATUS,
     });
   });

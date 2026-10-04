@@ -1,4 +1,5 @@
 import type { Lesson } from "./course-data";
+import { normalizeSentenceForComparison as normalizeSentence } from "./curriculum/sentence-words.ts";
 
 export type PassageSentenceEvaluation = {
   sentenceId: string;
@@ -6,14 +7,6 @@ export type PassageSentenceEvaluation = {
   message: string;
   expected: string;
 };
-
-const normalizeSentence = (value: string) =>
-  value
-    .trim()
-    .replace(/[’‘]/g, "'")
-    .replace(/[.!?。！？]+$/g, "")
-    .replace(/\s+/g, " ")
-    .toLowerCase();
 
 export const lessonsForPassage = (
   lessons: Lesson[],
