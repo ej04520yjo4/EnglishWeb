@@ -1388,6 +1388,26 @@ export default function Home() {
   }, [courseDataStatusByLevel.A1, courseRowsByLevel.A1]);
 
   useEffect(() => {
+    if (
+      screen !== "related-vocabulary" ||
+      !vocabularyReturnContext ||
+      !relatedCurrentLexemeId ||
+      vocabularyDataStatus !== "ready"
+    ) return;
+    const frame = window.requestAnimationFrame(() => {
+      const card = document.getElementById(`related-word-${relatedCurrentLexemeId}`);
+      card?.focus({ preventScroll: true });
+      card?.scrollIntoView({
+        block: "center",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [screen, vocabularyReturnContext, relatedCurrentLexemeId, vocabularyDataStatus]);
+
+  useEffect(() => {
     let active = true;
     loadVocabularyTargets()
       .then((data) => {
@@ -1772,15 +1792,6 @@ export default function Home() {
       countReplay,
     );
 
-  const scrollToRelatedLexeme = (lexemeId: string) => {
-    if (!lexemeId) return;
-    window.setTimeout(() => {
-      document
-        .getElementById(`related-word-${lexemeId}`)
-        ?.scrollIntoView({ block: "center", behavior: "smooth" });
-    }, 120);
-  };
-
   const selectVocabularyGroup = (
     groupId: string,
     lexemeId = "",
@@ -1788,7 +1799,6 @@ export default function Home() {
     setActiveVocabularyGroupId(groupId);
     setOpenedVocabularyLexemeId(lexemeId);
     localStorage.setItem(STORAGE.lastVocabularyGroup, groupId);
-    scrollToRelatedLexeme(lexemeId);
   };
 
   const openVocabularyItem = (
@@ -1838,6 +1848,8 @@ export default function Home() {
       ),
     );
     setRelatedCurrentLexemeId(lexemeId);
+    setVocabularySearch("");
+    setVocabularyFilter("all");
     setScreen("related-vocabulary");
     selectVocabularyGroup(group.id, lexemeId);
   };
@@ -4532,6 +4544,10 @@ export default function Home() {
           itemIsVisible(activeGroup, item),
         )
       : [];
+    const matchingItemCount = visibleGroups.reduce(
+      (count, group) => count + group.items.filter((item) => itemIsVisible(group, item)).length,
+      0,
+    );
     const updateVocabularySearch = (query: string) => {
       setVocabularySearch(query);
       const nextGroup = resolveSelection(
@@ -4594,6 +4610,8 @@ export default function Home() {
               }
               placeholder="例如：Saturday、星期六"
               aria-label="搜尋英文、中文、主題名稱或 lexeme ID"
+              aria-controls="vocabulary-search-results"
+              aria-describedby="vocabulary-search-summary"
             />
           </label>
           <div
@@ -4616,7 +4634,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="vocabulary-groups-title">
+        <p
+          id="vocabulary-search-summary"
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          data-testid="vocabulary-search-summary"
+        >
+          {activeGroup
+            ? `找到 ${visibleGroups.length} 個主題、${matchingItemCount} 個符合的字詞。目前顯示${activeGroup.titleZhTw}：${activeItems.length} 個字詞。`
+            : "找不到相關字詞，請調整搜尋文字或已學狀態篩選。"}
+        </p>
+
+        <section id="vocabulary-search-results" aria-labelledby="vocabulary-groups-title">
           <div className="section-heading vocabulary-section-heading">
             <div>
               <span className="eyebrow">主題分類</span>
@@ -4640,6 +4671,8 @@ export default function Home() {
                   key={group.id}
                   onClick={() => selectVocabularyGroup(group.id)}
                   aria-label={`進入${group.titleZhTw}主題`}
+                  aria-pressed={activeGroup?.id === group.id}
+                  aria-describedby={`vocabulary-group-info-${group.id}`}
                   data-testid={`vocabulary-group-${group.id}`}
                 >
                   <span className="vocabulary-group-icon">▦</span>
@@ -4648,7 +4681,7 @@ export default function Home() {
                     <b>{group.titleEn}</b>
                     <small>{group.descriptionZhTw}</small>
                   </span>
-                  <span className="vocabulary-group-counts">
+                  <span className="vocabulary-group-counts" id={`vocabulary-group-info-${group.id}`}>
                     <b>{group.items.length} 個字詞</b>
                     <small>已學 {learnedCount} 個</small>
                   </span>
@@ -4709,6 +4742,8 @@ export default function Home() {
                   }`}
                   key={item.lexemeId}
                   data-testid={`vocabulary-word-${item.lexemeId}`}
+                  tabIndex={-1}
+                  aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
                   aria-current={
                     state.status === "current" ? "true" : undefined
                   }
@@ -4719,7 +4754,7 @@ export default function Home() {
                         {item.order}
                       </span>
                       <div>
-                        <h3>{item.displayEnglish}</h3>
+                        <h3 id={`vocabulary-word-title-${item.lexemeId}`} lang="en-US">{item.displayEnglish}</h3>
                         <p>{item.translationZhTw}</p>
                       </div>
                     </div>
@@ -4734,14 +4769,21 @@ export default function Home() {
                     type="button"
                     data-testid={`open-vocabulary-${item.lexemeId}`}
                     aria-expanded={openedVocabularyLexemeId === item.lexemeId}
+                    aria-controls={`vocabulary-detail-${item.lexemeId}`}
+                    aria-label={`${openedVocabularyLexemeId === item.lexemeId ? "收合字詞詳情" : "開啟字詞詳情"}：${item.displayEnglish}`}
                     onClick={() => openVocabularyItem(activeGroup.id, item)}
                   >
                     {openedVocabularyLexemeId === item.lexemeId
                       ? "收合字詞詳情"
                       : "開啟字詞詳情"}
                   </button>
-                  {openedVocabularyLexemeId === item.lexemeId && (
-                    <div data-testid={`vocabulary-detail-${item.lexemeId}`}>
+                    <div
+                      id={`vocabulary-detail-${item.lexemeId}`}
+                      data-testid={`vocabulary-detail-${item.lexemeId}`}
+                      role="region"
+                      aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
+                      hidden={openedVocabularyLexemeId !== item.lexemeId}
+                    >
                   <div className="vocabulary-phonetics">
                     <span>
                       <small>KK</small>
@@ -4809,7 +4851,6 @@ export default function Home() {
                     </p>
                   )}
                     </div>
-                  )}
                 </article>
               );
             })}
@@ -6944,6 +6985,7 @@ export default function Home() {
                   : setScreen(item.screen)
               }
               aria-label={`前往${item.label}`}
+              aria-current={screen === item.screen ? "page" : undefined}
             >
               <span className="nav-icon">{item.icon}</span>{item.label}
               {item.screen === "review" && dueReviews.length > 0 && <b>{dueReviews.length}</b>}

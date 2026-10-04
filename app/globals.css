@@ -51,9 +51,16 @@ button:disabled {
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible {
-  outline: 3px solid rgb(244 123 91 / 24%);
+select:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--coral-dark);
   outline-offset: 2px;
+}
+
+.related-vocabulary-page {
+  --muted: #5b6678;
+  --coral-dark: #b1442e;
 }
 
 h1,
@@ -2322,8 +2329,7 @@ progress::-webkit-progress-value {
 }
 
 .vocabulary-search input:focus {
-  border-color: var(--coral);
-  outline: 3px solid rgb(244 123 91 / 14%);
+  border-color: var(--coral-dark);
 }
 
 .vocabulary-filter-row {
@@ -2527,7 +2533,7 @@ progress::-webkit-progress-value {
 .vocabulary-status {
   flex: 0 0 auto;
   padding: 6px 10px;
-  color: #697283;
+  color: var(--muted);
   border-radius: 99px;
   background: var(--soft);
   font-size: 12px;
@@ -2536,12 +2542,12 @@ progress::-webkit-progress-value {
 }
 
 .vocabulary-status.current {
-  color: var(--coral-dark);
+  color: #9e3c29;
   background: #ffd9cc;
 }
 
 .vocabulary-status.learned {
-  color: var(--green);
+  color: #27673c;
   background: var(--green-soft);
 }
 

@@ -1,4 +1,4 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, Locator, Page, test } from "@playwright/test";
 import fs from "node:fs";
 
 const progressKey = "yingju-progress-v1";
@@ -61,6 +61,30 @@ const expectNoHorizontalOverflow = async (page: Page) => {
       ),
     )
     .toBe(true);
+};
+
+const expectReadableText = async (locator: Locator, minimumSamples = 1) => {
+  const samples = await locator.evaluateAll((elements) => elements.map((element) => {
+    const rgb = (color: string) => (color.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const luminance = (color: string) => rgb(color)
+      .map((value) => value / 255)
+      .map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4)
+      .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    let background: Element | null = element;
+    while (background && getComputedStyle(background).backgroundColor === "rgba(0, 0, 0, 0)") {
+      background = background.parentElement;
+    }
+    const foregroundLight = luminance(getComputedStyle(element).color);
+    const backgroundLight = luminance(background ? getComputedStyle(background).backgroundColor : "rgb(255, 255, 255)");
+    return {
+      text: element.textContent,
+      ratio: (Math.max(foregroundLight, backgroundLight) + 0.05) / (Math.min(foregroundLight, backgroundLight) + 0.05),
+    };
+  }));
+  expect(samples.length).toBeGreaterThanOrEqual(minimumSamples);
+  for (const sample of samples) {
+    expect(sample.ratio, sample.text ?? "related vocabulary contrast").toBeGreaterThanOrEqual(4.5);
+  }
 };
 
 const waitForHome = async (page: Page) => {
@@ -359,7 +383,10 @@ test("shows the month and family topics with formal and reference sources", asyn
 
 test("opens a related group after a correct course word and returns to the same detail stage", async ({
   page,
-}) => {
+}, testInfo) => {
+  await page.emulateMedia({
+    reducedMotion: testInfo.project.name === "mobile-chrome" ? "reduce" : "no-preference",
+  });
   const completedLessonIds = Array.from(
     { length: 5 },
     (_, unitIndex) =>
@@ -385,6 +412,12 @@ test("opens a related group after a correct course word and returns to the same 
     { key: progressKey, value: progress },
   );
   await waitForHome(page);
+  await openRelatedVocabulary(page);
+  await page.getByRole("searchbox").fill("December");
+  await expect(page.getByTestId("vocabulary-word-december")).toBeVisible();
+  await page.getByRole("group", { name: "已學狀態篩選" })
+    .getByRole("button", { name: "已學", exact: true }).click();
+  await page.getByRole("button", { name: "前往首頁" }).click();
   await page
     .getByRole("button", { name: "查看完整路線 →" })
     .click();
@@ -440,6 +473,11 @@ test("opens a related group after a correct course word and returns to the same 
     '[data-testid="vocabulary-word-monday"]',
   );
   await expect(monday).toHaveAttribute("aria-current", "true");
+  await expect(monday).toBeFocused();
+  await expectReadableText(monday.locator(".vocabulary-status.current"));
+  await expect(page.getByRole("searchbox")).toHaveValue("");
+  await expect(page.getByRole("group", { name: "已學狀態篩選" })
+    .getByRole("button", { name: "全部", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(monday).toContainText("本課單字");
   await expect(
     page.getByRole("button", { name: "← 返回目前課程" }),
@@ -551,6 +589,52 @@ test("persists global vocabulary evidence and includes it in backup import and e
       }, progressKey),
     )
     .toBe(1);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("announces vocabulary results and exposes keyboard disclosure semantics", async ({ page }) => {
+  await waitForHome(page);
+  await openRelatedVocabulary(page);
+  await expect(page.getByRole("button", { name: "前往相關字詞" })).toHaveAttribute("aria-current", "page");
+  const search = page.getByRole("searchbox");
+  const summary = page.getByTestId("vocabulary-search-summary");
+  await expect(summary).toHaveAttribute("role", "status");
+  await search.fill("brothers");
+  await expect(search).toBeFocused();
+  await search.press("Tab");
+  await page.keyboard.press("Shift+Tab");
+  await expect(search).toBeFocused();
+  await expect(search).toHaveCSS("outline-style", "solid");
+  await expect(search).toHaveCSS("outline-width", "3px");
+  await expect(search).toHaveCSS("outline-color", "rgb(177, 68, 46)");
+  await expect(summary).toContainText("1 個符合的字詞");
+  await expect(summary).toContainText("家庭成員");
+  await expect(page.getByTestId("vocabulary-group-family-members")).toHaveAttribute("aria-pressed", "true");
+  const toggle = page.getByTestId("open-vocabulary-brother");
+  await expect(toggle).toHaveAccessibleName("開啟字詞詳情：brother");
+  const details = page.getByTestId("vocabulary-detail-brother");
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(toggle).toHaveAttribute("aria-controls", await details.getAttribute("id") ?? "missing-id");
+  await expect(details).toBeHidden();
+  await toggle.focus();
+  await expect(toggle).toHaveCSS("outline-style", "solid");
+  await expect(toggle).toHaveCSS("outline-width", "3px");
+  await toggle.press("Enter");
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await expect(details).toBeVisible();
+  await expectReadableText(page.locator([
+    ".vocabulary-filter-row button.active",
+    ".vocabulary-status",
+    "#vocabulary-detail-brother .vocabulary-phonetics small",
+  ].join(", ")), 5);
+  const collapse = page.getByRole("button", { name: "收合字詞詳情：brother", exact: true });
+  await expect(collapse).toBeFocused();
+  await collapse.press(" ");
+  await expect(details).toBeHidden();
+  await expect(page.getByRole("button", { name: "開啟字詞詳情：brother", exact: true })).toBeFocused();
+  await search.fill("nonexistent-meaning-xyz");
+  await expect(summary).toContainText("找不到相關字詞");
+  await expect(search).toBeFocused();
   await expectNoHorizontalOverflow(page);
 });
 
