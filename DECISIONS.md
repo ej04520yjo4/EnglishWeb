@@ -361,3 +361,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Retain bright coral for decoration, but use darker shared tokens for primary-action backgrounds, secondary text, placeholders, and learning-state boundaries. Verify scoped text at 4.5:1 and input/focus boundaries at 3:1 in the rendered browser, including hover, selected, correct, wrong, and revealed states. Keep explicit feedback text alongside color.
 
 **Reason:** The original primary white text and placeholders had insufficient contrast. A shared token correction preserves the established interface and learning contract without adding another theme. Computed-style checks are bounded evidence, not a full accessibility or native screen-reader certification; gradients and untested screens remain separately reviewable.
+
+## ADR-046 - Reference Recognition Requires an Explicit Daily Answer
+
+**Status:** Accepted
+
+**Decision:** Allow the existing 24 reference-only receptive targets to receive recognition evidence through a separate, labeled topic practice, not through viewing cards. Reuse global schema v6 without manufacturing course occurrences or review items. Each canonical word gets one submitted answer per local day; wrong answers reveal the meaning and remain wrong for that day. Queue identity includes the local date and lexeme, not the topic or array index. Unfinished words are prioritized; familiar words can return on later days.
+
+**Reason:** Reference words previously had exposure only and could never satisfy the receptive goal. Explicit, cross-date answers close that gap without converting a browse action into mastery, allowing refresh to repair a wrong answer, or pretending that recognition proves spelling/application. This trial does not approve content, clear source licensing, or complete the 3000-word list.

@@ -17,12 +17,12 @@ This is a coverage goal, not a claim that the current product already contains 3
 
 ## Current Baseline
 
-`public/data/vocabulary-targets-v1.json` is generated from existing A1, A2, and reference-only sources. It currently contains 128 unique entries:
+`public/data/vocabulary-targets-v1.json` is generated from existing A1, A2, and reference-only sources. The 2026-10-15 audit confirms 132 unique entries:
 
-- 100 curriculum-covered active candidates.
-- 26 reference-only receptive candidates.
-- 92 entries assigned to the A1 target stage and 34 to A2.
-- 2874 entries are not yet present; this is expected while status is `partial_review_required`.
+- 108 curriculum-covered active candidates.
+- 24 reference-only receptive candidates.
+- 90 entries assigned to the A1 target stage and 42 to A2.
+- 2868 entries are not yet present; this is expected while status is `partial_review_required`.
 
 Every entry records its canonical ID, lemma, source aliases, target level, mastery target, priority, topics, source/version/reference/license, and QA status. All entries remain `pilot_review_required` until manually checked.
 
@@ -35,6 +35,8 @@ Progress schema v6 stores global evidence by canonical lexeme across A1/A2:
 - `active`: receptive, plus at least two clean spelling records on two dates and one correct sentence application.
 
 Every answer attempt may record an attempt ID. A correct spelling counts as clean only when the answer was neither revealed nor pasted. Search, scrolling, audio playback, and merely rendering a card create no evidence. Opening a reference detail adds exposure only and never changes course completion, accuracy, review intervals, or passed IDs.
+
+The existing 24 reference-only targets now have an explicit recognition trial from the related-vocabulary topic page. Each batch contains at most five words and uses existing same-topic translations. Only the first submitted answer for a canonical word on a local study date is recorded. Wrong answers show the meaning but cannot become correct evidence by reloading that day. Two correct dates can establish receptive mastery, never active mastery. Previously mastered words remain available on later dates, after unfinished words. This does not promote reference content into formal courses or approve its language/licensing.
 
 ## Source and Review Workflow
 
@@ -58,3 +60,7 @@ npm run report:vocabulary
 ```
 
 The baseline generator is a projection tool, not a second runtime source. B1/B2 data must not contribute to the A1/A2 target while those levels remain disabled.
+
+## Next Small Expansion
+
+See [source review](vocabulary-source-review-2026-10-15.md). Prepare one 50-word candidate batch with pinned source/version/license, canonical deduplication, independently authored Taiwan Chinese, and explicit pending review. Do not increase runtime coverage until the candidate content and practice source are validated. The 3000 goal is a project learning target, not an official CEFR word-count requirement.

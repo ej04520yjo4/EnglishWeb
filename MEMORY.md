@@ -55,6 +55,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - Daily Learning v3 stores its originating CEFR/lesson, stable active-review queue and completion IDs, reveal/paste safety state, completed weakness IDs, and active seconds. It restores only on the same local date, restarts timing without offline gaps, resumes the first unfinished item, and never turns restore/expiry into evidence, completion, unit pass, or CEFR pass.
 - “本週學習” means unique selected-level study dates inside the learner device's local Monday-to-Sunday week; it is not a rolling seven-record count and does not use global vocabulary evidence dates.
 - The original 126-entry metadata QA found no duplicate or rejection. The six targets introduced by A2 unit 5 still need equivalent review, and provenance remains unresolved: 108 curriculum targets need license evidence while 24 reference-only targets need a lexical/content source plus user language/phonetic review.
+- Reference-only targets have a separate, explicit topic recognition trial (at most five words). First submission per local day alone can add recognition evidence; wrong-first answers cannot be corrected into credit by reloading. Two correct dates establish receptive, not active mastery. Search/detail behavior and course/review/unlock progress remain separate.
 
 ## Content and Audio Guardrails
 

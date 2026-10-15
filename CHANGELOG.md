@@ -2,6 +2,18 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-15 - Reference Vocabulary Recognition Practice
+
+### Added
+
+- Added an explicit recognition trial for the 24 existing reference-only target words, accessed from each related-vocabulary topic. Each batch contains at most five words and four same-topic meaning choices.
+- Record only the first submitted answer for each word on a local day. Wrong answers show the meaning; reloading cannot turn that day's wrong answer into credit. Two correct dates can establish receptive mastery, never active mastery.
+- Added keyboard focus/Enter guards, next-day expiry, responsive controls, and visible cross-date recognition status while keeping the pending-human-review notice.
+
+### Preserved
+
+- A1/A2 courses, all four topics, 132 target entries, schema v6, course completion, review schedules, and CEFR unlocking remain unchanged. B1/B2 remain disabled. Corrected stale counts in the 3000-word plan and documented candidate sources without importing an unreviewed bulk list.
+
 ## 2026-10-04 - Learning Text and Control Contrast
 
 ### Improved

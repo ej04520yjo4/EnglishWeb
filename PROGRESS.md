@@ -2,11 +2,11 @@
 
 ## Snapshot
 
-- Updated: 2026-10-04
+- Updated: 2026-10-15
 - Branch: `codex/learning-contrast`, based on verified `main` / `origin/main` commit `28b41d0`.
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
-- Integration: [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10) merged normally on 2026-10-04 at `28b41d0` after both protected checks passed. A fresh fetch confirms local `main` and `origin/main` match (0 ahead / 0 behind). This contrast follow-up is a separate local branch, not yet published, merged, or deployed.
+- Integration: [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10) merged normally on 2026-10-04 at `28b41d0` after both protected checks passed. The 2026-10-15 preflight fetch confirmed the contrast base still matched `origin/main` (0 ahead / 0 behind). Contrast commit `2c08eae` was pushed to `origin/codex/learning-contrast` and its remote SHA verified. Recognition implementation `5b1cee3` passed the full local verification below and remains on that feature branch; no new main merge or deployment is claimed.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -26,7 +26,7 @@
 - Target stage counts: A1 90, A2 42; 2868 entries remain unbuilt.
 - Target status: `partial_review_required`; all entries remain `pilot_review_required`.
 - The original 126 entries received an item-by-item identity, normalization, CEFR, mastery-target, topic, and curriculum/reference classification pass. The six targets introduced by unit 5 remain pending the same human review.
-- Provenance is still open: 108 curriculum targets have `license: pending`; all 24 reference-only targets need an external lexical/content source and license review. Their Taiwan Chinese and blank KK/IPA also remain for user review.
+- Provenance is still open: 108 curriculum targets have `license: pending`; all 24 reference-only targets need an external lexical/content source and license review. Their Taiwan Chinese and KK/IPA values remain for user review. A fresh field audit found no blank KK/IPA among the 27 reference records; earlier "blank" wording was stale, not evidence of phonetic approval.
 - Durable findings are recorded in `docs/vocabulary-baseline-review-2026-08-19.md`; the reviewed target SHA-256 is `c1342d65a8aa6f39cf5efa6e40ca5fc68cabf536e92af46dcd1ff122b6d4afc1`.
 - Source report records one A2 source-ID/lemma projection, `me -> I`; target aliases map both to canonical `i`, with no target ID or lemma conflict.
 - Lesson-specific proper names Amy and Ben remain in A1 course practice but are excluded from the 3000 general-vocabulary target.
@@ -59,6 +59,9 @@
 
 ## Latest Completed Work
 
+- Added explicit related-topic recognition practice for all 24 existing reference-only target words. Batches have at most five words, four distinct same-topic choices, answer confirmation/feedback, keyboard focus, and visible cross-date status. Only the first submitted answer per canonical word/local day can create recognition evidence; wrong-first answers cannot become correct by reloading, and expired-day submissions are rejected.
+- Kept recognition separate from course completion, review scheduling, CEFR passing, and active spelling/application. No formal CSV/JSON or target records changed. Familiar words remain available on later dates after unfinished words; reloading rebuilds remaining work from saved evidence rather than persisting copied answers.
+- Corrected stale baseline counts in the 3000-word plan to 132 targets (108 curriculum / 24 reference; 2868 unbuilt). Inspected candidate source notices and documented the next 50-word import gate without importing an unreviewed corpus or claiming existing provenance resolved.
 - Improved scoped learning contrast: shared secondary text, primary actions, placeholders, input/choice boundaries, and correct/wrong/revealed states retain the existing layout and warm decoration. Action focus outlines appear immediately instead of fading in. The new browser suite measures real computed styles and preserves explicit text feedback.
 - Completed the scoped Daily/weakness keyboard follow-up: stable item keys reapply input/choice autofocus, checked weakness actions receive focus, and the Daily summary is keyboard-completable. Repeated Enter now cancels native button activation instead of silently falling through to a browser click.
 - Added six desktop/mobile keyboard scenarios covering consecutive recognition items, same-type weakness queues, three-error application reveal without mastery, selection-focus stability, summary completion, and the existing full unit-assessment/reload flow. No curriculum, scoring, storage, schedule, or unlock contract changed.
@@ -123,9 +126,20 @@
 
 ## Next Concrete Step
 
-Try the third A1 practice batch, A2 unit 5, and the keyboard-only Daily flow with the clearer learning controls; record English/Chinese/difficulty and usability feedback before expanding content. The next bounded technical audit is map/phonetic-specific contrast and native screen-reader behavior, not another unreviewed curriculum batch. See `docs/learning-contrast-audit-2026-10-04.md` for this round's scope and remaining gaps. Separately decide the authoritative day-to-day checkout before synchronizing D: all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
+Try the existing reference-recognition batches over two local dates, then prepare one 50-word candidate expansion using the pinned-source/license gate in `docs/vocabulary-source-review-2026-10-15.md`. The runtime count is still 132, not 3000; content, phonetic, and source review remain mandatory. Continue learner review of the third A1 batch and A2 unit 5 before any next course unit. Separately decide the authoritative day-to-day checkout before synchronizing the preserved D-drive changes. Do not bulk-copy older alias/A2/target snapshots or discard edits. B1/B2 remain disabled; map/phonetic contrast and native screen-reader work remain separate tasks. Local completion, feature publication, main integration, and deployment are distinct.
 
 ## Verification
+
+### Reference recognition and feature publication (2026-10-15)
+
+- Fresh baseline `npm run verify`: exit 0, all nine gates and 183 unit tests passed.
+- Initial restricted-environment browser attempt exited 1 before any test because Workers runtime startup failed. Repeating the scoped contrast suite in the local test environment passed: exit 0, 6 tests (3 desktop / 3 mobile), 0 failed/skipped, 20.6 seconds. Commit `2c08eae` was then pushed normally and its remote hash read back.
+- First reference browser run: exit 1, 8 passed / 2 failed. The cross-date scenario exposed unseen words outranking yesterday's partially learned word. Queue ordering now treats unseen/exposed words as the same unfinished priority before mastered words; curriculum priority remains stable within each group.
+- Initial focused pure-function checks: exit 0, 9 passed / 0 failed/skipped. The final suite adds four regressions for overlapping meaning choices, unfinished-word priority, impossible calendar dates, and source/answer tampering, for 13 new tests. All 24 reference targets retain four valid options without shortening their correct translations.
+- Final `npm run verify`: exit 0; all nine shared gates passed, including build, 196 unit tests (0 failed/cancelled/skipped), lint, and TypeScript. No protected course/target data or dependency lockfile changed.
+- An earlier full-browser attempt was interrupted (exit 1) after a test-server hot-reload failure in Vinext's `RemoveDuplicateServerCss` (`useEffect` on null); it is not counted as a passing run. The source was then frozen and the server/test process restarted for a complete clean run.
+- Clean full `npm run test:e2e`: exit 0, 146 passed (73 desktop 1440×900 / 73 mobile 375×812), 0 failed/skipped, 7.4 minutes. All existing A1/A2, Daily, review, import/export, unlock, and reload cases remain covered; the 14 new browser cases verify reference practice, cross-date credit, wrong-first persistence, midnight expiry, failed target loading, keyboard controls, and viewport width.
+- Visually inspected both practice and summary screenshots at desktop and mobile widths. Read-only independent implementation review found no blocking issue. Final context and whitespace checks passed; no dependency upgrade, source import, human-language approval, Windows launcher scenario rerun, main merge, or deployment is included in this round.
 
 ### Scoped learning contrast (2026-10-04)
 
