@@ -1736,7 +1736,7 @@ test("daily learning v3 with zero due reviews goes directly to the lesson", asyn
 });
 
 test("due reviews remain active when vocabulary target metadata cannot load", async ({ page }) => {
-  await page.route("**/data/vocabulary-targets-v1.json", (route) =>
+  await page.route("**/data/vocabulary-targets-v2.json", (route) =>
     route.fulfill({
       status: 500,
       contentType: "application/json",

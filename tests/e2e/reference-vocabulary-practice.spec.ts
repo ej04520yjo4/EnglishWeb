@@ -321,7 +321,7 @@ test("rejects a recognition submission after the local study date changes", asyn
 test("keeps reference browsing available when vocabulary targets fail to load", async ({
   page,
 }) => {
-  await page.route("**/data/vocabulary-targets-v1.json", async (route) => {
+  await page.route("**/data/vocabulary-targets-v2.json", async (route) => {
     await route.fulfill({
       status: 503,
       contentType: "application/json",

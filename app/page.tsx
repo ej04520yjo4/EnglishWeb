@@ -167,12 +167,24 @@ import {
   type ReferenceRecognitionQuestion,
 } from "./reference-vocabulary-practice.ts";
 import { ReferenceRecognitionPractice } from "./reference-recognition-practice";
+import {
+  buildVocabularyLibraryPracticeQuestion,
+  loadVocabularyLibrary,
+  recordVocabularyLibraryPracticeResult,
+  type VocabularyLibraryData,
+} from "./vocabulary-library";
+import {
+  VocabularyLibraryPanel,
+  type VocabularyLibraryEvidenceInput,
+  type VocabularyLibraryEntry as VocabularyLibraryPanelEntry,
+} from "./vocabulary-library-panel";
 
 type Screen =
   | "home"
   | "map"
   | "alphabet"
   | "phonetics"
+  | "vocabulary-library"
   | "related-vocabulary"
   | "reference-recognition"
   | "review"
@@ -338,6 +350,7 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "map", label: "課程地圖", icon: "◉" },
   { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
   { screen: "phonetics", label: "KK 音標", icon: "KK" },
+  { screen: "vocabulary-library", label: "3000 單字庫", icon: "▤" },
   { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
   { screen: "review", label: "待複習", icon: "↻" },
   { screen: "weakness", label: "弱點中心", icon: "△" },
@@ -665,6 +678,12 @@ export default function Home() {
   const [vocabularyTargets, setVocabularyTargets] =
     useState<VocabularyTargetsData | null>(null);
   const [vocabularyTargetsError, setVocabularyTargetsError] = useState("");
+  const [vocabularyLibrary, setVocabularyLibrary] =
+    useState<VocabularyLibraryData | null>(null);
+  const [vocabularyLibraryStatus, setVocabularyLibraryStatus] = useState<
+    "loading" | "ready" | "error"
+  >("loading");
+  const [vocabularyLibraryError, setVocabularyLibraryError] = useState("");
   const [referenceRecognitionSession, setReferenceRecognitionSession] = useState<{
     title: string;
     questions: ReferenceRecognitionQuestion[];
@@ -907,6 +926,47 @@ export default function Home() {
         },
       ),
     }));
+  };
+
+  const recordVocabularyLibraryEvidence = (
+    input: VocabularyLibraryEvidenceInput,
+  ) => {
+    if (!vocabularyLibrary || !vocabularyTargets) return;
+    const expectedMode =
+      input.kind === "recognition" ? "recognition" : "spelling";
+    if (input.question.mode !== expectedMode) {
+      setToast("3000 單字練習模式與題目不一致，未變更進度。");
+      return;
+    }
+    const studiedAt = new Date().toISOString();
+    const studyDate = localDateKey(new Date(studiedAt));
+    setMultiProgress((current) => {
+      try {
+        return {
+          ...current,
+          vocabularyProgress: recordVocabularyLibraryPracticeResult(
+            current.vocabularyProgress,
+            {
+              library: vocabularyLibrary,
+              targets: vocabularyTargets,
+              question: input.question,
+              selectedAnswer: input.answer,
+              studiedAt,
+              studyDate,
+              usedPaste: input.usedPaste,
+              answerRevealed: input.answerRevealed,
+            },
+          ),
+        };
+      } catch (error) {
+        setToast(
+          error instanceof Error
+            ? error.message
+            : "3000 單字作答紀錄失敗，未變更進度。",
+        );
+        return current;
+      }
+    });
   };
 
   useEffect(() => {
@@ -1461,6 +1521,58 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (screen !== "vocabulary-library") return;
+    let active = true;
+    if (vocabularyLibrary) {
+      return () => {
+        active = false;
+      };
+    }
+    if (!vocabularyTargets) {
+      const targetStateTimer = window.setTimeout(() => {
+        if (!active) return;
+        setVocabularyLibraryStatus(vocabularyTargetsError ? "error" : "loading");
+        setVocabularyLibraryError(vocabularyTargetsError);
+      }, 0);
+      return () => {
+        active = false;
+        window.clearTimeout(targetStateTimer);
+      };
+    }
+
+    const controller = new AbortController();
+    const loadTimer = window.setTimeout(() => {
+      if (!active) return;
+      setVocabularyLibraryStatus("loading");
+      setVocabularyLibraryError("");
+      loadVocabularyLibrary(vocabularyTargets, (input, init) =>
+        fetch(input, { ...init, signal: controller.signal }),
+      )
+        .then((data) => {
+          if (!active) return;
+          setVocabularyLibrary(data);
+          setVocabularyLibraryStatus("ready");
+        })
+        .catch((error: unknown) => {
+          if (!active) return;
+          setVocabularyLibrary(null);
+          setVocabularyLibraryStatus("error");
+          setVocabularyLibraryError(
+            error instanceof Error
+              ? error.message
+              : "3000 單字資料驗證失敗。",
+          );
+        });
+    }, 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(loadTimer);
+      controller.abort();
+    };
+  }, [screen, vocabularyLibrary, vocabularyTargets, vocabularyTargetsError]);
+
+  useEffect(() => {
     if (!loaded || !catalog) return;
     catalog.levels
       .filter((entry) => entry.level !== "A1")
@@ -1529,6 +1641,43 @@ export default function Home() {
     () => flattenCourseLessons(courseUnits),
     [courseUnits],
   );
+
+  const vocabularyLibraryEntries = useMemo<VocabularyLibraryPanelEntry[]>(() => {
+    if (!vocabularyLibrary || !vocabularyTargets) return [];
+    const targetById = new Map(
+      vocabularyTargets.entries.map((target) => [target.lexemeId, target]),
+    );
+    return vocabularyLibrary.entries.flatMap((entry) => {
+      const target = targetById.get(entry.lexemeId);
+      if (!target) return [];
+      return [{
+        entry: {
+          ...entry,
+          targetLevel: target.targetLevel,
+          masteryTarget: target.masteryTarget,
+          searchAliases: [
+            ...target.topics,
+            target.targetLevel,
+            target.masteryTarget,
+            entry.sourceSenseId ?? "",
+            entry.wordnetSynsetId ?? "",
+            ...(entry.meaningVariants ?? []),
+            ...(entry.wordnetSynsetIds ?? []),
+            ...entry.sourceRefs.flatMap((source) => [
+              source.sourceName,
+              source.sourceVersion,
+              source.sourceType,
+              source.license,
+              source.reference,
+              source.attribution ?? "",
+            ]),
+          ],
+        },
+        priority: target.curriculumPriority,
+      }];
+    }).sort((left, right) => left.priority - right.priority)
+      .map((item) => item.entry);
+  }, [vocabularyLibrary, vocabularyTargets]);
 
   const selectedUnit = useMemo(
     () =>
@@ -6729,6 +6878,10 @@ export default function Home() {
                 value={vocabularyCoverage.referenceOnlyCovered}
               />
               <StatCard
+                label="獨立單字庫新增"
+                value={vocabularyCoverage.externalLibraryCovered}
+              />
+              <StatCard
                 label="清單尚未建立"
                 value={vocabularyCoverage.missingEntries}
               />
@@ -6742,9 +6895,12 @@ export default function Home() {
               <StatCard label="已學sense" value={learnedSenseCount} />
               <StatCard label="已接觸chunk" value={touchedChunkCount} />
             </div>
-            {vocabularyTargets?.status === "partial_review_required" && (
+            {(vocabularyTargets?.status === "partial_review_required" ||
+              vocabularyTargets?.status === "count_complete_review_required") && (
               <p className="qa-note" data-testid="vocabulary-target-partial-note">
-                3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。
+                {vocabularyTargets.status === "count_complete_review_required"
+                  ? "3000詞彙清單已完成收錄數量，但內容與來源仍待人工審查。"
+                  : "3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。"}
               </p>
             )}
           </>
@@ -7042,6 +7198,31 @@ export default function Home() {
     );
   };
 
+  const renderVocabularyLibrary = () => (
+    <VocabularyLibraryPanel
+      entries={vocabularyLibraryEntries}
+      loading={vocabularyLibraryStatus === "loading"}
+      error={vocabularyLibraryStatus === "error" ? vocabularyLibraryError : ""}
+      buildQuestion={(entry, mode) => {
+        if (!vocabularyLibrary || !vocabularyTargets) return undefined;
+        return buildVocabularyLibraryPracticeQuestion({
+          library: vocabularyLibrary,
+          targets: vocabularyTargets,
+          lexemeId: entry.lexemeId,
+          studyDate: localDateKey(),
+          mode,
+        });
+      }}
+      learnedCount={
+        summarizeVocabularyProgress(
+          multiProgress.vocabularyProgress,
+          vocabularyLibraryEntries.map((entry) => entry.lexemeId),
+        ).exposed
+      }
+      onEvidence={recordVocabularyLibraryEvidence}
+    />
+  );
+
   const renderScreen = () => {
     if (screen === "reference-recognition" && referenceRecognitionSession && vocabularyDataset && vocabularyTargets) {
       return <ReferenceRecognitionPractice
@@ -7062,6 +7243,9 @@ export default function Home() {
     }
     if (screen === "related-vocabulary") {
       return renderRelatedVocabulary();
+    }
+    if (screen === "vocabulary-library") {
+      return renderVocabularyLibrary();
     }
     if (courseDataStatus === "loading") {
       return (
