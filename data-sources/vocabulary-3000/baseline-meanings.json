@@ -1,0 +1,794 @@
+{
+  "i": {
+    "translationZhTw": "我",
+    "definitionEn": "First-person singular subject pronoun.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "作為主詞時指說話者本人。"
+  },
+  "be": {
+    "translationZhTw": "是；成為",
+    "definitionEn": "Links a subject with an identity, state, or description.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "依主詞和時態變化為am、is或are。"
+  },
+  "my": {
+    "translationZhTw": "我的",
+    "definitionEn": "Shows that something belongs to the speaker.",
+    "partOfSpeech": "determiner",
+    "usageNoteZhTw": "放在名詞前表示說話者的所有關係。"
+  },
+  "name": {
+    "translationZhTw": "名字；姓名",
+    "definitionEn": "Label that identifies a person, place, or thing.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可用於詢問或介紹姓名。"
+  },
+  "nice": {
+    "translationZhTw": "令人愉快的；友善的",
+    "definitionEn": "Pleasant, friendly, or enjoyable.",
+    "partOfSpeech": "adjective",
+    "usageNoteZhTw": "可形容人、事物或感受。"
+  },
+  "to": {
+    "translationZhTw": "到；向；不定詞標記",
+    "definitionEn": "Marks direction, destination, or an infinitive.",
+    "partOfSpeech": "preposition / infinitive marker",
+    "usageNoteZhTw": "可表示方向，也可放在動詞原形前。"
+  },
+  "meet": {
+    "translationZhTw": "認識；遇見",
+    "definitionEn": "Comes together with someone or is introduced to someone.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "meet someone可表示遇見或認識某人。"
+  },
+  "you": {
+    "translationZhTw": "你；你們",
+    "definitionEn": "Second-person pronoun for the listener or reader.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "單數和複數都可使用。"
+  },
+  "from": {
+    "translationZhTw": "從；來自",
+    "definitionEn": "Marks an origin, starting point, or range beginning.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "可表示來源、起點或範圍起始。"
+  },
+  "taiwan": {
+    "translationZhTw": "台灣",
+    "definitionEn": "An island and country in East Asia.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "地名通常以大寫開頭。"
+  },
+  "this": {
+    "translationZhTw": "這個；這件",
+    "definitionEn": "Points to one nearby person or thing.",
+    "partOfSpeech": "determiner / pronoun",
+    "usageNoteZhTw": "可放在名詞前，也可單獨代替事物。"
+  },
+  "a": {
+    "translationZhTw": "一個；一件",
+    "definitionEn": "Indefinite article for one non-specific item.",
+    "partOfSpeech": "article",
+    "usageNoteZhTw": "放在單數可數名詞前，量詞依中文語境調整。"
+  },
+  "book": {
+    "translationZhTw": "書",
+    "definitionEn": "Bound pages used for reading or study.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指紙本書，也可指書籍作品。"
+  },
+  "have": {
+    "translationZhTw": "有；擁有",
+    "definitionEn": "Expresses possession, experience, or a condition.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "可表示擁有、經歷或身體狀況。"
+  },
+  "pen": {
+    "translationZhTw": "筆",
+    "definitionEn": "Writing tool that uses ink.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "通常指使用墨水書寫的筆。"
+  },
+  "that": {
+    "translationZhTw": "那個；那件",
+    "definitionEn": "Points to one person or thing farther away.",
+    "partOfSpeech": "determiner / pronoun",
+    "usageNoteZhTw": "可放在名詞前，也可單獨指較遠的事物。"
+  },
+  "bag": {
+    "translationZhTw": "包包；袋子",
+    "definitionEn": "Container carried by hand or shoulder.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指購物袋、手提包或其他容器。"
+  },
+  "the": {
+    "translationZhTw": "定冠詞（中文通常不翻譯）",
+    "definitionEn": "Definite article for a specific person, place, or thing.",
+    "partOfSpeech": "article",
+    "usageNoteZhTw": "指聽者和說話者都知道的特定對象。"
+  },
+  "cellphone": {
+    "translationZhTw": "手機",
+    "definitionEn": "Portable device for calls and messages.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "台灣口語常說手機，也可寫作cell phone。"
+  },
+  "on": {
+    "translationZhTw": "在……上；（某日）在",
+    "definitionEn": "Shows contact with a surface or a calendar day.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "依語境表示表面接觸或特定日期。"
+  },
+  "table": {
+    "translationZhTw": "桌子",
+    "definitionEn": "Furniture with a flat top and supporting legs.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指用於吃飯、工作或放置物品的桌子。"
+  },
+  "she": {
+    "translationZhTw": "她",
+    "definitionEn": "Third-person singular pronoun for a female person.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "指女性第三人稱單數。"
+  },
+  "wife": {
+    "translationZhTw": "太太；妻子",
+    "definitionEn": "Married female partner.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指已婚關係中的女性配偶。"
+  },
+  "he": {
+    "translationZhTw": "他",
+    "definitionEn": "Third-person singular pronoun for a male person.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "指男性第三人稱單數。"
+  },
+  "friend": {
+    "translationZhTw": "朋友",
+    "definitionEn": "Person with whom one has a warm relationship.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指熟人、好友或一般朋友。"
+  },
+  "two": {
+    "translationZhTw": "二；兩個",
+    "definitionEn": "Number after one and before three.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可修飾複數可數名詞。"
+  },
+  "brother": {
+    "translationZhTw": "兄弟；哥哥／弟弟",
+    "definitionEn": "Male sibling.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指男性手足，中文可依年齡翻成哥哥或弟弟。"
+  },
+  "mother": {
+    "translationZhTw": "媽媽；母親",
+    "definitionEn": "Female parent.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可作家庭稱呼或正式親屬名稱。"
+  },
+  "at": {
+    "translationZhTw": "在（時間／地點）",
+    "definitionEn": "Marks a point in time or place.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "用於具體時間、地點或活動場合。"
+  },
+  "home": {
+    "translationZhTw": "家；家裡",
+    "definitionEn": "Place where someone lives or feels settled.",
+    "partOfSpeech": "noun / adverb",
+    "usageNoteZhTw": "go home等用法中前面通常不加介系詞。"
+  },
+  "an": {
+    "translationZhTw": "一個；一件（母音前）",
+    "definitionEn": "Indefinite article used before a vowel sound.",
+    "partOfSpeech": "article",
+    "usageNoteZhTw": "放在母音音開頭的單數可數名詞前。"
+  },
+  "apple": {
+    "translationZhTw": "蘋果",
+    "definitionEn": "Round fruit with crisp flesh and a core.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指水果本身，也可用於數量表達。"
+  },
+  "like": {
+    "translationZhTw": "喜歡；想要（固定用法）",
+    "definitionEn": "Shows enjoyment or preference.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "like後面可接名詞或動名詞表示喜好。"
+  },
+  "coffee": {
+    "translationZhTw": "咖啡",
+    "definitionEn": "Dark drink made from roasted beans.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指飲料，也可泛指咖啡這種飲品。"
+  },
+  "want": {
+    "translationZhTw": "想要",
+    "definitionEn": "Expresses a wish or need.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "後面可接名詞或不定詞表示需求。"
+  },
+  "some": {
+    "translationZhTw": "一些",
+    "definitionEn": "Indicates an unspecified amount or number.",
+    "partOfSpeech": "determiner",
+    "usageNoteZhTw": "可修飾複數可數名詞或不可數名詞。"
+  },
+  "water": {
+    "translationZhTw": "水",
+    "definitionEn": "Clear liquid essential for life.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "通常視為不可數名詞。"
+  },
+  "eat": {
+    "translationZhTw": "吃",
+    "definitionEn": "Puts food in the mouth and swallows it.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "可接食物或餐點作為受詞。"
+  },
+  "breakfast": {
+    "translationZhTw": "早餐",
+    "definitionEn": "First meal of the day.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指早上的一餐或早餐時段。"
+  },
+  "go": {
+    "translationZhTw": "去",
+    "definitionEn": "Shows movement away from the current place.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "可與地點或活動搭配表示前往。"
+  },
+  "work": {
+    "translationZhTw": "工作；上班",
+    "definitionEn": "Activity done for a job or purpose.",
+    "partOfSpeech": "verb / noun",
+    "usageNoteZhTw": "go to work中表示上班，作名詞時可指工作。"
+  },
+  "get": {
+    "translationZhTw": "得到；取得；到達",
+    "definitionEn": "General verb for receiving, obtaining, or reaching.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "get的具體意思常由句型或語塊決定。"
+  },
+  "up": {
+    "translationZhTw": "向上；（片語）起來",
+    "definitionEn": "Particle that completes certain phrasal verbs and can indicate higher position.",
+    "partOfSpeech": "adverb / particle",
+    "usageNoteZhTw": "get up中與get組成片語動詞，表示起床。"
+  },
+  "seven": {
+    "translationZhTw": "七",
+    "definitionEn": "Number after six and before eight.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可用於數量或時間表達。"
+  },
+  "play": {
+    "translationZhTw": "玩；打（球類）",
+    "definitionEn": "Takes part in a game or sport.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "play後面可接運動或遊戲名稱。"
+  },
+  "badminton": {
+    "translationZhTw": "羽球",
+    "definitionEn": "Racket sport played with a feathered shuttlecock.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "台灣常稱羽球，也可指這項運動。"
+  },
+  "watch": {
+    "translationZhTw": "觀看",
+    "definitionEn": "Looks at something for a period of time.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "常用於觀看電視、比賽或活動。"
+  },
+  "tv": {
+    "translationZhTw": "電視",
+    "definitionEn": "Device used for viewing moving programs.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "常寫作TV，指電視機或電視節目。"
+  },
+  "night": {
+    "translationZhTw": "夜晚；晚上",
+    "definitionEn": "Dark part of the daily cycle after evening.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "at night是常見的時間片語。"
+  },
+  "it": {
+    "translationZhTw": "它；（形式主詞）",
+    "definitionEn": "Third-person pronoun for a thing, animal, or situation.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "也可作形式主詞，用於時間、天氣或距離。"
+  },
+  "eight": {
+    "translationZhTw": "八",
+    "definitionEn": "Number after seven and before nine.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可用於數量或時間表達。"
+  },
+  "o'clock": {
+    "translationZhTw": "……點鐘",
+    "definitionEn": "Expression that gives the hour on a clock.",
+    "partOfSpeech": "expression",
+    "usageNoteZhTw": "放在整點數字後表示幾點整。"
+  },
+  "today": {
+    "translationZhTw": "今天",
+    "definitionEn": "The current calendar day.",
+    "partOfSpeech": "adverb / noun",
+    "usageNoteZhTw": "可放在句首或句尾表示今天。"
+  },
+  "monday": {
+    "translationZhTw": "星期一",
+    "definitionEn": "Weekday after Sunday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "birthday": {
+    "translationZhTw": "生日",
+    "definitionEn": "Day celebrating the date someone was born.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可與my、your等所有格搭配。"
+  },
+  "in": {
+    "translationZhTw": "在……裡；（月份）在",
+    "definitionEn": "Marks an enclosed place, month, or period.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "可表示空間、月份或較長的時間範圍。"
+  },
+  "may": {
+    "translationZhTw": "可能；可以；五月",
+    "definitionEn": "Modal expressing possibility or permission; also the fifth month.",
+    "partOfSpeech": "modal verb / proper noun",
+    "usageNoteZhTw": "表示可能或許可時是助動詞，月份時以大寫開頭。"
+  },
+  "friday": {
+    "translationZhTw": "星期五",
+    "definitionEn": "Weekday before Saturday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "store": {
+    "translationZhTw": "商店",
+    "definitionEn": "Shop where goods are sold.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "美式英文常用store表示商店。"
+  },
+  "near": {
+    "translationZhTw": "附近的；接近",
+    "definitionEn": "Close in place, time, or relationship.",
+    "partOfSpeech": "preposition / adjective",
+    "usageNoteZhTw": "可表示距離近，也可直接修飾名詞。"
+  },
+  "station": {
+    "translationZhTw": "車站；站",
+    "definitionEn": "Place where trains or buses stop.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指火車站、公車站或其他站點。"
+  },
+  "bathroom": {
+    "translationZhTw": "浴室；洗手間",
+    "definitionEn": "Room with a toilet and washing facilities.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "美式英文常用bathroom指洗手間。"
+  },
+  "left": {
+    "translationZhTw": "左邊；左側",
+    "definitionEn": "Direction opposite right; can also describe something that departed.",
+    "partOfSpeech": "noun / adjective",
+    "usageNoteZhTw": "the left表示左邊，詞性依句中位置判斷。"
+  },
+  "school": {
+    "translationZhTw": "學校",
+    "definitionEn": "Place where students learn.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "go to school可表示去上學。"
+  },
+  "by": {
+    "translationZhTw": "以；藉由；在……旁",
+    "definitionEn": "Marks a method, agent, or nearby deadline.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "by bus等用法表示交通方式。"
+  },
+  "bus": {
+    "translationZhTw": "公車；巴士",
+    "definitionEn": "Large road vehicle for passengers.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指城市或長途載客的公車。"
+  },
+  "last": {
+    "translationZhTw": "上一個；最後的",
+    "definitionEn": "Most recent or final in a sequence.",
+    "partOfSpeech": "adjective",
+    "usageNoteZhTw": "last night等片語中表示上一個或剛過去的。"
+  },
+  "yesterday": {
+    "translationZhTw": "昨天",
+    "definitionEn": "Calendar day before today.",
+    "partOfSpeech": "adverb / noun",
+    "usageNoteZhTw": "表示今天之前的那一天。"
+  },
+  "tomorrow": {
+    "translationZhTw": "明天",
+    "definitionEn": "Calendar day after today.",
+    "partOfSpeech": "adverb / noun",
+    "usageNoteZhTw": "表示今天之後的那一天。"
+  },
+  "would": {
+    "translationZhTw": "會；願意（禮貌）",
+    "definitionEn": "Modal used for polite wishes, requests, or imagined results.",
+    "partOfSpeech": "modal verb",
+    "usageNoteZhTw": "would like to是禮貌表達意願的固定句型。"
+  },
+  "with": {
+    "translationZhTw": "和；跟",
+    "definitionEn": "Shows company, connection, or an accompanying thing.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "可表示和某人一起或帶有某物。"
+  },
+  "how": {
+    "translationZhTw": "如何；怎麼",
+    "definitionEn": "Asks about manner, method, or degree.",
+    "partOfSpeech": "adverb",
+    "usageNoteZhTw": "How much等問句中用來詢問程度或數量。"
+  },
+  "can": {
+    "translationZhTw": "能；可以",
+    "definitionEn": "Modal verb expressing ability or permission.",
+    "partOfSpeech": "modal verb",
+    "usageNoteZhTw": "後面接動詞原形表示能力或許可。"
+  },
+  "take": {
+    "translationZhTw": "拿；搭乘；帶",
+    "definitionEn": "Carries, accepts, or uses something; transport contexts use it for riding.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "take the bus等搭配表示搭乘交通工具。"
+  },
+  "buy": {
+    "translationZhTw": "買",
+    "definitionEn": "Gets something by paying money.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "可接商品作為受詞。"
+  },
+  "train": {
+    "translationZhTw": "火車",
+    "definitionEn": "Rail vehicle that carries passengers or goods.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指通勤、客運或貨運列車。"
+  },
+  "ticket": {
+    "translationZhTw": "票；車票",
+    "definitionEn": "Paper or digital proof of entry or travel.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指交通票、入場券或電子票。"
+  },
+  "leave": {
+    "translationZhTw": "離開；出發",
+    "definitionEn": "Goes away from a place or lets something remain.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "可表示離開，也可表示留下某物。"
+  },
+  "nine": {
+    "translationZhTw": "九",
+    "definitionEn": "Number after eight and before ten.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可用於數量或時間表達。"
+  },
+  "morning": {
+    "translationZhTw": "早上；上午",
+    "definitionEn": "Early part of the day before noon.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "in the morning是常見的時間片語。"
+  },
+  "much": {
+    "translationZhTw": "多少；很多（不可數）",
+    "definitionEn": "Indicates a large amount of an uncountable thing.",
+    "partOfSpeech": "determiner / adverb",
+    "usageNoteZhTw": "How much用於詢問不可數數量或價格。"
+  },
+  "shirt": {
+    "translationZhTw": "襯衫",
+    "definitionEn": "Clothing worn on the upper body.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可泛指襯衫類上衣。"
+  },
+  "cheap": {
+    "translationZhTw": "便宜的",
+    "definitionEn": "Low in price compared with similar items.",
+    "partOfSpeech": "adjective",
+    "usageNoteZhTw": "可用於比較價格或商品費用。"
+  },
+  "than": {
+    "translationZhTw": "比；比起",
+    "definitionEn": "Introduces the second side of a comparison.",
+    "partOfSpeech": "conjunction / preposition",
+    "usageNoteZhTw": "比較級後面常用來引出比較對象。"
+  },
+  "one": {
+    "translationZhTw": "一個；一件（代替名詞）",
+    "definitionEn": "Number for a single item; can replace a repeated noun.",
+    "partOfSpeech": "pronoun / number",
+    "usageNoteZhTw": "that one中代替前面已提過的單數名詞。"
+  },
+  "do": {
+    "translationZhTw": "做；（疑問句助動詞）",
+    "definitionEn": "Auxiliary for questions and negatives.",
+    "partOfSpeech": "verb / auxiliary",
+    "usageNoteZhTw": "作助動詞時協助形成現在式疑問句或否定句。"
+  },
+  "large": {
+    "translationZhTw": "大的；大號的",
+    "definitionEn": "Big in size or amount.",
+    "partOfSpeech": "adjective",
+    "usageNoteZhTw": "可修飾尺寸、數量或範圍。"
+  },
+  "size": {
+    "translationZhTw": "尺寸；大小",
+    "definitionEn": "How big or small something is.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "常用於衣物或物品的尺寸。"
+  },
+  "too": {
+    "translationZhTw": "太；也",
+    "definitionEn": "Means excessively or additionally.",
+    "partOfSpeech": "adverb",
+    "usageNoteZhTw": "too large表示太大，句尾也可表示也。"
+  },
+  "expensive": {
+    "translationZhTw": "昂貴的",
+    "definitionEn": "Costing a lot of money.",
+    "partOfSpeech": "adjective",
+    "usageNoteZhTw": "描述價格高的商品或服務。"
+  },
+  "for": {
+    "translationZhTw": "給；對於；為了",
+    "definitionEn": "Shows purpose, intended recipient, or duration.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "可表示對象、目的或持續時間。"
+  },
+  "headache": {
+    "translationZhTw": "頭痛",
+    "definitionEn": "Pain felt in the head.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "have a headache表示頭痛。"
+  },
+  "should": {
+    "translationZhTw": "應該",
+    "definitionEn": "Modal used for advice or an expected action.",
+    "partOfSpeech": "modal verb",
+    "usageNoteZhTw": "後面接動詞原形表示建議或應做的事。"
+  },
+  "drink": {
+    "translationZhTw": "喝；飲料",
+    "definitionEn": "Swallows liquid.",
+    "partOfSpeech": "verb / noun",
+    "usageNoteZhTw": "作動詞表示喝，作名詞可指飲料。"
+  },
+  "more": {
+    "translationZhTw": "更多；較多的",
+    "definitionEn": "A greater amount or an additional quantity.",
+    "partOfSpeech": "determiner / adverb",
+    "usageNoteZhTw": "可修飾數量，也可作比較用語。"
+  },
+  "see": {
+    "translationZhTw": "看見；看診",
+    "definitionEn": "Uses sight or visits someone for help.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "see a doctor表示就醫或看醫生。"
+  },
+  "doctor": {
+    "translationZhTw": "醫生",
+    "definitionEn": "Medical professional who diagnoses and treats illness.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指提供診斷或治療的醫療專業人員。"
+  },
+  "medicine": {
+    "translationZhTw": "藥",
+    "definitionEn": "Substance used to prevent or treat illness.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "通常指用於治療或預防疾病的藥物。"
+  },
+  "after": {
+    "translationZhTw": "在……之後",
+    "definitionEn": "Later than a time or event.",
+    "partOfSpeech": "preposition",
+    "usageNoteZhTw": "可表示時間或事件的先後順序。"
+  },
+  "dinner": {
+    "translationZhTw": "晚餐",
+    "definitionEn": "Main evening meal.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指晚上的正餐。"
+  },
+  "manager": {
+    "translationZhTw": "經理；主管",
+    "definitionEn": "Person who directs work or a team.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指負責管理人員或工作的人。"
+  },
+  "ten": {
+    "translationZhTw": "十",
+    "definitionEn": "Number after nine and before eleven.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可用於數量或時間表達。"
+  },
+  "we": {
+    "translationZhTw": "我們",
+    "definitionEn": "First-person plural pronoun for the speaker and others.",
+    "partOfSpeech": "pronoun",
+    "usageNoteZhTw": "指說話者和至少另一人的群體。"
+  },
+  "tuesday": {
+    "translationZhTw": "星期二",
+    "definitionEn": "Weekday after Monday and before Wednesday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "afternoon": {
+    "translationZhTw": "下午",
+    "definitionEn": "Part of day after noon and before evening.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "in the afternoon是常見的時間片語。"
+  },
+  "meeting": {
+    "translationZhTw": "會議；會面",
+    "definitionEn": "Planned gathering for discussion or shared work.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指工作會議或事先安排的會面。"
+  },
+  "three": {
+    "translationZhTw": "三",
+    "definitionEn": "Number after two and before four.",
+    "partOfSpeech": "number",
+    "usageNoteZhTw": "可用於數量或日期時間表達。"
+  },
+  "move": {
+    "translationZhTw": "移動；改期",
+    "definitionEn": "Changes position or arranges a new time.",
+    "partOfSpeech": "verb",
+    "usageNoteZhTw": "move a meeting可表示將會議改期。"
+  },
+  "wednesday": {
+    "translationZhTw": "星期三",
+    "definitionEn": "Weekday after Tuesday and before Thursday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "thursday": {
+    "translationZhTw": "星期四",
+    "definitionEn": "Weekday after Wednesday and before Friday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "saturday": {
+    "translationZhTw": "星期六",
+    "definitionEn": "Weekend day after Friday and before Sunday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "sunday": {
+    "translationZhTw": "星期日",
+    "definitionEn": "Weekend day before Monday.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "星期名稱通常以大寫開頭。"
+  },
+  "noon": {
+    "translationZhTw": "中午",
+    "definitionEn": "Middle of the day, around twelve o’clock.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指大約十二點的中午時段。"
+  },
+  "evening": {
+    "translationZhTw": "傍晚；晚上",
+    "definitionEn": "Part of day between afternoon and night.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指下午之後到夜晚前後的時段。"
+  },
+  "january": {
+    "translationZhTw": "一月",
+    "definitionEn": "First month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "february": {
+    "translationZhTw": "二月",
+    "definitionEn": "Second month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "march": {
+    "translationZhTw": "三月",
+    "definitionEn": "Third month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "april": {
+    "translationZhTw": "四月",
+    "definitionEn": "Fourth month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "june": {
+    "translationZhTw": "六月",
+    "definitionEn": "Sixth month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "july": {
+    "translationZhTw": "七月",
+    "definitionEn": "Seventh month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "august": {
+    "translationZhTw": "八月",
+    "definitionEn": "Eighth month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "september": {
+    "translationZhTw": "九月",
+    "definitionEn": "Ninth month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "october": {
+    "translationZhTw": "十月",
+    "definitionEn": "Tenth month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "november": {
+    "translationZhTw": "十一月",
+    "definitionEn": "Eleventh month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "december": {
+    "translationZhTw": "十二月",
+    "definitionEn": "Final month of the calendar year.",
+    "partOfSpeech": "proper noun",
+    "usageNoteZhTw": "月份名稱通常以大寫開頭。"
+  },
+  "family": {
+    "translationZhTw": "家人；家庭",
+    "definitionEn": "People related by birth, marriage, or close bond.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可指家庭整體或有親密關係的一群人。"
+  },
+  "father": {
+    "translationZhTw": "父親；爸爸",
+    "definitionEn": "Male parent.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "可作正式親屬名稱或家庭稱呼。"
+  },
+  "parent": {
+    "translationZhTw": "父母；家長",
+    "definitionEn": "Mother or father; one adult caregiver in a family.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "單數可指父親或母親中的一人。"
+  },
+  "sister": {
+    "translationZhTw": "姊妹；姊姊／妹妹",
+    "definitionEn": "Female sibling.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "中文可依年齡翻成姊姊或妹妹。"
+  },
+  "husband": {
+    "translationZhTw": "丈夫；先生",
+    "definitionEn": "Married male partner.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指已婚關係中的男性配偶。"
+  },
+  "son": {
+    "translationZhTw": "兒子",
+    "definitionEn": "Male child of a parent.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指父母的男性子女。"
+  },
+  "daughter": {
+    "translationZhTw": "女兒",
+    "definitionEn": "Female child of a parent.",
+    "partOfSpeech": "noun",
+    "usageNoteZhTw": "指父母的女性子女。"
+  }
+}

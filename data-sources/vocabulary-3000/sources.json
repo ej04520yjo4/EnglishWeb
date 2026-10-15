@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "retrievedAt": "2026-10-15",
+  "sources": [
+    {
+      "file": "ngsl-1.2.csv",
+      "url": "https://www.newgeneralservicelist.com/s/NGSL_12_stats.csv",
+      "sha256": "2098bab8955a120a9766c6282a51d7d578c6cb0a7d946600d2ffb73ba25a0b44",
+      "version": "NGSL 1.2 (2023)",
+      "license": "CC-BY-SA-4.0",
+      "attribution": "Charles Browne, Brent Culligan, and Joseph Phillips",
+      "purpose": "Frequency-based headword selection, not CEFR certification"
+    },
+    {
+      "file": "WordNet-3.0.tar.gz",
+      "url": "https://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.gz",
+      "sha256": "640db279c949a88f61f851dd54ebbb22d003f8b90b85267042ef85a3781d3a52",
+      "version": "WordNet 3.0",
+      "license": "WordNet-3.0",
+      "attribution": "WordNet 3.0 Copyright 2006 by Princeton University. All rights reserved.",
+      "purpose": "Selected sense definitions and synset identifiers"
+    },
+    {
+      "file": "cow-cmn.tab",
+      "url": "https://raw.githubusercontent.com/omwn/omw-data/406bf83b3c507a3d1f26e88252d5d66893fd36bf/wns/cow/wn-data-cmn.tab",
+      "sha256": "379fd2e41d3e1395f9f27cf23a39c6181849ffb4020c14a07ed2a4d4dd651122",
+      "version": "OMW 406bf83b3c507a3d1f26e88252d5d66893fd36bf",
+      "license": "Chinese-Open-WordNet-permissive",
+      "attribution": "Chinese Open Wordnet Copyright 2013,2014 by Francis Bond and Shan Wang. All rights reserved.",
+      "purpose": "Sense-aligned Chinese labels, converted to Taiwan Traditional Chinese"
+    },
+    {
+      "file": "COW-LICENSE",
+      "url": "https://raw.githubusercontent.com/omwn/omw-data/406bf83b3c507a3d1f26e88252d5d66893fd36bf/wns/cow/LICENSE",
+      "sha256": "81a3cb1f97e120581d67c71424f2de5dd96325d951f991e8a092147a2a4b2321",
+      "version": "OMW 406bf83b3c507a3d1f26e88252d5d66893fd36bf",
+      "license": "Chinese-Open-WordNet-permissive",
+      "attribution": "Francis Bond and Shan Wang",
+      "purpose": "Complete license notice"
+    }
+  ],
+  "conversion": { "package": "opencc-js", "version": "1.3.1", "from": "cn", "to": "twp", "licenses": ["MIT", "Apache-2.0"] }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceVersion": "vocabulary-library-v1",
+  "generatedFrom": "2026-10-15 pinned source snapshot",
+  "targetCount": 3000,
+  "legacyCount": 132,
+  "addedCount": 2868,
+  "batchCount": 60,
+  "frequencyRankedAdditions": 2706,
+  "supplementalAdditions": 162,
+  "editorialMeanings": 728,
+  "sourceSnapshotSha256": "b464a7877450eda26e9bf961f1a4ee63261080267a69d3e1d469ee2f69a18981",
+  "baselineMeaningsSha256": "6b347b244d4753acc43cb45a7961a9d380902f3c26f5c1fc7ef6c086a76f8468",
+  "editorialOverridesSha256": "b1f72bb4e22a5c855b9fb7e23ec0037cba6a57b3119e84738ce0c2fb2d7121b6",
+  "targetQaStatus": "count_complete_review_required",
+  "note": "Stage allocations are planning candidates, not CEFR certification. Count complete does not mean learner mastery or human QA complete."
+}
