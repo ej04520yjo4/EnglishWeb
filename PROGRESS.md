@@ -2,12 +2,12 @@
 
 ## Snapshot
 
-- Updated: 2026-10-15
-- Branch: `codex/vocabulary-3000`, based on published `codex/learning-contrast` commit `c90b145`.
-- 3000-word implementation commits: `2fedd3b` (sources/catalog/engine) and `7b664d7` (UI/browser flows). Documentation is a separate commit; this delivery does not merge main or deploy.
+- Updated: 2026-10-16
+- Branch: `codex/vocabulary-application-kk`, based on verified main merge `7bf6e03`.
+- PR #13 merged the previous 3000-word catalog normally after both protected GitHub checks passed (run `38759698862`). This follow-up adds sentence applications and KK candidates on a separate branch; main integration is not deployment.
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
-- Integration: [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10) merged normally on 2026-10-04 at `28b41d0` after both protected checks passed. The 2026-10-15 preflight fetch confirmed the contrast base still matched `origin/main` (0 ahead / 0 behind). Contrast commit `2c08eae` was pushed to `origin/codex/learning-contrast` and its remote SHA verified. Recognition implementation `5b1cee3` passed the full local verification below and remains on that feature branch; no new main merge or deployment is claimed.
+- Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -39,7 +39,8 @@
 - B1/B2 are absent from selectors, cannot be opened by advanced preview, are not fetched at startup, and are rejected by direct runtime loader calls.
 - The old `showA2Pilot` setting is readable; new storage/export uses `showAdvancedPilots` and currently exposes A2 QA only.
 - Runtime targets load only `public/data/vocabulary-targets-v2.json`; v1 remains a protected baseline. The independent `vocabulary-library-v1.json` supplies 3000 meanings without creating formal course occurrences.
-- The new 3000-word screen supports bilingual search, candidate-stage/goal filters, 50-item pages, explicit recognition and spelling. All answers use source-validated questions and one first attempt per word/date/mode; card navigation and search never write evidence.
+- The 3000-word screen supports bilingual search, candidate-stage/goal filters, 50-item pages, recognition, spelling and 3000 independent whole-sentence applications. Source-revision-bound questions use one first attempt per word/date/mode; card navigation and search never write evidence.
+- Each target has a CMUdict-derived KK/US IPA candidate: 3000 entries, 3627 variants, 559 multivariant words, zero missing headwords. All remain pending review; syllable boundaries and stress placement are heuristic, contextual variants are unselected, and no audio status changes.
 - Exposure, recognition, spelling, and application evidence is deduplicated by stable ID and shared by canonical lexeme across A1/A2.
 - Receptive mastery requires two correct recognition records on different dates. Active also requires two clean spelling records on different dates and one clean application.
 - Revealed or pasted spelling never creates clean spelling evidence; revealed or pasted free-text application can complete an exercise but never creates `applicationCorrect`.
@@ -61,6 +62,9 @@
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
+
+- Added 60 editable original bilingual application batches, strict target/form/ID/reproducibility validation, isolated lazy loading, full-sentence keyboard practice and schema-v6 application evidence. Extra words fail; wrong-first, pasted or revealed answers cannot be repaired into clean same-day credit. Added source revision checks and held-Enter guards. Independent machine-assisted samples prompted US `fill out` and Taiwan Chinese/sense corrections, not human approval.
+- Added a licensed, hash-pinned CMUdict subset with independent KK/IPA conversion and all pronunciation variants. Source/variant/status tests and offline generator checks protect provenance without claiming complete phonetic accuracy. See `docs/vocabulary-application-kk-2026-10-15.md`.
 
 - Built the full 3000-word candidate target/library, keeping the original 132 target objects unchanged. Added a lazy-loaded searchable library with recognition/spelling practice, source-checked global progress, deterministic generation, complete source notices, and focused plus full browser regression coverage. See `docs/vocabulary-3000-delivery-2026-10-15.md` for limits and actual results; this is not human language approval or complete sentence-application coverage.
 - Added explicit related-topic recognition practice for all 24 existing reference-only target words. Batches have at most five words, four distinct same-topic choices, answer confirmation/feedback, keyboard focus, and visible cross-date status. Only the first submitted answer per canonical word/local day can create recognition evidence; wrong-first answers cannot become correct by reloading, and expired-day submissions are rejected.
@@ -119,7 +123,8 @@
 
 - Fresh2026-10-15 `npm audit --json` exited1:29 affected package names (24high/2moderate/2low/1critical). The critical package is existing `next@16.2.6`; actual Vinext reachability was not assessed. Added dev-only `opencc-js@1.3.1` has no reported advisory. No untested framework upgrade or security-clean deployment is claimed.
 - Two remote feature branches are not completely merged and must remain pending manual review: `feat/a2-shopping-comparison` and `feat/daily-learning-weakness-center`. Seven merged `feat/*` branches plus the merged PR1 fix branch are deletion candidates only; no branch was deleted.
-- The target catalog now contains3000 words, but the full list has not received human semantic/phonetic/CEFR review. The new word practice supplies recognition and spelling only; most new active targets still need reviewed sentence-application exercises before they can reach active mastery.
+- The target catalog and applications each contain 3000 words, but neither full collection has received human semantic/phonetic/CEFR approval. Guided applications compare one reference sentence, not all valid translations or free writing. A candidate's other words/grammar are not certified as previously taught formal prerequisites.
+- KK/IPA conversion is not an authoritative dictionary transcription. 559 words retain multiple unselected pronunciations; syllabification/stress are candidates. Original related-word phonetics and symbol audio still need separate review.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
 - A2 units 1–5 remain pilot content; units 6–10 are blueprint-only.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
@@ -130,9 +135,19 @@
 
 ## Next Concrete Step
 
-Try the first50-word page in「3000單字庫」over two local dates; review chosen senses, Taiwan Chinese, spelling prompts and distractors before promoting any QA status. Continue through60 batches, and design reviewed sentence-application coverage for new active targets. Continue learner review of A1 batch3 and A2 unit5 before any next course unit. Separately compatibility-test dependency security updates and decide the authoritative checkout before syncing the untouched D-drive changes. B1/B2 remain disabled. Local completion, feature publication, main integration and deployment are distinct.
+Try the first 50 words and their new sentence applications over two local dates. Review chosen senses, natural Taiwan Chinese and exact-reference expectations; then review KK candidates, especially multivariant words, before promoting any QA status. Continue through 60 batches. A1 batch 3 and A2 unit 5 still need learner review before new units. Separately compatibility-test dependency security updates and decide the authoritative checkout before syncing the untouched D-drive changes. B1/B2 remain disabled. Local completion, feature publication, main integration and deployment are distinct.
 
 ## Verification
+
+### Sentence applications and KK candidates (2026-10-15–16)
+
+- Pre-edit `npm run verify`: exit 0, 215 unit tests. PR #13 separately passed both protected GitHub CI jobs before merging to main `7bf6e03`.
+- Final runtime `npm run verify`: exit 0, all 12 gates including both new offline generation checks, production build, 234 unit tests (0 failed/skipped), lint and TypeScript. After the test-only clock fix, lint and `tsc --noEmit --incremental false` were rerun: exit 0.
+- Focused supplemental E2E: exit 0, 14 passed (7 desktop/7 mobile). Initial attempt was 5 passed/7 failed because the new test clicked navigation before homepage readiness; observable readiness waits fixed the test without dropping assertions.
+- First full E2E: exit 1, 179 passed/1 failed. A pure keyboard fixture began at Taiwan 23:59:59.297 and legitimately expired during hydration after midnight. Fixed only that fixture's clock to noon; preserved all product rules and the dedicated midnight tests.
+- Final full `npm run test:e2e`: exit 0, 180 passed (90 desktop 1440×900/90 mobile 375×812), 0 failed/skipped, 9.2 minutes. Screenshots of new desktop/mobile application and KK sections were inspected.
+- Windows launcher suite: exit 0, 7 passed; dependency-install error paths use isolated command fixtures. Offline phonetic-source verification: exit 0. No fresh `npm ci`, new dependency version, deployment or security-clean claim.
+- A1/A2 formal source files, original v1/v2 targets and original library JSON are unchanged. D-drive's separate 20 unstaged tracked files remain untouched. Full source/QA/verification detail: `docs/vocabulary-application-kk-2026-10-15.md`.
 
 ### Full 3000-word candidate library (2026-10-15)
 

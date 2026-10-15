@@ -21,7 +21,10 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [x] Add a deterministic 3000-target/library build, preserving the original132 objects and rejecting count/alias/source mismatches.
 - [x] **VOCAB-3000-BATCH-001:** Build the user-requested full 3000-word candidate library in 60 pages; no new formal course unit or related-vocabulary topic.
 - [ ] **VOCAB-3000-LIBRARY-QA:** Review each of the60 candidate batches for common sense selection, Taiwan Chinese, definition clarity, spelling prompts, distractor ambiguity and stage allocation. Machine checks are not human approval.
-- [ ] **VOCAB-3000-APPLICATION:** Design reviewed sentence-application practice for new active-target words; recognition/spelling alone must never award active mastery.
+- [x] **VOCAB-3000-APPLICATION:** Add 3000 original guided sentence applications with source validation, first-answer-per-local-day evidence and paste/reveal safeguards; recognition/spelling alone never awards application credit.
+- [x] **VOCAB-3000-KK-CANDIDATES:** Pin free CMUdict source, preserve all 3627 variants and derive 3000 KK/US IPA candidate entries without changing audio-ready state.
+- [ ] **VOCAB-3000-APPLICATION-QA:** Try full-sentence input and review all 60 batches for translation, selected word sense, naturalness, difficulty and valid alternative answers. Exact-reference practice is not free-writing grading.
+- [ ] **VOCAB-3000-KK-QA:** Review all derived candidates, especially 559 multivariant words and heuristic syllable/stress boundaries. Keep source/QA statuses pending until actual review is recorded.
 - [ ] **DEPENDENCY-SECURITY-20261015:** Compatibility-test a separate dependency update. Fresh npm audit reports29 affected packages (1critical,24high,2moderate,2low); added opencc-js has no advisory. Do not deploy this feature as a security-clean release.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.

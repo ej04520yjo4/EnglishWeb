@@ -14,6 +14,8 @@
 - 句子重組、閱讀辨識、句型遷移與文章重組。
 - A1 第三批附加練習已供試用：第 1 單元第 2 課、第 2 單元第 3 課、第 3 單元第 3 課、第 7 單元第 4 課。共 7 題換字、4 題閱讀與 4 題文字選答；姓名課使用兩個不同姓名選項。新內容仍待人工複核，複習題會標示來源句與實際句型。
 - KK 音標獨立練習區。
+- 3000 單字庫新增每字一題完整句子應用：看繁中情境及目標字輸入英文，三次錯誤後揭示並要求重打；貼上、看答案及同日重試不會補發乾淨應用證據。
+- 每字可展開 KK／美式 IPA 候選及 CMUdict 來源。多音詞全部保留，不自動猜詞性；音節邊界與重音位置為推算，仍待人工複核，與獨立 KK 符號錄音不同。
 - 單字、語意、句型、句子與文章層級的本機進度。
 - A1＋A2 canonical lexeme 目標、全站 exposure／recognition／spelling／application 證據與跨日熟練判定。
 - 今日學習 3.0：先完成最多五題主動複習（拼寫、辨認或正式句子運用），再進入目前課程與最多三個弱點加強；F5 可從第一個未完成項目續接，跨午夜立即失效。
@@ -66,6 +68,8 @@ npx tsc --noEmit --incremental false
 - `public/data/course-catalog.json`：各程度的狀態、資料檔與版本目錄。
 - `public/data/vocabulary-targets-v2.json`：唯一runtime詞彙目標，3000個canonical單字；v1保留為132字基準。
 - `public/data/vocabulary-library-v1.json`：3000字的繁中意思、英文定義、詞性與練習來源，全部仍待人工複核。
+- `public/data/vocabulary-applications-v1.json`：3000 題原創雙語句子應用；由 `data-sources/vocabulary-3000/applications/batch-*.json` 的 60 批產生。
+- `public/data/vocabulary-phonetics-v1.json`：3000 字的 CMUdict 音位轉寫候選；來源子集、雜湊與授權均保留，可離線重建。
 - `public/data/a1-pattern-exercises.json`：A1 句型練習；第三批保留 `pilot_review_required`。
 - `public/data/a1-reading-exercises.json`：A1 閱讀練習；第三批保留 `pilot_review_required`。
 - `public/data/a2-pattern-exercises.json`、`public/data/a2-reading-exercises.json`：A2 試行練習與文章。
@@ -109,15 +113,19 @@ npx tsc --noEmit --incremental false
 
 ## 3000 單字庫
 
-左側選「3000 單字庫」，可搜尋英文／中文、篩選候選階段與學習目標，每頁50字、共60頁。每張卡可練習辨認與拼字；三次拼錯後會顯示答案，重新輸入可完成，但不算乾淨拼字證據。瀏覽、搜尋與翻頁不改進度。
+左側選「3000 單字庫」，可搜尋英文／中文、篩選候選階段與學習目標，每頁50字、共60頁。每張卡可練習辨認、拼字與完整句子應用，並展開KK／IPA候選；拼字或句子應用連續三次答錯後會顯示答案，重新輸入可完成，但不算乾淨拼字或應用證據。瀏覽、搜尋與翻頁不改進度。
 
-已收錄3000字不表示你已熟悉3000字：辨認需跨日答對；主動熟練另外需要拼字及句子應用。新字目前提供辨認與拼字，不憑空給句子應用分數。A1/A2標籤是候選學習階段，並非官方CEFR認證；詞義、翻譯與分級仍待人工複核。新字庫未捏造KK／IPA或音檔。
+已收錄3000字不表示你已熟悉3000字：辨認需跨日答對；主動熟練另外需要拼字及句子應用。每字每天只記首次作答；看答案、貼上或同日重試不會自動取得乾淨的句子應用證據。A1/A2標籤是候選學習階段，並非官方CEFR認證；詞義、翻譯與分級仍待人工複核。KK／IPA為保留來源音位的轉寫候選，尚待人工確認，不代表新增音檔。
 
 來源、授權、SHA-256及重建方式見[詞庫來源說明](data-sources/vocabulary-3000/README.md)；完整授權通知隨網站放在`public/licenses/vocabulary-3000/`。
 
 ```powershell
 npm run build:vocabulary
 npm run check:vocabulary-build
+npm run build:vocabulary-applications
+npm run check:vocabulary-applications
+npm run build:vocabulary-phonetics
+npm run check:vocabulary-phonetics
 ```
 
 一般建置不需下載字典。只有重做來源快照時才執行`npm run fetch:vocabulary-source`與`npm run prepare:vocabulary-source`，輸入雜湊不符就停止。

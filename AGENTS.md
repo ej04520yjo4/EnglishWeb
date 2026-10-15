@@ -48,6 +48,8 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `public/data/course-catalog.json`: the runtime source registry for A1 through B2.
 - `public/data/vocabulary-targets-v2.json`: runtime 3000-canonical-word target catalog; v1 remains the protected 132-entry baseline.
 - `public/data/vocabulary-library-v1.json`: pending-review bilingual meanings and practice source; reproduce with `npm run build:vocabulary`.
+- `public/data/vocabulary-applications-v1.json`: independent sentence practice from 60 editable original-content batches; never infer formal course completion.
+- `public/data/vocabulary-phonetics-v1.json`: pinned CMUdict-derived KK/IPA candidates; preserve all variants and pending human review, not audio-ready claims.
 - `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: versioned practice additions; enabled trial entries retain their pending-review status.
 - `tests/`: unit, rendered-content, and Playwright coverage.

@@ -117,7 +117,8 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
 - The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. The six curriculum targets added with A2 unit 5 still require that review, and all source/license work remains open.
 - Keep CEFR completion independent from vocabulary counts and learner mastery. A1/A2 target-stage allocations are candidates, not externally certified CEFR labels.
-- Provide searchable 50-word pages, explicit recognition and spelling practice, without manufacturing application credit.
+- Provide searchable 50-word pages, explicit recognition, spelling and source-validated whole-sentence applications, without manufacturing application credit from passive browsing.
+- Supply one original bilingual application and sourced KK/IPA candidates for each of 3000 targets. Keep contextual pronunciation selection, heuristic stress placement and language quality pending human review; do not replace formal curricula or symbol audio.
 - Review the 60 candidate batches incrementally while A2 units 1–5 continue language QA; do not mark the milestone human-approved merely because the count is complete.
 
 ## Milestone Completion Rule
