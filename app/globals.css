@@ -1603,6 +1603,25 @@ progress::-webkit-progress-value {
   margin: 0 auto 12px;
 }
 
+.reference-practice-entry {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--soft);
+}
+
+.reference-practice-entry p {
+  margin: 0;
+}
+
+.reference-practice-entry small {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .exercise-choice {
   width: 100%;
   min-height: 54px;

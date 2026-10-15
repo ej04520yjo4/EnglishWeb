@@ -130,6 +130,7 @@ import {
 import {
   canCreditApplicationCorrect,
   canCreditSpellingCorrect,
+  deriveVocabularyMasteryState,
   recordGlobalVocabularyEvidence,
   summarizeVocabularyProgress,
   type VocabularyEvidenceKind,
@@ -160,6 +161,12 @@ import {
   type DailySessionState,
 } from "./daily-session.ts";
 import { localDateKey, studyDaysThisWeek } from "./local-date.ts";
+import {
+  buildReferenceRecognitionQueue,
+  recordReferenceRecognitionResult,
+  type ReferenceRecognitionQuestion,
+} from "./reference-vocabulary-practice.ts";
+import { ReferenceRecognitionPractice } from "./reference-recognition-practice";
 
 type Screen =
   | "home"
@@ -167,6 +174,7 @@ type Screen =
   | "alphabet"
   | "phonetics"
   | "related-vocabulary"
+  | "reference-recognition"
   | "review"
   | "weakness"
   | "weakness-practice"
@@ -657,6 +665,10 @@ export default function Home() {
   const [vocabularyTargets, setVocabularyTargets] =
     useState<VocabularyTargetsData | null>(null);
   const [vocabularyTargetsError, setVocabularyTargetsError] = useState("");
+  const [referenceRecognitionSession, setReferenceRecognitionSession] = useState<{
+    title: string;
+    questions: ReferenceRecognitionQuestion[];
+  } | null>(null);
   const [vocabularySearch, setVocabularySearch] = useState("");
   const [vocabularyFilter, setVocabularyFilter] =
     useState<VocabularyStatusFilter>("all");
@@ -4596,6 +4608,15 @@ export default function Home() {
       (count, group) => count + group.items.filter((item) => itemIsVisible(group, item)).length,
       0,
     );
+    const referenceQueue = activeGroup && vocabularyTargets
+      ? buildReferenceRecognitionQueue({
+          dataset: vocabularyDataset,
+          targets: vocabularyTargets,
+          progress: multiProgress.vocabularyProgress,
+          groupId: activeGroup.id,
+          studyDate: localDateKey(),
+        })
+      : [];
     const updateVocabularySearch = (query: string) => {
       setVocabularySearch(query);
       const nextGroup = resolveSelection(
@@ -4772,6 +4793,27 @@ export default function Home() {
             </span>
           </div>
 
+          <div className="reference-practice-entry">
+            <p>延伸單字也能練習辨認。每輪最多 5 字，跨日答對才累積熟悉度；不影響正式課程進度。</p>
+            <button className="primary-button" data-testid="start-reference-recognition"
+              disabled={!loaded || !progressStorageWritable || referenceQueue.length === 0}
+              onClick={() => {
+                setReferenceRecognitionSession({ title: activeGroup.titleZhTw, questions: referenceQueue });
+                setScreen("reference-recognition");
+              }}>
+              練習延伸單字辨認
+            </button>
+            <small role="status">
+              {!loaded || !progressStorageWritable
+                ? "本機進度尚未就緒或處於保護模式，暫時無法開始辨認練習。"
+                : !vocabularyTargets
+                ? "詞彙目標尚未載入，辨認練習暫時無法開始。"
+                : referenceQueue.length > 0
+                  ? `本輪 ${referenceQueue.length} 字（依整個主題安排，不受搜尋篩選影響）。內容仍待人工複核。`
+                  : "本主題今天沒有尚未作答的延伸單字；可換個主題，或隔天再來練習。"}
+            </small>
+          </div>
+
           <div
             className="vocabulary-word-list"
             data-testid="vocabulary-word-list"
@@ -4804,6 +4846,14 @@ export default function Home() {
                       <div>
                         <h3 id={`vocabulary-word-title-${item.lexemeId}`} lang="en-US">{item.displayEnglish}</h3>
                         <p>{item.translationZhTw}</p>
+                        {item.source === "reference" &&
+                          multiProgress.vocabularyProgress[item.lexemeId]?.recognitionAttemptEvidenceIds.length > 0 && (
+                          <small data-testid={`reference-mastery-${item.lexemeId}`}>
+                            {deriveVocabularyMasteryState(multiProgress.vocabularyProgress[item.lexemeId]) === "receptive"
+                              ? "詞彙辨認：已跨日答對，可繼續複習"
+                              : "詞彙辨認：練習中，需不同日期答對兩次"}
+                          </small>
+                        )}
                       </div>
                     </div>
                     <span
@@ -6993,6 +7043,23 @@ export default function Home() {
   };
 
   const renderScreen = () => {
+    if (screen === "reference-recognition" && referenceRecognitionSession && vocabularyDataset && vocabularyTargets) {
+      return <ReferenceRecognitionPractice
+        title={referenceRecognitionSession.title}
+        questions={referenceRecognitionSession.questions}
+        onExit={() => setScreen("related-vocabulary")}
+        onAnswer={(question, selectedAnswer) => {
+          const studiedAt = new Date().toISOString();
+          setMultiProgress((current) => ({
+            ...current,
+            vocabularyProgress: recordReferenceRecognitionResult(current.vocabularyProgress, {
+              dataset: vocabularyDataset, targets: vocabularyTargets,
+              question, selectedAnswer, studiedAt, studyDate: localDateKey(new Date(studiedAt)),
+            }),
+          }));
+        }}
+      />;
+    }
     if (screen === "related-vocabulary") {
       return renderRelatedVocabulary();
     }
