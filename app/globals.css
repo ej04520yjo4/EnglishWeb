@@ -3338,6 +3338,45 @@ progress::-webkit-progress-value {
   border-color: #efb2a2;
 }
 
+.vocabulary-library-phonetics {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-library-phonetics summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.vocabulary-library-phonetics summary:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.vocabulary-library-phonetics p {
+  line-height: 1.7;
+}
+
+[data-testid="vocabulary-library-application-practice"] h2 {
+  font-size: clamp(26px, 5vw, 38px);
+  overflow-wrap: anywhere;
+}
+
+[data-testid="vocabulary-library-application-practice"] .vocabulary-search {
+  margin-block: 20px;
+}
+
+[data-testid="vocabulary-library-application-practice"] textarea {
+  min-height: 140px;
+  width: 100%;
+  resize: vertical;
+}
+
 @media (max-width: 720px) {
   .vocabulary-library-grid {
     grid-template-columns: 1fr;

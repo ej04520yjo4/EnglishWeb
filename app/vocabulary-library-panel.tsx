@@ -1,6 +1,9 @@
 "use client";
 
 import { useMemo, useState, useSyncExternalStore } from "react";
+import { VocabularyApplicationPractice } from "./vocabulary-application-practice";
+import { gradeVocabularyApplication, type VocabularyApplicationQuestion } from "./vocabulary-application";
+import type { VocabularyPhoneticsData } from "./vocabulary-phonetics";
 import type {
   VocabularyLibraryEntry as SourceVocabularyLibraryEntry,
   VocabularyPracticeMode,
@@ -23,6 +26,14 @@ export type VocabularyLibraryEvidenceInput = {
   answerRevealed: boolean;
   usedPaste: boolean;
   answer: string;
+} | {
+  entry: VocabularyLibraryEntry;
+  question: VocabularyApplicationQuestion;
+  kind: "application";
+  correct: boolean;
+  answerRevealed: boolean;
+  usedPaste: boolean;
+  answer: string;
 };
 
 export type VocabularyLibraryPanelProps = {
@@ -30,6 +41,11 @@ export type VocabularyLibraryPanelProps = {
   loading: boolean;
   error: string;
   learnedCount?: number;
+  applicationCount?: number;
+  applicationError?: string;
+  phonetics?: VocabularyPhoneticsData | null;
+  phoneticError?: string;
+  buildApplicationQuestion?: (entry: VocabularyLibraryEntry) => { question: VocabularyApplicationQuestion; sentence: string } | undefined;
   buildQuestion: (
     entry: VocabularyLibraryEntry,
     mode: VocabularyPracticeMode,
@@ -50,6 +66,12 @@ type PracticeState =
       mode: "spelling";
       entry: VocabularyLibraryEntry;
       question: VocabularySpellingQuestion;
+    }
+  | {
+      mode: "application";
+      entry: VocabularyLibraryEntry;
+      question: VocabularyApplicationQuestion;
+      sentence: string;
     };
 
 const PAGE_SIZE = 50;
@@ -164,6 +186,7 @@ function RecognitionPractice({
         <button
           className="primary-button full-button"
           data-testid="vocabulary-library-recognition-check"
+          onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}
           disabled={!selected}
           onClick={check}
         >
@@ -279,6 +302,7 @@ function SpellingPractice({
         <button
           className="primary-button full-button"
           data-testid="vocabulary-library-spelling-check"
+          onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}
           disabled={!value.trim() || (revealed && !retypeCorrect)}
           onClick={check}
         >
@@ -298,6 +322,11 @@ export function VocabularyLibraryPanel({
   loading,
   error,
   learnedCount = 0,
+  applicationCount = 0,
+  applicationError = "",
+  buildApplicationQuestion,
+  phonetics = null,
+  phoneticError = "",
   buildQuestion,
   onEvidence,
 }: VocabularyLibraryPanelProps) {
@@ -310,6 +339,7 @@ export function VocabularyLibraryPanel({
   const [practiceError, setPracticeError] = useState("");
 
   const normalizedQuery = clean(query);
+  const phoneticsByLexeme = useMemo(() => new Map(phonetics?.entries.map((entry) => [entry.lexemeId, entry]) ?? []), [phonetics]);
   const filteredEntries = useMemo(() => {
     return entries.filter((entry) => {
       if (levelFilter !== "all" && entry.targetLevel !== levelFilter) {
@@ -363,6 +393,8 @@ export function VocabularyLibraryPanel({
   };
 
   if (practice) {
+    if (practice.mode === "application") return <VocabularyApplicationPractice question={practice.question} sentence={practice.sentence}
+      onExit={() => setPractice(null)} onAnswer={(answer, usedPaste, answerRevealed) => onEvidence?.({ entry: practice.entry, question: practice.question, kind: "application", correct: gradeVocabularyApplication(answer, practice.sentence), answer, usedPaste, answerRevealed })} />;
     return practice.mode === "recognition" ? (
       <RecognitionPractice
         entry={practice.entry}
@@ -391,6 +423,8 @@ export function VocabularyLibraryPanel({
         <div className="vocabulary-library-summary" aria-label="單字庫統計">
           <span className="status-pill" data-testid="vocabulary-library-total">已整理目標 {entries.length}</span>
           <span className="status-pill" data-testid="vocabulary-library-learned">已開始學習 {learnedCount}</span>
+          <span className="status-pill" data-testid="vocabulary-library-application-coverage">情境句 {applicationCount} / {entries.length}</span>
+          <span className="status-pill" data-testid="vocabulary-library-phonetic-coverage">KK 候選 {phonetics?.entries.length ?? 0} / {entries.length}</span>
         </div>
       </section>
       <p className="qa-note" data-testid="vocabulary-library-disclaimer">
@@ -416,6 +450,8 @@ export function VocabularyLibraryPanel({
           {practiceError}
         </section>
       )}
+      {applicationError && <p className="feedback warning" role="alert">{applicationError}</p>}
+      {phoneticError && <p className="feedback warning" role="alert">{phoneticError}</p>}
       {!loading && !error && (
         <>
           <section className="section-card vocabulary-library-tools" aria-label="搜尋 3000 單字">
@@ -493,8 +529,25 @@ export function VocabularyLibraryPanel({
                       <span className="status-pill">{entry.partOfSpeech || "單字"}</span>
                     </div>
                     <p className="vocabulary-library-definition">{entry.definitionEn}</p>
+                    {phoneticsByLexeme.get(entry.lexemeId) && <details className="vocabulary-library-phonetics" data-testid={`vocabulary-library-phonetics-${entry.lexemeId}`}>
+                      <summary>KK／美式 IPA 候選（{phoneticsByLexeme.get(entry.lexemeId)?.variants.length} 種）</summary>
+                      <p>來自 CMUdict 的美式音位轉寫，仍待複核；音節邊界與重音位置為推算候選，多音詞未自動選定詞性或語境。不是音標本身的錄音。</p>
+                      {phoneticsByLexeme.get(entry.lexemeId)?.variants.map((variant) => <div key={variant.variantIndex}>
+                        <p><strong>候選 {variant.variantIndex}　KK {variant.kkCandidate}</strong><br />美式 IPA {variant.ipaCandidate}</p>
+                        <small>來源音位：{variant.arpabet}</small>
+                      </div>)}
+                      <a href="https://github.com/cmusphinx/cmudict/tree/74790861f652b15e4ac49015a90074ad62a27690" target="_blank" rel="noreferrer">CMUdict 來源</a>{" · "}<a href="/licenses/vocabulary-3000/cmudict-license.txt" target="_blank" rel="noreferrer">授權通知</a>
+                    </details>}
                     <small>{entry.usageNoteZhTw}</small>
                     <div className="vocabulary-library-actions">
+                      <button className="secondary-button" data-testid={`vocabulary-library-apply-${entry.lexemeId}`}
+                        disabled={!buildApplicationQuestion || applicationCount === 0}
+                        onClick={() => {
+                          const result = buildApplicationQuestion?.(entry);
+                          if (!result) { setPracticeError("這個單字的句子應用尚未備妥，辨認與拼字仍可練習。"); return; }
+                          setPracticeError("");
+                          setPractice({ mode: "application", entry, ...result });
+                        }}>練習句子應用</button>
                       <button
                         className="secondary-button"
                         data-testid={`vocabulary-library-recognize-${entry.lexemeId}`}
