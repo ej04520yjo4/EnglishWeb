@@ -3,10 +3,10 @@
 ## Snapshot
 
 - Updated: 2026-10-04
-- Branch: `codex/curriculum-consistency` (integration source for [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10), targeting `main`)
-- Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`, based on local A2 unit 5 commit `2732e4d`.
+- Branch: `codex/learning-contrast`, based on verified `main` / `origin/main` commit `28b41d0`.
+- Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
-- Integration: PR #10 combines the published curriculum/A1/A2/search/navigation changes and the Daily keyboard follow-up. The user authorized a normal merge after verification; both protected quality and Playwright checks must succeed at the final head. The PR is the live merge/check receipt; local validation alone is not a merge or deployment claim. Last pre-integration `main` readback: `3402e4b`.
+- Integration: [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10) merged normally on 2026-10-04 at `28b41d0` after both protected checks passed. A fresh fetch confirms local `main` and `origin/main` match (0 ahead / 0 behind). This contrast follow-up is a separate local branch, not yet published, merged, or deployed.
 - Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
@@ -59,6 +59,7 @@
 
 ## Latest Completed Work
 
+- Improved scoped learning contrast: shared secondary text, primary actions, placeholders, input/choice boundaries, and correct/wrong/revealed states retain the existing layout and warm decoration. Action focus outlines appear immediately instead of fading in. The new browser suite measures real computed styles and preserves explicit text feedback.
 - Completed the scoped Daily/weakness keyboard follow-up: stable item keys reapply input/choice autofocus, checked weakness actions receive focus, and the Daily summary is keyboard-completable. Repeated Enter now cancels native button activation instead of silently falling through to a browser click.
 - Added six desktop/mobile keyboard scenarios covering consecutive recognition items, same-type weakness queues, three-error application reveal without mastery, selection-focus stability, summary completion, and the existing full unit-assessment/reload flow. No curriculum, scoring, storage, schedule, or unlock contract changed.
 - Added skip navigation, content-heading focus, pending-count descriptions, and explicit choice/result focus for reading, text-response, and passage-comprehension stages. Existing home/course autofocus, related-word shortcut focus, and all learning/data contracts are preserved.
@@ -118,13 +119,25 @@
 - All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
-- Native screen-reader testing and a complete contrast audit remain open. Daily/weakness transitions and the existing assessment path now join skip navigation, screen headings, counts, and reading/response/passage choices in scoped automated keyboard coverage; these checks do not establish full accessibility compliance.
+- Native screen-reader testing and a complete contrast audit remain open. Home actions and core lesson input/detail/rebuild/recognition states now have scoped contrast checks; gradients, map-specific accent colors, phonetic-specific colors, and forced-colors mode need further review. Daily/weakness transitions and the existing assessment path join skip navigation, screen headings, counts, and reading/response/passage choices in scoped automated keyboard coverage. These checks do not establish full accessibility compliance.
 
 ## Next Concrete Step
 
-Try the third A1 practice batch, A2 unit 5, and the keyboard-only Daily flow; record English/Chinese/difficulty and usability feedback before expanding content. The next bounded technical audit is remaining contrast states/native screen-reader behavior, not another unreviewed curriculum batch. Separately decide the authoritative day-to-day checkout before synchronizing D: all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
+Try the third A1 practice batch, A2 unit 5, and the keyboard-only Daily flow with the clearer learning controls; record English/Chinese/difficulty and usability feedback before expanding content. The next bounded technical audit is map/phonetic-specific contrast and native screen-reader behavior, not another unreviewed curriculum batch. See `docs/learning-contrast-audit-2026-10-04.md` for this round's scope and remaining gaps. Separately decide the authoritative day-to-day checkout before synchronizing D: all 20 original D-drive pending files remain preserved. Do not bulk-copy older alias/A2/target snapshots or discard those edits. A2 unit 6 still requires learner feedback; B1/B2 remain disabled. Local completion, feature-branch publication, main integration, and deployment are distinct.
 
 ## Verification
+
+### Scoped learning contrast (2026-10-04)
+
+- Started from clean, freshly synchronized main `28b41d0` on `codex/learning-contrast`. Read-only D-drive verification still reports the original 20 unstaged files. PR #10's merged commit and timestamp were confirmed from GitHub.
+- Baseline `npm run verify`: exit 0, all nine gates and 183 unit tests passed. Baseline navigation/related-vocabulary browser suite: exit 0, 28 passed (14 per viewport), 0 failed/skipped, 48.4 seconds.
+- First new focused run: exit 1, 4 passed / 2 failed because the intro translation selector also matched the source-note paragraph. Narrowed the selector; no product content was changed.
+- Second focused run: exit 1, 4 passed / 2 failed. Measuring immediate keyboard focus exposed an actual fading outline from `transition: all`; action buttons now animate only hover-related properties, not outlines.
+- Corrected focused `npm run test:e2e -- tests/e2e/learning-contrast.spec.ts`: exit 0, 6 passed (3 desktop 1440×900 / 3 mobile 375×812), 0 failed/skipped, 19.7 seconds. Coverage includes actual lesson entry, placeholder, focus, detail Enter badge, mixed correct/wrong rebuild, third-attempt reveal, result, and recognition states.
+- Final `npm run verify`: exit 0; context, project/vocabulary audits/report, curriculum validation, build, 183 unit tests (0 failed/skipped), lint, and TypeScript passed. Protected `public/data`, `app/page.tsx`, dependencies, and progress contracts are unchanged; `git diff --check` exited 0.
+- Full `npm run test:e2e`: exit 0, 132 passed (66 desktop / 66 mobile), 0 failed/skipped, 6.7 minutes. This includes all existing A1/A2 learning, passage, keyboard, import/export, progress/reload, Daily, and related-vocabulary regressions. Desktop and mobile recall/detail/rebuild screenshots were also visually inspected.
+- Final test-only refinement waits for hover animations to finish before sampling, then moves the pointer away for focused-text checks; immediate outline assertions remain unwaited. Repeated focused suite: exit 0, 6 passed / 0 failed/skipped, 20.7 seconds. Independent scoped review found no blocking contrast or calculation issue.
+- No dependency install/audit, Windows launcher scenario rerun, generator replay, native screen-reader session, GitHub publication, or deployment is claimed for this CSS/test-only follow-up.
 
 ### Main integration and Daily keyboard follow-up (2026-10-04)
 

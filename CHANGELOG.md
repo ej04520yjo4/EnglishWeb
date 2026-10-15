@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-04 - Learning Text and Control Contrast
+
+### Improved
+
+- Darkened primary-action backgrounds, secondary labels, and answer placeholders while retaining the warm decorative palette, layout, and typography.
+- Made recall, rebuild, passage, and choice boundaries clearer in neutral, selected, correct, wrong, and revealed states. Kept explicit answer-feedback text and existing keyboard focus behavior.
+- Preserved readable white text inside the detail button's Enter key badge on both normal and hover backgrounds.
+- Limited action-button transitions to hover properties so keyboard focus outlines appear immediately rather than fading in.
+
+### Preserved
+
+- No course data, learning flow, progress schema, grading, dependencies, or unlock rules changed. This is a scoped contrast improvement; full-site and native screen-reader audits remain open.
+
 ## 2026-10-04 - Daily Learning Keyboard Continuity
 
 ### Fixed

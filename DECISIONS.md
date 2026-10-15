@@ -353,3 +353,11 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Key Daily review and weakness exercise containers by their existing stable item/lexeme IDs, with autofocus on the next editable input or first unselected choice. Checked weakness actions remount and focus the next button. Cancel Enter's native default before rejecting repeated key events. Do not add focus dependencies on typed values, option selection, or active-time checkpoints.
 
 **Reason:** An input's initial autofocus does not run when React reuses it for the next item, while refocusing on every answer change would interrupt typing or selection. Returning early for a repeated Enter without cancelling its default still permits a native button click. These UI-only safeguards must not grant evidence or modify learning rules.
+
+## ADR-045 - Separate Decorative Accent from Readable Controls
+
+**Status:** Accepted
+
+**Decision:** Retain bright coral for decoration, but use darker shared tokens for primary-action backgrounds, secondary text, placeholders, and learning-state boundaries. Verify scoped text at 4.5:1 and input/focus boundaries at 3:1 in the rendered browser, including hover, selected, correct, wrong, and revealed states. Keep explicit feedback text alongside color.
+
+**Reason:** The original primary white text and placeholders had insufficient contrast. A shared token correction preserves the established interface and learning contract without adding another theme. Computed-style checks are bounded evidence, not a full accessibility or native screen-reader certification; gradients and untested screens remain separately reviewable.
