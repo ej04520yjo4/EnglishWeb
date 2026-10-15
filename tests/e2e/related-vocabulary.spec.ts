@@ -540,7 +540,10 @@ test("persists global vocabulary evidence and includes it in backup import and e
     .click();
   await expect(page.getByTestId("global-vocabulary-progress")).toBeVisible();
   await expect(page.getByText("A1＋A2總目標")).toBeVisible();
-  await expect(page.getByText("3000詞彙清單仍在分批建置")).toBeVisible();
+  await expect(page.getByTestId("vocabulary-target-partial-note")).toHaveText(
+    "3000詞彙清單已完成收錄數量，但內容與來源仍待人工審查。",
+  );
+  await expect(page.getByTestId("global-vocabulary-progress")).toContainText("3000 / 3000");
 
   await openSettings(page);
   const downloadPromise = page.waitForEvent("download");

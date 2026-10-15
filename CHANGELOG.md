@@ -2,6 +2,38 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-15 - Searchable 3000-Word Candidate Library
+
+- Added 2868 sourced canonical headwords while preserving all 132 previous target objects. Runtime v2 now contains 3000 targets, split 1500 active / 1500 receptive, in 60 review batches.
+- Added searchable bilingual cards and explicit recognition/spelling practice using global schema-v6 evidence. Same-day retries, paste and answer reveal cannot inflate clean credit; formal courses and CEFR unlocks are unchanged.
+- Added pinned sources, complete redistribution notices, deterministic offline generation and real-catalog/browser regression coverage.
+- Content remains `pilot_review_required`; candidate stage labels are not certified CEFR ratings. Audio/phonetics and sentence-application coverage for new words remain separate work. No new course units or related-vocabulary topics were added.
+
+## 2026-10-15 - Reference Vocabulary Recognition Practice
+
+### Added
+
+- Added an explicit recognition trial for the 24 existing reference-only target words, accessed from each related-vocabulary topic. Each batch contains at most five words and four same-topic meaning choices.
+- Record only the first submitted answer for each word on a local day. Wrong answers show the meaning; reloading cannot turn that day's wrong answer into credit. Two correct dates can establish receptive mastery, never active mastery.
+- Added keyboard focus/Enter guards, next-day expiry, responsive controls, and visible cross-date recognition status while keeping the pending-human-review notice.
+
+### Preserved
+
+- A1/A2 courses, all four topics, 132 target entries, schema v6, course completion, review schedules, and CEFR unlocking remain unchanged. B1/B2 remain disabled. Corrected stale counts in the 3000-word plan and documented candidate sources without importing an unreviewed bulk list.
+
+## 2026-10-04 - Learning Text and Control Contrast
+
+### Improved
+
+- Darkened primary-action backgrounds, secondary labels, and answer placeholders while retaining the warm decorative palette, layout, and typography.
+- Made recall, rebuild, passage, and choice boundaries clearer in neutral, selected, correct, wrong, and revealed states. Kept explicit answer-feedback text and existing keyboard focus behavior.
+- Preserved readable white text inside the detail button's Enter key badge on both normal and hover backgrounds.
+- Limited action-button transitions to hover properties so keyboard focus outlines appear immediately rather than fading in.
+
+### Preserved
+
+- No course data, learning flow, progress schema, grading, dependencies, or unlock rules changed. This is a scoped contrast improvement; full-site and native screen-reader audits remain open.
+
 ## 2026-10-04 - Daily Learning Keyboard Continuity
 
 ### Fixed

@@ -4,7 +4,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **WORKTREE-RECONCILE-001:** Complete the protected PR #10 integration and separately reconcile the D-drive `codex/a1-pattern-batch-3` working copy; preserve its uncommitted changes and do not overwrite either checkout.
+- [ ] **WORKTREE-RECONCILE-001:** Reconcile the D-drive `codex/a1-pattern-batch-3` working copy separately from the integrated main; preserve its uncommitted changes and do not overwrite either checkout.
+  - [x] Merge protected PR #10 normally; refresh the active checkout to verified main `28b41d0` after both CI jobs pass.
   - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
   - [x] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
   - [ ] Decide the authoritative day-to-day checkout before synchronizing the preserved D-drive copy; its original 20 pending files have not been overwritten or committed.
@@ -14,11 +15,16 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [ ] Review the six new A2 unit 5 targets: `manager`, `ten`, `we`, `meeting`, `three`, and `move`.
   - [ ] Resolve `license: pending` for 108 curriculum targets.
   - [ ] Record an external lexical/content source and license for 24 reference-only targets.
-  - [ ] Have the user review the 24 reference-only Taiwan Chinese and blank KK/IPA fields.
-- [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
-- [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.
+  - [ ] Have the user review the 24 reference-only Taiwan Chinese and existing KK/IPA values; the current 27 reference records have no blank phonetic fields, but their correctness remains unverified.
+- [x] **VOCAB-3000-SOURCE-001:** Pin NGSL 1.2, WordNet 3.0 and Chinese Open WordNet inputs, license notices and hashes; retain an offline source snapshot.
+  - [x] Inspect official WordNet 3.0 and wordfreq notices; document source restrictions and a preferred WordNet lemma cross-check in `docs/vocabulary-source-review-2026-10-15.md`.
+  - [x] Add a deterministic 3000-target/library build, preserving the original132 objects and rejecting count/alias/source mismatches.
+- [x] **VOCAB-3000-BATCH-001:** Build the user-requested full 3000-word candidate library in 60 pages; no new formal course unit or related-vocabulary topic.
+- [ ] **VOCAB-3000-LIBRARY-QA:** Review each of the60 candidate batches for common sense selection, Taiwan Chinese, definition clarity, spelling prompts, distractor ambiguity and stage allocation. Machine checks are not human approval.
+- [ ] **VOCAB-3000-APPLICATION:** Design reviewed sentence-application practice for new active-target words; recognition/spelling alone must never award active mastery.
+- [ ] **DEPENDENCY-SECURITY-20261015:** Compatibility-test a separate dependency update. Fresh npm audit reports29 affected packages (1critical,24high,2moderate,2low); added opencc-js has no advisory. Do not deploy this feature as a security-clean release.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
-  - Check all 27 reference-only KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior.
+  - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
 - [ ] **A2-QA-001:** Manually review all 20 A2 pilot lessons.
   - Preserve units 1–4 and check unit 5 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
@@ -50,7 +56,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **CI-E2E-001:** GitHub Actions passes browser tests and exposes the retained Playwright artifact.
 - [ ] **VOCAB-PLAN-003:** After the combined review, choose one next topic such as seasons, colors, or numbers.
 - [ ] **VOCAB-A2-001:** Connect validated topic shortcuts to A2 only after A2 content review.
-- [ ] **VOCAB-REVIEW-001:** Evaluate a future topic-based review exercise without turning reference viewing into course completion.
+- [x] **VOCAB-REVIEW-001:** Add explicit recognition-only batches for the existing 24 reference targets, with first-submission-per-day evidence and no course/review/unlock mutations.
+- [ ] **VOCAB-REVIEW-QA-001:** Try the four-topic recognition flow, same-topic distractors, first-answer-per-day rule, and cross-date status; human content/phonetic review remains separate from automated tests.
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
@@ -78,10 +85,12 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [x] Add skip navigation, screen-heading focus that preserves existing input/card autofocus, and pending-count descriptions.
   - [x] Focus reading/response/passage choices without selecting them; checked results focus their next action and expose option selection semantics.
   - [x] Audit Daily/weakness transitions and the existing unit-assessment flow; use actual held Enter events, initial input/choice focus, progress-neutral navigation, and reload persistence checks.
-  - [ ] Audit all remaining contrast states and try a native screen reader before claiming complete accessibility.
+  - [x] Improve and test scoped home/lesson text, placeholder, focus, input, choice, and correct/wrong/revealed contrast while preserving layout and learning rules.
+  - [ ] Audit map/phonetic-specific colors, gradients, forced-colors mode, and remaining contrast states; try a native screen reader before claiming complete accessibility.
 
 ## Completed
 
+- [x] **ACCESS-LEARNING-CONTRAST-001:** Separate decorative coral from readable action/text tokens, strengthen input/state boundaries, prevent fading action focus rings, and verify real desktop/mobile lesson states.
 - [x] **DAILY-KEYBOARD-001:** Focus each Daily/weakness item and its next action, preserve choice focus, finish the Daily summary with Enter, and suppress repeated native Enter clicks without changing evidence or grading.
 - [x] **ACCESS-VOCAB-001:** Keep course shortcuts visible and keyboard-focused, announce search results, and test disclosures/search/storage neutrality on desktop and mobile without redesigning the UI.
 - [x] **LINT-GENERATED-001:** Exclude generated worker/build/test artifacts while testing that application, script, and test source paths remain included.

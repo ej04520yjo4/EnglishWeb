@@ -14,7 +14,10 @@ flowchart LR
   Disabled["B1/B2 retained disabled sources"] --> Audit["Direct data audit only"]
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
   Reference["reference-vocabulary-v1.json"] --> Vocabulary
-  Targets["vocabulary-targets-v1.json"] --> TargetModule["vocabulary-targets.ts"]
+  Targets["vocabulary-targets-v2.json"] --> TargetModule["vocabulary-targets.ts"]
+  Library["vocabulary-library-v1.json"] --> LibraryModule["vocabulary-library.ts + panel"]
+  TargetModule --> LibraryModule
+  LibraryModule --> Page
   A1 --> Vocabulary
   Adapter --> LevelLoader
   LevelLoader --> Validate["Level validation and checksums"]
@@ -55,7 +58,11 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/kk-phonetics.ts`: separate KK symbol curriculum and audio metadata mapping.
 - `app/vocabulary-groups.ts`: related-topic schemas, validation, formal/reference resolution, search normalization, learning-state display, and isolated loading.
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
+- `app/vocabulary-library.ts` / `app/vocabulary-library-panel.tsx`: searchable 3000-word projection,50-item pages, source-validated recognition/spelling, stable word/date/mode IDs. No course completion or application writes.
+- `scripts/build-vocabulary-catalog.mjs`: deterministic offline v2/library generation from the protected v1 baseline and pinned lexical snapshot; `--check` rejects output drift.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, clean spelling/application eligibility, and exposed/receptive/active derivation.
+- `app/reference-vocabulary-practice.ts`: pure, deterministic recognition-only batches over existing reference targets; validates single-word identity, source, QA, options, local date, and one submitted answer per lexeme/date.
+- `app/reference-recognition-practice.tsx`: isolated related-topic practice UI, explicit choice confirmation, answer feedback, keyboard focus, midnight expiry, and batch summary; no curriculum or Daily-session state machine.
 - `app/daily-review.ts`: deterministic due-review queue construction, formal occurrence resolution, and reproducible recognition options.
 - `app/daily-session.ts`: pure Daily Learning v3 sequencing with CEFR/lesson binding, same-local-day restore validation, stable completed review/weakness IDs, remaining-queue derivation, active-time checkpoints, and evidence-delta summaries; `page.tsx` owns the isolated storage lifecycle.
 - `scripts/create-vocabulary-target-baseline.mjs`: reproducibly projects current A1/A2/reference sources into the partial target contract.
@@ -81,7 +88,9 @@ Resolved cards have normalized, deduplicated `searchAliases` derived from occurr
 
 A2 uses one CSV and two exercise JSON files for all five pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
 
-The 3000 goal counts canonical single-word lexemes only. The current partial baseline contains every A1/A2 curriculum lexeme plus unique reference-only lexemes. Word forms, occurrences, senses, and chunks are reported separately. The baseline does not imply that the full 3000 list exists.
+The3000 goal counts canonical single-word lexemes only. Runtime v2 preserves the132 baseline objects and adds2868 sourced headwords. The separate library joins exactly once per target, in60 pages of50. Word forms, occurrences, senses and chunks remain separate. `count_complete_review_required` means candidate coverage only; A1/A2 allocations are planning stages, not certifiedCEFR ratings. New meanings remain pending human review and phonetics remain pending.
+
+Related-topic recognition batches contain at most five reference-only receptive targets and use four distinct translations from the same existing topic. Unmastered targets precede mastered targets; same-day submitted words are omitted. A stable `reference-recognition:<localDate>:<lexemeId>` evidence identity makes wrong-first submissions non-repairable that day, including across groups or reloads. Only explicit submission writes global recognition attempt/correct evidence. The queue itself is transient; after F5, the learner reopens the topic and builds remaining work from saved evidence. No course occurrences, review schedules, CEFR passes, or active mastery are manufactured. Invalid/stale dates fail closed; target-load or protected-progress failures disable the entry without disabling browsing.
 
 Passage comprehension keeps `options` as strings for UI and A1 compatibility. New A2 and retained B1/B2 passage questions also declare `optionMetadata` with the lexeme and chunk prerequisites for each option. Validation derives the latest lesson from both formal CSV passage rows and custom passage sentences, so CSV-only passages cannot bypass prerequisite checks. Declared option chunks must occur in the option text, and text-response option source IDs must exist and be already taught. Original A1 and A2 unit 1 data remain explicit legacy exceptions to required option metadata; their unannotated options are not certified by this prerequisite check. Evidence uses complete word-phrase boundaries rather than substrings; this structural support check does not establish that a question is semantically unambiguous.
 

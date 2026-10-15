@@ -45,7 +45,7 @@ export const buildVocabularyCoverageSnapshot = () => {
     readText("public/data/reference-vocabulary-v1.json"),
   ).vocabulary;
   const targets = parseVocabularyTargets(
-    JSON.parse(readText("public/data/vocabulary-targets-v1.json")),
+    JSON.parse(readText("public/data/vocabulary-targets-v2.json")),
   );
   const a1Lexemes = new Set(a1Rows.map(canonicalRowLexeme));
   const a2Lexemes = new Set(a2Rows.map(canonicalRowLexeme));

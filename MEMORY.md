@@ -48,13 +48,14 @@ This file stores long-lived product facts and working preferences. Current task 
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
-- The current target file is intentionally partial and contains 132 sourced baseline entries: 108 active curriculum-covered candidates and 24 receptive reference-only candidates. A1/A2 contains 110 union curriculum lexemes (108 countable after excluding names); lesson-specific names Amy and Ben are intentionally excluded from the general-vocabulary target.
+- Runtime targets-v2 contains3000 canonical candidates, preserving all132 v1 objects (108 curriculum and24 reference-only) and adding2868 sourced headwords. A1/A2 still contains110 union curriculum lexemes (108 countable after names); the library is not a second curriculum source. Count-complete status is not human QA or learner mastery.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one clean application; reveal and paste cannot create correct spelling or application evidence.
 - A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.
 - Daily Learning v3 stores its originating CEFR/lesson, stable active-review queue and completion IDs, reveal/paste safety state, completed weakness IDs, and active seconds. It restores only on the same local date, restarts timing without offline gaps, resumes the first unfinished item, and never turns restore/expiry into evidence, completion, unit pass, or CEFR pass.
 - “本週學習” means unique selected-level study dates inside the learner device's local Monday-to-Sunday week; it is not a rolling seven-record count and does not use global vocabulary evidence dates.
 - The original 126-entry metadata QA found no duplicate or rejection. The six targets introduced by A2 unit 5 still need equivalent review, and provenance remains unresolved: 108 curriculum targets need license evidence while 24 reference-only targets need a lexical/content source plus user language/phonetic review.
+- Reference-only targets have a separate, explicit topic recognition trial (at most five words). First submission per local day alone can add recognition evidence; wrong-first answers cannot be corrected into credit by reloading. Two correct dates establish receptive, not active mastery. Search/detail behavior and course/review/unlock progress remain separate.
 
 ## Content and Audio Guardrails
 
@@ -65,7 +66,7 @@ This file stores long-lived product facts and working preferences. Current task 
 - KK phonetic-symbol audio is a separate learning area, not KK notation added to A-Z letter practice.
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
 - Formal course data remains primary for progress, occurrences, audio, and source metadata. Explicitly opening a reference detail records exposure only; it never counts as course completion, recognition, spelling, application, or a review-schedule change.
-- Vocabulary target expansion must use small deduplicated batches with recorded source version, reference, and license. Do not copy protected lists or generate filler to reach 3000.
+- The user explicitly requested the full3000 catalog on2026-10-15. Review it in60 batches with pinned source versions, hashes and licenses. Never copy protected dictionaries, count inflections twice, certify candidate CEFR allocations, or infer application evidence from word practice.
 - Related-vocabulary cards display canonical lemmas and may use a validated group-level Traditional Chinese override; course answers remain occurrence-specific.
 - A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 

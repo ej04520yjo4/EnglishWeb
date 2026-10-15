@@ -130,6 +130,7 @@ import {
 import {
   canCreditApplicationCorrect,
   canCreditSpellingCorrect,
+  deriveVocabularyMasteryState,
   recordGlobalVocabularyEvidence,
   summarizeVocabularyProgress,
   type VocabularyEvidenceKind,
@@ -160,13 +161,32 @@ import {
   type DailySessionState,
 } from "./daily-session.ts";
 import { localDateKey, studyDaysThisWeek } from "./local-date.ts";
+import {
+  buildReferenceRecognitionQueue,
+  recordReferenceRecognitionResult,
+  type ReferenceRecognitionQuestion,
+} from "./reference-vocabulary-practice.ts";
+import { ReferenceRecognitionPractice } from "./reference-recognition-practice";
+import {
+  buildVocabularyLibraryPracticeQuestion,
+  loadVocabularyLibrary,
+  recordVocabularyLibraryPracticeResult,
+  type VocabularyLibraryData,
+} from "./vocabulary-library";
+import {
+  VocabularyLibraryPanel,
+  type VocabularyLibraryEvidenceInput,
+  type VocabularyLibraryEntry as VocabularyLibraryPanelEntry,
+} from "./vocabulary-library-panel";
 
 type Screen =
   | "home"
   | "map"
   | "alphabet"
   | "phonetics"
+  | "vocabulary-library"
   | "related-vocabulary"
+  | "reference-recognition"
   | "review"
   | "weakness"
   | "weakness-practice"
@@ -330,6 +350,7 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "map", label: "課程地圖", icon: "◉" },
   { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
   { screen: "phonetics", label: "KK 音標", icon: "KK" },
+  { screen: "vocabulary-library", label: "3000 單字庫", icon: "▤" },
   { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
   { screen: "review", label: "待複習", icon: "↻" },
   { screen: "weakness", label: "弱點中心", icon: "△" },
@@ -657,6 +678,16 @@ export default function Home() {
   const [vocabularyTargets, setVocabularyTargets] =
     useState<VocabularyTargetsData | null>(null);
   const [vocabularyTargetsError, setVocabularyTargetsError] = useState("");
+  const [vocabularyLibrary, setVocabularyLibrary] =
+    useState<VocabularyLibraryData | null>(null);
+  const [vocabularyLibraryStatus, setVocabularyLibraryStatus] = useState<
+    "loading" | "ready" | "error"
+  >("loading");
+  const [vocabularyLibraryError, setVocabularyLibraryError] = useState("");
+  const [referenceRecognitionSession, setReferenceRecognitionSession] = useState<{
+    title: string;
+    questions: ReferenceRecognitionQuestion[];
+  } | null>(null);
   const [vocabularySearch, setVocabularySearch] = useState("");
   const [vocabularyFilter, setVocabularyFilter] =
     useState<VocabularyStatusFilter>("all");
@@ -895,6 +926,47 @@ export default function Home() {
         },
       ),
     }));
+  };
+
+  const recordVocabularyLibraryEvidence = (
+    input: VocabularyLibraryEvidenceInput,
+  ) => {
+    if (!vocabularyLibrary || !vocabularyTargets) return;
+    const expectedMode =
+      input.kind === "recognition" ? "recognition" : "spelling";
+    if (input.question.mode !== expectedMode) {
+      setToast("3000 單字練習模式與題目不一致，未變更進度。");
+      return;
+    }
+    const studiedAt = new Date().toISOString();
+    const studyDate = localDateKey(new Date(studiedAt));
+    setMultiProgress((current) => {
+      try {
+        return {
+          ...current,
+          vocabularyProgress: recordVocabularyLibraryPracticeResult(
+            current.vocabularyProgress,
+            {
+              library: vocabularyLibrary,
+              targets: vocabularyTargets,
+              question: input.question,
+              selectedAnswer: input.answer,
+              studiedAt,
+              studyDate,
+              usedPaste: input.usedPaste,
+              answerRevealed: input.answerRevealed,
+            },
+          ),
+        };
+      } catch (error) {
+        setToast(
+          error instanceof Error
+            ? error.message
+            : "3000 單字作答紀錄失敗，未變更進度。",
+        );
+        return current;
+      }
+    });
   };
 
   useEffect(() => {
@@ -1449,6 +1521,58 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (screen !== "vocabulary-library") return;
+    let active = true;
+    if (vocabularyLibrary) {
+      return () => {
+        active = false;
+      };
+    }
+    if (!vocabularyTargets) {
+      const targetStateTimer = window.setTimeout(() => {
+        if (!active) return;
+        setVocabularyLibraryStatus(vocabularyTargetsError ? "error" : "loading");
+        setVocabularyLibraryError(vocabularyTargetsError);
+      }, 0);
+      return () => {
+        active = false;
+        window.clearTimeout(targetStateTimer);
+      };
+    }
+
+    const controller = new AbortController();
+    const loadTimer = window.setTimeout(() => {
+      if (!active) return;
+      setVocabularyLibraryStatus("loading");
+      setVocabularyLibraryError("");
+      loadVocabularyLibrary(vocabularyTargets, (input, init) =>
+        fetch(input, { ...init, signal: controller.signal }),
+      )
+        .then((data) => {
+          if (!active) return;
+          setVocabularyLibrary(data);
+          setVocabularyLibraryStatus("ready");
+        })
+        .catch((error: unknown) => {
+          if (!active) return;
+          setVocabularyLibrary(null);
+          setVocabularyLibraryStatus("error");
+          setVocabularyLibraryError(
+            error instanceof Error
+              ? error.message
+              : "3000 單字資料驗證失敗。",
+          );
+        });
+    }, 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(loadTimer);
+      controller.abort();
+    };
+  }, [screen, vocabularyLibrary, vocabularyTargets, vocabularyTargetsError]);
+
+  useEffect(() => {
     if (!loaded || !catalog) return;
     catalog.levels
       .filter((entry) => entry.level !== "A1")
@@ -1517,6 +1641,43 @@ export default function Home() {
     () => flattenCourseLessons(courseUnits),
     [courseUnits],
   );
+
+  const vocabularyLibraryEntries = useMemo<VocabularyLibraryPanelEntry[]>(() => {
+    if (!vocabularyLibrary || !vocabularyTargets) return [];
+    const targetById = new Map(
+      vocabularyTargets.entries.map((target) => [target.lexemeId, target]),
+    );
+    return vocabularyLibrary.entries.flatMap((entry) => {
+      const target = targetById.get(entry.lexemeId);
+      if (!target) return [];
+      return [{
+        entry: {
+          ...entry,
+          targetLevel: target.targetLevel,
+          masteryTarget: target.masteryTarget,
+          searchAliases: [
+            ...target.topics,
+            target.targetLevel,
+            target.masteryTarget,
+            entry.sourceSenseId ?? "",
+            entry.wordnetSynsetId ?? "",
+            ...(entry.meaningVariants ?? []),
+            ...(entry.wordnetSynsetIds ?? []),
+            ...entry.sourceRefs.flatMap((source) => [
+              source.sourceName,
+              source.sourceVersion,
+              source.sourceType,
+              source.license,
+              source.reference,
+              source.attribution ?? "",
+            ]),
+          ],
+        },
+        priority: target.curriculumPriority,
+      }];
+    }).sort((left, right) => left.priority - right.priority)
+      .map((item) => item.entry);
+  }, [vocabularyLibrary, vocabularyTargets]);
 
   const selectedUnit = useMemo(
     () =>
@@ -4596,6 +4757,15 @@ export default function Home() {
       (count, group) => count + group.items.filter((item) => itemIsVisible(group, item)).length,
       0,
     );
+    const referenceQueue = activeGroup && vocabularyTargets
+      ? buildReferenceRecognitionQueue({
+          dataset: vocabularyDataset,
+          targets: vocabularyTargets,
+          progress: multiProgress.vocabularyProgress,
+          groupId: activeGroup.id,
+          studyDate: localDateKey(),
+        })
+      : [];
     const updateVocabularySearch = (query: string) => {
       setVocabularySearch(query);
       const nextGroup = resolveSelection(
@@ -4772,6 +4942,27 @@ export default function Home() {
             </span>
           </div>
 
+          <div className="reference-practice-entry">
+            <p>延伸單字也能練習辨認。每輪最多 5 字，跨日答對才累積熟悉度；不影響正式課程進度。</p>
+            <button className="primary-button" data-testid="start-reference-recognition"
+              disabled={!loaded || !progressStorageWritable || referenceQueue.length === 0}
+              onClick={() => {
+                setReferenceRecognitionSession({ title: activeGroup.titleZhTw, questions: referenceQueue });
+                setScreen("reference-recognition");
+              }}>
+              練習延伸單字辨認
+            </button>
+            <small role="status">
+              {!loaded || !progressStorageWritable
+                ? "本機進度尚未就緒或處於保護模式，暫時無法開始辨認練習。"
+                : !vocabularyTargets
+                ? "詞彙目標尚未載入，辨認練習暫時無法開始。"
+                : referenceQueue.length > 0
+                  ? `本輪 ${referenceQueue.length} 字（依整個主題安排，不受搜尋篩選影響）。內容仍待人工複核。`
+                  : "本主題今天沒有尚未作答的延伸單字；可換個主題，或隔天再來練習。"}
+            </small>
+          </div>
+
           <div
             className="vocabulary-word-list"
             data-testid="vocabulary-word-list"
@@ -4804,6 +4995,14 @@ export default function Home() {
                       <div>
                         <h3 id={`vocabulary-word-title-${item.lexemeId}`} lang="en-US">{item.displayEnglish}</h3>
                         <p>{item.translationZhTw}</p>
+                        {item.source === "reference" &&
+                          multiProgress.vocabularyProgress[item.lexemeId]?.recognitionAttemptEvidenceIds.length > 0 && (
+                          <small data-testid={`reference-mastery-${item.lexemeId}`}>
+                            {deriveVocabularyMasteryState(multiProgress.vocabularyProgress[item.lexemeId]) === "receptive"
+                              ? "詞彙辨認：已跨日答對，可繼續複習"
+                              : "詞彙辨認：練習中，需不同日期答對兩次"}
+                          </small>
+                        )}
                       </div>
                     </div>
                     <span
@@ -6679,6 +6878,10 @@ export default function Home() {
                 value={vocabularyCoverage.referenceOnlyCovered}
               />
               <StatCard
+                label="獨立單字庫新增"
+                value={vocabularyCoverage.externalLibraryCovered}
+              />
+              <StatCard
                 label="清單尚未建立"
                 value={vocabularyCoverage.missingEntries}
               />
@@ -6692,9 +6895,12 @@ export default function Home() {
               <StatCard label="已學sense" value={learnedSenseCount} />
               <StatCard label="已接觸chunk" value={touchedChunkCount} />
             </div>
-            {vocabularyTargets?.status === "partial_review_required" && (
+            {(vocabularyTargets?.status === "partial_review_required" ||
+              vocabularyTargets?.status === "count_complete_review_required") && (
               <p className="qa-note" data-testid="vocabulary-target-partial-note">
-                3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。
+                {vocabularyTargets.status === "count_complete_review_required"
+                  ? "3000詞彙清單已完成收錄數量，但內容與來源仍待人工審查。"
+                  : "3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。"}
               </p>
             )}
           </>
@@ -6992,9 +7198,54 @@ export default function Home() {
     );
   };
 
+  const renderVocabularyLibrary = () => (
+    <VocabularyLibraryPanel
+      entries={vocabularyLibraryEntries}
+      loading={vocabularyLibraryStatus === "loading"}
+      error={vocabularyLibraryStatus === "error" ? vocabularyLibraryError : ""}
+      buildQuestion={(entry, mode) => {
+        if (!vocabularyLibrary || !vocabularyTargets) return undefined;
+        return buildVocabularyLibraryPracticeQuestion({
+          library: vocabularyLibrary,
+          targets: vocabularyTargets,
+          lexemeId: entry.lexemeId,
+          studyDate: localDateKey(),
+          mode,
+        });
+      }}
+      learnedCount={
+        summarizeVocabularyProgress(
+          multiProgress.vocabularyProgress,
+          vocabularyLibraryEntries.map((entry) => entry.lexemeId),
+        ).exposed
+      }
+      onEvidence={recordVocabularyLibraryEvidence}
+    />
+  );
+
   const renderScreen = () => {
+    if (screen === "reference-recognition" && referenceRecognitionSession && vocabularyDataset && vocabularyTargets) {
+      return <ReferenceRecognitionPractice
+        title={referenceRecognitionSession.title}
+        questions={referenceRecognitionSession.questions}
+        onExit={() => setScreen("related-vocabulary")}
+        onAnswer={(question, selectedAnswer) => {
+          const studiedAt = new Date().toISOString();
+          setMultiProgress((current) => ({
+            ...current,
+            vocabularyProgress: recordReferenceRecognitionResult(current.vocabularyProgress, {
+              dataset: vocabularyDataset, targets: vocabularyTargets,
+              question, selectedAnswer, studiedAt, studyDate: localDateKey(new Date(studiedAt)),
+            }),
+          }));
+        }}
+      />;
+    }
     if (screen === "related-vocabulary") {
       return renderRelatedVocabulary();
+    }
+    if (screen === "vocabulary-library") {
+      return renderVocabularyLibrary();
     }
     if (courseDataStatus === "loading") {
       return (

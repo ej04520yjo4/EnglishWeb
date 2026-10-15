@@ -1,5 +1,13 @@
 # Design Decisions
 
+## ADR-047 - Full Candidate Catalog, Separate Learning Evidence
+
+**Status:** Accepted,2026-10-15
+
+**Decision:** The user's explicit request supersedes the earlier50-word expansion limit. Preserve the132 v1 targets byte-for-object and add2868 canonical headwords in v2, with source hashes, attribution, notices and a reproducible offline snapshot. UseNGSL frequency only for candidate order, WordNet/COW for matched selected senses, and clearly marked original editorial corrections. Do not treat the planning-stage A1/A2 allocation as certifiedCEFR placement.
+
+**Reason:** A complete searchable trial can support the3000-word goal without changing formal curricula or pretending that machine-generated content is human approved. `count_complete_review_required` is distinct from QA approval and learner mastery. Word-library browsing never writes evidence; explicit recognition/spelling uses one stable word/date/mode question and cannot manufacture sentence-application credit. Prior132 unresolved licenses and all existing reference phonetics remain open rather than being silently cleared.
+
 Durable decisions are recorded here so later work does not reopen settled questions without new evidence.
 
 ## ADR-001 - One Official A1 Source
@@ -353,3 +361,19 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Key Daily review and weakness exercise containers by their existing stable item/lexeme IDs, with autofocus on the next editable input or first unselected choice. Checked weakness actions remount and focus the next button. Cancel Enter's native default before rejecting repeated key events. Do not add focus dependencies on typed values, option selection, or active-time checkpoints.
 
 **Reason:** An input's initial autofocus does not run when React reuses it for the next item, while refocusing on every answer change would interrupt typing or selection. Returning early for a repeated Enter without cancelling its default still permits a native button click. These UI-only safeguards must not grant evidence or modify learning rules.
+
+## ADR-045 - Separate Decorative Accent from Readable Controls
+
+**Status:** Accepted
+
+**Decision:** Retain bright coral for decoration, but use darker shared tokens for primary-action backgrounds, secondary text, placeholders, and learning-state boundaries. Verify scoped text at 4.5:1 and input/focus boundaries at 3:1 in the rendered browser, including hover, selected, correct, wrong, and revealed states. Keep explicit feedback text alongside color.
+
+**Reason:** The original primary white text and placeholders had insufficient contrast. A shared token correction preserves the established interface and learning contract without adding another theme. Computed-style checks are bounded evidence, not a full accessibility or native screen-reader certification; gradients and untested screens remain separately reviewable.
+
+## ADR-046 - Reference Recognition Requires an Explicit Daily Answer
+
+**Status:** Accepted
+
+**Decision:** Allow the existing 24 reference-only receptive targets to receive recognition evidence through a separate, labeled topic practice, not through viewing cards. Reuse global schema v6 without manufacturing course occurrences or review items. Each canonical word gets one submitted answer per local day; wrong answers reveal the meaning and remain wrong for that day. Queue identity includes the local date and lexeme, not the topic or array index. Unfinished words are prioritized; familiar words can return on later days.
+
+**Reason:** Reference words previously had exposure only and could never satisfy the receptive goal. Explicit, cross-date answers close that gap without converting a browse action into mastery, allowing refresh to repair a wrong answer, or pretending that recognition proves spelling/application. This trial does not approve content, clear source licensing, or complete the 3000-word list.
