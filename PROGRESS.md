@@ -3,7 +3,8 @@
 ## Snapshot
 
 - Updated: 2026-10-15
-- Branch: `codex/learning-contrast`, based on verified `main` / `origin/main` commit `28b41d0`.
+- Branch: `codex/vocabulary-3000`, based on published `codex/learning-contrast` commit `c90b145`.
+- 3000-word implementation commits: `2fedd3b` (sources/catalog/engine) and `7b664d7` (UI/browser flows). Documentation is a separate commit; this delivery does not merge main or deploy.
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
 - Integration: [PR #10](https://github.com/ej04520yjo4/EnglishWeb/pull/10) merged normally on 2026-10-04 at `28b41d0` after both protected checks passed. The 2026-10-15 preflight fetch confirmed the contrast base still matched `origin/main` (0 ahead / 0 behind). Contrast commit `2c08eae` was pushed to `origin/codex/learning-contrast` and its remote SHA verified. Recognition implementation `5b1cee3` passed the full local verification below and remains on that feature branch; no new main merge or deployment is claimed.
@@ -22,9 +23,10 @@
 - A2: 122 occurrences, 73 word forms, 96 senses, 38 chunks, 69 canonical lexemes.
 - A1＋A2 union: 110 canonical lexemes; overlap: 27.
 - Reference-only unique lexemes: 24.
-- Target baseline: 132 entries; 108 active candidates and 24 receptive candidates.
-- Target stage counts: A1 90, A2 42; 2868 entries remain unbuilt.
-- Target status: `partial_review_required`; all entries remain `pilot_review_required`.
+- Protected v1 baseline: 132 entries; 108 active candidates and 24 receptive candidates, unchanged.
+- Runtime v2 catalog: 3000 canonical entries, 1500 active / 1500 receptive candidates. A1-stage 1200 (700/500), A2-stage 1800 (800/1000), 60 pages of 50.
+- Target status: `count_complete_review_required`; all entries remain `pilot_review_required`. These stage allocations are planning candidates, not official CEFR ratings or proof of learner mastery.
+- New 2868 headwords use pinned NGSL 1.2 frequency data, matched WordNet 3.0/COW meanings or original editorial corrections. Hashes, transformation snapshots and complete notices are retained with the source package; no protected dictionary scrape or invented phonetics.
 - The original 126 entries received an item-by-item identity, normalization, CEFR, mastery-target, topic, and curriculum/reference classification pass. The six targets introduced by unit 5 remain pending the same human review.
 - Provenance is still open: 108 curriculum targets have `license: pending`; all 24 reference-only targets need an external lexical/content source and license review. Their Taiwan Chinese and KK/IPA values remain for user review. A fresh field audit found no blank KK/IPA among the 27 reference records; earlier "blank" wording was stale, not evidence of phonetic approval.
 - Durable findings are recorded in `docs/vocabulary-baseline-review-2026-08-19.md`; the reviewed target SHA-256 is `c1342d65a8aa6f39cf5efa6e40ca5fc68cabf536e92af46dcd1ff122b6d4afc1`.
@@ -36,7 +38,8 @@
 - Existing A1/A2 recall, detail, chunk, sentence rebuild, recognition, transfer, response, passage, review, assessment, import/export, and responsive flows remain available.
 - B1/B2 are absent from selectors, cannot be opened by advanced preview, are not fetched at startup, and are rejected by direct runtime loader calls.
 - The old `showA2Pilot` setting is readable; new storage/export uses `showAdvancedPilots` and currently exposes A2 QA only.
-- The partial target contract loads from `public/data/vocabulary-targets-v1.json`; target logic is isolated in `app/vocabulary-targets.ts`.
+- Runtime targets load only `public/data/vocabulary-targets-v2.json`; v1 remains a protected baseline. The independent `vocabulary-library-v1.json` supplies 3000 meanings without creating formal course occurrences.
+- The new 3000-word screen supports bilingual search, candidate-stage/goal filters, 50-item pages, explicit recognition and spelling. All answers use source-validated questions and one first attempt per word/date/mode; card navigation and search never write evidence.
 - Exposure, recognition, spelling, and application evidence is deduplicated by stable ID and shared by canonical lexeme across A1/A2.
 - Receptive mastery requires two correct recognition records on different dates. Active also requires two clean spelling records on different dates and one clean application.
 - Revealed or pasted spelling never creates clean spelling evidence; revealed or pasted free-text application can complete an exercise but never creates `applicationCorrect`.
@@ -59,9 +62,10 @@
 
 ## Latest Completed Work
 
+- Built the full 3000-word candidate target/library, keeping the original 132 target objects unchanged. Added a lazy-loaded searchable library with recognition/spelling practice, source-checked global progress, deterministic generation, complete source notices, and focused plus full browser regression coverage. See `docs/vocabulary-3000-delivery-2026-10-15.md` for limits and actual results; this is not human language approval or complete sentence-application coverage.
 - Added explicit related-topic recognition practice for all 24 existing reference-only target words. Batches have at most five words, four distinct same-topic choices, answer confirmation/feedback, keyboard focus, and visible cross-date status. Only the first submitted answer per canonical word/local day can create recognition evidence; wrong-first answers cannot become correct by reloading, and expired-day submissions are rejected.
 - Kept recognition separate from course completion, review scheduling, CEFR passing, and active spelling/application. No formal CSV/JSON or target records changed. Familiar words remain available on later dates after unfinished words; reloading rebuilds remaining work from saved evidence rather than persisting copied answers.
-- Corrected stale baseline counts in the 3000-word plan to 132 targets (108 curriculum / 24 reference; 2868 unbuilt). Inspected candidate source notices and documented the next 50-word import gate without importing an unreviewed corpus or claiming existing provenance resolved.
+- At the earlier 132-target checkpoint, corrected baseline counts to 108 curriculum / 24 reference with 2868 then unbuilt. That incremental import plan is superseded by the user-requested full candidate catalog above; human review and existing provenance are still open.
 - Improved scoped learning contrast: shared secondary text, primary actions, placeholders, input/choice boundaries, and correct/wrong/revealed states retain the existing layout and warm decoration. Action focus outlines appear immediately instead of fading in. The new browser suite measures real computed styles and preserves explicit text feedback.
 - Completed the scoped Daily/weakness keyboard follow-up: stable item keys reapply input/choice autofocus, checked weakness actions receive focus, and the Daily summary is keyboard-completable. Repeated Enter now cancels native button activation instead of silently falling through to a browser click.
 - Added six desktop/mobile keyboard scenarios covering consecutive recognition items, same-type weakness queues, three-error application reveal without mastery, selection-focus stability, summary completion, and the existing full unit-assessment/reload flow. No curriculum, scoring, storage, schedule, or unlock contract changed.
@@ -113,9 +117,9 @@
 
 ## Known Limits
 
-- The 2026-09-04 dependency review reported 54 affected package names (`44 high / 8 moderate / 2 low / 0 critical`), including 11 direct and 43 transitive dependencies. This is a dated snapshot, not a fresh October audit; no forced or untested upgrade was applied.
+- Fresh2026-10-15 `npm audit --json` exited1:29 affected package names (24high/2moderate/2low/1critical). The critical package is existing `next@16.2.6`; actual Vinext reachability was not assessed. Added dev-only `opencc-js@1.3.1` has no reported advisory. No untested framework upgrade or security-clean deployment is claimed.
 - Two remote feature branches are not completely merged and must remain pending manual review: `feat/a2-shopping-comparison` and `feat/daily-learning-weakness-center`. Seven merged `feat/*` branches plus the merged PR1 fix branch are deletion candidates only; no branch was deleted.
-- The target contract is not a complete 3000-word list and must not be presented as one.
+- The target catalog now contains3000 words, but the full list has not received human semantic/phonetic/CEFR review. The new word practice supplies recognition and spelling only; most new active targets still need reviewed sentence-application exercises before they can reach active mastery.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
 - A2 units 1–5 remain pilot content; units 6–10 are blueprint-only.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
@@ -126,9 +130,20 @@
 
 ## Next Concrete Step
 
-Try the existing reference-recognition batches over two local dates, then prepare one 50-word candidate expansion using the pinned-source/license gate in `docs/vocabulary-source-review-2026-10-15.md`. The runtime count is still 132, not 3000; content, phonetic, and source review remain mandatory. Continue learner review of the third A1 batch and A2 unit 5 before any next course unit. Separately decide the authoritative day-to-day checkout before synchronizing the preserved D-drive changes. Do not bulk-copy older alias/A2/target snapshots or discard edits. B1/B2 remain disabled; map/phonetic contrast and native screen-reader work remain separate tasks. Local completion, feature publication, main integration, and deployment are distinct.
+Try the first50-word page in「3000單字庫」over two local dates; review chosen senses, Taiwan Chinese, spelling prompts and distractors before promoting any QA status. Continue through60 batches, and design reviewed sentence-application coverage for new active targets. Continue learner review of A1 batch3 and A2 unit5 before any next course unit. Separately compatibility-test dependency security updates and decide the authoritative checkout before syncing the untouched D-drive changes. B1/B2 remain disabled. Local completion, feature publication, main integration and deployment are distinct.
 
 ## Verification
+
+### Full 3000-word candidate library (2026-10-15)
+
+- Final `npm run verify`: exit 0; all ten gates passed, including reproducible vocabulary generation, source/catalog audits, curriculum validation, build, 215 unit tests (0 failed/skipped), lint and TypeScript. Protected A1/A2 course files and the original v1 targets remain unchanged.
+- Focused vocabulary browser tests: exit 0, 20 passed (10 desktop / 10 mobile). The initial restricted Workers runtime startup failed before tests; after approved local execution, two test-only first-page navigation assumptions were corrected without removing assertions.
+- First full browser run: exit 1, 164 passed / 2 failed because an older backup test expected the former partial-catalog caption. Updated only the caption/coverage expectations while retaining all export/import evidence assertions.
+- Final complete `npm run test:e2e`: exit 0, 166 passed (83 desktop 1440×900 / 83 mobile 375×812), 0 failed/skipped, 8.1 minutes. Desktop/mobile screenshots were also inspected. All existing learning, unlock, Daily, review, backup and progress-reload cases remain covered.
+- Windows launcher scenario suite: exit 0, seven scenarios passed. Dependency-install branches use isolated command doubles; this is not a fresh network installation on another device. No full `npm ci` was run this turn.
+- Fresh `npm audit --json`: exit 1, 29 affected packages (1 critical / 24 high / 2 moderate / 2 low), including the existing Next dependency. The added dev-only OpenCC package has no advisory. Compatibility/security upgrade work remains separate; no security-clean deployment claim.
+- Read-only independent review found no remaining blocking code/provenance-publication issue. Final whitespace-only cleanup leaves both runtime JSON files unchanged; the snapshot manifest is rebuilt after trimming an extra baseline EOF line. Full details and limitations: `docs/vocabulary-3000-delivery-2026-10-15.md`.
+- This turn did not rerun a complete pre-edit baseline. The earlier 196-unit / 146-browser results below are historical, not the new 3000-word verification.
 
 ### Reference recognition and feature publication (2026-10-15)
 

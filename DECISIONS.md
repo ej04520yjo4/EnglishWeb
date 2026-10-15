@@ -1,5 +1,13 @@
 # Design Decisions
 
+## ADR-047 - Full Candidate Catalog, Separate Learning Evidence
+
+**Status:** Accepted,2026-10-15
+
+**Decision:** The user's explicit request supersedes the earlier50-word expansion limit. Preserve the132 v1 targets byte-for-object and add2868 canonical headwords in v2, with source hashes, attribution, notices and a reproducible offline snapshot. UseNGSL frequency only for candidate order, WordNet/COW for matched selected senses, and clearly marked original editorial corrections. Do not treat the planning-stage A1/A2 allocation as certifiedCEFR placement.
+
+**Reason:** A complete searchable trial can support the3000-word goal without changing formal curricula or pretending that machine-generated content is human approved. `count_complete_review_required` is distinct from QA approval and learner mastery. Word-library browsing never writes evidence; explicit recognition/spelling uses one stable word/date/mode question and cannot manufacture sentence-application credit. Prior132 unresolved licenses and all existing reference phonetics remain open rather than being silently cleared.
+
 Durable decisions are recorded here so later work does not reopen settled questions without new evidence.
 
 ## ADR-001 - One Official A1 Source

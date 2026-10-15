@@ -46,7 +46,8 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `public/data/a2-course-v1.csv`: the runtime A2 pilot curriculum.
 - `public/data/b1-course-v1.csv` and `public/data/b2-course-v1.csv`: retained, disabled sources used only by direct data QA.
 - `public/data/course-catalog.json`: the runtime source registry for A1 through B2.
-- `public/data/vocabulary-targets-v1.json`: reviewed-in-batches A1＋A2 canonical lexeme target contract.
+- `public/data/vocabulary-targets-v2.json`: runtime 3000-canonical-word target catalog; v1 remains the protected 132-entry baseline.
+- `public/data/vocabulary-library-v1.json`: pending-review bilingual meanings and practice source; reproduce with `npm run build:vocabulary`.
 - `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: versioned practice additions; enabled trial entries retain their pending-review status.
 - `tests/`: unit, rendered-content, and Playwright coverage.

@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-15 - Searchable 3000-Word Candidate Library
+
+- Added 2868 sourced canonical headwords while preserving all 132 previous target objects. Runtime v2 now contains 3000 targets, split 1500 active / 1500 receptive, in 60 review batches.
+- Added searchable bilingual cards and explicit recognition/spelling practice using global schema-v6 evidence. Same-day retries, paste and answer reveal cannot inflate clean credit; formal courses and CEFR unlocks are unchanged.
+- Added pinned sources, complete redistribution notices, deterministic offline generation and real-catalog/browser regression coverage.
+- Content remains `pilot_review_required`; candidate stage labels are not certified CEFR ratings. Audio/phonetics and sentence-application coverage for new words remain separate work. No new course units or related-vocabulary topics were added.
+
 ## 2026-10-15 - Reference Vocabulary Recognition Practice
 
 ### Added

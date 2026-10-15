@@ -107,17 +107,18 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M10 - A1/A2 Vocabulary 3000 Foundation
 
-**Status:** Current
+**Status:** 3000-word candidate catalog implemented; learner trial and human QA remain current
 
 - Define cumulative targets: A1 1200 canonical lexemes (700 active, 500 receptive); A2 3000 cumulative (1500 active, 1500 receptive).
-- Build only a sourced baseline from existing A1/A2 curriculum and reference vocabulary; do not generate words merely to reach 3000.
+- Preserve the original 132 targets and add 2868 sourced canonical headwords following the user's explicit 3000-word request. Keep the full candidate catalog separate from formal courses.
 - Track exposure, recognition, clean spelling, and sentence application globally by canonical `lexemeId` in progress schema v6.
 - Require repeated evidence across different study dates before receptive or active mastery.
 - Let the 24 existing reference-only targets earn recognition evidence through explicit, small topic-practice batches; do not infer it from card viewing or generate formal lesson progress.
 - Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
 - The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. The six curriculum targets added with A2 unit 5 still require that review, and all source/license work remains open.
-- Keep CEFR completion independent from the incomplete vocabulary target until both curriculum and target data pass human review.
-- Expand the target list in small licensed, manually reviewed batches while A2 units 1–5 continue language QA.
+- Keep CEFR completion independent from vocabulary counts and learner mastery. A1/A2 target-stage allocations are candidates, not externally certified CEFR labels.
+- Provide searchable 50-word pages, explicit recognition and spelling practice, without manufacturing application credit.
+- Review the 60 candidate batches incrementally while A2 units 1–5 continue language QA; do not mark the milestone human-approved merely because the count is complete.
 
 ## Milestone Completion Rule
 

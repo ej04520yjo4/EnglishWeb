@@ -16,10 +16,13 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [ ] Resolve `license: pending` for 108 curriculum targets.
   - [ ] Record an external lexical/content source and license for 24 reference-only targets.
   - [ ] Have the user review the 24 reference-only Taiwan Chinese and existing KK/IPA values; the current 27 reference records have no blank phonetic fields, but their correctness remains unverified.
-- [ ] **VOCAB-3000-SOURCE-001:** Select the next legally reusable external frequency/reference source and record its exact license before importing any new batch.
+- [x] **VOCAB-3000-SOURCE-001:** Pin NGSL 1.2, WordNet 3.0 and Chinese Open WordNet inputs, license notices and hashes; retain an offline source snapshot.
   - [x] Inspect official WordNet 3.0 and wordfreq notices; document source restrictions and a preferred WordNet lemma cross-check in `docs/vocabulary-source-review-2026-10-15.md`.
-  - [ ] Pin the actual source artifact/checksum and preserve its license before deriving the first 50-word candidate batch.
-- [ ] **VOCAB-3000-BATCH-001:** Prepare one small deduplicated candidate batch; reject chunks, proper duplicates, unsourced entries, and silently copied protected lists.
+  - [x] Add a deterministic 3000-target/library build, preserving the original132 objects and rejecting count/alias/source mismatches.
+- [x] **VOCAB-3000-BATCH-001:** Build the user-requested full 3000-word candidate library in 60 pages; no new formal course unit or related-vocabulary topic.
+- [ ] **VOCAB-3000-LIBRARY-QA:** Review each of the60 candidate batches for common sense selection, Taiwan Chinese, definition clarity, spelling prompts, distractor ambiguity and stage allocation. Machine checks are not human approval.
+- [ ] **VOCAB-3000-APPLICATION:** Design reviewed sentence-application practice for new active-target words; recognition/spelling alone must never award active mastery.
+- [ ] **DEPENDENCY-SECURITY-20261015:** Compatibility-test a separate dependency update. Fresh npm audit reports29 affected packages (1critical,24high,2moderate,2low); added opencc-js has no advisory. Do not deploy this feature as a security-clean release.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
