@@ -45,6 +45,7 @@ import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
 import { wordAccuracy } from "./assessment-scoring";
 import { normalizeSentenceForComparison } from "./curriculum/sentence-words";
 import {
+  canStartPassageRebuild,
   evaluatePassageRebuild,
   lessonsForPassage,
   PassageSentenceEvaluation,
@@ -2617,13 +2618,14 @@ export default function Home() {
 
   const finishLesson = () => {
     const today = dateKey();
-    const shouldStartPassageRebuild =
-      selectedPassageLessons.length > 1 &&
-      selectedPassageLessons.every(
-        (lesson) =>
-          lesson.id === selectedLesson.id ||
-          progress.completedLessonIds.includes(lesson.id),
-      );
+    const shouldStartPassageRebuild = canStartPassageRebuild({
+      displaySentenceCount: selectedPassageLessons.length,
+      basePassageLessons,
+      customSentences: selectedPassageComprehension?.sentences ?? [],
+      currentLessonId: selectedLesson.id,
+      completedLessonIds: progress.completedLessonIds,
+      formalLessons: allLessons,
+    });
     setProgress((value) => {
       const reviewItems = { ...value.reviewItems };
       let lexemeProgress = value.lexemeProgress;

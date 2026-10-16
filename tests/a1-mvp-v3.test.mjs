@@ -28,6 +28,7 @@ import {
   updateTokenLearningProgress,
 } from "../app/learning-progress.ts";
 import {
+  canStartPassageRebuild,
   evaluatePassageRebuild,
   lessonsForPassage,
 } from "../app/passage-flow.ts";
@@ -342,6 +343,68 @@ test("completes the unit 8 passage rebuild and reports sentence errors", async (
   assert.ok(correct.every((result) => result.correct));
   assert.equal(incorrect[2].correct, false);
   assert.match(incorrect[2].message, /第 3 個位置需要再檢查/);
+});
+
+test("gates passage rebuild by formal prerequisites, not synthetic display lessons", () => {
+  const formalLessons = [
+    { id: "lesson-1" },
+    { id: "lesson-2" },
+    { id: "lesson-3" },
+    { id: "lesson-4" },
+  ];
+  const basePassageLessons = formalLessons;
+  const customSentences = Array.from({ length: 5 }, () => ({
+    lessonId: "lesson-4",
+  }));
+  const commonInput = {
+    basePassageLessons,
+    customSentences,
+    currentLessonId: "lesson-4",
+    completedLessonIds: ["lesson-1", "lesson-2", "lesson-3"],
+    formalLessons,
+  };
+
+  assert.equal(
+    canStartPassageRebuild({
+      ...commonInput,
+      displaySentenceCount: 5,
+    }),
+    true,
+  );
+  assert.equal(
+    canStartPassageRebuild({
+      ...commonInput,
+      displaySentenceCount: 6,
+      customSentences: [...customSentences, { lessonId: "lesson-4" }],
+    }),
+    true,
+  );
+  assert.equal(
+    canStartPassageRebuild({
+      ...commonInput,
+      completedLessonIds: ["lesson-1", "lesson-2"],
+      displaySentenceCount: 5,
+    }),
+    false,
+  );
+  assert.equal(
+    canStartPassageRebuild({
+      ...commonInput,
+      displaySentenceCount: 5,
+      customSentences: [
+        ...customSentences.slice(0, 4),
+        { lessonId: "synthetic-passage-5" },
+      ],
+    }),
+    false,
+  );
+  assert.equal(
+    canStartPassageRebuild({
+      ...commonInput,
+      displaySentenceCount: 1,
+    }),
+    false,
+  );
 });
 
 test("stores independent token performance and schedules review per token", () => {
