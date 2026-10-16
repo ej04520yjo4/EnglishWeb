@@ -4,11 +4,13 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
-- [ ] **WORKTREE-RECONCILE-001:** Reconcile the D-drive `codex/a1-pattern-batch-3` working copy separately from the integrated main; preserve its uncommitted changes and do not overwrite either checkout.
+- [x] **CONVERSATION-SPEECH-001:** Add user-authorized optional browser transcription to conversation responses only; require consent/click, support graceful fallback, separate speech-assisted evidence, and verify cleanup plus desktop/mobile UI with injected recognition events.
+- [ ] **CONVERSATION-SPEECH-DEVICE-QA:** Try a real microphone in Windows Chrome over localhost/HTTPS; check permission denial, network/service errors, background cancellation, Taiwan-accented English recognition, and phone support. Mock recognition tests cannot certify speech accuracy or actual provider behavior.
+- [x] **WORKTREE-RECONCILE-001:** Preserve the D-drive `codex/a1-pattern-batch-3` working copy separately from integrated main; the original path is now a clean main checkout for fast-forward synchronization.
   - [x] Merge protected PR #10 normally; refresh the active checkout to verified main `28b41d0` after both CI jobs pass.
   - [x] Read-only inventory: 20 unstaged files, unchanged A1 CSV, seven new transfers, four recognition/four response exercises, and an overlapping alternative alias implementation.
   - [x] Reconcile the A1 exercise/validator/test changes selectively; keep active A2 unit 5, 132 targets, deferred-pattern semantics, and alias failure isolation. Do not copy older context or target snapshots wholesale.
-  - [ ] Decide the authoritative day-to-day checkout before synchronizing the preserved D-drive copy; its original 20 pending files have not been overwritten or committed.
+  - [x] User authorized D-drive synchronization. Preserve all 20 pending files, still uncommitted, in `EnglishWeb-preserved-20261016`; verify original bytes against the external backup and keep the binary patch plus stash. The original `english-learning-app` path is the D-drive main checkout. Do not delete the preservation copies without separate authorization.
 - [ ] **A1-EX-003-QA:** Try the third A1 practice batch and review its English, Taiwan Chinese, difficulty, two-choice name lesson, and explicit source-pattern review context before authorizing the fourth batch.
 - [ ] **VOCAB-3000-QA-001:** Close source/license and user-review follow-up for the 132-entry A1/A2 baseline.
   - [x] Reviewed the original 126 IDs, lemmas, aliases, normalization, A1/A2 placement, active/receptive target, topic, and curriculum/reference identity.
@@ -41,7 +43,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [ ] Complete a Windows Chrome desktop and 375-pixel mobile trial of all four scenarios and record navigation, focus, reload, and date-boundary findings.
   - [ ] Manually review every partner reply, accepted answer, Traditional Chinese translation, prerequisite, and preparation phrase; correct the shopping price response and household wording if needed.
   - [ ] Confirm conversation completion never writes formal course, vocabulary, CEFR, or review evidence; inspect the optional conversation backup panel as a separate download from course/progress backup.
-  - [ ] Keep the supplement text-first: no microphone, oral grading, pronunciation score, or same-day restart laundering.
+  - [ ] Keep typed practice available; optional transcription follows ADR-050. No oral grading, pronunciation score, or same-day restart laundering.
 
 ## Next - P1
 

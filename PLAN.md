@@ -128,8 +128,18 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Add the isolated `public/data/conversation-practice-v1.json` supplement with four everyday scenarios, 12 learner turns, and 32 preparation phrases.
 - Treat partner replies and accepted variants as explicitly taught preparation content, not formal course lessons, vocabulary credit, or CEFR evidence.
 - Keep the conversation session date- and source-revision-bound under `yingju-conversation-practice-v1`; record first attempts, reveal/paste/hint assistance, and prevent same-day restart laundering.
-- Use the bounded review rule of due date `+1` for assisted completion and `+3` for a clean completion. Do not add microphone input, oral grading, or pronunciation scoring.
+- Use the bounded review rule of due date `+1` for assisted completion and `+3` for a clean completion. Optional conversation transcription is now scoped separately in M12; oral grading and pronunciation scoring remain excluded.
 - Before starting unit 7, complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. Do not claim final browser verification while that review is open.
+
+### M12 - Optional Conversation Speech Input
+
+**Status:** Implemented locally with automated verification; real microphone trial pending
+
+- Add explicit opt-in American-English browser transcription to conversation responses only, preserving typed practice and all formal learning contracts.
+- Show privacy/online-service limits, support and permission errors, interim/final text, explicit apply, stop and cancel controls. Never auto-start a microphone.
+- Keep speech-assisted records distinct from independent typed recall without storing transcripts or recordings.
+- Verify the controller with injected unit fixtures and real desktop/mobile UI tests; report these separately from actual microphone/service accuracy.
+- Stop after this scoped integration; do not add a speech backend, paid API, pronunciation scoring, or new curriculum.
 
 ## Milestone Completion Rule
 

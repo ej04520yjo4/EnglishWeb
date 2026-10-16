@@ -35,6 +35,8 @@ export type ConversationTurnRecord = {
   usedHint: boolean;
   answerRevealed: boolean;
   usedPaste: boolean;
+  /** Optional for backwards-compatible saved records; true when speech input assisted this turn. */
+  usedSpeech?: boolean;
   repairUsed: boolean;
   completed: boolean;
 };
@@ -55,6 +57,8 @@ export type ConversationResult = {
   turnCount: number;
   independentTurns: number;
   assistedTurns: number;
+  /** Number of turns whose answer was assisted by speech transcription; legacy results default to 0. */
+  speechTurns?: number;
 };
 export type ConversationStore = {
   schemaVersion: 1;
@@ -119,7 +123,7 @@ export const loadConversationData = async (rows: A1CourseCsvRow[], fetcher: type
 export const canStartConversation = (scenario: ConversationScenario, completedIds: string[], a2Unlocked: boolean, preview: boolean): boolean =>
   preview || ((scenario.level === "A1" || a2Unlocked) && scenario.requiredLessonIds.every((id) => completedIds.includes(id)));
 
-const emptyRecord = (): ConversationTurnRecord => ({ attempts: 0, firstCorrect: null, usedHint: false, answerRevealed: false, usedPaste: false, repairUsed: false, completed: false });
+const emptyRecord = (): ConversationTurnRecord => ({ attempts: 0, firstCorrect: null, usedHint: false, answerRevealed: false, usedPaste: false, usedSpeech: false, repairUsed: false, completed: false });
 export const getConversationTurnRecord = (session: ConversationSession): ConversationTurnRecord =>
   session.turns[`${session.scenarioId}-turn-${session.turnIndex + 1}`] ?? emptyRecord();
 export const emptyConversationStore = (data: ConversationData): ConversationStore => ({ schemaVersion: 1, sourceRevision: data.sourceRevision, active: null, results: {}, turnHistory: {} });
@@ -130,6 +134,7 @@ export const startConversation = (data: ConversationData, scenarioId: string, to
 const validRecord = (value: unknown): value is ConversationTurnRecord => {
   if (!object(value) || !Number.isSafeInteger(value.attempts) || Number(value.attempts) < 0 || ![true, false, null].includes(value.firstCorrect as boolean | null)) return false;
   if (["usedHint", "answerRevealed", "usedPaste", "repairUsed", "completed"].some((key) => typeof value[key] !== "boolean")) return false;
+  if (value.usedSpeech !== undefined && typeof value.usedSpeech !== "boolean") return false;
   if ((value.attempts === 0) !== (value.firstCorrect === null) || (value.completed && Number(value.attempts) === 0) || (value.answerRevealed && Number(value.attempts) < 3)) return false;
   return true;
 };
@@ -155,11 +160,11 @@ const currentSession = (data: ConversationData, session: ConversationSession, no
 };
 export const gradeConversationAnswer = (answer: string, turn: ConversationTurn): boolean =>
   turn.answers.some((reference) => normalized(answer) === normalized(reference));
-export const markConversationSupport = (data: ConversationData, session: ConversationSession, kind: "hint" | "paste" | "repair", now = new Date()): ConversationSession => {
+export const markConversationSupport = (data: ConversationData, session: ConversationSession, kind: "hint" | "paste" | "repair" | "speech", now = new Date()): ConversationSession => {
   currentSession(data, session, now);
   const record = getConversationTurnRecord(session);
   if (record.completed) return session;
-  const field = kind === "hint" ? "usedHint" : kind === "paste" ? "usedPaste" : "repairUsed";
+  const field = kind === "hint" ? "usedHint" : kind === "paste" ? "usedPaste" : kind === "speech" ? "usedSpeech" : "repairUsed";
   return { ...session, turns: { ...session.turns, [`${session.scenarioId}-turn-${session.turnIndex + 1}`]: { ...record, [field]: true } } };
 };
 export const submitConversationAnswer = (data: ConversationData, session: ConversationSession, answer: string, now = new Date()): ConversationSession => {
@@ -200,6 +205,7 @@ export const saveConversationSession = (store: ConversationStore, data: Conversa
       usedHint: previous.usedHint || record.usedHint,
       answerRevealed: previous.answerRevealed || record.answerRevealed,
       usedPaste: previous.usedPaste || record.usedPaste,
+      usedSpeech: previous.usedSpeech === true || record.usedSpeech === true,
       repairUsed: previous.repairUsed || record.repairUsed,
       completed: previous.completed || record.completed,
     } : record;
@@ -208,8 +214,9 @@ export const saveConversationSession = (store: ConversationStore, data: Conversa
   const id = conversationResultId(session.scenarioId, session.studyDate, session.sourceRevision);
   if (store.results[id]) return { ...store, active: null, turnHistory }; // First completion of this source/local date remains authoritative.
   const records = Object.keys(session.turns).map((turnId) => turnHistory[`${session.sourceRevision}:${session.studyDate}:${turnId}`]);
-  const independentTurns = records.filter((record) => record.firstCorrect && !record.usedHint && !record.usedPaste && !record.answerRevealed).length;
-  const result: ConversationResult = { id, scenarioId: session.scenarioId, sourceRevision: data.sourceRevision, studyDate: session.studyDate, dueDate: dateAfter(session.studyDate, independentTurns === records.length ? 3 : 1), turnCount: records.length, independentTurns, assistedTurns: records.length - independentTurns };
+  const independentTurns = records.filter((record) => record.firstCorrect && !record.usedHint && !record.usedPaste && !record.usedSpeech && !record.answerRevealed).length;
+  const speechTurns = records.filter((record) => record.usedSpeech === true).length;
+  const result: ConversationResult = { id, scenarioId: session.scenarioId, sourceRevision: data.sourceRevision, studyDate: session.studyDate, dueDate: dateAfter(session.studyDate, independentTurns === records.length ? 3 : 1), turnCount: records.length, independentTurns, assistedTurns: records.length - independentTurns, speechTurns };
   return { ...store, active: null, turnHistory, results: { ...store.results, [id]: result } };
 };
 export const restoreConversationStore = (raw: string | null, data: ConversationData, today: string): ConversationStore => {
@@ -223,6 +230,7 @@ export const restoreConversationStore = (raw: string | null, data: ConversationD
   }
   for (const [id, result] of Object.entries(parsed.results)) {
     if (!object(result) || result.id !== id || !text(result.scenarioId) || !text(result.sourceRevision) || !dateValid(result.studyDate) || !dateValid(result.dueDate) || !Number.isInteger(result.turnCount) || Number(result.turnCount) < 3 || Number(result.turnCount) > 6 || !Number.isInteger(result.independentTurns) || !Number.isInteger(result.assistedTurns) || Number(result.independentTurns) < 0 || Number(result.assistedTurns) < 0 || Number(result.independentTurns) + Number(result.assistedTurns) !== result.turnCount || result.dueDate !== dateAfter(result.studyDate, result.independentTurns === result.turnCount ? 3 : 1)) throw new Error(`對話紀錄 ${id} 無效，未覆寫原始資料。`);
+    if (result.speechTurns !== undefined && (!Number.isInteger(result.speechTurns) || Number(result.speechTurns) < 0 || Number(result.speechTurns) > Number(result.assistedTurns))) throw new Error(`對話紀錄 ${id}：語音輔助回合數無效，未覆寫原始資料。`);
     const currentId = conversationResultId(result.scenarioId, result.studyDate, result.sourceRevision);
     const historicalId = `${result.scenarioId}:${result.studyDate}`;
     if (id !== currentId && !(id === historicalId && result.sourceRevision !== data.sourceRevision)) throw new Error(`對話紀錄 ${id}：來源與紀錄 ID 不符。`);
@@ -237,5 +245,6 @@ export const restoreConversationStore = (raw: string | null, data: ConversationD
     const session = validateSession(data, parsed.active);
     if (session.studyDate === today && !session.finished) active = session;
   }
-  return { schemaVersion: 1, sourceRevision: data.sourceRevision, active, results: parsed.results as Record<string, ConversationResult>, turnHistory: parsed.turnHistory as Record<string, ConversationTurnRecord> };
+  const results = Object.fromEntries(Object.entries(parsed.results).map(([id, result]) => [id, { ...(result as ConversationResult), speechTurns: (result as ConversationResult).speechTurns ?? 0 }]));
+  return { schemaVersion: 1, sourceRevision: data.sourceRevision, active, results: results as Record<string, ConversationResult>, turnHistory: parsed.turnHistory as Record<string, ConversationTurnRecord> };
 };

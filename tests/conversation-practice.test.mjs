@@ -122,6 +122,61 @@ test("hint and paste support survives reload; assisted dialogue is due tomorrow"
   }
 });
 
+test("speech support can be marked before an answer and remains a separate assistance signal", () => {
+  let session = markConversationSupport(data(), initial(), "speech", now);
+  assert.equal(getConversationTurnRecord(session).usedSpeech, true);
+  assert.equal(getConversationTurnRecord(session).attempts, 0);
+  session = submitConversationAnswer(data(), session, intro().turns[0].answers[0], now);
+  const store = saveConversationSession(emptyConversationStore(data()), data(), session);
+  const resumed = restoreConversationStore(JSON.stringify(store), data(), today).active;
+  assert.equal(getConversationTurnRecord(resumed).usedSpeech, true);
+  assert.equal(getConversationTurnRecord(resumed).attempts, 1);
+});
+
+test("speech-assisted transcription is not clean credit and is counted in the result", () => {
+  const assisted = markConversationSupport(data(), initial(), "speech", now);
+  const { result } = finish(assisted);
+  assert.equal(result.independentTurns, 2);
+  assert.equal(result.assistedTurns, 1);
+  assert.equal(result.speechTurns, 1);
+  assert.equal(result.dueDate, "2026-10-17");
+});
+
+test("speech assistance is monotonic across restart and reload and cannot be laundered into a clean result", () => {
+  let session = markConversationSupport(data(), initial(), "speech", now);
+  session = submitConversationAnswer(data(), session, intro().turns[0].answers[0], now);
+  const store = saveConversationSession(emptyConversationStore(data()), data(), session);
+  const restored = restoreConversationStore(JSON.stringify(store), data(), today);
+  assert.equal(restored.turnHistory[`${data().sourceRevision}:${today}:${intro().turns[0].id}`].usedSpeech, true);
+  const first = finish(initial(), restored);
+  assert.equal(first.result.speechTurns, 1);
+  assert.equal(first.result.independentTurns, 2);
+  const restarted = finish(initial(), first.store);
+  assert.deepEqual(restarted.result, first.result);
+});
+
+test("legacy conversation stores without speech metadata remain readable with a zero default", () => {
+  const complete = finish(initial()).store;
+  const legacy = structuredClone(complete);
+  for (const record of Object.values(legacy.turnHistory)) delete record.usedSpeech;
+  for (const result of Object.values(legacy.results)) delete result.speechTurns;
+  const restored = restoreConversationStore(JSON.stringify(legacy), data(), today);
+  assert.equal(restored.results[conversationResultId(intro().id, today, data().sourceRevision)].speechTurns, 0);
+  assert.equal(Object.values(restored.turnHistory).some((record) => "usedSpeech" in record), false);
+});
+
+test("invalid speech metadata fails closed without overwriting saved records", () => {
+  const active = saveConversationSession(emptyConversationStore(data()), data(), markConversationSupport(data(), initial(), "speech", now));
+  const invalidTurn = structuredClone(active);
+  invalidTurn.active.turns[`${intro().id}-turn-1`].usedSpeech = "yes";
+  assert.throws(() => restoreConversationStore(JSON.stringify(invalidTurn), data(), today), /首次作答格式無效/);
+
+  const complete = finish(initial()).store;
+  const invalidResult = structuredClone(complete);
+  invalidResult.results[conversationResultId(intro().id, today, data().sourceRevision)].speechTurns = 4;
+  assert.throws(() => restoreConversationStore(JSON.stringify(invalidResult), data(), today), /語音輔助回合數無效/);
+});
+
 test("asking for repetition is a communication strategy, not an incorrect answer", () => {
   const session = markConversationSupport(data(), initial(), "repair", now);
   assert.equal(getConversationTurnRecord(session).repairUsed, true);

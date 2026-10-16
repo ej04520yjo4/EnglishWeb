@@ -2,6 +2,14 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-16 - Optional Conversation Speech Input
+
+- Added opt-in en-US browser speech transcription to conversation responses only, with a visible external-provider privacy notice, explicit start, stop/cancel, interim display and final preview. A separate action inserts the text for editing before answer submission.
+- Added unsupported-browser, insecure-origin, permission, network, missing-microphone and no-speech fallback messages. Hidden pages, navigation and unmount cancel capture; reload/next turn never starts it automatically.
+- Added backward-compatible speech-assistance flags and summary counts without persisting recordings/transcripts or granting independent typed-recall/formal mastery credit.
+- Preserved every curriculum source, stable ID, formal progress schema, unlock rule and typed learning path. No paid recognition service, recording file, pronunciation score or new course content.
+- Automated recognition tests use injected events; actual microphone/provider accuracy remains a user-device acceptance item.
+
 ## 2026-10-16 - A2 Household Pilot and Bounded Conversation Trial
 
 ### Added
@@ -13,7 +21,7 @@ This file records user-visible or contributor-visible project changes. Detailed 
 ### Preserved
 
 - A1 remains 8 units, 32 lessons, and 145 occurrences; A2 units 1–5 remain unchanged; A2 is still a pilot and units 7–10 remain blueprint-only.
-- Conversation practice remains text-first: it has no microphone, speech recognition, oral grading, pronunciation score, formal vocabulary evidence, CEFR pass, or review-item mutation. Learner trials and human language/phonetic QA remain pending; automated outcomes are recorded in the delivery report.
+- At initial delivery, conversation practice was text-only; the later optional-transcription change is documented above. It still has no oral grading, pronunciation score, formal vocabulary evidence, CEFR pass, or review-item mutation. Learner trials and human language/phonetic QA remain pending; automated outcomes are recorded in the delivery report.
 
 ### Fixed
 

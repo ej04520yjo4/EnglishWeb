@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { A1CourseCsvRow } from "./a1-mvp-data";
 import { localDateKey } from "./local-date";
+import { ConversationSpeechInput } from "./conversation-speech-input";
 import {
   CONVERSATION_STORAGE_KEY,
   advanceConversation,
@@ -351,15 +352,19 @@ function ActiveConversation({
   data,
   onError,
   listenFirst,
+  speechConsented,
+  onSpeechConsentChange,
 }: {
   scenario: ConversationScenario;
   session: ConversationSession;
-  onSessionChange: (session: ConversationSession) => void;
+  onSessionChange: (session: ConversationSession) => boolean;
   onSpeak: Props["onSpeak"];
   audioAvailable: boolean;
   data: ConversationData;
   onError: (message: string) => void;
   listenFirst: boolean;
+  speechConsented: boolean;
+  onSpeechConsentChange: (value: boolean) => void;
 }) {
   const turn = scenario.turns[session.turnIndex];
   const record = turn ? getConversationTurnRecord(session) : undefined;
@@ -373,6 +378,7 @@ function ActiveConversation({
   const [repairPaste, setRepairPaste] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [textRevealed, setTextRevealed] = useState(false);
+  const [speechBusy, setSpeechBusy] = useState(false);
 
   // Each turn is keyed by the parent, so focusing on mount keeps the flow
   // keyboard-first after advancing and also restores focus after a reload.
@@ -384,7 +390,7 @@ function ActiveConversation({
     return <section className="section-card"><p>對話回合資料暫時無法載入。</p></section>;
   }
 
-  const updateSupport = (kind: "hint" | "paste" | "repair") => {
+  const updateSupport = (kind: "hint" | "paste" | "repair" | "speech") => {
     try {
       onSessionChange(markConversationSupport(data, session, kind));
     } catch (error) {
@@ -393,7 +399,7 @@ function ActiveConversation({
   };
 
   const check = () => {
-    if (!value.trim() || record.completed) return;
+    if (!value.trim() || record.completed || speechBusy) return;
     const answer = value.trim();
     if (!answer) return;
     setValue(answer);
@@ -401,7 +407,7 @@ function ActiveConversation({
     let next: ConversationSession;
     try {
       next = submitConversationAnswer(data, session, answer);
-      onSessionChange(next);
+      if (!onSessionChange(next)) return;
     } catch (error) {
       onError(error instanceof Error ? error.message : "對話答案無法儲存，請重新整理後再試。 ");
       return;
@@ -472,8 +478,8 @@ function ActiveConversation({
           </>
         )}
         <div className="conversation-audio-actions">
-          <AudioButton label="聽正常速度" text={turn.partnerEnglish} rate={1} onSpeak={onSpeak} audioAvailable={audioAvailable} />
-          <AudioButton label="聽慢速" text={turn.partnerEnglish} rate={0.75} onSpeak={onSpeak} audioAvailable={audioAvailable} />
+          <AudioButton label="聽正常速度" text={turn.partnerEnglish} rate={1} onSpeak={onSpeak} audioAvailable={audioAvailable && !speechBusy} />
+          <AudioButton label="聽慢速" text={turn.partnerEnglish} rate={0.75} onSpeak={onSpeak} audioAvailable={audioAvailable && !speechBusy} />
         </div>
         {hidePartnerText && (
           <button
@@ -530,13 +536,31 @@ function ActiveConversation({
               }
             }}
             placeholder="輸入英文，按 Enter 檢查"
-            readOnly={currentRecord.completed}
+            readOnly={currentRecord.completed || speechBusy}
           />
+          {!currentRecord.completed && <ConversationSpeechInput
+            consented={speechConsented}
+            onConsentChange={onSpeechConsentChange}
+            onBusyChange={setSpeechBusy}
+            onUseTranscript={(transcript) => {
+              try {
+                if (!onSessionChange(markConversationSupport(data, session, "speech"))) return false;
+                setValue(transcript);
+                setOutcome(null);
+                inputRef.current?.focus();
+                return true;
+              } catch (error) {
+                onError(error instanceof Error ? error.message : "語音輔助紀錄無法儲存；未套用辨識文字。");
+                return false;
+              }
+            }}
+          />}
+          {currentRecord.usedSpeech && <p className="qa-note" data-testid="conversation-speech-used">本回合已使用語音轉文字，不算獨立拼寫或發音評分。</p>}
           <button
             className="primary-button full-button conversation-check-button"
             type="button"
             data-testid="conversation-check"
-            disabled={!value.trim() || currentRecord.completed}
+            disabled={!value.trim() || currentRecord.completed || speechBusy}
             onClick={check}
             onKeyDown={(event) => activateOnEnter(event, check)}
           >
@@ -547,7 +571,7 @@ function ActiveConversation({
               className="secondary-button"
               type="button"
               data-testid="conversation-hint"
-              disabled={hintVisible}
+              disabled={hintVisible || speechBusy}
               onClick={() => {
                 updateSupport("hint");
                 setHintVisible(true);
@@ -556,10 +580,10 @@ function ActiveConversation({
             >
               顯示句型提示
             </button>
-            <button className="text-button" type="button" data-testid="conversation-repair-repeat" onClick={() => openRepair("repeat")}>
+            <button className="text-button" type="button" data-testid="conversation-repair-repeat" disabled={speechBusy} onClick={() => openRepair("repeat")}>
               請對方重說
             </button>
-            <button className="text-button" type="button" data-testid="conversation-repair-slow" onClick={() => openRepair("slow")}>
+            <button className="text-button" type="button" data-testid="conversation-repair-slow" disabled={speechBusy} onClick={() => openRepair("slow")}>
               請說慢一點
             </button>
           </div>
@@ -615,6 +639,7 @@ export function ConversationPractice({
   const [hasBackup, setHasBackup] = useState(false);
   const [summaryWasJustCompleted, setSummaryWasJustCompleted] = useState(false);
   const [listenFirst, setListenFirst] = useState(false);
+  const [speechConsented, setSpeechConsented] = useState(false);
 
   useEffect(() => {
     const reloadOnF5 = (event: globalThis.KeyboardEvent) => {
@@ -741,8 +766,8 @@ export function ConversationPractice({
     }
   };
 
-  const persistSession = (session: ConversationSession) => {
-    if (!data || !store) return;
+  const persistSession = (session: ConversationSession): boolean => {
+    if (!data || !store) return false;
     try {
       const nextStore = saveConversationSession(store, data, session);
       window.localStorage.setItem(CONVERSATION_STORAGE_KEY, JSON.stringify(nextStore));
@@ -762,13 +787,15 @@ export function ConversationPractice({
       } else {
         setView("active");
       }
+      return true;
     } catch (error) {
       const message = error instanceof Error ? error.message : "對話進度無法儲存。正式課程不受影響。 ";
       if (message.includes("日期已變更") && recoverExpiredActiveSession(message)) {
-        return;
+        return false;
       }
       setStorageBlocked(true);
       setError(message);
+      return false;
     }
   };
 
@@ -875,6 +902,8 @@ export function ConversationPractice({
           onSpeak={speakSafely}
           audioAvailable={audioAvailable}
           listenFirst={listenFirst}
+          speechConsented={speechConsented}
+          onSpeechConsentChange={setSpeechConsented}
           onSessionChange={persistSession}
           onError={handleConversationError}
         />
@@ -922,7 +951,7 @@ export function ConversationPractice({
             <article className="stat-card"><span>使用協助</span><strong>{lastResult.assistedTurns}</strong></article>
             <article className="stat-card"><span>下次複習</span><strong>{lastResult.dueDate}</strong></article>
           </div>
-          <p className="qa-note">你可以自己把這段對話大聲說一遍；本功能目前不評分口說，也不使用麥克風。</p>
+          <p className="qa-note">其中 {lastResult.speechTurns ?? 0} 個回合使用語音轉文字（已包含在使用協助中）。本功能比對回應文字，不評分發音，也不能證明口說流利。</p>
           <button
             className="primary-button full-button"
             type="button"
@@ -944,7 +973,7 @@ export function ConversationPractice({
           <h1>對話練習</h1>
           <p>先聽懂對方，再用完整、禮貌的英文接住對話。</p>
         </div>
-        <span className="status-pill">不使用麥克風</span>
+        <span className="status-pill">口說輸入可選用</span>
       </section>
       {storageBlocked && error && (
         <section className="qa-note conversation-storage-recovery" role="alert">

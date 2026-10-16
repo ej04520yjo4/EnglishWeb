@@ -30,7 +30,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** Current learning prioritizes reading and typed production. Microphone input, speech recognition, pronunciation scoring, and universal dictation are deferred.
+**Decision:** Current learning prioritizes reading and typed production. ADR-050 now permits optional speech transcription only in the conversation supplement. Pronunciation scoring and universal dictation remain deferred.
 
 **Reason:** The core learning loop must be reliable before platform-dependent voice assessment is added.
 
@@ -414,8 +414,8 @@ session under `yingju-conversation-practice-v1` with a SHA-256 source fingerprin
 and scenario/date/revision result keys; preserve first-attempt
 hint/reveal/paste state, reject same-day restart laundering, and schedule due
 dates at +1 day for assisted completion or +3 days for a clean completion.
-Microphone input, speech recognition, oral grading, and pronunciation scoring
-remain out of scope. Any conversation backup is a separate optional download,
+ADR-050 adds optional microphone transcription; oral grading and pronunciation
+scoring remain out of scope. Any conversation backup is a separate optional download,
 not part of course/progress backup.
 
 **Reason:** Turn-taking practice supports the user's everyday-conversation goal
@@ -423,3 +423,30 @@ without weakening formal curriculum evidence or the current reading-and-typed-
 input boundary. A bounded pilot keeps new partner language reviewable before
 another formal A2 unit is authorized. Automated UI verification is reported
 separately; learner trials and human language QA remain open.
+
+## ADR-050 - Optional Conversation Transcription Is Not Pronunciation Assessment
+
+**Status:** Accepted, 2026-10-16, following the user's explicit request for speech recognition.
+
+**Decision:** Add browser `SpeechRecognition` / `webkitSpeechRecognition` with
+`en-US` only to the supplemental conversation answer input. Keep typed input as
+the default. Require a visible privacy acknowledgement and a fresh button click
+before every capture; never start on mount, reload, next turn, or permission
+changes. Explain that the browser may send audio to its provider and need a
+network connection; do not promise offline processing or open-source recognition.
+No paid API, backend, audio recording file, transcript persistence, or confidence-
+based pronunciation score is introduced. Use HTTPS or localhost and detect support.
+
+**Decision:** Show an editable-result preview before explicit insertion and answer
+submission. Persist only a backward-compatible `usedSpeech` flag, never recognized
+text or audio. Speech-assisted turns do not count as independent typed recall;
+show their count separately, retain monotonic same-day history and the existing
+assisted +1-day review rule. Formal course schema v6, spelling/mastery evidence,
+curriculum files and CEFR unlocking remain unchanged.
+
+**Reason:** Speech transcription can help rehearse responses, but the recognizer
+supplies spelling and may mishear the learner. It cannot certify pronunciation
+quality or conversational fluency. Stop/cancel, bounded capture, hidden-page and
+unmount cleanup, stale-callback rejection, and explicit fallback messages protect
+the learner from unintended recording and blocked learning. Automated tests use
+an injected recognizer; actual microphone accuracy requires a user device trial.
