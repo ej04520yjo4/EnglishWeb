@@ -2,6 +2,14 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-16 - 3000 Sentence Applications and KK Candidates
+
+- Merged the preceding catalog through protected PR #13 after both CI jobs passed.
+- Added one original bilingual whole-sentence application for each of 3000 canonical targets, in 60 editable batches. Reference-bound, first-answer-per-day evidence survives reload; extra words, pasted input and revealed answers cannot inflate clean application credit.
+- Added isolated supplemental loading, Enter/repeat guards, source-revision checks, three-error reveal/retype and desktop/mobile coverage without changing formal course sources or schema v6.
+- Added all 3000 CMUdict-backed KK/US IPA candidates and 3627 raw pronunciation variants with complete source/license/hash records and offline reproducibility checks. Multi-pronunciation selection and heuristic stress remain pending human review; no new audio or human-approval claim.
+- Machine-assisted content sampling corrected US `fill out`, sight/possession usage and several unnatural Taiwan Chinese translations. Full language, phonetic and CEFR human review remains open.
+
 ## 2026-10-15 - Searchable 3000-Word Candidate Library
 
 - Added 2868 sourced canonical headwords while preserving all 132 previous target objects. Runtime v2 now contains 3000 targets, split 1500 active / 1500 receptive, in 60 review batches.

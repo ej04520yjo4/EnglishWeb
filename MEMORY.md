@@ -67,6 +67,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - Keep sentence casing in `answer` while treating case variants such as `My/my` and `The/the` as the same lexeme.
 - Formal course data remains primary for progress, occurrences, audio, and source metadata. Explicitly opening a reference detail records exposure only; it never counts as course completion, recognition, spelling, application, or a review-schedule change.
 - The user explicitly requested the full3000 catalog on2026-10-15. Review it in60 batches with pinned source versions, hashes and licenses. Never copy protected dictionaries, count inflections twice, certify candidate CEFR allocations, or infer application evidence from word practice.
+- Sentence applications are an independent 3000-entry original-content supplement, not new formal course occurrences. First submission per lexeme/local day is authoritative, including wrong answers; paste/reveal/retry cannot produce clean application evidence. Reference comparison is not free-writing grading.
+- Supplemental KK/IPA strings are CMUdict-derived candidates. Preserve raw ARPAbet, all variants, fixed source revision/license, and heuristic stress status; never infer contextual selection, human approval or audio availability.
 - Related-vocabulary cards display canonical lemmas and may use a validated group-level Traditional Chinese override; course answers remain occurrence-specific.
 - A related-vocabulary shortcut is safe only after the current A1 word has been answered correctly.
 

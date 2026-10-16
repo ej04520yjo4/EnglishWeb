@@ -96,6 +96,25 @@ Passage comprehension keeps `options` as strings for UI and A1 compatibility. Ne
 
 Reading-recognition options also validate declared lexeme/chunk prerequisites, including options without a source sentence. Third-batch A1 patterns use existing optional `slotValues` and `qaStatus` fields without changing schema v2 or CSV v3. When a transfer's source belongs to another lesson, the UI identifies it as review and displays that source sentence; trial A1 reading/transfer/response stages show pending-human-review status. Neither display changes progress schema v6 or the course's original sentence-pattern ID.
 
+## Vocabulary Supplements
+
+`use-vocabulary-supplements.ts` lazily loads the application and phonetic JSON
+only on the 3000-word screen. Each source has an independent validator and error
+state; failure does not disable formal courses or existing spelling/recognition.
+The original target/library files remain unchanged. Applications resolve stable
+`vocab-application:<lexeme>:01` IDs from 60 editable original-content batches;
+questions expose the Chinese prompt and target form but not the reference sentence.
+The full sentence is checked again against the source before evidence is written.
+Only the first submitted answer per word/local day counts. Wrong-first, pasted or
+revealed answers cannot become clean evidence via retry/F5. No formal occurrence,
+course completion, CEFR pass or review schedule is created by this independent flow.
+
+CMUdict ARPAbet is pinned and retained as an offline 3000-headword subset. The
+phonetic generator preserves all source variants and independently derives KK/IPA
+candidates, with explicit heuristic syllabification/stress and pending-review
+statuses. It never chooses a contextual pronunciation or marks audio ready.
+Both generators have `--check` reproducibility gates inside `npm run verify`.
+
 ## Persistence
 
 Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.

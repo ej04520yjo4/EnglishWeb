@@ -22,6 +22,17 @@ CEFR list, pronunciation dictionary, or endorsement by any source author.
   [MIT notice](opencc-js-mit.txt) and [dictionary Apache-2.0 notice](opencc-third-party.md).
 - **EnglishWeb editorial additions**: original short glosses and Taiwan Chinese
   corrections, machine-assisted and pending human review, CC BY-SA 4.0.
+- **EnglishWeb sentence applications**: 3,000 original, machine-assisted English
+  sentences, Taiwan Chinese translations and usage notes, CC BY-SA 4.0. The
+  60 editable source batches remain `pilot_review_required`; these are not
+  quotations from WordNet, Oxford, Cambridge or another dictionary.
+- **CMU Pronouncing Dictionary**: Copyright Carnegie Mellon University,
+  BSD-style redistribution terms in [complete notice](cmudict-license.txt).
+  Pinned revision: `74790861f652b15e4ac49015a90074ad62a27690`.
+  EnglishWeb independently converts ARPAbet into KK/US IPA candidates. CMUdict
+  does not supply those KK strings, contextual variant selection or syllable
+  boundaries. Derived stress placement is heuristic and all candidates require
+  review. This does not provide or relicense pronunciation audio.
 
 Each new target carries source references. `originalMeaning: true` in the source
 snapshot identifies an editorial replacement; that replacement must not retain

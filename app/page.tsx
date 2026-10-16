@@ -178,6 +178,8 @@ import {
   type VocabularyLibraryEvidenceInput,
   type VocabularyLibraryEntry as VocabularyLibraryPanelEntry,
 } from "./vocabulary-library-panel";
+import { buildVocabularyApplicationQuestion, recordVocabularyApplicationResult } from "./vocabulary-application";
+import { useVocabularySupplements } from "./use-vocabulary-supplements";
 
 type Screen =
   | "home"
@@ -684,6 +686,7 @@ export default function Home() {
     "loading" | "ready" | "error"
   >("loading");
   const [vocabularyLibraryError, setVocabularyLibraryError] = useState("");
+  const vocabularySupplements = useVocabularySupplements(screen === "vocabulary-library", vocabularyTargets);
   const [referenceRecognitionSession, setReferenceRecognitionSession] = useState<{
     title: string;
     questions: ReferenceRecognitionQuestion[];
@@ -932,6 +935,16 @@ export default function Home() {
     input: VocabularyLibraryEvidenceInput,
   ) => {
     if (!vocabularyLibrary || !vocabularyTargets) return;
+    if (input.kind === "application") {
+      if (!vocabularySupplements.applications) throw new Error("句子應用來源尚未載入，未變更進度。");
+      const data = vocabularySupplements.applications;
+      const studiedAt = new Date().toISOString();
+      // Revalidate synchronously so the practice UI cannot report completion on
+      // an expired/tampered question; then update against the newest progress.
+      recordVocabularyApplicationResult({}, data, vocabularyTargets, input.question, input.answer, { studiedAt, usedPaste: input.usedPaste, answerRevealed: input.answerRevealed });
+      setMultiProgress((current) => ({ ...current, vocabularyProgress: recordVocabularyApplicationResult(current.vocabularyProgress, data, vocabularyTargets, input.question, input.answer, { studiedAt, usedPaste: input.usedPaste, answerRevealed: input.answerRevealed }) }));
+      return;
+    }
     const expectedMode =
       input.kind === "recognition" ? "recognition" : "spelling";
     if (input.question.mode !== expectedMode) {
@@ -7203,6 +7216,17 @@ export default function Home() {
       entries={vocabularyLibraryEntries}
       loading={vocabularyLibraryStatus === "loading"}
       error={vocabularyLibraryStatus === "error" ? vocabularyLibraryError : ""}
+      applicationCount={vocabularySupplements.applications?.entries.length ?? 0}
+      applicationError={vocabularySupplements.applicationError}
+      phonetics={vocabularySupplements.phonetics}
+      phoneticError={vocabularySupplements.phoneticError}
+      buildApplicationQuestion={(entry) => {
+        if (!vocabularySupplements.applications || !vocabularyTargets) return undefined;
+        const data = vocabularySupplements.applications;
+        const question = buildVocabularyApplicationQuestion(data, vocabularyTargets, entry.lexemeId, localDateKey());
+        const source = data.entries.find((item) => item.lexemeId === entry.lexemeId);
+        return question && source ? { question, sentence: source.sentence } : undefined;
+      }}
       buildQuestion={(entry, mode) => {
         if (!vocabularyLibrary || !vocabularyTargets) return undefined;
         return buildVocabularyLibraryPracticeQuestion({

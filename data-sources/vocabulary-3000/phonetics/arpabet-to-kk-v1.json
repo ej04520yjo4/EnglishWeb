@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "mappingId": "englishweb-arpabet-to-kk-v1",
+  "status": "derived_review_required",
+  "sourceFacts": [
+    "CMUdict supplies en-US ARPAbet phones and vowel stress digits; it does not supply KK symbols.",
+    "The KK strings below are an original EnglishWeb candidate rendering and are not asserted to be human-reviewed.",
+    "No syllable boundaries are inferred in this mapping."
+  ],
+  "stressMarks": {
+    "0": "",
+    "1": "ˈ",
+    "2": "ˌ"
+  },
+  "unstressedOverrides": {
+    "AH": {
+      "ipa": "ə",
+      "kk": "ə"
+    },
+    "ER": {
+      "ipa": "ɚ",
+      "kk": "ɚ"
+    }
+  },
+  "phones": {
+    "AA": { "type": "vowel", "ipa": "ɑ", "kk": "ɑ" },
+    "AE": { "type": "vowel", "ipa": "æ", "kk": "æ" },
+    "AH": { "type": "vowel", "ipa": "ʌ", "kk": "ʌ" },
+    "AO": { "type": "vowel", "ipa": "ɔ", "kk": "ɔ" },
+    "AW": { "type": "vowel", "ipa": "aʊ", "kk": "aʊ" },
+    "AY": { "type": "vowel", "ipa": "aɪ", "kk": "aɪ" },
+    "B": { "type": "consonant", "ipa": "b", "kk": "b" },
+    "CH": { "type": "consonant", "ipa": "tʃ", "kk": "tʃ" },
+    "D": { "type": "consonant", "ipa": "d", "kk": "d" },
+    "DH": { "type": "consonant", "ipa": "ð", "kk": "ð" },
+    "EH": { "type": "vowel", "ipa": "ɛ", "kk": "ɛ" },
+    "ER": { "type": "vowel", "ipa": "ɝ", "kk": "ɝ" },
+    "EY": { "type": "vowel", "ipa": "eɪ", "kk": "e" },
+    "F": { "type": "consonant", "ipa": "f", "kk": "f" },
+    "G": { "type": "consonant", "ipa": "ɡ", "kk": "g" },
+    "HH": { "type": "consonant", "ipa": "h", "kk": "h" },
+    "IH": { "type": "vowel", "ipa": "ɪ", "kk": "ɪ" },
+    "IY": { "type": "vowel", "ipa": "i", "kk": "i" },
+    "JH": { "type": "consonant", "ipa": "dʒ", "kk": "dʒ" },
+    "K": { "type": "consonant", "ipa": "k", "kk": "k" },
+    "L": { "type": "consonant", "ipa": "l", "kk": "l" },
+    "M": { "type": "consonant", "ipa": "m", "kk": "m" },
+    "N": { "type": "consonant", "ipa": "n", "kk": "n" },
+    "NG": { "type": "consonant", "ipa": "ŋ", "kk": "ŋ" },
+    "OW": { "type": "vowel", "ipa": "oʊ", "kk": "o" },
+    "OY": { "type": "vowel", "ipa": "ɔɪ", "kk": "ɔɪ" },
+    "P": { "type": "consonant", "ipa": "p", "kk": "p" },
+    "R": { "type": "consonant", "ipa": "ɹ", "kk": "r" },
+    "S": { "type": "consonant", "ipa": "s", "kk": "s" },
+    "SH": { "type": "consonant", "ipa": "ʃ", "kk": "ʃ" },
+    "T": { "type": "consonant", "ipa": "t", "kk": "t" },
+    "TH": { "type": "consonant", "ipa": "θ", "kk": "θ" },
+    "UH": { "type": "vowel", "ipa": "ʊ", "kk": "ʊ" },
+    "UW": { "type": "vowel", "ipa": "u", "kk": "u" },
+    "V": { "type": "consonant", "ipa": "v", "kk": "v" },
+    "W": { "type": "consonant", "ipa": "w", "kk": "w" },
+    "Y": { "type": "consonant", "ipa": "j", "kk": "j" },
+    "Z": { "type": "consonant", "ipa": "z", "kk": "z" },
+    "ZH": { "type": "consonant", "ipa": "ʒ", "kk": "ʒ" }
+  }
+}

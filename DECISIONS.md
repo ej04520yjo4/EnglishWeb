@@ -377,3 +377,24 @@ Durable decisions are recorded here so later work does not reopen settled questi
 **Decision:** Allow the existing 24 reference-only receptive targets to receive recognition evidence through a separate, labeled topic practice, not through viewing cards. Reuse global schema v6 without manufacturing course occurrences or review items. Each canonical word gets one submitted answer per local day; wrong answers reveal the meaning and remain wrong for that day. Queue identity includes the local date and lexeme, not the topic or array index. Unfinished words are prioritized; familiar words can return on later days.
 
 **Reason:** Reference words previously had exposure only and could never satisfy the receptive goal. Explicit, cross-date answers close that gap without converting a browse action into mastery, allowing refresh to repair a wrong answer, or pretending that recognition proves spelling/application. This trial does not approve content, clear source licensing, or complete the 3000-word list.
+
+## ADR-047 - Sentence Applications and Phonetic Candidates Stay Independent
+
+**Status:** Accepted
+
+**Decision:** Add one original bilingual whole-sentence application per canonical
+target, in a separate source-validated supplement. Match the full reference
+sentence, not just the target word. Use only the first answer per word/local day
+and existing clean-evidence rules. Do not create formal lessons, change schema v6,
+or award recognition/spelling for sentence completion. Supplemental load failures
+remain isolated from existing practice.
+
+**Reason:** The 3000-word catalog needs productive practice without turning a word
+list into unreviewed formal curriculum. Exact reference comparison is disclosed
+as guided practice, not free-writing assessment.
+
+**Decision:** Retain the pinned, licensed CMUdict ARPAbet source and every variant;
+derive KK/IPA with an original mapping and explicit heuristic stress-boundary
+status. Do not select a homograph's contextual pronunciation automatically or
+describe candidates as verified dictionary KK. No symbol/word audio is created
+or marked ready by this data conversion.

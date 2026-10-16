@@ -116,6 +116,10 @@ const seedFixture = async (
     completedSteps?: string[];
   } = {},
 ) => {
+  // These cases exercise keyboard focus, not wall-clock rollover. A fixture
+  // created at 23:59:59 correctly expires during hydration after midnight.
+  // Keep the dedicated live-midnight regression in learning-flow.spec.ts.
+  await page.clock.setFixedTime(new Date("2026-10-15T04:00:00.000Z"));
   const progress = progressFixture(options);
   await page.addInitScript(
     ({
