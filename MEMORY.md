@@ -61,7 +61,7 @@ This file stores long-lived product facts and working preferences. Current task 
 
 - `public/data/conversation-practice-v1.json` is an isolated, versioned text-first supplement with 4 everyday scenarios, 12 learner turns, and 32 preparation phrases. Preparation explicitly teaches partner replies and accepted variants; these phrases are not formal course lessons, vocabulary credit, or CEFR evidence.
 - The supplement is date- and source-revision-bound under `yingju-conversation-practice-v1`. Its first-attempt ledger records hints, reveals, and paste assistance; same-day restart laundering is rejected. Assisted completions are due again after 1 day, while clean completions are due after 3 days.
-- Conversation practice has no microphone, speech recognition, oral grading, or pronunciation score. UI verification and learner/language QA remain open; do not treat the pilot as approved or complete.
+- The user authorized optional conversation microphone transcription on 2026-10-16. It requires privacy acknowledgement plus an explicit click, may use the browser provider's online service, and falls back to typing. Speech-assisted turns retain a separate flag and never count as independent typed recall or formal vocabulary evidence. No recordings/transcripts are persisted; no oral grading or pronunciation score. Real microphone and learner/language QA remain open.
 
 ## Content and Audio Guardrails
 

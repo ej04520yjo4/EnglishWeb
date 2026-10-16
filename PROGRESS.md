@@ -3,12 +3,14 @@
 ## Snapshot
 
 - Updated: 2026-10-16
-- Branch: `codex/everyday-conversation`, based on verified main merge `01c904d`.
+- Branch: `codex/conversation-speech-input`, based on verified main merge `32337bf` (PR #15).
+- PR #15 merged normally on 2026-10-16 after the protected quality and Playwright checks passed. The user has now authorized committing this speech-input follow-up, normal protected-PR merge to main, GitHub publication, and D-drive synchronization. Publication outcomes must be confirmed from Git/PR checks, not inferred from this pre-merge snapshot.
 - PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
-- Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
+- D-drive daily-use checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is now on clean `main`, fast-forwarded to `32337bf` before the speech PR merge. It will fast-forward again after the protected merge; no divergent code is copied over main.
+- The original D-drive branch and all 20 unstaged tracked files are preserved in `D:\Codex\Tools\EnglishWeb\EnglishWeb-preserved-20261016`, still uncommitted on `codex/a1-pattern-batch-3` at `816c2cf`. All 20 file hashes match the pre-sync byte copies in `backups\pre-speech-sync-20261016`; a binary patch and retained stash `8b1e56de8d799dda92f1c332a5a64b3d149e1aef` provide additional recovery. These older alternatives must not overwrite the newer integrated main wholesale.
 - Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
-- Active milestone: M11 - Everyday Conversation Bridge and A2 Unit 6 Pilot
+- Active milestone: M12 - Optional Conversation Speech Input
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
@@ -62,6 +64,10 @@
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
+
+- Added user-authorized, optional en-US browser transcription to conversation answers only. Consent and an explicit start precede every capture; interim/final preview cannot auto-submit. Insertion remains explicit and the existing input is editable afterwards.
+- Browser/provider failures preserve typing and do not count as wrong answers. Capture has bounded lifetime, stop/cancel, hidden-page/unmount cleanup and stale-callback guards. Speech-synthesis playback stops before capture; no recorded file, transcript persistence, paid API or pronunciation score is added.
+- Added backward-compatible `usedSpeech` and `speechTurns` records; speech-assisted turns cannot become independent typed recall via retry or reload. Formal curriculum, schema v6, course completion, vocabulary mastery, source JSON/CSV and unlock rules are unchanged.
 
 - Added household routines, obligations, help requests and shared chores as the next four A2 pilot lessons. New canonical lexemes per lesson: 3/2/2/2, all already in the 3000-word library. Added eight transfers, four recognition/four response exercises, five passage sentences and four comprehension questions.
 - Added a separate prepared conversation bridge: four scenarios and 12 learner turns covering introductions/follow-up, shopping, meeting arrangements and household cooperation. All partner/accepted phrases receive bilingual preparation. New conversational phrases are supplemental teaching, not formal occurrences; curated alternatives are not unrestricted dialogue grading.
@@ -139,9 +145,18 @@
 
 ## Next Concrete Step
 
-Try A2 unit 6 and the four conversation scenarios over two local dates, then try the same exchanges aloud with a real person. Typed completion is not evidence of oral fluency. Record language/phonetic review before unit 7; continue 3000-word QA separately. Dependency security and reconciliation of the preserved D-drive checkout remain separate work. B1/B2 stay disabled; integration is not deployment.
+Complete the authorized protected-PR publication and fast-forward both daily-use checkouts, then try optional speech input with a real microphone in Windows Chrome over localhost/HTTPS: grant/deny permission, verify recognition quality, cancel/background behavior and network failures. Automated injected recognition cannot certify real speech accuracy. Continue the A2 unit 6 and four-scenario language trial before unit 7; neither typed completion nor transcription proves oral fluency. Dependency security remains separate; B1/B2 stay disabled. Keep the preserved D-drive worktree and stash until the user explicitly authorizes their removal.
 
 ## Verification
+
+### Optional conversation speech input (2026-10-16)
+
+- Pre-change `npm run verify`: exit 0, all 12 gates, 252 unit tests / 0 failed. Active C-drive checkout clean at main `32337bf`; separate D-drive checkout still contains its 20 preserved unstaged tracked files.
+- New focused injected-recognition Playwright: exit 0, 22 passed / 0 failed (11 desktop, 11 mobile-width). An initial sandbox server bind failed with EACCES; the authorized local-server rerun completed. No real microphone or external recognition request was used.
+- Initial lint exposed synchronous capability state inside an effect and a test `this` alias; fixed with a hydration-safe external-capability snapshot and the actual fixture cleanup. A later TypeScript check identified getter narrowing after cancel; fixed by re-reading the controller reference. No rule was disabled.
+- Final `npm run verify`: exit 0, all 12 gates; 274 unit tests / 0 failed / 0 skipped, production build, lint and TypeScript passed. Logs: `tmp/speech-verified-final.log`.
+- Full `npm run test:e2e`: exit 0, 228 passed / 0 failed / 0 skipped in 11.2 minutes, 114 desktop and 114 mobile-width cases. Final scoped speech rerun covers the later cleanup hardening and two added failure cases. Real microphone/provider/device QA remains unperformed.
+- Final scoped speech Playwright: 26 passed / 0 failed / 0 skipped in 34.7 seconds (13 per viewport). The preceding expanded run had 24 pass / 2 fail because the new storage test expected the overview recovery heading rather than the active-flow recovery heading; exact-title correction preserved all data-safety assertions. Desktop/mobile preview screenshots were inspected without horizontal clipping. See `docs/conversation-speech-input-2026-10-16.md` for usage and evidence.
 
 ### Everyday conversation and household pilot (2026-10-16)
 
