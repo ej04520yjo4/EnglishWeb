@@ -303,6 +303,10 @@ const UNIT_PRESENTATION: Record<string, { description: string; accent: string }>
     description: "安排工作會面、確認時間，並練習更改約會日期。",
     accent: "#5a95db",
   },
+  "a2-u06": {
+    description: "聊聊日常家務、說明分工，並禮貌請求協助。",
+    accent: "#5a95db",
+  },
 };
 
 export const buildCourseUnitsFromRows = (

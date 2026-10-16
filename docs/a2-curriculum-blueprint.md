@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–5 have versioned pilot CSV/JSON data; units 6–10 remain planning notes until the current pilot is manually reviewed.
+This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–6 have versioned pilot CSV/JSON data; unit 6 is a bounded pilot still awaiting learner and language QA, while units 7–10 remain planning notes.
 
 ## Ten-Unit Route
 
@@ -13,7 +13,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 | 3 | 購物與比較 | Pilot data |
 | 4 | 健康與建議 | Pilot data |
 | 5 | 工作與約會安排 | Pilot data |
-| 6 | 居家與日常家務 | Blueprint only |
+| 6 | 居家與日常家務 | Bounded pilot data |
 | 7 | 經驗與生活改變 | Blueprint only |
 | 8 | 問題與簡單解決方式 | Blueprint only |
 | 9 | 社交、邀請與回應 | Blueprint only |
@@ -32,9 +32,11 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 
 試行內容共有四課：安排明天與主管見面、確認星期與時段、說明會議時間、把會議改到其他日期。內容保持逐字拼寫、語塊整體理解，並附兩題句型換字、閱讀辨識、文字選答，以及四句文章與五題理解題。全部資料仍為 `pilot_review_required`。
 
-## Deferred Unit Details
+## Pilot Unit 6
 
 ### Unit 6 — 居家與日常家務
+
+Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilot_review_required`. It is not production content or human-approved CEFR material; the learner trial and language QA must finish before unit 7 receives formal data.
 
 - 溝通目標：說明家務分工與日常頻率。
 - 主要文法：adverbs of frequency、have to 複習。
@@ -42,6 +44,8 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 - 句型方向：`I usually...`、`I have to...`
 - 短文類型：家庭日常與家務清單。
 - 前置能力：A1 地點、日常活動及單元 4 的必要性表達。
+
+## Deferred Unit Details
 
 ### Unit 7 — 經驗與生活改變
 
@@ -86,8 +90,13 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 - New lexemes should normally stay at four or fewer per lesson and recur later.
 - Transfer and reading exercises may use only content taught by that lesson.
 - Units unlock sequentially in learner mode. QA preview may inspect pilot units without changing pass records.
-- Completing the current pilot never means completing all of A2 and never unlocks B1.
+- Unit 6 is a bounded pilot and remains `pilot_review_required`; completing it never means completing all of A2 and never unlocks B1.
+- Unit 7 must wait for the unit 6 learner trial and language QA; the conversation supplement does not count as a formal unit prerequisite or completion.
+
+## Supplemental Conversation Practice
+
+`public/data/conversation-practice-v1.json` is an isolated text-first supplement, not an additional A2 unit. It contains four everyday scenarios, 12 learner turns, and 32 preparation phrases. Required formal lessons and normal level prerequisites gate access; QA preview is non-mutating. Partner replies and accepted variants are explicitly taught preparation content, but they create no formal occurrence, vocabulary, CEFR, or review evidence. The supplement uses its own date/source-revision-bound storage and has no microphone, speech recognition, oral grading, or pronunciation scoring.
 
 ## Deferred Boundary
 
-Units 6–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress until units 1–5 finish manual English, Traditional Chinese, phonetic, difficulty, and browser-flow review.
+Units 7–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress until units 1–6 finish manual English, Traditional Chinese, phonetic, difficulty, and browser-flow review. Unit 6 already has bounded pilot IDs and data, but must remain `pilot_review_required` until its learner and language QA is recorded; the pilot does not promote A2 to production or unlock B1.

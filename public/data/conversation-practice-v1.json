@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "sourceVersion": "conversation-practice-v1",
+  "sourceRevision": "conversation-v1-e5fb5ad88ed669db7c1c023ce51a24b16e1c51c0d394338328742ff7818e6f16",
+  "qaStatus": "pilot_review_required",
+  "scenarios": [
+    {
+      "id": "conversation-introduction",
+      "title": "認識新朋友：回答後再追問",
+      "level": "A1",
+      "requiredLessonIds": ["a1-u1-l2", "a1-u1-l3", "a1-u1-l4"],
+      "summaryZhTw": "扮演 Ben，介紹自己與來自哪裡，最後主動問對方住在哪裡。新增的招呼、縮寫與追問先在準備區學習，不會算成正式課程新字已學會。",
+      "preparation": [
+        { "english": "Hi, I'm Amy. What's your name?", "translationZhTw": "嗨，我是 Amy。你叫什麼名字？", "noteZhTw": "I'm 是 I am 的縮寫；What's 是 What is。這是對方的開場。" },
+        { "english": "My name is Ben.", "translationZhTw": "我叫 Ben。", "noteZhTw": "這段角色扮演請用 Ben，不需要輸入真實姓名。" },
+        { "english": "I am Ben.", "translationZhTw": "我是 Ben。", "noteZhTw": "也可以直接用 be 動詞介紹自己。" },
+        { "english": "I'm Ben.", "translationZhTw": "我是 Ben。", "noteZhTw": "口語常用縮寫，保留撇號。" },
+        { "english": "Nice to meet you, Ben. Where are you from?", "translationZhTw": "很高興認識你，Ben。你來自哪裡？", "noteZhTw": "Where are you from? 詢問來自哪裡。" },
+        { "english": "I am from Taiwan.", "translationZhTw": "我來自台灣。", "noteZhTw": "be from 加國家或地方。" },
+        { "english": "I'm from Taiwan.", "translationZhTw": "我來自台灣。", "noteZhTw": "這個縮寫回應也接受。" },
+        { "english": "I'm from Taiwan, too.", "translationZhTw": "我也來自台灣。", "noteZhTw": "句尾 too 表示也一樣。" },
+        { "english": "Where do you live?", "translationZhTw": "你住在哪裡？", "noteZhTw": "先學完整追問；live 在此表示居住，不是詢問國籍。" }
+      ],
+      "turns": [
+        { "id": "conversation-introduction-turn-1", "partnerEnglish": "Hi, I'm Amy. What's your name?", "partnerZhTw": "嗨，我是 Amy。你叫什麼名字？", "goalZhTw": "你扮演 Ben。請介紹自己的名字。", "hintZhTw": "可用 My name is … 或 I am …。", "answers": ["My name is Ben.", "I am Ben.", "I'm Ben."], "feedbackZhTw": "回答姓名就能接上這個問題；口語縮寫也可以。" },
+        { "id": "conversation-introduction-turn-2", "partnerEnglish": "Nice to meet you, Ben. Where are you from?", "partnerZhTw": "很高興認識你，Ben。你來自哪裡？", "goalZhTw": "告訴對方你來自台灣。", "hintZhTw": "I am from …，也可用 I'm。", "answers": ["I am from Taiwan.", "I'm from Taiwan."], "feedbackZhTw": "from 在這裡表示來自某地，不是時間的起點。" },
+        { "id": "conversation-introduction-turn-3", "partnerEnglish": "I'm from Taiwan, too.", "partnerZhTw": "我也來自台灣。", "goalZhTw": "不要只結束對話，接著問對方住在哪裡。", "hintZhTw": "Where do you …? 動詞用 live。", "answers": ["Where do you live?"], "feedbackZhTw": "你已主動提出追問。實際對話還可以接著聊城市、工作或興趣。" }
+      ]
+    },
+    {
+      "id": "conversation-shopping",
+      "title": "買襯衫：問價格、尺寸與付款",
+      "level": "A2",
+      "requiredLessonIds": ["a2-u03-l01", "a2-u03-l02", "a2-u03-l03", "a2-u03-l04"],
+      "summaryZhTw": "你正在挑襯衫。練習先問價格，接著確認尺寸，最後表達付款方式。店員回應與縮寫會先教，再進行三輪對話。",
+      "preparation": [
+        { "english": "Can I help you?", "translationZhTw": "需要幫忙嗎？", "noteZhTw": "店員常用的招呼，不是在問你會不會幫忙。" },
+        { "english": "How much is this shirt?", "translationZhTw": "這件襯衫多少錢？", "noteZhTw": "this 指你眼前正在看的這一件。" },
+        { "english": "It's eight dollars. This shirt is cheaper than that one.", "translationZhTw": "八美元。這件襯衫比那件便宜。", "noteZhTw": "dollars 在此情境指美元，先在對話預習中學習；It's 是 It is。one 代替 shirt。店員先回答價格，再補充比較資訊。" },
+        { "english": "Do you have this shirt in a larger size?", "translationZhTw": "這件襯衫有大一點的尺寸嗎？", "noteZhTw": "in a larger size 整組理解為大一點的尺寸。" },
+        { "english": "Do you have this one in a larger size?", "translationZhTw": "這一件有大一點的尺寸嗎？", "noteZhTw": "已知道在談襯衫時，可用 this one 代替 this shirt。" },
+        { "english": "We have a larger size.", "translationZhTw": "我們有大一點的尺寸。", "noteZhTw": "這是店員確認有尺寸的回應。" },
+        { "english": "I would like to pay by card.", "translationZhTw": "我想刷卡付款。", "noteZhTw": "by card 表示刷卡；現金是 in cash，不是 by cash。" },
+        { "english": "I'd like to pay by card.", "translationZhTw": "我想刷卡付款。", "noteZhTw": "這裡 I'd 是 I would 的縮寫。" }
+      ],
+      "turns": [
+        { "id": "conversation-shopping-turn-1", "partnerEnglish": "Can I help you?", "partnerZhTw": "需要幫忙嗎？", "goalZhTw": "詢問眼前這件襯衫的價格。", "hintZhTw": "How much is this …?", "answers": ["How much is this shirt?"], "feedbackZhTw": "先提出具體問題，店員就知道你需要什麼資訊。" },
+        { "id": "conversation-shopping-turn-2", "partnerEnglish": "It's eight dollars. This shirt is cheaper than that one.", "partnerZhTw": "八美元。這件襯衫比那件便宜。", "goalZhTw": "你對這件襯衫有興趣，追問有沒有大一點的尺寸。", "hintZhTw": "Do you have this shirt / this one in a larger …?", "answers": ["Do you have this shirt in a larger size?", "Do you have this one in a larger size?"], "feedbackZhTw": "this one 與 this shirt 在這個上下文都能指同一件商品。" },
+        { "id": "conversation-shopping-turn-3", "partnerEnglish": "We have a larger size.", "partnerZhTw": "我們有大一點的尺寸。", "goalZhTw": "尺寸確認後，禮貌表示想刷卡付款。", "hintZhTw": "I would like to pay by …。", "answers": ["I would like to pay by card.", "I'd like to pay by card."], "feedbackZhTw": "你已完成詢問、追問和表達需求；不是只背一個孤立句子。" }
+      ]
+    },
+    {
+      "id": "conversation-arrangements",
+      "title": "約見面：改時間再確認",
+      "level": "A2",
+      "requiredLessonIds": ["a2-u05-l01", "a2-u05-l02", "a2-u05-l03", "a2-u05-l04"],
+      "summaryZhTw": "跟朋友安排會面，遇到時間不方便時提出替代方案，最後確認時間。先學補充回應，再練習接話。",
+      "preparation": [
+        { "english": "Can we meet on Tuesday?", "translationZhTw": "我們可以星期二見面嗎？", "noteZhTw": "朋友先提出星期二。" },
+        { "english": "Can we meet on Friday?", "translationZhTw": "我們可以星期五見面嗎？", "noteZhTw": "用另一個日期提出替代方案。" },
+        { "english": "Friday is good. What time?", "translationZhTw": "星期五可以。幾點呢？", "noteZhTw": "What time? 是上下文清楚時常用的簡短追問。" },
+        { "english": "Can we meet at three?", "translationZhTw": "我們可以三點見面嗎？", "noteZhTw": "at 加時刻，on 加星期。" },
+        { "english": "Can we meet at three o'clock?", "translationZhTw": "我們可以三點見面嗎？", "noteZhTw": "加 o'clock 也可以。" },
+        { "english": "At three on Friday?", "translationZhTw": "星期五三點嗎？", "noteZhTw": "對方重述資訊，確認沒有聽錯。" },
+        { "english": "Yes, at three on Friday.", "translationZhTw": "對，星期五三點。", "noteZhTw": "這個簡短回應依上下文補足意思，不必每次都用很長的句子。" },
+        { "english": "Yes, we can meet at three on Friday.", "translationZhTw": "對，我們可以星期五三點見面。", "noteZhTw": "完整句回應也接受。" }
+      ],
+      "turns": [
+        { "id": "conversation-arrangements-turn-1", "partnerEnglish": "Can we meet on Tuesday?", "partnerZhTw": "我們可以星期二見面嗎？", "goalZhTw": "你想改到星期五，請提出星期五見面的建議。", "hintZhTw": "Can we meet on …?", "answers": ["Can we meet on Friday?"], "feedbackZhTw": "提出替代日期，讓對方有辦法繼續協調。" },
+        { "id": "conversation-arrangements-turn-2", "partnerEnglish": "Friday is good. What time?", "partnerZhTw": "星期五可以。幾點呢？", "goalZhTw": "建議三點見面。", "hintZhTw": "Can we meet at …?", "answers": ["Can we meet at three?", "Can we meet at three o'clock?"], "feedbackZhTw": "現在在協調時刻，介系詞要用 at。" },
+        { "id": "conversation-arrangements-turn-3", "partnerEnglish": "At three on Friday?", "partnerZhTw": "星期五三點嗎？", "goalZhTw": "確認是星期五三點，並重述日期與時間。", "hintZhTw": "Yes, at … on …。", "answers": ["Yes, at three on Friday.", "Yes, we can meet at three on Friday."], "feedbackZhTw": "重述日期與時間可減少誤會。日常對話中，這種簡短確認很實用。" }
+      ]
+    },
+    {
+      "id": "conversation-household",
+      "title": "一起做家事：說明、請求與協調",
+      "level": "A2",
+      "requiredLessonIds": ["a2-u06-l01", "a2-u06-l02", "a2-u06-l03", "a2-u06-l04"],
+      "summaryZhTw": "跟家人聊平常做什麼家事，說明今天要做的事，並請對方一起幫忙。補充問句與 now 在準備區先學習。",
+      "preparation": [
+        { "english": "What do you usually do at home?", "translationZhTw": "你通常在家做什麼？", "noteZhTw": "usually 表示通常，不是每一次都一定如此。" },
+        { "english": "I usually clean my room.", "translationZhTw": "我通常會打掃自己的房間。", "noteZhTw": "頻率副詞放在一般動詞 clean 前面。" },
+        { "english": "What do you have to do now?", "translationZhTw": "你現在必須做什麼？", "noteZhTw": "now 表示現在；對方詢問目前需要處理的事情。" },
+        { "english": "I have to wash the dishes.", "translationZhTw": "我必須洗碗。", "noteZhTw": "說明自己有需要完成的家事；have to 在這裡表示必須。" },
+        { "english": "I can wash the dishes. What can you do?", "translationZhTw": "我可以洗碗。你可以做什麼呢？", "noteZhTw": "對方願意接手洗碗，接著一起分工。" },
+        { "english": "Can you help me with the laundry?", "translationZhTw": "你可以幫我洗衣服嗎？", "noteZhTw": "help me with 加要處理的事；laundry 指待洗或要處理的衣物。" },
+        { "english": "I can clean my room.", "translationZhTw": "我可以打掃自己的房間。", "noteZhTw": "用 can 表達願意負責的家事。" }
+      ],
+      "turns": [
+        { "id": "conversation-household-turn-1", "partnerEnglish": "What do you usually do at home?", "partnerZhTw": "你通常在家做什麼？", "goalZhTw": "說明你通常會打掃自己的房間。", "hintZhTw": "I usually clean my …。", "answers": ["I usually clean my room."], "feedbackZhTw": "先回答自己的習慣，讓對方了解你的日常。" },
+        { "id": "conversation-household-turn-2", "partnerEnglish": "What do you have to do now?", "partnerZhTw": "你現在必須做什麼？", "goalZhTw": "說明你必須洗碗。", "hintZhTw": "I have to wash the …。", "answers": ["I have to wash the dishes."], "feedbackZhTw": "先回答目前需要處理的事情，接著才能一起協調分工。" },
+        { "id": "conversation-household-turn-3", "partnerEnglish": "I can wash the dishes. What can you do?", "partnerZhTw": "我可以洗碗。你可以做什麼呢？", "goalZhTw": "對方接手洗碗後，表示你可以打掃自己的房間。", "hintZhTw": "I can clean my …。", "answers": ["I can clean my room."], "feedbackZhTw": "依對方的新資訊調整回應，才是實際分工對話。洗衣協助的說法可在準備區另外練習。" }
+      ]
+    }
+  ]
+}

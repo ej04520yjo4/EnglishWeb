@@ -3069,6 +3069,352 @@ progress::-webkit-progress-value {
   }
 }
 
+/* Guided text conversation practice: intentionally reuses the existing cards,
+   buttons and focus treatment instead of introducing a second visual system. */
+.conversation-page {
+  width: min(960px, 100%);
+  margin-inline: auto;
+}
+
+.conversation-title {
+  align-items: flex-start;
+}
+
+.conversation-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.conversation-scenario-card {
+  min-width: 0;
+  display: grid;
+  gap: 13px;
+  padding: 21px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--paper);
+  box-shadow: 0 8px 24px rgb(76 59 40 / 4%);
+}
+
+.conversation-scenario-card.is-disabled {
+  color: var(--muted);
+  background: #f8f5f1;
+}
+
+.conversation-scenario-card h2 {
+  margin: 0 0 7px;
+  font-size: 23px;
+}
+
+.conversation-scenario-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.conversation-scenario-card button {
+  justify-self: start;
+}
+
+.conversation-scenario-meta,
+.conversation-audio-actions,
+.conversation-support-actions,
+.conversation-repair-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+.conversation-scenario-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.conversation-result-note {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.conversation-preparation {
+  width: min(780px, 100%);
+  margin-inline: auto;
+}
+
+.conversation-preparation h1 {
+  margin-bottom: 8px;
+}
+
+.conversation-preparation > p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.conversation-preparation-list {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.conversation-preparation-list article {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--coral);
+  border-radius: 0 11px 11px 0;
+  background: #fff9f5;
+}
+
+.conversation-preparation-list strong {
+  font-size: 17px;
+}
+
+.conversation-preparation-list span,
+.conversation-preparation-list small {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.conversation-listen-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fcfaf7;
+  cursor: pointer;
+}
+
+.conversation-listen-toggle input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--coral);
+}
+
+.conversation-listen-toggle span {
+  display: grid;
+  gap: 3px;
+}
+
+.conversation-listen-toggle small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.conversation-active {
+  width: min(780px, 100%);
+  margin-inline: auto;
+}
+
+.conversation-progress-row,
+.conversation-repair-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.conversation-progress-row > span:last-child {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.conversation-partner-bubble {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 18px;
+  padding: 21px;
+  border: 1px solid #f3cabb;
+  border-radius: 18px 18px 18px 5px;
+  background: var(--coral-soft);
+}
+
+.conversation-role {
+  color: var(--coral-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.conversation-partner-bubble p {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 31px);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.conversation-partner-bubble small {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.conversation-listen-first-prompt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.conversation-reveal-text {
+  justify-self: start;
+}
+
+.conversation-audio-button {
+  min-height: 38px;
+  padding-inline: 12px;
+}
+
+.conversation-goal {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fcfaf7;
+}
+
+.conversation-goal p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.conversation-turn-input {
+  width: 100%;
+  min-height: 62px;
+  font-size: 19px;
+}
+
+.conversation-support-actions {
+  margin-top: 12px;
+}
+
+.conversation-hint {
+  margin: 12px 0 0;
+  padding: 11px 13px;
+  color: #6e4a15;
+  border-radius: 10px;
+  background: var(--yellow-soft);
+  line-height: 1.6;
+}
+
+.conversation-reference-answer {
+  display: grid;
+  gap: 4px;
+  margin: 12px 0;
+  padding: 13px 15px;
+  border-left: 3px solid var(--warning-border);
+  border-radius: 0 10px 10px 0;
+  background: var(--yellow-soft);
+}
+
+.conversation-reference-answer span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.conversation-reference-answer strong {
+  font-size: 18px;
+}
+
+.conversation-repair {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 17px;
+  border: 1px solid #f3cabb;
+  border-radius: 14px;
+  background: #fff9f5;
+}
+
+.conversation-repair-heading h3 {
+  margin: 3px 0 0;
+  font-size: 20px;
+}
+
+.conversation-repair > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.conversation-repair-context {
+  display: grid;
+  gap: 3px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: white;
+}
+
+.conversation-repair-context span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.conversation-repair-model {
+  display: grid;
+  gap: 4px;
+  padding: 11px 13px;
+  border: 1px solid #efb2a2;
+  border-radius: 10px;
+  background: white;
+}
+
+.conversation-repair-model span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.conversation-repair-model strong {
+  font-size: 16px;
+}
+
+.conversation-storage-recovery {
+  display: grid;
+  gap: 8px;
+}
+
+.conversation-backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.conversation-backup-actions small {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.conversation-repair-actions {
+  justify-content: space-between;
+}
+
+.audio-unavailable {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 680px) {
+  .conversation-scenario-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conversation-title {
+    align-items: flex-start;
+  }
+
+  .conversation-progress-row,
+  .conversation-repair-heading {
+    align-items: flex-start;
+  }
+}
+
 
 /* Learning input hierarchy: keep the task first, controls second, metadata last. */
 .recall-card {

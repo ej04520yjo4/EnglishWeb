@@ -856,6 +856,177 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u06-l01",
+      "lessonId": "a2-u06-l01",
+      "sentenceId": "a2-u06-l01-p01-s01",
+      "sentencePatternId": "frequency-routine",
+      "passageId": "a2-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I usually clean my room.",
+      "requiredLexemeIds": [
+        "i",
+        "usually",
+        "clean",
+        "my",
+        "room"
+      ],
+      "requiredChunkIds": [
+        "usually-clean"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我通常整理我的房間。",
+          "sourceSentenceId": "a2-u06-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我三點有一個會議。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我明天十點要和主管見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我昨晚看了電視。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u06-l02",
+      "lessonId": "a2-u06-l02",
+      "sentenceId": "a2-u06-l02-p01-s01",
+      "sentencePatternId": "have-to-chore",
+      "passageId": "a2-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have to wash the dishes.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "to",
+        "wash",
+        "the",
+        "dish"
+      ],
+      "requiredChunkIds": [
+        "have-to",
+        "wash-the-dishes"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我必須洗碗。",
+          "sourceSentenceId": "a2-u06-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我通常整理我的房間。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我們可以星期二下午見面嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我三點有一個會議。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u06-l03",
+      "lessonId": "a2-u06-l03",
+      "sentenceId": "a2-u06-l03-p01-s01",
+      "sentencePatternId": "can-help-with",
+      "passageId": "a2-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Can you help me with the laundry?",
+      "requiredLexemeIds": [
+        "can",
+        "you",
+        "help",
+        "me",
+        "with",
+        "the",
+        "laundry"
+      ],
+      "requiredChunkIds": [
+        "can-you-help",
+        "with-the-laundry"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你可以幫我洗衣服嗎？",
+          "sourceSentenceId": "a2-u06-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我必須洗碗。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我通常整理我的房間。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們可以星期二下午見面嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u06-l04",
+      "lessonId": "a2-u06-l04",
+      "sentenceId": "a2-u06-l04-p01-s01",
+      "sentencePatternId": "clean-house-day",
+      "passageId": "a2-u06-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "We clean the house on Saturday.",
+      "requiredLexemeIds": [
+        "we",
+        "clean",
+        "the",
+        "house",
+        "on",
+        "saturday"
+      ],
+      "requiredChunkIds": [
+        "clean-the-house",
+        "on-saturday"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們星期六打掃房子。",
+          "sourceSentenceId": "a2-u06-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我通常整理我的房間。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我必須洗碗。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你可以幫我洗衣服嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -2422,6 +2593,313 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u06-l01",
+      "lessonId": "a2-u06-l01",
+      "sourceSentenceId": "a2-u06-l01-p01-s01",
+      "sentencePatternId": "frequency-routine",
+      "passageId": "a2-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我通常整理我的房間」的英文句子。",
+      "targetTranslation": "我通常整理我的房間。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I usually clean my room.",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "my",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I usually clean the room.",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "We usually clean the room.",
+          "requiredLexemeIds": [
+            "we",
+            "usually",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Can we move the meeting to Friday?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "move",
+            "the",
+            "meeting",
+            "to",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "move-the-meeting",
+            "to-friday"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u06-l02",
+      "lessonId": "a2-u06-l02",
+      "sourceSentenceId": "a2-u06-l02-p01-s01",
+      "sentencePatternId": "have-to-chore",
+      "passageId": "a2-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我必須洗碗」的英文句子。",
+      "targetTranslation": "我必須洗碗。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have to wash the dishes.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "wash-the-dishes"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have to clean the room.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "have-to"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "We have to wash the dishes.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "have-to"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I usually clean my room.",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "my",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u06-l03",
+      "lessonId": "a2-u06-l03",
+      "sourceSentenceId": "a2-u06-l03-p01-s01",
+      "sentencePatternId": "can-help-with",
+      "passageId": "a2-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你可以幫我洗衣服嗎」的英文句子。",
+      "targetTranslation": "你可以幫我洗衣服嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Can you help me with the laundry?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "the",
+            "laundry"
+          ],
+          "requiredChunkIds": [
+            "can-you-help",
+            "with-the-laundry"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Can you help me with the dishes?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "can-you-help"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Can you help me with my laundry?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "my",
+            "laundry"
+          ],
+          "requiredChunkIds": [
+            "can-you-help"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have to wash the dishes.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "wash-the-dishes"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u06-l04",
+      "lessonId": "a2-u06-l04",
+      "sourceSentenceId": "a2-u06-l04-p01-s01",
+      "sentencePatternId": "clean-house-day",
+      "passageId": "a2-u06-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們星期六打掃房子」的英文句子。",
+      "targetTranslation": "我們星期六打掃房子。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "We clean the house on Saturday.",
+          "requiredLexemeIds": [
+            "we",
+            "clean",
+            "the",
+            "house",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "clean-the-house",
+            "on-saturday"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I clean the room on Saturday.",
+          "requiredLexemeIds": [
+            "i",
+            "clean",
+            "the",
+            "room",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "We clean the house on Friday.",
+          "requiredLexemeIds": [
+            "we",
+            "clean",
+            "the",
+            "house",
+            "on",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "clean-the-house"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Can you help me with the laundry?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "the",
+            "laundry"
+          ],
+          "requiredChunkIds": [
+            "can-you-help",
+            "with-the-laundry"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -3895,6 +4373,333 @@
           "evidenceSentenceIds": [
             "a2-u05-p01-s03",
             "a2-u05-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u06-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u06-p01-s01",
+          "order": 1,
+          "sentence": "I usually clean my room on Saturday.",
+          "translation": "我通常星期六整理我的房間。",
+          "lessonId": "a2-u06-l04",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "my",
+            "room",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "usually-clean",
+            "on-saturday"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-s02",
+          "order": 2,
+          "sentence": "I have to wash the dishes.",
+          "translation": "我必須洗碗。",
+          "lessonId": "a2-u06-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "have-to",
+            "wash-the-dishes"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-s03",
+          "order": 3,
+          "sentence": "Can you help me with the laundry?",
+          "translation": "你可以幫我洗衣服嗎？",
+          "lessonId": "a2-u06-l04",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "the",
+            "laundry"
+          ],
+          "requiredChunkIds": [
+            "can-you-help",
+            "with-the-laundry"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-s04",
+          "order": 4,
+          "sentence": "I can help you.",
+          "translation": "我可以幫你。",
+          "lessonId": "a2-u06-l04",
+          "requiredLexemeIds": [
+            "i",
+            "can",
+            "help",
+            "you"
+          ],
+          "requiredChunkIds": [],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-s05",
+          "order": 5,
+          "sentence": "We clean the house on Saturday.",
+          "translation": "我們星期六打掃房子。",
+          "lessonId": "a2-u06-l04",
+          "requiredLexemeIds": [
+            "we",
+            "clean",
+            "the",
+            "house",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "clean-the-house",
+            "on-saturday"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u06-p01-q01",
+          "sourceSentenceId": "a2-u06-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人通常哪一天整理房間？",
+          "options": [
+            "On Saturday.",
+            "On Tuesday.",
+            "Tomorrow.",
+            "Last night."
+          ],
+          "optionMetadata": [
+            {
+              "text": "On Saturday.",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            },
+            {
+              "text": "On Tuesday.",
+              "requiredLexemeIds": [
+                "on",
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Last night.",
+              "requiredLexemeIds": [
+                "last",
+                "night"
+              ],
+              "requiredChunkIds": [
+                "last-night"
+              ]
+            }
+          ],
+          "correctAnswer": "On Saturday.",
+          "evidenceSentenceIds": [
+            "a2-u06-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-q02",
+          "sourceSentenceId": "a2-u06-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人必須洗什麼？",
+          "options": [
+            "The dishes.",
+            "The room.",
+            "The laundry.",
+            "The house."
+          ],
+          "optionMetadata": [
+            {
+              "text": "The dishes.",
+              "requiredLexemeIds": [
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The room.",
+              "requiredLexemeIds": [
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The laundry.",
+              "requiredLexemeIds": [
+                "the",
+                "laundry"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The house.",
+              "requiredLexemeIds": [
+                "the",
+                "house"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "The dishes.",
+          "evidenceSentenceIds": [
+            "a2-u06-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-q03",
+          "sourceSentenceId": "a2-u06-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "對方請求幫忙處理什麼？",
+          "options": [
+            "The laundry.",
+            "The dishes.",
+            "The room.",
+            "The house."
+          ],
+          "optionMetadata": [
+            {
+              "text": "The laundry.",
+              "requiredLexemeIds": [
+                "the",
+                "laundry"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The dishes.",
+              "requiredLexemeIds": [
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The room.",
+              "requiredLexemeIds": [
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The house.",
+              "requiredLexemeIds": [
+                "the",
+                "house"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "The laundry.",
+          "evidenceSentenceIds": [
+            "a2-u06-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-p01-q04",
+          "sourceSentenceId": "a2-u06-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "對方用哪一句話答應提供幫忙？",
+          "options": [
+            "I can help you.",
+            "I have to wash the dishes.",
+            "I usually clean my room.",
+            "We clean the house on Saturday."
+          ],
+          "optionMetadata": [
+            {
+              "text": "I can help you.",
+              "requiredLexemeIds": [
+                "i",
+                "can",
+                "help",
+                "you"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "I have to wash the dishes.",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "to",
+                "wash",
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "I usually clean my room.",
+              "requiredLexemeIds": [
+                "i",
+                "usually",
+                "clean",
+                "my",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "We clean the house on Saturday.",
+              "requiredLexemeIds": [
+                "we",
+                "clean",
+                "the",
+                "house",
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "I can help you.",
+          "evidenceSentenceIds": [
+            "a2-u06-p01-s03",
+            "a2-u06-p01-s04"
           ],
           "qaStatus": "pilot_review_required"
         }

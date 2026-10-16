@@ -20,6 +20,60 @@ export const lessonsForPassage = (
         left.passageOrder - right.passageOrder,
     );
 
+export type PassageRebuildGateInput = {
+  displaySentenceCount: number;
+  basePassageLessons: ReadonlyArray<Pick<Lesson, "id">>;
+  customSentences: ReadonlyArray<{ lessonId?: string }>;
+  currentLessonId: string;
+  completedLessonIds: ReadonlyArray<string>;
+  formalLessons: ReadonlyArray<Pick<Lesson, "id">>;
+};
+
+/**
+ * Passage presentation may contain more sentences than the formal lesson
+ * list.  Gate completion using only real lesson IDs, while failing closed if
+ * custom content claims a prerequisite that is not in the formal catalogue.
+ */
+export const canStartPassageRebuild = ({
+  displaySentenceCount,
+  basePassageLessons,
+  customSentences,
+  currentLessonId,
+  completedLessonIds,
+  formalLessons,
+}: PassageRebuildGateInput): boolean => {
+  if (displaySentenceCount <= 1 || basePassageLessons.length === 0) {
+    return false;
+  }
+
+  const formalLessonIds = new Set(formalLessons.map((lesson) => lesson.id));
+  if (!formalLessonIds.has(currentLessonId)) {
+    return false;
+  }
+
+  const prerequisiteIds = new Set<string>();
+  for (const lesson of basePassageLessons) {
+    if (!formalLessonIds.has(lesson.id)) {
+      return false;
+    }
+    prerequisiteIds.add(lesson.id);
+  }
+
+  for (const sentence of customSentences) {
+    if (sentence.lessonId !== undefined) {
+      if (!sentence.lessonId || !formalLessonIds.has(sentence.lessonId)) {
+        return false;
+      }
+      prerequisiteIds.add(sentence.lessonId);
+    }
+  }
+
+  return [...prerequisiteIds].every(
+    (lessonId) =>
+      lessonId === currentLessonId || completedLessonIds.includes(lessonId),
+  );
+};
+
 const sentenceDifference = (actualSentence: string, expectedSentence: string) => {
   const actual = normalizeSentence(actualSentence).split(" ").filter(Boolean);
   const expected = normalizeSentence(expectedSentence).split(" ").filter(Boolean);

@@ -29,14 +29,19 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
-- [ ] **A2-QA-001:** Manually review all 20 A2 pilot lessons.
-  - Preserve units 1–4 and check unit 5 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
+- [ ] **A2-QA-001:** Manually review all 24 A2 pilot lessons.
+  - Preserve units 1–5 and check the bounded household unit 6 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
   - Accept only after findings and corrections are recorded.
-- [ ] **A2-QA-003:** Try the 16 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
-- [ ] **A2-QA-004:** Check that every unit 2–5 new lexeme is appropriate for A2 and repeated naturally.
-- [ ] **A2-QA-005:** Review comparative, transportation, health, and appointment hints for sufficient clarity.
-- [ ] **A2-QA-006:** Review all four post-unit-1 passages for natural continuity and supported answers.
+- [ ] **A2-QA-003:** Try the 20 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
+- [ ] **A2-QA-004:** Check that every unit 2–6 new lexeme is appropriate for A2 and repeated naturally.
+- [ ] **A2-QA-005:** Review comparative, transportation, health, appointment, and household hints for sufficient clarity.
+- [ ] **A2-QA-006:** Review all five post-unit-1 passages for natural continuity and supported answers.
 - [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
+- [ ] **M11-CONVERSATION-TRIAL-001:** Try the bounded everyday conversation supplement before any A2 unit 7 work.
+  - [ ] Complete a Windows Chrome desktop and 375-pixel mobile trial of all four scenarios and record navigation, focus, reload, and date-boundary findings.
+  - [ ] Manually review every partner reply, accepted answer, Traditional Chinese translation, prerequisite, and preparation phrase; correct the shopping price response and household wording if needed.
+  - [ ] Confirm conversation completion never writes formal course, vocabulary, CEFR, or review evidence; inspect the optional conversation backup panel as a separate download from course/progress backup.
+  - [ ] Keep the supplement text-first: no microphone, oral grading, pronunciation score, or same-day restart laundering.
 
 ## Next - P1
 
@@ -64,8 +69,8 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **A2-QA-002:** Verify the pilot manually in current Windows Chrome and at 375 x 812.
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
-- [ ] **A2-PLAN-004:** Decide whether blueprint unit 6 should receive formal data only after the user tries and reviews unit 5.
-- [ ] **A2-PLAN-005:** After the unit 6 decision, complete any authorized units 6–10 in separate reviewed batches.
+- [x] **A2-PLAN-004:** Add the bounded unit 6 household pilot after the unit 5 review track; keep it `pilot_review_required` and separate from production approval.
+- [ ] **A2-PLAN-005:** After unit 6 learner and language QA, decide whether to authorize unit 7; keep units 7–10 blueprint-only until separately reviewed.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [x] **A1-EX-003:** Integrate the third pattern batch for explicitly pending-review trial.
@@ -124,7 +129,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] A2 pilot units 2–4 with 12 lessons, 70 new occurrences, per-lesson recognition/transfers/response, and three unit passages.
 - [x] Slot-position validation, passage prerequisite metadata, and cross-sentence evidence validation.
 - [x] A2 units 2–4 passage-option prerequisite metadata, future-content rejection, and final reading wording QA.
-- [x] Ten-unit A2 blueprint with units 5–10 kept out of formal data.
+- [x] Ten-unit A2 blueprint with units 7–10 kept out of formal data; unit 6 is now a bounded pilot.
 - [x] Deterministic pre-hydration A2 Playwright fixtures, explicit UI readiness waits, and CI failure-artifact retention.
 - [x] B1 v1 pilot with 8 units, 32 lessons, 249 one-word occurrences, 64 transfers, and 8 passages.
 - [x] B2 v1 pilot with 8 units, 32 lessons, 298 one-word occurrences, 64 transfers, and 8 passages.
