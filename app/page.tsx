@@ -180,6 +180,7 @@ import {
 } from "./vocabulary-library-panel";
 import { buildVocabularyApplicationQuestion, recordVocabularyApplicationResult } from "./vocabulary-application";
 import { useVocabularySupplements } from "./use-vocabulary-supplements";
+import { ConversationPractice } from "./conversation-practice-panel";
 
 type Screen =
   | "home"
@@ -187,6 +188,7 @@ type Screen =
   | "alphabet"
   | "phonetics"
   | "vocabulary-library"
+  | "conversation"
   | "related-vocabulary"
   | "reference-recognition"
   | "review"
@@ -353,6 +355,7 @@ const navItems: { screen: Screen; label: string; icon: string }[] = [
   { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
   { screen: "phonetics", label: "KK 音標", icon: "KK" },
   { screen: "vocabulary-library", label: "3000 單字庫", icon: "▤" },
+  { screen: "conversation", label: "對話練習", icon: "☏" },
   { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
   { screen: "review", label: "待複習", icon: "↻" },
   { screen: "weakness", label: "弱點中心", icon: "△" },
@@ -603,6 +606,27 @@ export default function Home() {
     selectedLevel
   ] as A1ExerciseData | null;
   const courseDataStatus = courseDataStatusByLevel[selectedLevel];
+  const conversationSourceRows = useMemo(
+    () => [
+      ...(courseRowsByLevel.A1 as A1CourseCsvRow[]),
+      ...(courseRowsByLevel.A2 as A1CourseCsvRow[]),
+    ],
+    [courseRowsByLevel.A1, courseRowsByLevel.A2],
+  );
+  const conversationCompletedLessonIds = useMemo(
+    () => Array.from(new Set([
+      ...multiProgress.levelProgress.A1.completedLessonIds,
+      ...multiProgress.levelProgress.A2.completedLessonIds,
+    ])),
+    [
+      multiProgress.levelProgress.A1.completedLessonIds,
+      multiProgress.levelProgress.A2.completedLessonIds,
+    ],
+  );
+  const conversationA2Unlocked = isLevelFormallyUnlocked(
+    "A2",
+    multiProgress.passedLevelIds,
+  );
   const setCourseRows = (rows: A1CourseCsvRow[]) =>
     setCourseRowsByLevel((current) => ({
       ...current,
@@ -760,7 +784,10 @@ export default function Home() {
   const [weaknessPracticeReturnScreen, setWeaknessPracticeReturnScreen] =
     useState<"weakness" | "daily-summary">("weakness");
   const [speechSupported, setSpeechSupported] = useState(
-    () => typeof window === "undefined" || "speechSynthesis" in window,
+    () =>
+      typeof window === "undefined" ||
+      (typeof window.speechSynthesis?.speak === "function" &&
+        typeof SpeechSynthesisUtterance === "function"),
   );
   const commitDailySession = useCallback(
     (next: DailySessionState | null, persistImmediately = false) => {
@@ -1939,7 +1966,11 @@ export default function Home() {
   };
 
   const speak = (text: string, rate = 1, countReplay = true) => {
-    if (!("speechSynthesis" in window)) {
+    if (
+      typeof window === "undefined" ||
+      typeof window.speechSynthesis?.speak !== "function" ||
+      typeof SpeechSynthesisUtterance !== "function"
+    ) {
       setSpeechSupported(false);
       setAudioMessage("此瀏覽器不支援語音播放，請改用最新版 Chrome。");
       return;
@@ -4155,6 +4186,18 @@ export default function Home() {
     resetWeaknessPractice();
     setScreen("home");
   };
+
+  const renderConversation = () => (
+    <ConversationPractice
+      sourceRows={conversationSourceRows}
+      completedLessonIds={conversationCompletedLessonIds}
+      a2Unlocked={conversationA2Unlocked}
+      allowPilotPreview={settings.showAdvancedPilots}
+      onSpeak={(text, rate) => speak(text, rate, false)}
+      audioAvailable={speechSupported}
+      onExit={() => setScreen("home")}
+    />
+  );
 
   const renderHome = () => {
     const pendingUnitTest = courseUnits.find(
@@ -7270,6 +7313,9 @@ export default function Home() {
     }
     if (screen === "vocabulary-library") {
       return renderVocabularyLibrary();
+    }
+    if (screen === "conversation") {
+      return renderConversation();
     }
     if (courseDataStatus === "loading") {
       return (
