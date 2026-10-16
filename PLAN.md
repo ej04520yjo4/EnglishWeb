@@ -50,10 +50,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve units 1–4 and review the new work-and-appointment pilot unit together with the existing travel, shopping, and health units.
-- Verify all 20 lessons, five unit passages, and prerequisite/slot constraints.
+- Preserve units 1–5 and review the bounded household pilot unit together with the existing travel, shopping, health, and appointment units.
+- Verify all 24 lessons, six unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- Keep units 6–10 as blueprint-only planning until the current five-unit pilot is accepted.
+- Keep units 7–10 as blueprint-only planning; unit 6 is a bounded pilot and remains `pilot_review_required` until learner and language QA is recorded.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -115,11 +115,21 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Require repeated evidence across different study dates before receptive or active mastery.
 - Let the 24 existing reference-only targets earn recognition evidence through explicit, small topic-practice batches; do not infer it from card viewing or generate formal lesson progress.
 - Interpret a study date as the learner device's local calendar day and preserve that day beside each new timestamp.
-- The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. The six curriculum targets added with A2 unit 5 still require that review, and all source/license work remains open.
+- The first 126 entries completed identity, CEFR, mastery-target, topic, and source-classification review. Curriculum targets introduced through the A2 pilot expansion, including units 5 and 6, still require that review, and all source/license work remains open.
 - Keep CEFR completion independent from vocabulary counts and learner mastery. A1/A2 target-stage allocations are candidates, not externally certified CEFR labels.
 - Provide searchable 50-word pages, explicit recognition, spelling and source-validated whole-sentence applications, without manufacturing application credit from passive browsing.
 - Supply one original bilingual application and sourced KK/IPA candidates for each of 3000 targets. Keep contextual pronunciation selection, heuristic stress placement and language quality pending human review; do not replace formal curricula or symbol audio.
-- Review the 60 candidate batches incrementally while A2 units 1–5 continue language QA; do not mark the milestone human-approved merely because the count is complete.
+- Review the 60 candidate batches incrementally while A2 units 1–6 continue language QA; do not mark the milestone human-approved merely because the count is complete.
+
+### M11 - Bounded Conversation Trial
+
+**Status:** Pilot integrated; UI verification and learner/language QA pending
+
+- Add the isolated `public/data/conversation-practice-v1.json` supplement with four everyday scenarios, 12 learner turns, and 32 preparation phrases.
+- Treat partner replies and accepted variants as explicitly taught preparation content, not formal course lessons, vocabulary credit, or CEFR evidence.
+- Keep the conversation session date- and source-revision-bound under `yingju-conversation-practice-v1`; record first attempts, reveal/paste/hint assistance, and prevent same-day restart laundering.
+- Use the bounded review rule of due date `+1` for assisted completion and `+3` for a clean completion. Do not add microphone input, oral grading, or pronunciation scoring.
+- Before starting unit 7, complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. Do not claim final browser verification while that review is open.
 
 ## Milestone Completion Rule
 

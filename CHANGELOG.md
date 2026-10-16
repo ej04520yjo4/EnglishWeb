@@ -2,6 +2,24 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-16 - A2 Household Pilot and Bounded Conversation Trial
+
+### Added
+
+- Added A2 unit 6「居家與日常家務」to the existing pilot source: 4 lessons, 24 total A2 lessons, and 146 A2 word occurrences. The new rows and exercises remain `pilot_review_required`.
+- Added the isolated `public/data/conversation-practice-v1.json` supplement with 4 everyday scenarios, 12 learner turns, and 32 preparation phrases. Partner replies and accepted variants are explicitly taught preparation content, not formal course credit.
+- Added date/source-revision-bound conversation persistence under `yingju-conversation-practice-v1`, first-attempt hint/reveal/paste tracking, and bounded +1 assisted / +3 clean review timing.
+
+### Preserved
+
+- A1 remains 8 units, 32 lessons, and 145 occurrences; A2 units 1–5 remain unchanged; A2 is still a pilot and units 7–10 remain blueprint-only.
+- Conversation practice remains text-first: it has no microphone, speech recognition, oral grading, pronunciation score, formal vocabulary evidence, CEFR pass, or review-item mutation. Learner trials and human language/phonetic QA remain pending; automated outcomes are recorded in the delivery report.
+
+### Fixed
+
+- Gate extended passage rebuilds using real lesson prerequisites, not synthetic display IDs. Five or six sentences can now follow four completed lessons without silently skipping the passage; invalid custom lesson references still fail closed.
+- Recover expired conversation sessions at local midnight without losing history. Versioned result IDs prevent same-day source updates from reusing old scores; current-source unknown scenarios are rejected rather than silently displayed.
+
 ## 2026-10-16 - 3000 Sentence Applications and KK Candidates
 
 - Merged the preceding catalog through protected PR #13 after both CI jobs passed.

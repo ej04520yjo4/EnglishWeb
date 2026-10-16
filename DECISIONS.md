@@ -158,7 +158,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** A2 units 2–4 extend the existing v1 pilot source. Every row and new exercise remains `pilot_review_required`; units 5–10 stay blueprint-only until manual review authorizes another batch.
+**Decision:** A2 units 2–6 extend the existing v1 pilot source. Every row and new exercise remains `pilot_review_required`; unit 6 is a bounded pilot, while units 7–10 stay blueprint-only until manual review authorizes another batch.
 
 **Reason:** A single level source preserves stable IDs and progress while staged review limits unverified language content.
 
@@ -318,7 +318,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** A2 unit 5「工作與約會安排」is added to the existing A2 CSV and exercise JSON sources as `pilot_review_required`. It contains four lessons and reuses the shared one-word answer, chunk, prerequisite, passage, progress, and sequential-unlock contracts. Units 6–10 remain blueprint-only until unit 5 receives learner and language review.
+**Decision:** A2 unit 5「工作與約會安排」was added to the existing A2 CSV and exercise JSON sources as `pilot_review_required`. It contains four lessons and reuses the shared one-word answer, chunk, prerequisite, passage, progress, and sequential-unlock contracts. The later unit 6 household addition is also a bounded `pilot_review_required` batch; units 7–10 remain blueprint-only until the expanded pilot receives learner and language review.
 
 **Reason:** A small end-to-end unit provides real material to test without bulk-generating the remaining A2 route or weakening the existing content and progress safeguards.
 
@@ -378,7 +378,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Reason:** Reference words previously had exposure only and could never satisfy the receptive goal. Explicit, cross-date answers close that gap without converting a browse action into mastery, allowing refresh to repair a wrong answer, or pretending that recognition proves spelling/application. This trial does not approve content, clear source licensing, or complete the 3000-word list.
 
-## ADR-047 - Sentence Applications and Phonetic Candidates Stay Independent
+## ADR-048 - Sentence Applications and Phonetic Candidates Stay Independent
 
 **Status:** Accepted
 
@@ -398,3 +398,28 @@ derive KK/IPA with an original mapping and explicit heuristic stress-boundary
 status. Do not select a homograph's contextual pronunciation automatically or
 describe candidates as verified dictionary KK. No symbol/word audio is created
 or marked ready by this data conversion.
+
+## ADR-049 - Bounded Conversation Practice Is Supplemental
+
+**Status:** Accepted, 2026-10-16
+
+**Decision:** Keep `public/data/conversation-practice-v1.json` as an isolated,
+versioned, text-first supplement with four everyday scenarios, 12 learner turns,
+and 32 preparation phrases. Preparation explicitly teaches partner replies and
+accepted variants, while required formal lessons and normal level prerequisites
+gate access. The supplement must not create formal lessons, occurrences,
+lexeme/sentence-pattern evidence, vocabulary credit, CEFR passes, or review
+items, and it must not change schema v6. Store its date- and source-revision-bound
+session under `yingju-conversation-practice-v1` with a SHA-256 source fingerprint
+and scenario/date/revision result keys; preserve first-attempt
+hint/reveal/paste state, reject same-day restart laundering, and schedule due
+dates at +1 day for assisted completion or +3 days for a clean completion.
+Microphone input, speech recognition, oral grading, and pronunciation scoring
+remain out of scope. Any conversation backup is a separate optional download,
+not part of course/progress backup.
+
+**Reason:** Turn-taking practice supports the user's everyday-conversation goal
+without weakening formal curriculum evidence or the current reading-and-typed-
+input boundary. A bounded pilot keeps new partner language reviewable before
+another formal A2 unit is authorized. Automated UI verification is reported
+separately; learner trials and human language QA remain open.

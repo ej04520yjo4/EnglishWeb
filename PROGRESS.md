@@ -3,26 +3,26 @@
 ## Snapshot
 
 - Updated: 2026-10-16
-- Branch: `codex/vocabulary-application-kk`, based on verified main merge `7bf6e03`.
-- PR #13 merged the previous 3000-word catalog normally after both protected GitHub checks passed (run `38759698862`). This follow-up adds sentence applications and KK candidates on a separate branch; main integration is not deployment.
+- Branch: `codex/everyday-conversation`, based on verified main merge `01c904d`.
+- PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
 - Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
 - Separate checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is on `codex/a1-pattern-batch-3` at `816c2cf` with 20 unstaged tracked files, no staged/untracked files. Its A1 exercise batch was selectively ported into the active checkout; the D-drive files themselves remain untouched.
 - Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
-- Active milestone: M10 - A1/A2 Vocabulary 3000 Foundation
+- Active milestone: M11 - Everyday Conversation Bridge and A2 Unit 6 Pilot
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
-- A2: 5 units, 20 lessons, 122 occurrences
-- Protected source status: A1 remains unchanged; A2 unit 1 remains hash-locked while unit 5 is generated reproducibly as pilot content
+- A2: 6 units, 24 lessons, 146 occurrences
+- Protected source status: A1 remains unchanged; A2 units 1–5 retain row and exercise-object hash locks. Unit 6 adds 24 occurrences and remains `pilot_review_required`.
 - Progress schema: v6 with top-level global `vocabularyProgress`
 
 ## Vocabulary Baseline
 
 - A1: 145 occurrences, 69 word forms, 75 senses, 15 chunks, 68 canonical lexemes.
-- A2: 122 occurrences, 73 word forms, 96 senses, 38 chunks, 69 canonical lexemes.
-- A1＋A2 union: 110 canonical lexemes; overlap: 27.
-- Reference-only unique lexemes: 24.
+- A2: 146 occurrences, 82 word forms, 112 senses, 44 chunks, 78 canonical lexemes.
+- A1＋A2 union: 119 canonical lexemes (117 excluding proper names); overlap: 27.
+- Reference-only unique lexemes relative to current formal rows: 23. Protected target metadata still records the original 24 reference targets, not an automatic source reclassification.
 - Protected v1 baseline: 132 entries; 108 active candidates and 24 receptive candidates, unchanged.
 - Runtime v2 catalog: 3000 canonical entries, 1500 active / 1500 receptive candidates. A1-stage 1200 (700/500), A2-stage 1800 (800/1000), 60 pages of 50.
 - Target status: `count_complete_review_required`; all entries remain `pilot_review_required`. These stage allocations are planning candidates, not official CEFR ratings or proof of learner mastery.
@@ -62,6 +62,10 @@
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
+
+- Added household routines, obligations, help requests and shared chores as the next four A2 pilot lessons. New canonical lexemes per lesson: 3/2/2/2, all already in the 3000-word library. Added eight transfers, four recognition/four response exercises, five passage sentences and four comprehension questions.
+- Added a separate prepared conversation bridge: four scenarios and 12 learner turns covering introductions/follow-up, shopping, meeting arrangements and household cooperation. All partner/accepted phrases receive bilingual preparation. New conversational phrases are supplemental teaching, not formal occurrences; curated alternatives are not unrestricted dialogue grading.
+- Conversation recall is stored separately from schema v6, with source/date-bound activity and first-answer/support history. Assisted recall is due the following local date; independent recall three dates later. Conversation never writes course completion, CEFR passes or vocabulary mastery.
 
 - Added 60 editable original bilingual application batches, strict target/form/ID/reproducibility validation, isolated lazy loading, full-sentence keyboard practice and schema-v6 application evidence. Extra words fail; wrong-first, pasted or revealed answers cannot be repaired into clean same-day credit. Added source revision checks and held-Enter guards. Independent machine-assisted samples prompted US `fill out` and Taiwan Chinese/sense corrections, not human approval.
 - Added a licensed, hash-pinned CMUdict subset with independent KK/IPA conversion and all pronunciation variants. Source/variant/status tests and offline generator checks protect provenance without claiming complete phonetic accuracy. See `docs/vocabulary-application-kk-2026-10-15.md`.
@@ -126,18 +130,29 @@
 - The target catalog and applications each contain 3000 words, but neither full collection has received human semantic/phonetic/CEFR approval. Guided applications compare one reference sentence, not all valid translations or free writing. A candidate's other words/grammar are not certified as previously taught formal prerequisites.
 - KK/IPA conversion is not an authoritative dictionary transcription. 559 words retain multiple unselected pronunciations; syllabification/stress are candidates. Original related-word phonetics and symbol audio still need separate review.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
-- A2 units 1–5 remain pilot content; units 6–10 are blueprint-only.
+- A2 units 1–6 remain pilot content; units 7–10 are blueprint-only. The user's continuation authorizes a bounded unit 6 trial, not retrospective human approval.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
-- All 27 related-vocabulary reference records still need phonetic/content review; two are now formally taught in unit 5, so deduplication leaves 24 reference-only target lexemes.
+- All 27 related-vocabulary reference records still need phonetic/content review. Current A1/A2 deduplication leaves 23 reference-only lexemes after Saturday enters unit 6; protected target-source metadata remains unchanged.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
 - Most word/sentence audio still uses browser speech fallback.
 - Native screen-reader testing and a complete contrast audit remain open. Home actions and core lesson input/detail/rebuild/recognition states now have scoped contrast checks; gradients, map-specific accent colors, phonetic-specific colors, and forced-colors mode need further review. Daily/weakness transitions and the existing assessment path join skip navigation, screen headings, counts, and reading/response/passage choices in scoped automated keyboard coverage. These checks do not establish full accessibility compliance.
 
 ## Next Concrete Step
 
-Try the first 50 words and their new sentence applications over two local dates. Review chosen senses, natural Taiwan Chinese and exact-reference expectations; then review KK candidates, especially multivariant words, before promoting any QA status. Continue through 60 batches. A1 batch 3 and A2 unit 5 still need learner review before new units. Separately compatibility-test dependency security updates and decide the authoritative checkout before syncing the untouched D-drive changes. B1/B2 remain disabled. Local completion, feature publication, main integration and deployment are distinct.
+Try A2 unit 6 and the four conversation scenarios over two local dates, then try the same exchanges aloud with a real person. Typed completion is not evidence of oral fluency. Record language/phonetic review before unit 7; continue 3000-word QA separately. Dependency security and reconciliation of the preserved D-drive checkout remain separate work. B1/B2 stay disabled; integration is not deployment.
 
 ## Verification
+
+### Everyday conversation and household pilot (2026-10-16)
+
+- Baseline `npm run verify`: exit 0, all 12 gates, 234 unit tests, 0 failures. PR #14's protected quality/browser jobs were confirmed successful before normal merge.
+- First integration unit run: 232 pass / 5 fail. Three failures exposed missing unit presentation, one was a dependent runtime-loader failure and one an outdated A2 baseline hash. Added the actual unit presentation and updated extended-source hashes while preserving per-unit 1–5 object hashes; no validator was removed.
+- Pre-browser `npm run verify`: exit 0, all 12 gates; 251 unit tests, 0 failed/skipped, build, lint and TypeScript passed. Independent review strengthened SHA-256 revision binding, same-date/source-specific results, unknown-result rejection and midnight recovery.
+- First full `npm run test:e2e`: exit 1, 204 passed / 2 failed in 10.4 minutes. Both failures were the new household passage on desktop/mobile: display-only fifth-sentence IDs were incorrectly treated as unfinished lesson prerequisites. Repaired against formal lesson IDs with fail-closed custom prerequisites; no passage sentence, assertion or scoring requirement was removed.
+- Post-fix household Playwright: exit 0, 6 passed / 0 failed, including all four lessons, five-sentence rebuild, four comprehension questions and reload persistence in both viewports. Post-fix `npm run verify`: exit 0, all 12 gates, 252 unit tests / 0 failed / 0 skipped.
+- Final full `npm run test:e2e`: exit 0, 206 passed / 0 failed / 0 skipped in 10.2 minutes: 103 desktop (1440×900) and 103 mobile-width (375×812) Chrome cases. No runtime/data changes followed this run. See `docs/everyday-conversation-2026-10-16.md` for content, commits, actual commands and remaining human-review boundaries.
+- Windows launcher scenarios: exit 0, 7 passed / 0 failed; missing-Node/install-failure paths use isolated command fixtures. Desktop/mobile conversation screenshots were inspected without horizontal clipping.
+- The separate D-drive checkout was inventoried read-only: its original 20 unstaged files remain; no files there were changed.
 
 ### Sentence applications and KK candidates (2026-10-15–16)
 

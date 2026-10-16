@@ -34,28 +34,34 @@ This file stores long-lived product facts and working preferences. Current task 
   2. `I eat breakfast at home.`
   3. `I go to work at eight.`
   4. `I go to work by bus.`
-- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, `yingju-course-rows-v3`, and isolated temporary session key `yingju-daily-session-v3`; legacy daily-session v1/v2 records are discarded.
+- Local keys: `yingju-progress-v1`, `yingju-settings-v1`, `yingju-course-rows-v3`, isolated temporary session key `yingju-daily-session-v3`, and the separate conversation supplement key `yingju-conversation-practice-v1`; legacy daily-session v1/v2 records are discarded.
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
-- A2 pilot source `public/data/a2-course-v1.csv` contains 5 units, 20 lessons, and 122 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
-- A2 units 2–5 cover travel/transportation, shopping/comparison, health/advice, and work/appointment arrangements. All remain `pilot_review_required`.
+- A2 pilot source `public/data/a2-course-v1.csv` contains 6 units, 24 lessons, and 146 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
+- A2 units 2–6 cover travel/transportation, shopping/comparison, health/advice, work/appointment arrangements, and household chores. All remain `pilot_review_required`; unit 6 is a bounded pilot, not human-approved production content.
 - B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
 - B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
 - B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
 - B1/B2 source data remains structurally validated and `pilot_review_required`, but both catalog entries are `disabled`; startup, selectors, and advanced preview must not load them.
-- `docs/a2-curriculum-blueprint.md` reserves ten A2 units, but units 6–10 have no formal CSV/JSON data.
+- `docs/a2-curriculum-blueprint.md` reserves ten A2 units; unit 6 now has bounded pilot CSV/JSON data, while units 7–10 remain blueprint-only with no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
-- Runtime targets-v2 contains3000 canonical candidates, preserving all132 v1 objects (108 curriculum and24 reference-only) and adding2868 sourced headwords. A1/A2 still contains110 union curriculum lexemes (108 countable after names); the library is not a second curriculum source. Count-complete status is not human QA or learner mastery.
+- Runtime targets-v2 contains3000 canonical candidates, preserving all132 v1 objects (108 curriculum and24 reference-only) and adding2868 sourced headwords. The current A1/A2 union contains119 curriculum lexemes (117 excluding names), including78 A2 canonical lexemes; 23 vocabulary records remain reference-only relative to the current formal course because Saturday is now formal A2 content. The library is not a second curriculum source. Count-complete status is not human QA or learner mastery.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one clean application; reveal and paste cannot create correct spelling or application evidence.
 - A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.
 - Daily Learning v3 stores its originating CEFR/lesson, stable active-review queue and completion IDs, reveal/paste safety state, completed weakness IDs, and active seconds. It restores only on the same local date, restarts timing without offline gaps, resumes the first unfinished item, and never turns restore/expiry into evidence, completion, unit pass, or CEFR pass.
 - “本週學習” means unique selected-level study dates inside the learner device's local Monday-to-Sunday week; it is not a rolling seven-record count and does not use global vocabulary evidence dates.
-- The original 126-entry metadata QA found no duplicate or rejection. The six targets introduced by A2 unit 5 still need equivalent review, and provenance remains unresolved: 108 curriculum targets need license evidence while 24 reference-only targets need a lexical/content source plus user language/phonetic review.
+- The original 126-entry metadata QA found no duplicate or rejection. Targets introduced by A2 units 5 and 6 still need equivalent review, and provenance remains unresolved: 108 baseline curriculum targets need license evidence while 24 original v1 reference objects need a lexical/content source plus user language/phonetic review.
 - Reference-only targets have a separate, explicit topic recognition trial (at most five words). First submission per local day alone can add recognition evidence; wrong-first answers cannot be corrected into credit by reloading. Two correct dates establish receptive, not active mastery. Search/detail behavior and course/review/unlock progress remain separate.
+
+## Supplemental Conversation Practice
+
+- `public/data/conversation-practice-v1.json` is an isolated, versioned text-first supplement with 4 everyday scenarios, 12 learner turns, and 32 preparation phrases. Preparation explicitly teaches partner replies and accepted variants; these phrases are not formal course lessons, vocabulary credit, or CEFR evidence.
+- The supplement is date- and source-revision-bound under `yingju-conversation-practice-v1`. Its first-attempt ledger records hints, reveals, and paste assistance; same-day restart laundering is rejected. Assisted completions are due again after 1 day, while clean completions are due after 3 days.
+- Conversation practice has no microphone, speech recognition, oral grading, or pronunciation score. UI verification and learner/language QA remain open; do not treat the pilot as approved or complete.
 
 ## Content and Audio Guardrails
 
