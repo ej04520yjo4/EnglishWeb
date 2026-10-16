@@ -13,6 +13,7 @@ import {
 } from "../app/a1-exercises.ts";
 import { validateCurriculumCatalog } from "../app/curriculum/catalog.ts";
 import { validateEditorialRows } from "../app/curriculum/editorial-validation.ts";
+import { parseConversationData } from "../app/conversation-practice.ts";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -89,6 +90,12 @@ for (const entry of catalog.levels) {
 }
 
 errors.push(...validateEditorialRows(prerequisiteRows).map((issue) => issue.message));
+try {
+  const conversation = await parseConversationData(readJson("public/data/conversation-practice-v1.json"), [...rowsByLevel.get("A1"), ...rowsByLevel.get("A2")]);
+  summaries.push(`${conversation.scenarios.length} conversation scenarios / ${conversation.scenarios.flatMap((scenario) => scenario.turns).length} learner turns (pilot)`);
+} catch (error) {
+  errors.push(error instanceof Error ? error.message : String(error));
+}
 
 if (errors.length) {
   console.error("Curriculum validation failed:");
