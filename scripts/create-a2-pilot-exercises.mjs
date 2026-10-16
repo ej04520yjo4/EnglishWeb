@@ -965,6 +965,206 @@ const newPatterns = [
       },
     ],
   }),
+  makePattern({
+    id: "frequency-routine",
+    lessonId: "a2-u06-l01",
+    template: "{subject} usually clean {object}.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "日常習慣的主詞",
+        allowedLexemeIds: ["i", "we"],
+      },
+      {
+        slotId: "frequency-action",
+        role: "頻率與家務動作",
+        allowedLexemeIds: ["usually", "clean"],
+        allowedChunkIds: ["usually-clean"],
+      },
+      {
+        slotId: "object",
+        role: "已學家務對象",
+        allowedLexemeIds: ["my", "the", "room"],
+        allowedChunkIds: [],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u06-l01-transfer-the-room",
+        sentence: "I usually clean the room.",
+        translation: "我通常整理那個房間。",
+        hintKeywords: "我／通常／整理房間",
+        skeleton: "I usually clean ______.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("frequency-action", "usually clean", ["usually", "clean"], ["usually-clean"]),
+          slotValue("object", "the room", ["the", "room"]),
+        ],
+      },
+      {
+        id: "a2-u06-l01-transfer-we",
+        sentence: "We usually clean the room.",
+        translation: "我們通常整理那個房間。",
+        hintKeywords: "我們／通常／整理房間",
+        skeleton: "We usually clean ______.",
+        slotValues: [
+          slotValue("subject", "We", ["we"]),
+          slotValue("frequency-action", "usually clean", ["usually", "clean"], ["usually-clean"]),
+          slotValue("object", "the room", ["the", "room"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "have-to-chore",
+    lessonId: "a2-u06-l02",
+    template: "{subject} have to {action} {object}.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "必須做家務的主詞",
+        allowedLexemeIds: ["i", "we"],
+      },
+      {
+        slotId: "necessity",
+        role: "表示必須",
+        allowedLexemeIds: ["have", "to"],
+        allowedChunkIds: ["have-to"],
+      },
+      {
+        slotId: "action",
+        role: "家務動作",
+        allowedLexemeIds: ["wash", "clean"],
+      },
+      {
+        slotId: "object",
+        role: "家務對象",
+        allowedLexemeIds: ["the", "dish", "room"],
+        allowedChunkIds: ["wash-the-dishes"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u06-l02-transfer-clean-room",
+        sentence: "I have to clean the room.",
+        translation: "我必須整理房間。",
+        hintKeywords: "我／必須／整理房間",
+        skeleton: "I have to ______.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("necessity", "have to", ["have", "to"], ["have-to"]),
+          slotValue("action", "clean", ["clean"]),
+          slotValue("object", "the room", ["the", "room"]),
+        ],
+      },
+      {
+        id: "a2-u06-l02-transfer-we-dishes",
+        sentence: "We have to wash the dishes.",
+        translation: "我們必須洗碗。",
+        hintKeywords: "我們／必須／洗碗",
+        skeleton: "We have to ______.",
+        slotValues: [
+          slotValue("subject", "We", ["we"]),
+          slotValue("necessity", "have to", ["have", "to"], ["have-to"]),
+          slotValue("action", "wash", ["wash"]),
+          slotValue("object", "the dishes", ["the", "dish"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "can-help-with",
+    lessonId: "a2-u06-l03",
+    template: "Can you help me with {task}?",
+    slots: [
+      {
+        slotId: "request",
+        role: "請求對方幫忙",
+        allowedLexemeIds: ["can", "you", "help", "me"],
+        allowedChunkIds: ["can-you-help"],
+      },
+      {
+        slotId: "task",
+        role: "需要協助的家務",
+        allowedLexemeIds: ["with", "the", "laundry", "dish", "my"],
+        allowedChunkIds: ["with-the-laundry"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u06-l03-transfer-dishes",
+        sentence: "Can you help me with the dishes?",
+        translation: "你可以幫我洗碗嗎？",
+        hintKeywords: "你可以幫我嗎／洗碗",
+        skeleton: "Can you help me with ______?",
+        slotValues: [
+          slotValue("request", "Can you help me", ["can", "you", "help", "me"], ["can-you-help"]),
+          slotValue("task", "with the dishes", ["with", "the", "dish"]),
+        ],
+      },
+      {
+        id: "a2-u06-l03-transfer-my-laundry",
+        sentence: "Can you help me with my laundry?",
+        translation: "你可以幫忙洗我的衣服嗎？",
+        hintKeywords: "你可以幫忙嗎／我的衣服",
+        skeleton: "Can you help me with ______?",
+        slotValues: [
+          slotValue("request", "Can you help me", ["can", "you", "help", "me"], ["can-you-help"]),
+          slotValue("task", "with my laundry", ["with", "my", "laundry"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "clean-house-day",
+    lessonId: "a2-u06-l04",
+    template: "{subject} clean {object} on {day}.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "家務習慣的主詞",
+        allowedLexemeIds: ["i", "we"],
+      },
+      {
+        slotId: "action-object",
+        role: "打掃的地方",
+        allowedLexemeIds: ["clean", "the", "house", "room"],
+        allowedChunkIds: ["clean-the-house"],
+      },
+      {
+        slotId: "day",
+        role: "家務日期",
+        allowedLexemeIds: ["on", "saturday", "friday", "monday"],
+        allowedChunkIds: ["on-saturday"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u06-l04-transfer-room",
+        sentence: "I clean the room on Saturday.",
+        translation: "我星期六整理房間。",
+        hintKeywords: "我／整理房間／星期六",
+        skeleton: "I clean the room on ______.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("action-object", "clean the room", ["clean", "the", "room"]),
+          slotValue("day", "on Saturday", ["on", "saturday"], ["on-saturday"]),
+        ],
+      },
+      {
+        id: "a2-u06-l04-transfer-friday",
+        sentence: "We clean the house on Friday.",
+        translation: "我們星期五打掃房子。",
+        hintKeywords: "我們／打掃房子／星期五",
+        skeleton: "We clean the house on ______.",
+        slotValues: [
+          slotValue("subject", "We", ["we"]),
+          slotValue("action-object", "clean the house", ["clean", "the", "house"], ["clean-the-house"]),
+          slotValue("day", "on Friday", ["on", "friday"]),
+        ],
+      },
+    ],
+  }),
 ];
 
 const recognitionDistractors = {
@@ -984,6 +1184,10 @@ const recognitionDistractors = {
   "a2-u05-l02": ["我們可以星期五下午見面嗎？", "我明天十點要和主管見面。", "我們可以把會議改到星期二嗎？"],
   "a2-u05-l03": ["我明天三點要看醫生。", "我星期二下午要和朋友見面。", "我八點去上班。"],
   "a2-u05-l04": ["我們可以星期五下午見面嗎？", "我明天十點要和主管見面。", "我三點有一個會議。"],
+  "a2-u06-l01": ["我三點有一個會議。", "我明天十點要和主管見面。", "我昨晚看了電視。"],
+  "a2-u06-l02": ["我通常整理我的房間。", "我們可以星期二下午見面嗎？", "我三點有一個會議。"],
+  "a2-u06-l03": ["我必須洗碗。", "我通常整理我的房間。", "我們可以星期二下午見面嗎？"],
+  "a2-u06-l04": ["我通常整理我的房間。", "我必須洗碗。", "你可以幫我洗衣服嗎？"],
 };
 
 const newLessonIds = [
@@ -1003,6 +1207,10 @@ const newLessonIds = [
   "a2-u05-l02",
   "a2-u05-l03",
   "a2-u05-l04",
+  "a2-u06-l01",
+  "a2-u06-l02",
+  "a2-u06-l03",
+  "a2-u06-l04",
 ];
 
 const recognition = newLessonIds.map((lessonId) => {
@@ -1065,6 +1273,10 @@ const previousLesson = {
   "a2-u05-l02": "a2-u05-l01",
   "a2-u05-l03": "a2-u05-l02",
   "a2-u05-l04": "a2-u05-l03",
+  "a2-u06-l01": "a2-u05-l04",
+  "a2-u06-l02": "a2-u06-l01",
+  "a2-u06-l03": "a2-u06-l02",
+  "a2-u06-l04": "a2-u06-l03",
 };
 const patternByLesson = new Map(
   newPatterns.map((pattern) => [
@@ -1593,6 +1805,108 @@ const newPassages = [
         ],
         "Friday.",
         ["a2-u05-p01-s03", "a2-u05-p01-s04"],
+      ),
+    ],
+  },
+  {
+    passageId: "a2-u06-p01",
+    level: "A2",
+    qaStatus,
+    sentences: [
+      passageSentence(
+        "a2-u06-p01-s01",
+        1,
+        "I usually clean my room on Saturday.",
+        "我通常星期六整理我的房間。",
+        "a2-u06-l04",
+        ["i", "usually", "clean", "my", "room", "on", "saturday"],
+        ["usually-clean", "on-saturday"],
+      ),
+      passageSentence(
+        "a2-u06-p01-s02",
+        2,
+        "I have to wash the dishes.",
+        "我必須洗碗。",
+        "a2-u06-l04",
+        ["i", "have", "to", "wash", "the", "dish"],
+        ["have-to", "wash-the-dishes"],
+      ),
+      passageSentence(
+        "a2-u06-p01-s03",
+        3,
+        "Can you help me with the laundry?",
+        "你可以幫我洗衣服嗎？",
+        "a2-u06-l04",
+        ["can", "you", "help", "me", "with", "the", "laundry"],
+        ["can-you-help", "with-the-laundry"],
+      ),
+      passageSentence(
+        "a2-u06-p01-s04",
+        4,
+        "I can help you.",
+        "我可以幫你。",
+        "a2-u06-l04",
+        ["i", "can", "help", "you"],
+      ),
+      passageSentence(
+        "a2-u06-p01-s05",
+        5,
+        "We clean the house on Saturday.",
+        "我們星期六打掃房子。",
+        "a2-u06-l04",
+        ["we", "clean", "the", "house", "on", "saturday"],
+        ["clean-the-house", "on-saturday"],
+      ),
+    ],
+    questions: [
+      passageQuestion(
+        "a2-u06-p01-q01",
+        "a2-u06-p01-s01",
+        "這個人通常哪一天整理房間？",
+        [
+          passageOption("On Saturday.", ["on", "saturday"], ["on-saturday"]),
+          passageOption("On Tuesday.", ["on", "tuesday"]),
+          passageOption("Tomorrow.", ["tomorrow"]),
+          passageOption("Last night.", ["last", "night"], ["last-night"]),
+        ],
+        "On Saturday.",
+      ),
+      passageQuestion(
+        "a2-u06-p01-q02",
+        "a2-u06-p01-s02",
+        "這個人必須洗什麼？",
+        [
+          passageOption("The dishes.", ["the", "dish"]),
+          passageOption("The room.", ["the", "room"]),
+          passageOption("The laundry.", ["the", "laundry"]),
+          passageOption("The house.", ["the", "house"]),
+        ],
+        "The dishes.",
+      ),
+      passageQuestion(
+        "a2-u06-p01-q03",
+        "a2-u06-p01-s03",
+        "對方請求幫忙處理什麼？",
+        [
+          passageOption("The laundry.", ["the", "laundry"]),
+          passageOption("The dishes.", ["the", "dish"]),
+          passageOption("The room.", ["the", "room"]),
+          passageOption("The house.", ["the", "house"]),
+        ],
+        "The laundry.",
+      ),
+      passageQuestion(
+        "a2-u06-p01-q04",
+        "a2-u06-p01-s04",
+        "對方用哪一句話答應提供幫忙？",
+        [
+          passageOption("I can help you.", ["i", "can", "help", "you"]),
+          passageOption("I have to wash the dishes.", ["i", "have", "to", "wash", "the", "dish"]),
+          passageOption("I usually clean my room.", ["i", "usually", "clean", "my", "room"]),
+          passageOption("We clean the house on Saturday.", ["we", "clean", "the", "house", "on", "saturday"]),
+        ],
+        "I can help you.",
+        ["a2-u06-p01-s03", "a2-u06-p01-s04"],
       ),
     ],
   },

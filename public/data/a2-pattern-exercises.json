@@ -2861,6 +2861,611 @@
         }
       ],
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "frequency-routine",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} usually clean {object}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "日常習慣的主詞",
+          "allowedLexemeIds": [
+            "i",
+            "we"
+          ]
+        },
+        {
+          "slotId": "frequency-action",
+          "role": "頻率與家務動作",
+          "allowedLexemeIds": [
+            "usually",
+            "clean"
+          ],
+          "allowedChunkIds": [
+            "usually-clean"
+          ]
+        },
+        {
+          "slotId": "object",
+          "role": "已學家務對象",
+          "allowedLexemeIds": [
+            "my",
+            "the",
+            "room"
+          ],
+          "allowedChunkIds": []
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u06-l01-transfer-the-room",
+          "practiceLessonId": "a2-u06-l01",
+          "sourceSentenceId": "a2-u06-l01-p01-s01",
+          "sentencePatternId": "frequency-routine",
+          "passageId": "a2-u06-p01",
+          "sentence": "I usually clean the room.",
+          "translation": "我通常整理那個房間。",
+          "hintKeywords": "我／通常／整理房間",
+          "skeleton": "I usually clean ______.",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "frequency-action",
+              "text": "usually clean",
+              "requiredLexemeIds": [
+                "usually",
+                "clean"
+              ],
+              "requiredChunkIds": [
+                "usually-clean"
+              ]
+            },
+            {
+              "slotId": "object",
+              "text": "the room",
+              "requiredLexemeIds": [
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-l01-transfer-we",
+          "practiceLessonId": "a2-u06-l01",
+          "sourceSentenceId": "a2-u06-l01-p01-s01",
+          "sentencePatternId": "frequency-routine",
+          "passageId": "a2-u06-p01",
+          "sentence": "We usually clean the room.",
+          "translation": "我們通常整理那個房間。",
+          "hintKeywords": "我們／通常／整理房間",
+          "skeleton": "We usually clean ______.",
+          "requiredLexemeIds": [
+            "we",
+            "usually",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "usually-clean"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "We",
+              "requiredLexemeIds": [
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "frequency-action",
+              "text": "usually clean",
+              "requiredLexemeIds": [
+                "usually",
+                "clean"
+              ],
+              "requiredChunkIds": [
+                "usually-clean"
+              ]
+            },
+            {
+              "slotId": "object",
+              "text": "the room",
+              "requiredLexemeIds": [
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "have-to-chore",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} have to {action} {object}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "必須做家務的主詞",
+          "allowedLexemeIds": [
+            "i",
+            "we"
+          ]
+        },
+        {
+          "slotId": "necessity",
+          "role": "表示必須",
+          "allowedLexemeIds": [
+            "have",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "have-to"
+          ]
+        },
+        {
+          "slotId": "action",
+          "role": "家務動作",
+          "allowedLexemeIds": [
+            "wash",
+            "clean"
+          ]
+        },
+        {
+          "slotId": "object",
+          "role": "家務對象",
+          "allowedLexemeIds": [
+            "the",
+            "dish",
+            "room"
+          ],
+          "allowedChunkIds": [
+            "wash-the-dishes"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u06-l02-transfer-clean-room",
+          "practiceLessonId": "a2-u06-l02",
+          "sourceSentenceId": "a2-u06-l02-p01-s01",
+          "sentencePatternId": "have-to-chore",
+          "passageId": "a2-u06-p01",
+          "sentence": "I have to clean the room.",
+          "translation": "我必須整理房間。",
+          "hintKeywords": "我／必須／整理房間",
+          "skeleton": "I have to ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "to",
+            "clean",
+            "the",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "have-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "necessity",
+              "text": "have to",
+              "requiredLexemeIds": [
+                "have",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-to"
+              ]
+            },
+            {
+              "slotId": "action",
+              "text": "clean",
+              "requiredLexemeIds": [
+                "clean"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "object",
+              "text": "the room",
+              "requiredLexemeIds": [
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-l02-transfer-we-dishes",
+          "practiceLessonId": "a2-u06-l02",
+          "sourceSentenceId": "a2-u06-l02-p01-s01",
+          "sentencePatternId": "have-to-chore",
+          "passageId": "a2-u06-p01",
+          "sentence": "We have to wash the dishes.",
+          "translation": "我們必須洗碗。",
+          "hintKeywords": "我們／必須／洗碗",
+          "skeleton": "We have to ______.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "have-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "We",
+              "requiredLexemeIds": [
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "necessity",
+              "text": "have to",
+              "requiredLexemeIds": [
+                "have",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-to"
+              ]
+            },
+            {
+              "slotId": "action",
+              "text": "wash",
+              "requiredLexemeIds": [
+                "wash"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "object",
+              "text": "the dishes",
+              "requiredLexemeIds": [
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "can-help-with",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Can you help me with {task}?",
+      "slots": [
+        {
+          "slotId": "request",
+          "role": "請求對方幫忙",
+          "allowedLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me"
+          ],
+          "allowedChunkIds": [
+            "can-you-help"
+          ]
+        },
+        {
+          "slotId": "task",
+          "role": "需要協助的家務",
+          "allowedLexemeIds": [
+            "with",
+            "the",
+            "laundry",
+            "dish",
+            "my"
+          ],
+          "allowedChunkIds": [
+            "with-the-laundry"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u06-l03-transfer-dishes",
+          "practiceLessonId": "a2-u06-l03",
+          "sourceSentenceId": "a2-u06-l03-p01-s01",
+          "sentencePatternId": "can-help-with",
+          "passageId": "a2-u06-p01",
+          "sentence": "Can you help me with the dishes?",
+          "translation": "你可以幫我洗碗嗎？",
+          "hintKeywords": "你可以幫我嗎／洗碗",
+          "skeleton": "Can you help me with ______?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "can-you-help"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can you help me",
+              "requiredLexemeIds": [
+                "can",
+                "you",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": [
+                "can-you-help"
+              ]
+            },
+            {
+              "slotId": "task",
+              "text": "with the dishes",
+              "requiredLexemeIds": [
+                "with",
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-l03-transfer-my-laundry",
+          "practiceLessonId": "a2-u06-l03",
+          "sourceSentenceId": "a2-u06-l03-p01-s01",
+          "sentencePatternId": "can-help-with",
+          "passageId": "a2-u06-p01",
+          "sentence": "Can you help me with my laundry?",
+          "translation": "你可以幫忙洗我的衣服嗎？",
+          "hintKeywords": "你可以幫忙嗎／我的衣服",
+          "skeleton": "Can you help me with ______?",
+          "requiredLexemeIds": [
+            "can",
+            "you",
+            "help",
+            "me",
+            "with",
+            "my",
+            "laundry"
+          ],
+          "requiredChunkIds": [
+            "can-you-help"
+          ],
+          "slotValues": [
+            {
+              "slotId": "request",
+              "text": "Can you help me",
+              "requiredLexemeIds": [
+                "can",
+                "you",
+                "help",
+                "me"
+              ],
+              "requiredChunkIds": [
+                "can-you-help"
+              ]
+            },
+            {
+              "slotId": "task",
+              "text": "with my laundry",
+              "requiredLexemeIds": [
+                "with",
+                "my",
+                "laundry"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "clean-house-day",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} clean {object} on {day}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "家務習慣的主詞",
+          "allowedLexemeIds": [
+            "i",
+            "we"
+          ]
+        },
+        {
+          "slotId": "action-object",
+          "role": "打掃的地方",
+          "allowedLexemeIds": [
+            "clean",
+            "the",
+            "house",
+            "room"
+          ],
+          "allowedChunkIds": [
+            "clean-the-house"
+          ]
+        },
+        {
+          "slotId": "day",
+          "role": "家務日期",
+          "allowedLexemeIds": [
+            "on",
+            "saturday",
+            "friday",
+            "monday"
+          ],
+          "allowedChunkIds": [
+            "on-saturday"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u06-l04-transfer-room",
+          "practiceLessonId": "a2-u06-l04",
+          "sourceSentenceId": "a2-u06-l04-p01-s01",
+          "sentencePatternId": "clean-house-day",
+          "passageId": "a2-u06-p01",
+          "sentence": "I clean the room on Saturday.",
+          "translation": "我星期六整理房間。",
+          "hintKeywords": "我／整理房間／星期六",
+          "skeleton": "I clean the room on ______.",
+          "requiredLexemeIds": [
+            "i",
+            "clean",
+            "the",
+            "room",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action-object",
+              "text": "clean the room",
+              "requiredLexemeIds": [
+                "clean",
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "day",
+              "text": "on Saturday",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u06-l04-transfer-friday",
+          "practiceLessonId": "a2-u06-l04",
+          "sourceSentenceId": "a2-u06-l04-p01-s01",
+          "sentencePatternId": "clean-house-day",
+          "passageId": "a2-u06-p01",
+          "sentence": "We clean the house on Friday.",
+          "translation": "我們星期五打掃房子。",
+          "hintKeywords": "我們／打掃房子／星期五",
+          "skeleton": "We clean the house on ______.",
+          "requiredLexemeIds": [
+            "we",
+            "clean",
+            "the",
+            "house",
+            "on",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "clean-the-house"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "We",
+              "requiredLexemeIds": [
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action-object",
+              "text": "clean the house",
+              "requiredLexemeIds": [
+                "clean",
+                "the",
+                "house"
+              ],
+              "requiredChunkIds": [
+                "clean-the-house"
+              ]
+            },
+            {
+              "slotId": "day",
+              "text": "on Friday",
+              "requiredLexemeIds": [
+                "on",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
     }
   ]
 }
