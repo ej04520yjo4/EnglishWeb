@@ -3603,6 +3603,55 @@ progress::-webkit-progress-value {
   }
 }
 
+/* Focused conversation review reuses the existing cards and input controls. */
+.conversation-review-invitation {
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+
+.conversation-review-invitation h2,
+.conversation-review-invitation p {
+  margin: 0;
+}
+
+.conversation-review-invitation p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.conversation-review-answer {
+  display: grid;
+  min-width: 0;
+  gap: 12px;
+}
+
+.conversation-review-answer .answer-input {
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  font-size: 20px;
+}
+
+.conversation-review-reasons {
+  padding-inline-start: 20px;
+  margin-block: 0;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.conversation-review-turn h2 {
+  font-size: clamp(22px, 4vw, 28px);
+}
+
+.conversation-answer-reveal {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff9ee;
+  overflow-wrap: anywhere;
+}
+
 /* 3000-word library: reuse the existing cards and controls without changing
    the surrounding application layout. */
 .vocabulary-library-page {

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react"
 import type { A1CourseCsvRow } from "./a1-mvp-data";
 import { localDateKey } from "./local-date";
 import { ConversationSpeechInput } from "./conversation-speech-input";
+import { ConversationWeakReview } from "./conversation-review-panel";
+import { getConversationWeakTurns, isConversationReviewDue } from "./conversation-review";
 import {
   CONVERSATION_STORAGE_KEY,
   advanceConversation,
@@ -35,7 +37,7 @@ type Props = {
   onExit?: () => void;
 };
 
-type ConversationView = "overview" | "preparation" | "active" | "summary";
+type ConversationView = "overview" | "preparation" | "active" | "summary" | "review";
 type RepairKind = "repeat" | "slow";
 
 const today = () => localDateKey();
@@ -149,6 +151,7 @@ function ScenarioCard({
       <div className="conversation-scenario-meta">
         <span>{scenario.turns.length} 個回應回合</span>
         {completed && <span className="status-pill">已完成</span>}
+        {isConversationReviewDue(result, today()) && <span className="status-pill">已到複習時間</span>}
       </div>
       {result && (
         <small className="conversation-result-note">
@@ -878,6 +881,22 @@ export function ConversationPractice({
       </div>
     );
   }
+  if (view === "review") {
+    return (
+      <ConversationWeakReview
+        data={data}
+        conversationStore={store}
+        completedLessonIds={completedLessonIds}
+        a2Unlocked={a2Unlocked}
+        allowPilotPreview={allowPilotPreview}
+        conversationBlocked={storageBlocked}
+        onSpeak={onSpeak}
+        audioAvailable={audioAvailable}
+        listenFirst={listenFirst}
+        onBack={() => setView("overview")}
+      />
+    );
+  }
   if (store.active && activeScenario && view === "active" && !activeConversationAllowed) {
     return (
       <div className="page-stack conversation-page" data-testid="conversation-practice">
@@ -952,6 +971,13 @@ export function ConversationPractice({
             <article className="stat-card"><span>下次複習</span><strong>{lastResult.dueDate}</strong></article>
           </div>
           <p className="qa-note">其中 {lastResult.speechTurns ?? 0} 個回合使用語音轉文字（已包含在使用協助中）。本功能比對回應文字，不評分發音，也不能證明口說流利。</p>
+          {getConversationWeakTurns(data, store, scenario.id).length > 0 && (
+            <div className="conversation-review-invitation">
+              <strong>需要加強：{getConversationWeakTurns(data, store, scenario.id).length} 個回合</strong>
+              <p>集中重練答錯或使用協助的回應，試著不看提示完成。</p>
+              <button className="secondary-button" type="button" onClick={() => setView("review")}>只複習弱點回合</button>
+            </div>
+          )}
           <button
             className="primary-button full-button"
             type="button"
@@ -996,6 +1022,13 @@ export function ConversationPractice({
         audioAvailable={audioAvailable}
         onChange={setListenFirst}
       />
+      <section className="section-card conversation-review-invitation">
+        <div>
+          <h2>讓卡住的回應，變成下次說得出來的句子</h2>
+          <p>依最近一次作答挑出需要加強的回合；可中途暫停，當天回來繼續。</p>
+        </div>
+        <button className="secondary-button" type="button" disabled={storageBlocked} onClick={() => setView("review")}>對話弱點複習</button>
+      </section>
       {!storageBlocked && (
         <div className="conversation-backup-actions">
           <button
