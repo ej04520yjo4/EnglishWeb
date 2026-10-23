@@ -2,15 +2,15 @@
 
 ## Snapshot
 
-- Updated: 2026-10-16
-- Branch: `codex/conversation-speech-input`, based on verified main merge `32337bf` (PR #15).
-- PR #15 merged normally on 2026-10-16 after the protected quality and Playwright checks passed. The user has now authorized committing this speech-input follow-up, normal protected-PR merge to main, GitHub publication, and D-drive synchronization. Publication outcomes must be confirmed from Git/PR checks, not inferred from this pre-merge snapshot.
+- Updated: 2026-10-23
+- Branch: `codex/conversation-review-loop`, based on main merge `6f6eddf` (PR #16).
+- PR #16 published optional speech input and both daily-use checkouts were synchronized to main in the preceding task. The user authorized publishing focused review on 2026-10-23. Local release checks passed; the normal protected PR and merge checks are next (no bypass).
 - PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
-- Active checkout: `C:\Users\Guan\Documents\ChatGPT\Tools\EnglishWeb-ui-polish`.
-- D-drive daily-use checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app` is now on clean `main`, fast-forwarded to `32337bf` before the speech PR merge. It will fast-forward again after the protected merge; no divergent code is copied over main.
+- Active checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app`; this task began clean on main `6f6eddf` and uses the feature branch above.
+- The C-drive checkout remains at the preceding published main. This follow-up does not overwrite another checkout or the saved D-drive working copy.
 - The original D-drive branch and all 20 unstaged tracked files are preserved in `D:\Codex\Tools\EnglishWeb\EnglishWeb-preserved-20261016`, still uncommitted on `codex/a1-pattern-batch-3` at `816c2cf`. All 20 file hashes match the pre-sync byte copies in `backups\pre-speech-sync-20261016`; a binary patch and retained stash `8b1e56de8d799dda92f1c332a5a64b3d149e1aef` provide additional recovery. These older alternatives must not overwrite the newer integrated main wholesale.
 - Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
-- Active milestone: M12 - Optional Conversation Speech Input
+- Active milestone: M13 - Focused Conversation Review (implementation/automated QA complete; learner trial next)
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
@@ -64,6 +64,10 @@
 - Schema v3/v4/v5 imports migrate to v6 without inventing legacy vocabulary mastery; v6 backup export/import preserves global evidence.
 
 ## Latest Completed Work
+
+- Added a bounded conversation weak-turn review: latest same-source history selects incorrect, hinted, revealed, pasted or speech-assisted turns; repair requests alone are not weaknesses. Due scenarios sort first, while authored turn order stays stable.
+- Focused review uses the existing taught responses, normal/slow partner playback, optional listen-first behavior, Enter/focus handling and third-error reveal/retype. It saves its own same-day session and result without changing full-conversation first attempts, due dates, formal course progress or vocabulary evidence.
+- Isolated `yingju-conversation-review-v1` storage rejects malformed/source-mismatched records and concurrent stale writes. Recovery offers a separate backup and confirmed review-only reset; no raw learner response is stored. Formal CSV/JSON, schema v6, A1/A2 sources and preserved user changes remain untouched.
 
 - Added user-authorized, optional en-US browser transcription to conversation answers only. Consent and an explicit start precede every capture; interim/final preview cannot auto-submit. Insertion remains explicit and the existing input is editable afterwards.
 - Browser/provider failures preserve typing and do not count as wrong answers. Capture has bounded lifetime, stop/cancel, hidden-page/unmount cleanup and stale-callback guards. Speech-synthesis playback stops before capture; no recorded file, transcript persistence, paid API or pronunciation score is added.
@@ -145,9 +149,26 @@
 
 ## Next Concrete Step
 
-Complete the authorized protected-PR publication and fast-forward both daily-use checkouts, then try optional speech input with a real microphone in Windows Chrome over localhost/HTTPS: grant/deny permission, verify recognition quality, cancel/background behavior and network failures. Automated injected recognition cannot certify real speech accuracy. Continue the A2 unit 6 and four-scenario language trial before unit 7; neither typed completion nor transcription proves oral fluency. Dependency security remains separate; B1/B2 stay disabled. Keep the preserved D-drive worktree and stash until the user explicitly authorizes their removal.
+Try the focused conversation review on a real Windows/mobile device, then revisit a full scenario on a later date to check independent recall. Also try optional speech input with a real microphone over localhost/HTTPS: permissions, recognition quality, cancellation and network failure. Automated checks do not certify learning gains or speech accuracy. Review the four scenarios and A2 unit 6 before expanding; B1/B2 remain disabled. Publishing this follow-up requires a new user request. Keep the preserved D-drive worktree, backup and stash unchanged.
 
 ## Verification
+
+### Focused review release recheck (2026-10-23)
+
+- `npm run verify`: exit 0; all 12 gates completed, including build, curriculum/source checks, 281 unit tests (0 failed/skipped), lint and TypeScript.
+- `npm run test:e2e -- tests/e2e/conversation-review.spec.ts`: exit 0; 14 passed (7 desktop / 7 mobile), 0 failed/skipped, 28.0 seconds. The first sandboxed attempt exited 1 before running tests because Vinext could not connect to localhost (`EACCES`); the authorized unrestricted rerun passed.
+- Read-only independent scope review found no blocking P1/P2 issue. All 15 changed/new files belong to focused review; protected data and formal progress remain unchanged. The original 20 tracked edits remain uncommitted in the preservation worktree.
+- Full PR CI is still required before merge. The earlier 246-case full browser run below is historical, not a new local full-suite run. Human learner/device and language QA remain open.
+
+### Focused conversation review (2026-10-16)
+
+- Pre-change `npm run verify`: exit 0, all 12 gates, 274 unit tests / 0 failed. Log: `tmp/conversation-review-baseline.log`.
+- Focused `npm run test:e2e -- tests/e2e/conversation-review.spec.ts`: exit 0, 14 passed / 0 failed (7 desktop 1440×900, 7 mobile-width 375×812). Covers actual UI, Enter/focus, third-error retype, same-day reload, midnight rejection, invalid/quota storage, cross-tab protection and prerequisites. Overview/active/summary screenshots were generated and inspected on both viewport sizes.
+- Independent scoped code review found no P1/P2 blocker. New source guards and seven unit cases preserve old conversation/formal records; real-device usability and learning outcomes still need user review.
+- Final `npm run verify`: exit 0, all 12 gates completed; 281 unit tests passed / 0 failed / 0 skipped. Context, project/data audits, three reproducible vocabulary builds, curriculum validation, production build, ESLint and TypeScript all passed. Log: `tmp/conversation-review-verify-final.log`.
+- Full `npm run test:e2e`: exit 0, 246 passed / 0 failed / 0 skipped in 12.4 minutes; 123 desktop and 123 mobile-width cases. Log: `tmp/conversation-review-e2e.log`. Earlier focused quota coverage exposed an ambiguous alert locator in the test, corrected to the actual storage-failure message without weakening data-preservation assertions.
+- `git diff --check`: exit 0. Protected-path diff: empty for all `public/data`, `app/page.tsx`, formal learning/vocabulary progress modules and `package-lock.json`. No dependency install, Windows launcher behavior change, real microphone/provider test, commit, remote push or merge was performed in this follow-up.
+- Added: `app/conversation-review.ts`, `app/conversation-review-panel.tsx`, `tests/conversation-review.test.mjs`, `tests/e2e/conversation-review.spec.ts`. Updated: conversation panel integration, scoped CSS, unit-test command and the eight context/readme documents listed by Git status.
 
 ### Optional conversation speech input (2026-10-16)
 

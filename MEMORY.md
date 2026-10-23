@@ -63,6 +63,8 @@ This file stores long-lived product facts and working preferences. Current task 
 - The supplement is date- and source-revision-bound under `yingju-conversation-practice-v1`. Its first-attempt ledger records hints, reveals, and paste assistance; same-day restart laundering is rejected. Assisted completions are due again after 1 day, while clean completions are due after 3 days.
 - The user authorized optional conversation microphone transcription on 2026-10-16. It requires privacy acknowledgement plus an explicit click, may use the browser provider's online service, and falls back to typing. Speech-assisted turns retain a separate flag and never count as independent typed recall or formal vocabulary evidence. No recordings/transcripts are persisted; no oral grading or pronunciation score. Real microphone and learner/language QA remain open.
 
+- Conversation weak-turn practice reads the newest same-source history and uses separate `yingju-conversation-review-v1` storage. It never rewrites original first-attempt scores, due dates, formal progress or mastery. Repair requests alone are not weaknesses; speech-assisted recall is eligible. A fresh full-scenario record, not focused practice, updates the weak list. Same-day retry cannot erase original assistance.
+
 ## Content and Audio Guardrails
 
 - Do not scrape Oxford, Cambridge, or other protected dictionaries.

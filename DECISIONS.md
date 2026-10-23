@@ -450,3 +450,24 @@ quality or conversational fluency. Stop/cancel, bounded capture, hidden-page and
 unmount cleanup, stale-callback rejection, and explicit fallback messages protect
 the learner from unintended recording and blocked learning. Automated tests use
 an injected recognizer; actual microphone accuracy requires a user device trial.
+
+## ADR-051 - Focused Review Does Not Rewrite Conversation Evidence
+
+**Status:** Accepted, 2026-10-16
+
+**Decision:** Derive weak turns from the newest matching-source history for each
+authored turn. Errors, hints, reveals, paste and speech transcription qualify;
+requests to repeat or slow down alone do not. Keep authored turn order within
+each scenario and surface due scenarios first. Reuse the existing taught
+responses and prerequisite checks, with typed recall and optional partner TTS.
+
+**Decision:** Save the review session and latest practice result separately under
+`yingju-conversation-review-v1`. Resume only the same local day and source;
+reject invalid data and stale writes from another tab. Do not alter original
+conversation results, due dates, formal progress schema v6, CEFR or vocabulary
+evidence. A review result describes this practice only, not mastery. A later
+full-scenario record updates the weak list; same-day history remains monotonic.
+
+**Reason:** Targeted retrieval makes previously assisted responses easier to
+practice without treating repeated exposure or transcription as independent
+conversation ability. User trials and language QA remain separate from tests.
