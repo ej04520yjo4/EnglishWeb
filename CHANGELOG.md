@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-16 - Focused Conversation Weakness Review
+
+- Added「對話弱點複習」from the scenario overview and assisted-result summary. It selects the latest incorrect or assisted turns and shows why each was selected; due scenarios appear first.
+- Reuses existing taught answers with keyboard-first typed recall, hints, three-error reveal/retype, partner playback and optional listen-first. Same-day unfinished reviews resume; raw responses are not stored.
+- Keeps focused results and backups separate from original conversation scores, formal progress and vocabulary mastery. Invalid or concurrently changed storage fails closed, with backup and confirmed review-only reset.
+- No curriculum, stable ID, dependency, progress schema, paid service or microphone behavior changes. Learner/device QA remains open.
+
 ## 2026-10-16 - Optional Conversation Speech Input
 
 - Added opt-in en-US browser speech transcription to conversation responses only, with a visible external-provider privacy notice, explicit start, stop/cancel, interim display and final preview. A separate action inserts the text for editing before answer submission.

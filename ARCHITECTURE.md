@@ -133,6 +133,18 @@ The speech UI uses the browser's unprefixed or prefixed recognition implementati
 
 ## Persistence
 
+Focused conversation review lives in `conversation-review.ts` (pure selection,
+grading and validation) and `conversation-review-panel.tsx` (UI/storage boundary).
+It reads the newest same-source `turnHistory` entry per authored turn, excludes
+repair-only support, and never writes the original conversation store. Its
+independent `yingju-conversation-review-v1` session persists turn IDs, attempt/
+assistance flags and a latest practice result, not input text. Same-day sessions
+resume; changed source, corrupt data and cross-tab stale writes fail closed.
+Old-day activity expires, while the last valid result remains. The panel is
+mounted only after the parent has loaded validated conversation data. Normal
+course prerequisites are rechecked before focused practice; QA preview grants
+no formal progress. Review backup/reset is scoped to this key alone.
+
 Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 Free-text sentence flows always record a stable `applicationAttempt`. They add `applicationCorrect` only through the shared unassisted-answer rule: correct, not revealed, and not pasted. Recall, sentence rebuild, pattern transfer, Daily Review, and weakness practice keep paste state at the exercise-item boundary; Daily Review includes that state in its reload-safe temporary record. Conversation practice uses its own storage and first-attempt ledger and never mutates formal course progress.
@@ -176,6 +188,6 @@ flowchart LR
 - Playwright runs real desktop (`1440x900`) and mobile (`375x812`) A1/A2 learning, passage, error-isolation, vocabulary-evidence, and persistence flows. B1/B2 remain in direct data tests only while disabled.
 - Saved-state Playwright fixtures are installed with `page.addInitScript` before application hydration and never overwrite progress produced later in the same test.
 - Browser interactions wait for observable level-home and course-map readiness rather than fixed sleeps.
-- A2 browser coverage walks all 20 post-unit-1 lesson flows, all five post-unit-1 passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary. Conversation browser/UI verification remains pending the bounded learner trial; isolated parser/session tests do not certify the final UI.
+- A2 browser coverage walks all 20 post-unit-1 lesson flows, all five post-unit-1 passages, formal sequential unlocking, QA inspection, reload persistence, and the no-full-level-pass boundary. Conversation and optional speech controls have desktop/mobile browser tests; focused weak-turn review adds its own UI/storage coverage. Real learner trials, language QA and actual microphone/provider behavior remain separate acceptance work.
 - Related-vocabulary checks cover source priority, topic ordering, search, status derivation, progress neutrality, course return, responsive layout, and data-failure isolation.
 - CI requires context checks, build, unit tests, lint, TypeScript, and browser tests, then retains the Playwright HTML report, failure screenshots, error context, and traces for diagnosis.

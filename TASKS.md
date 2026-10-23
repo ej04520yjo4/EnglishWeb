@@ -4,6 +4,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
+- [x] **CONVERSATION-REVIEW-001:** Add a same-source, latest-history weak-turn queue with due labels, explicit typed recall and separate reload-safe storage; do not alter original scores, review dates or formal mastery.
+- [ ] **CONVERSATION-REVIEW-DEVICE-QA:** Try the focused queue, same-day resume, hint/reveal flow and next-day full-scenario retry on Windows Chrome and a real phone. Confirm that the distinction between practice results and original scores is understandable.
+
 - [x] **CONVERSATION-SPEECH-001:** Add user-authorized optional browser transcription to conversation responses only; require consent/click, support graceful fallback, separate speech-assisted evidence, and verify cleanup plus desktop/mobile UI with injected recognition events.
 - [ ] **CONVERSATION-SPEECH-DEVICE-QA:** Try a real microphone in Windows Chrome over localhost/HTTPS; check permission denial, network/service errors, background cancellation, Taiwan-accented English recognition, and phone support. Mock recognition tests cannot certify speech accuracy or actual provider behavior.
 - [x] **WORKTREE-RECONCILE-001:** Preserve the D-drive `codex/a1-pattern-batch-3` working copy separately from integrated main; the original path is now a clean main checkout for fast-forward synchronization.

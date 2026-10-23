@@ -123,23 +123,33 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M11 - Bounded Conversation Trial
 
-**Status:** Pilot integrated; UI verification and learner/language QA pending
+**Status:** Pilot integrated with automated desktop/mobile verification; learner/language QA pending
 
 - Add the isolated `public/data/conversation-practice-v1.json` supplement with four everyday scenarios, 12 learner turns, and 32 preparation phrases.
 - Treat partner replies and accepted variants as explicitly taught preparation content, not formal course lessons, vocabulary credit, or CEFR evidence.
 - Keep the conversation session date- and source-revision-bound under `yingju-conversation-practice-v1`; record first attempts, reveal/paste/hint assistance, and prevent same-day restart laundering.
 - Use the bounded review rule of due date `+1` for assisted completion and `+3` for a clean completion. Optional conversation transcription is now scoped separately in M12; oral grading and pronunciation scoring remain excluded.
-- Before starting unit 7, complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. Do not claim final browser verification while that review is open.
+- Before starting unit 7, complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. Automated browser tests do not replace these manual checks.
 
 ### M12 - Optional Conversation Speech Input
 
-**Status:** Implemented locally with automated verification; real microphone trial pending
+**Status:** Published through PR #16; automated verification complete, real microphone trial pending
 
 - Add explicit opt-in American-English browser transcription to conversation responses only, preserving typed practice and all formal learning contracts.
 - Show privacy/online-service limits, support and permission errors, interim/final text, explicit apply, stop and cancel controls. Never auto-start a microphone.
 - Keep speech-assisted records distinct from independent typed recall without storing transcripts or recordings.
 - Verify the controller with injected unit fixtures and real desktop/mobile UI tests; report these separately from actual microphone/service accuracy.
 - Stop after this scoped integration; do not add a speech backend, paid API, pronunciation scoring, or new curriculum.
+
+### M13 - Focused Conversation Review
+
+**Status:** Implementation and automated verification complete locally; learner/device trial pending
+
+- Turn existing wrong/assisted response history into a focused, due-prioritized typed-recall queue.
+- Reuse existing preparation, prompts and accepted variants rather than adding unreviewed conversation content.
+- Preserve original first-attempt scores and review dates; save focused practice separately without formal mastery evidence.
+- Verify keyboard use, same-day reload, assistance retention, storage failure and desktop/mobile widths.
+- Stop after this bounded loop; next is real learner/device trial and the existing language review, not another curriculum expansion.
 
 ## Milestone Completion Rule
 
