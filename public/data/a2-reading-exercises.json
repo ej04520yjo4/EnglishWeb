@@ -1027,6 +1027,172 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u07-l01",
+      "lessonId": "a2-u07-l01",
+      "sentenceId": "a2-u07-l01-p01-s01",
+      "sentencePatternId": "present-perfect-experience",
+      "passageId": "a2-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have been to Taiwan.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "be",
+        "to",
+        "taiwan"
+      ],
+      "requiredChunkIds": [
+        "have-been-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我去過台灣。",
+          "sourceSentenceId": "a2-u07-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我以前看過這個房間。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我的生活現在不一樣了。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我現在有一份新工作。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u07-l02",
+      "lessonId": "a2-u07-l02",
+      "sentenceId": "a2-u07-l02-p01-s01",
+      "sentencePatternId": "present-perfect-experience-question",
+      "passageId": "a2-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Have you been to Taiwan before?",
+      "requiredLexemeIds": [
+        "have",
+        "you",
+        "be",
+        "to",
+        "taiwan",
+        "before"
+      ],
+      "requiredChunkIds": [
+        "been-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你以前去過台灣嗎？",
+          "sourceSentenceId": "a2-u07-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我去過台灣。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我通常星期六整理房間。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我明天要去上班。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u07-l03",
+      "lessonId": "a2-u07-l03",
+      "sentenceId": "a2-u07-l03-p01-s01",
+      "sentencePatternId": "be-change-now",
+      "passageId": "a2-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "My life is different now.",
+      "requiredLexemeIds": [
+        "my",
+        "life",
+        "be",
+        "different",
+        "now"
+      ],
+      "requiredChunkIds": [
+        "different-now"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我的生活現在不一樣了。",
+          "sourceSentenceId": "a2-u07-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我去過那間商店。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你以前去過這個車站嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我現在有一本新書。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u07-l04",
+      "lessonId": "a2-u07-l04",
+      "sentenceId": "a2-u07-l04-p01-s01",
+      "sentencePatternId": "have-new-state-now",
+      "passageId": "a2-u07-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have a new job now.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "a",
+        "new",
+        "job",
+        "now"
+      ],
+      "requiredChunkIds": [
+        "new-job"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我現在有一份新工作。",
+          "sourceSentenceId": "a2-u07-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你以前去過台灣嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我的房間現在不一樣了。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我通常星期六整理房間。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -2900,6 +3066,298 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u07-l01",
+      "lessonId": "a2-u07-l01",
+      "sourceSentenceId": "a2-u07-l01-p01-s01",
+      "sentencePatternId": "present-perfect-experience",
+      "passageId": "a2-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我去過台灣」的英文句子。",
+      "targetTranslation": "我去過台灣。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have been to Taiwan.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "be",
+            "to",
+            "taiwan"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "We have been to Taiwan.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "be",
+            "to",
+            "taiwan"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have been to that store.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "be",
+            "to",
+            "that",
+            "store"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "We clean the house on Saturday.",
+          "requiredLexemeIds": [
+            "we",
+            "clean",
+            "the",
+            "house",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "clean-the-house",
+            "on-saturday"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u07-l02",
+      "lessonId": "a2-u07-l02",
+      "sourceSentenceId": "a2-u07-l02-p01-s01",
+      "sentencePatternId": "present-perfect-experience-question",
+      "passageId": "a2-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你以前去過台灣嗎」的英文句子。",
+      "targetTranslation": "你以前去過台灣嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Have you been to Taiwan before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "taiwan",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Have you been to that store before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "that",
+            "store",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Have you been to this station before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "this",
+            "station",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have been to Taiwan.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "be",
+            "to",
+            "taiwan"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u07-l03",
+      "lessonId": "a2-u07-l03",
+      "sourceSentenceId": "a2-u07-l03-p01-s01",
+      "sentencePatternId": "be-change-now",
+      "passageId": "a2-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我的生活現在不一樣了」的英文句子。",
+      "targetTranslation": "我的生活現在不一樣了。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "My life is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "life",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "My room is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "room",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "My house is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "house",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Have you been to Taiwan before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "taiwan",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u07-l04",
+      "lessonId": "a2-u07-l04",
+      "sourceSentenceId": "a2-u07-l04-p01-s01",
+      "sentencePatternId": "have-new-state-now",
+      "passageId": "a2-u07-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我現在有一份新工作」的英文句子。",
+      "targetTranslation": "我現在有一份新工作。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have a new job now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "job",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "new-job"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have a new book now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "book",
+            "now"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have a new bag now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "bag",
+            "now"
+          ],
+          "requiredChunkIds": []
+        },
+        {
+          "id": "previous",
+          "text": "My life is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "life",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -4700,6 +5158,341 @@
           "evidenceSentenceIds": [
             "a2-u06-p01-s03",
             "a2-u06-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u07-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u07-p01-s01",
+          "order": 1,
+          "sentence": "Have you been to Taiwan before?",
+          "translation": "你以前去過台灣嗎？",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "taiwan",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-s02",
+          "order": 2,
+          "sentence": "I have been to Taiwan.",
+          "translation": "我去過台灣。",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "be",
+            "to",
+            "taiwan"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-s03",
+          "order": 3,
+          "sentence": "I have a new job now.",
+          "translation": "我現在有一份新工作。",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "job",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "new-job"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-s04",
+          "order": 4,
+          "sentence": "My life is different now.",
+          "translation": "我的生活現在不一樣了。",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "my",
+            "life",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-s05",
+          "order": 5,
+          "sentence": "I go to work by train.",
+          "translation": "我搭火車去上班。",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "i",
+            "go",
+            "to",
+            "work",
+            "by",
+            "train"
+          ],
+          "requiredChunkIds": [
+            "go-to-work"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-s06",
+          "order": 6,
+          "sentence": "I usually clean my room on Saturday.",
+          "translation": "我通常星期六整理我的房間。",
+          "lessonId": "a2-u07-l04",
+          "requiredLexemeIds": [
+            "i",
+            "usually",
+            "clean",
+            "my",
+            "room",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "usually-clean",
+            "on-saturday"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u07-p01-q01",
+          "sourceSentenceId": "a2-u07-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人去過哪裡？",
+          "options": [
+            "Taiwan.",
+            "The store.",
+            "The school.",
+            "The station."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Taiwan.",
+              "requiredLexemeIds": [
+                "taiwan"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The store.",
+              "requiredLexemeIds": [
+                "the",
+                "store"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The school.",
+              "requiredLexemeIds": [
+                "the",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "The station.",
+              "requiredLexemeIds": [
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Taiwan.",
+          "evidenceSentenceIds": [
+            "a2-u07-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-q02",
+          "sourceSentenceId": "a2-u07-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人現在有什麼新的？",
+          "options": [
+            "A new job.",
+            "A new book.",
+            "A new bag.",
+            "A new room."
+          ],
+          "optionMetadata": [
+            {
+              "text": "A new job.",
+              "requiredLexemeIds": [
+                "a",
+                "new",
+                "job"
+              ],
+              "requiredChunkIds": [
+                "new-job"
+              ]
+            },
+            {
+              "text": "A new book.",
+              "requiredLexemeIds": [
+                "a",
+                "new",
+                "book"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A new bag.",
+              "requiredLexemeIds": [
+                "a",
+                "new",
+                "bag"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "A new room.",
+              "requiredLexemeIds": [
+                "a",
+                "new",
+                "room"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "A new job.",
+          "evidenceSentenceIds": [
+            "a2-u07-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-q03",
+          "sourceSentenceId": "a2-u07-p01-s06",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人通常哪一天整理房間？",
+          "options": [
+            "On Saturday.",
+            "On Monday.",
+            "On Tuesday.",
+            "On Friday."
+          ],
+          "optionMetadata": [
+            {
+              "text": "On Saturday.",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            },
+            {
+              "text": "On Monday.",
+              "requiredLexemeIds": [
+                "on",
+                "monday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "On Tuesday.",
+              "requiredLexemeIds": [
+                "on",
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "On Friday.",
+              "requiredLexemeIds": [
+                "on",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "On Saturday.",
+          "evidenceSentenceIds": [
+            "a2-u07-p01-s06"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-p01-q04",
+          "sourceSentenceId": "a2-u07-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "從第三句和第五句可知，這個人去新工作地點時使用什麼交通方式？",
+          "options": [
+            "By train.",
+            "By bus.",
+            "To work.",
+            "At home."
+          ],
+          "optionMetadata": [
+            {
+              "text": "By train.",
+              "requiredLexemeIds": [
+                "by",
+                "train"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "By bus.",
+              "requiredLexemeIds": [
+                "by",
+                "bus"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "To work.",
+              "requiredLexemeIds": [
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At home.",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "By train.",
+          "evidenceSentenceIds": [
+            "a2-u07-p01-s03",
+            "a2-u07-p01-s05"
           ],
           "qaStatus": "pilot_review_required"
         }

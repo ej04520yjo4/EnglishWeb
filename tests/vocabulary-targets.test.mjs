@@ -39,11 +39,11 @@ const catalog = readJson("public/data/course-catalog.json");
 
 const protectedHashes = {
   "public/data/a1-course-v3.csv": "425625f5765318521ad78efb21461e41f7274d8de4faf6ab0f0c0ac719be7932",
-  "public/data/a2-course-v1.csv": "d294933666cea0185a69cd1f064fecb8c3634b3854d924fd6a5b8adb1f671a71",
+  "public/data/a2-course-v1.csv": "b407a098741e95c583e34f44293fcf1f21c0abde37a65d7b164d4b6ce6beb629",
   "public/data/a1-pattern-exercises.json": "3b67d588a31c5784a977ba0de24b88fa55968e95e21284b6131e94244e7bfb98",
   "public/data/a1-reading-exercises.json": "44e0d3bf7ca2f45ee66d2e82e32cb82ac5d4c277ebd38aed09d6006cb5a2c4eb",
-  "public/data/a2-pattern-exercises.json": "2a15e546533ec452ddb9025210750199036affea9a53d6b0768cc705dee5f03a",
-  "public/data/a2-reading-exercises.json": "c04c79ca10333b8fd897203e1a6b52bdd124ad4934910d48b9acc02b20c5ff1b",
+  "public/data/a2-pattern-exercises.json": "7737a5803e7f835b7be36e20a7eaac7dbbe4ea339463e26283bfdcf5d7676c95",
+  "public/data/a2-reading-exercises.json": "10a60c8a927e5d9ccfb1f6d862cab34f6a49a7273fb11ea4f0187ff203489e6c",
 };
 
 const response = (body, status = 200) =>
