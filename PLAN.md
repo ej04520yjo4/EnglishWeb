@@ -50,10 +50,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve units 1–5 and review the bounded household pilot unit together with the existing travel, shopping, health, and appointment units.
-- Verify all 24 lessons, six unit passages, and prerequisite/slot constraints.
+- Preserve units 1–6 and review the bounded experiences pilot together with the existing travel, shopping, health, appointment, and household units.
+- Verify all 28 lessons, seven unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- Keep units 7–10 as blueprint-only planning; unit 6 is a bounded pilot and remains `pilot_review_required` until learner and language QA is recorded.
+- The user's 2026-10-27 continuation authorizes only unit 7 as a bounded pilot. Keep units 8–10 blueprint-only; all A2 content remains `pilot_review_required` until learner and language QA is recorded.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -129,7 +129,7 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Treat partner replies and accepted variants as explicitly taught preparation content, not formal course lessons, vocabulary credit, or CEFR evidence.
 - Keep the conversation session date- and source-revision-bound under `yingju-conversation-practice-v1`; record first attempts, reveal/paste/hint assistance, and prevent same-day restart laundering.
 - Use the bounded review rule of due date `+1` for assisted completion and `+3` for a clean completion. Optional conversation transcription is now scoped separately in M12; oral grading and pronunciation scoring remain excluded.
-- Before starting unit 7, complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. Automated browser tests do not replace these manual checks.
+- Complete a Windows/mobile learner trial and language QA for the four scenarios, translations, prerequisites, and supplemental phrase boundary. The separately authorized unit 7 pilot does not close this manual gate; automated browser tests do not replace these checks.
 
 ### M12 - Optional Conversation Speech Input
 
@@ -149,7 +149,16 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Reuse existing preparation, prompts and accepted variants rather than adding unreviewed conversation content.
 - Preserve original first-attempt scores and review dates; save focused practice separately without formal mastery evidence.
 - Verify keyboard use, same-day reload, assistance retention, storage failure and desktop/mobile widths.
-- Stop after this bounded loop; next is real learner/device trial and the existing language review, not another curriculum expansion.
+- The bounded loop remains ready for real learner/device trial and the existing language review. The user's later curriculum request is tracked separately in M14, not as completion of this manual QA.
+
+### M14 - A2 Experiences and Life Changes Pilot
+
+**Status:** Bounded implementation and automated verification complete locally; learner/language/phonetic QA pending
+
+- Add only A2 unit 7: four lessons, 22 word occurrences, eight transfers, four recognition/four response exercises, and a six-sentence passage with four comprehension questions.
+- Introduce experience statements/questions with `have been to`, then current changes with `different now` and `new job`. New lexeme counts are 0/1/3/2; `been` is a new form of the existing `be` lexeme.
+- Preserve A1, A2 units 1–6, progress schema/storage, unlock rules, and the separate uncommitted backup-recovery implementation.
+- Keep A2 pilot and B1/B2 disabled. Stop after unit 7 for learner, language, difficulty, and phonetic review; do not generate unit 8 automatically.
 
 ## Milestone Completion Rule
 

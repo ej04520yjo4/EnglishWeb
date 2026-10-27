@@ -38,17 +38,17 @@ This file stores long-lived product facts and working preferences. Current task 
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
-- A2 pilot source `public/data/a2-course-v1.csv` contains 6 units, 24 lessons, and 146 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
-- A2 units 2–6 cover travel/transportation, shopping/comparison, health/advice, work/appointment arrangements, and household chores. All remain `pilot_review_required`; unit 6 is a bounded pilot, not human-approved production content.
+- A2 pilot source `public/data/a2-course-v1.csv` contains 7 units, 28 lessons, and 168 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
+- A2 units 2–7 cover travel/transportation, shopping/comparison, health/advice, work/appointment arrangements, household chores, and experiences/life changes. All remain `pilot_review_required`; the latest bounded unit 7 request is not human-approved production content.
 - B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
 - B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
 - B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
 - B1/B2 source data remains structurally validated and `pilot_review_required`, but both catalog entries are `disabled`; startup, selectors, and advanced preview must not load them.
-- `docs/a2-curriculum-blueprint.md` reserves ten A2 units; unit 6 now has bounded pilot CSV/JSON data, while units 7–10 remain blueprint-only with no formal CSV/JSON data.
+- `docs/a2-curriculum-blueprint.md` reserves ten A2 units; unit 7 now has bounded pilot CSV/JSON data, while units 8–10 remain blueprint-only with no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.
-- Runtime targets-v2 contains3000 canonical candidates, preserving all132 v1 objects (108 curriculum and24 reference-only) and adding2868 sourced headwords. The current A1/A2 union contains119 curriculum lexemes (117 excluding names), including78 A2 canonical lexemes; 23 vocabulary records remain reference-only relative to the current formal course because Saturday is now formal A2 content. The library is not a second curriculum source. Count-complete status is not human QA or learner mastery.
+- Runtime targets-v2 contains3000 canonical candidates, preserving all132 v1 objects (108 curriculum and24 reference-only) and adding2868 sourced headwords. The current A1/A2 union contains125 curriculum lexemes (123 excluding names), including85 A2 canonical lexemes; 23 vocabulary records remain reference-only relative to the current formal course because Saturday is now formal A2 content. The library is not a second curriculum source. Count-complete status is not human QA or learner mastery.
 - Occurrences, word forms, senses, and chunks are not separate lexemes for target counting.
 - Receptive mastery requires two correct recognition records on two dates. Active additionally requires two clean spelling records on two dates plus one clean application; reveal and paste cannot create correct spelling or application evidence.
 - A study date means the learner device's local calendar day. New evidence stores that date beside the ISO timestamp so later timezone changes or imports do not reinterpret it.

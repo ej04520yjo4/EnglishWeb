@@ -4,6 +4,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
+- [x] **A2-U07-001:** Implemented the explicitly requested bounded experiences/life-changes pilot: four lessons, word/chunk layering, eight transfers, recognition/response, passage/comprehension. Quality gates and 291 unit / 264 desktop-mobile browser cases passed; earlier course IDs and local backup work remain preserved.
+- [ ] **A2-U07-QA:** Try all four lessons and the passage on Windows/phone; review English/Taiwan Chinese, present-perfect scaffolding, `been` versus `be`, six new lexemes, and KK/IPA before considering unit 8.
+
 - [x] **CONVERSATION-REVIEW-001:** Add a same-source, latest-history weak-turn queue with due labels, explicit typed recall and separate reload-safe storage; do not alter original scores, review dates or formal mastery.
 - [ ] **CONVERSATION-REVIEW-DEVICE-QA:** Try the focused queue, same-day resume, hint/reveal flow and next-day full-scenario retry on Windows Chrome and a real phone. Confirm that the distinction between practice results and original scores is understandable.
 
@@ -42,13 +45,15 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **A2-QA-005:** Review comparative, transportation, health, appointment, and household hints for sufficient clarity.
 - [ ] **A2-QA-006:** Review all five post-unit-1 passages for natural continuity and supported answers.
 - [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
-- [ ] **M11-CONVERSATION-TRIAL-001:** Try the bounded everyday conversation supplement before any A2 unit 7 work.
+- [ ] **M11-CONVERSATION-TRIAL-001:** Try the bounded everyday conversation supplement; the later user-authorized unit 7 pilot does not count as completing this learner review.
   - [ ] Complete a Windows Chrome desktop and 375-pixel mobile trial of all four scenarios and record navigation, focus, reload, and date-boundary findings.
   - [ ] Manually review every partner reply, accepted answer, Traditional Chinese translation, prerequisite, and preparation phrase; correct the shopping price response and household wording if needed.
   - [ ] Confirm conversation completion never writes formal course, vocabulary, CEFR, or review evidence; inspect the optional conversation backup panel as a separate download from course/progress backup.
   - [ ] Keep typed practice available; optional transcription follows ADR-050. No oral grading, pronunciation score, or same-day restart laundering.
 
 ## Next - P1
+
+- [ ] **E2E-ACTUAL-PORT-001:** Make the browser harness fail clearly or use Vinext's confirmed local URL when 4173 is unavailable; this turn verified the unchanged viewport/test suite with an ignored 4174 override instead of claiming the fixed-port wrapper succeeded.
 
 - [x] **LEARNING-LOOP-001:** Add a deterministic daily learning plan and evidence-backed weakness center without changing schema v6 or CEFR unlock rules.
 - [x] **LEARNING-LOOP-002:** Turn the daily plan into a resumable review → lesson → weakness → summary session and add direct evidence-backed weakness practice.
@@ -75,7 +80,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
 - [x] **A2-PLAN-004:** Add the bounded unit 6 household pilot after the unit 5 review track; keep it `pilot_review_required` and separate from production approval.
-- [ ] **A2-PLAN-005:** After unit 6 learner and language QA, decide whether to authorize unit 7; keep units 7–10 blueprint-only until separately reviewed.
+- [x] **A2-PLAN-005:** The 2026-10-27 request authorizes a bounded unit 7 pilot, not retrospective learner/language approval. Keep units 8–10 blueprint-only and revisit expansion only after user trial.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [x] **A1-EX-003:** Integrate the third pattern batch for explicitly pending-review trial.
