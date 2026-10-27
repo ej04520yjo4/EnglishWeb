@@ -49,7 +49,7 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
 - `app/a1-mvp-data.ts`: CSV parsing, normalization, validation, checksums, versioned storage, and course construction.
 - `app/a1-exercises.ts`: pattern/reading schemas, prerequisite and slot validation, coverage reporting, and answer checks.
-- `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV while preserving unit 1 definitions.
+- `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV (7 units / 28 lessons / 168 occurrences). Expansion preserves units 1–6 with row/object hash checks; unit 7 reuses the existing loader and progress layers, including `been` → `be` lexeme identity.
 - `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–6 exercises and passages to the existing unit 1 JSON.
 - `scripts/create-b1-b2-curriculum.mjs`: reproducibly generates the B1/B2 pilot CSV and exercise JSON sources.
 - `scripts/audit-project-data.mjs`: detects catalog-orphaned sources, duplicate files/IDs, unsafe repetitions, generator key collisions, and tracked build artifacts.

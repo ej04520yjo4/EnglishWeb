@@ -110,23 +110,23 @@ test("rejects a catalog with an out-of-order advanced prerequisite", () => {
   );
 });
 
-test("loads the A2 pilot as 6 units and 24 lessons", async () => {
+test("loads the A2 pilot as 7 units and 28 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 6);
+  assert.equal(level.units.length, 7);
   assert.equal(
     level.units.flatMap((unit) => unit.lessons).length,
-    24,
+    28,
   );
-  assert.equal(level.rows.length, 146);
+  assert.equal(level.rows.length, 168);
   assert.equal(level.status, "pilot");
 });
 
-test("keeps A2 unit 1 unchanged while adding units 2 through 6", () => {
+test("keeps A2 unit 1 unchanged while adding units 2 through 7", () => {
   const unitOneRows = a2Rows.filter((row) => row.unit_id === "a2-u01");
   assert.equal(unitOneRows.length, 25);
   assert.equal(
@@ -137,7 +137,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 6", () => {
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_id))],
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07"],
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_title))],
@@ -148,6 +148,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 6", () => {
       "健康與建議",
       "工作與約會安排",
       "居家與日常家務",
+      "經驗與生活改變",
     ],
   );
   const unitOnePatterns = a2Patterns.patterns.filter((pattern) =>
@@ -180,7 +181,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 6", () => {
   );
 });
 
-test("preserves A2 units 1 through 5 rows and exercise objects byte-for-object", () => {
+test("preserves A2 units 1 through 6 rows and exercise objects byte-for-object", () => {
   const expected = {
     "a2-u01": {
       rows: "0c06db4c35f30bd99dd8678bba6a09653d70cae02a92694037be32d736b145f8",
@@ -206,6 +207,11 @@ test("preserves A2 units 1 through 5 rows and exercise objects byte-for-object",
       rows: "4c272824e2a65b98218ab86b10244229a07c0d2c12974ab6c0565e5811feabbc",
       patterns: "3c2680153681a5e3717f207ca15037b74aa7055c7890af73ecf91a792077c398",
       reading: "bbb17f8ef94693d9714011b2f07c4051c2eee131ff02a8d13a4ca4dd70dabcb3",
+    },
+    "a2-u06": {
+      rows: "779d8939b4e14a66ace1a696462e52cae8acaca735b41ff7ffe8670aaddffdd0",
+      patterns: "64de4265de00f638784a8a7381ec0595a6f54301b8309e7147ed571ffe7661e4",
+      reading: "8766ba4dd06ef36f0dd5ac1ddac06dacc90d1aeab54863c046be7bf0bcb3d411",
     },
   };
   const digest = (value) =>
@@ -252,19 +258,19 @@ test("keeps four ordered lessons per A2 unit and all structural IDs unique", () 
   );
   assert.deepEqual(
     units.map((unit) => unit.lessons.length),
-    [4, 4, 4, 4, 4, 4],
+    [4, 4, 4, 4, 4, 4, 4],
   );
   assert.deepEqual(
     units.map((unit) => unit.number),
-    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6, 7],
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.lesson_id)).size,
-    24,
+    28,
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.sentence_id)).size,
-    24,
+    28,
   );
   const occurrenceIds = a2Rows.map((row) => row.occurrence_id);
   assert.equal(new Set(occurrenceIds).size, occurrenceIds.length);
@@ -338,6 +344,7 @@ test("maps A2 inflected answers to dictionary-form lexemes", () => {
     ["leaves", "leave"],
     ["cheaper", "cheap"],
     ["larger", "large"],
+    ["been", "be"],
   ]);
   expected.forEach((lexemeId, answer) => {
     const row = a2Rows.find(
@@ -346,6 +353,50 @@ test("maps A2 inflected answers to dictionary-form lexemes", () => {
     assert.ok(row, `找不到 ${answer}`);
     assert.equal(row.lexeme_id, lexemeId);
     assert.equal(row.lemma, lexemeId);
+  });
+});
+
+test("adds four bounded experience lessons without treating been as a new lexeme", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u07");
+  assert.equal(rows.length, 22);
+  assert.deepEqual([...new Set(rows.map((row) => row.sentence))], [
+    "I have been to Taiwan.",
+    "Have you been to Taiwan before?",
+    "My life is different now.",
+    "I have a new job now.",
+  ]);
+  const expectedNewLexemes = [[], ["before"], ["life", "different", "now"], ["new", "job"]];
+  const known = new Set([
+    ...a1Rows.map((row) => row.lexeme_id),
+    ...a2Rows.filter((row) => row.unit_id !== "a2-u07").map((row) => row.lexeme_id),
+  ]);
+  expectedNewLexemes.forEach((expected, lessonIndex) => {
+    const lessonId = `a2-u07-l0${lessonIndex + 1}`;
+    const lessonRows = rows.filter((row) => row.lesson_id === lessonId);
+    const actualNew = [...new Set(lessonRows.map((row) => row.lexeme_id))]
+      .filter((id) => !known.has(id));
+    assert.deepEqual(actualNew, expected, lessonId);
+    assert.deepEqual(lessonRows.filter((row) => row.is_new_word === "TRUE")
+      .map((row) => row.lexeme_id), expected, `${lessonId} novelty flags`);
+    assert.ok(actualNew.length <= 4);
+    lessonRows.forEach((row, index) => {
+      assert.equal(row.occurrence_id, `${lessonId}-p01-s01-t${String(index + 1).padStart(2, "0")}`);
+      assert.equal(row.token_order, String(index + 1));
+      assert.equal(row.qa_status, "pilot_review_required");
+      assert.equal(row.is_new_sentence_pattern, "TRUE");
+      assert.equal(row.audio_status, "pending");
+      assert.ok(row.kk_us && row.ipa_standalone && row.context_pos);
+      known.add(row.lexeme_id);
+    });
+  });
+  const beenRows = rows.filter((row) => row.answer === "been");
+  assert.equal(beenRows.length, 2);
+  beenRows.forEach((row) => {
+    assert.equal(row.lexeme_id, "be");
+    assert.equal(row.lemma, "be");
+    assert.equal(row.is_new_word, "FALSE");
+    assert.match(row.note, /過去分詞/);
+    assert.equal(row.context_pos, "verb 動詞（過去分詞）");
   });
 });
 
@@ -361,8 +412,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 6,
-    expectedLessons: 24,
+    expectedUnits: 7,
+    expectedLessons: 28,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -612,7 +663,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
         .map((row) => row.lesson_id),
     ),
   ];
-  assert.equal(newLessonIds.length, 20);
+  assert.equal(newLessonIds.length, 24);
   newLessonIds.forEach((lessonId) => {
     const newLexemes = new Set(
       a2Rows
@@ -630,7 +681,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
   });
 });
 
-test("gives all 20 new lessons recognition, two transfers, and text response", () => {
+test("gives all 24 new lessons recognition, two transfers, and text response", () => {
   const newLessonIds = [
     ...new Set(
       a2Rows
@@ -673,6 +724,7 @@ test("adds one supported passage per A2 unit", () => {
       "a2-u04-p01",
       "a2-u05-p01",
       "a2-u06-p01",
+      "a2-u07-p01",
     ],
   );
   a2Reading.passages.forEach((passage) => {
@@ -753,6 +805,51 @@ test("keeps every newly added A2 row and exercise in pilot QA", () => {
       )
       .every((pattern) => pattern.qaStatus === "pilot_review_required"),
   );
+});
+
+test("builds unit seven comprehension from taught words and explicit evidence", () => {
+  const passage = a2Reading.passages.find((entry) => entry.passageId === "a2-u07-p01");
+  assert.ok(passage);
+  assert.equal(passage.qaStatus, "pilot_review_required");
+  assert.deepEqual(passage.sentences.map((entry) => entry.sentence), [
+    "Have you been to Taiwan before?",
+    "I have been to Taiwan.",
+    "I have a new job now.",
+    "My life is different now.",
+    "I go to work by train.",
+    "I usually clean my room on Saturday.",
+  ]);
+  assert.deepEqual(passage.questions.map((entry) => entry.correctAnswer), [
+    "Taiwan.", "A new job.", "On Saturday.", "By train.",
+  ]);
+  assert.deepEqual(passage.questions.at(-1).evidenceSentenceIds, [
+    "a2-u07-p01-s03", "a2-u07-p01-s05",
+  ]);
+  passage.questions.forEach((question) => {
+    assert.equal(question.options.length, 4);
+    assert.equal(question.optionMetadata.length, 4);
+  });
+  const invalid = structuredClone(a2Reading);
+  const question = invalid.passages.at(-1).questions[0];
+  question.options[1] = "An airport.";
+  question.optionMetadata[1] = {
+    text: "An airport.", requiredLexemeIds: ["an", "airport"], requiredChunkIds: [],
+  };
+  const report = validateReadingExerciseData(invalid, a2Rows, a2Patterns, a1Rows);
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.includes("airport")));
+});
+
+test("distinguishes experience have from possession without changing the lexeme", () => {
+  const experience = a2Rows.find((row) => row.lesson_id === "a2-u07-l01" && row.answer === "have");
+  const possession = a2Rows.find((row) => row.lesson_id === "a2-u07-l04" && row.answer === "have");
+  assert.equal(experience.lexeme_id, "have");
+  assert.equal(possession.lexeme_id, "have");
+  assert.notEqual(experience.sense_id, possession.sense_id);
+  assert.match(experience.context_pos, /助動詞/);
+  assert.equal(experience.prompt_type, "grammar");
+  assert.match(possession.context_pos, /動詞/);
+  assert.ok(!a2Rows.some((row) => row.unit_id === "a2-u08"));
 });
 
 test("migrates schemaVersion 3 to 6 without changing A1 data", () => {

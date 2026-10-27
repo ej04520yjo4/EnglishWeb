@@ -2,28 +2,29 @@
 
 ## Snapshot
 
-- Updated: 2026-10-23
-- Branch: `codex/conversation-review-loop`, based on main merge `6f6eddf` (PR #16).
-- PR #16 published optional speech input and both daily-use checkouts were synchronized to main in the preceding task. The user authorized publishing focused review on 2026-10-23. Local release checks passed; the normal protected PR and merge checks are next (no bypass).
+- Updated: 2026-10-27
+- Branch: `codex/publish-a2-unit7`, based on main merge `f00267a` (PR #17). This branch contains the bounded A2 unit 7 publication; unrelated local backup-recovery work remains outside this publication.
+- PR #17 published focused review as `f00267a` after both protected checks passed. This publication isolates unit 7 from the 15 pre-existing uncommitted backup-recovery files, retained in the original D-drive checkout and byte-verified snapshots. No backup-recovery feature is included here.
 - PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
-- Active checkout: `D:\Codex\Tools\EnglishWeb\english-learning-app`; this task began clean on main `6f6eddf` and uses the feature branch above.
+- Publication checkout: `D:\Codex\Tools\EnglishWeb\a2-unit7-publish`, based on freshly fetched main `f00267a`. The working copy in `english-learning-app` remains preserved until the checked publication is merged and reconciled.
 - The C-drive checkout remains at the preceding published main. This follow-up does not overwrite another checkout or the saved D-drive working copy.
 - The original D-drive branch and all 20 unstaged tracked files are preserved in `D:\Codex\Tools\EnglishWeb\EnglishWeb-preserved-20261016`, still uncommitted on `codex/a1-pattern-batch-3` at `816c2cf`. All 20 file hashes match the pre-sync byte copies in `backups\pre-speech-sync-20261016`; a binary patch and retained stash `8b1e56de8d799dda92f1c332a5a64b3d149e1aef` provide additional recovery. These older alternatives must not overwrite the newer integrated main wholesale.
 - Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
-- Active milestone: M13 - Focused Conversation Review (implementation/automated QA complete; learner trial next)
+- Active milestone: M14 - A2 Experiences and Life Changes Pilot. M13 learner/device and language trials remain open; curriculum expansion does not certify them.
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
-- A2: 6 units, 24 lessons, 146 occurrences
-- Protected source status: A1 remains unchanged; A2 units 1–5 retain row and exercise-object hash locks. Unit 6 adds 24 occurrences and remains `pilot_review_required`.
+- A2: 7 units, 28 lessons, 168 occurrences
+- Protected source status: A1 remains unchanged; A2 units 1–6 retain row and exercise-object hash locks. Unit 7 adds 22 occurrences and remains `pilot_review_required`.
+- Unit 7 includes four core lessons, eight transfers, four recognitions/four responses, and a six-sentence passage with four comprehension questions. Per-lesson new lexemes: 0/1/3/2; `been` shares `be`. Details: `docs/a2-unit7-pilot-qa.md`.
 - Progress schema: v6 with top-level global `vocabularyProgress`
 
 ## Vocabulary Baseline
 
 - A1: 145 occurrences, 69 word forms, 75 senses, 15 chunks, 68 canonical lexemes.
-- A2: 146 occurrences, 82 word forms, 112 senses, 44 chunks, 78 canonical lexemes.
-- A1＋A2 union: 119 canonical lexemes (117 excluding proper names); overlap: 27.
+- A2: 168 occurrences, 90 word forms, 129 senses, 48 chunks, 85 canonical lexemes.
+- A1＋A2 union: 125 canonical lexemes (123 excluding proper names); overlap: 28. The six new union lexemes are before/life/different/now/new/job; Taiwan was already taught in A1.
 - Reference-only unique lexemes relative to current formal rows: 23. Protected target metadata still records the original 24 reference targets, not an automatic source reclassification.
 - Protected v1 baseline: 132 entries; 108 active candidates and 24 receptive candidates, unchanged.
 - Runtime v2 catalog: 3000 canonical entries, 1500 active / 1500 receptive candidates. A1-stage 1200 (700/500), A2-stage 1800 (800/1000), 60 pages of 50.
@@ -140,7 +141,7 @@
 - The target catalog and applications each contain 3000 words, but neither full collection has received human semantic/phonetic/CEFR approval. Guided applications compare one reference sentence, not all valid translations or free writing. A candidate's other words/grammar are not certified as previously taught formal prerequisites.
 - KK/IPA conversion is not an authoritative dictionary transcription. 559 words retain multiple unselected pronunciations; syllabification/stress are candidates. Original related-word phonetics and symbol audio still need separate review.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
-- A2 units 1–6 remain pilot content; units 7–10 are blueprint-only. The user's continuation authorizes a bounded unit 6 trial, not retrospective human approval.
+- A2 units 1–7 remain pilot content; units 8–10 are blueprint-only. The user's 2026-10-27 continuation authorizes a bounded unit 7 trial, not retrospective human approval. Unit 7 English, Taiwan Chinese, KK/IPA, scaffolding and CEFR placement remain pending manual QA.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
 - All 27 related-vocabulary reference records still need phonetic/content review. Current A1/A2 deduplication leaves 23 reference-only lexemes after Saturday enters unit 6; protected target-source metadata remains unchanged.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
@@ -149,9 +150,17 @@
 
 ## Next Concrete Step
 
-Try the focused conversation review on a real Windows/mobile device, then revisit a full scenario on a later date to check independent recall. Also try optional speech input with a real microphone over localhost/HTTPS: permissions, recognition quality, cancellation and network failure. Automated checks do not certify learning gains or speech accuracy. Review the four scenarios and A2 unit 6 before expanding; B1/B2 remain disabled. Publishing this follow-up requires a new user request. Keep the preserved D-drive worktree, backup and stash unchanged.
+Try A2 unit 7 on Windows/mobile: the four lessons, experience-versus-possession hints, six-sentence rebuild, and four comprehension questions. Record English/Taiwan Chinese, difficulty and KK/IPA feedback before deciding on unit 8. Also retain the focused-review device and real-microphone trials from M13; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
 
 ## Verification
+
+### A2 unit 7 continuation (2026-10-27)
+
+- Focused A2 data checks in the source checkout: exit 0, 33 passed, 0 failed/skipped. These cover unit 7's exact core sentences, first-seen lexemes, `been` identity/POS, four new sentence patterns, protected units 1–6 object hashes, and passage-option prerequisites.
+- The combined dirty-checkout run before publication reported 291 unit tests and 264 desktop/mobile browser cases, but those totals include the separate local backup-recovery implementation and are not publication-branch counts.
+- Clean publication `npm run verify`: exit 0, all 12 gates; 284 unit tests, 0 failed/skipped, build/lint/typecheck passed. The initial dependency install encountered sandbox EPERM (exit 1); the authorized `npm ci` retry passed. A concurrent install briefly removed the `vinext` command during the first verify attempt (exit 1); the completed-install rerun passed. Dependencies were not upgraded; npm reports 23 advisories (1 critical, 18 high, 2 moderate, 2 low), not a security-clean release.
+- Clean publication unit-7 Playwright: exit 0, 8 passed (4 desktop 1440×900 / 4 mobile 375×812), 0 failed/skipped, 1.1 minutes. `npm run test:e2e -- tests/e2e/a2-experiences.spec.ts` first exited 1 before tests because the unchanged wrapper waited on 4173 while Vinext selected 4174. The successful run used an ignored temporary config with the same projects and actual 4174 server. Full unchanged GitHub CI remains required before merge.
+- Independent scoped content/source review found no blocker. Unit 7 English/Taiwan Chinese, difficulty and KK/IPA remain pending manual review; audio is pending. No deployment or protection bypass is part of this publication.
 
 ### Focused review release recheck (2026-10-23)
 

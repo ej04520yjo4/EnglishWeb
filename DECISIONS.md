@@ -471,3 +471,11 @@ full-scenario record updates the weak list; same-day history remains monotonic.
 **Reason:** Targeted retrieval makes previously assisted responses easier to
 practice without treating repeated exposure or transcription as independent
 conversation ability. User trials and language QA remain separate from tests.
+
+## ADR-053 - Unit 7 Is a Bounded Pilot, Not Completion of Manual QA
+
+**Status:** Accepted, 2026-10-27
+
+**Decision:** Interpret the user's explicit request to continue adding courses as authorization for the next blueprint unit only: A2 experiences/life changes. Keep four lessons and the existing CSV/JSON schemas; preserve units 1–6 and A1. `been` is a form of `be`, not another lexeme. Teach the narrow `have been to` statement/question contrast before returning to simple present descriptions of change. New lexeme counts are 0/1/3/2.
+
+**Reason:** A small sequential pilot extends practical conversation skills without generating the remaining route or claiming that pending learner, language, phonetic, or CEFR reviews have happened. Normal unit-6 pass requirements remain; QA preview grants no progress. A2 stays pilot, B1/B2 stay disabled, and unit 8 requires a later decision after trial.

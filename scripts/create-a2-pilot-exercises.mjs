@@ -1165,6 +1165,216 @@ const newPatterns = [
       },
     ],
   }),
+  makePattern({
+    id: "present-perfect-experience",
+    lessonId: "a2-u07-l01",
+    template: "{subject} have been to {place}.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "分享經驗的主詞",
+        allowedLexemeIds: ["i", "we"],
+      },
+      {
+        slotId: "experience",
+        role: "表示曾經去過",
+        allowedLexemeIds: ["have", "be", "to"],
+        allowedChunkIds: ["have-been-to"],
+      },
+      {
+        slotId: "place",
+        role: "曾經去過的地點",
+        allowedLexemeIds: ["taiwan", "that", "store", "school", "station"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u07-l01-transfer-we",
+        sentence: "We have been to Taiwan.",
+        translation: "我們去過台灣。",
+        hintKeywords: "我們／曾經去過／台灣",
+        skeleton: "We have been to ______.",
+        slotValues: [
+          slotValue("subject", "We", ["we"]),
+          slotValue("experience", "have been to", ["have", "be", "to"], ["have-been-to"]),
+          slotValue("place", "Taiwan.", ["taiwan"]),
+        ],
+      },
+      {
+        id: "a2-u07-l01-transfer-store",
+        sentence: "I have been to that store.",
+        translation: "我去過那間商店。",
+        hintKeywords: "我／曾經去過／那間商店",
+        skeleton: "I have been to ______.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("experience", "have been to", ["have", "be", "to"], ["have-been-to"]),
+          slotValue("place", "that store.", ["that", "store"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "present-perfect-experience-question",
+    lessonId: "a2-u07-l02",
+    template: "Have you been to {place} before?",
+    slots: [
+      {
+        slotId: "question",
+        role: "詢問對方是否有經驗",
+        allowedLexemeIds: ["have", "you"],
+      },
+      {
+        slotId: "experience",
+        role: "表示曾經去過",
+        allowedLexemeIds: ["be", "to"],
+        allowedChunkIds: ["been-to"],
+      },
+      {
+        slotId: "place",
+        role: "詢問曾經去過的地點",
+        allowedLexemeIds: ["taiwan", "that", "store", "this", "station"],
+      },
+      {
+        slotId: "time",
+        role: "詢問是否曾經發生",
+        allowedLexemeIds: ["before"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u07-l02-transfer-store",
+        sentence: "Have you been to that store before?",
+        translation: "你以前去過那間商店嗎？",
+        hintKeywords: "你／以前去過／那間商店嗎",
+        skeleton: "Have you been to ______ before?",
+        slotValues: [
+          slotValue("question", "Have you", ["have", "you"]),
+          slotValue("experience", "been to", ["be", "to"], ["been-to"]),
+          slotValue("place", "that store", ["that", "store"]),
+          slotValue("time", "before?", ["before"]),
+        ],
+      },
+      {
+        id: "a2-u07-l02-transfer-station",
+        sentence: "Have you been to this station before?",
+        translation: "你以前去過這個車站嗎？",
+        hintKeywords: "你／以前去過／這個車站嗎",
+        skeleton: "Have you been to ______ before?",
+        slotValues: [
+          slotValue("question", "Have you", ["have", "you"]),
+          slotValue("experience", "been to", ["be", "to"], ["been-to"]),
+          slotValue("place", "this station", ["this", "station"]),
+          slotValue("time", "before?", ["before"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "be-change-now",
+    lessonId: "a2-u07-l03",
+    template: "{subject} is different now.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "描述改變的主詞",
+        allowedLexemeIds: ["my", "life", "room", "house"],
+      },
+      {
+        slotId: "be",
+        role: "現在狀態的 be 動詞",
+        allowedLexemeIds: ["be"],
+      },
+      {
+        slotId: "change",
+        role: "描述現在已不同",
+        allowedLexemeIds: ["different", "now"],
+        allowedChunkIds: ["different-now"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u07-l03-transfer-room",
+        sentence: "My room is different now.",
+        translation: "我的房間現在不一樣了。",
+        hintKeywords: "我的房間／現在／不一樣",
+        skeleton: "My ______ is different now.",
+        slotValues: [
+          slotValue("subject", "My room", ["my", "room"]),
+          slotValue("be", "is", ["be"]),
+          slotValue("change", "different now.", ["different", "now"], ["different-now"]),
+        ],
+      },
+      {
+        id: "a2-u07-l03-transfer-house",
+        sentence: "My house is different now.",
+        translation: "我的房子現在不一樣了。",
+        hintKeywords: "我的房子／現在／不一樣",
+        skeleton: "My ______ is different now.",
+        slotValues: [
+          slotValue("subject", "My house", ["my", "house"]),
+          slotValue("be", "is", ["be"]),
+          slotValue("change", "different now.", ["different", "now"], ["different-now"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "have-new-state-now",
+    lessonId: "a2-u07-l04",
+    template: "I have a new {item} now.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "擁有新事物的主詞",
+        allowedLexemeIds: ["i"],
+      },
+      {
+        slotId: "possession",
+        role: "表示擁有",
+        allowedLexemeIds: ["have", "a"],
+      },
+      {
+        slotId: "item",
+        role: "新事物",
+        allowedLexemeIds: ["new", "job", "book", "bag"],
+        allowedChunkIds: ["new-job"],
+      },
+      {
+        slotId: "time",
+        role: "現在的時間",
+        allowedLexemeIds: ["now"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u07-l04-transfer-book",
+        sentence: "I have a new book now.",
+        translation: "我現在有一本新書。",
+        hintKeywords: "我／有一本新書／現在",
+        skeleton: "I have a new ______ now.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("possession", "have a", ["have", "a"]),
+          slotValue("item", "new book", ["new", "book"]),
+          slotValue("time", "now.", ["now"]),
+        ],
+      },
+      {
+        id: "a2-u07-l04-transfer-bag",
+        sentence: "I have a new bag now.",
+        translation: "我現在有一個新包包。",
+        hintKeywords: "我／有一個新包包／現在",
+        skeleton: "I have a new ______ now.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("possession", "have a", ["have", "a"]),
+          slotValue("item", "new bag", ["new", "bag"]),
+          slotValue("time", "now.", ["now"]),
+        ],
+      },
+    ],
+  }),
 ];
 
 const recognitionDistractors = {
@@ -1188,6 +1398,10 @@ const recognitionDistractors = {
   "a2-u06-l02": ["我通常整理我的房間。", "我們可以星期二下午見面嗎？", "我三點有一個會議。"],
   "a2-u06-l03": ["我必須洗碗。", "我通常整理我的房間。", "我們可以星期二下午見面嗎？"],
   "a2-u06-l04": ["我通常整理我的房間。", "我必須洗碗。", "你可以幫我洗衣服嗎？"],
+  "a2-u07-l01": ["我以前看過這個房間。", "我的生活現在不一樣了。", "我現在有一份新工作。"],
+  "a2-u07-l02": ["我去過台灣。", "我通常星期六整理房間。", "我明天要去上班。"],
+  "a2-u07-l03": ["我去過那間商店。", "你以前去過這個車站嗎？", "我現在有一本新書。"],
+  "a2-u07-l04": ["你以前去過台灣嗎？", "我的房間現在不一樣了。", "我通常星期六整理房間。"],
 };
 
 const newLessonIds = [
@@ -1211,6 +1425,10 @@ const newLessonIds = [
   "a2-u06-l02",
   "a2-u06-l03",
   "a2-u06-l04",
+  "a2-u07-l01",
+  "a2-u07-l02",
+  "a2-u07-l03",
+  "a2-u07-l04",
 ];
 
 const recognition = newLessonIds.map((lessonId) => {
@@ -1277,6 +1495,10 @@ const previousLesson = {
   "a2-u06-l02": "a2-u06-l01",
   "a2-u06-l03": "a2-u06-l02",
   "a2-u06-l04": "a2-u06-l03",
+  "a2-u07-l01": "a2-u06-l04",
+  "a2-u07-l02": "a2-u07-l01",
+  "a2-u07-l03": "a2-u07-l02",
+  "a2-u07-l04": "a2-u07-l03",
 };
 const patternByLesson = new Map(
   newPatterns.map((pattern) => [
@@ -1907,6 +2129,118 @@ const newPassages = [
         ],
         "I can help you.",
         ["a2-u06-p01-s03", "a2-u06-p01-s04"],
+      ),
+    ],
+  },
+  {
+    passageId: "a2-u07-p01",
+    level: "A2",
+    qaStatus,
+    sentences: [
+      passageSentence(
+        "a2-u07-p01-s01",
+        1,
+        "Have you been to Taiwan before?",
+        "你以前去過台灣嗎？",
+        "a2-u07-l04",
+        ["have", "you", "be", "to", "taiwan", "before"],
+        ["been-to"],
+      ),
+      passageSentence(
+        "a2-u07-p01-s02",
+        2,
+        "I have been to Taiwan.",
+        "我去過台灣。",
+        "a2-u07-l04",
+        ["i", "have", "be", "to", "taiwan"],
+        ["have-been-to"],
+      ),
+      passageSentence(
+        "a2-u07-p01-s03",
+        3,
+        "I have a new job now.",
+        "我現在有一份新工作。",
+        "a2-u07-l04",
+        ["i", "have", "a", "new", "job", "now"],
+        ["new-job"],
+      ),
+      passageSentence(
+        "a2-u07-p01-s04",
+        4,
+        "My life is different now.",
+        "我的生活現在不一樣了。",
+        "a2-u07-l04",
+        ["my", "life", "be", "different", "now"],
+        ["different-now"],
+      ),
+      passageSentence(
+        "a2-u07-p01-s05",
+        5,
+        "I go to work by train.",
+        "我搭火車去上班。",
+        "a2-u07-l04",
+        ["i", "go", "to", "work", "by", "train"],
+        ["go-to-work"],
+      ),
+      passageSentence(
+        "a2-u07-p01-s06",
+        6,
+        "I usually clean my room on Saturday.",
+        "我通常星期六整理我的房間。",
+        "a2-u07-l04",
+        ["i", "usually", "clean", "my", "room", "on", "saturday"],
+        ["usually-clean", "on-saturday"],
+      ),
+    ],
+    questions: [
+      passageQuestion(
+        "a2-u07-p01-q01",
+        "a2-u07-p01-s02",
+        "這個人去過哪裡？",
+        [
+          passageOption("Taiwan.", ["taiwan"]),
+          passageOption("The store.", ["the", "store"]),
+          passageOption("The school.", ["the", "school"]),
+          passageOption("The station.", ["the", "station"]),
+        ],
+        "Taiwan.",
+      ),
+      passageQuestion(
+        "a2-u07-p01-q02",
+        "a2-u07-p01-s03",
+        "這個人現在有什麼新的？",
+        [
+          passageOption("A new job.", ["a", "new", "job"], ["new-job"]),
+          passageOption("A new book.", ["a", "new", "book"]),
+          passageOption("A new bag.", ["a", "new", "bag"]),
+          passageOption("A new room.", ["a", "new", "room"]),
+        ],
+        "A new job.",
+      ),
+      passageQuestion(
+        "a2-u07-p01-q03",
+        "a2-u07-p01-s06",
+        "這個人通常哪一天整理房間？",
+        [
+          passageOption("On Saturday.", ["on", "saturday"], ["on-saturday"]),
+          passageOption("On Monday.", ["on", "monday"]),
+          passageOption("On Tuesday.", ["on", "tuesday"]),
+          passageOption("On Friday.", ["on", "friday"]),
+        ],
+        "On Saturday.",
+      ),
+      passageQuestion(
+        "a2-u07-p01-q04",
+        "a2-u07-p01-s03",
+        "從第三句和第五句可知，這個人去新工作地點時使用什麼交通方式？",
+        [
+          passageOption("By train.", ["by", "train"]),
+          passageOption("By bus.", ["by", "bus"]),
+          passageOption("To work.", ["to", "work"]),
+          passageOption("At home.", ["at", "home"]),
+        ],
+        "By train.",
+        ["a2-u07-p01-s03", "a2-u07-p01-s05"],
       ),
     ],
   },

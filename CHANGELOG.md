@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-27 - A2 Experiences and Life Changes Pilot
+
+- Added A2 unit 7 with four lessons about travel experience, asking about experience, life changes, and a new job. A2 now has 7 units / 28 lessons / 168 word occurrences.
+- Added eight ordered-slot transfers, four reading recognitions, four text responses, and a six-sentence passage with four evidence-backed comprehension questions.
+- Preserved the single A2 CSV/JSON sources, A1 data, units 1–6 hashes, sequential unlocks, and local progress. `been` shares the existing `be` lexeme; KK/IPA candidates and all new content remain pending human review, audio remains pending.
+- Added unit and desktop/mobile browser coverage. No unit 8, new topic, B1/B2 enablement, UI redesign, schema change, or publication is included.
+
 ## 2026-10-16 - Focused Conversation Weakness Review
 
 - Added「對話弱點複習」from the scenario overview and assisted-result summary. It selects the latest incorrect or assisted turns and shows why each was selected; due scenarios appear first.

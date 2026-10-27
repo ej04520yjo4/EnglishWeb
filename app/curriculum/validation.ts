@@ -307,6 +307,10 @@ const UNIT_PRESENTATION: Record<string, { description: string; accent: string }>
     description: "聊聊日常家務、說明分工，並禮貌請求協助。",
     accent: "#5a95db",
   },
+  "a2-u07": {
+    description: "分享去過的地方、詢問別人的經驗，並描述生活近況與改變。",
+    accent: "#5a95db",
+  },
 };
 
 export const buildCourseUnitsFromRows = (

@@ -3466,6 +3466,631 @@
         }
       ],
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "present-perfect-experience",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} have been to {place}.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "分享經驗的主詞",
+          "allowedLexemeIds": [
+            "i",
+            "we"
+          ]
+        },
+        {
+          "slotId": "experience",
+          "role": "表示曾經去過",
+          "allowedLexemeIds": [
+            "have",
+            "be",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "have-been-to"
+          ]
+        },
+        {
+          "slotId": "place",
+          "role": "曾經去過的地點",
+          "allowedLexemeIds": [
+            "taiwan",
+            "that",
+            "store",
+            "school",
+            "station"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u07-l01-transfer-we",
+          "practiceLessonId": "a2-u07-l01",
+          "sourceSentenceId": "a2-u07-l01-p01-s01",
+          "sentencePatternId": "present-perfect-experience",
+          "passageId": "a2-u07-p01",
+          "sentence": "We have been to Taiwan.",
+          "translation": "我們去過台灣。",
+          "hintKeywords": "我們／曾經去過／台灣",
+          "skeleton": "We have been to ______.",
+          "requiredLexemeIds": [
+            "we",
+            "have",
+            "be",
+            "to",
+            "taiwan"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "We",
+              "requiredLexemeIds": [
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "experience",
+              "text": "have been to",
+              "requiredLexemeIds": [
+                "have",
+                "be",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-been-to"
+              ]
+            },
+            {
+              "slotId": "place",
+              "text": "Taiwan.",
+              "requiredLexemeIds": [
+                "taiwan"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-l01-transfer-store",
+          "practiceLessonId": "a2-u07-l01",
+          "sourceSentenceId": "a2-u07-l01-p01-s01",
+          "sentencePatternId": "present-perfect-experience",
+          "passageId": "a2-u07-p01",
+          "sentence": "I have been to that store.",
+          "translation": "我去過那間商店。",
+          "hintKeywords": "我／曾經去過／那間商店",
+          "skeleton": "I have been to ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "be",
+            "to",
+            "that",
+            "store"
+          ],
+          "requiredChunkIds": [
+            "have-been-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "experience",
+              "text": "have been to",
+              "requiredLexemeIds": [
+                "have",
+                "be",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-been-to"
+              ]
+            },
+            {
+              "slotId": "place",
+              "text": "that store.",
+              "requiredLexemeIds": [
+                "that",
+                "store"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "present-perfect-experience-question",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Have you been to {place} before?",
+      "slots": [
+        {
+          "slotId": "question",
+          "role": "詢問對方是否有經驗",
+          "allowedLexemeIds": [
+            "have",
+            "you"
+          ]
+        },
+        {
+          "slotId": "experience",
+          "role": "表示曾經去過",
+          "allowedLexemeIds": [
+            "be",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "been-to"
+          ]
+        },
+        {
+          "slotId": "place",
+          "role": "詢問曾經去過的地點",
+          "allowedLexemeIds": [
+            "taiwan",
+            "that",
+            "store",
+            "this",
+            "station"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "詢問是否曾經發生",
+          "allowedLexemeIds": [
+            "before"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u07-l02-transfer-store",
+          "practiceLessonId": "a2-u07-l02",
+          "sourceSentenceId": "a2-u07-l02-p01-s01",
+          "sentencePatternId": "present-perfect-experience-question",
+          "passageId": "a2-u07-p01",
+          "sentence": "Have you been to that store before?",
+          "translation": "你以前去過那間商店嗎？",
+          "hintKeywords": "你／以前去過／那間商店嗎",
+          "skeleton": "Have you been to ______ before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "that",
+            "store",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "question",
+              "text": "Have you",
+              "requiredLexemeIds": [
+                "have",
+                "you"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "experience",
+              "text": "been to",
+              "requiredLexemeIds": [
+                "be",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "been-to"
+              ]
+            },
+            {
+              "slotId": "place",
+              "text": "that store",
+              "requiredLexemeIds": [
+                "that",
+                "store"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "before?",
+              "requiredLexemeIds": [
+                "before"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-l02-transfer-station",
+          "practiceLessonId": "a2-u07-l02",
+          "sourceSentenceId": "a2-u07-l02-p01-s01",
+          "sentencePatternId": "present-perfect-experience-question",
+          "passageId": "a2-u07-p01",
+          "sentence": "Have you been to this station before?",
+          "translation": "你以前去過這個車站嗎？",
+          "hintKeywords": "你／以前去過／這個車站嗎",
+          "skeleton": "Have you been to ______ before?",
+          "requiredLexemeIds": [
+            "have",
+            "you",
+            "be",
+            "to",
+            "this",
+            "station",
+            "before"
+          ],
+          "requiredChunkIds": [
+            "been-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "question",
+              "text": "Have you",
+              "requiredLexemeIds": [
+                "have",
+                "you"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "experience",
+              "text": "been to",
+              "requiredLexemeIds": [
+                "be",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "been-to"
+              ]
+            },
+            {
+              "slotId": "place",
+              "text": "this station",
+              "requiredLexemeIds": [
+                "this",
+                "station"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "before?",
+              "requiredLexemeIds": [
+                "before"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "be-change-now",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} is different now.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "描述改變的主詞",
+          "allowedLexemeIds": [
+            "my",
+            "life",
+            "room",
+            "house"
+          ]
+        },
+        {
+          "slotId": "be",
+          "role": "現在狀態的 be 動詞",
+          "allowedLexemeIds": [
+            "be"
+          ]
+        },
+        {
+          "slotId": "change",
+          "role": "描述現在已不同",
+          "allowedLexemeIds": [
+            "different",
+            "now"
+          ],
+          "allowedChunkIds": [
+            "different-now"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u07-l03-transfer-room",
+          "practiceLessonId": "a2-u07-l03",
+          "sourceSentenceId": "a2-u07-l03-p01-s01",
+          "sentencePatternId": "be-change-now",
+          "passageId": "a2-u07-p01",
+          "sentence": "My room is different now.",
+          "translation": "我的房間現在不一樣了。",
+          "hintKeywords": "我的房間／現在／不一樣",
+          "skeleton": "My ______ is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "room",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "My room",
+              "requiredLexemeIds": [
+                "my",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "be",
+              "text": "is",
+              "requiredLexemeIds": [
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "change",
+              "text": "different now.",
+              "requiredLexemeIds": [
+                "different",
+                "now"
+              ],
+              "requiredChunkIds": [
+                "different-now"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-l03-transfer-house",
+          "practiceLessonId": "a2-u07-l03",
+          "sourceSentenceId": "a2-u07-l03-p01-s01",
+          "sentencePatternId": "be-change-now",
+          "passageId": "a2-u07-p01",
+          "sentence": "My house is different now.",
+          "translation": "我的房子現在不一樣了。",
+          "hintKeywords": "我的房子／現在／不一樣",
+          "skeleton": "My ______ is different now.",
+          "requiredLexemeIds": [
+            "my",
+            "house",
+            "be",
+            "different",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "different-now"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "My house",
+              "requiredLexemeIds": [
+                "my",
+                "house"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "be",
+              "text": "is",
+              "requiredLexemeIds": [
+                "be"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "change",
+              "text": "different now.",
+              "requiredLexemeIds": [
+                "different",
+                "now"
+              ],
+              "requiredChunkIds": [
+                "different-now"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "have-new-state-now",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I have a new {item} now.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "擁有新事物的主詞",
+          "allowedLexemeIds": [
+            "i"
+          ]
+        },
+        {
+          "slotId": "possession",
+          "role": "表示擁有",
+          "allowedLexemeIds": [
+            "have",
+            "a"
+          ]
+        },
+        {
+          "slotId": "item",
+          "role": "新事物",
+          "allowedLexemeIds": [
+            "new",
+            "job",
+            "book",
+            "bag"
+          ],
+          "allowedChunkIds": [
+            "new-job"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "現在的時間",
+          "allowedLexemeIds": [
+            "now"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u07-l04-transfer-book",
+          "practiceLessonId": "a2-u07-l04",
+          "sourceSentenceId": "a2-u07-l04-p01-s01",
+          "sentencePatternId": "have-new-state-now",
+          "passageId": "a2-u07-p01",
+          "sentence": "I have a new book now.",
+          "translation": "我現在有一本新書。",
+          "hintKeywords": "我／有一本新書／現在",
+          "skeleton": "I have a new ______ now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "book",
+            "now"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "possession",
+              "text": "have a",
+              "requiredLexemeIds": [
+                "have",
+                "a"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "item",
+              "text": "new book",
+              "requiredLexemeIds": [
+                "new",
+                "book"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "now.",
+              "requiredLexemeIds": [
+                "now"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u07-l04-transfer-bag",
+          "practiceLessonId": "a2-u07-l04",
+          "sourceSentenceId": "a2-u07-l04-p01-s01",
+          "sentencePatternId": "have-new-state-now",
+          "passageId": "a2-u07-p01",
+          "sentence": "I have a new bag now.",
+          "translation": "我現在有一個新包包。",
+          "hintKeywords": "我／有一個新包包／現在",
+          "skeleton": "I have a new ______ now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "bag",
+            "now"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "possession",
+              "text": "have a",
+              "requiredLexemeIds": [
+                "have",
+                "a"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "item",
+              "text": "new bag",
+              "requiredLexemeIds": [
+                "new",
+                "bag"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "now.",
+              "requiredLexemeIds": [
+                "now"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
     }
   ]
 }

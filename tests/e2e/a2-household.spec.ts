@@ -183,13 +183,13 @@ const priorA2Units = Array.from(
   (_, unitIndex) => `a2-u0${unitIndex + 1}`,
 );
 
-test("A2 QA preview shows all six units and 24 lessons without passing A2", async ({
+test("A2 QA preview keeps household lessons available without passing A2", async ({
   page,
 }) => {
   await seedA2(page, { showAdvancedPilots: true });
   await openA2Map(page);
 
-  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(24);
+  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(28);
   await expect(page.getByRole("button", { name: /平常的家務/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /必須洗碗/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /請求幫忙洗衣服/ })).toBeEnabled();
@@ -317,7 +317,7 @@ test("completes all four A2 household lessons, passage comprehension, and reload
     });
 
   await page.reload();
-  await expect(page.getByText("24 / 24", { exact: true })).toBeVisible();
+  await expect(page.getByText("24 / 28", { exact: true })).toBeVisible();
   await expect
     .poll(() =>
       page.evaluate((key) => {

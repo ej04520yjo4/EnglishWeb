@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–6 have versioned pilot CSV/JSON data; unit 6 is a bounded pilot still awaiting learner and language QA, while units 7–10 remain planning notes.
+This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–7 have versioned pilot CSV/JSON data. The user's 2026-10-27 continuation authorizes a bounded unit 7 pilot while learner and language QA remain open; units 8–10 remain planning notes.
 
 ## Ten-Unit Route
 
@@ -14,7 +14,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 | 4 | 健康與建議 | Pilot data |
 | 5 | 工作與約會安排 | Pilot data |
 | 6 | 居家與日常家務 | Bounded pilot data |
-| 7 | 經驗與生活改變 | Blueprint only |
+| 7 | 經驗與生活改變 | Bounded pilot data |
 | 8 | 問題與簡單解決方式 | Blueprint only |
 | 9 | 社交、邀請與回應 | Blueprint only |
 | 10 | 綜合郵件、行程與生活故事 | Blueprint only |
@@ -36,7 +36,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 
 ### Unit 6 — 居家與日常家務
 
-Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilot_review_required`. It is not production content or human-approved CEFR material; the learner trial and language QA must finish before unit 7 receives formal data.
+Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_review_required`. Its learner trial and language QA remain open. The later unit 7 authorization permits only a parallel bounded pilot, not retrospective approval of unit 6.
 
 - 溝通目標：說明家務分工與日常頻率。
 - 主要文法：adverbs of frequency、have to 複習。
@@ -45,7 +45,7 @@ Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilo
 - 短文類型：家庭日常與家務清單。
 - 前置能力：A1 地點、日常活動及單元 4 的必要性表達。
 
-## Deferred Unit Details
+## Pilot Unit 7
 
 ### Unit 7 — 經驗與生活改變
 
@@ -55,6 +55,10 @@ Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilo
 - 句型方向：`I have...`、`It is ... now.`
 - 短文類型：短篇個人經驗。
 - 前置能力：單元 1 的過去式與單元 3 的比較表達。
+
+四課為 `I have been to Taiwan.`、`Have you been to Taiwan before?`、`My life is different now.`、`I have a new job now.`。共 22 個逐字題、每課兩題換字、閱讀辨識與文字選答，以及六句文章與四題閱讀理解。`been` 沿用 `be`，真正的新 lexeme 為 0／1／3／2；不一次引入完整現在完成式所有用法。詳細內容及待審項目見 [Unit 7 QA](a2-unit7-pilot-qa.md)。
+
+## Deferred Unit Details
 
 ### Unit 8 — 問題與簡單解決方式
 
@@ -90,8 +94,8 @@ Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilo
 - New lexemes should normally stay at four or fewer per lesson and recur later.
 - Transfer and reading exercises may use only content taught by that lesson.
 - Units unlock sequentially in learner mode. QA preview may inspect pilot units without changing pass records.
-- Unit 6 is a bounded pilot and remains `pilot_review_required`; completing it never means completing all of A2 and never unlocks B1.
-- Unit 7 must wait for the unit 6 learner trial and language QA; the conversation supplement does not count as a formal unit prerequisite or completion.
+- Units 6 and 7 are bounded pilots and remain `pilot_review_required`; completing them never means completing all of A2 and never unlocks B1.
+- Unit 7 requires the existing sequential unit-6 pass in normal mode; QA preview changes no completion records. The conversation supplement does not count as a formal unit prerequisite or completion.
 
 ## Supplemental Conversation Practice
 
@@ -99,4 +103,4 @@ Unit 6 now has versioned pilot CSV/JSON data with four lessons and remains `pilo
 
 ## Deferred Boundary
 
-Units 7–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress until units 1–6 finish manual English, Traditional Chinese, phonetic, difficulty, and browser-flow review. Unit 6 already has bounded pilot IDs and data, but must remain `pilot_review_required` until its learner and language QA is recorded; the pilot does not promote A2 to production or unlock B1.
+Units 8–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress in this iteration. Review units 1–7 manually for English, Traditional Chinese, phonetics, difficulty, and actual learning flow before deciding on the next bounded addition. Unit 7's explicit authorization does not promote any pilot to production or unlock B1.
