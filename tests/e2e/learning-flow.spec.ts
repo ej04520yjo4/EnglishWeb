@@ -1190,7 +1190,7 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
     });
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("1 / 28", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 / 32", { exact: true })).toBeVisible();
   await page.getByRole("button", {
     name: "前往課程地圖",
     exact: true,
@@ -1202,7 +1202,8 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
   await expect(
     page.getByRole("heading", { name: "A1 課程地圖" }),
   ).toBeVisible();
-  await expect(page.getByText("1/32 課")).toBeVisible();
+  await expect(page.getByTestId("level-selector-a1").getByText("1/32 課")).toBeVisible();
+  await expect(page.getByTestId("level-selector-a2").getByText("1/32 課")).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
@@ -1606,7 +1607,7 @@ test("completes all 16 new A2 lessons and four new passages", async ({
 
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("16 / 28", { exact: true })).toBeVisible();
+  await expect(page.getByText("16 / 32", { exact: true })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
@@ -1624,7 +1625,7 @@ test("finishing current A2 pilot content never marks A2 formally passed", async 
     [],
     [],
     "A2",
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07", "a2-u08"],
   );
   await page.goto("/");
   await expectLevelHomeReady(page, "A2");

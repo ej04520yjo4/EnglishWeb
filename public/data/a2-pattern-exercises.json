@@ -4091,6 +4091,651 @@
         }
       ],
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "have-problem-context",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I have a problem {context}.",
+      "slots": [
+        {
+          "slotId": "problem",
+          "role": "描述問題",
+          "allowedLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem"
+          ],
+          "allowedChunkIds": [
+            "have-a-problem"
+          ]
+        },
+        {
+          "slotId": "context",
+          "role": "問題發生的地點",
+          "allowedLexemeIds": [
+            "at",
+            "work",
+            "home",
+            "school"
+          ],
+          "allowedChunkIds": [
+            "at-work",
+            "at-home"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u08-l01-transfer-home",
+          "practiceLessonId": "a2-u08-l01",
+          "sourceSentenceId": "a2-u08-l01-p01-s01",
+          "sentencePatternId": "have-problem-context",
+          "passageId": "a2-u08-p01",
+          "sentence": "I have a problem at home.",
+          "translation": "我在家遇到一個問題。",
+          "hintKeywords": "我／有一個問題／在家",
+          "skeleton": "I have a problem ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-home"
+          ],
+          "slotValues": [
+            {
+              "slotId": "problem",
+              "text": "I have a problem",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "a",
+                "problem"
+              ],
+              "requiredChunkIds": [
+                "have-a-problem"
+              ]
+            },
+            {
+              "slotId": "context",
+              "text": "at home",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-l01-transfer-school",
+          "practiceLessonId": "a2-u08-l01",
+          "sourceSentenceId": "a2-u08-l01-p01-s01",
+          "sentencePatternId": "have-problem-context",
+          "passageId": "a2-u08-p01",
+          "sentence": "I have a problem at school.",
+          "translation": "我在學校遇到一個問題。",
+          "hintKeywords": "我／有一個問題／在學校",
+          "skeleton": "I have a problem ______.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "school"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem"
+          ],
+          "slotValues": [
+            {
+              "slotId": "problem",
+              "text": "I have a problem",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "a",
+                "problem"
+              ],
+              "requiredChunkIds": [
+                "have-a-problem"
+              ]
+            },
+            {
+              "slotId": "context",
+              "text": "at school",
+              "requiredLexemeIds": [
+                "at",
+                "school"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "because-reason",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I am tired because I {action} {time}.",
+      "slots": [
+        {
+          "slotId": "state",
+          "role": "描述感受",
+          "allowedLexemeIds": [
+            "i",
+            "be",
+            "tire"
+          ]
+        },
+        {
+          "slotId": "reason",
+          "role": "說明原因",
+          "allowedLexemeIds": [
+            "because"
+          ]
+        },
+        {
+          "slotId": "action",
+          "role": "造成疲累的活動",
+          "allowedLexemeIds": [
+            "i",
+            "work",
+            "clean"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "活動時間",
+          "allowedLexemeIds": [
+            "at",
+            "night",
+            "on",
+            "saturday"
+          ],
+          "allowedChunkIds": [
+            "at-night",
+            "on-saturday"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u08-l02-transfer-clean-night",
+          "practiceLessonId": "a2-u08-l02",
+          "sourceSentenceId": "a2-u08-l02-p01-s01",
+          "sentencePatternId": "because-reason",
+          "passageId": "a2-u08-p01",
+          "sentence": "I am tired because I clean at night.",
+          "translation": "我因為晚上整理而很累。",
+          "hintKeywords": "我很累／因為／晚上整理",
+          "skeleton": "I am tired because I ______ at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "clean",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ],
+          "slotValues": [
+            {
+              "slotId": "state",
+              "text": "I am tired",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "tire"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "reason",
+              "text": "because",
+              "requiredLexemeIds": [
+                "because"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "I clean",
+              "requiredLexemeIds": [
+                "i",
+                "clean"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "at night",
+              "requiredLexemeIds": [
+                "at",
+                "night"
+              ],
+              "requiredChunkIds": [
+                "at-night"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-l02-transfer-work-saturday",
+          "practiceLessonId": "a2-u08-l02",
+          "sourceSentenceId": "a2-u08-l02-p01-s01",
+          "sentencePatternId": "because-reason",
+          "passageId": "a2-u08-p01",
+          "sentence": "I am tired because I work on Saturday.",
+          "translation": "我因為星期六工作而很累。",
+          "hintKeywords": "我很累／因為／星期六工作",
+          "skeleton": "I am tired because I ______ on Saturday.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ],
+          "slotValues": [
+            {
+              "slotId": "state",
+              "text": "I am tired",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "tire"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "reason",
+              "text": "because",
+              "requiredLexemeIds": [
+                "because"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "I work",
+              "requiredLexemeIds": [
+                "i",
+                "work"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "on Saturday",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "should-advice-action",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "{subject} should take a break.",
+      "slots": [
+        {
+          "slotId": "subject",
+          "role": "提出建議的主詞",
+          "allowedLexemeIds": [
+            "i",
+            "you",
+            "we"
+          ]
+        },
+        {
+          "slotId": "advice",
+          "role": "提出應該做的事",
+          "allowedLexemeIds": [
+            "should"
+          ]
+        },
+        {
+          "slotId": "action",
+          "role": "建議的休息行動",
+          "allowedLexemeIds": [
+            "take",
+            "a",
+            "break"
+          ],
+          "allowedChunkIds": [
+            "take-a-break"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u08-l03-transfer-i",
+          "practiceLessonId": "a2-u08-l03",
+          "sourceSentenceId": "a2-u08-l03-p01-s01",
+          "sentencePatternId": "should-advice-action",
+          "passageId": "a2-u08-p01",
+          "sentence": "I should take a break.",
+          "translation": "我應該休息一下。",
+          "hintKeywords": "我／應該／休息一下",
+          "skeleton": "I should ______.",
+          "requiredLexemeIds": [
+            "i",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "I",
+              "requiredLexemeIds": [
+                "i"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "advice",
+              "text": "should",
+              "requiredLexemeIds": [
+                "should"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "take a break",
+              "requiredLexemeIds": [
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-l03-transfer-we",
+          "practiceLessonId": "a2-u08-l03",
+          "sourceSentenceId": "a2-u08-l03-p01-s01",
+          "sentencePatternId": "should-advice-action",
+          "passageId": "a2-u08-p01",
+          "sentence": "We should take a break.",
+          "translation": "我們應該休息一下。",
+          "hintKeywords": "我們／應該／休息一下",
+          "skeleton": "We should ______.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ],
+          "slotValues": [
+            {
+              "slotId": "subject",
+              "text": "We",
+              "requiredLexemeIds": [
+                "we"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "advice",
+              "text": "should",
+              "requiredLexemeIds": [
+                "should"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "take a break",
+              "requiredLexemeIds": [
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "be-so-action",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I am tired, so I take a break{context}.",
+      "slots": [
+        {
+          "slotId": "state",
+          "role": "描述疲累狀態",
+          "allowedLexemeIds": [
+            "i",
+            "be",
+            "tire"
+          ]
+        },
+        {
+          "slotId": "result",
+          "role": "表示結果",
+          "allowedLexemeIds": [
+            "so"
+          ]
+        },
+        {
+          "slotId": "action",
+          "role": "採取休息行動",
+          "allowedLexemeIds": [
+            "i",
+            "take",
+            "a",
+            "break"
+          ],
+          "allowedChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "slotId": "context",
+          "role": "休息地點或時間",
+          "allowedLexemeIds": [
+            "at",
+            "home",
+            "now"
+          ],
+          "allowedChunkIds": [
+            "at-home"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u08-l04-transfer-home",
+          "practiceLessonId": "a2-u08-l04",
+          "sourceSentenceId": "a2-u08-l04-p01-s01",
+          "sentencePatternId": "be-so-action",
+          "passageId": "a2-u08-p01",
+          "sentence": "I am tired, so I take a break at home.",
+          "translation": "我很累，所以在家休息一下。",
+          "hintKeywords": "我很累／所以／在家休息",
+          "skeleton": "I am tired, so I take a break ______.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "take-a-break",
+            "at-home"
+          ],
+          "slotValues": [
+            {
+              "slotId": "state",
+              "text": "I am tired",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "tire"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "result",
+              "text": "so",
+              "requiredLexemeIds": [
+                "so"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "I take a break",
+              "requiredLexemeIds": [
+                "i",
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            },
+            {
+              "slotId": "context",
+              "text": "at home",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-l04-transfer-now",
+          "practiceLessonId": "a2-u08-l04",
+          "sourceSentenceId": "a2-u08-l04-p01-s01",
+          "sentencePatternId": "be-so-action",
+          "passageId": "a2-u08-p01",
+          "sentence": "I am tired, so I take a break now.",
+          "translation": "我很累，所以現在休息一下。",
+          "hintKeywords": "我很累／所以／現在休息",
+          "skeleton": "I am tired, so I take a break ______.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ],
+          "slotValues": [
+            {
+              "slotId": "state",
+              "text": "I am tired",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "tire"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "result",
+              "text": "so",
+              "requiredLexemeIds": [
+                "so"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "action",
+              "text": "I take a break",
+              "requiredLexemeIds": [
+                "i",
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            },
+            {
+              "slotId": "context",
+              "text": "now",
+              "requiredLexemeIds": [
+                "now"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
     }
   ]
 }

@@ -29,10 +29,13 @@ import {
 } from "../app/curriculum/loader.ts";
 import {
   buildCourseUnitsFromRows,
+  COURSE_CSV_HEADERS,
   findCrossLevelIdCollisions,
   parseCourseCsv,
+  serializeCourseCsv,
   validateCourseRows,
 } from "../app/curriculum/validation.ts";
+import { sentenceSpellingUnits } from "../app/curriculum/sentence-words.ts";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -110,23 +113,23 @@ test("rejects a catalog with an out-of-order advanced prerequisite", () => {
   );
 });
 
-test("loads the A2 pilot as 7 units and 28 lessons", async () => {
+test("loads the A2 pilot as 8 units and 32 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 7);
+  assert.equal(level.units.length, 8);
   assert.equal(
     level.units.flatMap((unit) => unit.lessons).length,
-    28,
+    32,
   );
-  assert.equal(level.rows.length, 168);
+  assert.equal(level.rows.length, 195);
   assert.equal(level.status, "pilot");
 });
 
-test("keeps A2 unit 1 unchanged while adding units 2 through 7", () => {
+test("keeps A2 unit 1 unchanged while adding units 2 through 8", () => {
   const unitOneRows = a2Rows.filter((row) => row.unit_id === "a2-u01");
   assert.equal(unitOneRows.length, 25);
   assert.equal(
@@ -137,7 +140,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 7", () => {
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_id))],
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07", "a2-u08"],
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_title))],
@@ -149,6 +152,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 7", () => {
       "工作與約會安排",
       "居家與日常家務",
       "經驗與生活改變",
+      "問題與簡單解決方式",
     ],
   );
   const unitOnePatterns = a2Patterns.patterns.filter((pattern) =>
@@ -181,7 +185,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 7", () => {
   );
 });
 
-test("preserves A2 units 1 through 6 rows and exercise objects byte-for-object", () => {
+test("preserves A2 units 1 through 7 rows and exercise objects byte-for-object", () => {
   const expected = {
     "a2-u01": {
       rows: "0c06db4c35f30bd99dd8678bba6a09653d70cae02a92694037be32d736b145f8",
@@ -212,6 +216,11 @@ test("preserves A2 units 1 through 6 rows and exercise objects byte-for-object",
       rows: "779d8939b4e14a66ace1a696462e52cae8acaca735b41ff7ffe8670aaddffdd0",
       patterns: "64de4265de00f638784a8a7381ec0595a6f54301b8309e7147ed571ffe7661e4",
       reading: "8766ba4dd06ef36f0dd5ac1ddac06dacc90d1aeab54863c046be7bf0bcb3d411",
+    },
+    "a2-u07": {
+      rows: "67348dc1d9e8ffa7ab7fd9ae610ac3f2420174b55549a6ad8516014b0d94ee53",
+      patterns: "cfc17e9779c0e476866a331dffd8d1d7726ed59e8f20179dbf0b34eaa9e315e8",
+      reading: "53455c61c26154e37d4462cd038c7c4b1e75a077ebe269395f8550995eb9590a",
     },
   };
   const digest = (value) =>
@@ -258,19 +267,19 @@ test("keeps four ordered lessons per A2 unit and all structural IDs unique", () 
   );
   assert.deepEqual(
     units.map((unit) => unit.lessons.length),
-    [4, 4, 4, 4, 4, 4, 4],
+    [4, 4, 4, 4, 4, 4, 4, 4],
   );
   assert.deepEqual(
     units.map((unit) => unit.number),
-    [1, 2, 3, 4, 5, 6, 7],
+    [1, 2, 3, 4, 5, 6, 7, 8],
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.lesson_id)).size,
-    28,
+    32,
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.sentence_id)).size,
-    28,
+    32,
   );
   const occurrenceIds = a2Rows.map((row) => row.occurrence_id);
   assert.equal(new Set(occurrenceIds).size, occurrenceIds.length);
@@ -368,7 +377,7 @@ test("adds four bounded experience lessons without treating been as a new lexeme
   const expectedNewLexemes = [[], ["before"], ["life", "different", "now"], ["new", "job"]];
   const known = new Set([
     ...a1Rows.map((row) => row.lexeme_id),
-    ...a2Rows.filter((row) => row.unit_id !== "a2-u07").map((row) => row.lexeme_id),
+    ...a2Rows.filter((row) => row.unit_id < "a2-u07").map((row) => row.lexeme_id),
   ]);
   expectedNewLexemes.forEach((expected, lessonIndex) => {
     const lessonId = `a2-u07-l0${lessonIndex + 1}`;
@@ -412,8 +421,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 7,
-    expectedLessons: 28,
+    expectedUnits: 8,
+    expectedLessons: 32,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -422,11 +431,11 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
     "a2-course-v1.csv",
   );
   units.flatMap((unit) => unit.lessons).forEach((lesson) => {
-    const punctuation = lesson.sentence.match(/[.!?]$/)?.[0] ?? ".";
-    assert.equal(
-      `${lesson.tokens.map((token) => token.answer).join(" ")}${punctuation}`,
-      lesson.sentence,
+    assert.deepEqual(
+      lesson.tokens.map((token) => token.answer),
+      sentenceSpellingUnits(lesson.sentence),
     );
+    assert.match(lesson.sentence, /[.!?]$/);
   });
 });
 
@@ -663,7 +672,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
         .map((row) => row.lesson_id),
     ),
   ];
-  assert.equal(newLessonIds.length, 24);
+  assert.equal(newLessonIds.length, 28);
   newLessonIds.forEach((lessonId) => {
     const newLexemes = new Set(
       a2Rows
@@ -681,7 +690,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
   });
 });
 
-test("gives all 24 new lessons recognition, two transfers, and text response", () => {
+test("gives all 28 new lessons recognition, two transfers, and text response", () => {
   const newLessonIds = [
     ...new Set(
       a2Rows
@@ -725,6 +734,7 @@ test("adds one supported passage per A2 unit", () => {
       "a2-u05-p01",
       "a2-u06-p01",
       "a2-u07-p01",
+      "a2-u08-p01",
     ],
   );
   a2Reading.passages.forEach((passage) => {
@@ -830,7 +840,7 @@ test("builds unit seven comprehension from taught words and explicit evidence", 
     assert.equal(question.optionMetadata.length, 4);
   });
   const invalid = structuredClone(a2Reading);
-  const question = invalid.passages.at(-1).questions[0];
+  const question = invalid.passages.find((entry) => entry.passageId === "a2-u07-p01").questions[0];
   question.options[1] = "An airport.";
   question.optionMetadata[1] = {
     text: "An airport.", requiredLexemeIds: ["an", "airport"], requiredChunkIds: [],
@@ -849,7 +859,131 @@ test("distinguishes experience have from possession without changing the lexeme"
   assert.match(experience.context_pos, /助動詞/);
   assert.equal(experience.prompt_type, "grammar");
   assert.match(possession.context_pos, /動詞/);
-  assert.ok(!a2Rows.some((row) => row.unit_id === "a2-u08"));
+  assert.ok(!a2Rows.some((row) => row.unit_id >= "a2-u09"));
+});
+
+test("adds exactly four unit eight lessons with first-seen lexemes and stable word IDs", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u08");
+  assert.equal(rows.length, 27);
+  const sentences = [
+    "I have a problem at work.",
+    "I am tired because I work at night.",
+    "You should take a break.",
+    "I am tired, so I take a break.",
+  ];
+  const patterns = ["have-problem-context", "because-reason", "should-advice-action", "be-so-action"];
+  const firstSeen = [["problem"], ["tire", "because"], ["break"], ["so"]];
+  const known = new Set([
+    ...a1Rows.map((row) => row.lexeme_id),
+    ...a2Rows.filter((row) => row.unit_id < "a2-u08").map((row) => row.lexeme_id),
+  ]);
+  sentences.forEach((sentence, lessonIndex) => {
+    const lessonId = `a2-u08-l0${lessonIndex + 1}`;
+    const lessonRows = rows.filter((row) => row.lesson_id === lessonId);
+    assert.deepEqual(lessonRows.map((row) => row.answer), sentenceSpellingUnits(sentence));
+    const novel = [...new Set(lessonRows.map((row) => row.lexeme_id))].filter((id) => !known.has(id));
+    assert.deepEqual(novel, firstSeen[lessonIndex]);
+    assert.ok(novel.length <= 4);
+    assert.deepEqual(lessonRows.filter((row) => row.is_new_word === "TRUE").map((row) => row.lexeme_id), novel);
+    lessonRows.forEach((row, index) => {
+      assert.equal(row.occurrence_id, `${lessonId}-p01-s01-t${String(index + 1).padStart(2, "0")}`);
+      assert.equal(row.token_order, String(index + 1));
+      assert.equal(row.sentence, sentence);
+      assert.equal(row.sentence_pattern_id, patterns[lessonIndex]);
+      assert.equal(row.qa_status, "pilot_review_required");
+      assert.equal(row.audio_status, "pending");
+      assert.equal(row.audio_source, "");
+      assert.equal(row.word_audio_source, "");
+      assert.equal(row.sentence_audio_source, "");
+      assert.ok(row.prompt && row.context_pos && row.sense_id && row.kk_us && row.ipa_standalone);
+      known.add(row.lexeme_id);
+    });
+  });
+});
+
+test("teaches unit eight causes, results and whole-chunk rest without false word translations", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u08");
+  const because = rows.find((row) => row.answer === "because");
+  const so = rows.find((row) => row.answer === "so");
+  assert.equal(because.prompt_type, "grammar");
+  assert.equal(so.prompt_type, "grammar");
+  assert.match(because.prompt, /因為/);
+  assert.match(so.prompt, /所以/);
+  assert.match(because.note, /原因/);
+  assert.match(so.note, /結果|行動/);
+  rows.filter((row) => row.answer === "tired").forEach((row) => {
+    assert.equal(row.lexeme_id, "tire");
+    assert.equal(row.lemma, "tire");
+    assert.equal(row.context_pos, "adjective 形容詞");
+    assert.match(row.note, /過去分詞/);
+  });
+  const workRows = rows.filter((row) => row.answer === "work");
+  assert.equal(workRows.find((row) => row.lesson_id === "a2-u08-l01").context_pos, "noun 名詞");
+  assert.equal(workRows.find((row) => row.lesson_id === "a2-u08-l02").context_pos, "verb 動詞");
+  ["a2-u08-l03", "a2-u08-l04"].forEach((lessonId) => {
+    const chunkRows = rows.filter((row) => row.lesson_id === lessonId && row.chunk_id === "take-a-break");
+    assert.deepEqual(chunkRows.map((row) => row.answer), ["take", "a", "break"]);
+    assert.ok(chunkRows.every((row) => row.chunk_translation === "休息一下"));
+    assert.notEqual(chunkRows[0].prompt, "拿");
+  });
+  const last = buildCourseUnitsFromRows(a2Rows, "a2-course-v1.csv").at(-1).lessons.at(-1);
+  assert.equal(last.sentence, "I am tired, so I take a break.");
+  assert.equal(last.tokens.length, 8);
+});
+
+test("round-trips unit eight CSV including comma punctuation and all layered metadata", () => {
+  const roundTrip = parseCourseCsv(serializeCourseCsv(a2Rows, COURSE_CSV_HEADERS));
+  assert.deepEqual(roundTrip, a2Rows);
+  const report = validateCourseRows(roundTrip, {
+    expectedLevel: "A2", expectedUnits: 8, expectedLessons: 32,
+    rejectProductionQaForPilot: true,
+  });
+  assert.equal(report.valid, true, report.validationErrors.join("\n"));
+  const invalid = structuredClone(roundTrip);
+  invalid.find((row) => row.occurrence_id === "a2-u08-l04-p01-s01-t08").answer = "a break";
+  const invalidReport = validateCourseRows(invalid, { expectedLevel: "A2" });
+  assert.equal(invalidReport.valid, false);
+  assert.ok(invalidReport.validationErrors.some((error) => error.includes("a2-u08")));
+});
+
+test("keeps unit eight practice prerequisite-safe and its passage evidence explicit", () => {
+  const response = a2Reading.textResponses.find((entry) => entry.lessonId === "a2-u08-l04");
+  assert.deepEqual(response.options.map((option) => option.text), [
+    "I am tired, so I take a break.",
+    "I am tired because I work at night.",
+    "You should take a break.",
+    "I have a problem at work.",
+  ]);
+  assert.equal(response.options.find((option) => option.id === response.correctOptionId).text,
+    "I am tired, so I take a break.");
+  const passage = a2Reading.passages.find((entry) => entry.passageId === "a2-u08-p01");
+  assert.equal(passage.qaStatus, "pilot_review_required");
+  assert.deepEqual(passage.sentences.map((entry) => entry.sentence), [
+    "I have a problem at work.",
+    "I am tired because I work at night.",
+    "I am tired, so I take a break.",
+    "I take a break at home.",
+    "I have some water.",
+  ]);
+  assert.deepEqual(passage.questions.map((entry) => entry.correctAnswer), ["At work.", "At night.", "Take a break.", "At home."]);
+  assert.deepEqual(passage.questions[2].evidenceSentenceIds, ["a2-u08-p01-s02", "a2-u08-p01-s03"]);
+  passage.questions.forEach((question) => {
+    assert.equal(question.options.length, 4);
+    assert.equal(question.optionMetadata.length, 4);
+    assert.equal(new Set(question.options).size, 4);
+    assert.equal(question.options.filter((option) => option === question.correctAnswer).length, 1);
+  });
+  const invalid = structuredClone(a2Reading);
+  const early = invalid.textResponses.find((entry) => entry.lessonId === "a2-u08-l01");
+  const replacement = early.options.find((option) => option.id !== early.correctOptionId);
+  // A real lexeme from lesson 2 must not enter a lesson 1 distractor.
+  replacement.text = "I am tired.";
+  replacement.requiredLexemeIds = ["i", "be", "tire"];
+  replacement.requiredChunkIds = [];
+  delete replacement.sourceSentenceId;
+  const report = validateReadingExerciseData(invalid, a2Rows, a2Patterns, a1Rows);
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.includes("tire")));
 });
 
 test("migrates schemaVersion 3 to 6 without changing A1 data", () => {

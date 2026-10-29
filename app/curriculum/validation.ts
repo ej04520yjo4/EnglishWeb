@@ -311,6 +311,10 @@ const UNIT_PRESENTATION: Record<string, { description: string; accent: string }>
     description: "分享去過的地方、詢問別人的經驗，並描述生活近況與改變。",
     accent: "#5a95db",
   },
+  "a2-u08": {
+    description: "說明日常問題與原因、提出簡單建議，並描述接下來的行動。",
+    accent: "#5a95db",
+  },
 };
 
 export const buildCourseUnitsFromRows = (

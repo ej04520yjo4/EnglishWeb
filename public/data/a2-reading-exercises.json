@@ -1193,6 +1193,176 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l01",
+      "lessonId": "a2-u08-l01",
+      "sentenceId": "a2-u08-l01-p01-s01",
+      "sentencePatternId": "have-problem-context",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have a problem at work.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "a",
+        "problem",
+        "at",
+        "work"
+      ],
+      "requiredChunkIds": [
+        "have-a-problem",
+        "at-work"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我在工作上遇到一個問題。",
+          "sourceSentenceId": "a2-u08-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在家遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你應該休息一下。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l02",
+      "lessonId": "a2-u08-l02",
+      "sentenceId": "a2-u08-l02-p01-s01",
+      "sentencePatternId": "because-reason",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am tired because I work at night.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "tire",
+        "because",
+        "work",
+        "at",
+        "night"
+      ],
+      "requiredChunkIds": [
+        "at-night"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我因為晚上工作而很累。",
+          "sourceSentenceId": "a2-u08-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在工作上遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你應該休息一下。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我很累，所以休息一下。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l03",
+      "lessonId": "a2-u08-l03",
+      "sentenceId": "a2-u08-l03-p01-s01",
+      "sentencePatternId": "should-advice-action",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "You should take a break.",
+      "requiredLexemeIds": [
+        "you",
+        "should",
+        "take",
+        "a",
+        "break"
+      ],
+      "requiredChunkIds": [
+        "take-a-break"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你應該休息一下。",
+          "sourceSentenceId": "a2-u08-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在工作上遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我現在有一份新工作。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l04",
+      "lessonId": "a2-u08-l04",
+      "sentenceId": "a2-u08-l04-p01-s01",
+      "sentencePatternId": "be-so-action",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am tired, so I take a break.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "tire",
+        "so",
+        "take",
+        "a",
+        "break"
+      ],
+      "requiredChunkIds": [
+        "take-a-break"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我很累，所以休息一下。",
+          "sourceSentenceId": "a2-u08-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你應該休息一下。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我在工作上遇到一個問題。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -3358,6 +3528,312 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l01",
+      "lessonId": "a2-u08-l01",
+      "sourceSentenceId": "a2-u08-l01-p01-s01",
+      "sentencePatternId": "have-problem-context",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我在工作上遇到一個問題」的英文句子。",
+      "targetTranslation": "我在工作上遇到一個問題。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have a problem at home.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-home"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have a problem at school.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "school"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a new job now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "job",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "new-job"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l02",
+      "lessonId": "a2-u08-l02",
+      "sourceSentenceId": "a2-u08-l02-p01-s01",
+      "sentencePatternId": "because-reason",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我因為晚上工作而很累」的英文句子。",
+      "targetTranslation": "我因為晚上工作而很累。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am tired because I clean at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "clean",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I am tired because I work on Saturday.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l03",
+      "lessonId": "a2-u08-l03",
+      "sourceSentenceId": "a2-u08-l03-p01-s01",
+      "sentencePatternId": "should-advice-action",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你應該休息一下」的英文句子。",
+      "targetTranslation": "你應該休息一下。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "You should take a break.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I should take a break.",
+          "requiredLexemeIds": [
+            "i",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "We should take a break.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l04",
+      "lessonId": "a2-u08-l04",
+      "sourceSentenceId": "a2-u08-l04-p01-s01",
+      "sentencePatternId": "be-so-action",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我很累，所以休息一下」的英文句子。",
+      "targetTranslation": "我很累，所以休息一下。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am tired, so I take a break.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "You should take a break.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -5493,6 +5969,340 @@
           "evidenceSentenceIds": [
             "a2-u07-p01-s03",
             "a2-u07-p01-s05"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u08-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u08-p01-s01",
+          "order": 1,
+          "sentence": "I have a problem at work.",
+          "translation": "我在工作上遇到一個問題。",
+          "lessonId": "a2-u08-l01",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s02",
+          "order": 2,
+          "sentence": "I am tired because I work at night.",
+          "translation": "我因為晚上工作而很累。",
+          "lessonId": "a2-u08-l02",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s03",
+          "order": 3,
+          "sentence": "I am tired, so I take a break.",
+          "translation": "我很累，所以休息一下。",
+          "lessonId": "a2-u08-l04",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s04",
+          "order": 4,
+          "sentence": "I take a break at home.",
+          "translation": "我在家休息一下。",
+          "lessonId": "a2-u08-l04",
+          "requiredLexemeIds": [
+            "i",
+            "take",
+            "a",
+            "break",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "take-a-break",
+            "at-home"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s05",
+          "order": 5,
+          "sentence": "I have some water.",
+          "translation": "我喝一些水。",
+          "lessonId": "a2-u08-l01",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "some",
+            "water"
+          ],
+          "requiredChunkIds": [],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u08-p01-q01",
+          "sourceSentenceId": "a2-u08-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人在哪裡遇到問題？",
+          "options": [
+            "At work.",
+            "At home.",
+            "At school.",
+            "At the station."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At work.",
+              "requiredLexemeIds": [
+                "at",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "at-work"
+              ]
+            },
+            {
+              "text": "At home.",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            },
+            {
+              "text": "At school.",
+              "requiredLexemeIds": [
+                "at",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At the station.",
+              "requiredLexemeIds": [
+                "at",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            }
+          ],
+          "correctAnswer": "At work.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q02",
+          "sourceSentenceId": "a2-u08-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人什麼時候工作？",
+          "options": [
+            "At night.",
+            "On Saturday.",
+            "At seven.",
+            "Tomorrow."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At night.",
+              "requiredLexemeIds": [
+                "at",
+                "night"
+              ],
+              "requiredChunkIds": [
+                "at-night"
+              ]
+            },
+            {
+              "text": "On Saturday.",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            },
+            {
+              "text": "At seven.",
+              "requiredLexemeIds": [
+                "at",
+                "seven"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "At night.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q03",
+          "sourceSentenceId": "a2-u08-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "根據第二、三句，這個人晚上工作覺得累，因此做了什麼？",
+          "options": [
+            "Take a break.",
+            "Go to work.",
+            "Clean the room.",
+            "Drink some water."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Take a break.",
+              "requiredLexemeIds": [
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            },
+            {
+              "text": "Go to work.",
+              "requiredLexemeIds": [
+                "go",
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "go-to-work"
+              ]
+            },
+            {
+              "text": "Clean the room.",
+              "requiredLexemeIds": [
+                "clean",
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Drink some water.",
+              "requiredLexemeIds": [
+                "drink",
+                "some",
+                "water"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Take a break.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s02",
+            "a2-u08-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q04",
+          "sourceSentenceId": "a2-u08-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人在哪裡休息？",
+          "options": [
+            "At home.",
+            "At work.",
+            "At the station.",
+            "At school."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At home.",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            },
+            {
+              "text": "At work.",
+              "requiredLexemeIds": [
+                "at",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "at-work"
+              ]
+            },
+            {
+              "text": "At the station.",
+              "requiredLexemeIds": [
+                "at",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            },
+            {
+              "text": "At school.",
+              "requiredLexemeIds": [
+                "at",
+                "school"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "At home.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s04"
           ],
           "qaStatus": "pilot_review_required"
         }
