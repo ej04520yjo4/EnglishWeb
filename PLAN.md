@@ -50,10 +50,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve units 1–6 and review the bounded experiences pilot together with the existing travel, shopping, health, appointment, and household units.
-- Verify all 28 lessons, seven unit passages, and prerequisite/slot constraints.
+- Preserve units 1–7 and review the bounded experiences and problem/solution pilots together with the existing travel, shopping, health, appointment, and household units.
+- Verify all 32 lessons, eight unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- The user's 2026-10-27 continuation authorizes only unit 7 as a bounded pilot. Keep units 8–10 blueprint-only; all A2 content remains `pilot_review_required` until learner and language QA is recorded.
+- The user's 2026-10-27 continuation authorizes bounded pilots through unit 8 only. Keep units 9–10 blueprint-only; all A2 content remains `pilot_review_required` until learner and language QA is recorded.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -153,12 +153,22 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M14 - A2 Experiences and Life Changes Pilot
 
-**Status:** Bounded implementation and automated verification complete locally; learner/language/phonetic QA pending
+**Status:** Published through PR #18 at main `8556936`; learner/language/phonetic QA pending
 
 - Add only A2 unit 7: four lessons, 22 word occurrences, eight transfers, four recognition/four response exercises, and a six-sentence passage with four comprehension questions.
 - Introduce experience statements/questions with `have been to`, then current changes with `different now` and `new job`. New lexeme counts are 0/1/3/2; `been` is a new form of the existing `be` lexeme.
 - Preserve A1, A2 units 1–6, progress schema/storage, unlock rules, and the separate uncommitted backup-recovery implementation.
-- Keep A2 pilot and B1/B2 disabled. Stop after unit 7 for learner, language, difficulty, and phonetic review; do not generate unit 8 automatically.
+- Keep A2 pilot and B1/B2 disabled. Unit 7 remains pending learner, language, difficulty, and phonetic review; the later unit 8 authorization is tracked separately below.
+
+### M15 - A2 Problems and Simple Solutions Pilot
+
+**Status:** Bounded implementation prepared for the user-requested feature-branch push; learner/language/phonetic QA pending
+
+- Add only A2 unit 8: four lessons, 27 word occurrences, eight transfers, four recognitions/four responses, and a five-sentence passage with four comprehension questions.
+- Teach a narrow sequence of describing a problem, giving a reason, suggesting a break, and connecting a result with `so`. New lexeme counts are 1/2/1/1; the answer form `tired` uses canonical `tire` with adjective context rather than creating a duplicate target.
+- Preserve A1, A2 units 1–7, stable IDs, progress schema/storage, unlock rules, and all existing 3000-target/reference contracts. Keep every new row and exercise `pilot_review_required` and audio `pending`.
+- Correct the Unit 8 lesson-4 response distractors so each is a distinct taught sentence, not a transfer that only adds a location/time detail. Do not generate unit 9 or 10 automatically.
+- Historical integrated verification passed 295 unit tests and 272 browser cases, including the unrelated local backup feature. Clean publication checks are recorded separately in `PROGRESS.md`; the feature-branch push does not authorize merging main or expanding unit 9.
 
 ## Milestone Completion Rule
 

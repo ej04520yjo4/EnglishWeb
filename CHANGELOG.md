@@ -2,6 +2,19 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-10-29 - Scoped Unit 8 Publication Preparation
+
+- Isolated the completed Unit 8 curriculum, final regression tests, and context for the requested feature-branch push. Preserved all 30 uncommitted files in the active checkout; excluded the earlier backup-recovery feature.
+- Kept A1, A2 units 1–7, main, and the existing schemas unchanged. Pilot content and phonetics still require human review; no unit 9 or deployment is included.
+
+## 2026-10-27 - A2 Problems and Simple Solutions Pilot
+
+- Added bounded A2 unit 8「問題與簡單解決方式」with four lessons and 27 one-word occurrences. A2 now has 8 units / 32 lessons / 195 occurrences; A1 remains 8 / 32 / 145.
+- Added `have-problem-context`, `because-reason`, `should-advice-action`, and `be-so-action`, with eight ordered-slot transfers, four reading recognitions, four text responses, a five-sentence passage, and four comprehension questions.
+- Kept `tired` as an answer form of canonical `tire` with adjective context and a separate fatigue sense; no duplicate 3000-target entry was created. The pinned pronunciation is a candidate only and audio remains pending.
+- Corrected Unit 8 lesson-4 response distractors to three distinct taught core sentences rather than location/time-only variants of the target. All Unit 8 content remains `pilot_review_required`; units 9–10 remain blueprint-only and no B1/B2 runtime content was enabled.
+- Preserved A1, A2 units 1–7, stable IDs, progress/unlock contracts, and the existing interface. English, Taiwan Traditional Chinese, CEFR, phonetic, and audio QA remain pending human review.
+
 ## 2026-10-27 - A2 Experiences and Life Changes Pilot
 
 - Added A2 unit 7 with four lessons about travel experience, asking about experience, life changes, and a new job. A2 now has 7 units / 28 lessons / 168 word occurrences.

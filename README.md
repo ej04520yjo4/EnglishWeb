@@ -2,11 +2,12 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 7 單元、28 課、168 個出現位置；第七單元試行「經驗與生活改變」，練習去過的地方、詢問經驗及描述近況。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。試行完成不等於正式通過程度。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 8 單元、32 課、195 個出現位置；第七單元試行「經驗與生活改變」，第八單元試行「問題與簡單解決方式」。A2 所有內容仍待人工複核，試行完成不等於正式通過程度。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。
 
 ## 主要功能
 
 - A1／A2 課程目錄、程度切換與循序解鎖。
+- A2 第八單元以四課練習描述問題、說明原因、提出休息建議及表達結果；`tired` 以 `tire` 作為 canonical lexeme，並以語境詞性與 sense 區分疲累和名詞用法。
 - 星期、一天時段、月份與家庭成員的相關字詞主題、搜尋、狀態篩選及課程詳情捷徑。
 - 相關字詞搜尋支援課程字形與語塊：`brothers`、`my brother`、`我的哥哥` 可找到 `brother`；A2 資料載入後，`last night`／`昨晚` 可找到 `night`。搜尋不會改變學習進度。
 - 相關字詞主題內可按「練習延伸單字辨認」：既有 24 個延伸單字每輪最多練 5 個，每字每天只記錄第一次作答；跨日答對兩次才算可以辨認，不會因此完成課程或獲得主動拼寫能力。內容仍待人工複核。
@@ -103,8 +104,9 @@ npx tsc --noEmit --incremental false
 - `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
 - `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
 - `docs/b1-b2-curriculum-overview.md`：B1／B2 規模、單元與人工 QA 邊界。
-- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–7 已有試行資料，單元 8–10 仍只保留規劃。
+- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–8 已有試行資料，單元 9–10 仍只保留規劃。
 - `docs/a2-unit7-pilot-qa.md`：第七單元內容、先備字彙、驗證證據與待人工複核事項。正常模式需通過第六單元測驗；QA 試行開關不會偽造課程通過。
+- `docs/a2-unit8-pilot-qa.md`：第八單元核心句、語塊、換字、短文、閱讀理解與待人工複核事項。正常模式需通過第七單元測驗；QA 試行開關不會偽造課程通過。
 - `public/data/conversation-practice-v1.json`：獨立的文字對話試行來源，不是正式 A2 課程資料。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。

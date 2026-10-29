@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–7 have versioned pilot CSV/JSON data. The user's 2026-10-27 continuation authorizes a bounded unit 7 pilot while learner and language QA remain open; units 8–10 remain planning notes.
+This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–8 have versioned pilot CSV/JSON data. The user's 2026-10-27 continuation authorizes a bounded unit 8 pilot while learner and language QA remain open; units 9–10 remain planning notes.
 
 ## Ten-Unit Route
 
@@ -15,7 +15,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 | 5 | 工作與約會安排 | Pilot data |
 | 6 | 居家與日常家務 | Bounded pilot data |
 | 7 | 經驗與生活改變 | Bounded pilot data |
-| 8 | 問題與簡單解決方式 | Blueprint only |
+| 8 | 問題與簡單解決方式 | Bounded pilot data |
 | 9 | 社交、邀請與回應 | Blueprint only |
 | 10 | 綜合郵件、行程與生活故事 | Blueprint only |
 
@@ -36,7 +36,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 
 ### Unit 6 — 居家與日常家務
 
-Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_review_required`. Its learner trial and language QA remain open. The later unit 7 authorization permits only a parallel bounded pilot, not retrospective approval of unit 6.
+Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_review_required`. Its learner trial and language QA remain open. The later unit 7 and unit 8 authorizations permit bounded sequential pilots, not retrospective approval of unit 6.
 
 - 溝通目標：說明家務分工與日常頻率。
 - 主要文法：adverbs of frequency、have to 複習。
@@ -58,16 +58,19 @@ Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_re
 
 四課為 `I have been to Taiwan.`、`Have you been to Taiwan before?`、`My life is different now.`、`I have a new job now.`。共 22 個逐字題、每課兩題換字、閱讀辨識與文字選答，以及六句文章與四題閱讀理解。`been` 沿用 `be`，真正的新 lexeme 為 0／1／3／2；不一次引入完整現在完成式所有用法。詳細內容及待審項目見 [Unit 7 QA](a2-unit7-pilot-qa.md)。
 
-## Deferred Unit Details
+## Pilot Unit 8
 
 ### Unit 8 — 問題與簡單解決方式
 
-- 溝通目標：描述問題、說明原因並提出簡單做法。
-- 主要文法：because、so、should 複習。
-- 字彙領域：日常問題、原因、選擇與建議。
-- 句型方向：`...because...`、`You should...`
-- 短文類型：問題與解決步驟。
-- 前置能力：單元 4 的建議與已學時間順序。
+- 溝通目標：描述工作或日常問題、說明造成疲累的原因、提出休息建議，以及表達因果結果。
+- 主要文法：`because` 說明原因、`should` 提供建議、`so` 連接結果。
+- 四課核心句：`I have a problem at work.`、`I am tired because I work at night.`、`You should take a break.`、`I am tired, so I take a break.`
+- 規模：27 個逐字 occurrences（6／8／5／8）、四個句型、八題換字、四題閱讀辨識、四題文字選答、五句 passage 與四題閱讀理解。
+- 新 lexeme 依課程為 1／2／1／1；實際 answer 保持 `tired`，lemma／`lexeme_id` 使用 `tire` canonical identity，`context_pos` 為 adjective，並以 fatigue `sense_id` 與名詞 `tire` 區分。CMUdict 發音為候選資料，音訊仍為 `pending`。
+- 語塊：`have-a-problem`、`at-work`、`take-a-break`；`at-night` 沿用既有語塊。一般 answer 仍一格一個英文單字。
+- 全部資料維持 `pilot_review_required`，詳細句子、選項與先備資料見 [Unit 8 QA](a2-unit8-pilot-qa.md)。
+
+## Deferred Unit Details
 
 ### Unit 9 — 社交、邀請與回應
 
@@ -94,8 +97,8 @@ Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_re
 - New lexemes should normally stay at four or fewer per lesson and recur later.
 - Transfer and reading exercises may use only content taught by that lesson.
 - Units unlock sequentially in learner mode. QA preview may inspect pilot units without changing pass records.
-- Units 6 and 7 are bounded pilots and remain `pilot_review_required`; completing them never means completing all of A2 and never unlocks B1.
-- Unit 7 requires the existing sequential unit-6 pass in normal mode; QA preview changes no completion records. The conversation supplement does not count as a formal unit prerequisite or completion.
+- Units 6–8 are bounded pilots and remain `pilot_review_required`; completing them never means completing all of A2 and never unlocks B1.
+- Unit 8 requires the existing sequential unit-7 pass in normal mode; QA preview changes no completion records. The conversation supplement does not count as a formal unit prerequisite or completion.
 
 ## Supplemental Conversation Practice
 
@@ -103,4 +106,4 @@ Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_re
 
 ## Deferred Boundary
 
-Units 8–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress in this iteration. Review units 1–7 manually for English, Traditional Chinese, phonetics, difficulty, and actual learning flow before deciding on the next bounded addition. Unit 7's explicit authorization does not promote any pilot to production or unlock B1.
+Units 9–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress in this iteration. Review units 1–8 manually for English, Traditional Chinese, phonetics, difficulty, and actual learning flow before deciding on the next bounded addition. Unit 8's explicit authorization does not promote any pilot to production or unlock B1.
