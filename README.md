@@ -72,6 +72,7 @@ npm run audit:project
 npm run audit:vocabulary
 npm run report:vocabulary
 npm run validate:curriculum
+npm run build:packed-vocabulary
 npm run verify
 npm test
 npm run dev
@@ -85,6 +86,8 @@ npx tsc --noEmit --incremental false
 `npm run verify` 是本機與 GitHub CI 共用的品質門檻；`npm test` 會再加跑完整桌面／手機 Playwright。
 
 預設開發網址為 `http://localhost:3000`；若連接埠被占用，啟動器會選擇其他可用連接埠。
+
+重新產生任何 3000 單字資料後，請執行 `npm run build:packed-vocabulary` 更新 `public/data/packed/` 的瀏覽器壓縮副本；`npm run verify` 會檢查副本是否最新。正式部署時請設定 `NEXT_PUBLIC_SITE_URL` 為網站網址，分享預覽圖才會使用正確網域。
 
 ## 專案結構
 
