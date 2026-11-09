@@ -1,9 +1,10 @@
 import { localDateKey } from "./local-date.ts";
+import { unpackJson } from "./packed-json.ts";
 import { normalizeSentenceForComparison, sentenceSpellingUnits } from "./curriculum/sentence-words.ts";
 import { canonicalizeLexemeId, type VocabularyTargetsData, type VocabularyTargetLevel } from "./vocabulary-targets.ts";
 import { canCreditApplicationCorrect, normalizeVocabularyEvidence, recordGlobalVocabularyEvidence, type GlobalVocabularyProgress } from "./vocabulary-progress.ts";
 
-export const VOCABULARY_APPLICATION_URL = "/data/vocabulary-applications-v1.json";
+export const VOCABULARY_APPLICATION_URL = "/data/packed/vocabulary-applications-v1.json";
 
 export type VocabularyApplicationEntry = {
   id: string;
@@ -126,9 +127,9 @@ export const parseVocabularyApplications = (value: unknown, targets: VocabularyT
 };
 
 export const loadVocabularyApplications = async (targets: VocabularyTargetsData, fetcher: typeof fetch = fetch) => {
-  const response = await fetcher(VOCABULARY_APPLICATION_URL, { cache: "no-store" });
+  const response = await fetcher(VOCABULARY_APPLICATION_URL, { cache: "no-cache" });
   if (!response.ok) throw new Error(`3000 字句子應用載入失敗（HTTP ${response.status}）。辨認與拼字仍可使用。`);
-  return parseVocabularyApplications(await response.json(), targets);
+  return parseVocabularyApplications(unpackJson(await response.json()), targets);
 };
 
 export const buildVocabularyApplicationQuestion = (data: VocabularyApplicationData, targets: VocabularyTargetsData, lexemeId: string, studyDate: string): VocabularyApplicationQuestion | undefined => {

@@ -261,9 +261,17 @@ test("keeps the landing CTA and real lesson text states readable", async ({
   await expectTextContrast(page.locator(".detail-essential-item small").first(), {
     label: "字詞詳解資訊標籤",
   });
-  await expectTextContrast(page.locator("#detail-next-button kbd"), {
-    label: "字詞詳解繼續按鈕鍵盤提示",
-  });
+  // Touch-first devices hide keyboard hints; desktop keeps them readable.
+  const keyboardHintsHidden = await page.evaluate(
+    () => window.matchMedia("(hover: none) and (pointer: coarse)").matches,
+  );
+  if (keyboardHintsHidden) {
+    await expect(page.locator("#detail-next-button kbd")).toBeHidden();
+  } else {
+    await expectTextContrast(page.locator("#detail-next-button kbd"), {
+      label: "字詞詳解繼續按鈕鍵盤提示",
+    });
+  }
   const detailNext = page.locator("#detail-next-button");
   await expect(detailNext).toBeFocused();
   await expectFocusOutlineContrast(detailNext, { label: "詳情下一步鍵盤外框" });
@@ -271,9 +279,11 @@ test("keeps the landing CTA and real lesson text states readable", async ({
   await detailNext.evaluate((element) => Promise.all(
     element.getAnimations().map((animation) => animation.finished),
   ));
-  await expectTextContrast(detailNext.locator("kbd"), {
-    label: "字詞詳解繼續按鈕鍵盤提示（滑過）",
-  });
+  if (!keyboardHintsHidden) {
+    await expectTextContrast(detailNext.locator("kbd"), {
+      label: "字詞詳解繼續按鈕鍵盤提示（滑過）",
+    });
+  }
   await screenshot(page, testInfo, "detail.png");
 });
 

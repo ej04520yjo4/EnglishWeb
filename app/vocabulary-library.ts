@@ -1,5 +1,6 @@
 import type { AudioStatus } from "./course-data.ts";
 import { localDateKey } from "./local-date.ts";
+import { unpackJson } from "./packed-json.ts";
 import {
   deriveVocabularyMasteryState,
   normalizeVocabularyEvidence,
@@ -17,7 +18,7 @@ import {
 } from "./vocabulary-targets.ts";
 
 export const VOCABULARY_LIBRARY_SOURCE_VERSION = "vocabulary-library-v1";
-export const VOCABULARY_LIBRARY_URL = "/data/vocabulary-library-v1.json";
+export const VOCABULARY_LIBRARY_URL = "/data/packed/vocabulary-library-v1.json";
 export const VOCABULARY_LIBRARY_PAGE_SIZE = 50;
 export const VOCABULARY_LIBRARY_PRACTICE_LIMIT = 5;
 export const VOCABULARY_LIBRARY_QA_STATUS = "pilot_review_required";
@@ -412,12 +413,12 @@ export const loadVocabularyLibrary = async (
   fetcher: typeof fetch = fetch,
 ): Promise<VocabularyLibraryData> => {
   const response = await fetcher(VOCABULARY_LIBRARY_URL, {
-    cache: "no-store",
+    cache: "no-cache",
   });
   if (!response.ok) {
     throw new Error(`3000 詞彙庫資料載入失敗（${response.status}）。`);
   }
-  return parseVocabularyLibrary(await response.json(), targets);
+  return parseVocabularyLibrary(unpackJson(await response.json()), targets);
 };
 
 const resolvedEntries = (

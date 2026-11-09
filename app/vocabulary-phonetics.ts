@@ -1,6 +1,7 @@
 import type { VocabularyTargetEntry } from "./vocabulary-targets.ts";
+import { unpackJson } from "./packed-json.ts";
 
-export const VOCABULARY_PHONETICS_URL = "/data/vocabulary-phonetics-v1.json";
+export const VOCABULARY_PHONETICS_URL = "/data/packed/vocabulary-phonetics-v1.json";
 
 export const VOCABULARY_PHONETICS_SOURCE = {
   sourceVersion: "cmudict-2025-10-24",
@@ -301,12 +302,12 @@ export const loadVocabularyPhonetics = async (
   expectedTargets?: readonly Pick<VocabularyTargetEntry, "lexemeId" | "lemma">[],
 ): Promise<VocabularyPhoneticsData> => {
   const response = await fetcher(VOCABULARY_PHONETICS_URL, {
-    cache: "no-store",
+    cache: "no-cache",
   });
   if (!response.ok) {
     throw new Error(`詞彙發音資料載入失敗（${response.status}）。`);
   }
-  return parseVocabularyPhonetics(await response.json(), expectedTargets);
+  return parseVocabularyPhonetics(unpackJson(await response.json()), expectedTargets);
 };
 
 export const buildVocabularyPhoneticIndex = (data: VocabularyPhoneticsData) =>
