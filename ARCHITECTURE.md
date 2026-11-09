@@ -14,8 +14,9 @@ flowchart LR
   Disabled["B1/B2 retained disabled sources"] --> Audit["Direct data audit only"]
   Groups["vocabulary-groups-v1.json"] --> Vocabulary["vocabulary-groups.ts"]
   Reference["reference-vocabulary-v1.json"] --> Vocabulary
-  Targets["vocabulary-targets-v2.json"] --> TargetModule["vocabulary-targets.ts"]
-  Library["vocabulary-library-v1.json"] --> LibraryModule["vocabulary-library.ts + panel"]
+  Targets["packed/vocabulary-targets-v2.json"] --> Unpack["packed-json.ts unpack"]
+  Unpack --> TargetModule["vocabulary-targets.ts"]
+  Library["packed/vocabulary-library-v1.json"] --> LibraryModule["vocabulary-library.ts + panel"]
   TargetModule --> LibraryModule
   LibraryModule --> Page
   A1 --> Vocabulary
@@ -23,13 +24,15 @@ flowchart LR
   LevelLoader --> Validate["Level validation and checksums"]
   Validate --> Units["Runtime A1/A2 CourseUnit arrays"]
   Units --> Page["page.tsx selected-level learning state"]
+  Page --> Screens["app/screens/* render components"]
   Vocabulary --> Page
   TargetModule --> Page
   Conversation["conversation-practice-v1.json"] --> ConversationModule["conversation-practice.ts"]
   ConversationModule --> ConversationPanel["conversation-practice-panel.tsx"]
   ConversationModule <--> ConversationStorage["yingju-conversation-practice-v1"]
   ConversationPanel --> Page
-  Page <--> Storage["localStorage schema v6 + global vocabulary evidence"]
+  Page <--> SafeStorage["browser-storage.ts failure-safe access"]
+  SafeStorage <--> Storage["localStorage schema v6 + global vocabulary evidence"]
   Page <--> DailyStorage["yingju-daily-session-v3 queue + active-time state"]
   Page --> UI["Course map and learning stages"]
 ```
@@ -38,7 +41,12 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 
 ## Module Responsibilities
 
-- `app/page.tsx`: screen navigation, learning-stage orchestration, speech fallback, content management, and persistence wiring.
+- `app/page.tsx`: learning state, screen navigation, learning-stage orchestration, speech fallback, content-management actions, and persistence wiring. It renders each screen through a component.
+- `app/screens/*.tsx`: one presentational component per screen (home, map, learning stages, review, weakness, assessment, related vocabulary, 3000-word library, conversation, progress, content management, settings, A–Z, KK). Props are the exact values and handlers the screen uses; screens own no learning state.
+- `app/home-model.ts` / `app/home-widgets.tsx`: shared shell types, storage keys, settings normalization, navigation items, keyboard helpers, and small stat widgets.
+- `app/browser-storage.ts`: failure-safe localStorage read/write/remove; quota and blocked-storage errors become results, never thrown render errors.
+- `app/error.tsx`: last-resort recoverable error screen that never touches stored progress.
+- `app/packed-json.ts`: lossless packed encoding used for the large vocabulary runtime copies.
 - `app/curriculum/catalog.ts`: catalog parsing, release state, formal unlock, and QA-preview access.
 - `app/curriculum/loader.ts`: common level loading and source revision calculation.
 - `app/curriculum/validation.ts`: generic one-word, identity, relation, chunk, pattern, passage, and audio-state checks.
@@ -64,6 +72,7 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/vocabulary-targets.ts`: canonical A1/A2 target validation, indexes, and coverage summaries.
 - `app/vocabulary-library.ts` / `app/vocabulary-library-panel.tsx`: searchable 3000-word projection,50-item pages, source-validated recognition/spelling, stable word/date/mode IDs. No course completion or application writes.
 - `scripts/build-vocabulary-catalog.mjs`: deterministic offline v2/library generation from the protected v1 baseline and pinned lexical snapshot; `--check` rejects output drift.
+- `scripts/build-packed-vocabulary.mjs`: writes `public/data/packed/` copies of the targets, library, phonetics, and applications files; `--check` rejects stale copies or any copy that does not restore exactly.
 - `app/vocabulary-progress.ts`: stable evidence recording, deduplication, clean spelling/application eligibility, and exposed/receptive/active derivation.
 - `app/reference-vocabulary-practice.ts`: pure, deterministic recognition-only batches over existing reference targets; validates single-word identity, source, QA, options, local date, and one submitted answer per lexeme/date.
 - `app/reference-recognition-practice.tsx`: isolated related-topic practice UI, explicit choice confirmation, answer feedback, keyboard focus, midnight expiry, and batch summary; no curriculum or Daily-session state machine.
@@ -145,7 +154,7 @@ mounted only after the parent has loaded validated conversation data. Normal
 course prerequisites are rechecked before focused practice; QA preview grants
 no formal progress. Review backup/reset is scoped to this key alone.
 
-Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
+Every main-shell storage access goes through `app/browser-storage.ts`. A failed write keeps in-memory state, shows one warning, and flips the top-bar status to 「本機進度未能儲存」 until a later write succeeds; blocked storage reads as empty. Browser storage holds progress schema v6, settings, validated per-level course overrides, and a separate `yingju-daily-session-v3` temporary flow record. Progress migrations remain independent: v3 preserves A1, v4 preserves A1/A2, and v5 preserves all course levels; old progress records initialize empty global vocabulary evidence rather than inferring mastery. `vocabularyProgress` is keyed by canonical lexeme and shared across A1/A2. Daily-session v3 stores the originating CEFR level, exact lesson, stable review queue identities, per-item hint safety state, completed review/weakness IDs, and accumulated active seconds. Answers stay in the authoritative curriculum and are resolved again by occurrence ID. Restore requires the same device-local date, clears any open timing segment, and derives remaining work from stable IDs rather than array indexes. Invalid, stale, missing, or inaccessible context clears the temporary record without falling back, migrating to a new day, or writing completion/evidence. Legacy session v1/v2 records are discarded. Official static files remain authoritative, and a changed level checksum invalidates only that level's stale override. No personal data is sent to a project-owned server.
 
 Free-text sentence flows always record a stable `applicationAttempt`. They add `applicationCorrect` only through the shared unassisted-answer rule: correct, not revealed, and not pasted. Recall, sentence rebuild, pattern transfer, Daily Review, and weakness practice keep paste state at the exercise-item boundary; Daily Review includes that state in its reload-safe temporary record. Conversation practice uses its own storage and first-attempt ledger and never mutates formal course progress.
 
@@ -175,13 +184,14 @@ flowchart LR
   K --> L
 ```
 
-`PROGRESS.md` is the current verified state, not a diary. `MEMORY.md` stores long-lived facts, not today's tasks. `DECISIONS.md` records why durable choices exist.
+`PROGRESS.md` is the current verified state, not a diary; older completed work and verification runs live in `docs/archive/` and are read only when a task needs that history. `MEMORY.md` stores long-lived facts, not today's tasks. `DECISIONS.md` records why durable choices exist.
 
 ## Quality Gates
 
 - `npm run verify` is the shared local/CI quality gate: context, project audit, vocabulary audit/report, curriculum validation, build, unit, lint, and TypeScript.
 - `npm test` runs the shared gate and then Playwright; CI keeps Playwright in a separate dependent job for diagnostics and artifacts.
 - `npm run check:context` verifies the project-context files and encoding.
+- `npm run check:packed-vocabulary` verifies that the packed browser vocabulary copies are current and restore the canonical files exactly.
 - `npm run audit:project` verifies catalog coverage, source uniqueness, intentional review repetitions, generator dictionaries, and ignored build outputs.
 - Unit tests verify per-level row counts, cross-level ID isolation, migration fidelity, data round-trips, prerequisites, scoring, adaptation, and passage behavior.
 - Render checks verify Traditional Chinese product output.

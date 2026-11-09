@@ -2,6 +2,14 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-09 - Resilience, Performance, and Phone Layout Fixes
+
+- Storage problems no longer blank the site: a full or blocked browser storage shows a warning, keeps the current session usable, and the top bar shows 「本機進度未能儲存」. Unexpected errors show a recoverable error screen.
+- The home page loads about 1.2 MB of vocabulary targets instead of 4.9 MB, and the 3000-word screen about 3.9 MB instead of 9.5 MB, through lossless packed copies. The social preview image dropped from 1.8 MB to 64 KB.
+- Phones show the navigation as one swipeable row, keep the home page at the top on load, and hide keyboard-only `Enter` badges. The lesson intro no longer shows an internal file name. The site has a brand favicon.
+- Upgraded Next, React, Vinext, Vite, Wrangler, and related tooling; npm audit high/critical advisories went from 19 to 0 (12 moderate remain in dev and social-image tooling).
+- Contributors: screens moved from `app/page.tsx` into `app/screens/`; storage goes through `app/browser-storage.ts`; run `npm run build:packed-vocabulary` after regenerating vocabulary files. History moved to `docs/archive/`.
+
 ## 2026-10-27 - A2 Experiences and Life Changes Pilot
 
 - Added A2 unit 7 with four lessons about travel experience, asking about experience, life changes, and a new job. A2 now has 7 units / 28 lessons / 168 word occurrences.

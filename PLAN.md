@@ -78,7 +78,7 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 ### M7 - Learning Depth and Release Readiness
 
-**Status:** Planned
+**Status:** In progress — 2026-11-09 storage resilience, dependency upgrade, packed vocabulary data, phone layout, and screen-component split are implemented on `codex/review-fixes`; device trial and hook extraction (QA-002) remain.
 
 - Improve delayed review and mastery evidence across lexeme, sense, pattern, and passage.
 - Reduce the size of the central page component only after behavior is protected by tests.

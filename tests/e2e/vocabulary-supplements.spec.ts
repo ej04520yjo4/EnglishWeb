@@ -107,8 +107,8 @@ test("pasting a whole correct sentence never grants clean application credit", a
 });
 
 test("supplement failure does not disable established word practice or formal courses", async ({ page }) => {
-  await page.route("**/data/vocabulary-applications-v1.json", (route) => route.fulfill({ status: 503, body: "unavailable" }));
-  await page.route("**/data/vocabulary-phonetics-v1.json", (route) => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.route("**/data/packed/vocabulary-applications-v1.json", (route) => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.route("**/data/packed/vocabulary-phonetics-v1.json", (route) => route.fulfill({ status: 503, body: "unavailable" }));
   await open(page);
   await expect(page.getByText(/句子應用載入失敗/)).toBeVisible();
   await page.getByTestId("vocabulary-library-spell-i").click();
