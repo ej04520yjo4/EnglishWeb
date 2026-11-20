@@ -2,6 +2,11 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-20 - Pending PR Consolidation
+
+- Integrate the review fixes with the pinned `actions/setup-node` 7.1.0 and `actions/upload-artifact` 7.0.2 updates. Keep the newer application dependencies from the review fixes rather than reapplying older automated updates.
+- Retain the Node 22 runtime and matching declarations. No course data or progress format changes in this consolidation.
+
 ## 2026-11-20 - A2 Social Invitations and Responses Pilot
 
 - Added only A2 unit 9「社交、邀請與回應」: four lessons, 30 one-word occurrences, eight transfers, four recognitions/four responses, a six-sentence rescheduling exchange, and four evidence-backed questions. A2 is now 9 / 36 / 225; A1 remains 8 / 32 / 145.

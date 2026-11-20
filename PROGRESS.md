@@ -3,8 +3,8 @@
 ## Snapshot
 
 - Updated: 2026-11-20
-- Branch: `codex/review-fixes`, created from main `8556936` (PR #18, Unit 7) in the separate worktree `D:\Codex\Tools\EnglishWeb\review-fixes-20261109`. On 2026-11-20 it merged main `4f977e5` (PR #20, A2 Units 8–9); it holds the review fixes below and no curriculum change of its own.
-- Units 8–9 reached main through PR #20 and are now included here. This branch never touched the original `D:\Codex\Tools\EnglishWeb\english-learning-app` checkout or its uncommitted local-only work.
+- Integration: review fixes from PR #19 (`f10bf59`) already include main `4f977e5` (PR #20, A2 Units 8–9). The combined candidate also contains both pinned GitHub Actions updates (PRs #11 and #12); GitHub records the required checks and merge status. No curriculum changes are included beyond the already merged Units 8–9.
+- Integration is isolated from the original `D:\Codex\Tools\EnglishWeb\english-learning-app` checkout and its uncommitted local-only work. It does not deploy the site.
 - Preservation copies (`EnglishWeb-preserved-20261016`, `backups*`, `a2-unit8-development`, named stashes) are unchanged. Earlier history lives in `docs/archive/progress-history.md`.
 - Active milestone: M7 - Learning Depth and Release Readiness (resilience, performance, and structure work). M13–M15 learner/device, language, and phonetic trials remain open.
 - Runtime levels: A1 production and A2 pilot
@@ -69,6 +69,7 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 - Phone layout: the 11-item navigation is one horizontally scrollable row (about 50 px instead of about 390 px) that keeps the current page in view; the home primary action is focused without scrolling past the hero/daily plan; `Enter` badges are hidden on touch-only devices. The lesson intro no longer shows the internal CSV file name.
 - Structure: `app/page.tsx` went from 7,473 to about 4,500 lines. Shared types/helpers moved to `app/home-model.ts`/`app/home-widgets.tsx`; every screen renders through a component in `app/screens/`. State, effects, and handlers stay in `page.tsx`; source-level tests read the shell through `tests/helpers/app-source.mjs`.
 - Context: completed-work and verification history moved to `docs/archive/`; completed tasks moved to `docs/archive/completed-tasks.md`.
+- Pending-PR consolidation (2026-11-20): updated `actions/setup-node` to 7.1.0 and `actions/upload-artifact` to 7.0.2, verifying the full commit pins against upstream release tags. Review fixes already contain newer versions than PRs #5 (React Server DOM), #6 (Next), #7 (Vinext), #8 (Wrangler), and #9 (Tailwind); do not reapply their older lockfiles. PR #4 proposes Node 26 declarations, but CI and the supported minimum runtime stay on Node 22. Keep the Node 22 declarations until there is a separate runtime-support decision.
 
 ## Known Limits
 
@@ -86,7 +87,7 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 
 ## Next Concrete Step
 
-Try the review fixes on a real phone and Windows Chrome: the one-row navigation, home landing position, hidden Enter badges, and the storage warning (for example with site data blocked). Then merge `codex/review-fixes` (PR #19), which already includes main's Units 8–9. Set `NEXT_PUBLIC_SITE_URL` for any deployment. The A2 Unit 7/8/9, conversation, and vocabulary human-QA tasks in `TASKS.md` remain open.
+Try the review fixes on a real phone and Windows Chrome: the one-row navigation, home landing position, hidden Enter badges, and the storage warning (for example with site data blocked). Set `NEXT_PUBLIC_SITE_URL` for any deployment. The A2 Unit 7/8/9, conversation, and vocabulary human-QA tasks in `TASKS.md` remain open.
 
 Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
 
