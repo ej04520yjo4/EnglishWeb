@@ -4736,6 +4736,650 @@
         }
       ],
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "would-you-like-invitation",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Would you like to {activity} with me?",
+      "slots": [
+        {
+          "slotId": "invitation",
+          "role": "禮貌邀請",
+          "allowedLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "would-you-like-to"
+          ]
+        },
+        {
+          "slotId": "activity",
+          "role": "邀請活動",
+          "allowedLexemeIds": [
+            "watch",
+            "tv",
+            "have",
+            "breakfast"
+          ]
+        },
+        {
+          "slotId": "companion",
+          "role": "邀請者",
+          "allowedLexemeIds": [
+            "with",
+            "me"
+          ],
+          "allowedChunkIds": [
+            "with-me"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u09-l01-transfer-tv",
+          "practiceLessonId": "a2-u09-l01",
+          "sourceSentenceId": "a2-u09-l01-p01-s01",
+          "sentencePatternId": "would-you-like-invitation",
+          "passageId": "a2-u09-p01",
+          "sentence": "Would you like to watch TV with me?",
+          "translation": "你想和我一起看電視嗎？",
+          "hintKeywords": "你想／看電視／和我一起嗎",
+          "skeleton": "Would you like to ______ with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "watch",
+            "tv",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "with-me"
+          ],
+          "slotValues": [
+            {
+              "slotId": "invitation",
+              "text": "Would you like to",
+              "requiredLexemeIds": [
+                "would",
+                "you",
+                "like",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "would-you-like-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "watch TV",
+              "requiredLexemeIds": [
+                "watch",
+                "tv"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "companion",
+              "text": "with me?",
+              "requiredLexemeIds": [
+                "with",
+                "me"
+              ],
+              "requiredChunkIds": [
+                "with-me"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-l01-transfer-breakfast",
+          "practiceLessonId": "a2-u09-l01",
+          "sourceSentenceId": "a2-u09-l01-p01-s01",
+          "sentencePatternId": "would-you-like-invitation",
+          "passageId": "a2-u09-p01",
+          "sentence": "Would you like to have breakfast with me?",
+          "translation": "你想和我一起吃早餐嗎？",
+          "hintKeywords": "你想／吃早餐／和我一起嗎",
+          "skeleton": "Would you like to ______ with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "breakfast",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "with-me"
+          ],
+          "slotValues": [
+            {
+              "slotId": "invitation",
+              "text": "Would you like to",
+              "requiredLexemeIds": [
+                "would",
+                "you",
+                "like",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "would-you-like-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "have breakfast",
+              "requiredLexemeIds": [
+                "have",
+                "breakfast"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "companion",
+              "text": "with me?",
+              "requiredLexemeIds": [
+                "with",
+                "me"
+              ],
+              "requiredChunkIds": [
+                "with-me"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "would-love-acceptance",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I would love to {activity} with you.",
+      "slots": [
+        {
+          "slotId": "acceptance",
+          "role": "熱情接受",
+          "allowedLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "would-love-to"
+          ]
+        },
+        {
+          "slotId": "activity",
+          "role": "接受的活動",
+          "allowedLexemeIds": [
+            "watch",
+            "tv",
+            "have",
+            "breakfast"
+          ]
+        },
+        {
+          "slotId": "companion",
+          "role": "同伴",
+          "allowedLexemeIds": [
+            "with",
+            "you"
+          ],
+          "allowedChunkIds": [
+            "with-you"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u09-l02-transfer-tv",
+          "practiceLessonId": "a2-u09-l02",
+          "sourceSentenceId": "a2-u09-l02-p01-s01",
+          "sentencePatternId": "would-love-acceptance",
+          "passageId": "a2-u09-p01",
+          "sentence": "I would love to watch TV with you.",
+          "translation": "我很樂意和你一起看電視。",
+          "hintKeywords": "我很樂意／看電視／和你一起",
+          "skeleton": "I would love to ______ with you.",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to",
+            "watch",
+            "tv",
+            "with",
+            "you"
+          ],
+          "requiredChunkIds": [
+            "would-love-to",
+            "with-you"
+          ],
+          "slotValues": [
+            {
+              "slotId": "acceptance",
+              "text": "I would love to",
+              "requiredLexemeIds": [
+                "i",
+                "would",
+                "love",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "would-love-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "watch TV",
+              "requiredLexemeIds": [
+                "watch",
+                "tv"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "companion",
+              "text": "with you.",
+              "requiredLexemeIds": [
+                "with",
+                "you"
+              ],
+              "requiredChunkIds": [
+                "with-you"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-l02-transfer-breakfast",
+          "practiceLessonId": "a2-u09-l02",
+          "sourceSentenceId": "a2-u09-l02-p01-s01",
+          "sentencePatternId": "would-love-acceptance",
+          "passageId": "a2-u09-p01",
+          "sentence": "I would love to have breakfast with you.",
+          "translation": "我很樂意和你一起吃早餐。",
+          "hintKeywords": "我很樂意／吃早餐／和你一起",
+          "skeleton": "I would love to ______ with you.",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to",
+            "have",
+            "breakfast",
+            "with",
+            "you"
+          ],
+          "requiredChunkIds": [
+            "would-love-to",
+            "with-you"
+          ],
+          "slotValues": [
+            {
+              "slotId": "acceptance",
+              "text": "I would love to",
+              "requiredLexemeIds": [
+                "i",
+                "would",
+                "love",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "would-love-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "have breakfast",
+              "requiredLexemeIds": [
+                "have",
+                "breakfast"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "companion",
+              "text": "with you.",
+              "requiredLexemeIds": [
+                "with",
+                "you"
+              ],
+              "requiredChunkIds": [
+                "with-you"
+              ]
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "sorry-but-obligation",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "I am sorry, but I have to {activity}.",
+      "slots": [
+        {
+          "slotId": "apology",
+          "role": "先表達歉意",
+          "allowedLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but"
+          ],
+          "allowedChunkIds": [
+            "i-am-sorry"
+          ]
+        },
+        {
+          "slotId": "obligation",
+          "role": "必須做的事",
+          "allowedLexemeIds": [
+            "i",
+            "have",
+            "to"
+          ],
+          "allowedChunkIds": [
+            "have-to"
+          ]
+        },
+        {
+          "slotId": "activity",
+          "role": "無法赴約的原因",
+          "allowedLexemeIds": [
+            "clean",
+            "my",
+            "room",
+            "wash",
+            "the",
+            "dish"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u09-l03-transfer-room",
+          "practiceLessonId": "a2-u09-l03",
+          "sourceSentenceId": "a2-u09-l03-p01-s01",
+          "sentencePatternId": "sorry-but-obligation",
+          "passageId": "a2-u09-p01",
+          "sentence": "I am sorry, but I have to clean my room.",
+          "translation": "抱歉，但我得整理房間。",
+          "hintKeywords": "抱歉／但我得／整理房間",
+          "skeleton": "I am sorry, but I have to ______.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but",
+            "have",
+            "to",
+            "clean",
+            "my",
+            "room"
+          ],
+          "requiredChunkIds": [
+            "i-am-sorry",
+            "have-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "apology",
+              "text": "I am sorry, but",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "sorry",
+                "but"
+              ],
+              "requiredChunkIds": [
+                "i-am-sorry"
+              ]
+            },
+            {
+              "slotId": "obligation",
+              "text": "I have to",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "clean my room.",
+              "requiredLexemeIds": [
+                "clean",
+                "my",
+                "room"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-l03-transfer-dishes",
+          "practiceLessonId": "a2-u09-l03",
+          "sourceSentenceId": "a2-u09-l03-p01-s01",
+          "sentencePatternId": "sorry-but-obligation",
+          "passageId": "a2-u09-p01",
+          "sentence": "I am sorry, but I have to wash the dishes.",
+          "translation": "抱歉，但我得洗碗。",
+          "hintKeywords": "抱歉／但我得／洗碗",
+          "skeleton": "I am sorry, but I have to ______.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but",
+            "have",
+            "to",
+            "wash",
+            "the",
+            "dish"
+          ],
+          "requiredChunkIds": [
+            "i-am-sorry",
+            "have-to"
+          ],
+          "slotValues": [
+            {
+              "slotId": "apology",
+              "text": "I am sorry, but",
+              "requiredLexemeIds": [
+                "i",
+                "be",
+                "sorry",
+                "but"
+              ],
+              "requiredChunkIds": [
+                "i-am-sorry"
+              ]
+            },
+            {
+              "slotId": "obligation",
+              "text": "I have to",
+              "requiredLexemeIds": [
+                "i",
+                "have",
+                "to"
+              ],
+              "requiredChunkIds": [
+                "have-to"
+              ]
+            },
+            {
+              "slotId": "activity",
+              "text": "wash the dishes.",
+              "requiredLexemeIds": [
+                "wash",
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "alternative-arrangement",
+      "cefr": "A2",
+      "enabledForTransfer": true,
+      "template": "Can we meet {time} instead?",
+      "slots": [
+        {
+          "slotId": "proposal",
+          "role": "提出改約",
+          "allowedLexemeIds": [
+            "can",
+            "we",
+            "meet"
+          ]
+        },
+        {
+          "slotId": "time",
+          "role": "替代日期",
+          "allowedLexemeIds": [
+            "on",
+            "tuesday",
+            "tomorrow"
+          ]
+        },
+        {
+          "slotId": "alternative",
+          "role": "取代原安排",
+          "allowedLexemeIds": [
+            "instead"
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "a2-u09-l04-transfer-tuesday",
+          "practiceLessonId": "a2-u09-l04",
+          "sourceSentenceId": "a2-u09-l04-p01-s01",
+          "sentencePatternId": "alternative-arrangement",
+          "passageId": "a2-u09-p01",
+          "sentence": "Can we meet on Tuesday instead?",
+          "translation": "我們可以改成星期二見面嗎？",
+          "hintKeywords": "我們可以見面嗎／改成星期二",
+          "skeleton": "Can we meet ______ instead?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "instead"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "proposal",
+              "text": "Can we meet",
+              "requiredLexemeIds": [
+                "can",
+                "we",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "on Tuesday",
+              "requiredLexemeIds": [
+                "on",
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "alternative",
+              "text": "instead?",
+              "requiredLexemeIds": [
+                "instead"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-l04-transfer-tomorrow",
+          "practiceLessonId": "a2-u09-l04",
+          "sourceSentenceId": "a2-u09-l04-p01-s01",
+          "sentencePatternId": "alternative-arrangement",
+          "passageId": "a2-u09-p01",
+          "sentence": "Can we meet tomorrow instead?",
+          "translation": "我們可以改成明天見面嗎？",
+          "hintKeywords": "我們可以見面嗎／改成明天",
+          "skeleton": "Can we meet ______ instead?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "tomorrow",
+            "instead"
+          ],
+          "requiredChunkIds": [],
+          "slotValues": [
+            {
+              "slotId": "proposal",
+              "text": "Can we meet",
+              "requiredLexemeIds": [
+                "can",
+                "we",
+                "meet"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "time",
+              "text": "tomorrow",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "slotId": "alternative",
+              "text": "instead?",
+              "requiredLexemeIds": [
+                "instead"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "qaStatus": "pilot_review_required"
     }
   ]
 }

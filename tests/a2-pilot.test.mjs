@@ -113,23 +113,23 @@ test("rejects a catalog with an out-of-order advanced prerequisite", () => {
   );
 });
 
-test("loads the A2 pilot as 8 units and 32 lessons", async () => {
+test("loads the A2 pilot as 9 units and 36 lessons", async () => {
   const catalog = await loadCurriculumCatalog(curriculumFetcher);
   const level = await loadCourseLevel(
     catalog,
     "A2",
     curriculumFetcher,
   );
-  assert.equal(level.units.length, 8);
+  assert.equal(level.units.length, 9);
   assert.equal(
     level.units.flatMap((unit) => unit.lessons).length,
-    32,
+    36,
   );
-  assert.equal(level.rows.length, 195);
+  assert.equal(level.rows.length, 225);
   assert.equal(level.status, "pilot");
 });
 
-test("keeps A2 unit 1 unchanged while adding units 2 through 8", () => {
+test("keeps A2 unit 1 unchanged while adding units 2 through 9", () => {
   const unitOneRows = a2Rows.filter((row) => row.unit_id === "a2-u01");
   assert.equal(unitOneRows.length, 25);
   assert.equal(
@@ -140,7 +140,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 8", () => {
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_id))],
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07", "a2-u08"],
+    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07", "a2-u08", "a2-u09"],
   );
   assert.deepEqual(
     [...new Set(a2Rows.map((row) => row.unit_title))],
@@ -153,6 +153,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 8", () => {
       "居家與日常家務",
       "經驗與生活改變",
       "問題與簡單解決方式",
+      "社交、邀請與回應",
     ],
   );
   const unitOnePatterns = a2Patterns.patterns.filter((pattern) =>
@@ -185,7 +186,7 @@ test("keeps A2 unit 1 unchanged while adding units 2 through 8", () => {
   );
 });
 
-test("preserves A2 units 1 through 7 rows and exercise objects byte-for-object", () => {
+test("preserves A2 units 1 through 8 rows and exercise objects byte-for-object", () => {
   const expected = {
     "a2-u01": {
       rows: "0c06db4c35f30bd99dd8678bba6a09653d70cae02a92694037be32d736b145f8",
@@ -221,6 +222,11 @@ test("preserves A2 units 1 through 7 rows and exercise objects byte-for-object",
       rows: "67348dc1d9e8ffa7ab7fd9ae610ac3f2420174b55549a6ad8516014b0d94ee53",
       patterns: "cfc17e9779c0e476866a331dffd8d1d7726ed59e8f20179dbf0b34eaa9e315e8",
       reading: "53455c61c26154e37d4462cd038c7c4b1e75a077ebe269395f8550995eb9590a",
+    },
+    "a2-u08": {
+      rows: "d096fd2f8ca62b41de664e7e6c43b66768c57ad55d425ac932373739889d3715",
+      patterns: "c5e7e005ee6acdb455984edc3dba158994cb1fd2d08809fb44fbb62fe1e58a10",
+      reading: "a8354289d3a6d6f1a5dc76a423195614540a8c3ef7f5ca339cad0f5d0cdb96fc",
     },
   };
   const digest = (value) =>
@@ -267,19 +273,19 @@ test("keeps four ordered lessons per A2 unit and all structural IDs unique", () 
   );
   assert.deepEqual(
     units.map((unit) => unit.lessons.length),
-    [4, 4, 4, 4, 4, 4, 4, 4],
+    [4, 4, 4, 4, 4, 4, 4, 4, 4],
   );
   assert.deepEqual(
     units.map((unit) => unit.number),
-    [1, 2, 3, 4, 5, 6, 7, 8],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.lesson_id)).size,
-    32,
+    36,
   );
   assert.equal(
     new Set(a2Rows.map((row) => row.sentence_id)).size,
-    32,
+    36,
   );
   const occurrenceIds = a2Rows.map((row) => row.occurrence_id);
   assert.equal(new Set(occurrenceIds).size, occurrenceIds.length);
@@ -421,8 +427,8 @@ test("keeps every A2 answer to one word and rebuilds all core sentences", () => 
   );
   const report = validateCourseRows(a2Rows, {
     expectedLevel: "A2",
-    expectedUnits: 8,
-    expectedLessons: 32,
+    expectedUnits: 9,
+    expectedLessons: 36,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -525,7 +531,7 @@ test("validates passage option prerequisites without breaking A1 reading data", 
   );
   assert.equal(a2Report.valid, true, a2Report.errors.join("\n"));
   a2Reading.passages
-    .filter((passage) => /^a2-u0[2-6]-p01$/.test(passage.passageId))
+    .filter((passage) => /^a2-u0[2-9]-p01$/.test(passage.passageId))
     .forEach((passage) => {
       passage.questions.forEach((question) => {
         assert.equal(
@@ -672,7 +678,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
         .map((row) => row.lesson_id),
     ),
   ];
-  assert.equal(newLessonIds.length, 28);
+  assert.equal(newLessonIds.length, 32);
   newLessonIds.forEach((lessonId) => {
     const newLexemes = new Set(
       a2Rows
@@ -690,7 +696,7 @@ test("keeps every new A2 lesson within the new-lexeme limit", () => {
   });
 });
 
-test("gives all 28 new lessons recognition, two transfers, and text response", () => {
+test("gives all 32 post-unit-one lessons recognition, two transfers, and text response", () => {
   const newLessonIds = [
     ...new Set(
       a2Rows
@@ -698,6 +704,7 @@ test("gives all 28 new lessons recognition, two transfers, and text response", (
         .map((row) => row.lesson_id),
     ),
   ];
+  assert.equal(newLessonIds.length, 32);
   newLessonIds.forEach((lessonId) => {
     assert.equal(
       a2Reading.recognition.filter(
@@ -735,6 +742,7 @@ test("adds one supported passage per A2 unit", () => {
       "a2-u06-p01",
       "a2-u07-p01",
       "a2-u08-p01",
+      "a2-u09-p01",
     ],
   );
   a2Reading.passages.forEach((passage) => {
@@ -859,7 +867,7 @@ test("distinguishes experience have from possession without changing the lexeme"
   assert.match(experience.context_pos, /助動詞/);
   assert.equal(experience.prompt_type, "grammar");
   assert.match(possession.context_pos, /動詞/);
-  assert.ok(!a2Rows.some((row) => row.unit_id >= "a2-u09"));
+  assert.ok(!a2Rows.some((row) => row.unit_id >= "a2-u10"));
 });
 
 test("adds exactly four unit eight lessons with first-seen lexemes and stable word IDs", () => {
@@ -926,7 +934,8 @@ test("teaches unit eight causes, results and whole-chunk rest without false word
     assert.ok(chunkRows.every((row) => row.chunk_translation === "休息一下"));
     assert.notEqual(chunkRows[0].prompt, "拿");
   });
-  const last = buildCourseUnitsFromRows(a2Rows, "a2-course-v1.csv").at(-1).lessons.at(-1);
+  const last = buildCourseUnitsFromRows(a2Rows, "a2-course-v1.csv")
+    .find((unit) => unit.id === "a2-u08").lessons.at(-1);
   assert.equal(last.sentence, "I am tired, so I take a break.");
   assert.equal(last.tokens.length, 8);
 });
@@ -935,7 +944,7 @@ test("round-trips unit eight CSV including comma punctuation and all layered met
   const roundTrip = parseCourseCsv(serializeCourseCsv(a2Rows, COURSE_CSV_HEADERS));
   assert.deepEqual(roundTrip, a2Rows);
   const report = validateCourseRows(roundTrip, {
-    expectedLevel: "A2", expectedUnits: 8, expectedLessons: 32,
+    expectedLevel: "A2", expectedUnits: 9, expectedLessons: 36,
     rejectProductionQaForPilot: true,
   });
   assert.equal(report.valid, true, report.validationErrors.join("\n"));
@@ -984,6 +993,120 @@ test("keeps unit eight practice prerequisite-safe and its passage evidence expli
   const report = validateReadingExerciseData(invalid, a2Rows, a2Patterns, a1Rows);
   assert.equal(report.valid, false);
   assert.ok(report.errors.some((error) => error.includes("tire")));
+});
+
+test("adds unit nine with stable word IDs, four small vocabulary steps, and pending audio", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u09");
+  assert.equal(rows.length, 30);
+  const sentences = [
+    "Would you like to have dinner with me?",
+    "I would love to have dinner with you.",
+    "I am sorry, but I have to work.",
+    "Can we meet on Saturday instead?",
+  ];
+  const firstSeen = [[], ["love"], ["sorry", "but"], ["instead"]];
+  const known = new Set([...a1Rows, ...a2Rows.filter((row) => row.unit_id < "a2-u09")]
+    .map((row) => row.lexeme_id));
+  sentences.forEach((sentence, lessonIndex) => {
+    const lessonId = `a2-u09-l0${lessonIndex + 1}`;
+    const lessonRows = rows.filter((row) => row.lesson_id === lessonId);
+    assert.deepEqual(lessonRows.map((row) => row.answer), sentenceSpellingUnits(sentence));
+    const novel = [...new Set(lessonRows.map((row) => row.lexeme_id))].filter((id) => !known.has(id));
+    assert.deepEqual(novel, firstSeen[lessonIndex]);
+    assert.deepEqual(lessonRows.filter((row) => row.is_new_word === "TRUE").map((row) => row.lexeme_id), novel);
+    lessonRows.forEach((row, index) => {
+      assert.equal(row.occurrence_id, `${lessonId}-p01-s01-t${String(index + 1).padStart(2, "0")}`);
+      assert.equal(row.token_order, String(index + 1));
+      assert.equal(row.sentence, sentence);
+      assert.equal(row.qa_status, "pilot_review_required");
+      assert.equal(row.audio_status, "pending");
+      assert.equal(row.word_audio_source, "");
+      assert.equal(row.sentence_audio_source, "");
+      assert.ok(row.context_pos && row.prompt && row.sense_id && row.kk_us && row.ipa_standalone);
+      known.add(row.lexeme_id);
+    });
+  });
+  assert.ok(!a2Rows.some((row) => row.unit_id >= "a2-u10"));
+});
+
+test("teaches unit nine meanings in context without merging answer words", () => {
+  const rows = a2Rows.filter((row) => row.unit_id === "a2-u09");
+  const love = rows.find((row) => row.lexeme_id === "love");
+  assert.equal(love.lemma, "love");
+  assert.match(love.prompt, /很樂意/);
+  assert.match(love.note, /不表示浪漫/);
+  assert.equal(love.chunk_id, "would-love-to");
+  assert.deepEqual(rows.filter((row) => row.chunk_id === "would-love-to").map((row) => row.answer), ["would", "love", "to"]);
+  assert.deepEqual(rows.filter((row) => row.chunk_id === "i-am-sorry").map((row) => row.answer), ["I", "am", "sorry"]);
+  rows.filter((row) => row.lexeme_id === "have" && row.chunk_id === "have-dinner").forEach((row) => {
+    assert.match(row.prompt, /吃晚餐/);
+    assert.notEqual(row.sense_id, "have-possession");
+  });
+  assert.equal(rows.find((row) => row.answer === "but").prompt_type, "grammar");
+  assert.match(rows.find((row) => row.answer === "instead").note, /取代先前安排/);
+});
+
+test("provides two distinct legal transfers plus recognition and response for each unit nine lesson", () => {
+  const report = validatePatternExerciseData(a2Patterns, a2Rows, "A2", a1Rows);
+  assert.equal(report.valid, true, report.errors.join("\n"));
+  const reading = validateReadingExerciseData(a2Reading, a2Rows, a2Patterns, a1Rows);
+  assert.equal(reading.valid, true, reading.errors.join("\n"));
+  for (let index = 1; index <= 4; index += 1) {
+    const lessonId = `a2-u09-l0${index}`;
+    const source = a2Rows.find((row) => row.lesson_id === lessonId);
+    const pattern = a2Patterns.patterns.find((entry) => entry.id === source.sentence_pattern_id);
+    const examples = pattern.examples.filter((entry) => entry.practiceLessonId === lessonId);
+    assert.equal(examples.length, 2);
+    assert.equal(new Set(examples.map((entry) => entry.sentence)).size, 2);
+    assert.ok(examples.every((entry) => entry.sentence !== source.sentence));
+    for (const entries of [a2Reading.recognition, a2Reading.textResponses]) {
+      const exercises = entries.filter((entry) => entry.lessonId === lessonId);
+      assert.equal(exercises.length, 1);
+      assert.equal(exercises[0].options.length, 4);
+      assert.equal(new Set(exercises[0].options.map((option) => option.text)).size, 4);
+    }
+  }
+});
+
+test("rejects unit nine future vocabulary and out-of-slot substitutions", () => {
+  const invalidReading = structuredClone(a2Reading);
+  const exercise = invalidReading.textResponses.find((entry) => entry.lessonId === "a2-u09-l01");
+  const option = exercise.options.find((entry) => entry.id !== exercise.correctOptionId);
+  option.text = "I would love to have dinner with you.";
+  option.requiredLexemeIds = ["i", "would", "love", "to", "have", "dinner", "with", "you"];
+  option.requiredChunkIds = ["would-love-to", "have-dinner", "with-you"];
+  delete option.sourceSentenceId;
+  const readingReport = validateReadingExerciseData(invalidReading, a2Rows, a2Patterns, a1Rows);
+  assert.equal(readingReport.valid, false);
+  assert.ok(readingReport.errors.some((error) => error.includes("love") && error.includes("提前")));
+  const invalidPatterns = structuredClone(a2Patterns);
+  const pattern = invalidPatterns.patterns.find((entry) => entry.id === "alternative-arrangement");
+  pattern.slots.find((slot) => slot.slotId === "time").allowedLexemeIds = ["on", "tomorrow"];
+  const patternReport = validatePatternExerciseData(invalidPatterns, a2Rows, "A2", a1Rows);
+  assert.equal(patternReport.valid, false);
+  assert.ok(patternReport.errors.some((error) => error.includes("tuesday")));
+});
+
+test("keeps the unit nine dialogue chronological with four evidence-backed questions", () => {
+  const passage = a2Reading.passages.find((entry) => entry.passageId === "a2-u09-p01");
+  assert.equal(passage.qaStatus, "pilot_review_required");
+  assert.deepEqual(passage.sentences.map((entry) => entry.sentence), [
+    "Would you like to have dinner with me on Friday?",
+    "I am sorry, but I have to work on Friday.",
+    "Can we meet on Saturday instead?",
+    "I would love to have dinner with you.",
+    "Can we meet at seven?",
+    "I can meet at seven on Saturday.",
+  ]);
+  assert.deepEqual(passage.sentences.map((entry) => entry.order), [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(passage.questions.map((entry) => entry.correctAnswer), ["Dinner.", "Work.", "On Saturday.", "At seven."]);
+  assert.deepEqual(passage.questions[2].evidenceSentenceIds, ["a2-u09-p01-s02", "a2-u09-p01-s03", "a2-u09-p01-s06"]);
+  passage.questions.forEach((question) => {
+    assert.equal(question.options.length, 4);
+    assert.equal(question.optionMetadata.length, 4);
+    assert.equal(new Set(question.options).size, 4);
+    assert.equal(question.options.filter((option) => option === question.correctAnswer).length, 1);
+  });
 });
 
 test("migrates schemaVersion 3 to 6 without changing A1 data", () => {

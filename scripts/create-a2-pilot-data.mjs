@@ -4338,6 +4338,131 @@ const problemRows = rowsFromLessons(
   sharedForUnit("a2-u08", "問題與簡單解決方式"),
 );
 
+// Unit 9 reuses the single course source and pinned phonetic candidates.
+// These candidates remain pending human QA and do not imply playable audio.
+const priorBeforeSocial = [
+  ...a1Rows, ...unitOneRows, ...travelRows, ...shoppingRows, ...healthRows,
+  ...schedulingRows, ...householdRows, ...experienceRows, ...problemRows,
+];
+const socialPhonetics = JSON.parse(fs.readFileSync(
+  path.join(root, "public/data/vocabulary-phonetics-v1.json"), "utf8",
+));
+const socialNewDefinitions = {
+  love: ["verb 動詞；noun 名詞", "love", "單音節"],
+  sorry: ["adjective 形容詞", "SOR・ry", "第一音節"],
+  but: ["conjunction 連接詞；preposition 介系詞", "but", "單音節"],
+  instead: ["adverb 副詞", "in・STEAD", "第二音節（第一音節次重音）"],
+};
+const socialSeen = new Set(priorBeforeSocial.map((row) => row.lexeme_id));
+const socialWord = (answer, lexemeId, sense, prompt, pos, role, note = "", promptType = "meaning", chunkFields = {}) => {
+  let token;
+  if (Object.hasOwn(socialNewDefinitions, lexemeId)) {
+    const phonetic = socialPhonetics.entries.find((entry) => entry.lexemeId === lexemeId)?.variants[0];
+    if (!phonetic) throw new Error(`A2/a2-u09：缺少 ${lexemeId} 的已記錄 CMUdict 音標候選。`);
+    const [dictionaryPos, display, stress] = socialNewDefinitions[lexemeId];
+    token = newToken({
+      tokenId: lexemeId, lexemeId, lemma: lexemeId, dictionaryPos,
+      kk: phonetic.kkCandidate, ipa: phonetic.ipaCandidate,
+      syllables: String(phonetic.syllableCount), stress, display,
+      isNewWord: !socialSeen.has(lexemeId),
+    });
+  } else {
+    token = knownTokenFromRows(answer, lexemeId, priorBeforeSocial);
+  }
+  socialSeen.add(lexemeId);
+  return {
+    answer, ...token, sense_id: sense, prompt, prompt_type: promptType,
+    context_pos: pos, semanticRole: role, note, ...chunkFields,
+  };
+};
+const socialPriorChunk = (id, order) => {
+  const source = priorBeforeSocial.find((row) => row.chunk_id === id);
+  if (!source) throw new Error(`A2/a2-u09：找不到已教語塊 ${id}。`);
+  return chunk(id, source.chunk_text, source.chunk_translation, order, source.chunk_note);
+};
+const socialDinner = (order) => chunk("have-dinner", "have dinner", "吃晚餐", order,
+  "have dinner 的整體意思是吃晚餐；have 在此不是擁有，餐點名稱前通常不加冠詞。");
+const socialLove = () => chunk("would-love-to", "would love to", "很樂意／很想要", 1,
+  "would love to 後接原形動詞，可熱情接受邀請；不是逐字解釋成將會愛。");
+const socialSorry = () => chunk("i-am-sorry", "I am sorry", "抱歉", 1,
+  "I am sorry 可先表達歉意，再用 but 說明無法赴約的原因。");
+const socialWithYou = () => chunk("with-you", "with you", "和你一起", 3,
+  "with 後面接受格代名詞；you 的主格與受格形式相同。");
+const socialLessons = [
+  {
+    lessonId: "a2-u09-l01", title: "邀請一起吃晚餐",
+    sentenceId: "a2-u09-l01-p01-s01", sentenceOrder: 1,
+    sentence: "Would you like to have dinner with me?",
+    translation: "你想和我一起吃晚餐嗎？",
+    grammar: "複習 Would you like to...? 禮貌邀請；have dinner 表示吃晚餐。",
+    patternId: "would-you-like-invitation", patternName: "Would you like to + 活動 + with me?",
+    tokens: [
+      socialWord("Would", "would", "would-polite-invitation", "用於禮貌邀請", "modal verb 情態助動詞", "禮貌邀請", "Would you like to...? 是常用的禮貌邀請。", "grammar", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("you", "you", "you-general", "你", "pronoun 代名詞", "受邀者", "", "meaning", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("like", "like", "like-would-preference", "在邀請句中表示想要", "verb 動詞", "邀請構成", "此處不是單純詢問平常喜不喜歡。", "context", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("to", "to", "to-infinitive", "後接原形動詞", "infinitive marker 不定詞標記", "不定詞構成", "to 後面接動詞原形 have。", "grammar", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("have", "have", "have-meal", "與 dinner 組成「吃晚餐」", "verb 動詞（原形）", "用餐動作", "have dinner 是吃晚餐，不是擁有晚餐。", "context", socialDinner(2)),
+      socialWord("dinner", "dinner", "dinner-evening-meal", "晚餐", "noun 名詞", "餐點", "", "meaning", socialDinner(2)),
+      socialWord("with", "with", "with-companion", "和……一起", "preposition 介系詞", "同伴", "", "grammar", socialPriorChunk("with-me", 3)),
+      socialWord("me", "me", "me-object-pronoun", "我（受格）", "pronoun 代名詞（受格）", "邀請者", "with 後使用 me，不使用 I。", "grammar", socialPriorChunk("with-me", 3)),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l02", title: "熱情接受邀請",
+    sentenceId: "a2-u09-l02-p01-s01", sentenceOrder: 2,
+    sentence: "I would love to have dinner with you.",
+    translation: "我很樂意和你一起吃晚餐。",
+    grammar: "would love to + 原形動詞：熱情表達意願或接受邀請。",
+    patternId: "would-love-acceptance", patternName: "I would love to + 活動 + with you.",
+    tokens: [
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "接受邀請的人", "英文 I 永遠大寫。"),
+      socialWord("would", "would", "would-enthusiastic-willingness", "與 love to 組成「很樂意」", "modal verb 情態助動詞", "意願構成", "would love to 是禮貌且熱情的說法。", "context", socialLove()),
+      socialWord("love", "love", "love-willingness", "在 would love to 中表示「很樂意」", "verb 動詞", "接受邀請", "這裡不表示浪漫的愛；音標取自固定 CMUdict 候選，仍待人工複核。", "context", socialLove()),
+      socialWord("to", "to", "to-infinitive", "後接原形動詞", "infinitive marker 不定詞標記", "不定詞構成", "to 後面使用 have。", "grammar", socialLove()),
+      socialWord("have", "have", "have-meal", "與 dinner 組成「吃晚餐」", "verb 動詞（原形）", "用餐動作", "have dinner 是吃晚餐。", "context", socialDinner(2)),
+      socialWord("dinner", "dinner", "dinner-evening-meal", "晚餐", "noun 名詞", "餐點", "", "meaning", socialDinner(2)),
+      socialWord("with", "with", "with-companion", "和……一起", "preposition 介系詞", "同伴", "", "grammar", socialWithYou()),
+      socialWord("you", "you", "you-object-companion", "你（受格）", "pronoun 代名詞（受格）", "邀請者", "you 的主格與受格相同。", "grammar", socialWithYou()),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l03", title: "禮貌婉拒與說明原因",
+    sentenceId: "a2-u09-l03-p01-s01", sentenceOrder: 3,
+    sentence: "I am sorry, but I have to work.",
+    translation: "抱歉，但我得工作。",
+    grammar: "I am sorry 表達歉意；but 引出轉折；have to 說明無法赴約的原因。",
+    patternId: "sorry-but-obligation", patternName: "I am sorry, but I have to + 動作.",
+    tokens: [
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "說話者", "", "meaning", socialSorry()),
+      socialWord("am", "be", "be-apology-state", "連接 I 與 sorry 的 be 動詞", "verb 動詞", "連繫動詞", "此處不是進行式助動詞。", "grammar", socialSorry()),
+      socialWord("sorry", "sorry", "sorry-apology", "抱歉的／過意不去的", "adjective 形容詞", "表達歉意", "婉拒邀請時先表達歉意；美式音標候選仍待人工複核。", "context", socialSorry()),
+      socialWord("but", "but", "but-contrast", "但是", "conjunction 連接詞", "轉折", "but 引出與期待不同的情況。", "grammar"),
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "工作的人", "與句首 I 為同一個 lexeme。"),
+      socialWord("have", "have", "have-obligation", "與 to 組成「必須／得」", "verb 動詞", "必要性", "have to 在此不是擁有。", "context", socialPriorChunk("have-to", 2)),
+      socialWord("to", "to", "to-obligation", "與 have 組成「必須／得」", "infinitive marker 不定詞標記", "必要性構成", "have to 後面接原形動詞 work。", "context", socialPriorChunk("have-to", 2)),
+      socialWord("work", "work", "work-verb-action", "工作", "verb 動詞（原形）", "無法赴約的原因", "此處 work 是動詞。"),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l04", title: "提出替代安排",
+    sentenceId: "a2-u09-l04-p01-s01", sentenceOrder: 4,
+    sentence: "Can we meet on Saturday instead?",
+    translation: "我們可以改成星期六見面嗎？",
+    grammar: "Can we meet...? 提議見面；句尾 instead 表示改用另一個安排。",
+    patternId: "alternative-arrangement", patternName: "Can we meet + 時間 + instead?",
+    tokens: [
+      socialWord("Can", "can", "can-arrangement-proposal", "可以……嗎", "modal verb 情態助動詞", "提出建議", "Can 在此詢問這個安排是否可行。", "grammar"),
+      socialWord("we", "we", "we-general", "我們", "pronoun 代名詞", "見面的雙方"),
+      socialWord("meet", "meet", "meet-arrangement", "見面", "verb 動詞（原形）", "會面動作"),
+      socialWord("on", "on", "on-day", "在（某一天）", "preposition 介系詞", "日期介系詞", "星期前用 on。", "grammar", socialPriorChunk("on-saturday", 1)),
+      socialWord("Saturday", "saturday", "saturday-day", "星期六", "proper noun 專有名詞", "替代日期", "星期名稱第一個字母大寫。", "meaning", socialPriorChunk("on-saturday", 1)),
+      socialWord("instead", "instead", "instead-alternative", "改成／代替原本安排", "adverb 副詞", "替代安排", "句尾 instead 表示這次提議用來取代先前安排；不需要加 of。音標候選仍待人工複核。", "context"),
+    ],
+  },
+];
+const socialRows = rowsFromLessons(
+  socialLessons, sharedForUnit("a2-u09", "社交、邀請與回應"),
+);
 const rows = [
   ...unitOneRows,
   ...travelRows,
@@ -4347,6 +4472,7 @@ const rows = [
   ...householdRows,
   ...experienceRows,
   ...problemRows,
+  ...socialRows,
 ];
 
 fs.writeFileSync(
