@@ -3,7 +3,7 @@
 ## Snapshot
 
 - Updated: 2026-11-20
-- Branch: `codex/a2-social-invitations-unit9`, based on published Unit 8 feature commit `a3348e7`. Before the requested feature-branch push, the remote `main` was verified at `8556936`. Publication is limited to the Unit 9 branch; it does not include a merge or deployment.
+- Integration: `codex/a2-social-invitations-unit9` includes the published Unit 8 commit `a3348e7` and the complete Unit 9 pilot. The requested integration of Units 8–9 into `main` uses a single pull request and both required CI checks. It excludes the separate review-fixes work, dependency PRs, local backup changes, and deployment. GitHub records the merge and check results.
 - Unit 7 PR #18 ([merged review](https://github.com/ej04520yjo4/EnglishWeb/pull/18)) is merged into `main` at `855693667b75fe4b815614eb09f3a7e0e06dec9b`; GitHub CI reported 284 unit tests and 254 browser cases passed. No human approval is claimed for Unit 8.
 - PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
 - Development checkout: `D:\Codex\Tools\EnglishWeb\a2-unit8-development` (directory name retained). All 30 pre-existing dirty files in `english-learning-app` remain byte-for-byte unchanged; before/after lists and SHA-256 hashes match. The separate `codex/review-fixes` worktree at `e4701d7` is also unmerged and untouched. Use this development checkout's launcher to try Unit 9; the original launcher has not been redirected.
@@ -151,7 +151,7 @@
 
 ## Next Concrete Step
 
-Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled. A feature-branch push does not authorize merging `main`.
+Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
 
 ## Verification
 

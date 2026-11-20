@@ -67,7 +67,7 @@
 - 重跑兩個產生器：exit 0，CSV 與兩個題目 JSON 的 SHA-256 完全相同。再跑 A2 與來源保護測試：exit 0，61 通過、0 失敗／略過。
 - Windows 啟動器測試：exit 0，7 情境通過，包括已安裝／未安裝依賴、缺 Node、安裝失敗、port 占用、中文空格路徑、髒工作目錄更新阻擋。
 - 以獨立測試瀏覽器檢視 1440×900 課程地圖與 375×812 單字詳情；新中文提示、KK 與按鈕沒有水平裁切。截圖在 `tmp/unit9-*-map.png` 與 `tmp/unit9-*-detail.png`，不代表實體手機驗收。
-- 原始 `english-learning-app` 的 30 個未提交檔案前後 SHA-256 與檔案清單完全相同；A1、套件鎖定、`app/page.tsx` 無 diff。發布範圍僅限第 9 單元分支，不含合併 `main` 或部署。
+- 原始 `english-learning-app` 的 30 個未提交檔案前後 SHA-256 與檔案清單完全相同；A1、套件鎖定、`app/page.tsx` 無 diff。第 9 單元分支包含第 8 單元，以同一個 PR 通過必要檢查後合併，不含部署。
 - 全站瀏覽器第一輪：270 通過（桌面 135／手機 135），8.4 分鐘；結果日誌 `tmp/unit9-full-e2e.log`。取回結束碼時工具 session 已失效，因此沒有據此宣稱該次 exit code。
 - 最後重跑 `npm run test:e2e -- --workers=4`：**實際 exit 0，270 通過、0 失敗／略過**，6.4 分鐘；桌面 1440×900 與手機 375×812 各 135。沿用標準 wrapper，沒有更改 port 或 config。日誌 `tmp/unit9-final-e2e.log`。最後再次 `npm run lint` 也 exit 0。
 
