@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-20 - A2 Social Invitations and Responses Pilot
+
+- Added only A2 unit 9「社交、邀請與回應」: four lessons, 30 one-word occurrences, eight transfers, four recognitions/four responses, a six-sentence rescheduling exchange, and four evidence-backed questions. A2 is now 9 / 36 / 225; A1 remains 8 / 32 / 145.
+- Added four canonical lexemes across small 0/1/2/1 lesson steps; whole-chunk explanations distinguish eating dinner, enthusiastic acceptance, and polite refusal without changing the data model or UI.
+- Added unit 9 desktop/mobile regression coverage and protected unit 8 object hashes. Existing progress, unlocks, A1, units 1–8, reference topics, and the 3000-target collection are preserved.
+- All new English, Taiwan Chinese, CEFR and KK/IPA content remains `pilot_review_required`; audio remains `pending`. No unit 10, B-level activation, main merge, or deployment.
+
 ## 2026-11-09 - Resilience, Performance, and Phone Layout Fixes
 
 - Storage problems no longer blank the site: a full or blocked browser storage shows a warning, keeps the current session usable, and the top bar shows 「本機進度未能儲存」. Unexpected errors show a recoverable error screen.
@@ -9,6 +16,19 @@ This file records user-visible or contributor-visible project changes. Detailed 
 - Phones show the navigation as one swipeable row, keep the home page at the top on load, and hide keyboard-only `Enter` badges. The lesson intro no longer shows an internal file name. The site has a brand favicon.
 - Upgraded Next, React, Vinext, Vite, Wrangler, and related tooling; npm audit high/critical advisories went from 19 to 0 (12 moderate remain in dev and social-image tooling).
 - Contributors: screens moved from `app/page.tsx` into `app/screens/`; storage goes through `app/browser-storage.ts`; run `npm run build:packed-vocabulary` after regenerating vocabulary files. History moved to `docs/archive/`.
+
+## 2026-10-29 - Scoped Unit 8 Publication Preparation
+
+- Isolated the completed Unit 8 curriculum, final regression tests, and context for the requested feature-branch push. Preserved all 30 uncommitted files in the active checkout; excluded the earlier backup-recovery feature.
+- Kept A1, A2 units 1–7, main, and the existing schemas unchanged. Pilot content and phonetics still require human review; no unit 9 or deployment is included.
+
+## 2026-10-27 - A2 Problems and Simple Solutions Pilot
+
+- Added bounded A2 unit 8「問題與簡單解決方式」with four lessons and 27 one-word occurrences. A2 now has 8 units / 32 lessons / 195 occurrences; A1 remains 8 / 32 / 145.
+- Added `have-problem-context`, `because-reason`, `should-advice-action`, and `be-so-action`, with eight ordered-slot transfers, four reading recognitions, four text responses, a five-sentence passage, and four comprehension questions.
+- Kept `tired` as an answer form of canonical `tire` with adjective context and a separate fatigue sense; no duplicate 3000-target entry was created. The pinned pronunciation is a candidate only and audio remains pending.
+- Corrected Unit 8 lesson-4 response distractors to three distinct taught core sentences rather than location/time-only variants of the target. All Unit 8 content remains `pilot_review_required`; units 9–10 remain blueprint-only and no B1/B2 runtime content was enabled.
+- Preserved A1, A2 units 1–7, stable IDs, progress/unlock contracts, and the existing interface. English, Taiwan Traditional Chinese, CEFR, phonetic, and audio QA remain pending human review.
 
 ## 2026-10-27 - A2 Experiences and Life Changes Pilot
 

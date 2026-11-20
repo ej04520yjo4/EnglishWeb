@@ -1375,6 +1375,335 @@ const newPatterns = [
       },
     ],
   }),
+  makePattern({
+    id: "have-problem-context",
+    lessonId: "a2-u08-l01",
+    template: "I have a problem {context}.",
+    slots: [
+      {
+        slotId: "problem",
+        role: "描述問題",
+        allowedLexemeIds: ["i", "have", "a", "problem"],
+        allowedChunkIds: ["have-a-problem"],
+      },
+      {
+        slotId: "context",
+        role: "問題發生的地點",
+        allowedLexemeIds: ["at", "work", "home", "school"],
+        allowedChunkIds: ["at-work", "at-home"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u08-l01-transfer-home",
+        sentence: "I have a problem at home.",
+        translation: "我在家遇到一個問題。",
+        hintKeywords: "我／有一個問題／在家",
+        skeleton: "I have a problem ______.",
+        slotValues: [
+          slotValue("problem", "I have a problem", ["i", "have", "a", "problem"], ["have-a-problem"]),
+          slotValue("context", "at home", ["at", "home"], ["at-home"]),
+        ],
+      },
+      {
+        id: "a2-u08-l01-transfer-school",
+        sentence: "I have a problem at school.",
+        translation: "我在學校遇到一個問題。",
+        hintKeywords: "我／有一個問題／在學校",
+        skeleton: "I have a problem ______.",
+        slotValues: [
+          slotValue("problem", "I have a problem", ["i", "have", "a", "problem"], ["have-a-problem"]),
+          slotValue("context", "at school", ["at", "school"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "because-reason",
+    lessonId: "a2-u08-l02",
+    template: "I am tired because I {action} {time}.",
+    slots: [
+      {
+        slotId: "state",
+        role: "描述感受",
+        allowedLexemeIds: ["i", "be", "tire"],
+      },
+      {
+        slotId: "reason",
+        role: "說明原因",
+        allowedLexemeIds: ["because"],
+      },
+      {
+        slotId: "action",
+        role: "造成疲累的活動",
+        allowedLexemeIds: ["i", "work", "clean"],
+      },
+      {
+        slotId: "time",
+        role: "活動時間",
+        allowedLexemeIds: ["at", "night", "on", "saturday"],
+        allowedChunkIds: ["at-night", "on-saturday"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u08-l02-transfer-clean-night",
+        sentence: "I am tired because I clean at night.",
+        translation: "我因為晚上整理而很累。",
+        hintKeywords: "我很累／因為／晚上整理",
+        skeleton: "I am tired because I ______ at night.",
+        slotValues: [
+          slotValue("state", "I am tired", ["i", "be", "tire"]),
+          slotValue("reason", "because", ["because"]),
+          slotValue("action", "I clean", ["i", "clean"]),
+          slotValue("time", "at night", ["at", "night"], ["at-night"]),
+        ],
+      },
+      {
+        id: "a2-u08-l02-transfer-work-saturday",
+        sentence: "I am tired because I work on Saturday.",
+        translation: "我因為星期六工作而很累。",
+        hintKeywords: "我很累／因為／星期六工作",
+        skeleton: "I am tired because I ______ on Saturday.",
+        slotValues: [
+          slotValue("state", "I am tired", ["i", "be", "tire"]),
+          slotValue("reason", "because", ["because"]),
+          slotValue("action", "I work", ["i", "work"]),
+          slotValue("time", "on Saturday", ["on", "saturday"], ["on-saturday"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "should-advice-action",
+    lessonId: "a2-u08-l03",
+    template: "{subject} should take a break.",
+    slots: [
+      {
+        slotId: "subject",
+        role: "提出建議的主詞",
+        allowedLexemeIds: ["i", "you", "we"],
+      },
+      {
+        slotId: "advice",
+        role: "提出應該做的事",
+        allowedLexemeIds: ["should"],
+      },
+      {
+        slotId: "action",
+        role: "建議的休息行動",
+        allowedLexemeIds: ["take", "a", "break"],
+        allowedChunkIds: ["take-a-break"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u08-l03-transfer-i",
+        sentence: "I should take a break.",
+        translation: "我應該休息一下。",
+        hintKeywords: "我／應該／休息一下",
+        skeleton: "I should ______.",
+        slotValues: [
+          slotValue("subject", "I", ["i"]),
+          slotValue("advice", "should", ["should"]),
+          slotValue("action", "take a break", ["take", "a", "break"], ["take-a-break"]),
+        ],
+      },
+      {
+        id: "a2-u08-l03-transfer-we",
+        sentence: "We should take a break.",
+        translation: "我們應該休息一下。",
+        hintKeywords: "我們／應該／休息一下",
+        skeleton: "We should ______.",
+        slotValues: [
+          slotValue("subject", "We", ["we"]),
+          slotValue("advice", "should", ["should"]),
+          slotValue("action", "take a break", ["take", "a", "break"], ["take-a-break"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "be-so-action",
+    lessonId: "a2-u08-l04",
+    template: "I am tired, so I take a break{context}.",
+    slots: [
+      {
+        slotId: "state",
+        role: "描述疲累狀態",
+        allowedLexemeIds: ["i", "be", "tire"],
+      },
+      {
+        slotId: "result",
+        role: "表示結果",
+        allowedLexemeIds: ["so"],
+      },
+      {
+        slotId: "action",
+        role: "採取休息行動",
+        allowedLexemeIds: ["i", "take", "a", "break"],
+        allowedChunkIds: ["take-a-break"],
+      },
+      {
+        slotId: "context",
+        role: "休息地點或時間",
+        allowedLexemeIds: ["at", "home", "now"],
+        allowedChunkIds: ["at-home"],
+      },
+    ],
+    examples: [
+      {
+        id: "a2-u08-l04-transfer-home",
+        sentence: "I am tired, so I take a break at home.",
+        translation: "我很累，所以在家休息一下。",
+        hintKeywords: "我很累／所以／在家休息",
+        skeleton: "I am tired, so I take a break ______.",
+        slotValues: [
+          slotValue("state", "I am tired", ["i", "be", "tire"]),
+          slotValue("result", "so", ["so"]),
+          slotValue("action", "I take a break", ["i", "take", "a", "break"], ["take-a-break"]),
+          slotValue("context", "at home", ["at", "home"], ["at-home"]),
+        ],
+      },
+      {
+        id: "a2-u08-l04-transfer-now",
+        sentence: "I am tired, so I take a break now.",
+        translation: "我很累，所以現在休息一下。",
+        hintKeywords: "我很累／所以／現在休息",
+        skeleton: "I am tired, so I take a break ______.",
+        slotValues: [
+          slotValue("state", "I am tired", ["i", "be", "tire"]),
+          slotValue("result", "so", ["so"]),
+          slotValue("action", "I take a break", ["i", "take", "a", "break"], ["take-a-break"]),
+          slotValue("context", "now", ["now"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "would-you-like-invitation", lessonId: "a2-u09-l01",
+    template: "Would you like to {activity} with me?",
+    slots: [
+      { slotId: "invitation", role: "禮貌邀請", allowedLexemeIds: ["would", "you", "like", "to"], allowedChunkIds: ["would-you-like-to"] },
+      { slotId: "activity", role: "邀請活動", allowedLexemeIds: ["watch", "tv", "have", "breakfast"] },
+      { slotId: "companion", role: "邀請者", allowedLexemeIds: ["with", "me"], allowedChunkIds: ["with-me"] },
+    ],
+    examples: [
+      {
+        id: "a2-u09-l01-transfer-tv", sentence: "Would you like to watch TV with me?",
+        translation: "你想和我一起看電視嗎？", hintKeywords: "你想／看電視／和我一起嗎",
+        skeleton: "Would you like to ______ with me?",
+        slotValues: [
+          slotValue("invitation", "Would you like to", ["would", "you", "like", "to"], ["would-you-like-to"]),
+          slotValue("activity", "watch TV", ["watch", "tv"]),
+          slotValue("companion", "with me?", ["with", "me"], ["with-me"]),
+        ],
+      },
+      {
+        id: "a2-u09-l01-transfer-breakfast", sentence: "Would you like to have breakfast with me?",
+        translation: "你想和我一起吃早餐嗎？", hintKeywords: "你想／吃早餐／和我一起嗎",
+        skeleton: "Would you like to ______ with me?",
+        slotValues: [
+          slotValue("invitation", "Would you like to", ["would", "you", "like", "to"], ["would-you-like-to"]),
+          slotValue("activity", "have breakfast", ["have", "breakfast"]),
+          slotValue("companion", "with me?", ["with", "me"], ["with-me"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "would-love-acceptance", lessonId: "a2-u09-l02",
+    template: "I would love to {activity} with you.",
+    slots: [
+      { slotId: "acceptance", role: "熱情接受", allowedLexemeIds: ["i", "would", "love", "to"], allowedChunkIds: ["would-love-to"] },
+      { slotId: "activity", role: "接受的活動", allowedLexemeIds: ["watch", "tv", "have", "breakfast"] },
+      { slotId: "companion", role: "同伴", allowedLexemeIds: ["with", "you"], allowedChunkIds: ["with-you"] },
+    ],
+    examples: [
+      {
+        id: "a2-u09-l02-transfer-tv", sentence: "I would love to watch TV with you.",
+        translation: "我很樂意和你一起看電視。", hintKeywords: "我很樂意／看電視／和你一起",
+        skeleton: "I would love to ______ with you.",
+        slotValues: [
+          slotValue("acceptance", "I would love to", ["i", "would", "love", "to"], ["would-love-to"]),
+          slotValue("activity", "watch TV", ["watch", "tv"]),
+          slotValue("companion", "with you.", ["with", "you"], ["with-you"]),
+        ],
+      },
+      {
+        id: "a2-u09-l02-transfer-breakfast", sentence: "I would love to have breakfast with you.",
+        translation: "我很樂意和你一起吃早餐。", hintKeywords: "我很樂意／吃早餐／和你一起",
+        skeleton: "I would love to ______ with you.",
+        slotValues: [
+          slotValue("acceptance", "I would love to", ["i", "would", "love", "to"], ["would-love-to"]),
+          slotValue("activity", "have breakfast", ["have", "breakfast"]),
+          slotValue("companion", "with you.", ["with", "you"], ["with-you"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "sorry-but-obligation", lessonId: "a2-u09-l03",
+    template: "I am sorry, but I have to {activity}.",
+    slots: [
+      { slotId: "apology", role: "先表達歉意", allowedLexemeIds: ["i", "be", "sorry", "but"], allowedChunkIds: ["i-am-sorry"] },
+      { slotId: "obligation", role: "必須做的事", allowedLexemeIds: ["i", "have", "to"], allowedChunkIds: ["have-to"] },
+      { slotId: "activity", role: "無法赴約的原因", allowedLexemeIds: ["clean", "my", "room", "wash", "the", "dish"] },
+    ],
+    examples: [
+      {
+        id: "a2-u09-l03-transfer-room", sentence: "I am sorry, but I have to clean my room.",
+        translation: "抱歉，但我得整理房間。", hintKeywords: "抱歉／但我得／整理房間",
+        skeleton: "I am sorry, but I have to ______.",
+        slotValues: [
+          slotValue("apology", "I am sorry, but", ["i", "be", "sorry", "but"], ["i-am-sorry"]),
+          slotValue("obligation", "I have to", ["i", "have", "to"], ["have-to"]),
+          slotValue("activity", "clean my room.", ["clean", "my", "room"]),
+        ],
+      },
+      {
+        id: "a2-u09-l03-transfer-dishes", sentence: "I am sorry, but I have to wash the dishes.",
+        translation: "抱歉，但我得洗碗。", hintKeywords: "抱歉／但我得／洗碗",
+        skeleton: "I am sorry, but I have to ______.",
+        slotValues: [
+          slotValue("apology", "I am sorry, but", ["i", "be", "sorry", "but"], ["i-am-sorry"]),
+          slotValue("obligation", "I have to", ["i", "have", "to"], ["have-to"]),
+          slotValue("activity", "wash the dishes.", ["wash", "the", "dish"]),
+        ],
+      },
+    ],
+  }),
+  makePattern({
+    id: "alternative-arrangement", lessonId: "a2-u09-l04",
+    template: "Can we meet {time} instead?",
+    slots: [
+      { slotId: "proposal", role: "提出改約", allowedLexemeIds: ["can", "we", "meet"] },
+      { slotId: "time", role: "替代日期", allowedLexemeIds: ["on", "tuesday", "tomorrow"] },
+      { slotId: "alternative", role: "取代原安排", allowedLexemeIds: ["instead"] },
+    ],
+    examples: [
+      {
+        id: "a2-u09-l04-transfer-tuesday", sentence: "Can we meet on Tuesday instead?",
+        translation: "我們可以改成星期二見面嗎？", hintKeywords: "我們可以見面嗎／改成星期二",
+        skeleton: "Can we meet ______ instead?",
+        slotValues: [
+          slotValue("proposal", "Can we meet", ["can", "we", "meet"]),
+          slotValue("time", "on Tuesday", ["on", "tuesday"]),
+          slotValue("alternative", "instead?", ["instead"]),
+        ],
+      },
+      {
+        id: "a2-u09-l04-transfer-tomorrow", sentence: "Can we meet tomorrow instead?",
+        translation: "我們可以改成明天見面嗎？", hintKeywords: "我們可以見面嗎／改成明天",
+        skeleton: "Can we meet ______ instead?",
+        slotValues: [
+          slotValue("proposal", "Can we meet", ["can", "we", "meet"]),
+          slotValue("time", "tomorrow", ["tomorrow"]),
+          slotValue("alternative", "instead?", ["instead"]),
+        ],
+      },
+    ],
+  }),
 ];
 
 const recognitionDistractors = {
@@ -1402,6 +1731,14 @@ const recognitionDistractors = {
   "a2-u07-l02": ["我去過台灣。", "我通常星期六整理房間。", "我明天要去上班。"],
   "a2-u07-l03": ["我去過那間商店。", "你以前去過這個車站嗎？", "我現在有一本新書。"],
   "a2-u07-l04": ["你以前去過台灣嗎？", "我的房間現在不一樣了。", "我通常星期六整理房間。"],
+  "a2-u08-l01": ["我在家遇到一個問題。", "我因為晚上工作而很累。", "你應該休息一下。"],
+  "a2-u08-l02": ["我在工作上遇到一個問題。", "你應該休息一下。", "我很累，所以休息一下。"],
+  "a2-u08-l03": ["我在工作上遇到一個問題。", "我因為晚上工作而很累。", "我現在有一份新工作。"],
+  "a2-u08-l04": ["我因為晚上工作而很累。", "你應該休息一下。", "我在工作上遇到一個問題。"],
+  "a2-u09-l01": ["你想和我一起看電視嗎？", "我明天十點要和主管見面。", "我三點有一個會議。"],
+  "a2-u09-l02": ["你想和我一起吃晚餐嗎？", "我很樂意和你一起吃早餐。", "我昨天去了車站。"],
+  "a2-u09-l03": ["我很樂意和你一起吃晚餐。", "抱歉，但我得整理房間。", "我們可以星期二下午見面嗎？"],
+  "a2-u09-l04": ["我們可以改成明天見面嗎？", "你想和我一起吃晚餐嗎？", "我通常星期六整理房間。"],
 };
 
 const newLessonIds = [
@@ -1429,6 +1766,14 @@ const newLessonIds = [
   "a2-u07-l02",
   "a2-u07-l03",
   "a2-u07-l04",
+  "a2-u08-l01",
+  "a2-u08-l02",
+  "a2-u08-l03",
+  "a2-u08-l04",
+  "a2-u09-l01",
+  "a2-u09-l02",
+  "a2-u09-l03",
+  "a2-u09-l04",
 ];
 
 const recognition = newLessonIds.map((lessonId) => {
@@ -1499,6 +1844,19 @@ const previousLesson = {
   "a2-u07-l02": "a2-u07-l01",
   "a2-u07-l03": "a2-u07-l02",
   "a2-u07-l04": "a2-u07-l03",
+  "a2-u08-l01": "a2-u07-l04",
+  "a2-u08-l02": "a2-u08-l01",
+  "a2-u08-l03": "a2-u08-l02",
+  "a2-u08-l04": "a2-u08-l03",
+};
+const responseDistractorLessons = {
+  // Keep the unit 8 lesson 4 choices semantically distinct from the target
+  // instead of using transfer sentences that only add a location/time detail.
+  "a2-u08-l04": ["a2-u08-l02", "a2-u08-l03", "a2-u08-l01"],
+  "a2-u09-l01": ["a2-u01-l04", "a2-u05-l01", "a2-u08-l04"],
+  "a2-u09-l02": ["a2-u09-l01", "a2-u08-l03", "a2-u07-l04"],
+  "a2-u09-l03": ["a2-u09-l02", "a2-u09-l01", "a2-u05-l03"],
+  "a2-u09-l04": ["a2-u09-l03", "a2-u09-l01", "a2-u05-l02"],
 };
 const patternByLesson = new Map(
   newPatterns.map((pattern) => [
@@ -1510,6 +1868,16 @@ const textResponses = newLessonIds.map((lessonId) => {
   const source = sourceForLesson(lessonId);
   const pattern = patternByLesson.get(lessonId);
   if (!pattern) throw new Error(`找不到 ${lessonId} 的句型換字資料`);
+  const overriddenDistractors = responseDistractorLessons[lessonId];
+  const distractorOptions = overriddenDistractors
+    ? overriddenDistractors.map((sourceLessonId, index) =>
+        coreOption(sourceLessonId, ["transfer-1", "transfer-2", "previous"][index]),
+      )
+    : [
+        exampleOption(pattern.examples[0], "transfer-1"),
+        exampleOption(pattern.examples[1], "transfer-2"),
+        coreOption(previousLesson[lessonId], "previous"),
+      ];
   return {
     id: `response-${lessonId}`,
     lessonId,
@@ -1522,9 +1890,7 @@ const textResponses = newLessonIds.map((lessonId) => {
     format: "choice",
     options: [
       coreOption(lessonId, "correct"),
-      exampleOption(pattern.examples[0], "transfer-1"),
-      exampleOption(pattern.examples[1], "transfer-2"),
-      coreOption(previousLesson[lessonId], "previous"),
+      ...distractorOptions,
     ],
     correctOptionId: "correct",
     qaStatus,
@@ -2244,7 +2610,169 @@ const newPassages = [
       ),
     ],
   },
+  {
+    passageId: "a2-u08-p01",
+    level: "A2",
+    qaStatus,
+    sentences: [
+      passageSentence(
+        "a2-u08-p01-s01",
+        1,
+        "I have a problem at work.",
+        "我在工作上遇到一個問題。",
+        "a2-u08-l01",
+        ["i", "have", "a", "problem", "at", "work"],
+        ["have-a-problem", "at-work"],
+      ),
+      passageSentence(
+        "a2-u08-p01-s02",
+        2,
+        "I am tired because I work at night.",
+        "我因為晚上工作而很累。",
+        "a2-u08-l02",
+        ["i", "be", "tire", "because", "work", "at", "night"],
+        ["at-night"],
+      ),
+      passageSentence(
+        "a2-u08-p01-s03",
+        3,
+        "I am tired, so I take a break.",
+        "我很累，所以休息一下。",
+        "a2-u08-l04",
+        ["i", "be", "tire", "so", "take", "a", "break"],
+        ["take-a-break"],
+      ),
+      passageSentence(
+        "a2-u08-p01-s04",
+        4,
+        "I take a break at home.",
+        "我在家休息一下。",
+        "a2-u08-l04",
+        ["i", "take", "a", "break", "at", "home"],
+        ["take-a-break", "at-home"],
+      ),
+      passageSentence(
+        "a2-u08-p01-s05",
+        5,
+        "I have some water.",
+        "我喝一些水。",
+        "a2-u08-l01",
+        ["i", "have", "some", "water"],
+      ),
+    ],
+    questions: [
+      passageQuestion(
+        "a2-u08-p01-q01",
+        "a2-u08-p01-s01",
+        "這個人在哪裡遇到問題？",
+        [
+          passageOption("At work.", ["at", "work"], ["at-work"]),
+          passageOption("At home.", ["at", "home"], ["at-home"]),
+          passageOption("At school.", ["at", "school"]),
+          passageOption("At the station.", ["at", "the", "station"], ["the-station"]),
+        ],
+        "At work.",
+      ),
+      passageQuestion(
+        "a2-u08-p01-q02",
+        "a2-u08-p01-s02",
+        "這個人什麼時候工作？",
+        [
+          passageOption("At night.", ["at", "night"], ["at-night"]),
+          passageOption("On Saturday.", ["on", "saturday"], ["on-saturday"]),
+          passageOption("At seven.", ["at", "seven"]),
+          passageOption("Tomorrow.", ["tomorrow"]),
+        ],
+        "At night.",
+      ),
+      passageQuestion(
+        "a2-u08-p01-q03",
+        "a2-u08-p01-s03",
+        "根據第二、三句，這個人晚上工作覺得累，因此做了什麼？",
+        [
+          passageOption("Take a break.", ["take", "a", "break"], ["take-a-break"]),
+          passageOption("Go to work.", ["go", "to", "work"], ["go-to-work"]),
+          passageOption("Clean the room.", ["clean", "the", "room"]),
+          passageOption("Drink some water.", ["drink", "some", "water"]),
+        ],
+        "Take a break.",
+        ["a2-u08-p01-s02", "a2-u08-p01-s03"],
+      ),
+      passageQuestion(
+        "a2-u08-p01-q04",
+        "a2-u08-p01-s04",
+        "這個人在哪裡休息？",
+        [
+          passageOption("At home.", ["at", "home"], ["at-home"]),
+          passageOption("At work.", ["at", "work"], ["at-work"]),
+          passageOption("At the station.", ["at", "the", "station"], ["the-station"]),
+          passageOption("At school.", ["at", "school"]),
+        ],
+        "At home.",
+      ),
+    ],
+  },
 ];
+
+newPassages.push({
+  passageId: "a2-u09-p01", level: "A2", qaStatus,
+  sentences: [
+    passageSentence("a2-u09-p01-s01", 1,
+      "Would you like to have dinner with me on Friday?",
+      "甲：你想星期五和我一起吃晚餐嗎？", "a2-u09-l01",
+      ["would", "you", "like", "to", "have", "dinner", "with", "me", "on", "friday"],
+      ["would-you-like-to", "have-dinner", "with-me"]),
+    passageSentence("a2-u09-p01-s02", 2,
+      "I am sorry, but I have to work on Friday.",
+      "乙：抱歉，但我星期五得工作。", "a2-u09-l03",
+      ["i", "be", "sorry", "but", "have", "to", "work", "on", "friday"],
+      ["i-am-sorry", "have-to"]),
+    passageSentence("a2-u09-p01-s03", 3,
+      "Can we meet on Saturday instead?",
+      "甲：我們可以改成星期六見面嗎？", "a2-u09-l04",
+      ["can", "we", "meet", "on", "saturday", "instead"], ["on-saturday"]),
+    passageSentence("a2-u09-p01-s04", 4,
+      "I would love to have dinner with you.",
+      "乙：我很樂意和你一起吃晚餐。", "a2-u09-l02",
+      ["i", "would", "love", "to", "have", "dinner", "with", "you"],
+      ["would-love-to", "have-dinner", "with-you"]),
+    passageSentence("a2-u09-p01-s05", 5,
+      "Can we meet at seven?",
+      "甲：我們可以七點見面嗎？", "a2-u09-l04",
+      ["can", "we", "meet", "at", "seven"]),
+    passageSentence("a2-u09-p01-s06", 6,
+      "I can meet at seven on Saturday.",
+      "乙：我可以星期六七點見面。", "a2-u09-l04",
+      ["i", "can", "meet", "at", "seven", "on", "saturday"], ["on-saturday"]),
+  ],
+  questions: [
+    passageQuestion("a2-u09-p01-q01", "a2-u09-p01-s01", "甲邀請乙一起吃哪一餐？", [
+      passageOption("Dinner.", ["dinner"]),
+      passageOption("Breakfast.", ["breakfast"]),
+      passageOption("Coffee.", ["coffee"]),
+      passageOption("Water.", ["water"]),
+    ], "Dinner."),
+    passageQuestion("a2-u09-p01-q02", "a2-u09-p01-s02", "乙星期五必須做什麼？", [
+      passageOption("Work.", ["work"]),
+      passageOption("Clean the room.", ["clean", "the", "room"]),
+      passageOption("Wash the dishes.", ["wash", "the", "dish"]),
+      passageOption("See a doctor.", ["see", "a", "doctor"]),
+    ], "Work."),
+    passageQuestion("a2-u09-p01-q03", "a2-u09-p01-s06",
+      "根據第二、三、六句，乙星期五要工作，最後約定改在哪一天見面？", [
+        passageOption("On Saturday.", ["on", "saturday"], ["on-saturday"]),
+        passageOption("On Friday.", ["on", "friday"]),
+        passageOption("On Tuesday.", ["on", "tuesday"]),
+        passageOption("On Monday.", ["on", "monday"]),
+      ], "On Saturday.", ["a2-u09-p01-s02", "a2-u09-p01-s03", "a2-u09-p01-s06"]),
+    passageQuestion("a2-u09-p01-q04", "a2-u09-p01-s06", "乙最後確認幾點可以見面？", [
+      passageOption("At seven.", ["at", "seven"]),
+      passageOption("At eight.", ["at", "eight"]),
+      passageOption("At ten.", ["at", "ten"]),
+      passageOption("At three.", ["at", "three"]),
+    ], "At seven."),
+  ],
+});
 
 patternData.patterns = [
   ...patternData.patterns.filter((pattern) =>

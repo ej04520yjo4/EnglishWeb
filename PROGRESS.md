@@ -2,23 +2,23 @@
 
 ## Snapshot
 
-- Updated: 2026-11-09
-- Branch: `codex/review-fixes`, created from main `8556936` (PR #18, Unit 7) in the separate worktree `D:CodexToolsEnglishWebeview-fixes-20261109`. It holds the review fixes below and no curriculum change.
-- The Unit 8 pilot and local-only review-backup recovery remain uncommitted in `D:CodexToolsEnglishWebenglish-learning-app` on `codex/a2-unit8-continuation`; this branch did not touch that checkout. Merging both later needs a manual merge of the context documents, `app/globals.css`, `package.json`, and the e2e specs both branches edit.
+- Updated: 2026-11-20
+- Branch: `codex/review-fixes`, created from main `8556936` (PR #18, Unit 7) in the separate worktree `D:\Codex\Tools\EnglishWeb\review-fixes-20261109`. On 2026-11-20 it merged main `4f977e5` (PR #20, A2 Units 8–9); it holds the review fixes below and no curriculum change of its own.
+- Units 8–9 reached main through PR #20 and are now included here. This branch never touched the original `D:\Codex\Tools\EnglishWeb\english-learning-app` checkout or its uncommitted local-only work.
 - Preservation copies (`EnglishWeb-preserved-20261016`, `backups*`, `a2-unit8-development`, named stashes) are unchanged. Earlier history lives in `docs/archive/progress-history.md`.
 - Active milestone: M7 - Learning Depth and Release Readiness (resilience, performance, and structure work). M13–M15 learner/device, language, and phonetic trials remain open.
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
-- A2 on main: 7 units, 28 lessons, 168 occurrences. Unit 7 remains `pilot_review_required`; details in `docs/a2-unit7-pilot-qa.md`.
+- A2 on main: 9 units, 36 lessons, 225 occurrences. Units 7–9 remain `pilot_review_required`; Unit 7 details in `docs/a2-unit7-pilot-qa.md`.
 - Progress schema: v6 with top-level global `vocabularyProgress`
 
 ## Vocabulary Baseline
 
 - A1: 145 occurrences, 69 word forms, 75 senses, 15 chunks, 68 canonical lexemes.
-- A2: 168 occurrences, 90 word forms, 129 senses, 48 chunks, 85 canonical lexemes.
-- A1＋A2 union: 125 canonical lexemes (123 excluding proper names); overlap: 28. The six new union lexemes are before/life/different/now/new/job; Taiwan was already taught in A1.
+- A2: 225 occurrences, 100 word forms, 158 senses, 56 chunks, 95 canonical lexemes.
+- A1＋A2 union: 134 canonical lexemes (132 excluding proper names); overlap: 29. Unit 9 reuses existing 3000-target identities; no new target entry is needed. `have dinner` and `would love to` are taught as whole meanings while every answer stays one word.
 - Reference-only unique lexemes relative to current formal rows: 23. Protected target metadata still records the original 24 reference targets, not an automatic source reclassification.
 - Protected v1 baseline: 132 entries; 108 active candidates and 24 receptive candidates, unchanged.
 - Runtime v2 catalog: 3000 canonical entries, 1500 active / 1500 receptive candidates. A1-stage 1200 (700/500), A2-stage 1800 (800/1000), 60 pages of 50.
@@ -77,7 +77,7 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 - The target catalog and applications each contain 3000 words, but neither full collection has received human semantic/phonetic/CEFR approval. Guided applications compare one reference sentence, not all valid translations or free writing. A candidate's other words/grammar are not certified as previously taught formal prerequisites.
 - KK/IPA conversion is not an authoritative dictionary transcription. 559 words retain multiple unselected pronunciations; syllabification/stress are candidates. Original related-word phonetics and symbol audio still need separate review.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
-- A2 units 1–7 remain pilot content; units 8–10 are blueprint-only. The user's 2026-10-27 continuation authorizes a bounded unit 7 trial, not retrospective human approval. Unit 7 English, Taiwan Chinese, KK/IPA, scaffolding and CEFR placement remain pending manual QA.
+- A2 units 1–9 remain pilot content; unit 10 is blueprint-only. Unit 9 English, Taiwan Chinese, KK/IPA, scaffolding and CEFR placement remain pending manual QA, as do prior units. New phonetics use pinned CMUdict candidates and audio remains pending; this is not human phonetic approval.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
 - All 27 related-vocabulary reference records still need phonetic/content review. Current A1/A2 deduplication leaves 23 reference-only lexemes after Saturday enters unit 6; protected target-source metadata remains unchanged.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
@@ -86,7 +86,9 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 
 ## Next Concrete Step
 
-Try the review fixes on a real phone and Windows Chrome: the one-row navigation, home landing position, hidden Enter badges, and the storage warning (for example with site data blocked). Then merge `codex/review-fixes` and reconcile the uncommitted Unit 8 checkout with it. Set `NEXT_PUBLIC_SITE_URL` for any deployment. The A2 Unit 7/8, conversation, and vocabulary human-QA tasks in `TASKS.md` remain open.
+Try the review fixes on a real phone and Windows Chrome: the one-row navigation, home landing position, hidden Enter badges, and the storage warning (for example with site data blocked). Then merge `codex/review-fixes` (PR #19), which already includes main's Units 8–9. Set `NEXT_PUBLIC_SITE_URL` for any deployment. The A2 Unit 7/8/9, conversation, and vocabulary human-QA tasks in `TASKS.md` remain open.
+
+Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
 
 ## Verification
 
@@ -101,5 +103,35 @@ All runs below are local automated checks on `codex/review-fixes` in Windows (No
 - `npm audit`: 12 moderate, 0 high, 0 critical (was 33 with 1 critical and 18 high).
 - Payload: packed vocabulary copies total 5.1 MB instead of 14.2 MB; `og.jpg` is 64 KB. The eager production client bundle is 850 KB raw / 246 KB gzip, about 60 KB gzip larger than before because of the Vinext 1.x/React 19.3 runtime.
 - Manual browser check in the in-app browser (desktop and 375×812): compact navigation row, page stays at the top on load, favicon and `og.jpg` metadata present, packed targets revalidated with a 0-byte cached response on reload.
+
+### A2 unit 9 continuation (2026-11-20)
+
+- Before changes: `npm run verify` exited 0; all 12 gates, 288 unit tests, 0 failed/skipped. Log: `tmp/unit9-baseline-verify-20261120.log`.
+- Both generators and `npm run validate:curriculum` exited 0. Focused A2 unit tests: 42 passed, 0 failed/skipped; protect all old units and new prerequisites, slots, IDs, one-word answers, dialogue evidence, and pending audio.
+- Final `npm run verify`: exit 0; all 12 gates, 293 unit tests passed, 0 failed/skipped; build, lint and `tsc --noEmit --incremental false` passed. Log: `tmp/unit9-final-verify.log`. No dependency changes or `npm ci` this turn.
+- Generator replay: exit 0, all three output hashes identical. Final focused data/protection rerun: exit 0, 61 passed, 0 failed/skipped.
+- Unit 9 focused browser run: exit 0, 8 passed (4 desktop / 4 mobile), 29.3 seconds. The initial sandbox attempt exited 1 on localhost EACCES before tests; authorized standard-wrapper execution succeeded without a temporary port override.
+- Windows launcher checks: exit 0, all seven scenarios passed. Independent test-browser screenshots confirmed the new map/detail copy and KK fit the existing desktop/mobile layouts; no real-phone or human phonetic approval is claimed.
+- The first full browser run reported 270 passed (135 per viewport), 8.4 minutes, in `tmp/unit9-full-e2e.log`; its completed tool session was no longer available to retrieve the process exit code. Final repeat `npm run test:e2e -- --workers=4`: verified exit 0, 270 passed (135 desktop 1440×900 / 135 mobile 375×812), 0 failed/skipped, 6.4 minutes. Log: `tmp/unit9-final-e2e.log`; standard wrapper, no alternate config/port. Final lint rerun also exited 0.
+- All 24 changed/new files are scoped to Unit 9 data, generators, regression counts/tests, and context. A1, dependencies, `app/page.tsx`, schemas, the 3000-target collection and original 30 dirty files remain unchanged. The subsequent user request authorizes committing and pushing this isolated branch only. Trial launcher and complete handoff: `docs/a2-unit9-pilot-qa.md`.
+- Before feature-branch publication, `npm run verify` was rerun: exit 0, all 12 gates, 293 unit tests passed, 0 failed/skipped (`tmp/unit9-push-verify.log`). The prior 270-case browser result applies to the same code/data; the publication follow-up changes documentation only.
+
+### A2 unit 8 continuation (2026-10-27)
+
+- Unit 8 data and exercise generation is bounded to `a2-u08`; A1 and A2 units 1–7 remain protected. The four core sentences are `I have a problem at work.`, `I am tired because I work at night.`, `You should take a break.`, and `I am tired, so I take a break.`
+- The unit adds 27 word occurrences (6/8/5/8), eight ordered-slot transfers, four recognitions, four text responses, a five-sentence passage, and four evidence-backed comprehension questions. All generated content remains `pilot_review_required` and audio remains `pending`.
+- The final lesson-4 text-response distractors were corrected to three distinct taught sentences: `I am tired because I work at night.`, `You should take a break.`, and `I have a problem at work.` The previous location/time-only variants are not used as distractors.
+- On 2026-10-27 the final combined D-drive checkout passed `npm run verify` (295 unit tests, including seven local-only backup tests), the full 272-case browser matrix (136 per viewport, including ten backup cases), and seven launcher scenarios. Those are historical integrated results, not this clean branch's test totals. The exact unit 8 files and final A1/A2-scoped `1/32 課` locator are copied into this branch; backup code is not.
+- The standard browser wrapper previously exited 1 because it waited on 4173 while Vinext used 4174. The successful historical matrix used an ignored temporary actual-port config. This existing harness issue remains open; no passing standard-wrapper result is claimed.
+- Clean-branch recheck on 2026-10-29: `npm run verify` exited 0 with all 12 gates, 288 unit tests passed, zero failed/skipped, successful production build, lint and TypeScript. Focused browser command `node node_modules/@playwright/test/cli.js test tests/e2e/a2-problems.spec.ts tests/e2e/learning-flow.spec.ts --config tmp/unit8-playwright.config.ts --grep 'unit eight|first A2 lesson'` exited 0 with 10 passed (five desktop / five mobile), zero failed/skipped. Logs: `tmp/unit8-push-verify-20261029.log` and `tmp/unit8-push-focused-e2e-20261029.log`. The full 262-case clean-branch matrix was not rerun this push-only turn; historical integrated results remain separate.
+- Independent read-only scope review found no blocker: 15 unit8-only files and eight isolated context files, no backup implementation, no A1 changes, no unit 9/10, and disabled B levels. GitHub Actions runs only for main pushes and pull requests, so a feature-branch-only push does not trigger CI by itself. No main merge, force push, deployment or new curriculum is included.
+- The `tired` answer is stored with `lemma`/`lexeme_id` `tire`, `context_pos` adjective, and a fatigue sense distinct from the noun `tire`. CMUdict's pinned `T AY1 ER0 D` is a candidate only; English, Taiwan Traditional Chinese, CEFR, phonetics, and audio still require human QA.
+
+### Main merge into review fixes (2026-11-20)
+
+Automated local checks after merging main `4f977e5` (PR #20, Units 8–9) into `codex/review-fixes`; conflicts were limited to CHANGELOG, DECISIONS, PROGRESS and TASKS. This branch's ADRs were renumbered 056–058 because main used 054–055. Not a real-phone trial or human review.
+
+- `npm run verify`: exit 0, all gates including `check:packed-vocabulary`, 305 unit tests passed, 0 failed/skipped.
+- Focused Playwright (`learning-flow`, `a2-problems`, `a2-social`, `mobile-layout`, `storage-resilience`): exit 0, 108 passed, 2 skipped (device-specific halves of `mobile-layout`), 8.5 minutes. The full matrix was not rerun.
 
 Earlier verification runs are archived in `docs/archive/progress-history.md`.

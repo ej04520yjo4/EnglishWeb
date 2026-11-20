@@ -3844,6 +3844,625 @@ const experienceRows = rowsFromLessons(
   sharedForUnit("a2-u07", "經驗與生活改變"),
 );
 
+const priorBeforeProblems = [
+  ...a1Rows,
+  ...unitOneRows,
+  ...travelRows,
+  ...shoppingRows,
+  ...healthRows,
+  ...schedulingRows,
+  ...householdRows,
+  ...experienceRows,
+];
+const problemsPriorToken = (answer, lexemeId) =>
+  knownTokenFromRows(answer, lexemeId, priorBeforeProblems);
+
+const problemToken = newToken({
+  tokenId: "problem",
+  lexemeId: "problem",
+  lemma: "problem",
+  dictionaryPos: "noun 名詞",
+  kk: "/ˈprɑbləm/",
+  ipa: "/ˈpɹɑbləm/",
+  syllables: "prob-lem",
+  stress: "第一音節",
+  display: "PROB・lem",
+});
+
+const tiredToken = newToken({
+  tokenId: "tired",
+  lexemeId: "tire",
+  lemma: "tire",
+  dictionaryPos: "verb 動詞；noun 名詞；adjective 形容詞（過去分詞用法）",
+  kk: "/ˈtaɪɚd/",
+  ipa: "/ˈtaɪɚd/",
+  syllables: "2",
+  stress: "第一音節",
+  display: "tired",
+});
+
+const becauseToken = newToken({
+  tokenId: "because",
+  lexemeId: "because",
+  lemma: "because",
+  dictionaryPos: "conjunction 連接詞",
+  kk: "/bɪˈkɔz/",
+  ipa: "/bɪˈkɔz/",
+  syllables: "be-cause",
+  stress: "第二音節",
+  display: "be・CAUSE",
+});
+
+const breakToken = newToken({
+  tokenId: "break",
+  lexemeId: "break",
+  lemma: "break",
+  dictionaryPos: "noun 名詞；verb 動詞",
+  kk: "/brek/",
+  ipa: "/bɹeɪk/",
+  syllables: "break",
+  stress: "單音節",
+  display: "break",
+});
+
+const soToken = newToken({
+  tokenId: "so",
+  lexemeId: "so",
+  lemma: "so",
+  dictionaryPos: "conjunction 連接詞；adverb 副詞",
+  kk: "/so/",
+  ipa: "/soʊ/",
+  syllables: "so",
+  stress: "單音節",
+  display: "so",
+});
+
+const problemLessons = [
+  {
+    lessonId: "a2-u08-l01",
+    title: "工作上的問題",
+    sentenceId: "a2-u08-l01-p01-s01",
+    sentenceOrder: 1,
+    sentence: "I have a problem at work.",
+    translation: "我在工作上遇到一個問題。",
+    grammar: "have a problem 表示遇到問題；at work 表示在工作場合。",
+    patternId: "have-problem-context",
+    patternName: "主詞 + have + a + 問題 + 地點",
+    tokens: [
+      {
+        answer: "I",
+        ...problemsPriorToken("I", "i"),
+        sense_id: "i-general",
+        prompt: "我",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "問題的敘述者",
+        note: "英文的 I 永遠要大寫。",
+      },
+      {
+        answer: "have",
+        ...problemsPriorToken("have", "have"),
+        sense_id: "have-encounter-problem",
+        prompt: "遇到／有（問題）",
+        prompt_type: "context",
+        context_pos: "verb 動詞",
+        semanticRole: "問題狀態",
+        note: "have a problem 在這裡表示遇到一個問題，不是單純擁有物品。",
+        ...chunk(
+          "have-a-problem",
+          "have a problem",
+          "遇到一個問題",
+          1,
+          "have a problem 是表示遇到問題的常用說法。",
+        ),
+      },
+      {
+        answer: "a",
+        ...problemsPriorToken("a", "a"),
+        sense_id: "a-before-problem",
+        prompt: "一個",
+        prompt_type: "grammar",
+        context_pos: "article 冠詞",
+        semanticRole: "單數問題限定",
+        note: "a 的核心功能是不定冠詞，中文可依名詞自然翻譯成一個。",
+        ...chunk(
+          "have-a-problem",
+          "have a problem",
+          "遇到一個問題",
+          1,
+          "have a problem 是表示遇到問題的常用說法。",
+        ),
+      },
+      {
+        answer: "problem",
+        ...problemToken,
+        sense_id: "problem-general",
+        prompt: "問題",
+        prompt_type: "meaning",
+        context_pos: "noun 名詞",
+        semanticRole: "遇到的事情",
+        note: "problem 指需要處理或解決的困難。",
+        ...chunk(
+          "have-a-problem",
+          "have a problem",
+          "遇到一個問題",
+          1,
+          "have a problem 是表示遇到問題的常用說法。",
+        ),
+      },
+      {
+        answer: "at",
+        ...problemsPriorToken("at", "at"),
+        sense_id: "at-work-context",
+        prompt: "在（工作場合）",
+        prompt_type: "context",
+        context_pos: "preposition 介系詞",
+        semanticRole: "問題地點",
+        note: "at work 表示在工作場合或工作中。",
+        ...chunk(
+          "at-work",
+          "at work",
+          "在工作上／工作中",
+          2,
+          "at work 表示人在工作場合或正在工作。",
+        ),
+      },
+      {
+        answer: "work",
+        ...problemsPriorToken("work", "work"),
+        sense_id: "work-noun-place",
+        prompt: "工作場合",
+        prompt_type: "context",
+        context_pos: "noun 名詞",
+        semanticRole: "問題地點",
+        note: "at work 中的 work 指工作場合，不是句中的動作。",
+        ...chunk(
+          "at-work",
+          "at work",
+          "在工作上／工作中",
+          2,
+          "at work 表示人在工作場合或正在工作。",
+        ),
+      },
+    ],
+  },
+  {
+    lessonId: "a2-u08-l02",
+    title: "說明問題原因",
+    sentenceId: "a2-u08-l02-p01-s01",
+    sentenceOrder: 2,
+    sentence: "I am tired because I work at night.",
+    translation: "我因為晚上工作而很累。",
+    grammar: "because 連接結果與原因；work at night 表示晚上工作。",
+    patternId: "because-reason",
+    patternName: "主詞 + be + 狀態 + because + 原因",
+    tokens: [
+      {
+        answer: "I",
+        ...problemsPriorToken("I", "i"),
+        sense_id: "i-general",
+        prompt: "我",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "感受者",
+        note: "英文的 I 永遠要大寫。",
+      },
+      {
+        answer: "am",
+        ...problemsPriorToken("am", "be"),
+        sense_id: "be-tired-state",
+        prompt: "是／感到（和 tired 組成狀態）",
+        prompt_type: "grammar",
+        context_pos: "verb 動詞",
+        semanticRole: "狀態連接",
+        note: "I 使用 am，和形容詞 tired 一起描述目前狀態。",
+      },
+      {
+        answer: "tired",
+        ...tiredToken,
+        sense_id: "tired-state",
+        prompt: "疲累的",
+        prompt_type: "meaning",
+        context_pos: "adjective 形容詞",
+        semanticRole: "目前狀態",
+        note: "tired 是 tire（使疲累）的過去分詞，此處作形容詞，表示覺得累；本題仍輸入 tired，與名詞 tire（輪胎）是不同詞義。",
+      },
+      {
+        answer: "because",
+        ...becauseToken,
+        sense_id: "because-reason-connector",
+        prompt: "因為（連接原因）",
+        prompt_type: "grammar",
+        context_pos: "conjunction 連接詞",
+        semanticRole: "原因連接",
+        note: "because 後面接造成前面狀態的原因。",
+      },
+      {
+        answer: "I",
+        ...problemsPriorToken("I", "i"),
+        sense_id: "i-general",
+        prompt: "我",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "原因動作者",
+        note: "英文的 I 永遠要大寫。",
+      },
+      {
+        answer: "work",
+        ...problemsPriorToken("work", "work"),
+        sense_id: "work-verb-night",
+        prompt: "工作",
+        prompt_type: "meaning",
+        context_pos: "verb 動詞",
+        semanticRole: "原因動作",
+        note: "此處的 work 是動詞，表示工作。",
+      },
+      {
+        answer: "at",
+        ...problemsPriorToken("at", "at"),
+        sense_id: "at-night-time",
+        prompt: "在（時間）",
+        prompt_type: "grammar",
+        context_pos: "preposition 介系詞",
+        semanticRole: "原因時間",
+        note: "at night 表示在晚上。",
+        ...chunk(
+          "at-night",
+          "at night",
+          "在晚上",
+          2,
+          "at night 是常見時間語塊，表示在晚上。",
+        ),
+      },
+      {
+        answer: "night",
+        ...problemsPriorToken("night", "night"),
+        sense_id: "night-work-time",
+        prompt: "晚上",
+        prompt_type: "meaning",
+        context_pos: "noun 名詞",
+        semanticRole: "原因時間",
+        note: "at night 是表示晚上時段的語塊。",
+        ...chunk(
+          "at-night",
+          "at night",
+          "在晚上",
+          2,
+          "at night 是常見時間語塊，表示在晚上。",
+        ),
+      },
+    ],
+  },
+  {
+    lessonId: "a2-u08-l03",
+    title: "提出休息建議",
+    sentenceId: "a2-u08-l03-p01-s01",
+    sentenceOrder: 3,
+    sentence: "You should take a break.",
+    translation: "你應該休息一下。",
+    grammar: "should + 動詞原形表示建議；take a break 表示休息一下。",
+    patternId: "should-advice-action",
+    patternName: "主詞 + should + 動詞 + a + 休息",
+    tokens: [
+      {
+        answer: "You",
+        ...problemsPriorToken("you", "you"),
+        sense_id: "you-general",
+        prompt: "你",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "建議對象",
+        note: "you 指接受建議的人。",
+      },
+      {
+        answer: "should",
+        ...problemsPriorToken("should", "should"),
+        sense_id: "should-advice-action",
+        prompt: "應該（提出建議）",
+        prompt_type: "grammar",
+        context_pos: "modal verb 情態助動詞",
+        semanticRole: "建議構成",
+        note: "should 後面接動詞原形，表示建議。",
+      },
+      {
+        answer: "take",
+        ...problemsPriorToken("take", "take"),
+        sense_id: "take-break-action",
+        prompt: "進行／採取",
+        prompt_type: "context",
+        context_pos: "verb 動詞（原形）",
+        semanticRole: "建議動作",
+        note: "take a break 是固定說法，整體表示休息一下。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+      {
+        answer: "a",
+        ...problemsPriorToken("a", "a"),
+        sense_id: "a-before-break",
+        prompt: "一個",
+        prompt_type: "grammar",
+        context_pos: "article 冠詞",
+        semanticRole: "休息限定",
+        note: "a 的核心功能是不定冠詞，中文提示以一個為核心。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+      {
+        answer: "break",
+        ...breakToken,
+        sense_id: "break-rest-period",
+        prompt: "休息時間",
+        prompt_type: "context",
+        context_pos: "noun 名詞",
+        semanticRole: "建議動作",
+        note: "take a break 中的 break 指短暫休息時間。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+    ],
+  },
+  {
+    lessonId: "a2-u08-l04",
+    title: "用行動解決問題",
+    sentenceId: "a2-u08-l04-p01-s01",
+    sentenceOrder: 4,
+    sentence: "I am tired, so I take a break.",
+    translation: "我很累，所以休息一下。",
+    grammar: "so 連接前面的狀態與後面的結果或行動；so 不和 because 同時連接同一原因。",
+    patternId: "be-so-action",
+    patternName: "主詞 + be + 狀態，so + 主詞 + 動作",
+    tokens: [
+      {
+        answer: "I",
+        ...problemsPriorToken("I", "i"),
+        sense_id: "i-general",
+        prompt: "我",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "行動者",
+        note: "英文的 I 永遠要大寫。",
+      },
+      {
+        answer: "am",
+        ...problemsPriorToken("am", "be"),
+        sense_id: "be-tired-state",
+        prompt: "是／感到（和 tired 組成狀態）",
+        prompt_type: "grammar",
+        context_pos: "verb 動詞",
+        semanticRole: "狀態連接",
+        note: "I 使用 am，和 tired 一起描述狀態。",
+      },
+      {
+        answer: "tired",
+        ...markKnown(tiredToken),
+        sense_id: "tired-state",
+        prompt: "疲累的",
+        prompt_type: "meaning",
+        context_pos: "adjective 形容詞",
+        semanticRole: "行動原因",
+        note: "tired 是 tire（使疲累）的過去分詞，此處作形容詞，表示覺得累；本題仍輸入 tired，與名詞 tire（輪胎）是不同詞義。",
+      },
+      {
+        answer: "so",
+        ...soToken,
+        sense_id: "so-result-connector",
+        prompt: "所以（連接結果）",
+        prompt_type: "grammar",
+        context_pos: "conjunction 連接詞",
+        semanticRole: "結果連接",
+        note: "so 連接前面的原因或狀態與後面的結果；不要和 because 連成同一個連接。",
+      },
+      {
+        answer: "I",
+        ...problemsPriorToken("I", "i"),
+        sense_id: "i-general",
+        prompt: "我",
+        prompt_type: "meaning",
+        context_pos: "pronoun 代名詞",
+        semanticRole: "行動者",
+        note: "英文的 I 永遠要大寫。",
+      },
+      {
+        answer: "take",
+        ...problemsPriorToken("take", "take"),
+        sense_id: "take-break-action",
+        prompt: "進行／採取",
+        prompt_type: "context",
+        context_pos: "verb 動詞（原形）",
+        semanticRole: "結果行動",
+        note: "take a break 的整體意思是休息一下。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+      {
+        answer: "a",
+        ...problemsPriorToken("a", "a"),
+        sense_id: "a-before-break",
+        prompt: "一個",
+        prompt_type: "grammar",
+        context_pos: "article 冠詞",
+        semanticRole: "休息限定",
+        note: "a 的核心功能是不定冠詞，中文提示以一個為核心。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+      {
+        answer: "break",
+        ...markKnown(breakToken),
+        sense_id: "break-rest-period",
+        prompt: "休息時間",
+        prompt_type: "context",
+        context_pos: "noun 名詞",
+        semanticRole: "結果行動",
+        note: "take a break 中的 break 指短暫休息時間。",
+        ...chunk(
+          "take-a-break",
+          "take a break",
+          "休息一下",
+          1,
+          "take a break 的整體意思是休息一下，不是逐字理解成拿一個休息。",
+        ),
+      },
+    ],
+  },
+];
+
+const problemRows = rowsFromLessons(
+  problemLessons,
+  sharedForUnit("a2-u08", "問題與簡單解決方式"),
+);
+
+// Unit 9 reuses the single course source and pinned phonetic candidates.
+// These candidates remain pending human QA and do not imply playable audio.
+const priorBeforeSocial = [
+  ...a1Rows, ...unitOneRows, ...travelRows, ...shoppingRows, ...healthRows,
+  ...schedulingRows, ...householdRows, ...experienceRows, ...problemRows,
+];
+const socialPhonetics = JSON.parse(fs.readFileSync(
+  path.join(root, "public/data/vocabulary-phonetics-v1.json"), "utf8",
+));
+const socialNewDefinitions = {
+  love: ["verb 動詞；noun 名詞", "love", "單音節"],
+  sorry: ["adjective 形容詞", "SOR・ry", "第一音節"],
+  but: ["conjunction 連接詞；preposition 介系詞", "but", "單音節"],
+  instead: ["adverb 副詞", "in・STEAD", "第二音節（第一音節次重音）"],
+};
+const socialSeen = new Set(priorBeforeSocial.map((row) => row.lexeme_id));
+const socialWord = (answer, lexemeId, sense, prompt, pos, role, note = "", promptType = "meaning", chunkFields = {}) => {
+  let token;
+  if (Object.hasOwn(socialNewDefinitions, lexemeId)) {
+    const phonetic = socialPhonetics.entries.find((entry) => entry.lexemeId === lexemeId)?.variants[0];
+    if (!phonetic) throw new Error(`A2/a2-u09：缺少 ${lexemeId} 的已記錄 CMUdict 音標候選。`);
+    const [dictionaryPos, display, stress] = socialNewDefinitions[lexemeId];
+    token = newToken({
+      tokenId: lexemeId, lexemeId, lemma: lexemeId, dictionaryPos,
+      kk: phonetic.kkCandidate, ipa: phonetic.ipaCandidate,
+      syllables: String(phonetic.syllableCount), stress, display,
+      isNewWord: !socialSeen.has(lexemeId),
+    });
+  } else {
+    token = knownTokenFromRows(answer, lexemeId, priorBeforeSocial);
+  }
+  socialSeen.add(lexemeId);
+  return {
+    answer, ...token, sense_id: sense, prompt, prompt_type: promptType,
+    context_pos: pos, semanticRole: role, note, ...chunkFields,
+  };
+};
+const socialPriorChunk = (id, order) => {
+  const source = priorBeforeSocial.find((row) => row.chunk_id === id);
+  if (!source) throw new Error(`A2/a2-u09：找不到已教語塊 ${id}。`);
+  return chunk(id, source.chunk_text, source.chunk_translation, order, source.chunk_note);
+};
+const socialDinner = (order) => chunk("have-dinner", "have dinner", "吃晚餐", order,
+  "have dinner 的整體意思是吃晚餐；have 在此不是擁有，餐點名稱前通常不加冠詞。");
+const socialLove = () => chunk("would-love-to", "would love to", "很樂意／很想要", 1,
+  "would love to 後接原形動詞，可熱情接受邀請；不是逐字解釋成將會愛。");
+const socialSorry = () => chunk("i-am-sorry", "I am sorry", "抱歉", 1,
+  "I am sorry 可先表達歉意，再用 but 說明無法赴約的原因。");
+const socialWithYou = () => chunk("with-you", "with you", "和你一起", 3,
+  "with 後面接受格代名詞；you 的主格與受格形式相同。");
+const socialLessons = [
+  {
+    lessonId: "a2-u09-l01", title: "邀請一起吃晚餐",
+    sentenceId: "a2-u09-l01-p01-s01", sentenceOrder: 1,
+    sentence: "Would you like to have dinner with me?",
+    translation: "你想和我一起吃晚餐嗎？",
+    grammar: "複習 Would you like to...? 禮貌邀請；have dinner 表示吃晚餐。",
+    patternId: "would-you-like-invitation", patternName: "Would you like to + 活動 + with me?",
+    tokens: [
+      socialWord("Would", "would", "would-polite-invitation", "用於禮貌邀請", "modal verb 情態助動詞", "禮貌邀請", "Would you like to...? 是常用的禮貌邀請。", "grammar", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("you", "you", "you-general", "你", "pronoun 代名詞", "受邀者", "", "meaning", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("like", "like", "like-would-preference", "在邀請句中表示想要", "verb 動詞", "邀請構成", "此處不是單純詢問平常喜不喜歡。", "context", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("to", "to", "to-infinitive", "後接原形動詞", "infinitive marker 不定詞標記", "不定詞構成", "to 後面接動詞原形 have。", "grammar", socialPriorChunk("would-you-like-to", 1)),
+      socialWord("have", "have", "have-meal", "與 dinner 組成「吃晚餐」", "verb 動詞（原形）", "用餐動作", "have dinner 是吃晚餐，不是擁有晚餐。", "context", socialDinner(2)),
+      socialWord("dinner", "dinner", "dinner-evening-meal", "晚餐", "noun 名詞", "餐點", "", "meaning", socialDinner(2)),
+      socialWord("with", "with", "with-companion", "和……一起", "preposition 介系詞", "同伴", "", "grammar", socialPriorChunk("with-me", 3)),
+      socialWord("me", "me", "me-object-pronoun", "我（受格）", "pronoun 代名詞（受格）", "邀請者", "with 後使用 me，不使用 I。", "grammar", socialPriorChunk("with-me", 3)),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l02", title: "熱情接受邀請",
+    sentenceId: "a2-u09-l02-p01-s01", sentenceOrder: 2,
+    sentence: "I would love to have dinner with you.",
+    translation: "我很樂意和你一起吃晚餐。",
+    grammar: "would love to + 原形動詞：熱情表達意願或接受邀請。",
+    patternId: "would-love-acceptance", patternName: "I would love to + 活動 + with you.",
+    tokens: [
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "接受邀請的人", "英文 I 永遠大寫。"),
+      socialWord("would", "would", "would-enthusiastic-willingness", "與 love to 組成「很樂意」", "modal verb 情態助動詞", "意願構成", "would love to 是禮貌且熱情的說法。", "context", socialLove()),
+      socialWord("love", "love", "love-willingness", "在 would love to 中表示「很樂意」", "verb 動詞", "接受邀請", "這裡不表示浪漫的愛；音標取自固定 CMUdict 候選，仍待人工複核。", "context", socialLove()),
+      socialWord("to", "to", "to-infinitive", "後接原形動詞", "infinitive marker 不定詞標記", "不定詞構成", "to 後面使用 have。", "grammar", socialLove()),
+      socialWord("have", "have", "have-meal", "與 dinner 組成「吃晚餐」", "verb 動詞（原形）", "用餐動作", "have dinner 是吃晚餐。", "context", socialDinner(2)),
+      socialWord("dinner", "dinner", "dinner-evening-meal", "晚餐", "noun 名詞", "餐點", "", "meaning", socialDinner(2)),
+      socialWord("with", "with", "with-companion", "和……一起", "preposition 介系詞", "同伴", "", "grammar", socialWithYou()),
+      socialWord("you", "you", "you-object-companion", "你（受格）", "pronoun 代名詞（受格）", "邀請者", "you 的主格與受格相同。", "grammar", socialWithYou()),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l03", title: "禮貌婉拒與說明原因",
+    sentenceId: "a2-u09-l03-p01-s01", sentenceOrder: 3,
+    sentence: "I am sorry, but I have to work.",
+    translation: "抱歉，但我得工作。",
+    grammar: "I am sorry 表達歉意；but 引出轉折；have to 說明無法赴約的原因。",
+    patternId: "sorry-but-obligation", patternName: "I am sorry, but I have to + 動作.",
+    tokens: [
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "說話者", "", "meaning", socialSorry()),
+      socialWord("am", "be", "be-apology-state", "連接 I 與 sorry 的 be 動詞", "verb 動詞", "連繫動詞", "此處不是進行式助動詞。", "grammar", socialSorry()),
+      socialWord("sorry", "sorry", "sorry-apology", "抱歉的／過意不去的", "adjective 形容詞", "表達歉意", "婉拒邀請時先表達歉意；美式音標候選仍待人工複核。", "context", socialSorry()),
+      socialWord("but", "but", "but-contrast", "但是", "conjunction 連接詞", "轉折", "but 引出與期待不同的情況。", "grammar"),
+      socialWord("I", "i", "i-general", "我", "pronoun 代名詞", "工作的人", "與句首 I 為同一個 lexeme。"),
+      socialWord("have", "have", "have-obligation", "與 to 組成「必須／得」", "verb 動詞", "必要性", "have to 在此不是擁有。", "context", socialPriorChunk("have-to", 2)),
+      socialWord("to", "to", "to-obligation", "與 have 組成「必須／得」", "infinitive marker 不定詞標記", "必要性構成", "have to 後面接原形動詞 work。", "context", socialPriorChunk("have-to", 2)),
+      socialWord("work", "work", "work-verb-action", "工作", "verb 動詞（原形）", "無法赴約的原因", "此處 work 是動詞。"),
+    ],
+  },
+  {
+    lessonId: "a2-u09-l04", title: "提出替代安排",
+    sentenceId: "a2-u09-l04-p01-s01", sentenceOrder: 4,
+    sentence: "Can we meet on Saturday instead?",
+    translation: "我們可以改成星期六見面嗎？",
+    grammar: "Can we meet...? 提議見面；句尾 instead 表示改用另一個安排。",
+    patternId: "alternative-arrangement", patternName: "Can we meet + 時間 + instead?",
+    tokens: [
+      socialWord("Can", "can", "can-arrangement-proposal", "可以……嗎", "modal verb 情態助動詞", "提出建議", "Can 在此詢問這個安排是否可行。", "grammar"),
+      socialWord("we", "we", "we-general", "我們", "pronoun 代名詞", "見面的雙方"),
+      socialWord("meet", "meet", "meet-arrangement", "見面", "verb 動詞（原形）", "會面動作"),
+      socialWord("on", "on", "on-day", "在（某一天）", "preposition 介系詞", "日期介系詞", "星期前用 on。", "grammar", socialPriorChunk("on-saturday", 1)),
+      socialWord("Saturday", "saturday", "saturday-day", "星期六", "proper noun 專有名詞", "替代日期", "星期名稱第一個字母大寫。", "meaning", socialPriorChunk("on-saturday", 1)),
+      socialWord("instead", "instead", "instead-alternative", "改成／代替原本安排", "adverb 副詞", "替代安排", "句尾 instead 表示這次提議用來取代先前安排；不需要加 of。音標候選仍待人工複核。", "context"),
+    ],
+  },
+];
+const socialRows = rowsFromLessons(
+  socialLessons, sharedForUnit("a2-u09", "社交、邀請與回應"),
+);
 const rows = [
   ...unitOneRows,
   ...travelRows,
@@ -3852,6 +4471,8 @@ const rows = [
   ...schedulingRows,
   ...householdRows,
   ...experienceRows,
+  ...problemRows,
+  ...socialRows,
 ];
 
 fs.writeFileSync(

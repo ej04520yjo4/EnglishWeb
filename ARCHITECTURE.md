@@ -57,8 +57,8 @@ At startup, the app loads the catalog, then loads only A1 and A2. Catalog entrie
 - `app/curriculum/a1-legacy-adapter.ts`: A1 compatibility boundary around the established v3 builder.
 - `app/a1-mvp-data.ts`: CSV parsing, normalization, validation, checksums, versioned storage, and course construction.
 - `app/a1-exercises.ts`: pattern/reading schemas, prerequisite and slot validation, coverage reporting, and answer checks.
-- `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV (7 units / 28 lessons / 168 occurrences). Expansion preserves units 1–6 with row/object hash checks; unit 7 reuses the existing loader and progress layers, including `been` → `be` lexeme identity.
-- `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–6 exercises and passages to the existing unit 1 JSON.
+- `scripts/create-a2-pilot-data.mjs`: reproducibly builds the single A2 pilot CSV (9 units / 36 lessons / 225 occurrences). Expansion preserves units 1–8 with row/object hash checks; unit 7 reuses `been` → `be`, unit 8 keeps `tired` → `tire`, and unit 9 reuses existing lexemes with contextual invitation/meal/obligation senses. Four new words use the pinned phonetic-candidate source without changing the 3000-target catalog.
+- `scripts/create-a2-pilot-exercises.mjs`: reproducibly appends units 2–9 exercises and passages to existing unit 1 JSON. Unit 8 lesson 4 and all unit 9 responses use distinct taught core-sentence distractors with prerequisite metadata. Unit 9 dialogue speaker labels appear only in Traditional Chinese prompts; English sentence answers keep the existing passage schema.
 - `scripts/create-b1-b2-curriculum.mjs`: reproducibly generates the B1/B2 pilot CSV and exercise JSON sources.
 - `scripts/audit-project-data.mjs`: detects catalog-orphaned sources, duplicate files/IDs, unsafe repetitions, generator key collisions, and tracked build artifacts.
 - `app/course-data.ts`: stable TypeScript course types plus A-Z static data; it is not a second A1 lesson source.
@@ -103,7 +103,7 @@ Related vocabulary is a read-only projection over formal A1 lexemes plus explici
 
 Resolved cards have normalized, deduplicated `searchAliases` derived from occurrence answers/lemmas/prompts, formal and configured chunk text/translations, and optional validated group-item aliases. `withVocabularySearchAliases()` adds matching rows from the already validated, ready A2 dataset to a pure search projection; it never promotes a reference card, replaces A1 source fields, or changes progress. A2 loading failure removes only those supplemental aliases. Disabled B1/B2 sources are never fetched for search.
 
-A2 uses one CSV and two exercise JSON files for all six pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
+A2 uses one CSV and two exercise JSON files for all eight pilot units. B1 and B2 each retain one independent v1 CSV plus pattern and reading JSON, but their catalog status is `disabled` and they are not runtime sources. All advanced rows stay `pilot_review_required`.
 
 The3000 goal counts canonical single-word lexemes only. Runtime v2 preserves the132 baseline objects and adds2868 sourced headwords. The separate library joins exactly once per target, in60 pages of50. Word forms, occurrences, senses and chunks remain separate. `count_complete_review_required` means candidate coverage only; A1/A2 allocations are planning stages, not certifiedCEFR ratings. New meanings remain pending human review and phonetics remain pending.
 
