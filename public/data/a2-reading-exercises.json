@@ -1193,6 +1193,354 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l01",
+      "lessonId": "a2-u08-l01",
+      "sentenceId": "a2-u08-l01-p01-s01",
+      "sentencePatternId": "have-problem-context",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I have a problem at work.",
+      "requiredLexemeIds": [
+        "i",
+        "have",
+        "a",
+        "problem",
+        "at",
+        "work"
+      ],
+      "requiredChunkIds": [
+        "have-a-problem",
+        "at-work"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我在工作上遇到一個問題。",
+          "sourceSentenceId": "a2-u08-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在家遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "你應該休息一下。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l02",
+      "lessonId": "a2-u08-l02",
+      "sentenceId": "a2-u08-l02-p01-s01",
+      "sentencePatternId": "because-reason",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am tired because I work at night.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "tire",
+        "because",
+        "work",
+        "at",
+        "night"
+      ],
+      "requiredChunkIds": [
+        "at-night"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我因為晚上工作而很累。",
+          "sourceSentenceId": "a2-u08-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在工作上遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你應該休息一下。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我很累，所以休息一下。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l03",
+      "lessonId": "a2-u08-l03",
+      "sentenceId": "a2-u08-l03-p01-s01",
+      "sentencePatternId": "should-advice-action",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "You should take a break.",
+      "requiredLexemeIds": [
+        "you",
+        "should",
+        "take",
+        "a",
+        "break"
+      ],
+      "requiredChunkIds": [
+        "take-a-break"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你應該休息一下。",
+          "sourceSentenceId": "a2-u08-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我在工作上遇到一個問題。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我現在有一份新工作。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u08-l04",
+      "lessonId": "a2-u08-l04",
+      "sentenceId": "a2-u08-l04-p01-s01",
+      "sentencePatternId": "be-so-action",
+      "passageId": "a2-u08-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am tired, so I take a break.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "tire",
+        "so",
+        "take",
+        "a",
+        "break"
+      ],
+      "requiredChunkIds": [
+        "take-a-break"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我很累，所以休息一下。",
+          "sourceSentenceId": "a2-u08-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我因為晚上工作而很累。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你應該休息一下。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我在工作上遇到一個問題。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u09-l01",
+      "lessonId": "a2-u09-l01",
+      "sentenceId": "a2-u09-l01-p01-s01",
+      "sentencePatternId": "would-you-like-invitation",
+      "passageId": "a2-u09-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Would you like to have dinner with me?",
+      "requiredLexemeIds": [
+        "would",
+        "you",
+        "like",
+        "to",
+        "have",
+        "dinner",
+        "with",
+        "me"
+      ],
+      "requiredChunkIds": [
+        "would-you-like-to",
+        "have-dinner",
+        "with-me"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "你想和我一起吃晚餐嗎？",
+          "sourceSentenceId": "a2-u09-l01-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你想和我一起看電視嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我明天十點要和主管見面。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我三點有一個會議。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u09-l02",
+      "lessonId": "a2-u09-l02",
+      "sentenceId": "a2-u09-l02-p01-s01",
+      "sentencePatternId": "would-love-acceptance",
+      "passageId": "a2-u09-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I would love to have dinner with you.",
+      "requiredLexemeIds": [
+        "i",
+        "would",
+        "love",
+        "to",
+        "have",
+        "dinner",
+        "with",
+        "you"
+      ],
+      "requiredChunkIds": [
+        "would-love-to",
+        "have-dinner",
+        "with-you"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我很樂意和你一起吃晚餐。",
+          "sourceSentenceId": "a2-u09-l02-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "你想和我一起吃晚餐嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "我很樂意和你一起吃早餐。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我昨天去了車站。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u09-l03",
+      "lessonId": "a2-u09-l03",
+      "sentenceId": "a2-u09-l03-p01-s01",
+      "sentencePatternId": "sorry-but-obligation",
+      "passageId": "a2-u09-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "I am sorry, but I have to work.",
+      "requiredLexemeIds": [
+        "i",
+        "be",
+        "sorry",
+        "but",
+        "have",
+        "to",
+        "work"
+      ],
+      "requiredChunkIds": [
+        "i-am-sorry",
+        "have-to"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "抱歉，但我得工作。",
+          "sourceSentenceId": "a2-u09-l03-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我很樂意和你一起吃晚餐。"
+        },
+        {
+          "id": "distractor-2",
+          "text": "抱歉，但我得整理房間。"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我們可以星期二下午見面嗎？"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "recognition-a2-u09-l04",
+      "lessonId": "a2-u09-l04",
+      "sentenceId": "a2-u09-l04-p01-s01",
+      "sentencePatternId": "alternative-arrangement",
+      "passageId": "a2-u09-p01",
+      "type": "english-to-chinese",
+      "instruction": "請選出最符合英文句子的中文意思。",
+      "stem": "Can we meet on Saturday instead?",
+      "requiredLexemeIds": [
+        "can",
+        "we",
+        "meet",
+        "on",
+        "saturday",
+        "instead"
+      ],
+      "requiredChunkIds": [
+        "on-saturday"
+      ],
+      "options": [
+        {
+          "id": "correct",
+          "text": "我們可以改成星期六見面嗎？",
+          "sourceSentenceId": "a2-u09-l04-p01-s01"
+        },
+        {
+          "id": "distractor-1",
+          "text": "我們可以改成明天見面嗎？"
+        },
+        {
+          "id": "distractor-2",
+          "text": "你想和我一起吃晚餐嗎？"
+        },
+        {
+          "id": "distractor-3",
+          "text": "我通常星期六整理房間。"
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "textResponses": [
@@ -3358,6 +3706,647 @@
       ],
       "correctOptionId": "correct",
       "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l01",
+      "lessonId": "a2-u08-l01",
+      "sourceSentenceId": "a2-u08-l01-p01-s01",
+      "sentencePatternId": "have-problem-context",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我在工作上遇到一個問題」的英文句子。",
+      "targetTranslation": "我在工作上遇到一個問題。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I have a problem at home.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-home"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I have a problem at school.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "school"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a new job now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "job",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "new-job"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l02",
+      "lessonId": "a2-u08-l02",
+      "sourceSentenceId": "a2-u08-l02-p01-s01",
+      "sentencePatternId": "because-reason",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我因為晚上工作而很累」的英文句子。",
+      "targetTranslation": "我因為晚上工作而很累。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am tired because I clean at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "clean",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I am tired because I work on Saturday.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l03",
+      "lessonId": "a2-u08-l03",
+      "sourceSentenceId": "a2-u08-l03-p01-s01",
+      "sentencePatternId": "should-advice-action",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你應該休息一下」的英文句子。",
+      "targetTranslation": "你應該休息一下。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "You should take a break.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I should take a break.",
+          "requiredLexemeIds": [
+            "i",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "We should take a break.",
+          "requiredLexemeIds": [
+            "we",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u08-l04",
+      "lessonId": "a2-u08-l04",
+      "sourceSentenceId": "a2-u08-l04-p01-s01",
+      "sentencePatternId": "be-so-action",
+      "passageId": "a2-u08-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我很累，所以休息一下」的英文句子。",
+      "targetTranslation": "我很累，所以休息一下。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am tired, so I take a break.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am tired because I work at night.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "You should take a break.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a problem at work.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u09-l01",
+      "lessonId": "a2-u09-l01",
+      "sourceSentenceId": "a2-u09-l01-p01-s01",
+      "sentencePatternId": "would-you-like-invitation",
+      "passageId": "a2-u09-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「你想和我一起吃晚餐嗎」的英文句子。",
+      "targetTranslation": "你想和我一起吃晚餐嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Would you like to have dinner with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "have-dinner",
+            "with-me"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Would you like to go with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "go",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "with-me"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "I am meeting my manager at ten tomorrow.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "meet",
+            "my",
+            "manager",
+            "at",
+            "ten",
+            "tomorrow"
+          ],
+          "requiredChunkIds": [
+            "meeting-my-manager",
+            "at-ten-tomorrow"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I am tired, so I take a break.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u09-l02",
+      "lessonId": "a2-u09-l02",
+      "sourceSentenceId": "a2-u09-l02-p01-s01",
+      "sentencePatternId": "would-love-acceptance",
+      "passageId": "a2-u09-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我很樂意和你一起吃晚餐」的英文句子。",
+      "targetTranslation": "我很樂意和你一起吃晚餐。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I would love to have dinner with you.",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "you"
+          ],
+          "requiredChunkIds": [
+            "would-love-to",
+            "have-dinner",
+            "with-you"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "Would you like to have dinner with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "have-dinner",
+            "with-me"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "You should take a break.",
+          "requiredLexemeIds": [
+            "you",
+            "should",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a new job now.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "new",
+            "job",
+            "now"
+          ],
+          "requiredChunkIds": [
+            "new-job"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u09-l03",
+      "lessonId": "a2-u09-l03",
+      "sourceSentenceId": "a2-u09-l03-p01-s01",
+      "sentencePatternId": "sorry-but-obligation",
+      "passageId": "a2-u09-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「抱歉，但我得工作」的英文句子。",
+      "targetTranslation": "抱歉，但我得工作。",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "I am sorry, but I have to work.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but",
+            "have",
+            "to",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "i-am-sorry",
+            "have-to"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I would love to have dinner with you.",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "you"
+          ],
+          "requiredChunkIds": [
+            "would-love-to",
+            "have-dinner",
+            "with-you"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Would you like to have dinner with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "have-dinner",
+            "with-me"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "I have a meeting at three.",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "meeting",
+            "at",
+            "three"
+          ],
+          "requiredChunkIds": [
+            "have-a-meeting",
+            "at-three"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
+    },
+    {
+      "id": "response-a2-u09-l04",
+      "lessonId": "a2-u09-l04",
+      "sourceSentenceId": "a2-u09-l04-p01-s01",
+      "sentencePatternId": "alternative-arrangement",
+      "passageId": "a2-u09-p01",
+      "promptLanguage": "zh-Hant",
+      "prompt": "請選出符合「我們可以改成星期六見面嗎」的英文句子。",
+      "targetTranslation": "我們可以改成星期六見面嗎？",
+      "format": "choice",
+      "options": [
+        {
+          "id": "correct",
+          "text": "Can we meet on Saturday instead?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "saturday",
+            "instead"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ]
+        },
+        {
+          "id": "transfer-1",
+          "text": "I am sorry, but I have to work.",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but",
+            "have",
+            "to",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "i-am-sorry",
+            "have-to"
+          ]
+        },
+        {
+          "id": "transfer-2",
+          "text": "Would you like to have dinner with me?",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "me"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "have-dinner",
+            "with-me"
+          ]
+        },
+        {
+          "id": "previous",
+          "text": "Can we meet on Tuesday afternoon?",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "tuesday",
+            "afternoon"
+          ],
+          "requiredChunkIds": [
+            "can-we-meet",
+            "on-tuesday-afternoon"
+          ]
+        }
+      ],
+      "correctOptionId": "correct",
+      "qaStatus": "pilot_review_required"
     }
   ],
   "passages": [
@@ -5493,6 +6482,681 @@
           "evidenceSentenceIds": [
             "a2-u07-p01-s03",
             "a2-u07-p01-s05"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u08-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u08-p01-s01",
+          "order": 1,
+          "sentence": "I have a problem at work.",
+          "translation": "我在工作上遇到一個問題。",
+          "lessonId": "a2-u08-l01",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "a",
+            "problem",
+            "at",
+            "work"
+          ],
+          "requiredChunkIds": [
+            "have-a-problem",
+            "at-work"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s02",
+          "order": 2,
+          "sentence": "I am tired because I work at night.",
+          "translation": "我因為晚上工作而很累。",
+          "lessonId": "a2-u08-l02",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "because",
+            "work",
+            "at",
+            "night"
+          ],
+          "requiredChunkIds": [
+            "at-night"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s03",
+          "order": 3,
+          "sentence": "I am tired, so I take a break.",
+          "translation": "我很累，所以休息一下。",
+          "lessonId": "a2-u08-l04",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "tire",
+            "so",
+            "take",
+            "a",
+            "break"
+          ],
+          "requiredChunkIds": [
+            "take-a-break"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s04",
+          "order": 4,
+          "sentence": "I take a break at home.",
+          "translation": "我在家休息一下。",
+          "lessonId": "a2-u08-l04",
+          "requiredLexemeIds": [
+            "i",
+            "take",
+            "a",
+            "break",
+            "at",
+            "home"
+          ],
+          "requiredChunkIds": [
+            "take-a-break",
+            "at-home"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-s05",
+          "order": 5,
+          "sentence": "I have some water.",
+          "translation": "我喝一些水。",
+          "lessonId": "a2-u08-l01",
+          "requiredLexemeIds": [
+            "i",
+            "have",
+            "some",
+            "water"
+          ],
+          "requiredChunkIds": [],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u08-p01-q01",
+          "sourceSentenceId": "a2-u08-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人在哪裡遇到問題？",
+          "options": [
+            "At work.",
+            "At home.",
+            "At school.",
+            "At the station."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At work.",
+              "requiredLexemeIds": [
+                "at",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "at-work"
+              ]
+            },
+            {
+              "text": "At home.",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            },
+            {
+              "text": "At school.",
+              "requiredLexemeIds": [
+                "at",
+                "school"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At the station.",
+              "requiredLexemeIds": [
+                "at",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            }
+          ],
+          "correctAnswer": "At work.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q02",
+          "sourceSentenceId": "a2-u08-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人什麼時候工作？",
+          "options": [
+            "At night.",
+            "On Saturday.",
+            "At seven.",
+            "Tomorrow."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At night.",
+              "requiredLexemeIds": [
+                "at",
+                "night"
+              ],
+              "requiredChunkIds": [
+                "at-night"
+              ]
+            },
+            {
+              "text": "On Saturday.",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            },
+            {
+              "text": "At seven.",
+              "requiredLexemeIds": [
+                "at",
+                "seven"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Tomorrow.",
+              "requiredLexemeIds": [
+                "tomorrow"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "At night.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q03",
+          "sourceSentenceId": "a2-u08-p01-s03",
+          "questionLanguage": "zh-Hant",
+          "question": "根據第二、三句，這個人晚上工作覺得累，因此做了什麼？",
+          "options": [
+            "Take a break.",
+            "Go to work.",
+            "Clean the room.",
+            "Drink some water."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Take a break.",
+              "requiredLexemeIds": [
+                "take",
+                "a",
+                "break"
+              ],
+              "requiredChunkIds": [
+                "take-a-break"
+              ]
+            },
+            {
+              "text": "Go to work.",
+              "requiredLexemeIds": [
+                "go",
+                "to",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "go-to-work"
+              ]
+            },
+            {
+              "text": "Clean the room.",
+              "requiredLexemeIds": [
+                "clean",
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Drink some water.",
+              "requiredLexemeIds": [
+                "drink",
+                "some",
+                "water"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Take a break.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s02",
+            "a2-u08-p01-s03"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u08-p01-q04",
+          "sourceSentenceId": "a2-u08-p01-s04",
+          "questionLanguage": "zh-Hant",
+          "question": "這個人在哪裡休息？",
+          "options": [
+            "At home.",
+            "At work.",
+            "At the station.",
+            "At school."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At home.",
+              "requiredLexemeIds": [
+                "at",
+                "home"
+              ],
+              "requiredChunkIds": [
+                "at-home"
+              ]
+            },
+            {
+              "text": "At work.",
+              "requiredLexemeIds": [
+                "at",
+                "work"
+              ],
+              "requiredChunkIds": [
+                "at-work"
+              ]
+            },
+            {
+              "text": "At the station.",
+              "requiredLexemeIds": [
+                "at",
+                "the",
+                "station"
+              ],
+              "requiredChunkIds": [
+                "the-station"
+              ]
+            },
+            {
+              "text": "At school.",
+              "requiredLexemeIds": [
+                "at",
+                "school"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "At home.",
+          "evidenceSentenceIds": [
+            "a2-u08-p01-s04"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ]
+    },
+    {
+      "passageId": "a2-u09-p01",
+      "level": "A2",
+      "qaStatus": "pilot_review_required",
+      "sentences": [
+        {
+          "id": "a2-u09-p01-s01",
+          "order": 1,
+          "sentence": "Would you like to have dinner with me on Friday?",
+          "translation": "甲：你想星期五和我一起吃晚餐嗎？",
+          "lessonId": "a2-u09-l01",
+          "requiredLexemeIds": [
+            "would",
+            "you",
+            "like",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "me",
+            "on",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "would-you-like-to",
+            "have-dinner",
+            "with-me"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-s02",
+          "order": 2,
+          "sentence": "I am sorry, but I have to work on Friday.",
+          "translation": "乙：抱歉，但我星期五得工作。",
+          "lessonId": "a2-u09-l03",
+          "requiredLexemeIds": [
+            "i",
+            "be",
+            "sorry",
+            "but",
+            "have",
+            "to",
+            "work",
+            "on",
+            "friday"
+          ],
+          "requiredChunkIds": [
+            "i-am-sorry",
+            "have-to"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-s03",
+          "order": 3,
+          "sentence": "Can we meet on Saturday instead?",
+          "translation": "甲：我們可以改成星期六見面嗎？",
+          "lessonId": "a2-u09-l04",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "on",
+            "saturday",
+            "instead"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-s04",
+          "order": 4,
+          "sentence": "I would love to have dinner with you.",
+          "translation": "乙：我很樂意和你一起吃晚餐。",
+          "lessonId": "a2-u09-l02",
+          "requiredLexemeIds": [
+            "i",
+            "would",
+            "love",
+            "to",
+            "have",
+            "dinner",
+            "with",
+            "you"
+          ],
+          "requiredChunkIds": [
+            "would-love-to",
+            "have-dinner",
+            "with-you"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-s05",
+          "order": 5,
+          "sentence": "Can we meet at seven?",
+          "translation": "甲：我們可以七點見面嗎？",
+          "lessonId": "a2-u09-l04",
+          "requiredLexemeIds": [
+            "can",
+            "we",
+            "meet",
+            "at",
+            "seven"
+          ],
+          "requiredChunkIds": [],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-s06",
+          "order": 6,
+          "sentence": "I can meet at seven on Saturday.",
+          "translation": "乙：我可以星期六七點見面。",
+          "lessonId": "a2-u09-l04",
+          "requiredLexemeIds": [
+            "i",
+            "can",
+            "meet",
+            "at",
+            "seven",
+            "on",
+            "saturday"
+          ],
+          "requiredChunkIds": [
+            "on-saturday"
+          ],
+          "qaStatus": "pilot_review_required"
+        }
+      ],
+      "questions": [
+        {
+          "id": "a2-u09-p01-q01",
+          "sourceSentenceId": "a2-u09-p01-s01",
+          "questionLanguage": "zh-Hant",
+          "question": "甲邀請乙一起吃哪一餐？",
+          "options": [
+            "Dinner.",
+            "Breakfast.",
+            "Coffee.",
+            "Water."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Dinner.",
+              "requiredLexemeIds": [
+                "dinner"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Breakfast.",
+              "requiredLexemeIds": [
+                "breakfast"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Coffee.",
+              "requiredLexemeIds": [
+                "coffee"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Water.",
+              "requiredLexemeIds": [
+                "water"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Dinner.",
+          "evidenceSentenceIds": [
+            "a2-u09-p01-s01"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-q02",
+          "sourceSentenceId": "a2-u09-p01-s02",
+          "questionLanguage": "zh-Hant",
+          "question": "乙星期五必須做什麼？",
+          "options": [
+            "Work.",
+            "Clean the room.",
+            "Wash the dishes.",
+            "See a doctor."
+          ],
+          "optionMetadata": [
+            {
+              "text": "Work.",
+              "requiredLexemeIds": [
+                "work"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Clean the room.",
+              "requiredLexemeIds": [
+                "clean",
+                "the",
+                "room"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "Wash the dishes.",
+              "requiredLexemeIds": [
+                "wash",
+                "the",
+                "dish"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "See a doctor.",
+              "requiredLexemeIds": [
+                "see",
+                "a",
+                "doctor"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "Work.",
+          "evidenceSentenceIds": [
+            "a2-u09-p01-s02"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-q03",
+          "sourceSentenceId": "a2-u09-p01-s06",
+          "questionLanguage": "zh-Hant",
+          "question": "根據第二、三、六句，乙星期五要工作，最後約定改在哪一天見面？",
+          "options": [
+            "On Saturday.",
+            "On Friday.",
+            "On Tuesday.",
+            "On Monday."
+          ],
+          "optionMetadata": [
+            {
+              "text": "On Saturday.",
+              "requiredLexemeIds": [
+                "on",
+                "saturday"
+              ],
+              "requiredChunkIds": [
+                "on-saturday"
+              ]
+            },
+            {
+              "text": "On Friday.",
+              "requiredLexemeIds": [
+                "on",
+                "friday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "On Tuesday.",
+              "requiredLexemeIds": [
+                "on",
+                "tuesday"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "On Monday.",
+              "requiredLexemeIds": [
+                "on",
+                "monday"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "On Saturday.",
+          "evidenceSentenceIds": [
+            "a2-u09-p01-s02",
+            "a2-u09-p01-s03",
+            "a2-u09-p01-s06"
+          ],
+          "qaStatus": "pilot_review_required"
+        },
+        {
+          "id": "a2-u09-p01-q04",
+          "sourceSentenceId": "a2-u09-p01-s06",
+          "questionLanguage": "zh-Hant",
+          "question": "乙最後確認幾點可以見面？",
+          "options": [
+            "At seven.",
+            "At eight.",
+            "At ten.",
+            "At three."
+          ],
+          "optionMetadata": [
+            {
+              "text": "At seven.",
+              "requiredLexemeIds": [
+                "at",
+                "seven"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At eight.",
+              "requiredLexemeIds": [
+                "at",
+                "eight"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At ten.",
+              "requiredLexemeIds": [
+                "at",
+                "ten"
+              ],
+              "requiredChunkIds": []
+            },
+            {
+              "text": "At three.",
+              "requiredLexemeIds": [
+                "at",
+                "three"
+              ],
+              "requiredChunkIds": []
+            }
+          ],
+          "correctAnswer": "At seven.",
+          "evidenceSentenceIds": [
+            "a2-u09-p01-s06"
           ],
           "qaStatus": "pilot_review_required"
         }

@@ -479,3 +479,25 @@ conversation ability. User trials and language QA remain separate from tests.
 **Decision:** Interpret the user's explicit request to continue adding courses as authorization for the next blueprint unit only: A2 experiences/life changes. Keep four lessons and the existing CSV/JSON schemas; preserve units 1–6 and A1. `been` is a form of `be`, not another lexeme. Teach the narrow `have been to` statement/question contrast before returning to simple present descriptions of change. New lexeme counts are 0/1/3/2.
 
 **Reason:** A small sequential pilot extends practical conversation skills without generating the remaining route or claiming that pending learner, language, phonetic, or CEFR reviews have happened. Normal unit-6 pass requirements remain; QA preview grants no progress. A2 stays pilot, B1/B2 stay disabled, and unit 8 requires a later decision after trial.
+
+## ADR-054 - Unit 8 Is a Bounded Problem/Solution Pilot
+
+**Status:** Accepted, 2026-10-27
+
+**Decision:** Interpret the user's explicit continuation request as authorization for only A2 unit 8,「問題與簡單解決方式」. Keep the existing one-word answer, chunk, pattern, passage, progress, and sequential-unlock contracts. Add four lessons and 27 occurrences with the narrow patterns `have-problem-context`, `because-reason`, `should-advice-action`, and `be-so-action`; keep units 9–10 blueprint-only. All Unit 8 rows and exercises remain `pilot_review_required`, and audio remains `pending`.
+
+For lexical identity, store the answer form `tired` with canonical `lexeme_id`/`lemma` `tire`, `context_pos` adjective, and a fatigue `sense_id` distinct from the noun `tire`; this avoids creating a duplicate 3000-target entry. The pinned CMUdict pronunciation is a candidate only. Text-response distractors must be semantically distinct from the target and must retain prerequisite metadata; Unit 8 lesson 4 therefore uses three already-taught core sentences rather than location/time-only variants of the target.
+
+**Reason:** A bounded, sequential pilot makes cause/result and advice language reviewable without bulk-generating A2 or claiming human English, Taiwan Chinese, CEFR, phonetic, or audio approval. The existing Unit 7 publication remains separately reviewable; no local backup-recovery changes are included.
+
+ADR-052 remains reserved for the local backup-recovery work; the numbering gap is intentional and does not indicate a missing Unit 8 decision.
+
+## ADR-055 - Unit 9 Extends the Social Invitation Route Only
+
+**Status:** Accepted, 2026-11-20
+
+**Decision:** The user's request to continue the next courses authorizes one bounded A2 unit 9,「社交、邀請與回應」, after the published Unit 8 feature branch. Reuse the existing CSV/JSON generators, one-word answers, whole-chunk explanations, ordered-slot transfers, passage prerequisites, local progress, and sequential unit-unlock rules. Keep A1 and A2 units 1–8 unchanged. Do not generate unit 10 or enable B1/B2.
+
+All new content remains `pilot_review_required` and audio remains `pending`. The user has authorized further implementation, not retrospective human language, phonetic, CEFR, or learner approval. Normal access still requires A1 and the preceding A2 unit; QA preview never writes pass records.
+
+**Reason:** Invitation, acceptance, polite refusal, and an alternative arrangement extend the user's practical-conversation goal in a small reviewable batch. Work stays on `codex/a2-social-invitations-unit9` based on Unit 8 `a3348e7`; the dirty original checkout, backup recovery, and separate `codex/review-fixes` work remain untouched. This continuation does not authorize merging or deploying those branches.
