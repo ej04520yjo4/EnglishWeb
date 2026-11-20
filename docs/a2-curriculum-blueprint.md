@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–8 have versioned pilot CSV/JSON data. The user's 2026-10-27 continuation authorizes a bounded unit 8 pilot while learner and language QA remain open; units 9–10 remain planning notes.
+This blueprint reserves a ten-unit A2 route without creating hidden lessons. Units 1–9 have versioned pilot CSV/JSON data. The latest continuation authorizes a bounded unit 9 pilot while learner and language QA remain open; unit 10 remains planning notes.
 
 ## Ten-Unit Route
 
@@ -16,7 +16,7 @@ This blueprint reserves a ten-unit A2 route without creating hidden lessons. Uni
 | 6 | 居家與日常家務 | Bounded pilot data |
 | 7 | 經驗與生活改變 | Bounded pilot data |
 | 8 | 問題與簡單解決方式 | Bounded pilot data |
-| 9 | 社交、邀請與回應 | Blueprint only |
+| 9 | 社交、邀請與回應 | Bounded pilot data |
 | 10 | 綜合郵件、行程與生活故事 | Blueprint only |
 
 ## Pilot Unit 5
@@ -70,16 +70,19 @@ Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_re
 - 語塊：`have-a-problem`、`at-work`、`take-a-break`；`at-night` 沿用既有語塊。一般 answer 仍一格一個英文單字。
 - 全部資料維持 `pilot_review_required`，詳細句子、選項與先備資料見 [Unit 8 QA](a2-unit8-pilot-qa.md)。
 
-## Deferred Unit Details
+## Pilot Unit 9
 
 ### Unit 9 — 社交、邀請與回應
 
 - 溝通目標：邀請、接受、婉拒與提出替代安排。
-- 主要文法：Would you like to…? 複習、can/could 回應。
+- 主要文法：Would you like to…? 複習、would love to、sorry + but + have to、Can we meet…instead?
 - 字彙領域：社交活動、時間與禮貌回應。
-- 句型方向：`Would you like to...?`、`I cannot..., but...`
+- 核心句：`Would you like to have dinner with me?`、`I would love to have dinner with you.`、`I am sorry, but I have to work.`、`Can we meet on Saturday instead?`
 - 短文類型：訊息往返與簡短對話。
-- 前置能力：單元 1 的邀請與單元 5 的安排。
+- 前置能力：單元 1 的邀請、單元 5 的安排與單元 6 的家務及義務說法。每課新增 lexeme 0／1／2／1 個。
+- 四課、30 個逐字作答位置、八題換字、六句對話及四題理解均為 `pilot_review_required`；詳見 [Unit 9 QA](a2-unit9-pilot-qa.md)。
+
+## Deferred Unit Details
 
 ### Unit 10 — 綜合郵件、行程與生活故事
 
@@ -97,13 +100,13 @@ Unit 6 has versioned pilot CSV/JSON data with four lessons and remains `pilot_re
 - New lexemes should normally stay at four or fewer per lesson and recur later.
 - Transfer and reading exercises may use only content taught by that lesson.
 - Units unlock sequentially in learner mode. QA preview may inspect pilot units without changing pass records.
-- Units 6–8 are bounded pilots and remain `pilot_review_required`; completing them never means completing all of A2 and never unlocks B1.
-- Unit 8 requires the existing sequential unit-7 pass in normal mode; QA preview changes no completion records. The conversation supplement does not count as a formal unit prerequisite or completion.
+- Units 6–9 are bounded pilots and remain `pilot_review_required`; completing them never means completing all of A2 and never unlocks B1.
+- Unit 9 requires the existing sequential unit-8 pass in normal mode; QA preview changes no completion records. The conversation supplement does not count as a formal unit prerequisite or completion.
 
 ## Supplemental Conversation Practice
 
-`public/data/conversation-practice-v1.json` is an isolated text-first supplement, not an additional A2 unit. It contains four everyday scenarios, 12 learner turns, and 32 preparation phrases. Required formal lessons and normal level prerequisites gate access; QA preview is non-mutating. Partner replies and accepted variants are explicitly taught preparation content, but they create no formal occurrence, vocabulary, CEFR, or review evidence. The supplement uses its own date/source-revision-bound storage and has no microphone, speech recognition, oral grading, or pronunciation scoring.
+`public/data/conversation-practice-v1.json` is an isolated text-first supplement, not an additional A2 unit. It contains four everyday scenarios, 12 learner turns, and 32 preparation phrases. Required formal lessons and normal level prerequisites gate access; QA preview is non-mutating. Partner replies and accepted variants are explicitly taught preparation content, but they create no formal occurrence, vocabulary, CEFR, or review evidence. The supplement uses its own date/source-revision-bound storage. Existing optional, consent-based browser transcription follows ADR-050; there is no oral grading or pronunciation scoring. Unit 9 does not change this supplement.
 
 ## Deferred Boundary
 
-Units 9–10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress in this iteration. Review units 1–8 manually for English, Traditional Chinese, phonetics, difficulty, and actual learning flow before deciding on the next bounded addition. Unit 8's explicit authorization does not promote any pilot to production or unlock B1.
+Unit 10 must not receive formal lesson IDs, occurrence IDs, CSV rows, exercise JSON, or learner progress in this iteration. Review units 1–9 manually for English, Traditional Chinese, phonetics, difficulty, and actual learning flow before deciding on the next bounded addition. Unit 9's authorization does not promote any pilot to production or unlock B1.

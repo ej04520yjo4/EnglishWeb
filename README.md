@@ -2,7 +2,7 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 8 單元、32 課、195 個出現位置；第七單元試行「經驗與生活改變」，第八單元試行「問題與簡單解決方式」。A2 所有內容仍待人工複核，試行完成不等於正式通過程度。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 9 單元、36 課、225 個出現位置；第九單元新增「社交、邀請與回應」，練習邀請吃晚餐、接受、婉拒及改約。A2 所有內容仍待人工複核，試行完成不等於正式通過程度。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。
 
 ## 主要功能
 
@@ -104,7 +104,8 @@ npx tsc --noEmit --incremental false
 - `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
 - `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
 - `docs/b1-b2-curriculum-overview.md`：B1／B2 規模、單元與人工 QA 邊界。
-- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–8 已有試行資料，單元 9–10 仍只保留規劃。
+- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–9 已有試行資料，單元 10 仍只保留規劃。
+- `docs/a2-unit9-pilot-qa.md`：第九單元的四課、八題換字、六句對話、四題理解與驗證紀錄；英文、繁中與 KK／IPA 仍待人工複核。
 - `docs/a2-unit7-pilot-qa.md`：第七單元內容、先備字彙、驗證證據與待人工複核事項。正常模式需通過第六單元測驗；QA 試行開關不會偽造課程通過。
 - `docs/a2-unit8-pilot-qa.md`：第八單元核心句、語塊、換字、短文、閱讀理解與待人工複核事項。正常模式需通過第七單元測驗；QA 試行開關不會偽造課程通過。
 - `public/data/conversation-practice-v1.json`：獨立的文字對話試行來源，不是正式 A2 課程資料。

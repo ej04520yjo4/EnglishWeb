@@ -38,14 +38,15 @@ This file stores long-lived product facts and working preferences. Current task 
 - Related-vocabulary topics use `public/data/vocabulary-groups-v1.json`; missing non-course words use `public/data/reference-vocabulary-v1.json`.
 - Related-vocabulary version 1 contains days of the week, times of day, months, and family members.
 - Months and family members are the second trial batch and still require user review; new gaps remain reference-only until reviewed.
-- A2 pilot source `public/data/a2-course-v1.csv` contains 8 units, 32 lessons, and 195 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
-- A2 units 2–8 cover travel/transportation, shopping/comparison, health/advice, work/appointment arrangements, household chores, experiences/life changes, and problems/simple solutions. All remain `pilot_review_required`; Unit 8 is a bounded trial and is not human-approved production content.
+- A2 pilot source `public/data/a2-course-v1.csv` contains 9 units, 36 lessons, and 225 occurrences; unit 1 remains the original 4 lessons and 25 occurrences.
+- A2 units 2–9 cover travel/transportation, shopping/comparison, health/advice, work/appointment arrangements, household chores, experiences/life changes, problems/simple solutions, and social invitations/responses. All remain `pilot_review_required`, not human-approved production content.
+- Unit 9 adds 30 one-word occurrences (8/8/8/6), four patterns, eight transfers, four recognitions/four responses, six dialogue sentences, and four questions. New canonical lexeme counts are 0/1/2/1; `have dinner` is eating, `would love to` expresses willingness, and `instead` replaces an earlier arrangement. Phonetics remain candidates and audio pending.
 - Unit 8 has 27 word occurrences (6/8/5/8), four patterns, eight transfers, a five-sentence passage, and four comprehension questions. Its answer `tired` uses canonical `tire` with adjective context and a fatigue sense separate from the noun `tire`; its pinned CMUdict pronunciation and audio remain pending review.
 - B1 pilot source `public/data/b1-course-v1.csv` contains 8 units, 32 lessons, and 249 occurrences.
 - B2 pilot source `public/data/b2-course-v1.csv` contains 8 units, 32 lessons, and 298 occurrences.
 - B1 and B2 each include 32 recognition exercises, 64 transfer examples, 32 text responses, 8 four-sentence passages, and 32 comprehension questions.
 - B1/B2 source data remains structurally validated and `pilot_review_required`, but both catalog entries are `disabled`; startup, selectors, and advanced preview must not load them.
-- `docs/a2-curriculum-blueprint.md` reserves ten A2 units; units 1–8 now have bounded pilot CSV/JSON data, while units 9–10 remain blueprint-only with no formal CSV/JSON data.
+- `docs/a2-curriculum-blueprint.md` reserves ten A2 units; units 1–9 now have bounded pilot CSV/JSON data, while unit 10 remains blueprint-only with no formal CSV/JSON data.
 - Finishing current A2 pilot content must never mark the complete A2 level passed or unlock B1.
 - Progress schema v6 stores course levels separately and adds global A1/A2 `vocabularyProgress`; old v3/v4/v5 data migrates without inventing mastery.
 - The A1/A2 vocabulary goal is 3000 cumulative canonical lexemes: 1500 active and 1500 receptive. A1's cumulative subgoal is 1200: 700 active and 500 receptive.

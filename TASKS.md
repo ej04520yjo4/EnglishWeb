@@ -4,6 +4,10 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Now - P0
 
+- [x] **A2-U09-001:** Add the bounded social/invitation unit: four lessons, 30 occurrences, eight transfers, recognition/response, six dialogue sentences, and four comprehension questions; retain one-word answers and pending QA.
+- [ ] **A2-U09-QA:** Try all four lessons and rescheduling dialogue on Windows and a real phone. Review natural English/Taiwan Chinese, invitation versus acceptance, refusal reason, `instead`, new lexeme difficulty, and KK/IPA candidates.
+- [ ] **A2-U09-NEXT:** Decide on Unit 10 only after recording learner feedback; no automatic expansion, main merge, or deployment.
+
 - [x] **A2-U08-PUSH:** Isolate Unit 8 for the 2026-10-29 user-requested feature-branch push, retaining all original dirty files and excluding backup-recovery code. Main merge and further curriculum expansion are separate actions.
 - [x] **A2-U07-001:** Implemented the bounded experiences/life-changes pilot: four lessons, word/chunk layering, eight transfers, recognition/response, passage/comprehension. The combined 291-unit/264-browser result is historical and included separate backup-recovery work; focused clean checks are recorded separately.
 - [ ] **A2-U07-QA:** Try all four lessons and the passage on Windows/phone; review English/Taiwan Chinese, present-perfect scaffolding, `been` versus `be`, new lexemes, and KK/IPA alongside the Unit 8 review.
@@ -40,13 +44,13 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
-- [ ] **A2-QA-001:** Manually review all 32 A2 pilot lessons.
-  - Preserve units 1–7 and check the bounded problem/solution unit 8 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
+- [ ] **A2-QA-001:** Manually review all 36 A2 pilot lessons.
+  - Preserve units 1–8 and check the bounded social-invitation unit 9 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
   - Accept only after findings and corrections are recorded.
-- [ ] **A2-QA-003:** Try the 28 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
-- [ ] **A2-QA-004:** Check that every unit 2–8 new lexeme is appropriate for A2 and repeated naturally.
-- [ ] **A2-QA-005:** Review comparative, transportation, health, appointment, household, experience, and problem/solution hints for sufficient clarity.
-- [ ] **A2-QA-006:** Review all seven post-unit-1 passages for natural continuity and supported answers.
+- [ ] **A2-QA-003:** Try the 32 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
+- [ ] **A2-QA-004:** Check that every unit 2–9 new lexeme is appropriate for A2 and repeated naturally.
+- [ ] **A2-QA-005:** Review comparative, transportation, health, appointment, household, experience, problem/solution, and invitation/acceptance/refusal hints for sufficient clarity.
+- [ ] **A2-QA-006:** Review all eight post-unit-1 passages for natural continuity and supported answers.
 - [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
 - [ ] **M11-CONVERSATION-TRIAL-001:** Try the bounded everyday conversation supplement; the later user-authorized unit 7 pilot does not count as completing this learner review.
   - [ ] Complete a Windows Chrome desktop and 375-pixel mobile trial of all four scenarios and record navigation, focus, reload, and date-boundary findings.
@@ -56,7 +60,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 
 ## Next - P1
 
-- [ ] **E2E-ACTUAL-PORT-001:** Make the browser harness fail clearly or use Vinext's confirmed local URL when 4173 is unavailable; this turn verified the unchanged viewport/test suite with an ignored 4174 override instead of claiming the fixed-port wrapper succeeded.
+- [ ] **E2E-ACTUAL-PORT-001:** Make the browser harness fail clearly or use Vinext's confirmed local URL when 4173 is unavailable. Earlier Unit 7/8 runs needed an ignored 4174 override. The Unit 9 run succeeds on the unchanged standard wrapper when 4173 is available; that does not fix the occupied-port case.
 
 - [x] **LEARNING-LOOP-001:** Add a deterministic daily learning plan and evidence-backed weakness center without changing schema v6 or CEFR unlock rules.
 - [x] **LEARNING-LOOP-002:** Turn the daily plan into a resumable review → lesson → weakness → summary session and add direct evidence-backed weakness practice.
@@ -83,7 +87,7 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
 - [x] **A2-PLAN-004:** Add the bounded unit 6 household pilot after the unit 5 review track; keep it `pilot_review_required` and separate from production approval.
-- [x] **A2-PLAN-005:** The 2026-10-27 request authorized bounded pilots through unit 8, not retrospective learner/language approval. Keep units 9–10 blueprint-only and revisit expansion only after user trial.
+- [x] **A2-PLAN-005:** Bounded pilot authorizations now extend through unit 9 (ADR-055), not retrospective learner/language approval. Keep unit 10 blueprint-only and revisit expansion after user trial.
 - [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [x] **A1-EX-003:** Integrate the third pattern batch for explicitly pending-review trial.

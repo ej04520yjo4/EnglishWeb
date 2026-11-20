@@ -491,3 +491,13 @@ For lexical identity, store the answer form `tired` with canonical `lexeme_id`/`
 **Reason:** A bounded, sequential pilot makes cause/result and advice language reviewable without bulk-generating A2 or claiming human English, Taiwan Chinese, CEFR, phonetic, or audio approval. The existing Unit 7 publication remains separately reviewable; no local backup-recovery changes are included.
 
 ADR-052 remains reserved for the local backup-recovery work; the numbering gap is intentional and does not indicate a missing Unit 8 decision.
+
+## ADR-055 - Unit 9 Extends the Social Invitation Route Only
+
+**Status:** Accepted, 2026-11-20
+
+**Decision:** The user's request to continue the next courses authorizes one bounded A2 unit 9,「社交、邀請與回應」, after the published Unit 8 feature branch. Reuse the existing CSV/JSON generators, one-word answers, whole-chunk explanations, ordered-slot transfers, passage prerequisites, local progress, and sequential unit-unlock rules. Keep A1 and A2 units 1–8 unchanged. Do not generate unit 10 or enable B1/B2.
+
+All new content remains `pilot_review_required` and audio remains `pending`. The user has authorized further implementation, not retrospective human language, phonetic, CEFR, or learner approval. Normal access still requires A1 and the preceding A2 unit; QA preview never writes pass records.
+
+**Reason:** Invitation, acceptance, polite refusal, and an alternative arrangement extend the user's practical-conversation goal in a small reviewable batch. Work stays on `codex/a2-social-invitations-unit9` based on Unit 8 `a3348e7`; the dirty original checkout, backup recovery, and separate `codex/review-fixes` work remain untouched. This continuation does not authorize merging or deploying those branches.

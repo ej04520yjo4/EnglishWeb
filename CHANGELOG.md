@@ -2,6 +2,13 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-20 - A2 Social Invitations and Responses Pilot
+
+- Added only A2 unit 9「社交、邀請與回應」: four lessons, 30 one-word occurrences, eight transfers, four recognitions/four responses, a six-sentence rescheduling exchange, and four evidence-backed questions. A2 is now 9 / 36 / 225; A1 remains 8 / 32 / 145.
+- Added four canonical lexemes across small 0/1/2/1 lesson steps; whole-chunk explanations distinguish eating dinner, enthusiastic acceptance, and polite refusal without changing the data model or UI.
+- Added unit 9 desktop/mobile regression coverage and protected unit 8 object hashes. Existing progress, unlocks, A1, units 1–8, reference topics, and the 3000-target collection are preserved.
+- All new English, Taiwan Chinese, CEFR and KK/IPA content remains `pilot_review_required`; audio remains `pending`. No unit 10, B-level activation, main merge, or deployment.
+
 ## 2026-10-29 - Scoped Unit 8 Publication Preparation
 
 - Isolated the completed Unit 8 curriculum, final regression tests, and context for the requested feature-branch push. Preserved all 30 uncommitted files in the active checkout; excluded the earlier backup-recovery feature.

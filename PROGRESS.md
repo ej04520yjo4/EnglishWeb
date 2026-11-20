@@ -2,29 +2,30 @@
 
 ## Snapshot
 
-- Updated: 2026-10-29
-- Branch: `codex/a2-problems-solutions-unit8`, based on main `8556936`. This worktree isolates the user-requested unit 8 feature-branch push; no main merge or deployment is included.
+- Updated: 2026-11-20
+- Branch: `codex/a2-social-invitations-unit9`, based on published Unit 8 feature commit `a3348e7`. Before the requested feature-branch push, the remote `main` was verified at `8556936`. Publication is limited to the Unit 9 branch; it does not include a merge or deployment.
 - Unit 7 PR #18 ([merged review](https://github.com/ej04520yjo4/EnglishWeb/pull/18)) is merged into `main` at `855693667b75fe4b815614eb09f3a7e0e06dec9b`; GitHub CI reported 284 unit tests and 254 browser cases passed. No human approval is claimed for Unit 8.
 - PR #14 merged the sentence applications and KK candidates normally on 2026-10-16 after both protected checks passed (run `38767664811`) and an independent scoped review found no blocker. No bypass or deployment was used.
-- Push checkout: `D:\Codex\Tools\EnglishWeb\a2-unit8-development`. All 30 uncommitted files in `english-learning-app` remain untouched, with byte copies in `backups\before-unit8-push-20261029\active`. Its seven pre-existing backup implementation/test/package files and eight mixed documentation changes are excluded from this scoped publication. The isolated pre-push edits are also backed up separately.
+- Development checkout: `D:\Codex\Tools\EnglishWeb\a2-unit8-development` (directory name retained). All 30 pre-existing dirty files in `english-learning-app` remain byte-for-byte unchanged; before/after lists and SHA-256 hashes match. The separate `codex/review-fixes` worktree at `e4701d7` is also unmerged and untouched. Use this development checkout's launcher to try Unit 9; the original launcher has not been redirected.
 - The C-drive checkout remains at the preceding published main. This follow-up does not overwrite another checkout or the saved D-drive working copy.
 - The original D-drive branch and all 20 unstaged tracked files are preserved in `D:\Codex\Tools\EnglishWeb\EnglishWeb-preserved-20261016`, still uncommitted on `codex/a1-pattern-batch-3` at `816c2cf`. All 20 file hashes match the pre-sync byte copies in `backups\pre-speech-sync-20261016`; a binary patch and retained stash `8b1e56de8d799dda92f1c332a5a64b3d149e1aef` provide additional recovery. These older alternatives must not overwrite the newer integrated main wholesale.
 - Integration: [PR #13](https://github.com/ej04520yjo4/EnglishWeb/pull/13) merged on 2026-10-15 at `7bf6e03`, including the earlier contrast and recognition changes. No administrator bypass, forced push, branch deletion or deployment was used.
-- Active milestone: M15 - A2 Problems and Simple Solutions Pilot. M13 learner/device, language, and phonetic trials remain open; curriculum expansion does not certify them.
+- M16 implementation and automated acceptance complete. Next active track: M4 A2 pilot learner/language review. Earlier device and phonetic trials remain open; curriculum expansion does not certify them.
 - Runtime levels: A1 production and A2 pilot
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
-- A2: 8 units, 32 lessons, 195 occurrences
-- Protected source status: A1 remains unchanged; A2 units 1–7 retain row and exercise-object hash locks. Unit 8 adds 27 occurrences and remains `pilot_review_required`.
+- A2: 9 units, 36 lessons, 225 occurrences
+- Protected source status: A1 remains unchanged; A2 units 1–8 retain row and exercise-object hash locks. Unit 9 adds 30 occurrences and remains `pilot_review_required`.
+- Unit 9 adds invitation, enthusiastic acceptance, polite refusal with a reason, and proposing another day: four core lessons (8/8/8/6 words), eight transfers, four recognitions/four responses, six dialogue sentences, and four comprehension questions. New lexeme counts are 0/1/2/1 (`love`, `sorry`, `but`, `instead`); phonetics are pinned candidates, not human-approved. Details: `docs/a2-unit9-pilot-qa.md`.
 - Unit 7 includes four core lessons, eight transfers, four recognitions/four responses, and a six-sentence passage with four comprehension questions. Unit 8 adds four core lessons (6/8/5/8 words), eight transfers, four recognitions/four responses, a five-sentence passage, and four comprehension questions. Unit 8 per-lesson new lexeme counts are 1/2/1/1; the answer form `tired` uses canonical lexeme `tire` with an adjective context and a separate fatigue sense. Details: `docs/a2-unit7-pilot-qa.md` and `docs/a2-unit8-pilot-qa.md`.
 - Progress schema: v6 with top-level global `vocabularyProgress`
 
 ## Vocabulary Baseline
 
 - A1: 145 occurrences, 69 word forms, 75 senses, 15 chunks, 68 canonical lexemes.
-- A2: 195 occurrences, 96 word forms, 145 senses, 52 chunks, 91 canonical lexemes.
-- A1＋A2 union: 130 canonical lexemes (128 excluding proper names); overlap: 29. Unit 8 adds the problem/reason/advice vocabulary while preserving canonical identity; `tired` is a form of `tire`, not a second target.
+- A2: 225 occurrences, 100 word forms, 158 senses, 56 chunks, 95 canonical lexemes.
+- A1＋A2 union: 134 canonical lexemes (132 excluding proper names); overlap: 29. Unit 9 reuses existing 3000-target identities; no new target entry is needed. `have dinner` and `would love to` are taught as whole meanings while every answer stays one word.
 - Reference-only unique lexemes relative to current formal rows: 23. Protected target metadata still records the original 24 reference targets, not an automatic source reclassification.
 - Protected v1 baseline: 132 entries; 108 active candidates and 24 receptive candidates, unchanged.
 - Runtime v2 catalog: 3000 canonical entries, 1500 active / 1500 receptive candidates. A1-stage 1200 (700/500), A2-stage 1800 (800/1000), 60 pages of 50.
@@ -141,7 +142,7 @@
 - The target catalog and applications each contain 3000 words, but neither full collection has received human semantic/phonetic/CEFR approval. Guided applications compare one reference sentence, not all valid translations or free writing. A candidate's other words/grammar are not certified as previously taught formal prerequisites.
 - KK/IPA conversion is not an authoritative dictionary transcription. 559 words retain multiple unselected pronunciations; syllabification/stress are candidates. Original related-word phonetics and symbol audio still need separate review.
 - The original 126-entry content-metadata pass is complete, but the six new unit 5 targets still need equivalent review. All 108 curriculum targets need license evidence; 24 reference-only entries still need an external lexical source and user language/phonetic review. The progress-page note correctly keeps the baseline待審.
-- A2 units 1–8 remain pilot content; units 9–10 are blueprint-only. Unit 8 English, Taiwan Chinese, KK/IPA, scaffolding and CEFR placement remain pending manual QA. `tired` pronunciation uses a pinned CMUdict candidate but audio remains pending; this is not a human phonetic approval.
+- A2 units 1–9 remain pilot content; unit 10 is blueprint-only. Unit 9 English, Taiwan Chinese, KK/IPA, scaffolding and CEFR placement remain pending manual QA, as do prior units. New phonetics use pinned CMUdict candidates and audio remains pending; this is not human phonetic approval.
 - Original A1 and protected A2 unit 1 passage data retain a legacy exception for absent option/prerequisite metadata. Their unannotated options do not receive the newer complete prerequisite check; this is not a claim of automatic language approval.
 - All 27 related-vocabulary reference records still need phonetic/content review. Current A1/A2 deduplication leaves 23 reference-only lexemes after Saturday enters unit 6; protected target-source metadata remains unchanged.
 - B1/B2 remain disabled: known machine-detectable defects were repaired, but English/Taiwan Chinese naturalness, passage coherence, phonetics, distractor quality, and CEFR placement still require human review. The repair does not certify all content as error-free.
@@ -150,9 +151,21 @@
 
 ## Next Concrete Step
 
-Try A2 units 7–8 on Windows/mobile, starting with the four Unit 8 lessons, the five-sentence rebuild, and its four comprehension questions. Record English/Taiwan Chinese, difficulty, and KK/IPA feedback before deciding whether any further unit is warranted. Do not generate unit 9 or 10 automatically. Also retain the focused-review device and real-microphone trials from M13; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
+Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled. A feature-branch push does not authorize merging `main`.
 
 ## Verification
+
+### A2 unit 9 continuation (2026-11-20)
+
+- Before changes: `npm run verify` exited 0; all 12 gates, 288 unit tests, 0 failed/skipped. Log: `tmp/unit9-baseline-verify-20261120.log`.
+- Both generators and `npm run validate:curriculum` exited 0. Focused A2 unit tests: 42 passed, 0 failed/skipped; protect all old units and new prerequisites, slots, IDs, one-word answers, dialogue evidence, and pending audio.
+- Final `npm run verify`: exit 0; all 12 gates, 293 unit tests passed, 0 failed/skipped; build, lint and `tsc --noEmit --incremental false` passed. Log: `tmp/unit9-final-verify.log`. No dependency changes or `npm ci` this turn.
+- Generator replay: exit 0, all three output hashes identical. Final focused data/protection rerun: exit 0, 61 passed, 0 failed/skipped.
+- Unit 9 focused browser run: exit 0, 8 passed (4 desktop / 4 mobile), 29.3 seconds. The initial sandbox attempt exited 1 on localhost EACCES before tests; authorized standard-wrapper execution succeeded without a temporary port override.
+- Windows launcher checks: exit 0, all seven scenarios passed. Independent test-browser screenshots confirmed the new map/detail copy and KK fit the existing desktop/mobile layouts; no real-phone or human phonetic approval is claimed.
+- The first full browser run reported 270 passed (135 per viewport), 8.4 minutes, in `tmp/unit9-full-e2e.log`; its completed tool session was no longer available to retrieve the process exit code. Final repeat `npm run test:e2e -- --workers=4`: verified exit 0, 270 passed (135 desktop 1440×900 / 135 mobile 375×812), 0 failed/skipped, 6.4 minutes. Log: `tmp/unit9-final-e2e.log`; standard wrapper, no alternate config/port. Final lint rerun also exited 0.
+- All 24 changed/new files are scoped to Unit 9 data, generators, regression counts/tests, and context. A1, dependencies, `app/page.tsx`, schemas, the 3000-target collection and original 30 dirty files remain unchanged. The subsequent user request authorizes committing and pushing this isolated branch only. Trial launcher and complete handoff: `docs/a2-unit9-pilot-qa.md`.
+- Before feature-branch publication, `npm run verify` was rerun: exit 0, all 12 gates, 293 unit tests passed, 0 failed/skipped (`tmp/unit9-push-verify.log`). The prior 270-case browser result applies to the same code/data; the publication follow-up changes documentation only.
 
 ### A2 unit 7 continuation (2026-10-27)
 
