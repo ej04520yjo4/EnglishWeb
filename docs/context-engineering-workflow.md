@@ -49,8 +49,8 @@ flowchart LR
 
 ## 文件責任邊界
 
-- `PROGRESS.md` 只寫已驗證狀態，不寫未完成的期待。
-- `TASKS.md` 只保留目前優先工作，不累積歷史日誌。
+- `PROGRESS.md` 只寫已驗證狀態，不寫未完成的期待；較早的完成紀錄與驗證歷程移到 `docs/archive/`，不需每次閱讀。
+- `TASKS.md` 只保留目前優先工作，不累積歷史日誌；完成的任務移到 `docs/archive/completed-tasks.md`。
 - `DECISIONS.md` 記錄「為什麼」，不能只寫結果。
 - `MEMORY.md` 保存長期有效事實，不保存本次操作細節。
 - `CHANGELOG.md` 面向使用者與貢獻者，不複製 Git diff。

@@ -111,7 +111,7 @@ test("defers the large vocabulary library request until its screen is opened", a
 }) => {
   const libraryRequests: string[] = [];
   page.on("request", (request) => {
-    if (request.url().endsWith("/data/vocabulary-library-v1.json")) {
+    if (request.url().endsWith("/data/packed/vocabulary-library-v1.json")) {
       libraryRequests.push(request.url());
     }
   });
@@ -327,7 +327,7 @@ test("spelling definitions mask a real answer-containing definition", async ({
 test("keeps the library usable when its target data fails to load", async ({
   page,
 }) => {
-  await page.route("**/data/vocabulary-targets-v2.json", async (route) => {
+  await page.route("**/data/packed/vocabulary-targets-v2.json", async (route) => {
     await route.fulfill({
       status: 503,
       contentType: "application/json",

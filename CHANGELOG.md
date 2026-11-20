@@ -2,12 +2,25 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-20 - Pending PR Consolidation
+
+- Integrate the review fixes with the pinned `actions/setup-node` 7.1.0 and `actions/upload-artifact` 7.0.2 updates. Keep the newer application dependencies from the review fixes rather than reapplying older automated updates.
+- Retain the Node 22 runtime and matching declarations. No course data or progress format changes in this consolidation.
+
 ## 2026-11-20 - A2 Social Invitations and Responses Pilot
 
 - Added only A2 unit 9「社交、邀請與回應」: four lessons, 30 one-word occurrences, eight transfers, four recognitions/four responses, a six-sentence rescheduling exchange, and four evidence-backed questions. A2 is now 9 / 36 / 225; A1 remains 8 / 32 / 145.
 - Added four canonical lexemes across small 0/1/2/1 lesson steps; whole-chunk explanations distinguish eating dinner, enthusiastic acceptance, and polite refusal without changing the data model or UI.
 - Added unit 9 desktop/mobile regression coverage and protected unit 8 object hashes. Existing progress, unlocks, A1, units 1–8, reference topics, and the 3000-target collection are preserved.
 - All new English, Taiwan Chinese, CEFR and KK/IPA content remains `pilot_review_required`; audio remains `pending`. No unit 10, B-level activation, main merge, or deployment.
+
+## 2026-11-09 - Resilience, Performance, and Phone Layout Fixes
+
+- Storage problems no longer blank the site: a full or blocked browser storage shows a warning, keeps the current session usable, and the top bar shows 「本機進度未能儲存」. Unexpected errors show a recoverable error screen.
+- The home page loads about 1.2 MB of vocabulary targets instead of 4.9 MB, and the 3000-word screen about 3.9 MB instead of 9.5 MB, through lossless packed copies. The social preview image dropped from 1.8 MB to 64 KB.
+- Phones show the navigation as one swipeable row, keep the home page at the top on load, and hide keyboard-only `Enter` badges. The lesson intro no longer shows an internal file name. The site has a brand favicon.
+- Upgraded Next, React, Vinext, Vite, Wrangler, and related tooling; npm audit high/critical advisories went from 19 to 0 (12 moderate remain in dev and social-image tooling).
+- Contributors: screens moved from `app/page.tsx` into `app/screens/`; storage goes through `app/browser-storage.ts`; run `npm run build:packed-vocabulary` after regenerating vocabulary files. History moved to `docs/archive/`.
 
 ## 2026-10-29 - Scoped Unit 8 Publication Preparation
 

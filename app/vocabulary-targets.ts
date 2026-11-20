@@ -1,4 +1,5 @@
 import type { CourseCsvRow, CefrLevel } from "./curriculum/types.ts";
+import { unpackJson } from "./packed-json.ts";
 
 export type VocabularyMasteryTarget = "active" | "receptive";
 export type VocabularyTargetLevel = Extract<CefrLevel, "A1" | "A2">;
@@ -91,7 +92,7 @@ export type VocabularyCoverageReport = {
 };
 
 /** The only runtime target catalog.  The v1 file remains a protected fixture. */
-export const VOCABULARY_TARGETS_URL = "/data/vocabulary-targets-v2.json";
+export const VOCABULARY_TARGETS_URL = "/data/packed/vocabulary-targets-v2.json";
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -345,12 +346,12 @@ export const loadVocabularyTargets = async (
   fetcher: typeof fetch = fetch,
 ): Promise<VocabularyTargetsData> => {
   const response = await fetcher(VOCABULARY_TARGETS_URL, {
-    cache: "no-store",
+    cache: "no-cache",
   });
   if (!response.ok) {
     throw new Error(`詞彙目標資料載入失敗（${response.status}）。`);
   }
-  const data = parseVocabularyTargets(await response.json());
+  const data = parseVocabularyTargets(unpackJson(await response.json()));
   if (data.schemaVersion !== 2) {
     throw new Error("runtime 詞彙目標資料必須使用 schemaVersion 2。");
   }

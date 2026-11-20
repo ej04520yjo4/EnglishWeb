@@ -201,7 +201,7 @@ test("loads only the v2 runtime target URL without silently falling back to v1",
       headers: { "content-type": "application/json" },
     });
   });
-  assert.deepEqual(requested, ["/data/vocabulary-targets-v2.json"]);
+  assert.deepEqual(requested, ["/data/packed/vocabulary-targets-v2.json"]);
   assert.equal(loaded.schemaVersion, 2);
   await assert.rejects(
     () =>
@@ -218,7 +218,7 @@ test("loads only the v2 runtime target URL without silently falling back to v1",
       }),
     /載入失敗/,
   );
-  assert.equal(requested.at(-1), "/data/vocabulary-targets-v2.json");
+  assert.equal(requested.at(-1), "/data/packed/vocabulary-targets-v2.json");
 });
 
 test("validates an exact library-to-target join and rejects source tampering", () => {

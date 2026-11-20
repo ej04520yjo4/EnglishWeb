@@ -18,6 +18,8 @@ Do not rely on chat history as project memory. Before making changes, read these
 6. Relevant sections of `MEMORY.md` and `ARCHITECTURE.md`.
 7. `CHANGELOG.md` when the requested work may overlap recent changes.
 
+`docs/archive/` holds earlier completed work, verification runs, and completed tasks. It is not required reading; open it only when a task needs that history.
+
 The complete handoff process and new-thread prompt are in `docs/context-engineering-workflow.md`.
 
 ## Work Cycle
@@ -37,7 +39,10 @@ Start a fresh conversation after a milestone is completed or when the work chang
 
 ## Project Structure
 
-- `app/page.tsx`: client UI and learning-stage orchestration.
+- `app/page.tsx`: client state, persistence wiring, and learning-stage orchestration.
+- `app/screens/`: one render component per screen; keep learning rules and state in `page.tsx` or pure modules.
+- `app/home-model.ts`, `app/home-widgets.tsx`: shared shell types, storage keys, settings, and helpers.
+- `app/browser-storage.ts`: the only way the shell touches localStorage; never call `localStorage` directly from the shell.
 - `app/a1-mvp-data.ts`: official A1 CSV parsing, validation, checksums, storage, and course construction.
 - `app/a1-exercises.ts`: reviewed exercise schemas, validation, coverage, and answer checks.
 - `app/learning-progress.ts`: progress history and review scheduling.
@@ -50,6 +55,7 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `public/data/vocabulary-library-v1.json`: pending-review bilingual meanings and practice source; reproduce with `npm run build:vocabulary`.
 - `public/data/vocabulary-applications-v1.json`: independent sentence practice from 60 editable original-content batches; never infer formal course completion.
 - `public/data/vocabulary-phonetics-v1.json`: pinned CMUdict-derived KK/IPA candidates; preserve all variants and pending human review, not audio-ready claims.
+- `public/data/packed/`: generated lossless browser copies of the four large vocabulary files. Never edit them by hand; run `npm run build:packed-vocabulary` after regenerating any canonical vocabulary file.
 - `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: versioned practice additions; enabled trial entries retain their pending-review status.
 - `tests/`: unit, rendered-content, and Playwright coverage.

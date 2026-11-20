@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
+import { readAppShellSource } from "./helpers/app-source.mjs";
 import {
   buildCourseUnitsFromRows,
   checksumA1CourseSource,
@@ -302,10 +303,7 @@ test("rejects an answer-only content draft before it can replace course rows", a
 });
 
 test("uses the same text-first base flow and removes dictation from every lesson", async () => {
-  const page = await readFile(
-    new URL("../app/page.tsx", import.meta.url),
-    "utf8",
-  );
+  const page = await readAppShellSource();
   const lessons = flattenCourseLessons(
     buildCourseUnitsFromRows(await loadRows()),
   );
@@ -690,10 +688,7 @@ test("checks pattern-transfer answers while allowing punctuation normalization",
 });
 
 test("uses the actual transfer pattern name on the result page", async () => {
-  const page = await readFile(
-    new URL("../app/page.tsx", import.meta.url),
-    "utf8",
-  );
+  const page = await readAppShellSource();
 
   assert.match(
     page,

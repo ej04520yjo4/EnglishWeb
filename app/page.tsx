@@ -1,13 +1,14 @@
 "use client";
 
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  alphabet,
-  CourseUnit,
-  LearningToken,
-  Lesson,
-} from "./course-data";
-import { advancedCoursePlans } from "./course-roadmap";
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { CourseUnit, LearningToken, Lesson } from "./course-data";
 import {
   A1CourseCsvRow,
   A1_V3_HEADERS,
@@ -25,25 +26,16 @@ import {
 import {
   recordLearningEntityAttempt,
   recordLearningEntityCompletion,
-  ReviewFamiliarity,
-  ReviewScheduleItem,
   reviewIntervalForToken,
   rescheduleCompletedReview,
   scheduleTokenReview,
   TokenLearningProgressMap,
   updateTokenLearningProgress,
 } from "./learning-progress";
-import {
-  evaluateRebuildAttempt,
-  RebuildStatus,
-} from "./rebuild-flow";
-import {
-  recallIncorrectFeedback,
-  resolveCrossInputNavigation,
-} from "./input-flow";
-import { KkPhoneticEntry, kkPhoneticGroups } from "./kk-phonetics";
+import { evaluateRebuildAttempt, RebuildStatus } from "./rebuild-flow";
+import { recallIncorrectFeedback } from "./input-flow";
+import { KkPhoneticEntry } from "./kk-phonetics";
 import { wordAccuracy } from "./assessment-scoring";
-import { normalizeSentenceForComparison } from "./curriculum/sentence-words";
 import {
   canStartPassageRebuild,
   evaluatePassageRebuild,
@@ -74,11 +66,7 @@ import {
   isLevelFormallyUnlocked,
   migrateProgressToV6,
   updateSelectedLevelProgress,
-  type LevelLearningProgress,
   type MultiLevelProgress,
-  type PassageLearningStats,
-  type PatternLearningStats,
-  type SentenceLearningStats,
 } from "./curriculum/progress";
 import {
   catalogEntryForLevel,
@@ -108,22 +96,15 @@ import {
   canShowVocabularyShortcut,
   createVocabularyCourseReturnContext,
   loadVocabularyDataset,
-  type ResolvedVocabularyGroup,
   type ResolvedVocabularyItem,
   type VocabularyCourseReturnContext,
   type VocabularyDataset,
-  type VocabularyLearningStatus,
   type VocabularyStatusFilter,
-  resolveVocabularyGroupSelection,
   vocabularyGroupForLexeme,
-  vocabularyItemMatchesSearch,
-  vocabularyLearningState,
-  vocabularyStatusMatchesFilter,
   withVocabularySearchAliases,
 } from "./vocabulary-groups";
 import {
   buildVocabularyTargetAliasIndex,
-  buildVocabularyCoverageReport,
   canonicalizeLexemeId,
   loadVocabularyTargets,
   type VocabularyTargetsData,
@@ -131,14 +112,12 @@ import {
 import {
   canCreditApplicationCorrect,
   canCreditSpellingCorrect,
-  deriveVocabularyMasteryState,
   recordGlobalVocabularyEvidence,
   summarizeVocabularyProgress,
   type VocabularyEvidenceKind,
 } from "./vocabulary-progress.ts";
 import { buildVocabularyWeaknesses } from "./daily-learning.ts";
 import {
-  buildDailyRecognitionOptions,
   buildDailyReviewQueue,
   resolveDailyReviewSource,
   type DailyReviewQueueItem,
@@ -157,398 +136,82 @@ import {
   remainingDailyWeaknessLexemeIds,
   restoreDailySession,
   startDailyActiveSegment,
-  summarizeDailySession,
   updateDailyReviewItemProgress,
   type DailySessionState,
 } from "./daily-session.ts";
 import { localDateKey, studyDaysThisWeek } from "./local-date.ts";
 import {
-  buildReferenceRecognitionQueue,
   recordReferenceRecognitionResult,
   type ReferenceRecognitionQuestion,
 } from "./reference-vocabulary-practice.ts";
 import { ReferenceRecognitionPractice } from "./reference-recognition-practice";
 import {
-  buildVocabularyLibraryPracticeQuestion,
   loadVocabularyLibrary,
   recordVocabularyLibraryPracticeResult,
   type VocabularyLibraryData,
 } from "./vocabulary-library";
 import {
-  VocabularyLibraryPanel,
   type VocabularyLibraryEvidenceInput,
   type VocabularyLibraryEntry as VocabularyLibraryPanelEntry,
 } from "./vocabulary-library-panel";
-import { buildVocabularyApplicationQuestion, recordVocabularyApplicationResult } from "./vocabulary-application";
+import { recordVocabularyApplicationResult } from "./vocabulary-application";
 import { useVocabularySupplements } from "./use-vocabulary-supplements";
-import { ConversationPractice } from "./conversation-practice-panel";
+import {
+  readStorageItem,
+  removeStorageItem,
+  STORAGE_WRITE_FAILURE_MESSAGE,
+  writeStorageItem,
+} from "./browser-storage";
 
-type Screen =
-  | "home"
-  | "map"
-  | "alphabet"
-  | "phonetics"
-  | "vocabulary-library"
-  | "conversation"
-  | "related-vocabulary"
-  | "reference-recognition"
-  | "review"
-  | "weakness"
-  | "weakness-practice"
-  | "daily-summary"
-  | "progress"
-  | "admin"
-  | "settings"
-  | "learning"
-  | "assessment";
-type LearningStage =
-  | "intro"
-  | "recall"
-  | "detail"
-  | "rebuild"
-  | "reading-recognition"
-  | "pattern-transfer"
-  | "text-response"
-  | "passage-rebuild"
-  | "passage-comprehension"
-  | "result";
-type Familiarity = ReviewFamiliarity;
-type Assessment = {
-  kind: "unit" | "level";
-  title: string;
-  lessons: Lesson[];
-  index: number;
-  scores: number[];
-  checked: boolean;
-  lastScore: number;
-};
-
-type ReviewItem = ReviewScheduleItem;
-
-type WeaknessPracticeSource = {
-  occurrenceId: string;
-  lexemeId: string;
-  answer: string;
-  prompt: string;
-  lessonId: string;
-  sentenceId: string;
-  sentence: string;
-  translation: string;
-  level: CefrLevel;
-};
-
-const emptySentenceStats = (): SentenceLearningStats => ({
-  rebuildAttempts: 0,
-  recognitionAttempts: 0,
-  recognitionCorrect: 0,
-  elapsedSeconds: 0,
-});
-
-const emptyPatternStats = (): PatternLearningStats => ({
-  transferAttempts: 0,
-  transferCorrect: 0,
-  uniqueVariationsCompleted: [],
-  lastPracticedAt: "",
-  nextReviewAt: "",
-});
-
-const emptyPassageStats = (): PassageLearningStats => ({
-  rebuildAttempts: 0,
-  comprehensionAttempts: 0,
-  comprehensionCorrect: 0,
-  lastPracticedAt: "",
-});
-
-type ProgressState = LevelLearningProgress;
-
-type SettingsState = {
-  phonetic: "KK" | "IPA";
-  autoplay: boolean;
-  slowRate: number;
-  showAdvancedPilots: boolean;
-};
-
-const STORAGE = {
-  progress: "yingju-progress-v1",
-  settings: "yingju-settings-v1",
-  courseRows: "yingju-course-rows-v3",
-  a2CourseRows: "yingju-course-rows-a2-v1",
-  b1CourseRows: "yingju-course-rows-b1-v1",
-  b2CourseRows: "yingju-course-rows-b2-v1",
-  lastVocabularyGroup: "yingju-last-vocabulary-group-v1",
-  dailySession: "yingju-daily-session-v3",
-  legacyDailySessions: ["yingju-daily-session-v2", "yingju-daily-session-v1"],
-};
-
-const emptyRowsByLevel = (): Record<CefrLevel, CourseCsvRow[]> => ({
-  A1: [],
-  A2: [],
-  B1: [],
-  B2: [],
-});
-
-const emptyStringsByLevel = (): Record<CefrLevel, string> => ({
-  A1: "",
-  A2: "",
-  B1: "",
-  B2: "",
-});
-
-const emptyUnitsByLevel = (): Record<CefrLevel, CourseUnit[]> => ({
-  A1: [],
-  A2: [],
-  B1: [],
-  B2: [],
-});
-
-const emptyExercisesByLevel =
-  (): Record<CefrLevel, CourseExerciseData | null> => ({
-    A1: null,
-    A2: null,
-    B1: null,
-    B2: null,
-  });
-
-const emptyStatusesByLevel = (): Record<
-  CefrLevel,
-  "loading" | "ready" | "error"
-> => ({
-  A1: "loading",
-  A2: "loading",
-  B1: "loading",
-  B2: "loading",
-});
-
-const courseRowsStorageKey = (level: CefrLevel) => {
-  if (level === "A1") return STORAGE.courseRows;
-  if (level === "A2") return STORAGE.a2CourseRows;
-  if (level === "B1") return STORAGE.b1CourseRows;
-  return STORAGE.b2CourseRows;
-};
-
-const defaultSettings: SettingsState = {
-  phonetic: "KK",
-  autoplay: true,
-  slowRate: 0.85,
-  showAdvancedPilots: false,
-};
-
-const normalizeSettings = (value: unknown): SettingsState => {
-  const saved =
-    value && typeof value === "object"
-      ? (value as Partial<SettingsState> & { showA2Pilot?: boolean })
-      : {};
-  return {
-    phonetic: saved.phonetic === "IPA" ? "IPA" : "KK",
-    autoplay: saved.autoplay ?? defaultSettings.autoplay,
-    slowRate:
-      typeof saved.slowRate === "number"
-        ? saved.slowRate
-        : defaultSettings.slowRate,
-    showAdvancedPilots:
-      saved.showAdvancedPilots ?? saved.showA2Pilot ?? false,
-  };
-};
-
-const navItems: { screen: Screen; label: string; icon: string }[] = [
-  { screen: "home", label: "首頁", icon: "⌂" },
-  { screen: "map", label: "課程地圖", icon: "◉" },
-  { screen: "alphabet", label: "A–Z 基礎", icon: "Aa" },
-  { screen: "phonetics", label: "KK 音標", icon: "KK" },
-  { screen: "vocabulary-library", label: "3000 單字庫", icon: "▤" },
-  { screen: "conversation", label: "對話練習", icon: "☏" },
-  { screen: "related-vocabulary", label: "相關字詞", icon: "▦" },
-  { screen: "review", label: "待複習", icon: "↻" },
-  { screen: "weakness", label: "弱點中心", icon: "△" },
-  { screen: "progress", label: "學習進度", icon: "▥" },
-  { screen: "admin", label: "內容管理", icon: "≡" },
-];
-
-const vocabularyStatusLabels: Record<
-  VocabularyLearningStatus,
-  string
-> = {
-  current: "本課單字",
-  learned: "已學",
-  "review-due": "待複習",
-  "not-learned": "尚未正式學習",
-};
-
-const vocabularyFilters: {
-  id: VocabularyStatusFilter;
-  label: string;
-}[] = [
-  { id: "all", label: "全部" },
-  { id: "learned", label: "已學" },
-  { id: "not-learned", label: "尚未正式學習" },
-  { id: "review-due", label: "待複習" },
-];
-
-const clean = (value: string) =>
-  value
-    .trim()
-    .replace(/[’‘]/g, "'")
-    .replace(/\s+/g, " ")
-    .toLowerCase();
-
-const cleanSentence = normalizeSentenceForComparison;
-
-const dateKey = () => localDateKey();
-const timestamp = () => Date.now();
-
-const addDays = (days: number) => {
-  const value = new Date();
-  value.setDate(value.getDate() + days);
-  return value.toISOString();
-};
-
-const saveFile = (content: BlobPart, name: string, type: string) => {
-  const url = URL.createObjectURL(new Blob([content], { type }));
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = name;
-  anchor.click();
-  URL.revokeObjectURL(url);
-};
-
-const activateButtonOnEnter = (
-  event: KeyboardEvent<HTMLButtonElement>,
-  action: () => void,
-) => {
-  if (event.key !== "Enter") return;
-  event.preventDefault();
-  if (event.repeat) return;
-  action();
-};
-
-const moveAcrossInputs = (
-  event: KeyboardEvent<HTMLInputElement>,
-  previous: HTMLInputElement | null,
-  next: HTMLInputElement | null,
-) => {
-  const input = event.currentTarget;
-  const selectionStart = input.selectionStart ?? 0;
-  const selectionEnd = input.selectionEnd ?? selectionStart;
-  const target = resolveCrossInputNavigation({
-    key: event.key,
-    valueLength: input.value.length,
-    selectionStart,
-    selectionEnd,
-    hasPrevious: Boolean(previous),
-    hasNext: Boolean(next),
-  });
-  if (!target) return false;
-
-  event.preventDefault();
-  if (target === "next-start" && next) {
-    next.focus();
-    next.setSelectionRange(0, 0);
-    return true;
-  }
-  if (previous) {
-    previous.focus();
-    const end = previous.value.length;
-    previous.setSelectionRange(end, end);
-    return true;
-  }
-  return false;
-};
-
-const EMPTY_TOKEN: LearningToken = {
-  id: "",
-  tokenId: "",
-  occurrenceId: "",
-  answer: "",
-  prompt: "",
-  promptType: "meaning",
-  partOfSpeech: "",
-  dictionaryPos: "",
-  contextPos: "",
-  semanticRole: "",
-  lexemeId: "",
-  senseId: "",
-  kk: "",
-  ipa: "",
-  ipaStandalone: "",
-  ipaInSentence: "",
-  syllables: "",
-  stress: "",
-  lemma: "",
-  note: "",
-  patternId: "",
-  audioMethod: "",
-  audioStatus: "pending",
-  wordAudioSource: "",
-  audioSource: "",
-  license: "",
-  isNewWord: false,
-  isNewPattern: false,
-  isNewCombination: false,
-  isNewContent: false,
-  qaStatus: "",
-};
-
-const EMPTY_LESSON: Lesson = {
-  id: "",
-  number: 0,
-  title: "",
-  sentence: "",
-  translation: "",
-  grammar: "",
-  minutes: 0,
-  tokens: [EMPTY_TOKEN],
-  passageId: "",
-  passageOrder: 0,
-  sentenceId: "",
-  sentenceOrder: 0,
-  sentencePatternId: "",
-  patternName: "",
-  patternCefr: "",
-  isNewSentencePattern: false,
-  sentenceAudioSource: "",
-  audioStatus: "pending",
-  sourceVersion: OFFICIAL_A1_SOURCE_VERSION,
-};
-
-const EMPTY_UNIT: CourseUnit = {
-  id: "",
-  number: 0,
-  title: "",
-  description: "",
-  accent: "#f47b5b",
-  lessons: [],
-};
-
-function ProgressRing({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="progress-ring" style={{ "--progress": `${value * 3.6}deg` } as React.CSSProperties}>
-      <div>
-        <strong>{value}%</strong>
-        <span>{label}</span>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  note,
-  testId,
-}: {
-  label: string;
-  value: string | number;
-  note?: string;
-  testId?: string;
-}) {
-  return (
-    <article className="stat-card" data-testid={testId}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      {note && <small>{note}</small>}
-    </article>
-  );
-}
+import {
+  type Screen,
+  type LearningStage,
+  type Familiarity,
+  type Assessment,
+  type ReviewItem,
+  type WeaknessPracticeSource,
+  emptySentenceStats,
+  emptyPatternStats,
+  emptyPassageStats,
+  type ProgressState,
+  type SettingsState,
+  STORAGE,
+  emptyRowsByLevel,
+  emptyStringsByLevel,
+  emptyUnitsByLevel,
+  emptyExercisesByLevel,
+  emptyStatusesByLevel,
+  courseRowsStorageKey,
+  defaultSettings,
+  normalizeSettings,
+  navItems,
+  clean,
+  cleanSentence,
+  dateKey,
+  timestamp,
+  addDays,
+  saveFile,
+  EMPTY_TOKEN,
+  EMPTY_LESSON,
+  EMPTY_UNIT,
+} from "./home-model";
+import { ConversationScreen } from "./screens/conversation-screen";
+import { LearningScreen } from "./screens/learning-screen";
+import { HomeScreen } from "./screens/home-screen";
+import { RelatedVocabularyScreen } from "./screens/related-vocabulary-screen";
+import { WeaknessPracticeScreen } from "./screens/weakness-practice-screen";
+import { ReviewScreen } from "./screens/review-screen";
+import { CourseMapScreen } from "./screens/course-map-screen";
+import { LevelSelector } from "./screens/level-selector";
+import { VocabularyLibraryScreen } from "./screens/vocabulary-library-screen";
+import { AssessmentScreen } from "./screens/assessment-screen";
+import { WeaknessScreen } from "./screens/weakness-screen";
+import { DailySummaryScreen } from "./screens/daily-summary-screen";
+import { ProgressScreen } from "./screens/progress-screen";
+import { ContentAdminScreen } from "./screens/content-admin-screen";
+import { SettingsScreen } from "./screens/settings-screen";
+import { PhoneticsScreen } from "./screens/phonetics-screen";
+import { AlphabetScreen } from "./screens/alphabet-screen";
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("home");
@@ -737,6 +400,38 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [progressStorageWritable, setProgressStorageWritable] =
     useState(true);
+  const storageWarningShownRef = useRef(false);
+  const [storageWriteFailed, setStorageWriteFailed] = useState(false);
+  const mainNavRef = useRef<HTMLElement>(null);
+  // Like autoFocus, but keeps the page where it is: on phones the home
+  // action sits far below the fold and autoFocus scrolled past the plan.
+  const focusOnMountWithoutScroll = useCallback(
+    (node: HTMLElement | null) => {
+      node?.focus({ preventScroll: true });
+    },
+    [],
+  );
+  // Storage failures must never unmount the app: warn once, keep the
+  // in-memory state, and retry on the next change.
+  const storageWriteFailedRef = useRef(false);
+  const persistStorageItem = useCallback((key: string, value: string) => {
+    const failed = !writeStorageItem(key, value).ok;
+    // Persistence runs inside effects, so status updates are queued instead
+    // of rendering synchronously from the calling effect.
+    if (failed !== storageWriteFailedRef.current) {
+      storageWriteFailedRef.current = failed;
+      queueMicrotask(() => setStorageWriteFailed(failed));
+    }
+    if (!failed) {
+      storageWarningShownRef.current = false;
+      return true;
+    }
+    if (!storageWarningShownRef.current) {
+      storageWarningShownRef.current = true;
+      queueMicrotask(() => setToast(STORAGE_WRITE_FAILURE_MESSAGE));
+    }
+    return false;
+  }, []);
   const [passageValues, setPassageValues] = useState<string[]>([]);
   const [passageEvaluation, setPassageEvaluation] =
     useState<PassageSentenceEvaluation[]>([]);
@@ -796,17 +491,17 @@ export default function Home() {
       setDailySession(next);
       if (!persistImmediately || typeof window === "undefined") return;
       if (next) {
-        localStorage.setItem(STORAGE.dailySession, JSON.stringify(next));
+        persistStorageItem(STORAGE.dailySession, JSON.stringify(next));
       } else {
-        localStorage.removeItem(STORAGE.dailySession);
+        removeStorageItem(STORAGE.dailySession);
       }
     },
-    [],
+    [persistStorageItem],
   );
   const clearDailySession = useCallback(
     (message = "") => {
       commitDailySession(null, true);
-      STORAGE.legacyDailySessions.forEach((key) => localStorage.removeItem(key));
+      STORAGE.legacyDailySessions.forEach((key) => removeStorageItem(key));
       setDailyReviewValue("");
       setDailyReviewFeedback("");
       setDailyReviewResultItemId("");
@@ -1042,7 +737,7 @@ export default function Home() {
         let a1Rows = a1Level.rows as A1CourseCsvRow[];
         let a1Units = a1Level.units;
         let a1UpdatedAt = new Date().toISOString();
-        const storedRows = localStorage.getItem(STORAGE.courseRows);
+        const storedRows = readStorageItem(STORAGE.courseRows);
         if (storedRows) {
           try {
             const restored = restoreStoredA1CourseData(
@@ -1055,10 +750,10 @@ export default function Home() {
               a1Units = buildCourseUnitsFromRows(restored.rows);
               a1UpdatedAt = restored.updatedAt;
             } else {
-              localStorage.removeItem(STORAGE.courseRows);
+              removeStorageItem(STORAGE.courseRows);
             }
           } catch {
-            localStorage.removeItem(STORAGE.courseRows);
+            removeStorageItem(STORAGE.courseRows);
           }
         }
         if (!active) return;
@@ -1126,7 +821,7 @@ export default function Home() {
             let units = loadedLevel.units;
             let updatedAt = new Date().toISOString();
             const storageKey = courseRowsStorageKey(level);
-            const storedRows = localStorage.getItem(storageKey);
+            const storedRows = readStorageItem(storageKey);
             if (storedRows) {
               try {
                 const restored = restoreStoredCourseData(
@@ -1143,10 +838,10 @@ export default function Home() {
                   );
                   updatedAt = restored.updatedAt;
                 } else {
-                  localStorage.removeItem(storageKey);
+                  removeStorageItem(storageKey);
                 }
               } catch {
-                localStorage.removeItem(storageKey);
+                removeStorageItem(storageKey);
               }
             }
             const patternReport = validatePatternExerciseData(
@@ -1248,9 +943,9 @@ export default function Home() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const storedProgress = localStorage.getItem(STORAGE.progress);
-      const storedSettings = localStorage.getItem(STORAGE.settings);
-      const storedDailySession = localStorage.getItem(STORAGE.dailySession);
+      const storedProgress = readStorageItem(STORAGE.progress);
+      const storedSettings = readStorageItem(STORAGE.settings);
+      const storedDailySession = readStorageItem(STORAGE.dailySession);
       try {
         if (storedProgress) {
           setMultiProgress(
@@ -1278,10 +973,10 @@ export default function Home() {
         if (restoredSession) {
           commitDailySession(restoredSession);
         } else {
-          localStorage.removeItem(STORAGE.dailySession);
+          removeStorageItem(STORAGE.dailySession);
         }
       }
-      STORAGE.legacyDailySessions.forEach((key) => localStorage.removeItem(key));
+      STORAGE.legacyDailySessions.forEach((key) => removeStorageItem(key));
       setLoaded(true);
     }, 0);
     return () => window.clearTimeout(timer);
@@ -1289,25 +984,25 @@ export default function Home() {
 
   useEffect(() => {
     if (!loaded || !progressStorageWritable) return;
-    localStorage.setItem(
+    persistStorageItem(
       STORAGE.progress,
       JSON.stringify(multiProgress),
     );
-  }, [loaded, multiProgress, progressStorageWritable]);
+  }, [loaded, multiProgress, persistStorageItem, progressStorageWritable]);
 
   useEffect(() => {
     if (!loaded) return;
-    localStorage.setItem(STORAGE.settings, JSON.stringify(settings));
-  }, [loaded, settings]);
+    persistStorageItem(STORAGE.settings, JSON.stringify(settings));
+  }, [loaded, persistStorageItem, settings]);
 
   useEffect(() => {
     if (!loaded) return;
     if (dailySession) {
-      localStorage.setItem(STORAGE.dailySession, JSON.stringify(dailySession));
+      persistStorageItem(STORAGE.dailySession, JSON.stringify(dailySession));
       return;
     }
-    localStorage.removeItem(STORAGE.dailySession);
-  }, [dailySession, loaded]);
+    removeStorageItem(STORAGE.dailySession);
+  }, [dailySession, loaded, persistStorageItem]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -1441,7 +1136,7 @@ export default function Home() {
     ) {
       return;
     }
-    localStorage.setItem(
+    persistStorageItem(
       STORAGE.courseRows,
       JSON.stringify(
         createStoredA1CourseData(
@@ -1452,6 +1147,7 @@ export default function Home() {
       ),
     );
   }, [
+    persistStorageItem,
     courseDataStatusByLevel.A1,
     courseRowsByLevel.A1,
     courseRowsUpdatedAtByLevel.A1,
@@ -1472,7 +1168,7 @@ export default function Home() {
       .then((dataset) => {
         if (!active) return;
         const storedGroupId =
-          localStorage.getItem(STORAGE.lastVocabularyGroup) ?? "";
+          readStorageItem(STORAGE.lastVocabularyGroup) ?? "";
         const initialGroupId = dataset.groups.some(
           (group) => group.id === storedGroupId,
         )
@@ -1627,7 +1323,7 @@ export default function Home() {
         ) {
           return;
         }
-        localStorage.setItem(
+        persistStorageItem(
           courseRowsStorageKey(level),
           JSON.stringify(
             createStoredCourseData(
@@ -1640,6 +1336,7 @@ export default function Home() {
         );
       });
   }, [
+    persistStorageItem,
     catalog,
     courseDataStatusByLevel,
     courseRowsByLevel,
@@ -1673,8 +1370,23 @@ export default function Home() {
   ]);
 
   useEffect(() => {
+    // Phones show the navigation as one horizontal row; keep the current
+    // destination in view without moving the page vertically.
+    const nav = mainNavRef.current;
+    if (!nav || nav.scrollWidth <= nav.clientWidth) return;
+    const current = nav.querySelector<HTMLElement>("[aria-current=\"page\"]");
+    if (!current) return;
+    const left = current.offsetLeft - (nav.clientWidth - current.offsetWidth) / 2;
+    nav.scrollTo({ left: Math.max(0, left) });
+  }, [screen]);
+
+  useEffect(() => {
     if (!toast) return;
-    const timer = window.setTimeout(() => setToast(""), 2600);
+    // Storage warnings ask the learner to act, so they stay readable longer.
+    const timer = window.setTimeout(
+      () => setToast(""),
+      toast === STORAGE_WRITE_FAILURE_MESSAGE ? 9000 : 2600,
+    );
     return () => window.clearTimeout(timer);
   }, [toast]);
 
@@ -2053,7 +1765,7 @@ export default function Home() {
   ) => {
     setActiveVocabularyGroupId(groupId);
     setOpenedVocabularyLexemeId(lexemeId);
-    localStorage.setItem(STORAGE.lastVocabularyGroup, groupId);
+    writeStorageItem(STORAGE.lastVocabularyGroup, groupId);
   };
 
   const openVocabularyItem = (
@@ -4190,2799 +3902,286 @@ export default function Home() {
   };
 
   const renderConversation = () => (
-    <ConversationPractice
-      sourceRows={conversationSourceRows}
-      completedLessonIds={conversationCompletedLessonIds}
-      a2Unlocked={conversationA2Unlocked}
-      allowPilotPreview={settings.showAdvancedPilots}
-      onSpeak={(text, rate) => speak(text, rate, false)}
-      audioAvailable={speechSupported}
-      onExit={() => setScreen("home")}
+    <ConversationScreen
+      conversationA2Unlocked={conversationA2Unlocked}
+      conversationCompletedLessonIds={conversationCompletedLessonIds}
+      conversationSourceRows={conversationSourceRows}
+      setScreen={setScreen}
+      settings={settings}
+      speak={speak}
+      speechSupported={speechSupported}
     />
   );
 
-  const renderHome = () => {
-    const pendingUnitTest = courseUnits.find(
-      (unit, index) =>
-        isUnitAvailable(index) &&
-        unit.lessons.every((item) => progress.completedLessonIds.includes(item.id)) &&
-        !progress.passedUnitIds.includes(unit.id),
-    );
-    const pilotContentComplete =
-      selectedLevel !== "A1" &&
-      progress.passedUnitIds.length === courseUnits.length;
-    const pendingLevelTest =
-      selectedLevel === "A1" &&
-      progress.passedUnitIds.length === courseUnits.length &&
-      !progress.levelPassed;
-    const nextUnit =
-      pendingUnitTest ??
-      courseUnits.find((unit) => unit.lessons.some((item) => item.id === nextLesson.id))!;
-    const recommendation = pilotContentComplete
-      ? {
-          kicker: `${selectedLevel} 試行課程`,
-          title: `你已完成目前的${selectedLevel}試行內容`,
-          preview: `目前不會將 ${selectedLevel} 標記為完整通過；請先進行人工內容 QA。`,
-          chips: [`${courseUnits.length} 個試行單元`, `${allLessons.length} 課`, "進度已保留"],
-          action: () => setScreen("map"),
-          buttonLabel: "查看課程地圖",
-        }
-      : pendingUnitTest
-      ? {
-          kicker: `下一個建議課程・單元 ${pendingUnitTest.number}`,
-          title: `${pendingUnitTest.title}・單元測驗`,
-          preview: "完成測驗後即可解鎖下一個單元。",
-          chips: [`${pendingUnitTest.lessons.length} 個句子`, "約 8 分鐘", "通過門檻 80%"],
-          action: () => startAssessment("unit", pendingUnitTest),
-          buttonLabel: "開始單元測驗",
-        }
-      : pendingLevelTest
-        ? {
-            kicker: `下一個建議課程・${selectedLevel}`,
-            title: `${selectedLevel} 程度總測驗`,
-            preview: `完成總測驗，確認 ${selectedLevel} 的句子輸入能力。`,
-            chips: [`${courseUnits.length} 個句子`, "約 15 分鐘", "通過門檻 85%"],
-            action: () => startAssessment("level"),
-            buttonLabel: "開始程度測驗",
-          }
-        : {
-            kicker: `下一個建議課程・單元 ${nextUnit.number}`,
-            title: nextLesson.title,
-            preview: nextLesson.sentence,
-            chips: [`${nextLesson.tokens.length} 個學習單位`, `約 ${nextLesson.minutes} 分鐘`, nextLesson.grammar],
-            action: () => startLesson(nextLesson),
-            buttonLabel: "開始這一課",
-          };
-    const todayMinutes =
-      Math.max(1, nextLesson.minutes) +
-      Math.min(dueReviews.length, 5) +
-      Math.min(vocabularyWeaknesses.length, 3);
-    const todayAction = dailySession
-      ? () => goToDailySessionStep(dailySession)
-      : startDailyLearning;
-    const todayActionLabel = dailySession
-      ? "繼續今日學習"
-      : "開始今日學習";
-    return (
-      <div className="page-stack">
-        <section className="welcome-row">
-          <div>
-            <span className="eyebrow">今天也前進一小步</span>
-            <h1>把英文從「看得懂」練成「寫得出來」</h1>
-            <p>先回想單字與語塊，再重組句子、辨識句意並練習換字。</p>
-          </div>
-          <ProgressRing
-            value={coursePercent}
-            label={`${selectedLevel} 完成度`}
-          />
-        </section>
-
-        <section
-          className="section-card"
-          data-testid="daily-learning-plan"
-        >
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">今日學習</span>
-              <h2>今天照這個順序完成就好</h2>
-            </div>
-            <span className="status-pill">約 {todayMinutes} 分鐘</span>
-          </div>
-          <div className="three-grid">
-            <StatCard
-              label="① 待複習"
-              value={dueReviews.length}
-              note={dueReviews.length ? "先把到期內容喚回來" : "今天沒有到期內容"}
-            />
-            <StatCard
-              label="② 今日課程"
-              value={recommendation.title}
-              note={recommendation.kicker}
-            />
-            <StatCard
-              label="③ 弱點加強"
-              value={Math.min(vocabularyWeaknesses.length, 3)}
-              note={
-                vocabularyWeaknesses.length
-                  ? `優先：${vocabularyWeaknesses
-                      .slice(0, 3)
-                      .map((item) => item.lemma)
-                      .join("、")}`
-                  : "目前沒有明顯錯誤累積"
-              }
-            />
-          </div>
-          <div className="section-heading">
-            <button
-              className="primary-button detail-next-button"
-              data-testid="start-daily-learning"
-              onClick={todayAction}
-              onKeyDown={(event) => activateButtonOnEnter(event, todayAction)}
-              aria-keyshortcuts="Enter"
-            >
-              <span>{todayActionLabel}</span>
-              <kbd>Enter</kbd>
-            </button>
-            <button
-              className="text-button"
-              onClick={() => setScreen("weakness")}
-            >
-              查看弱點中心 →
-            </button>
-          </div>
-        </section>
-
-        <section className="continue-card">
-          <div className="continue-copy">
-            <span className="lesson-kicker">{recommendation.kicker}</span>
-            <h2>{recommendation.title}</h2>
-            <p className="english-preview">{recommendation.preview}</p>
-            <div className="chip-row">
-              {recommendation.chips.map((chip) => <span className="chip" key={chip}>{chip}</span>)}
-            </div>
-          </div>
-          <button
-            className="primary-button big-button detail-next-button"
-            onClick={recommendation.action}
-            onKeyDown={(event) => activateButtonOnEnter(event, recommendation.action)}
-            autoFocus
-            aria-keyshortcuts="Enter"
-            title={`按 Enter：${recommendation.buttonLabel}`}
-          >
-            <span className="play-dot">▶</span>
-            <span>{recommendation.buttonLabel}</span>
-            <kbd>Enter</kbd>
-          </button>
-        </section>
-
-        <div className="three-grid">
-          <StatCard label="已完成課程" value={`${completedCount} / ${allLessons.length}`} note="完成後不會再次鎖定" />
-          <StatCard label="待複習內容" value={dueReviews.length} note="複習不會擋住新課程" />
-          <StatCard
-            label="本週學習"
-            value={`${weeklyStudyDays} 天`}
-            note="依自己的步調前進"
-            testId="home-weekly-study-days"
-          />
-        </div>
-
-        <section className="section-card">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">目前進行中</span>
-              <h2>單元 {nextUnit.number}・{nextUnit.title}</h2>
-            </div>
-            <button className="text-button" onClick={() => setScreen("map")}>查看完整路線 →</button>
-          </div>
-          <div className="unit-progress-list">
-            {nextUnit.lessons.map((item, index) => {
-              const done = progress.completedLessonIds.includes(item.id);
-              const available = isLessonAvailable(nextUnit, nextUnit.number - 1, index);
-              return (
-                <button
-                  className={`mini-lesson ${done ? "done" : available ? "active" : "locked"}`}
-                  key={item.id}
-                  disabled={!available && !done}
-                  onClick={() => startLesson(item)}
-                >
-                  <span>{done ? "✓" : index + 1}</span>
-                  <div><strong>{item.title}</strong><small>{done ? "可重新練習" : available ? "可以開始" : "尚未解鎖"}</small></div>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      </div>
-    );
-  };
+  const renderHome = () => (
+    <HomeScreen
+      allLessons={allLessons}
+      completedCount={completedCount}
+      coursePercent={coursePercent}
+      courseUnits={courseUnits}
+      dailySession={dailySession}
+      dueReviews={dueReviews}
+      focusOnMountWithoutScroll={focusOnMountWithoutScroll}
+      goToDailySessionStep={goToDailySessionStep}
+      isLessonAvailable={isLessonAvailable}
+      isUnitAvailable={isUnitAvailable}
+      nextLesson={nextLesson}
+      progress={progress}
+      selectedLevel={selectedLevel}
+      setScreen={setScreen}
+      startAssessment={startAssessment}
+      startDailyLearning={startDailyLearning}
+      startLesson={startLesson}
+      vocabularyWeaknesses={vocabularyWeaknesses}
+      weeklyStudyDays={weeklyStudyDays}
+    />
+  );
 
   const renderLevelSelector = () => (
-    <section className="level-selector" aria-label="CEFR 程度選擇">
-      {(catalog
-        ? runtimeCatalogEntries(catalog).map((entry) => entry.level)
-        : CEFR_LEVELS.filter((level) => level === "A1" || level === "A2")
-      ).map((level) => {
-        const summary = levelSummary(level);
-        const entry = catalog
-          ? catalogEntryForLevel(catalog, level)
-          : null;
-        const statusLabel =
-          entry?.status === "production" ? "正式課程" : "試行課程";
-        const locked = !canAccessLevel(
-          level,
-          multiProgress.passedLevelIds,
-          settings.showAdvancedPilots,
-          entry?.status,
-        );
-        return (
-          <button
-            key={level}
-            className={`level-selector-button ${
-              selectedLevel === level ? "active" : ""
-            } ${locked ? "locked" : ""}`}
-            type="button"
-            data-testid={`level-selector-${level.toLowerCase()}`}
-            aria-pressed={selectedLevel === level}
-            aria-label={`${level} ${statusLabel}${
-              locked ? "，尚未解鎖" : ""
-            }`}
-            onClick={() => switchLevel(level)}
-          >
-            <span>
-              <strong>{level}</strong>
-              <small>{statusLabel}</small>
-            </span>
-            <span className="level-selector-summary">
-              {summary.completed}/{summary.total} 課・正確率{" "}
-              {summary.accuracy}%・待複習 {summary.dueCount}
-            </span>
-            <span className="status-pill">
-              {locked ? "鎖定" : summary.status}
-            </span>
-          </button>
-        );
-      })}
-    </section>
+    <LevelSelector
+      catalog={catalog}
+      levelSummary={levelSummary}
+      multiProgress={multiProgress}
+      selectedLevel={selectedLevel}
+      settings={settings}
+      switchLevel={switchLevel}
+    />
   );
 
   const renderMap = () => (
-    <div className="page-stack">
-      {renderLevelSelector()}
-      <section className="page-title">
-        <div>
-          <span className="eyebrow">循序解鎖，不混合難度</span>
-          <h1>{selectedLevel} 課程地圖</h1>
-          <p>完成一課才解鎖下一課；通過單元測驗後進入下一單元。</p>
-        </div>
-        <span className="level-pill">
-          {selectedLevel}・{levelStatusLabel}・{coursePercent}%
-        </span>
-      </section>
-      <div className="course-road">
-        {courseUnits.map((unit, unitIndex) => {
-          const unitAvailable = isUnitAvailable(unitIndex);
-          const unitDone = unit.lessons.every((item) => progress.completedLessonIds.includes(item.id));
-          const unitPassed = progress.passedUnitIds.includes(unit.id);
-          return (
-            <section className={`road-unit ${!unitAvailable ? "is-locked" : ""}`} key={unit.id}>
-              <div className="road-marker" style={{ "--unit-accent": unit.accent } as React.CSSProperties}>
-                <span>{unitPassed ? "✓" : unit.number}</span>
-                {unitIndex < courseUnits.length - 1 && <i />}
-              </div>
-              <div className="unit-card">
-                <div className="unit-card-head">
-                  <div>
-                    <span className="lesson-kicker">單元 {unit.number}</span>
-                    <h2>{unit.title}</h2>
-                    <p>{unit.description}</p>
-                  </div>
-                  <span className={`status-pill ${unitPassed ? "passed" : unitAvailable ? "current" : ""}`}>
-                    {unitPassed ? "已通過" : unitAvailable ? (unitDone ? "等待測驗" : "學習中") : "尚未解鎖"}
-                  </span>
-                </div>
-                <div className="lesson-list">
-                  {unit.lessons.map((item, itemIndex) => {
-                    const done = progress.completedLessonIds.includes(item.id);
-                    const available = isLessonAvailable(unit, unitIndex, itemIndex);
-                    return (
-                      <button
-                        key={item.id}
-                        className={`lesson-row ${done ? "done" : available ? "available" : "locked"}`}
-                        disabled={!available && !done}
-                        autoFocus={available && !done && item.id === nextLesson.id}
-                        aria-keyshortcuts="Enter"
-                        onClick={() => startLesson(item)}
-                        onKeyDown={(event) =>
-                          activateButtonOnEnter(event, () => startLesson(item))
-                        }
-                      >
-                        <span className="lesson-number">{done ? "✓" : item.number}</span>
-                        <span><strong>{item.title}</strong><small>{item.sentence}</small></span>
-                        <span className="row-action">{done ? "再練一次" : available ? "開始" : "鎖定"}</span>
-                      </button>
-                    );
-                  })}
-                  <button
-                    className={`lesson-row test-row ${unitDone ? "available" : "locked"}`}
-                    disabled={!unitDone}
-                    autoFocus={unitDone && !unitPassed}
-                    aria-keyshortcuts="Enter"
-                    onClick={() => startAssessment("unit", unit)}
-                    onKeyDown={(event) =>
-                      activateButtonOnEnter(event, () => startAssessment("unit", unit))
-                    }
-                  >
-                    <span className="lesson-number">◆</span>
-                    <span><strong>單元測驗</strong><small>正確率達 80% 即通過</small></span>
-                    <span className="row-action">{unitPassed ? "重新挑戰" : unitDone ? "開始測驗" : "完成 4 課後解鎖"}</span>
-                  </button>
-                </div>
-              </div>
-            </section>
-          );
-        })}
-        {selectedLevel === "A1" ? (
-          <section className="level-test-card">
-            <span className="lesson-number">★</span>
-            <div><strong>{selectedLevel} 程度總測驗</strong><small>通過門檻 85%，未通過可重新挑戰</small></div>
-            <button
-              className="secondary-button"
-              disabled={progress.passedUnitIds.length < courseUnits.length}
-              autoFocus={progress.passedUnitIds.length === courseUnits.length && !progress.levelPassed}
-              aria-keyshortcuts="Enter"
-              onClick={() => startAssessment("level")}
-              onKeyDown={(event) =>
-                activateButtonOnEnter(event, () => startAssessment("level"))
-              }
-            >
-              {progress.levelPassed ? "重新挑戰" : "開始總測驗"}
-            </button>
-          </section>
-        ) : (
-          <section
-            className="level-test-card"
-            data-testid={`${selectedLevel.toLowerCase()}-pilot-completion`}
-          >
-            <span className="lesson-number">★</span>
-            <div>
-              <strong>
-                {progress.passedUnitIds.length === courseUnits.length
-                  ? `你已完成目前的${selectedLevel}試行內容`
-                  : `${selectedLevel} 試行內容進行中`}
-              </strong>
-              <small>
-                目前不提供 {selectedLevel} 程度總測驗；試行內容不會自動解鎖下一程度。
-              </small>
-            </div>
-          </section>
-        )}
-      </div>
-      {selectedLevel === "A1" && <section className="advanced-roadmap-section">
-        <div className="advanced-roadmap-head">
-          <div>
-            <span className="eyebrow">A2–C2 後續課程藍圖</span>
-            <h2>從日常溝通走向精準、流暢的進階表達</h2>
-            <p>每個程度維持「預習 → 回想 → 重組 → 閱讀辨識 → 句型運用」，並逐步加長文本、減少中文提示。</p>
-          </div>
-          <span className="status-pill">A2 試行中；B1／B2 資料停用</span>
-        </div>
-        <div className="advanced-level-list">
-          {advancedCoursePlans.map((plan) => {
-            const catalogLevel = catalog?.levels.find(
-              (entry) => entry.level === plan.code,
-            );
-            return (
-              <details
-                className="advanced-level-card"
-                key={plan.code}
-                style={{ "--level-accent": plan.accent } as React.CSSProperties}
-                open={plan.code === "A2"}
-              >
-                <summary>
-                  <span className="advanced-level-code">{plan.code}</span>
-                  <span>
-                    <strong>{plan.name}</strong>
-                    <small>{plan.role}</small>
-                  </span>
-                  <span className="roadmap-status">
-                    {catalogLevel?.status === "production"
-                      ? "正式課程"
-                      : catalogLevel?.status === "pilot"
-                        ? "試行課程"
-                        : catalogLevel?.status === "disabled"
-                          ? "資料保留／未開放"
-                          : "課程規劃"}
-                  </span>
-                </summary>
-              <div className="advanced-level-content">
-                <div className="can-do-note">
-                  <small>程度完成後能做到</small>
-                  <strong>{plan.canDo}</strong>
-                </div>
-                <div className="roadmap-spec-grid">
-                  <span><small>課程規模</small><strong>{plan.lessonModel}</strong></span>
-                  <span><small>句子長度</small><strong>{plan.sentenceWords}</strong></span>
-                  <span><small>文章長度</small><strong>{plan.passageSentences}</strong></span>
-                  <span><small>新舊比例</small><strong>{plan.knowledgeRatio}</strong></span>
-                  <span><small>中文提示</small><strong>{plan.promptPolicy}</strong></span>
-                  <span><small>音訊難度</small><strong>{plan.audioPolicy}</strong></span>
-                </div>
-                <div className="roadmap-subsection">
-                  <small>文法與表達重點</small>
-                  <div className="chip-row">
-                    {plan.grammarFocus.map((item) => <span className="chip" key={item}>{item}</span>)}
-                  </div>
-                </div>
-                <div className="roadmap-subsection">
-                  <small>八個單元</small>
-                  <ol className="planned-unit-grid">
-                    {plan.units.map((unit) => <li key={unit}>{unit}</li>)}
-                  </ol>
-                </div>
-                <div className="unlock-note">解鎖條件：{plan.unlock}</div>
-              </div>
-              </details>
-            );
-          })}
-        </div>
-        <p className="roadmap-source-note">
-          程度能力依
-          {" "}
-          <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale" target="_blank" rel="noreferrer">
-            歐洲理事會 CEFR 六級架構
-          </a>
-          {" "}
-          規劃；實際英文詞彙、文法與台灣繁中提示仍需逐課人工審核。
-        </p>
-      </section>}
-    </div>
+    <CourseMapScreen
+      catalog={catalog}
+      coursePercent={coursePercent}
+      courseUnits={courseUnits}
+      isLessonAvailable={isLessonAvailable}
+      isUnitAvailable={isUnitAvailable}
+      levelStatusLabel={levelStatusLabel}
+      nextLesson={nextLesson}
+      progress={progress}
+      renderLevelSelector={renderLevelSelector}
+      selectedLevel={selectedLevel}
+      startAssessment={startAssessment}
+      startLesson={startLesson}
+    />
   );
 
   const renderAlphabet = () => (
-    <div className="page-stack">
-      <section className="page-title">
-        <div>
-          <span className="eyebrow">隨時可以練習，不設前置門檻</span>
-          <h1>A–Z 發音基礎</h1>
-          <p>點選字母聽美式字母名稱；熟悉後可直接回到正式課程。</p>
-        </div>
-        <button className="secondary-button" onClick={() => speak("A B C D E F G", 0.85)}>▶ 播放一段</button>
-      </section>
-      <section className="alphabet-grid">
-        {alphabet.map((entry) => (
-          <button key={entry.letter} onClick={() => speak(entry.letter)}>
-            <strong>{entry.letter}</strong>
-            <span>{entry.letter.toLowerCase()}</span>
-          </button>
-        ))}
-      </section>
-    </div>
+    <AlphabetScreen
+      speak={speak}
+    />
   );
 
   const renderPhonetics = () => (
-    <div className="page-stack">
-      <section className="page-title kk-page-title">
-        <div>
-          <span className="eyebrow">獨立練習，不與 A–Z 字母名稱混在一起</span>
-          <h1>KK 音標發音</h1>
-          <p>點播放鍵直接聽音標本身；例字只用來幫你理解，不會被朗讀。</p>
-        </div>
-        <div className="kk-summary">
-          <strong>41</strong>
-          <span>17 個母音・24 個子音</span>
-        </div>
-      </section>
-      <section className="phonetic-guide">
-        <div>
-          <strong>怎麼使用？</strong>
-          <span>先播放單獨音標並跟讀，再用畫面上的例字確認它會出現在哪裡。</span>
-        </div>
-        <small aria-live="polite">
-          {kkAudioMessage || "使用可自由使用的預錄音標樣本，不使用單字語音代替。"}
-        </small>
-      </section>
-      {kkPhoneticGroups.map((group) => (
-        <section className="phonetic-section" key={group.id}>
-          <div className="section-heading phonetic-section-heading">
-            <div>
-              <h2>{group.title}</h2>
-              <small>{group.subtitle}</small>
-            </div>
-            <button
-              className="secondary-button"
-              onClick={() => playKkSequence(group.entries)}
-            >
-              ▶ 依序播放音標
-            </button>
-          </div>
-          <div className="phonetic-grid">
-            {group.entries.map((entry) => (
-              <article className="phonetic-card" key={entry.symbol}>
-                <div className="phonetic-card-top">
-                  <strong>[{entry.symbol}]</strong>
-                  <span>{group.id === "vowels" ? "母音" : "子音"}</span>
-                </div>
-                <div className="phonetic-example">
-                  <span>例字</span>
-                  <b>{entry.example}</b>
-                  <small>{entry.translation}</small>
-                </div>
-                <p>{entry.tip}</p>
-                <div className="phonetic-actions">
-                  <button
-                    onClick={() => playKkAudio(entry)}
-                    aria-label={`播放 KK 音標 ${entry.symbol}`}
-                  >
-                    ▶ 音標
-                  </button>
-                  <button
-                    onClick={() => playKkAudio(entry, 0.72)}
-                    aria-label={`慢速播放 KK 音標 ${entry.symbol}`}
-                  >
-                    ◁ 慢速
-                  </button>
-                </div>
-                <a
-                  className="phonetic-source"
-                  href={entry.sourcePage}
-                  target="_blank"
-                  rel="noreferrer"
-                  title={`${entry.author}・${entry.license}`}
-                >
-                  錄音來源與授權
-                </a>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
-      <p className="phonetic-note">
-        KK 符號用來記錄聲音，不等於英文字母名稱。p、t、k 等短促子音無法像母音一樣延長，
-        因此部分開源錄音會搭配簡短載音讓聲音可辨認，但不會朗讀畫面上的例字。
-      </p>
-    </div>
+    <PhoneticsScreen
+      kkAudioMessage={kkAudioMessage}
+      playKkAudio={playKkAudio}
+      playKkSequence={playKkSequence}
+    />
   );
 
-  const renderRelatedVocabulary = () => {
-    if (vocabularyDataStatus === "loading") {
-      return (
-        <section
-          className="section-card vocabulary-load-state"
-          data-testid="vocabulary-loading"
-        >
-          <strong>正在載入相關字詞…</strong>
-          <p>課程仍可正常使用，請稍候一秒。</p>
-        </section>
-      );
-    }
-    if (vocabularyDataStatus === "error" || !vocabularyDataset || !searchableVocabularyDataset) {
-      return (
-        <section
-          className="section-card vocabulary-load-state"
-          data-testid="vocabulary-load-error"
-        >
-          <strong>相關字詞目前無法載入</strong>
-          <p>這不會影響正式課程，請重新整理後再試。</p>
-          {vocabularyLoadError && <small>{vocabularyLoadError}</small>}
-          <button
-            className="secondary-button"
-            onClick={() => setScreen("home")}
-          >
-            返回首頁
-          </button>
-        </section>
-      );
-    }
+  const renderRelatedVocabulary = () => (
+    <RelatedVocabularyScreen
+      activeVocabularyGroupId={activeVocabularyGroupId}
+      audioMessage={audioMessage}
+      loaded={loaded}
+      multiProgress={multiProgress}
+      openedVocabularyLexemeId={openedVocabularyLexemeId}
+      openVocabularyItem={openVocabularyItem}
+      playRelatedVocabularyAudio={playRelatedVocabularyAudio}
+      progressStorageWritable={progressStorageWritable}
+      relatedCurrentLexemeId={relatedCurrentLexemeId}
+      returnFromRelatedVocabulary={returnFromRelatedVocabulary}
+      searchableVocabularyDataset={searchableVocabularyDataset}
+      selectVocabularyGroup={selectVocabularyGroup}
+      setReferenceRecognitionSession={setReferenceRecognitionSession}
+      setScreen={setScreen}
+      settings={settings}
+      setVocabularyFilter={setVocabularyFilter}
+      setVocabularySearch={setVocabularySearch}
+      speechSupported={speechSupported}
+      vocabularyDataset={vocabularyDataset}
+      vocabularyDataStatus={vocabularyDataStatus}
+      vocabularyFilter={vocabularyFilter}
+      vocabularyLoadError={vocabularyLoadError}
+      vocabularyReturnContext={vocabularyReturnContext}
+      vocabularySearch={vocabularySearch}
+      vocabularyTargets={vocabularyTargets}
+    />
+  );
 
-    const a1Progress = multiProgress.levelProgress.A1;
-    const stateForItem = (item: ResolvedVocabularyItem) =>
-      vocabularyLearningState(
-        item,
-        a1Progress,
-        relatedCurrentLexemeId,
-      );
-    const itemIsVisible = (
-      group: ResolvedVocabularyGroup,
-      item: ResolvedVocabularyItem,
-      query = vocabularySearch,
-      filter = vocabularyFilter,
-    ) =>
-      vocabularyItemMatchesSearch(group, item, query) &&
-      vocabularyStatusMatchesFilter(
-        stateForItem(item),
-        filter,
-      );
-    const resolveSelection = (
-      query: string,
-      filter: VocabularyStatusFilter,
-      activeGroupId = activeVocabularyGroupId,
-    ) =>
-      resolveVocabularyGroupSelection(
-        searchableVocabularyDataset.groups,
-        activeGroupId,
-        (group, item) => itemIsVisible(group, item, query, filter),
-      );
-    const { visibleGroups, activeGroup } = resolveSelection(
-      vocabularySearch,
-      vocabularyFilter,
-    );
-    const activeItems = activeGroup
-      ? activeGroup.items.filter((item) =>
-          itemIsVisible(activeGroup, item),
-        )
-      : [];
-    const matchingItemCount = visibleGroups.reduce(
-      (count, group) => count + group.items.filter((item) => itemIsVisible(group, item)).length,
-      0,
-    );
-    const referenceQueue = activeGroup && vocabularyTargets
-      ? buildReferenceRecognitionQueue({
-          dataset: vocabularyDataset,
-          targets: vocabularyTargets,
-          progress: multiProgress.vocabularyProgress,
-          groupId: activeGroup.id,
-          studyDate: localDateKey(),
-        })
-      : [];
-    const updateVocabularySearch = (query: string) => {
-      setVocabularySearch(query);
-      const nextGroup = resolveSelection(
-        query,
-        vocabularyFilter,
-      ).activeGroup;
-      if (
-        nextGroup &&
-        nextGroup.id !== activeVocabularyGroupId
-      ) {
-        selectVocabularyGroup(nextGroup.id);
-      }
-    };
-    const updateVocabularyFilter = (
-      filter: VocabularyStatusFilter,
-    ) => {
-      setVocabularyFilter(filter);
-      const nextGroup = resolveSelection(
-        vocabularySearch,
-        filter,
-      ).activeGroup;
-      if (
-        nextGroup &&
-        nextGroup.id !== activeVocabularyGroupId
-      ) {
-        selectVocabularyGroup(nextGroup.id);
-      }
-    };
+  const renderLearning = () => (
+    <LearningScreen
+      advanceFromDetail={advanceFromDetail}
+      afterLessonLabel={afterLessonLabel}
+      audioMessage={audioMessage}
+      audioReplays={audioReplays}
+      beginRecall={beginRecall}
+      checkPassageComprehension={checkPassageComprehension}
+      checkPassageRebuild={checkPassageRebuild}
+      checkPatternTransfer={checkPatternTransfer}
+      checkRebuild={checkRebuild}
+      checkRecall={checkRecall}
+      checkRecognition={checkRecognition}
+      checkTextResponse={checkTextResponse}
+      completeRevealedPassage={completeRevealedPassage}
+      continueAfterLesson={continueAfterLesson}
+      continueAfterPatternTransfer={continueAfterPatternTransfer}
+      continueAfterRebuild={continueAfterRebuild}
+      continueAfterRecognition={continueAfterRecognition}
+      continueDailyAfterLesson={continueDailyAfterLesson}
+      continuePassageComprehension={continuePassageComprehension}
+      currentPassageQuestion={currentPassageQuestion}
+      currentPatternExample={currentPatternExample}
+      currentToken={currentToken}
+      currentTokenHintLevel={currentTokenHintLevel}
+      currentTokenWords={currentTokenWords}
+      dailySession={dailySession}
+      feedback={feedback}
+      finishLesson={finishLesson}
+      getToken={getToken}
+      openRelatedVocabularyFromDetail={openRelatedVocabularyFromDetail}
+      passageAnswer={passageAnswer}
+      passageAnswerRevealed={passageAnswerRevealed}
+      passageEvaluation={passageEvaluation}
+      passageQuestionChecked={passageQuestionChecked}
+      passageQuestionIndex={passageQuestionIndex}
+      passageValues={passageValues}
+      patternExampleIndex={patternExampleIndex}
+      patternTransferComplete={patternTransferComplete}
+      patternTransferRevealed={patternTransferRevealed}
+      patternTransferValue={patternTransferValue}
+      playSentenceAudio={playSentenceAudio}
+      playTokenAudio={playTokenAudio}
+      progress={progress}
+      rebuildAnswerRevealed={rebuildAnswerRevealed}
+      rebuildAttempts={rebuildAttempts}
+      rebuildStatus={rebuildStatus}
+      rebuildValues={rebuildValues}
+      recallAnswerRevealed={recallAnswerRevealed}
+      recallInputs={recallInputs}
+      recallValues={recallValues}
+      recognitionChecked={recognitionChecked}
+      recognitionSelectedId={recognitionSelectedId}
+      requestHint={requestHint}
+      selectedLesson={selectedLesson}
+      selectedLevel={selectedLevel}
+      selectedPassageComprehension={selectedPassageComprehension}
+      selectedPassageLessons={selectedPassageLessons}
+      selectedPatternExamples={selectedPatternExamples}
+      selectedRecognition={selectedRecognition}
+      selectedTextResponse={selectedTextResponse}
+      selectedTransferPatternId={selectedTransferPatternId}
+      selectedTransferPatternName={selectedTransferPatternName}
+      selectedUnit={selectedUnit}
+      sentenceAudioAvailable={sentenceAudioAvailable}
+      sessionPassageComprehensionAttempts={sessionPassageComprehensionAttempts}
+      sessionPassageComprehensionCorrect={sessionPassageComprehensionCorrect}
+      sessionRecognitionAttempts={sessionRecognitionAttempts}
+      sessionRecognitionCorrect={sessionRecognitionCorrect}
+      sessionTokenProgress={sessionTokenProgress}
+      sessionTransferAttempts={sessionTransferAttempts}
+      sessionTransferCorrect={sessionTransferCorrect}
+      setPassageAnswer={setPassageAnswer}
+      setPassageValues={setPassageValues}
+      setPatternTransferUsedPaste={setPatternTransferUsedPaste}
+      setPatternTransferValue={setPatternTransferValue}
+      setRebuildUsedPaste={setRebuildUsedPaste}
+      setRebuildValues={setRebuildValues}
+      setRecallUsedPaste={setRecallUsedPaste}
+      setRecallValues={setRecallValues}
+      setRecognitionSelectedId={setRecognitionSelectedId}
+      setScreen={setScreen}
+      setTextResponseSelectedId={setTextResponseSelectedId}
+      settings={settings}
+      setToast={setToast}
+      stage={stage}
+      textResponseChecked={textResponseChecked}
+      textResponseSelectedId={textResponseSelectedId}
+      tokenAudioAvailable={tokenAudioAvailable}
+      tokenIndex={tokenIndex}
+      transferReviewSource={transferReviewSource}
+      updateFamiliarity={updateFamiliarity}
+      vocabularyDataset={vocabularyDataset}
+    />
+  );
 
-    return (
-      <div
-        className="page-stack related-vocabulary-page"
-        data-testid="related-vocabulary-page"
-      >
-        <section className="page-title related-vocabulary-title">
-          <div>
-            <span className="eyebrow">依主題建立單字連結</span>
-            <h1>相關字詞</h1>
-            <p>把同類型的英文放在一起理解，建立單字之間的關聯。</p>
-          </div>
-          {vocabularyReturnContext && (
-            <button
-              className="secondary-button"
-              onClick={returnFromRelatedVocabulary}
-              data-testid="return-to-current-lesson"
-            >
-              ← 返回目前課程
-            </button>
-          )}
-        </section>
+  const renderReview = () => (
+    <ReviewScreen
+      checkDailyReview={checkDailyReview}
+      commitDailySession={commitDailySession}
+      continueDailyReview={continueDailyReview}
+      courseUnits={courseUnits}
+      dailyReviewFeedback={dailyReviewFeedback}
+      dailyReviewResultItemId={dailyReviewResultItemId}
+      dailyReviewSources={dailyReviewSources}
+      dailyReviewValue={dailyReviewValue}
+      dailySession={dailySession}
+      dailySessionRef={dailySessionRef}
+      discardDailySession={discardDailySession}
+      dueReviews={dueReviews}
+      ensureCurrentDailySession={ensureCurrentDailySession}
+      leaveDailyReview={leaveDailyReview}
+      progress={progress}
+      setDailyReviewValue={setDailyReviewValue}
+      speak={speak}
+      speechSupported={speechSupported}
+      startLesson={startLesson}
+      updateFamiliarity={updateFamiliarity}
+    />
+  );
 
-        <section className="vocabulary-tools" aria-label="搜尋與篩選相關字詞">
-          <label className="vocabulary-search">
-            <span>搜尋字詞或主題</span>
-            <input
-              type="search"
-              value={vocabularySearch}
-              onChange={(event) =>
-                updateVocabularySearch(event.target.value)
-              }
-              placeholder="例如：Saturday、星期六"
-              aria-label="搜尋英文、中文、主題名稱或 lexeme ID"
-              aria-controls="vocabulary-search-results"
-              aria-describedby="vocabulary-search-summary"
-            />
-          </label>
-          <div
-            className="vocabulary-filter-row"
-            role="group"
-            aria-label="已學狀態篩選"
-          >
-            {vocabularyFilters.map((filter) => (
-              <button
-                key={filter.id}
-                className={
-                  vocabularyFilter === filter.id ? "active" : ""
-                }
-                aria-pressed={vocabularyFilter === filter.id}
-                onClick={() => updateVocabularyFilter(filter.id)}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-        </section>
+  const renderWeakness = () => (
+    <WeaknessScreen
+      nextLesson={nextLesson}
+      setScreen={setScreen}
+      startLesson={startLesson}
+      startWeaknessPractice={startWeaknessPractice}
+      vocabularyWeaknesses={vocabularyWeaknesses}
+    />
+  );
+  const renderWeaknessPractice = () => (
+    <WeaknessPracticeScreen
+      checkWeaknessPractice={checkWeaknessPractice}
+      continueWeaknessPractice={continueWeaknessPractice}
+      dailySession={dailySession}
+      recognitionOptionsForWeakness={recognitionOptionsForWeakness}
+      setScreen={setScreen}
+      setWeaknessPracticeUsedPaste={setWeaknessPracticeUsedPaste}
+      setWeaknessPracticeValue={setWeaknessPracticeValue}
+      speak={speak}
+      vocabularyPracticeSources={vocabularyPracticeSources}
+      vocabularyWeaknesses={vocabularyWeaknesses}
+      weaknessPracticeChecked={weaknessPracticeChecked}
+      weaknessPracticeFeedback={weaknessPracticeFeedback}
+      weaknessPracticeIndex={weaknessPracticeIndex}
+      weaknessPracticeQueue={weaknessPracticeQueue}
+      weaknessPracticeReturnScreen={weaknessPracticeReturnScreen}
+      weaknessPracticeRevealed={weaknessPracticeRevealed}
+      weaknessPracticeValue={weaknessPracticeValue}
+    />
+  );
 
-        <p
-          id="vocabulary-search-summary"
-          className="sr-only"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          data-testid="vocabulary-search-summary"
-        >
-          {activeGroup
-            ? `找到 ${visibleGroups.length} 個主題、${matchingItemCount} 個符合的字詞。目前顯示${activeGroup.titleZhTw}：${activeItems.length} 個字詞。`
-            : "找不到相關字詞，請調整搜尋文字或已學狀態篩選。"}
-        </p>
+  const renderDailySummary = () => (
+    <DailySummaryScreen
+      dailySession={dailySession}
+      finishDailySession={finishDailySession}
+      personalVocabularySummary={personalVocabularySummary}
+      startDailyLearning={startDailyLearning}
+    />
+  );
 
-        <section id="vocabulary-search-results" aria-labelledby="vocabulary-groups-title">
-          <div className="section-heading vocabulary-section-heading">
-            <div>
-              <span className="eyebrow">主題分類</span>
-              <h2 id="vocabulary-groups-title">選擇主題</h2>
-            </div>
-            <small>目前收錄 {vocabularyDataset.groups.length} 個主題</small>
-          </div>
-          <div
-            className="vocabulary-group-grid"
-            data-testid="vocabulary-group-grid"
-          >
-            {visibleGroups.map((group) => {
-              const learnedCount = group.items.filter(
-                (item) => stateForItem(item).isLearned,
-              ).length;
-              return (
-                <button
-                  className={`vocabulary-group-card ${
-                    activeGroup?.id === group.id ? "active" : ""
-                  }`}
-                  key={group.id}
-                  onClick={() => selectVocabularyGroup(group.id)}
-                  aria-label={`進入${group.titleZhTw}主題`}
-                  aria-pressed={activeGroup?.id === group.id}
-                  aria-describedby={`vocabulary-group-info-${group.id}`}
-                  data-testid={`vocabulary-group-${group.id}`}
-                >
-                  <span className="vocabulary-group-icon">▦</span>
-                  <span className="vocabulary-group-copy">
-                    <strong>{group.titleZhTw}</strong>
-                    <b>{group.titleEn}</b>
-                    <small>{group.descriptionZhTw}</small>
-                  </span>
-                  <span className="vocabulary-group-counts" id={`vocabulary-group-info-${group.id}`}>
-                    <b>{group.items.length} 個字詞</b>
-                    <small>已學 {learnedCount} 個</small>
-                  </span>
-                  <span className="vocabulary-group-action">
-                    進入主題 →
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {!visibleGroups.length && (
-            <div
-              className="section-card vocabulary-load-state"
-              data-testid="vocabulary-global-empty"
-            >
-              <strong>找不到相關字詞</strong>
-              <p>請調整搜尋文字或已學狀態篩選。</p>
-            </div>
-          )}
-        </section>
-
-        {activeGroup && (
-          <section
-            className="section-card vocabulary-topic-detail"
-            aria-labelledby="vocabulary-topic-title"
-            data-testid={`vocabulary-topic-${activeGroup.id}`}
-          >
-          <div className="vocabulary-topic-heading">
-            <div>
-              <span className="vocabulary-breadcrumb">
-                相關字詞 &gt; {activeGroup.titleZhTw}
-              </span>
-              <h2 id="vocabulary-topic-title">
-                {activeGroup.titleZhTw}
-              </h2>
-              <p>{activeGroup.titleEn}</p>
-            </div>
-            <span className="status-pill">
-              {activeGroup.items.length} 個字詞
-            </span>
-          </div>
-
-          <div className="reference-practice-entry">
-            <p>延伸單字也能練習辨認。每輪最多 5 字，跨日答對才累積熟悉度；不影響正式課程進度。</p>
-            <button className="primary-button" data-testid="start-reference-recognition"
-              disabled={!loaded || !progressStorageWritable || referenceQueue.length === 0}
-              onClick={() => {
-                setReferenceRecognitionSession({ title: activeGroup.titleZhTw, questions: referenceQueue });
-                setScreen("reference-recognition");
-              }}>
-              練習延伸單字辨認
-            </button>
-            <small role="status">
-              {!loaded || !progressStorageWritable
-                ? "本機進度尚未就緒或處於保護模式，暫時無法開始辨認練習。"
-                : !vocabularyTargets
-                ? "詞彙目標尚未載入，辨認練習暫時無法開始。"
-                : referenceQueue.length > 0
-                  ? `本輪 ${referenceQueue.length} 字（依整個主題安排，不受搜尋篩選影響）。內容仍待人工複核。`
-                  : "本主題今天沒有尚未作答的延伸單字；可換個主題，或隔天再來練習。"}
-            </small>
-          </div>
-
-          <div
-            className="vocabulary-word-list"
-            data-testid="vocabulary-word-list"
-          >
-            {activeItems.map((item) => {
-              const state = stateForItem(item);
-              const audioAvailable =
-                speechSupported ||
-                (item.audioStatus === "ready" &&
-                  Boolean(item.audioSource.trim()));
-              return (
-                <article
-                  id={`related-word-${item.lexemeId}`}
-                  className={`vocabulary-word-card ${
-                    state.status === "current" ? "current" : ""
-                  }`}
-                  key={item.lexemeId}
-                  data-testid={`vocabulary-word-${item.lexemeId}`}
-                  tabIndex={-1}
-                  aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
-                  aria-current={
-                    state.status === "current" ? "true" : undefined
-                  }
-                >
-                  <div className="vocabulary-word-top">
-                    <div>
-                      <span className="vocabulary-item-order">
-                        {item.order}
-                      </span>
-                      <div>
-                        <h3 id={`vocabulary-word-title-${item.lexemeId}`} lang="en-US">{item.displayEnglish}</h3>
-                        <p>{item.translationZhTw}</p>
-                        {item.source === "reference" &&
-                          multiProgress.vocabularyProgress[item.lexemeId]?.recognitionAttemptEvidenceIds.length > 0 && (
-                          <small data-testid={`reference-mastery-${item.lexemeId}`}>
-                            {deriveVocabularyMasteryState(multiProgress.vocabularyProgress[item.lexemeId]) === "receptive"
-                              ? "詞彙辨認：已跨日答對，可繼續複習"
-                              : "詞彙辨認：練習中，需不同日期答對兩次"}
-                          </small>
-                        )}
-                      </div>
-                    </div>
-                    <span
-                      className={`vocabulary-status ${state.status}`}
-                    >
-                      {vocabularyStatusLabels[state.status]}
-                    </span>
-                  </div>
-                  <button
-                    className="secondary-button vocabulary-detail-toggle"
-                    type="button"
-                    data-testid={`open-vocabulary-${item.lexemeId}`}
-                    aria-expanded={openedVocabularyLexemeId === item.lexemeId}
-                    aria-controls={`vocabulary-detail-${item.lexemeId}`}
-                    aria-label={`${openedVocabularyLexemeId === item.lexemeId ? "收合字詞詳情" : "開啟字詞詳情"}：${item.displayEnglish}`}
-                    onClick={() => openVocabularyItem(activeGroup.id, item)}
-                  >
-                    {openedVocabularyLexemeId === item.lexemeId
-                      ? "收合字詞詳情"
-                      : "開啟字詞詳情"}
-                  </button>
-                    <div
-                      id={`vocabulary-detail-${item.lexemeId}`}
-                      data-testid={`vocabulary-detail-${item.lexemeId}`}
-                      role="region"
-                      aria-labelledby={`vocabulary-word-title-${item.lexemeId}`}
-                      hidden={openedVocabularyLexemeId !== item.lexemeId}
-                    >
-                  <div className="vocabulary-phonetics">
-                    <span>
-                      <small>KK</small>
-                      <strong>{item.kkUs || "待補"}</strong>
-                    </span>
-                    <span>
-                      <small>IPA</small>
-                      <strong>{item.ipaUs || "待補"}</strong>
-                    </span>
-                    <span>
-                      <small>資料來源</small>
-                      <strong>
-                        {item.source === "course"
-                          ? "正式課程"
-                          : "參考詞彙"}
-                      </strong>
-                    </span>
-                  </div>
-                  <div className="vocabulary-audio-actions">
-                    <button
-                      disabled={!audioAvailable}
-                      onClick={() =>
-                        playRelatedVocabularyAudio(item)
-                      }
-                      aria-label={`正常播放 ${item.displayEnglish} 的美式發音`}
-                    >
-                      ▶ 正常
-                    </button>
-                    <button
-                      disabled={!audioAvailable}
-                      onClick={() =>
-                        playRelatedVocabularyAudio(
-                          item,
-                          settings.slowRate,
-                        )
-                      }
-                      aria-label={`慢速播放 ${item.displayEnglish} 的美式發音`}
-                    >
-                      ◁ 慢速
-                    </button>
-                    <small>
-                      {item.audioStatus === "ready" &&
-                      item.audioSource.trim()
-                        ? "使用已確認音訊"
-                        : "使用瀏覽器語音備援"}
-                    </small>
-                  </div>
-                  {item.chunks.length > 0 && (
-                    <div className="vocabulary-chunks">
-                      <small>常見語塊</small>
-                      {item.chunks.map((chunk) => (
-                        <div key={chunk.id}>
-                          <strong>
-                            {chunk.text}＝{chunk.translationZhTw}
-                          </strong>
-                          <span>{chunk.noteZhTw}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {item.usageNoteZhTw && (
-                    <p className="vocabulary-item-note">
-                      <strong>用法提醒</strong>
-                      {item.usageNoteZhTw}
-                    </p>
-                  )}
-                    </div>
-                </article>
-              );
-            })}
-            {!activeItems.length && (
-              <p className="vocabulary-empty">
-                這個主題中沒有符合目前條件的字詞。
-              </p>
-            )}
-          </div>
-
-          <div className="vocabulary-usage-notes">
-            <strong>用法提醒</strong>
-            <ul>
-              {activeGroup.usageNotesZhTw.map((note) => (
-                <li key={note}>{note}</li>
-              ))}
-            </ul>
-          </div>
-          <p className="vocabulary-audio-message" aria-live="polite">
-            {audioMessage ||
-              "尚未有已確認音檔時，播放按鈕會使用瀏覽器美式語音備援。"}
-          </p>
-          </section>
-        )}
-      </div>
-    );
-  };
-
-  const renderLearning = () => {
-    if (stage === "intro") {
-      return (
-        <div className="learning-shell">
-          <button className="back-button" onClick={() => setScreen("map")}>← 返回課程地圖</button>
-          <section className="lesson-intro-card">
-            <span className="level-pill">{selectedLevel}・單元 {selectedUnit.number}・第 {selectedLesson.number} 課</span>
-            <h1>{selectedLesson.title}</h1>
-            <p>{selectedLesson.translation}</p>
-            <div className="intro-sentence">{selectedLesson.sentence}</div>
-            <div className="intro-facts">
-              <span><small>學習單位</small><strong>{selectedLesson.tokens.length}</strong></span>
-              <span><small>文法重點</small><strong>{selectedLesson.grammar}</strong></span>
-              <span><small>預估時間</small><strong>{selectedLesson.minutes} 分鐘</strong></span>
-              {selectedLesson.sentencePatternId && (
-                <span>
-                  <small>本課句型</small>
-                  <strong>{selectedLesson.patternName}</strong>
-                </span>
-              )}
-            </div>
-            {selectedLesson.sourceVersion && (
-              <p className="data-source-note">
-                使用 {selectedLesson.sourceVersion}・逐字輸入模式
-              </p>
-            )}
-            <button
-              className="primary-button big-button full-button detail-next-button"
-              onClick={beginRecall}
-              onKeyDown={(event) => activateButtonOnEnter(event, beginRecall)}
-              autoFocus
-              aria-keyshortcuts="Enter"
-              title="按 Enter 開始"
-            >
-              <span>從中文提示與逐字輸入開始</span>
-              <kbd>Enter</kbd>
-            </button>
-          </section>
-        </div>
-      );
-    }
-
-    if (stage === "result") {
-      const tokenResults = selectedLesson.tokens.map(
-        (token) => sessionTokenProgress[token.occurrenceId],
-      );
-      const sessionHints = tokenResults.reduce(
-        (sum, item) => sum + (item?.hintsUsed ?? 0),
-        0,
-      );
-      const wordCorrect = tokenResults.filter(
-        (item) =>
-          item &&
-          item.correctAnswers > 0 &&
-          !item.answerRevealed,
-      ).length;
-      const wordScore = selectedLesson.tokens.length
-        ? Math.round(
-            (wordCorrect / selectedLesson.tokens.length) * 100,
-          )
-        : 0;
-      const sentenceScore = Math.max(
-        0,
-        100 -
-          Math.max(0, rebuildAttempts - 1) * 30 -
-          (rebuildAnswerRevealed ? 20 : 0),
-      );
-      const recognitionScore = sessionRecognitionAttempts
-        ? Math.round(
-            (sessionRecognitionCorrect /
-              sessionRecognitionAttempts) *
-              100,
-          )
-        : null;
-      const transferScore = sessionTransferAttempts
-        ? Math.round(
-            (sessionTransferCorrect / sessionTransferAttempts) *
-              100,
-          )
-        : null;
-      const passageScore = sessionPassageComprehensionAttempts
-        ? Math.round(
-            (sessionPassageComprehensionCorrect /
-              sessionPassageComprehensionAttempts) *
-              100,
-          )
-        : null;
-      const reviewNeeds = [
-        ...selectedLesson.tokens
-          .filter((token) => {
-            const item = sessionTokenProgress[token.occurrenceId];
-            return (
-              (item?.attempts ?? 0) > 1 ||
-              item?.answerRevealed
-            );
-          })
-          .map((token) => token.answer),
-        ...(recognitionScore !== null && recognitionScore < 100
-          ? ["句意理解"]
-          : []),
-        ...(transferScore !== null && transferScore < 100
-          ? [`句型：${selectedTransferPatternName}`]
-          : []),
-        ...(passageScore !== null && passageScore < 100
-          ? ["短文理解"]
-          : []),
-      ];
-      const dailyLessonPending =
-        dailySession?.level === selectedLevel &&
-        dailySession?.lessonId === selectedLesson.id &&
-        !dailySession.completedSteps.includes("lesson");
-      const resultNextAction = dailyLessonPending
-        ? continueDailyAfterLesson
-        : continueAfterLesson;
-      const resultNextLabel = dailyLessonPending
-        ? dailySession.weaknessLexemeIds.length > 0
-          ? "完成今日課程，前往弱點加強 →"
-          : "完成今日課程，查看今日總結 →"
-        : afterLessonLabel();
-      return (
-        <div className="learning-shell">
-          <section className="result-card">
-            <div className="celebration">✓</div>
-            <span className="eyebrow">課程完成</span>
-            <h1>做得好！你已完成本課文字練習</h1>
-            <p className="result-sentence">{selectedLesson.sentence}</p>
-            <div className="result-skill-grid">
-              <StatCard label="單字拼寫" value={`${wordScore}%`} />
-              <StatCard label="句子語序" value={`${sentenceScore}%`} />
-              <StatCard
-                label="句意理解"
-                value={
-                  recognitionScore === null
-                    ? "後續課程啟用"
-                    : `${recognitionScore}%`
-                }
-              />
-              <StatCard
-                label="句型運用"
-                value={
-                  transferScore === null
-                    ? "後續課程啟用"
-                    : `${transferScore}%`
-                }
-              />
-              <StatCard
-                label="短文理解"
-                value={
-                  passageScore === null
-                    ? "本課無短文"
-                    : `${passageScore}%`
-                }
-              />
-            </div>
-            <div className="result-support-row">
-              <span>使用提示：{sessionHints}</span>
-              <span>輔助播放：{audioReplays}</span>
-            </div>
-            <section className="review-needs-card">
-              <strong>建議複習</strong>
-              <div className="chip-row">
-                {(reviewNeeds.length
-                  ? Array.from(new Set(reviewNeeds))
-                  : ["目前沒有需要加強的項目"]
-                ).map((item) => (
-                  <span className="chip" key={item}>{item}</span>
-                ))}
-              </div>
-            </section>
-            <section className="familiarity-card">
-              <div><strong>你對這句話的感覺如何？</strong><small>系統先建議，你仍可自行修改。</small></div>
-              <div className="segmented">
-                {(["熟悉", "不熟", "完全不會"] as Familiarity[]).map((value) => (
-                  <button key={value} onClick={() => {
-                    Object.values(progress.reviewItems)
-                      .filter((item) =>
-                        selectedLesson.tokens.some(
-                          (token) => item.tokenId === token.occurrenceId,
-                        ),
-                      )
-                      .forEach((item) => updateFamiliarity(item, value));
-                    setToast(`已標記為「${value}」`);
-                  }}>{value}</button>
-                ))}
-              </div>
-            </section>
-            <div className="button-row">
-              <button className="secondary-button" onClick={() => setScreen("map")}>回課程地圖</button>
-              <button
-                id="lesson-result-next"
-                className="primary-button detail-next-button"
-                onClick={resultNextAction}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(event, resultNextAction)
-                }
-                aria-keyshortcuts="Enter"
-                title={`按 Enter：${resultNextLabel}`}
-              >
-                <span>{resultNextLabel}</span>
-                <kbd>Enter</kbd>
-              </button>
-            </div>
-          </section>
-        </div>
-      );
-    }
-
-    const activeExerciseQaStatus = stage === "reading-recognition"
-      ? selectedRecognition?.qaStatus
-      : stage === "pattern-transfer"
-        ? currentPatternExample?.qaStatus
-        : stage === "text-response"
-          ? selectedTextResponse?.qaStatus
-          : undefined;
-    const stageNumber =
-      stage === "recall"
-        ? 1
-        : stage === "detail"
-          ? 2
-          : stage === "rebuild"
-            ? 3
-            : stage === "reading-recognition"
-              ? 4
-              : stage === "pattern-transfer"
-                ? 5
-                : stage === "text-response" ||
-                    stage === "passage-rebuild"
-                  ? 6
-                  : 7;
-    return (
-      <div className="learning-shell">
-        <div className="learning-top">
-          <button className="back-button" onClick={() => setScreen("map")}>← 離開本階段</button>
-          <span>
-            {stage === "recall" || stage === "detail"
-              ? `學習單位 ${tokenIndex + 1}/${selectedLesson.tokens.length}`
-              : stage === "rebuild"
-                ? "完整句子重組"
-                : stage === "reading-recognition"
-                  ? "閱讀辨識"
-                  : stage === "pattern-transfer"
-                    ? "句型換字"
-                    : stage === "text-response"
-                      ? "文字回答"
-                      : stage === "passage-comprehension"
-                        ? "短文閱讀理解"
-                        : "整段文章重建"}
-          </span>
-        </div>
-        <div className="stage-progress"><i style={{ width: `${(stageNumber / 7) * 100}%` }} /></div>
-        {selectedLevel === "A1" && activeExerciseQaStatus === "pilot_review_required" && (
-          <p className="exercise-instruction" data-testid="a1-exercise-trial-notice">
-            新增練習試行中，英文與中文內容仍待人工複核。
-          </p>
-        )}
-
-        {stage === "recall" && (
-          <section className="exercise-card recall-card">
-            <span className="eyebrow">輸入練習</span>
-            <h1 className="recall-task-title">把下面提示寫成英文</h1>
-            <h2
-              className="chinese-prompt recall-primary-prompt"
-              data-testid="recall-primary-prompt"
-            >
-              {currentToken.prompt}
-            </h2>
-            <p className="recall-task-meta">
-              {currentToken.promptType === "grammar"
-                ? "文法提示"
-                : currentToken.promptType === "context"
-                  ? "語境提示"
-                  : "中文提示"}
-              ・提示 Level {currentTokenHintLevel}
-            </p>
-            <label
-              className="field-label recall-answer-label"
-              htmlFor="recall-answer-0"
-            >
-              你的英文答案
-            </label>
-            <div
-              className={`recall-word-grid ${currentTokenWords.length > 1 ? "multiword" : ""}`}
-              style={{ "--recall-word-count": currentTokenWords.length } as React.CSSProperties}
-            >
-              {currentTokenWords.map((word, index) => (
-                <label className="recall-word-field" key={`${currentToken.id}-word-${index}`}>
-                  {currentTokenWords.length > 1 && <span>第 {index + 1} 詞</span>}
-                  <input
-                    id={`recall-answer-${index}`}
-                    ref={(element) => {
-                      recallInputs.current[index] = element;
-                    }}
-                    className="answer-input recall-word-input"
-                    value={recallValues[index] ?? ""}
-                    aria-label={`第 ${index + 1} 個英文詞，共 ${currentTokenWords.length} 個`}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    onPaste={(event) => {
-                      setRecallUsedPaste(true);
-                      const pastedWords = event.clipboardData.getData("text").trim().split(/\s+/).filter(Boolean);
-                      if (pastedWords.length <= 1 || currentTokenWords.length === 1) return;
-                      event.preventDefault();
-                      setRecallValues((values) => {
-                        const nextValues = [...values];
-                        pastedWords.forEach((pastedWord, offset) => {
-                          if (index + offset < currentTokenWords.length) {
-                            nextValues[index + offset] = pastedWord;
-                          }
-                        });
-                        return nextValues;
-                      });
-                      const nextIndex = Math.min(index + pastedWords.length, currentTokenWords.length - 1);
-                      window.setTimeout(() => recallInputs.current[nextIndex]?.focus(), 0);
-                    }}
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      if (value.includes(" ") && currentTokenWords.length > 1) {
-                        const enteredWords = value.trim().split(/\s+/).filter(Boolean);
-                        setRecallValues((values) => {
-                          const nextValues = [...values];
-                          enteredWords.forEach((enteredWord, offset) => {
-                            if (index + offset < currentTokenWords.length) {
-                              nextValues[index + offset] = enteredWord;
-                            }
-                          });
-                          return nextValues;
-                        });
-                        const nextIndex = Math.min(index + enteredWords.length, currentTokenWords.length - 1);
-                        window.setTimeout(() => recallInputs.current[nextIndex]?.focus(), 0);
-                        return;
-                      }
-                      setRecallValues((values) => {
-                        const nextValues = [...values];
-                        nextValues[index] = value;
-                        return nextValues;
-                      });
-                    }}
-                    onKeyDown={(event) => {
-                      const previous =
-                        index > 0 ? recallInputs.current[index - 1] : null;
-                      const next =
-                        index < currentTokenWords.length - 1
-                          ? recallInputs.current[index + 1]
-                          : null;
-                      if (moveAcrossInputs(event, previous, next)) return;
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                        if (event.repeat) return;
-                        checkRecall();
-                      }
-                    }}
-                    placeholder={
-                      recallAnswerRevealed
-                        ? word
-                        : currentTokenWords.length > 1
-                          ? `第 ${index + 1} 詞`
-                          : "輸入英文"
-                    }
-                  />
-                </label>
-              ))}
-            </div>
-            <div className="audio-row recall-audio-row">
-              <button
-                className="audio-button"
-                disabled={!tokenAudioAvailable}
-                onClick={() => playTokenAudio(currentToken)}
-              >
-                ▶ 正常
-              </button>
-              <button
-                className="audio-button"
-                disabled={!tokenAudioAvailable}
-                onClick={() => playTokenAudio(currentToken, settings.slowRate)}
-              >
-                ◁ 慢速
-              </button>
-              <small>
-                {!tokenAudioAvailable
-                  ? "此瀏覽器不支援語音播放。"
-                  : audioMessage ||
-                    (currentToken.audioStatus === "ready"
-                      ? "播放課程音訊"
-                      : "目前使用瀏覽器美式語音")}
-              </small>
-            </div>
-            {currentTokenWords.length > 1 && (
-              <p className="chunk-input-note">
-                這是一個 {currentTokenWords.length} 詞語塊，請每格輸入一個英文詞。
-              </p>
-            )}
-            <div className={`feedback ${recallAnswerRevealed ? "warning" : ""}`} aria-live="polite">
-              {feedback || "拼字要正確；大小寫不影響判定。"}
-            </div>
-            <div className="button-row">
-              <button className="secondary-button" onClick={requestHint}>給我提示</button>
-              <button className="primary-button" onClick={checkRecall}>檢查答案</button>
-            </div>
-          </section>
-        )}
-
-        {stage === "detail" && (
-          <section className="detail-card">
-            <div className="detail-head">
-              <div>
-                <span className="success-label">回答正確</span>
-                <h1>{currentToken.answer}</h1>
-                <p>{currentToken.prompt}</p>
-              </div>
-              <div className="audio-row">
-                <button
-                  className="audio-button"
-                  disabled={!tokenAudioAvailable}
-                  onClick={() => playTokenAudio(currentToken)}
-                >
-                  ▶ 正常
-                </button>
-                <button
-                  className="audio-button"
-                  disabled={!tokenAudioAvailable}
-                  onClick={() => playTokenAudio(currentToken, settings.slowRate)}
-                >
-                  ◁ 慢速
-                </button>
-                {!tokenAudioAvailable && (
-                  <small>此瀏覽器不支援語音播放，播放按鈕已停用。</small>
-                )}
-              </div>
-            </div>
-            <div className="detail-essential" data-testid="detail-essential">
-              <div className="detail-essential-item preferred-phonetic">
-                <small>
-                  {settings.phonetic === "KK" ? "KK 音標" : "美式 IPA"}
-                </small>
-                <strong>
-                  {settings.phonetic === "KK" ? currentToken.kk : currentToken.ipa}
-                </strong>
-              </div>
-              <div className="detail-essential-item">
-                <small>句中詞性</small>
-                <strong>{currentToken.contextPos || currentToken.partOfSpeech}</strong>
-              </div>
-            </div>
-            <details className="detail-more">
-              <summary>更多字詞資訊</summary>
-              <div className="detail-grid detail-grid-secondary">
-                <div>
-                  <small>
-                    {settings.phonetic === "KK" ? "美式 IPA" : "KK 音標"}
-                  </small>
-                  <strong>
-                    {settings.phonetic === "KK" ? currentToken.ipa : currentToken.kk}
-                  </strong>
-                </div>
-                {currentToken.dictionaryPos && (
-                  <div>
-                    <small>字典詞性</small>
-                    <strong>{currentToken.dictionaryPos}</strong>
-                  </div>
-                )}
-                <div>
-                  <small>音節</small>
-                  <strong>{currentToken.syllables || "單音節／語塊"}</strong>
-                </div>
-                <div>
-                  <small>重音</small>
-                  <strong>{currentToken.stress || "依語句自然重讀"}</strong>
-                </div>
-                <div>
-                  <small>原形／變化</small>
-                  <strong>{currentToken.lemma || currentToken.answer}</strong>
-                </div>
-              </div>
-            </details>
-            {currentToken.note && <div className="usage-note"><strong>用法提醒</strong><span>{currentToken.note}</span></div>}
-            {currentToken.chunk &&
-              selectedLesson.tokens[tokenIndex + 1]?.chunk?.id !== currentToken.chunk.id && (
-                <div className="chunk-meaning-card">
-                  <span>語塊整體理解</span>
-                  <strong>{currentToken.chunk.text}＝{currentToken.chunk.translation}</strong>
-                  <p>{currentToken.chunk.note}</p>
-                </div>
-              )}
-            {selectedLevel === "A1" &&
-              canShowVocabularyShortcut(
-                vocabularyDataset,
-                currentToken.lexemeId,
-                stage,
-                true,
-              ) && (
-                <div className="related-vocabulary-shortcut">
-                  <div>
-                    <strong>想一起比較同類字詞嗎？</strong>
-                    <span>查看不會增加提示次數，也不會影響本課分數。</span>
-                  </div>
-                  <button
-                    className="secondary-button"
-                    onClick={openRelatedVocabularyFromDetail}
-                    aria-label={`查看 ${currentToken.answer} 的同類字詞`}
-                    data-testid="open-related-vocabulary-from-detail"
-                  >
-                    查看同類字詞
-                  </button>
-                </div>
-              )}
-            <button
-              id="detail-next-button"
-              className="primary-button full-button detail-next-button"
-              onClick={advanceFromDetail}
-              onKeyDown={(event) => activateButtonOnEnter(event, advanceFromDetail)}
-              aria-keyshortcuts="Enter"
-              title="按 Enter 繼續"
-            >
-              <span>
-                {tokenIndex < selectedLesson.tokens.length - 1 ? "下一個學習單位 →" : "進入完整句子重組 →"}
-              </span>
-              <kbd>Enter</kbd>
-            </button>
-          </section>
-        )}
-
-        {stage === "rebuild" && (
-          <section className="exercise-card">
-            <span className="eyebrow">依中文提示，照順序重組句子</span>
-            <h1 className="chinese-prompt">{selectedLesson.translation}</h1>
-            <p className="chunk-input-note">
-              每格只輸入一個英文單字；空白鍵／→ 前往下一格，← 回上一格，最後一格按 Enter 檢查。
-            </p>
-            <div className="rebuild-grid">
-              {selectedLesson.tokens.map((token, index) => (
-                <label key={`${token.id}-${index}`} className={`rebuild-field ${rebuildStatus[index]}`}>
-                  <span>第 {index + 1} 格</span>
-                  <input
-                    id={`rebuild-${index}`}
-                    value={rebuildValues[index] ?? ""}
-                    autoFocus={index === 0 && !rebuildAnswerRevealed}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    readOnly={rebuildAnswerRevealed}
-                    onPaste={() => setRebuildUsedPaste(true)}
-                    onChange={(event) => {
-                      const values = [...rebuildValues];
-                      values[index] = event.target.value;
-                      setRebuildValues(values);
-                    }}
-                    onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
-                      if (rebuildAnswerRevealed) return;
-                      const previous =
-                        index > 0
-                          ? (document.getElementById(
-                              `rebuild-${index - 1}`,
-                            ) as HTMLInputElement | null)
-                          : null;
-                      const next =
-                        index < selectedLesson.tokens.length - 1
-                          ? (document.getElementById(
-                              `rebuild-${index + 1}`,
-                            ) as HTMLInputElement | null)
-                          : null;
-                      if (moveAcrossInputs(event, previous, next)) return;
-                      if (event.key === " ") {
-                        const enteredWordCount = (rebuildValues[index] ?? "")
-                          .trim()
-                          .split(/\s+/)
-                          .filter(Boolean).length;
-                        const expectedWordCount = getToken(selectedLesson, token).answer
-                          .trim()
-                          .split(/\s+/)
-                          .filter(Boolean).length;
-                        if (enteredWordCount === 0) {
-                          event.preventDefault();
-                          return;
-                        }
-                        if (enteredWordCount >= expectedWordCount) {
-                          event.preventDefault();
-                          document.getElementById(`rebuild-${index + 1}`)?.focus();
-                          return;
-                        }
-                      }
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                        if (event.repeat) return;
-                        if (index === selectedLesson.tokens.length - 1) {
-                          checkRebuild();
-                        } else {
-                          document.getElementById(`rebuild-${index + 1}`)?.focus();
-                        }
-                      }
-                    }}
-                  />
-                  <small>{rebuildStatus[index] === "correct" ? "正確" : rebuildStatus[index] === "order" ? "順序不對" : rebuildStatus[index] === "spelling" ? "檢查拼字" : rebuildStatus[index] === "missing" ? "尚未填寫" : rebuildStatus[index] === "revealed" ? "正確答案" : " "}</small>
-                </label>
-              ))}
-            </div>
-            <div className="feedback" aria-live="polite">{feedback}</div>
-            {(rebuildAnswerRevealed ||
-              rebuildStatus.every((status) => status === "correct")) && (
-              <div className="correct-format">{selectedLesson.sentence}</div>
-            )}
-            <div className="button-row">
-              <button
-                className="secondary-button"
-                disabled={!sentenceAudioAvailable}
-                onClick={() => playSentenceAudio(selectedLesson)}
-              >
-                ▶ 聽完整句子
-              </button>
-              <button
-                id={rebuildAnswerRevealed ? "rebuild-next-button" : undefined}
-                key={rebuildAnswerRevealed ? "rebuild-next" : "rebuild-check"}
-                className="primary-button detail-next-button"
-                onClick={rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(
-                    event,
-                    rebuildAnswerRevealed ? continueAfterRebuild : checkRebuild,
-                  )
-                }
-                aria-keyshortcuts="Enter"
-              >
-                <span>
-                  {rebuildAnswerRevealed ? "下一步 →" : "檢查順序與拼字"}
-                </span>
-                {rebuildAnswerRevealed && <kbd>Enter</kbd>}
-              </button>
-            </div>
-            {!sentenceAudioAvailable && (
-              <small className="audio-unavailable-message">
-                此瀏覽器不支援語音播放，完整句子播放按鈕已停用。
-              </small>
-            )}
-          </section>
-        )}
-
-        {stage === "reading-recognition" && selectedRecognition && (
-          <section className="exercise-card">
-            <span className="eyebrow">閱讀辨識・確認你理解完整句意</span>
-            <h1 className="chinese-prompt">{selectedRecognition.stem}</h1>
-            <p className="exercise-instruction">
-              {selectedRecognition.instruction}
-            </p>
-            <div className="exercise-choice-list">
-              {selectedRecognition.options.map((option) => {
-                const selected = recognitionSelectedId === option.id;
-                const correct =
-                  recognitionChecked &&
-                  option.id === selectedRecognition.correctOptionId;
-                const wrong =
-                  recognitionChecked &&
-                  selected &&
-                  option.id !== selectedRecognition.correctOptionId;
-                return (
-                  <button
-                    key={option.id}
-                    id={`recognition-option-${option.id}`}
-                    className={`exercise-choice ${
-                      selected ? "selected" : ""
-                    } ${correct ? "correct" : ""} ${
-                      wrong ? "wrong" : ""
-                    }`}
-                    disabled={recognitionChecked}
-                    aria-pressed={selected}
-                    onClick={() => setRecognitionSelectedId(option.id)}
-                  >
-                    {option.text}
-                  </button>
-                );
-              })}
-            </div>
-            <div className="feedback" aria-live="polite">
-              {feedback || "請選出最符合原句的意思。"}
-            </div>
-            <button
-              id={
-                recognitionChecked
-                  ? "recognition-next-button"
-                  : "recognition-check-button"
-              }
-              className="primary-button full-button detail-next-button"
-              onClick={
-                recognitionChecked
-                  ? continueAfterRecognition
-                  : checkRecognition
-              }
-              onKeyDown={(event) =>
-                activateButtonOnEnter(
-                  event,
-                  recognitionChecked
-                    ? continueAfterRecognition
-                    : checkRecognition,
-                )
-              }
-              aria-keyshortcuts="Enter"
-            >
-              <span>
-                {recognitionChecked ? "下一步 →" : "檢查句意"}
-              </span>
-              {recognitionChecked && <kbd>Enter</kbd>}
-            </button>
-          </section>
-        )}
-
-        {stage === "pattern-transfer" && currentPatternExample && (
-          <section className="exercise-card pattern-transfer-card">
-            <span className="eyebrow">
-              句型換字・第 {patternExampleIndex + 1}/
-              {selectedPatternExamples.length} 題
-            </span>
-            <h1 className="chinese-prompt">
-              {currentPatternExample.translation}
-            </h1>
-            {transferReviewSource && (
-              <p className="exercise-instruction" data-testid="pattern-review-context">
-                複習已學句型：{selectedTransferPatternName}。參考句：
-                <span lang="en-US">{transferReviewSource.sentence}</span>
-              </p>
-            )}
-            <div className="pattern-hint-card">
-              <span>
-                提示 Level{" "}
-                {progress.patternHintLevels[
-                  selectedTransferPatternId
-                ] ?? 1}
-              </span>
-              {(progress.patternHintLevels[
-                selectedTransferPatternId
-              ] ?? 1) === 1 && (
-                <strong>{currentPatternExample.translation}</strong>
-              )}
-              {(progress.patternHintLevels[
-                selectedTransferPatternId
-              ] ?? 1) === 2 && (
-                <strong>
-                  關鍵詞：{currentPatternExample.hintKeywords}
-                </strong>
-              )}
-              {(progress.patternHintLevels[
-                selectedTransferPatternId
-              ] ?? 1) === 3 && (
-                <strong>{currentPatternExample.skeleton}</strong>
-              )}
-              {(progress.patternHintLevels[
-                selectedTransferPatternId
-              ] ?? 1) === 4 && (
-                <strong>請依情境自行完成句子。</strong>
-              )}
-            </div>
-            <label
-              className="field-label"
-              htmlFor="pattern-transfer-answer"
-            >
-              {transferReviewSource
-                ? "請使用上方複習句型輸入完整英文"
-                : "請使用相同句型輸入完整英文"}
-            </label>
-            <input
-              id="pattern-transfer-answer"
-              className="answer-input"
-              value={patternTransferValue}
-              autoFocus
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck={false}
-              readOnly={patternTransferComplete}
-              onPaste={() => setPatternTransferUsedPaste(true)}
-              onChange={(event) =>
-                setPatternTransferValue(event.target.value)
-              }
-              onKeyDown={(event) => {
-                if (event.key !== "Enter" || event.repeat) return;
-                event.preventDefault();
-                if (patternTransferComplete) {
-                  continueAfterPatternTransfer();
-                } else {
-                  checkPatternTransfer();
-                }
-              }}
-              placeholder={
-                patternTransferRevealed
-                  ? currentPatternExample.sentence
-                  : "輸入完整英文句子"
-              }
-            />
-            <div
-              className={`feedback ${
-                patternTransferRevealed ? "warning" : ""
-              }`}
-              aria-live="polite"
-            >
-              {feedback ||
-                "保留原本句型，只使用已經學過的單字完成新句子。"}
-            </div>
-            <button
-              id={
-                patternTransferComplete
-                  ? "pattern-transfer-next-button"
-                  : "pattern-transfer-check-button"
-              }
-              className="primary-button full-button detail-next-button"
-              onClick={
-                patternTransferComplete
-                  ? continueAfterPatternTransfer
-                  : checkPatternTransfer
-              }
-              aria-keyshortcuts="Enter"
-            >
-              <span>
-                {patternTransferComplete
-                  ? "下一題 →"
-                  : "檢查句型換字"}
-              </span>
-              {patternTransferComplete && <kbd>Enter</kbd>}
-            </button>
-          </section>
-        )}
-
-        {stage === "text-response" && selectedTextResponse && (
-          <section className="exercise-card">
-            <span className="eyebrow">文字回應・依情境選出完整回答</span>
-            <h1 className="chinese-prompt">
-              {selectedTextResponse.prompt}
-            </h1>
-            <div className="exercise-choice-list">
-              {selectedTextResponse.options.map((option) => {
-                const selected =
-                  textResponseSelectedId === option.id;
-                const correct =
-                  textResponseChecked &&
-                  option.id === selectedTextResponse.correctOptionId;
-                const wrong =
-                  textResponseChecked &&
-                  selected &&
-                  option.id !== selectedTextResponse.correctOptionId;
-                return (
-                  <button
-                    key={option.id}
-                    id={`text-response-option-${option.id}`}
-                    className={`exercise-choice ${
-                      selected ? "selected" : ""
-                    } ${correct ? "correct" : ""} ${
-                      wrong ? "wrong" : ""
-                    }`}
-                    disabled={textResponseChecked}
-                    aria-pressed={selected}
-                    onClick={() => setTextResponseSelectedId(option.id)}
-                  >
-                    {option.text}
-                  </button>
-                );
-              })}
-            </div>
-            <div className="feedback" aria-live="polite">
-              {feedback || "閱讀情境後，選出最適合的英文回答。"}
-            </div>
-            <button
-              id={
-                textResponseChecked
-                  ? "text-response-next-button"
-                  : "text-response-check-button"
-              }
-              className="primary-button full-button detail-next-button"
-              onClick={
-                textResponseChecked ? finishLesson : checkTextResponse
-              }
-              onKeyDown={(event) =>
-                activateButtonOnEnter(
-                  event,
-                  textResponseChecked
-                    ? finishLesson
-                    : checkTextResponse,
-                )
-              }
-              aria-keyshortcuts="Enter"
-            >
-              <span>
-                {textResponseChecked ? "完成課程 →" : "檢查文字回答"}
-              </span>
-              {textResponseChecked && <kbd>Enter</kbd>}
-            </button>
-          </section>
-        )}
-
-        {stage === "passage-rebuild" && (
-          <section className="exercise-card passage-rebuild-card">
-            <span className="eyebrow">依句子順序重建整段文章</span>
-            <div className="passage-translation">
-              {selectedPassageLessons.map((lesson) => (
-                <p key={lesson.sentenceId}>{lesson.translation}</p>
-              ))}
-            </div>
-            <div className="passage-input-list">
-              {selectedPassageLessons.map((lesson, index) => {
-                const evaluation = passageEvaluation[index];
-                return (
-                  <label
-                    className={`passage-sentence-field ${
-                      evaluation?.correct ? "correct" : evaluation ? "warning" : ""
-                    }`}
-                    key={lesson.sentenceId}
-                  >
-                    <span>第 {lesson.sentenceOrder} 句</span>
-                    <textarea
-                      id={`passage-sentence-${index}`}
-                      className="answer-input sentence-input"
-                      rows={2}
-                      value={passageValues[index] ?? ""}
-                      autoFocus={index === 0}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
-                      readOnly={passageAnswerRevealed}
-                      onChange={(event) => {
-                        const values = [...passageValues];
-                        values[index] = event.target.value;
-                        setPassageValues(values);
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key !== "Enter" || event.shiftKey || event.repeat) return;
-                        event.preventDefault();
-                        if (index === selectedPassageLessons.length - 1) {
-                          checkPassageRebuild();
-                        } else {
-                          document
-                            .getElementById(`passage-sentence-${index + 1}`)
-                            ?.focus();
-                        }
-                      }}
-                      placeholder={`輸入第 ${lesson.sentenceOrder} 句英文`}
-                    />
-                    <small>{evaluation?.message ?? " "}</small>
-                  </label>
-                );
-              })}
-            </div>
-            <div
-              className={`feedback ${passageAnswerRevealed ? "warning" : ""}`}
-              aria-live="polite"
-            >
-              {feedback || "逐句輸入英文；Enter 前往下一句，Shift+Enter 換行。"}
-            </div>
-            <button
-              id={passageAnswerRevealed ? "passage-complete-button" : undefined}
-              className="primary-button full-button"
-              onClick={
-                passageAnswerRevealed
-                  ? completeRevealedPassage
-                  : checkPassageRebuild
-              }
-            >
-              {passageAnswerRevealed
-                ? "我已閱讀，完成課程"
-                : "檢查整段文章"}
-            </button>
-          </section>
-        )}
-
-        {stage === "passage-comprehension" &&
-          selectedPassageComprehension &&
-          currentPassageQuestion && (
-            <section className="exercise-card">
-              <span className="eyebrow">
-                短文理解・第 {passageQuestionIndex + 1}/
-                {selectedPassageComprehension.questions.length} 題
-              </span>
-              <div className="passage-reading-text">
-                {selectedPassageLessons.map((lesson) => (
-                  <p key={lesson.sentenceId}>{lesson.sentence}</p>
-                ))}
-              </div>
-              <h1 className="chinese-prompt">
-                {currentPassageQuestion.question}
-              </h1>
-              <div className="exercise-choice-list">
-                {currentPassageQuestion.options.map((option, index) => {
-                  const selected = passageAnswer === option;
-                  const correct =
-                    passageQuestionChecked &&
-                    option === currentPassageQuestion.correctAnswer;
-                  const wrong =
-                    passageQuestionChecked &&
-                    selected &&
-                    option !== currentPassageQuestion.correctAnswer;
-                  return (
-                    <button
-                      key={option}
-                      id={`passage-answer-${index}`}
-                      className={`exercise-choice ${
-                        selected ? "selected" : ""
-                      } ${correct ? "correct" : ""} ${
-                        wrong ? "wrong" : ""
-                      }`}
-                      disabled={passageQuestionChecked}
-                      aria-pressed={selected}
-                      onClick={() => setPassageAnswer(option)}
-                    >
-                      {option}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="feedback" aria-live="polite">
-                {feedback || "請根據上方短文選出答案。"}
-              </div>
-              <button
-                id={
-                  passageQuestionChecked
-                    ? "passage-question-next-button"
-                    : "passage-question-check-button"
-                }
-                className="primary-button full-button detail-next-button"
-                onClick={
-                  passageQuestionChecked
-                    ? continuePassageComprehension
-                    : checkPassageComprehension
-                }
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(
-                    event,
-                    passageQuestionChecked
-                      ? continuePassageComprehension
-                      : checkPassageComprehension,
-                  )
-                }
-                aria-keyshortcuts="Enter"
-              >
-                <span>
-                  {passageQuestionChecked
-                    ? passageQuestionIndex >=
-                      selectedPassageComprehension.questions.length - 1
-                      ? "完成課程 →"
-                      : "下一題 →"
-                    : "檢查短文理解"}
-                </span>
-                {passageQuestionChecked && <kbd>Enter</kbd>}
-              </button>
-            </section>
-          )}
-      </div>
-    );
-  };
-
-  const renderReview = () => {
-    const dailyReviewSession =
-      dailySession &&
-      (nextDailySessionStep(dailySession) === "review" ||
-        Boolean(dailyReviewResultItemId))
-        ? dailySession
-        : null;
-    if (dailyReviewSession) {
-      const remaining = remainingDailyReviewItems(dailyReviewSession);
-      const item = dailyReviewResultItemId
-        ? dailyReviewSession.reviewItems.find(
-            (candidate) => candidate.id === dailyReviewResultItemId,
-          ) ?? remaining[0]
-        : remaining[0];
-      const source = item
-        ? resolveDailyReviewSource(item, dailyReviewSources)
-        : null;
-      if (!item || !source) {
-        return (
-          <div className="page-stack" data-testid="daily-review-active">
-            <section className="section-card">
-              <h1>今日複習內容已更新</h1>
-              <p>正式課程來源已變更，請重新開始今天的學習。</p>
-              <button
-                className="primary-button"
-                onClick={() =>
-                  discardDailySession(
-                    "今日複習的正式課程來源已更新，請重新開始今天的學習。",
-                  )
-                }
-              >
-                返回首頁
-              </button>
-            </section>
-          </div>
-        );
-      }
-      const itemProgress = dailyReviewSession.reviewItemProgress[item.id] ?? {
-        attempts: 0,
-        answerRevealed: false,
-        usedPaste: false,
-      };
-      const resultVisible = dailyReviewResultItemId === item.id;
-      const displayIndex = resultVisible
-        ? dailyReviewSession.completedReviewItemIds.length
-        : dailyReviewSession.completedReviewItemIds.length + 1;
-      const recognitionOptions = buildDailyRecognitionOptions(
-        source,
-        dailyReviewSources,
-      );
-      const markPasteUsed = () => {
-        const current = dailySessionRef.current;
-        if (!current || !ensureCurrentDailySession(current)) return;
-        commitDailySession(
-          updateDailyReviewItemProgress(current, item.id, { usedPaste: true }),
-          true,
-        );
-      };
-      return (
-        <div className="page-stack" data-testid="daily-review-active">
-          <section className="page-title">
-            <div>
-              <span className="eyebrow">先主動回想，再進入今日課程</span>
-              <h1
-                data-testid="daily-review-counter"
-              >
-                今日複習 {displayIndex} / {dailyReviewSession.reviewItems.length}
-              </h1>
-              <p>每次只做一題；已完成的題目重新整理後不會重做。</p>
-            </div>
-            <button
-              className="secondary-button"
-              data-testid="leave-daily-review"
-              onClick={leaveDailyReview}
-            >
-              離開今日學習
-            </button>
-          </section>
-          <section className="exercise-card recall-card" key={item.id}>
-            {item.mode === "spelling" && (
-              <>
-                <span className="eyebrow">看中文，拼出英文</span>
-                <h2
-                  className="chinese-prompt recall-primary-prompt"
-                  data-testid="daily-review-prompt"
-                >
-                  {source.prompt}
-                </h2>
-                <label className="field-label" htmlFor="daily-review-input">
-                  你的英文答案
-                </label>
-                <input
-                  id="daily-review-input"
-                  className="answer-input"
-                  data-testid="daily-review-input"
-                  value={dailyReviewValue}
-                  readOnly={resultVisible}
-                  autoFocus
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  onPaste={markPasteUsed}
-                  onChange={(event) => setDailyReviewValue(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === "Enter" &&
-                      !event.repeat &&
-                      !resultVisible
-                    ) {
-                      event.preventDefault();
-                      checkDailyReview();
-                    }
-                  }}
-                  placeholder="輸入英文單字"
-                />
-                <button
-                  className="audio-button"
-                  onClick={() => speak(source.answer, 1, false)}
-                  disabled={!speechSupported}
-                >
-                  ▶ 聽發音
-                </button>
-              </>
-            )}
-            {item.mode === "recognition" && (
-              <>
-                <span className="eyebrow">看到英文，選出正確意思</span>
-                <h2
-                  className="chinese-prompt recall-primary-prompt"
-                  data-testid="daily-review-prompt"
-                >
-                  {source.answer}
-                </h2>
-                <div className="exercise-choice-list">
-                  {recognitionOptions.map((option, index) => (
-                    <button
-                      key={option}
-                      className={`exercise-choice ${
-                        dailyReviewValue === option ? "selected" : ""
-                      }`}
-                      data-testid="daily-review-option"
-                      disabled={resultVisible}
-                      autoFocus={index === 0 && !resultVisible}
-                      onClick={() => checkDailyReview(option)}
-                      onKeyDown={(event) =>
-                        activateButtonOnEnter(event, () => checkDailyReview(option))
-                      }
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-            {item.mode === "application" && (
-              <>
-                <span className="eyebrow">把單字用回正式課程句子</span>
-                <h2
-                  className="chinese-prompt recall-primary-prompt"
-                  data-testid="daily-review-prompt"
-                >
-                  {source.translation}
-                </h2>
-                <label className="field-label" htmlFor="daily-review-input">
-                  請輸入完整英文句子
-                </label>
-                <textarea
-                  id="daily-review-input"
-                  className="answer-input sentence-input"
-                  data-testid="daily-review-input"
-                  rows={3}
-                  value={dailyReviewValue}
-                  readOnly={resultVisible}
-                  autoFocus
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  onPaste={markPasteUsed}
-                  onChange={(event) => setDailyReviewValue(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === "Enter" &&
-                      !event.shiftKey &&
-                      !event.repeat &&
-                      !resultVisible
-                    ) {
-                      event.preventDefault();
-                      checkDailyReview();
-                    }
-                  }}
-                  placeholder="輸入完整英文句子"
-                />
-              </>
-            )}
-            <div
-              className={`feedback ${
-                itemProgress.answerRevealed ? "warning" : ""
-              }`}
-              data-testid="daily-review-feedback"
-              aria-live="polite"
-            >
-              {dailyReviewFeedback ||
-                (item.mode === "recognition"
-                  ? "請選出課程中對應的繁體中文意思。"
-                  : "答錯後會逐步提供提示；第三次才顯示答案。")}
-            </div>
-            {itemProgress.answerRevealed && !resultVisible && (
-              <div
-                className="correct-format"
-                data-testid="daily-review-revealed-answer"
-              >
-                {item.mode === "spelling" ? source.answer : source.sentence}
-              </div>
-            )}
-            {item.mode !== "recognition" && !resultVisible && (
-              <button
-                className="primary-button full-button"
-                data-testid="daily-review-check"
-                onClick={() => checkDailyReview()}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(event, () => checkDailyReview())
-                }
-              >
-                檢查答案
-              </button>
-            )}
-            {resultVisible && (
-              <button
-                className="primary-button full-button detail-next-button"
-                data-testid="daily-review-next"
-                onClick={continueDailyReview}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(event, continueDailyReview)
-                }
-                autoFocus
-                aria-keyshortcuts="Enter"
-              >
-                <span>
-                  {remaining.length > 0
-                    ? "下一題 →"
-                    : "前往今日課程 →"}
-                </span>
-                <kbd>Enter</kbd>
-              </button>
-            )}
-          </section>
-        </div>
-      );
-    }
-    return (
-    <div className="page-stack">
-      <section className="page-title">
-        <div>
-          <span className="eyebrow">依作答表現安排，不阻擋新課程</span>
-          <h1>待複習內容</h1>
-          <p>錯誤較多、使用提示或花較久時間的內容會更早出現。</p>
-        </div>
-        <span className="level-pill">今天到期 {dueReviews.length} 項</span>
-      </section>
-      <div className="three-grid">
-        <StatCard label="單字／語塊" value={Object.keys(progress.reviewItems).length} />
-        <StatCard label="今天到期" value={dueReviews.length} />
-        <StatCard label="已達精通條件" value={Object.values(progress.reviewItems).filter((item) => item.successfulDays >= 2).length} note="跨日成功兩次" />
-      </div>
-      <section className="section-card">
-        <div className="section-heading"><h2>複習佇列</h2><small>熟悉度可由你自行調整</small></div>
-        <div className="review-list">
-          {(dueReviews.length ? dueReviews : Object.values(progress.reviewItems).slice(0, 8)).map((item) => (
-            <article key={item.tokenId} className="review-row">
-              <button className="round-audio" onClick={() => speak(item.answer)}>▶</button>
-              <div><strong>{item.answer}</strong><small>{item.prompt}・下次間隔 {item.intervalDays} 天</small></div>
-              <select value={item.familiarity} onChange={(event) => updateFamiliarity(item, event.target.value as Familiarity)}>
-                <option>熟悉</option><option>不熟</option><option>完全不會</option>
-              </select>
-            </article>
-          ))}
-          {!Object.keys(progress.reviewItems).length && (
-            <div className="empty-state">
-              <strong>還沒有複習資料</strong>
-              <span>完成第一課後，系統會依表現建立複習排程。</span>
-              <button
-                className="primary-button detail-next-button"
-                onClick={() => startLesson(courseUnits[0].lessons[0])}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(event, () => startLesson(courseUnits[0].lessons[0]))
-                }
-                autoFocus
-                aria-keyshortcuts="Enter"
-                title="按 Enter 開始第一課"
-              >
-                <span>開始第一課</span>
-                <kbd>Enter</kbd>
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-    </div>
-    );
-  };
-
-  const renderWeakness = () => {
-    const spellingCount = vocabularyWeaknesses.filter(
-      (item) => item.focus === "拼寫",
-    ).length;
-    const recognitionCount = vocabularyWeaknesses.filter(
-      (item) => item.focus === "辨認",
-    ).length;
-    const applicationCount = vocabularyWeaknesses.filter(
-      (item) => item.focus === "運用",
-    ).length;
-    return (
-      <div className="page-stack" data-testid="weakness-center">
-        <section className="page-title">
-          <div>
-            <span className="eyebrow">依你的實際錯誤證據排序</span>
-            <h1>弱點中心</h1>
-            <p>只列出真的答錯過的核心詞彙；看過一次或單純打開單字卡不算弱點。</p>
-          </div>
-          <span className="level-pill">目前 {vocabularyWeaknesses.length} 個</span>
-        </section>
-        <div className="three-grid">
-          <StatCard label="拼寫弱點" value={spellingCount} />
-          <StatCard label="辨認弱點" value={recognitionCount} />
-          <StatCard label="運用弱點" value={applicationCount} />
-        </div>
-        <section className="section-card">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">優先處理錯誤最多的內容</span>
-              <h2>最需要加強</h2>
-            </div>
-            <button className="text-button" onClick={() => setScreen("review")}>
-              前往待複習 →
-            </button>
-          </div>
-          {vocabularyWeaknesses.length ? (
-            <div className="review-list" data-testid="weakness-list">
-              {vocabularyWeaknesses.map((item, index) => (
-                <article className="review-row" key={item.lexemeId}>
-                  <span className="lesson-number">{index + 1}</span>
-                  <div>
-                    <strong>{item.lemma}</strong>
-                    <small>
-                      {item.focus}・答錯 {item.wrongAttempts} / 嘗試 {item.totalAttempts}
-                      {item.lastSeenAt
-                        ? "・最近 " + localDateKey(new Date(item.lastSeenAt))
-                        : ""}
-                    </small>
-                  </div>
-                  <div className="button-row">
-                    <span className="status-pill">{item.focus}</span>
-                    <button
-                      className="secondary-button"
-                      data-testid={`practice-weakness-${item.lexemeId}`}
-                      onClick={() =>
-                        startWeaknessPractice([item.lexemeId], "weakness")
-                      }
-                    >
-                      立即加強
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state" data-testid="weakness-empty-state">
-              <strong>目前沒有明顯弱點</strong>
-              <span>完成更多辨認、拼寫與句型練習後，答錯過的內容會自動出現在這裡。</span>
-              <button
-                className="primary-button detail-next-button"
-                onClick={() => startLesson(nextLesson)}
-                onKeyDown={(event) =>
-                  activateButtonOnEnter(event, () => startLesson(nextLesson))
-                }
-                aria-keyshortcuts="Enter"
-              >
-                <span>繼續下一課</span>
-                <kbd>Enter</kbd>
-              </button>
-            </div>
-          )}
-        </section>
-      </div>
-    );
-  };
-  const renderWeaknessPractice = () => {
-    const lexemeId = weaknessPracticeQueue[weaknessPracticeIndex] ?? "";
-    const dailyWeaknessSession =
-      weaknessPracticeReturnScreen === "daily-summary" ? dailySession : null;
-    const weaknessDisplayIndex = dailyWeaknessSession
-      ? dailyWeaknessSession.completedWeaknessLexemeIds.length +
-        weaknessPracticeIndex +
-        1
-      : weaknessPracticeIndex + 1;
-    const weaknessDisplayTotal = dailyWeaknessSession
-      ? dailyWeaknessSession.weaknessLexemeIds.length
-      : weaknessPracticeQueue.length;
-    const weakness = vocabularyWeaknesses.find(
-      (item) => item.lexemeId === lexemeId,
-    );
-    const source = vocabularyPracticeSources.get(lexemeId);
-    if (!lexemeId || !weakness || !source) {
-      return (
-        <div className="page-stack" data-testid="weakness-practice">
-          <section className="section-card">
-            <h1>目前沒有可直接練習的弱點</h1>
-            <p>完成更多正式課程作答後，系統會建立可驗證的弱點練習。</p>
-            <button
-              className="secondary-button"
-              onClick={() => setScreen("weakness")}
-            >
-              返回弱點中心
-            </button>
-          </section>
-        </div>
-      );
-    }
-    const recognitionOptions = recognitionOptionsForWeakness(source);
-    const expected =
-      weakness.focus === "拼寫"
-        ? source.answer
-        : weakness.focus === "運用"
-          ? source.sentence
-          : source.prompt;
-    return (
-      <div className="page-stack" data-testid="weakness-practice">
-        <section className="page-title">
-          <div>
-            <span className="eyebrow">
-              弱點加強・{weaknessDisplayIndex}/{weaknessDisplayTotal}
-            </span>
-            <h1>{weakness.lemma}</h1>
-            <p>
-              目前優先加強「{weakness.focus}」。答錯不會影響課程完成或 CEFR 解鎖。
-            </p>
-          </div>
-          <span className="level-pill">答錯 {weakness.wrongAttempts} 次</span>
-        </section>
-        <section className="exercise-card" key={lexemeId}>
-          {weakness.focus === "拼寫" && (
-            <>
-              <span className="eyebrow">看中文，自己拼出英文</span>
-              <h2 className="chinese-prompt">{source.prompt}</h2>
-              <button
-                className="audio-button"
-                onClick={() => speak(source.answer)}
-              >
-                ▶ 聽發音
-              </button>
-              <input
-                className="answer-input"
-                data-testid="weakness-practice-input"
-                value={weaknessPracticeValue}
-                readOnly={weaknessPracticeChecked}
-                autoFocus={!weaknessPracticeChecked}
-                autoComplete="off"
-                autoCorrect="off"
-                spellCheck={false}
-                onPaste={() => setWeaknessPracticeUsedPaste(true)}
-                onChange={(event) =>
-                  setWeaknessPracticeValue(event.target.value)
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" && !weaknessPracticeChecked) {
-                    event.preventDefault();
-                    if (event.repeat) return;
-                    checkWeaknessPractice();
-                  }
-                }}
-                placeholder="輸入英文單字"
-              />
-            </>
-          )}
-          {weakness.focus === "辨認" && (
-            <>
-              <span className="eyebrow">看到英文，辨認課程中的中文意思</span>
-              <h2 className="chinese-prompt">{source.answer}</h2>
-              <div className="exercise-choice-list">
-                {recognitionOptions.map((option, index) => (
-                  <button
-                    key={option}
-                    className={`exercise-choice ${
-                      weaknessPracticeValue === option ? "selected" : ""
-                    }`}
-                    disabled={weaknessPracticeChecked}
-                    data-testid="weakness-practice-option"
-                    aria-pressed={weaknessPracticeValue === option}
-                    autoFocus={index === 0 && !weaknessPracticeChecked}
-                    onClick={() => setWeaknessPracticeValue(option)}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-          {weakness.focus === "運用" && (
-            <>
-              <span className="eyebrow">把弱點放回完整句子</span>
-              <h2 className="chinese-prompt">{source.translation}</h2>
-              <textarea
-                className="answer-input sentence-input"
-                data-testid="weakness-practice-input"
-                rows={3}
-                value={weaknessPracticeValue}
-                readOnly={weaknessPracticeChecked}
-                autoFocus={!weaknessPracticeChecked}
-                autoComplete="off"
-                autoCorrect="off"
-                spellCheck={false}
-                onPaste={() => setWeaknessPracticeUsedPaste(true)}
-                onChange={(event) =>
-                  setWeaknessPracticeValue(event.target.value)
-                }
-                onKeyDown={(event) => {
-                  if (
-                    event.key === "Enter" &&
-                    !event.shiftKey &&
-                    !event.repeat &&
-                    !weaknessPracticeChecked
-                  ) {
-                    event.preventDefault();
-                    checkWeaknessPractice();
-                  }
-                }}
-                placeholder="輸入完整英文句子"
-              />
-            </>
-          )}
-          <div
-            className={`feedback ${weaknessPracticeRevealed ? "warning" : ""}`}
-            aria-live="polite"
-          >
-            {weaknessPracticeFeedback ||
-              `針對「${weakness.focus}」重新作答；連續三次錯誤後才會顯示答案。`}
-          </div>
-          {weaknessPracticeRevealed && (
-            <div className="correct-format">{expected}</div>
-          )}
-          <button
-            key={weaknessPracticeChecked ? "weakness-next" : "weakness-check"}
-            className="primary-button full-button detail-next-button"
-            data-testid="weakness-practice-action"
-            autoFocus={weaknessPracticeChecked}
-            onClick={
-              weaknessPracticeChecked
-                ? continueWeaknessPractice
-                : checkWeaknessPractice
-            }
-            onKeyDown={(event) =>
-              activateButtonOnEnter(
-                event,
-                weaknessPracticeChecked ? continueWeaknessPractice : checkWeaknessPractice,
-              )
-            }
-            aria-keyshortcuts={weaknessPracticeChecked ? "Enter" : undefined}
-          >
-            <span>
-              {weaknessPracticeChecked
-                ? weaknessPracticeIndex < weaknessPracticeQueue.length - 1
-                  ? "下一個弱點 →"
-                  : weaknessPracticeReturnScreen === "daily-summary"
-                    ? "查看今日總結 →"
-                    : "完成這個弱點 →"
-                : "檢查答案"}
-            </span>
-            {weaknessPracticeChecked && <kbd>Enter</kbd>}
-          </button>
-        </section>
-      </div>
-    );
-  };
-
-  const renderDailySummary = () => {
-    if (!dailySession) {
-      return (
-        <div className="page-stack">
-          <section className="section-card">
-            <h1>今天尚未開始學習流程</h1>
-            <button className="primary-button" onClick={startDailyLearning}>
-              開始今日學習
-            </button>
-          </section>
-        </div>
-      );
-    }
-    const summary = summarizeDailySession(
-      dailySession,
-      personalVocabularySummary,
-    );
-    return (
-      <div className="page-stack" data-testid="daily-learning-summary">
-        <section className="result-card">
-          <div className="celebration">✓</div>
-          <span className="eyebrow">今日學習完成</span>
-          <h1>今天的學習循環已經走完</h1>
-          <p>複習、新課與弱點加強分開記錄，不會因完成今日流程而偽造課程或程度通過。</p>
-          <div className="three-grid">
-            <StatCard label="今日時間" value={`${summary.elapsedMinutes} 分鐘`} />
-            <StatCard label="完成複習" value={summary.reviewCount} />
-            <StatCard
-              label="今日課程"
-              value={summary.lessonCompleted ? "1 課" : "未完成"}
-            />
-            <StatCard label="弱點加強" value={summary.weaknessCount} />
-            <StatCard
-              label="新增接觸"
-              value={`+${summary.exposedDelta}`}
-            />
-            <StatCard
-              label="升級可辨認"
-              value={`+${summary.receptiveDelta}`}
-            />
-            <StatCard
-              label="升級可主動使用"
-              value={`+${summary.activeDelta}`}
-            />
-          </div>
-          <button
-            className="primary-button full-button detail-next-button"
-            data-testid="finish-daily-session"
-            onClick={finishDailySession}
-            onKeyDown={(event) => activateButtonOnEnter(event, finishDailySession)}
-            autoFocus
-            aria-keyshortcuts="Enter"
-          >
-            完成今天的學習
-          </button>
-        </section>
-      </div>
-    );
-  };
-
-  const renderProgress = () => {
-    const vocabularyCoverage = vocabularyTargets
-      ? buildVocabularyCoverageReport(vocabularyTargets)
-      : null;
-    const personalVocabulary = summarizeVocabularyProgress(
-      multiProgress.vocabularyProgress,
-      vocabularyTargets?.entries.map((entry) => entry.lexemeId),
-    );
-    const globalDueReviews = ["A1", "A2"].reduce(
-      (count, level) =>
-        count +
-        Object.values(
-          multiProgress.levelProgress[level as CefrLevel].reviewItems,
-        ).filter((item) => new Date(item.dueAt).getTime() <= timestamp()).length,
-      0,
-    );
-    const learnedSenseCount = new Set(
-      ["A1", "A2"].flatMap((level) =>
-        Object.entries(
-          multiProgress.levelProgress[level as CefrLevel].senseProgress,
-        )
-          .filter(([, item]) => item.completedLessonIds.length > 0)
-          .map(([senseId]) => senseId),
-      ),
-    ).size;
-    const touchedChunkCount = new Set(
-      ["A1", "A2"].flatMap((level) =>
-        Object.keys(
-          multiProgress.levelProgress[level as CefrLevel].chunkHintLevels,
-        ),
-      ),
-    ).size;
-    return (
-    <div className="page-stack">
-      <section className="page-title">
-        <div><span className="eyebrow">{selectedLevel} 學習紀錄</span><h1>學習進度</h1><p>完成、通過與精通分開記錄，讓進度更真實。</p></div>
-        <ProgressRing value={coursePercent} label="課程完成" />
-      </section>
-      <div className="three-grid">
-        <StatCard label="作答正確率" value={`${accuracy}%`} note={`${progress.correctAnswers} / ${progress.totalAttempts} 次`} />
-        <StatCard label="累積學習時間" value={`${Math.max(0, Math.round(progress.totalSeconds / 60))} 分`} />
-        <StatCard label="使用貼上" value={`${progress.pasteCount} 次`} note="列為輔助紀錄，不算錯誤" />
-      </div>
-      <section
-        className="section-card"
-        data-testid="global-vocabulary-progress"
-      >
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">A1＋A2 canonical lexeme</span>
-            <h2>詞彙目標</h2>
-          </div>
-          <span className="status-pill">總目標 3000</span>
-        </div>
-        <div className="three-grid">
-          <StatCard label="A1＋A2總目標" value="3000" />
-          <StatCard label="主動核心目標" value="1500" />
-          <StatCard label="延伸辨識目標" value="1500" />
-        </div>
-        {vocabularyCoverage ? (
-          <>
-            <div className="three-grid vocabulary-progress-grid">
-              <StatCard
-                label="目標清單已收錄"
-                value={`${vocabularyCoverage.targetEntries} / 3000`}
-              />
-              <StatCard
-                label="正式課程覆蓋"
-                value={vocabularyCoverage.curriculumCovered}
-              />
-              <StatCard
-                label="reference-only覆蓋"
-                value={vocabularyCoverage.referenceOnlyCovered}
-              />
-              <StatCard
-                label="獨立單字庫新增"
-                value={vocabularyCoverage.externalLibraryCovered}
-              />
-              <StatCard
-                label="清單尚未建立"
-                value={vocabularyCoverage.missingEntries}
-              />
-              <StatCard label="接觸過" value={personalVocabulary.exposed} />
-              <StatCard label="可以辨認" value={personalVocabulary.receptive} />
-              <StatCard
-                label="可以主動拼寫及運用"
-                value={personalVocabulary.active}
-              />
-              <StatCard label="待複習" value={globalDueReviews} />
-              <StatCard label="已學sense" value={learnedSenseCount} />
-              <StatCard label="已接觸chunk" value={touchedChunkCount} />
-            </div>
-            {(vocabularyTargets?.status === "partial_review_required" ||
-              vocabularyTargets?.status === "count_complete_review_required") && (
-              <p className="qa-note" data-testid="vocabulary-target-partial-note">
-                {vocabularyTargets.status === "count_complete_review_required"
-                  ? "3000詞彙清單已完成收錄數量，但內容與來源仍待人工審查。"
-                  : "3000詞彙清單仍在分批建置。目前數字代表已整理並納入待審基線的詞彙，尚未全部完成人工內容與來源審查。"}
-              </p>
-            )}
-          </>
-        ) : (
-          <p className="qa-note" role="status">
-            詞彙目標資料暫時無法載入。{vocabularyTargetsError}
-          </p>
-        )}
-      </section>
-      <section className="section-card">
-        <div className="section-heading"><h2>各單元狀態</h2><span className="status-legend">完成 ≠ 通過 ≠ 精通</span></div>
-        <div className="progress-table-wrap">
-          <table className="data-table">
-            <thead><tr><th>單元</th><th>已完成課程</th><th>單元測驗</th><th>完成度</th></tr></thead>
-            <tbody>{courseUnits.map((unit) => {
-              const done = unit.lessons.filter((item) => progress.completedLessonIds.includes(item.id)).length;
-              return <tr key={unit.id}><td><strong>{unit.number}. {unit.title}</strong></td><td>{done} / {unit.lessons.length}</td><td>{progress.passedUnitIds.includes(unit.id) ? "已通過" : done === unit.lessons.length ? "可測驗" : "尚未解鎖"}</td><td><progress value={done} max={unit.lessons.length} /> {Math.round((done / unit.lessons.length) * 100)}%</td></tr>;
-            })}</tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-    );
-  };
+  const renderProgress = () => (
+    <ProgressScreen
+      accuracy={accuracy}
+      coursePercent={coursePercent}
+      courseUnits={courseUnits}
+      multiProgress={multiProgress}
+      progress={progress}
+      selectedLevel={selectedLevel}
+      vocabularyTargets={vocabularyTargets}
+      vocabularyTargetsError={vocabularyTargetsError}
+    />
+  );
 
   const updateCourseDraftRow = (
     row: A1CourseCsvRow,
@@ -7024,7 +4223,7 @@ export default function Home() {
     applyCourseRows(officialCourseRows);
     setImportReport(null);
     if (selectedLevel !== "A1") {
-      localStorage.removeItem(courseRowsStorageKey(selectedLevel));
+      removeStorageItem(courseRowsStorageKey(selectedLevel));
     }
     setToast(
       `已還原 public/data/${contentSourceVersion} ${
@@ -7046,249 +4245,65 @@ export default function Home() {
   };
 
   const renderAdmin = () => (
-    <div className="page-stack wide-page">
-      {renderLevelSelector()}
-      <section className="page-title">
-        <div>
-          <span className="eyebrow">內容資料與人工 QA</span>
-          <h1>課程內容管理</h1>
-          <p>表格修改先保存在草稿；只有完整驗證通過後才會套用。</p>
-          <small>
-            {levelStatusLabel}來源：public/data/{contentSourceVersion}
-            ・revision {courseSourceRevision.slice(0, 12)}
-            ・更新時間{" "}
-            {courseRowsUpdatedAt
-              ? new Date(courseRowsUpdatedAt).toLocaleString("zh-TW")
-              : "載入中"}
-          </small>
-        </div>
-        <div className="toolbar">
-          <button className="primary-button" onClick={validateAndApplyCourseDraft}>驗證並套用</button>
-          <button className="secondary-button" onClick={discardCourseDraft}>放棄草稿</button>
-          <button className="secondary-button" onClick={restoreOfficialCourseData}>還原正式課程資料</button>
-          <button className="secondary-button" onClick={exportContentXlsx}>匯出 Excel</button>
-          <button className="secondary-button" onClick={exportContentCsv}>匯出 CSV</button>
-          <button className="secondary-button" onClick={exportContentJson}>匯出 JSON</button>
-          <label className="primary-button file-button">匯入修訂<input type="file" accept=".xlsx,.xls,.csv,.json" onChange={importContent} /></label>
-        </div>
-      </section>
-      <div className="three-grid content-stats-grid">
-        <StatCard
-          label="單元／課程"
-          value={`${contentStats.units}／${contentStats.lessons}`}
-        />
-        <StatCard
-          label="句子／occurrence"
-          value={`${contentStats.sentences}／${contentStats.occurrences}`}
-        />
-        <StatCard
-          label="待人工 QA"
-          value={contentStats.pendingQa}
-          note={
-            selectedLevel !== "A1"
-              ? "試行內容不可標記為 production ready"
-              : "依 qa_status 統計"
-          }
-        />
-      </div>
-      <section className="qa-note">
-        <strong>給 GPT 檢查時可直接上傳匯出的資料表</strong>
-        <span>請它逐列檢查台灣繁體中文翻譯、KK／IPA、詞性、語塊切分與 CEFR 難度；修正後再匯入本頁。</span>
-      </section>
-      {importReport && (
-        <section className="qa-note" aria-live="polite">
-          <strong>
-            匯入結果：總列數 {importReport.totalRows}・成功列數{" "}
-            {importReport.successfulRows}・失敗列數 {importReport.failedRows}
-          </strong>
-          <span>
-            未匹配 ID：
-            {importReport.unmatchedIds.length
-              ? importReport.unmatchedIds.join("、")
-              : "無"}
-          </span>
-          <span>
-            驗證錯誤：
-            {importReport.validationErrors.length
-              ? importReport.validationErrors.join("｜")
-              : "無"}
-          </span>
-        </section>
-      )}
-      <section className="section-card">
-        <div className="filter-row">
-          <input value={adminSearch} onChange={(event) => setAdminSearch(event.target.value)} placeholder="搜尋英文、中文或句子" />
-          <select value={adminUnit} onChange={(event) => setAdminUnit(event.target.value)}>
-            <option value="all">全部單元</option>
-            {courseUnits.map((unit) => <option key={unit.id} value={unit.id}>單元 {unit.number}・{unit.title}</option>)}
-          </select>
-          <span>顯示 {filteredRows.length} 筆</span>
-        </div>
-        <div className="progress-table-wrap admin-table-wrap">
-          <table className="data-table admin-table">
-            <thead><tr><th>課程</th><th>類型</th><th>英文答案</th><th>繁中提示</th><th>詞性</th><th>KK</th><th>IPA</th><th>QA</th></tr></thead>
-            <tbody>{filteredRows.map((row) => (
-              <tr key={row.occurrence_id}>
-                <td><strong>{row.lesson_title}</strong><small>{row.lesson_id}<br />順序 {row.token_order}</small></td>
-                <td><span className="chip">{row.chunk_id ? "單字＋語塊" : "單字"}</span></td>
-                <td><input value={row.answer} onChange={(event) => updateCourseDraftRow(row, { answer: event.target.value })} /></td>
-                <td><input value={row.prompt} onChange={(event) => updateCourseDraftRow(row, { prompt: event.target.value })} /></td>
-                <td><input value={row.context_pos} onChange={(event) => updateCourseDraftRow(row, { context_pos: event.target.value, partOfSpeech: event.target.value })} /></td>
-                <td><input value={row.kk_us} onChange={(event) => updateCourseDraftRow(row, { kk_us: event.target.value, kk: event.target.value })} /></td>
-                <td><input value={row.ipa_standalone} onChange={(event) => updateCourseDraftRow(row, { ipa_standalone: event.target.value, ipa_us: event.target.value, ipa: event.target.value })} /></td>
-                <td><span className="qa-status">{row.qa_status || "待人工確認"}</span></td>
-              </tr>
-            ))}</tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+    <ContentAdminScreen
+      adminSearch={adminSearch}
+      adminUnit={adminUnit}
+      contentSourceVersion={contentSourceVersion}
+      contentStats={contentStats}
+      courseRowsUpdatedAt={courseRowsUpdatedAt}
+      courseSourceRevision={courseSourceRevision}
+      courseUnits={courseUnits}
+      discardCourseDraft={discardCourseDraft}
+      exportContentCsv={exportContentCsv}
+      exportContentJson={exportContentJson}
+      exportContentXlsx={exportContentXlsx}
+      filteredRows={filteredRows}
+      importContent={importContent}
+      importReport={importReport}
+      levelStatusLabel={levelStatusLabel}
+      renderLevelSelector={renderLevelSelector}
+      restoreOfficialCourseData={restoreOfficialCourseData}
+      selectedLevel={selectedLevel}
+      setAdminSearch={setAdminSearch}
+      setAdminUnit={setAdminUnit}
+      updateCourseDraftRow={updateCourseDraftRow}
+      validateAndApplyCourseDraft={validateAndApplyCourseDraft}
+    />
   );
 
   const renderSettings = () => (
-    <div className="page-stack">
-      <section className="page-title"><div><span className="eyebrow">個人化與備份</span><h1>設定</h1><p>設定只儲存在這台瀏覽器，不需登入。</p></div></section>
-      <div className="two-grid">
-        <section className="section-card settings-card">
-          <h2>發音與音標</h2>
-          <label><span>預設音標</span><select value={settings.phonetic} onChange={(event) => setSettings({ ...settings, phonetic: event.target.value as "KK" | "IPA" })}><option>KK</option><option>IPA</option></select></label>
-          <label className="switch-row"><span><strong>題目開始自動播放</strong><small>單字或語塊播放一次</small></span><input type="checkbox" checked={settings.autoplay} onChange={(event) => setSettings({ ...settings, autoplay: event.target.checked })} /></label>
-          <label><span>慢速播放速度</span><select value={settings.slowRate} onChange={(event) => setSettings({ ...settings, slowRate: Number(event.target.value) })}><option value={0.75}>75%</option><option value={0.85}>85%（建議）</option><option value={0.9}>90%</option></select></label>
-          <label className="switch-row">
-            <span>
-              <strong>顯示進階試行課程</strong>
-              <small>
-                顯示 A2 試行課程，僅供內容 QA，不會偽造程度通過
-              </small>
-            </span>
-            <input
-              data-testid="a2-pilot-toggle"
-              type="checkbox"
-              checked={settings.showAdvancedPilots}
-              onChange={(event) =>
-                setSettings({
-                  ...settings,
-                  showAdvancedPilots: event.target.checked,
-                })
-              }
-            />
-          </label>
-          <div className="source-note">
-            <strong>進階程度解鎖狀態</strong>
-            <span>
-              {isLevelFormallyUnlocked(
-                "A2",
-                multiProgress.passedLevelIds,
-              )
-                ? "已通過 A1 程度測驗，A2 已正式解鎖。B1 與 B2 目前保留資料但未開放。"
-                : settings.showAdvancedPilots
-                  ? "目前開啟 QA 試用入口；正式解鎖條件仍不會被改寫。"
-                  : "通過 A1 程度總測驗後正式解鎖。"}
-            </span>
-          </div>
-          <div className="source-note"><strong>語音來源狀態</strong><span>資料結構已預留預先產生音檔與授權欄位；目前互動版在音檔缺少時使用裝置的免費美式語音備援。</span></div>
-        </section>
-        <section className="section-card settings-card">
-          <h2>完整學習進度備份</h2>
-          <p>包含完成課程、測驗、熟悉度、複習排程與偏好設定。</p>
-          <button className="secondary-button full-button" onClick={exportProgress}>匯出進度備份</button>
-          <label className="primary-button full-button file-button">匯入進度備份<input type="file" accept=".json" onChange={importProgress} /></label>
-          <small>匯入會以備份內容取代目前進度，建議先匯出現有資料。</small>
-        </section>
-      </div>
-    </div>
+    <SettingsScreen
+      exportProgress={exportProgress}
+      importProgress={importProgress}
+      multiProgress={multiProgress}
+      setSettings={setSettings}
+      settings={settings}
+    />
   );
 
-  const renderAssessment = () => {
-    if (!assessment) return null;
-    const item = assessment.lessons[assessment.index];
-    const finalScores = assessment.scores;
-    return (
-      <div className="learning-shell">
-        <div className="learning-top"><button className="back-button" onClick={() => { setAssessment(null); setScreen("map"); }}>← 稍後再測</button><span>{assessment.title}・{assessment.index + 1}/{assessment.lessons.length}</span></div>
-        <div className="stage-progress"><i style={{ width: `${((assessment.index + 1) / assessment.lessons.length) * 100}%` }} /></div>
-        <section className="exercise-card">
-          <span className="eyebrow">完整句子輸入測驗</span>
-          <h1 className="chinese-prompt">{item.translation}</h1>
-          <button className="audio-button centered-audio" onClick={() => speak(item.sentence)}>▶ 播放完整句子</button>
-          <textarea
-            key={item.id}
-            className="answer-input sentence-input"
-            rows={3}
-            value={assessmentValue}
-            disabled={assessment.checked}
-            autoFocus={!assessment.checked}
-            onChange={(event) => setAssessmentValue(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey && !event.repeat) {
-                event.preventDefault();
-                checkAssessment();
-              }
-            }}
-            spellCheck={false}
-            autoComplete="off"
-          />
-          {assessment.checked && <div className={`assessment-result ${assessment.lastScore >= 80 ? "pass" : ""}`}><strong>本題正確率 {assessment.lastScore}%</strong><span>正確句子：{item.sentence}</span></div>}
-          <button
-            key={assessment.checked ? "assessment-next" : "assessment-submit"}
-            className="primary-button full-button detail-next-button"
-            onClick={assessment.checked ? nextAssessment : checkAssessment}
-            onKeyDown={(event) =>
-              activateButtonOnEnter(
-                event,
-                assessment.checked ? nextAssessment : checkAssessment,
-              )
-            }
-            autoFocus={assessment.checked}
-            aria-keyshortcuts="Enter"
-            title={assessment.checked ? "按 Enter 繼續" : "在輸入框按 Enter 送出"}
-          >
-            <span>
-              {assessment.checked
-                ? (assessment.index === assessment.lessons.length - 1 ? "查看測驗結果" : "下一題 →")
-                : "送出答案"}
-            </span>
-            <kbd>Enter</kbd>
-          </button>
-          {!!finalScores.length && <small className="center-note">目前平均 {Math.round(finalScores.reduce((sum, score) => sum + score, 0) / finalScores.length)}%</small>}
-        </section>
-      </div>
-    );
-  };
+  const renderAssessment = () => (
+    <AssessmentScreen
+      assessment={assessment}
+      assessmentValue={assessmentValue}
+      checkAssessment={checkAssessment}
+      nextAssessment={nextAssessment}
+      setAssessment={setAssessment}
+      setAssessmentValue={setAssessmentValue}
+      setScreen={setScreen}
+      speak={speak}
+    />
+  );
 
   const renderVocabularyLibrary = () => (
-    <VocabularyLibraryPanel
-      entries={vocabularyLibraryEntries}
-      loading={vocabularyLibraryStatus === "loading"}
-      error={vocabularyLibraryStatus === "error" ? vocabularyLibraryError : ""}
-      applicationCount={vocabularySupplements.applications?.entries.length ?? 0}
-      applicationError={vocabularySupplements.applicationError}
-      phonetics={vocabularySupplements.phonetics}
-      phoneticError={vocabularySupplements.phoneticError}
-      buildApplicationQuestion={(entry) => {
-        if (!vocabularySupplements.applications || !vocabularyTargets) return undefined;
-        const data = vocabularySupplements.applications;
-        const question = buildVocabularyApplicationQuestion(data, vocabularyTargets, entry.lexemeId, localDateKey());
-        const source = data.entries.find((item) => item.lexemeId === entry.lexemeId);
-        return question && source ? { question, sentence: source.sentence } : undefined;
-      }}
-      buildQuestion={(entry, mode) => {
-        if (!vocabularyLibrary || !vocabularyTargets) return undefined;
-        return buildVocabularyLibraryPracticeQuestion({
-          library: vocabularyLibrary,
-          targets: vocabularyTargets,
-          lexemeId: entry.lexemeId,
-          studyDate: localDateKey(),
-          mode,
-        });
-      }}
-      learnedCount={
-        summarizeVocabularyProgress(
-          multiProgress.vocabularyProgress,
-          vocabularyLibraryEntries.map((entry) => entry.lexemeId),
-        ).exposed
-      }
-      onEvidence={recordVocabularyLibraryEvidence}
+    <VocabularyLibraryScreen
+      multiProgress={multiProgress}
+      recordVocabularyLibraryEvidence={recordVocabularyLibraryEvidence}
+      vocabularyLibrary={vocabularyLibrary}
+      vocabularyLibraryEntries={vocabularyLibraryEntries}
+      vocabularyLibraryError={vocabularyLibraryError}
+      vocabularyLibraryStatus={vocabularyLibraryStatus}
+      vocabularySupplements={vocabularySupplements}
+      vocabularyTargets={vocabularyTargets}
     />
   );
 
@@ -7388,7 +4403,7 @@ export default function Home() {
           <span className="brand-mark">E</span>
           <span><strong>英句練習</strong><small>一句一句，真的記住</small></span>
         </button>
-        <nav aria-label="主要導覽">
+        <nav aria-label="主要導覽" ref={mainNavRef}>
           {navItems.map((item) => (
             <button
               key={item.screen}
@@ -7433,7 +4448,12 @@ export default function Home() {
 
       <main className="main-area">
         <header className="topbar">
-          <div><span className="online-dot" /> 本機進度已儲存</div>
+          <div data-testid="storage-status">
+            <span
+              className={`online-dot${storageWriteFailed ? " storage-warning" : ""}`}
+            />{" "}
+            {storageWriteFailed ? "本機進度未能儲存" : "本機進度已儲存"}
+          </div>
           <div className="top-actions">
             <span
               className="streak"

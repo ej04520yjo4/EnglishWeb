@@ -501,3 +501,27 @@ ADR-052 remains reserved for the local backup-recovery work; the numbering gap i
 All new content remains `pilot_review_required` and audio remains `pending`. The user has authorized further implementation, not retrospective human language, phonetic, CEFR, or learner approval. Normal access still requires A1 and the preceding A2 unit; QA preview never writes pass records.
 
 **Reason:** Invitation, acceptance, polite refusal, and an alternative arrangement extend the user's practical-conversation goal in a small reviewable batch. Work stays on `codex/a2-social-invitations-unit9` based on Unit 8 `a3348e7`; the dirty original checkout, backup recovery, and separate `codex/review-fixes` work remain untouched. This continuation does not authorize merging or deploying those branches.
+
+## ADR-056 - Browser Storage Failures Are Recoverable
+
+**Status:** Accepted, 2026-11-09
+
+**Decision:** All main-shell localStorage reads, writes, and removals go through `app/browser-storage.ts`. A failed write keeps in-memory learning state, shows one explicit warning, and marks the top bar as not saved until a later write succeeds. Reads from blocked storage return nothing. `app/error.tsx` is the last-resort boundary and never reads or clears progress. ADR numbers 052 and 054 are used by the separate Unit 8/backup-recovery branch, so this branch starts at 055.
+
+**Reason:** A full quota or blocked site data previously threw inside React effects and blanked the whole application, which risks unsaved answers and gives the learner no recovery path. Failing visibly but safely matches the local-first design: there is no server copy, so the learner must be told to download a backup.
+
+## ADR-057 - The Browser Loads Packed Copies of Large Vocabulary Files
+
+**Status:** Accepted, 2026-11-09
+
+**Decision:** Keep the four canonical vocabulary JSON files under `public/data/` as the reviewed, audited source. Generate lossless packed copies in `public/data/packed/` with `npm run build:packed-vocabulary` (shared string table and key/row tables). Runtime loaders fetch the packed copy, unpack it, and run the unchanged validators. `npm run check:packed-vocabulary` in `verify` rejects stale copies or any copy that does not restore exactly. These requests use `cache: "no-cache"` so unchanged files revalidate instead of re-downloading.
+
+**Reason:** The home page downloaded a 4.9 MB target catalog and the 3000-word screen another 9.5 MB, uncompressed on the local dev server the launcher runs. A lossless encoding cuts this by about 64% without dropping provenance fields or weakening validation, and keeps all audits on the human-readable files. A stripped runtime schema was rejected because it would fork the validated data contract.
+
+## ADR-058 - Screens Render Through Components; State Stays in the Shell
+
+**Status:** Accepted, 2026-11-09
+
+**Decision:** Each screen previously returned from a `render*` closure in `app/page.tsx` is now a component in `app/screens/` that receives the values it uses as typed props. Shared types and helpers live in `app/home-model.ts` and `app/home-widgets.tsx`. Learning state, effects, persistence, and handlers remain in `page.tsx` for now; moving them into hooks is a separate, test-protected step (QA-002).
+
+**Reason:** The 7,473-line page made every change high-risk. Moving rendering first is mechanical and type-checked, keeps every learning rule in one place, and lets later hook extraction proceed screen by screen under the existing desktop/mobile browser suite.

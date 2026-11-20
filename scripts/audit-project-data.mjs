@@ -179,8 +179,11 @@ for (let index = 0; index < levelEntries.length; index += 1) {
   }
 }
 
-const publicDataFiles = (await readdir(dataDirectory))
-  .map((fileName) => `public/data/${fileName}`)
+// Subdirectories hold derived copies (public/data/packed is checked by
+// check:packed-vocabulary), so only top-level source files are audited here.
+const publicDataFiles = (await readdir(dataDirectory, { withFileTypes: true }))
+  .filter((entry) => entry.isFile())
+  .map((entry) => `public/data/${entry.name}`)
   .sort();
 const courseSourceFiles = publicDataFiles.filter((fileName) =>
   /(?:course-v\d+\.csv|pattern-exercises\.json|reading-exercises\.json)$/.test(

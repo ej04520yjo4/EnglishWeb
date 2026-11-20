@@ -1,17 +1,36 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
+import { register } from "node:module";
 import test from "node:test";
+import { readAppShellSource } from "./helpers/app-source.mjs";
+
+// The production Worker bundle imports `cloudflare:workers` for optional
+// tracing. Plain Node cannot resolve that scheme, so map it to an inert stub
+// that exposes no bindings, matching what the page needs during this render.
+const cloudflareWorkersStub = `data:text/javascript,${encodeURIComponent(
+  "export const tracing = undefined; export const env = {}; export function waitUntil() {}",
+)}`;
+register(
+  `data:text/javascript,${encodeURIComponent(`
+    export async function resolve(specifier, context, nextResolve) {
+      if (specifier === "cloudflare:workers") {
+        return { shortCircuit: true, url: ${JSON.stringify(cloudflareWorkersStub)} };
+      }
+      return nextResolve(specifier, context);
+    }
+  `)}`,
+);
 
 const root = new URL("../", import.meta.url);
 
-async function render() {
+async function render(extraHeaders = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
     new Request("http://localhost/", {
-      headers: { accept: "text/html" },
+      headers: { accept: "text/html", ...extraHeaders },
     }),
     {
       ASSETS: {
@@ -39,6 +58,20 @@ test("server-renders the Traditional Chinese learning experience", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/);
 });
 
+test("renders the compact social image and favicon without trusting forwarded hosts", async () => {
+  const response = await render({
+    "x-forwarded-host": "attacker.example",
+    "x-forwarded-proto": "http",
+  });
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<meta property="og:image" content="[^"]*\/og\.jpg"/);
+  assert.match(html, /<meta property="og:image:width" content="1200"/);
+  assert.doesNotMatch(html, /attacker\.example/);
+  assert.doesNotMatch(html, /og\.png/);
+  assert.match(html, /<link[^>]*rel="icon"[^>]*href="\/favicon\.svg"/);
+});
+
 test("server-renders a keyboard skip target and described navigation counts", async () => {
   const response = await render();
   assert.equal(response.status, 200);
@@ -63,7 +96,7 @@ test("keeps course data and product metadata ready for the MVP", async () => {
     layout,
     packageJson,
   ] = await Promise.all([
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readAppShellSource(),
     readFile(new URL("../app/course-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/a1-mvp-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/a1-exercises.ts", import.meta.url), "utf8"),
@@ -73,7 +106,8 @@ test("keeps course data and product metadata ready for the MVP", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /localStorage/);
+  assert.match(page, /readStorageItem\(/);
+  assert.match(page, /persistStorageItem\(/);
   assert.match(page, /exportContentXlsx/);
   assert.doesNotMatch(page, /checkDictation|dictation-answer/);
   assert.match(page, /stage === "reading-recognition"/);
