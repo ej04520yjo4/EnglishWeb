@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-- Updated: 2026-11-20
+- Updated: 2026-11-22
 - Integration: review fixes from PR #19 (`f10bf59`) already include main `4f977e5` (PR #20, A2 Units 8–9). The combined candidate also contains both pinned GitHub Actions updates (PRs #11 and #12); GitHub records the required checks and merge status. No curriculum changes are included beyond the already merged Units 8–9.
 - Integration is isolated from the original `D:\Codex\Tools\EnglishWeb\english-learning-app` checkout and its uncommitted local-only work. It does not deploy the site.
 - Preservation copies (`EnglishWeb-preserved-20261016`, `backups*`, `a2-unit8-development`, named stashes) are unchanged. Earlier history lives in `docs/archive/progress-history.md`.
@@ -70,6 +70,7 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 - Structure: `app/page.tsx` went from 7,473 to about 4,500 lines. Shared types/helpers moved to `app/home-model.ts`/`app/home-widgets.tsx`; every screen renders through a component in `app/screens/`. State, effects, and handlers stay in `page.tsx`; source-level tests read the shell through `tests/helpers/app-source.mjs`.
 - Context: completed-work and verification history moved to `docs/archive/`; completed tasks moved to `docs/archive/completed-tasks.md`.
 - Pending-PR consolidation (2026-11-20): updated `actions/setup-node` to 7.1.0 and `actions/upload-artifact` to 7.0.2, verifying the full commit pins against upstream release tags. Review fixes already contain newer versions than PRs #5 (React Server DOM), #6 (Next), #7 (Vinext), #8 (Wrangler), and #9 (Tailwind); do not reapply their older lockfiles. PR #4 proposes Node 26 declarations, but CI and the supported minimum runtime stay on Node 22. Keep the Node 22 declarations until there is a separate runtime-support decision.
+- Node types follow-up (2026-11-22): choose `@types/node` 22.20.5 as the compatible alternative to PR #4, keep the runtime floor at 22.13.0, and add a test checking the declarations' major and locked version. The npm Dependabot rule excludes only `@types/node` 23+; other packages and 22.x updates remain eligible.
 
 ## Known Limits
 
@@ -92,6 +93,10 @@ Try the review fixes on a real phone and Windows Chrome: the one-row navigation,
 Try Unit 9's four lessons, six-sentence invitation/rescheduling exchange, and four comprehension questions on Windows/mobile. Review `would love to`, polite refusal, `instead`, Taiwan Chinese, difficulty, and KK/IPA before deciding on Unit 10. Earlier unit and real-microphone trials remain open; automated checks certify neither learning gains nor speech accuracy. B1/B2 remain disabled.
 
 ## Verification
+
+### Node types follow-up (2026-11-22)
+
+- Fresh `npm ci` and `npm run verify` passed on Windows: 306 unit tests with no failures or skips, production build, lint, and TypeScript. The lockfile diff is limited to `@types/node`; the npm Dependabot block was parsed to confirm that only its 23+ versions are excluded. Required GitHub checks run the candidate on Node 22.
 
 ### Review fixes (2026-11-09)
 
