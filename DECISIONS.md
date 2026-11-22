@@ -314,6 +314,8 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Reason:** One required-check run per change avoids duplicate runner work, while an immutable action reference, bounded update queue, and explicit compatibility review reduce supply-chain and upgrade risk without permanently blocking unrelated development.
 
+**Node declarations:** Keep `@types/node` on the oldest supported Node major, currently 22. Dependabot can propose newer 22.x releases; its npm configuration ignores only `@types/node` versions 23 and later. Raising the runtime floor requires a separate decision covering the launchers, CI and declarations together.
+
 ## ADR-039 - A2 Expands One Reviewed Pilot Unit at a Time
 
 **Status:** Accepted

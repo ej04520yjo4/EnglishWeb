@@ -2,6 +2,10 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-22 - Keep Node Declarations Compatible
+
+- Update `@types/node` to 22.20.5 without raising the supported Node runtime or changing the production dependencies. Add a manifest/lockfile check and keep Dependabot suggestions for this package on 22.x.
+
 ## 2026-11-20 - Pending PR Consolidation
 
 - Integrate the review fixes with the pinned `actions/setup-node` 7.1.0 and `actions/upload-artifact` 7.0.2 updates. Keep the newer application dependencies from the review fixes rather than reapplying older automated updates.
