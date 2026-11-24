@@ -164,7 +164,8 @@ Run the focused browser cases separately from `npm run verify` on this workstati
 - Data checks: all 3000 path words built recognition and spelling questions and had an application sentence and KK candidate, with 0 failures. Recognition options for 300 sampled words were identical before and after the sorting change, which cut question building from about 70 ms to 42 ms in Node.
 - Desktop and phone screenshots of the overview, lesson list, study card and recognition step showed no overflow. Pre-change copies are archived in `tmp/backup-before-3000-path.tgz`.
 - The original checkout still reports its 30 independent changes. Automated checks only: no human language, phonetic, audio or real-device review.
-- CI sharding: `--fully-parallel --shard=i/16` lists all 650 tests exactly once (40–41 per shard). Locally on two workers, the heaviest shard (3/16) passed 41 tests in 10.7 minutes and the last shard 40 tests in 1.2 minutes. The GitHub run is the real check.
+- CI sharding: `--fully-parallel --shard=i/16` lists all 650 tests exactly once (40–41 per shard). Locally on two workers, the heaviest shard (3/16) passed 41 tests in 10.7 minutes and the last shard 40 tests in 1.2 minutes.
+- First GitHub run on PR #28: the quality job and 15 of 16 shards passed, and the slowest shard took about 17 minutes. Shard 15 failed only because the mobile case `keeps formal A2 units sequential while QA preview exposes all pilot units` took 31.6 s against the 30-second test limit (desktop 23.0 s, locally about 15 s). The case reloads the full A2 map six times, so its limit is now 90 s with the assertions unchanged. No other case on the default limit took more than 16.1 s on CI. Rerun locally on two workers, the case passed on both projects in 17.4 s each. The next GitHub run is the real check.
 
 ### A2 continuation through Unit 190 (2026-11-23)
 

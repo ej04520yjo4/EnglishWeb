@@ -1283,6 +1283,8 @@ test("completes the A2 passage rebuild and all three comprehension questions", a
 test("keeps formal A2 units sequential while QA preview exposes all pilot units", async ({
   page,
 }) => {
+  // Reloads the full A2 map six times; on CI runners this took over 30 s.
+  test.setTimeout(90_000);
   await page.addInitScript(
     ({ key, settings, progress }) => {
       if (localStorage.getItem(key) === null) {
