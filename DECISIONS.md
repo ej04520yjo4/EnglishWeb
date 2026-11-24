@@ -262,7 +262,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while its dependent Playwright job remains separate for browser setup and artifacts.
+**Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while the dependent Playwright shards remain separate for browser setup and artifacts (ADR-063).
 
 **Reason:** One maintained command prevents local documentation and GitHub Actions from silently enforcing different release standards.
 
@@ -559,3 +559,11 @@ All new content remains `pilot_review_required` and audio remains `pending`. The
 **Decision:** Add a separate guided path of 5 stages, 300 lessons and 10 words per lesson that covers each of the 3000 canonical targets exactly once. Derive every path status from global `vocabularyProgress`; add no progress schema, formal lessons, occurrences, unit passes, CEFR credit or B1/B2 content. Words enter the review queue only after a path study card is confirmed, so formal-course evidence alone cannot create a backlog. Correct wrong-sense meanings in `course-meaning-revisions.json`, layered over the pinned lexical snapshot, and drop the WordNet claim for those entries.
 
 **Reason:** At Unit 190 the formal A1/A2 course covers 554 of the 3000 targets. Teaching the other 2446 through one-sentence formal lessons would add more than a thousand lessons, far more browser data, and a test run measured in many hours. The catalog already held meanings, original sentences and KK candidates, so ordering them gives learners a complete route while ADR-048 keeps them outside the formal curriculum. All content remains `pilot_review_required`.
+
+## ADR-063 - Shard CI Browser Tests Behind One Required Check
+
+**Status:** Accepted, 2026-11-24
+
+**Decision:** Run the Playwright matrix in 16 GitHub Actions shards with `--fully-parallel` and two workers each. A summary job keeps the required check name `Playwright browser tests`, always runs, and fails unless every shard succeeded. Each shard keeps the 30-minute limit and uploads its own report.
+
+**Reason:** The applied A2 flows grew the suite to 650 tests and about 3.6 hours of browser time, which one 30-minute job cannot finish. Sharding keeps every test and the branch protection rule unchanged, and a skipped or failed shard can never be reported as a pass.

@@ -8,6 +8,7 @@ This file records user-visible or contributor-visible project changes. Detailed 
 - Each lesson uses study cards, recognition and spelling. Words return on later dates until they meet their goal, then come back for spaced checks.
 - Corrected 758 Chinese meanings that used rare senses and rewrote 3 example sentences. The word library now shows the corrected meanings.
 - Progress stays in the existing vocabulary evidence. No formal lesson, CEFR pass or B1/B2 content was added, and all content remains pending human review.
+- CI now runs the browser tests in 16 parallel shards. The required `Playwright browser tests` check reports their combined result.
 
 ## 2026-11-23 - A2 Wrong Parcels, Lost Keys and Lunch Invitations, Units 188–190
 

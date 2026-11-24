@@ -11,9 +11,9 @@
 - Disabled runtime data: B1/B2 retained for direct generator, audit, and structural tests
 - A1: 8 units, 32 lessons, 145 occurrences
 - A1 practice: 20 CSV patterns, 8 enabled/covered, 0 uncovered, 12 deliberately deferred; third-batch additions remain `pilot_review_required`.
-- A2 at the main baseline (`d87d1cc`): 9 units, 36 lessons, 225 occurrences. The local `codex/a2-capstone-unit10` worktree includes the capstone and applied units through Unit 190: 760 lessons, 4362 occurrences. This continuation is not pushed or deployed.
+- A2 at the main baseline (`d87d1cc`): 9 units, 36 lessons, 225 occurrences. The local `codex/a2-capstone-unit10` worktree includes the capstone and applied units through Unit 190: 760 lessons, 4362 occurrences. This continuation is on branch `codex/a2-capstone-unit10` for a pull request into `main`; it is not merged or deployed.
 - Progress schema: v6 with top-level global `vocabularyProgress`
-- 3000-word guided path (local worktree, not pushed or deployed): 5 stages, 300 lessons, 10 words per lesson, every one of the 3000 targets exactly once. The formal A1+A2 course alone covers 554 of them.
+- 3000-word guided path (same branch, not merged or deployed): 5 stages, 300 lessons, 10 words per lesson, every one of the 3000 targets exactly once. The formal A1+A2 course alone covers 554 of them.
 
 ## Vocabulary Baseline
 
@@ -150,7 +150,7 @@ Review fixes (2026-11-09), no curriculum, schema, scoring, or unlock change:
 
 Try the review fixes on a real phone and Windows Chrome: the one-row navigation, home landing position, hidden Enter badges, and the storage warning (for example with site data blocked). Set `NEXT_PUBLIC_SITE_URL` for any deployment. The A2 Unit 7/8/9, conversation, and vocabulary human-QA tasks in `TASKS.md` remain open.
 
-Try the 3000-word path for several study days on Windows Chrome and a real phone (`VOCAB-PATH-QA` in `TASKS.md`): lesson order, the revised meanings, and example sentences that use later words. Formal A2 units can still continue from Unit 191, but the 3000-word goal is now covered by the path. B1/B2 remain disabled. Nothing in this worktree is committed, pushed or deployed.
+Try the 3000-word path for several study days on Windows Chrome and a real phone (`VOCAB-PATH-QA` in `TASKS.md`): lesson order, the revised meanings, and example sentences that use later words. Formal A2 units can still continue from Unit 191, but the 3000-word goal is now covered by the path. B1/B2 remain disabled. The branch `codex/a2-capstone-unit10` is pushed for a pull request into `main`; merge only after both required checks pass. Nothing is deployed.
 
 Run the focused browser cases separately from `npm run verify` on this workstation. At the 220-lesson checkpoint, concurrent build/unit tests and four browser workers timed out at the initial home heading; the trace showed the heading after the check timed out. Keep the assertions intact.
 
@@ -164,6 +164,7 @@ Run the focused browser cases separately from `npm run verify` on this workstati
 - Data checks: all 3000 path words built recognition and spelling questions and had an application sentence and KK candidate, with 0 failures. Recognition options for 300 sampled words were identical before and after the sorting change, which cut question building from about 70 ms to 42 ms in Node.
 - Desktop and phone screenshots of the overview, lesson list, study card and recognition step showed no overflow. Pre-change copies are archived in `tmp/backup-before-3000-path.tgz`.
 - The original checkout still reports its 30 independent changes. Automated checks only: no human language, phonetic, audio or real-device review.
+- CI sharding: `--fully-parallel --shard=i/16` lists all 650 tests exactly once (40–41 per shard). Locally on two workers, the heaviest shard (3/16) passed 41 tests in 10.7 minutes and the last shard 40 tests in 1.2 minutes. The GitHub run is the real check.
 
 ### A2 continuation through Unit 190 (2026-11-23)
 
