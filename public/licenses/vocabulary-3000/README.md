@@ -21,7 +21,9 @@ CEFR list, pronunciation dictionary, or endorsement by any source author.
   Used only during source preparation for cn → twp conversion. See
   [MIT notice](opencc-js-mit.txt) and [dictionary Apache-2.0 notice](opencc-third-party.md).
 - **EnglishWeb editorial additions**: original short glosses and Taiwan Chinese
-  corrections, machine-assisted and pending human review, CC BY-SA 4.0.
+  corrections, machine-assisted and pending human review, CC BY-SA 4.0. This
+  includes the 758 course meaning revisions of 2026-11-24, which replace the
+  WordNet sense for those entries and no longer claim it.
 - **EnglishWeb sentence applications**: 3,000 original, machine-assisted English
   sentences, Taiwan Chinese translations and usage notes, CC BY-SA 4.0. The
   60 editable source batches remain `pilot_review_required`; these are not

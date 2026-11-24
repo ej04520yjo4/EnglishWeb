@@ -561,12 +561,16 @@ const buildRecognitionOptions = (
     )
     .map((candidate) => normalizeOption(candidate.entry.translationZhTw))
     .filter((translation) => translation && translation !== answer)
-    .sort((left, right) => {
-      const difference =
-        stableHash(`${id}:distractor:${left}`) -
-        stableHash(`${id}:distractor:${right}`);
-      return difference || left.localeCompare(right);
-    });
+    // Hash once per option: sorting 3000 entries re-hashed both sides of every
+    // comparison, which made each question noticeably slow on phones.
+    .map((translation) => ({
+      translation,
+      rank: stableHash(`${id}:distractor:${translation}`),
+    }))
+    .sort((left, right) =>
+      left.rank - right.rank || left.translation.localeCompare(right.translation),
+    )
+    .map(({ translation }) => translation);
   const uniqueDistractors = [...new Set(distractors)].slice(0, 3);
   if (!answer || uniqueDistractors.length !== 3) return undefined;
   const answerIndex = stableHash(`${id}:answer`) % 4;

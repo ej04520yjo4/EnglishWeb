@@ -89,7 +89,7 @@ import {
   validateCourseRows,
 } from "./curriculum/validation";
 import {
-  createStoredCourseData,
+  createStoredCourseDelta,
   restoreStoredCourseData,
 } from "./curriculum/storage";
 import {
@@ -156,6 +156,7 @@ import {
 } from "./vocabulary-library-panel";
 import { recordVocabularyApplicationResult } from "./vocabulary-application";
 import { useVocabularySupplements } from "./use-vocabulary-supplements";
+import { buildVocabularyPathExposureId } from "./vocabulary-path";
 import {
   readStorageItem,
   removeStorageItem,
@@ -652,6 +653,19 @@ export default function Home() {
         },
       ),
     }));
+  };
+
+  // Pressing "seen" on a path study card is the only exposure it records;
+  // rendering the card, searching or playing audio creates no evidence.
+  const recordVocabularyPathExposure = (entry: VocabularyLibraryPanelEntry) => {
+    const studiedAt = new Date().toISOString();
+    recordVocabularyEvidence(
+      [entry.lexemeId],
+      "exposure",
+      buildVocabularyPathExposureId(localDateKey(new Date(studiedAt)), entry.lexemeId),
+      entry.targetLevel ?? "A1",
+      studiedAt,
+    );
   };
 
   const recordVocabularyLibraryEvidence = (
@@ -1318,6 +1332,7 @@ export default function Home() {
         if (
           courseDataStatusByLevel[level] !== "ready" ||
           courseRowsByLevel[level].length === 0 ||
+          officialCourseRowsByLevel[level].length === 0 ||
           !courseSourceRevisionByLevel[level] ||
           !courseRowsUpdatedAtByLevel[level]
         ) {
@@ -1326,9 +1341,10 @@ export default function Home() {
         persistStorageItem(
           courseRowsStorageKey(level),
           JSON.stringify(
-            createStoredCourseData(
+            createStoredCourseDelta(
               entry,
               courseRowsByLevel[level],
+              officialCourseRowsByLevel[level],
               courseSourceRevisionByLevel[level],
               courseRowsUpdatedAtByLevel[level],
             ),
@@ -1342,6 +1358,7 @@ export default function Home() {
     courseRowsByLevel,
     courseRowsUpdatedAtByLevel,
     courseSourceRevisionByLevel,
+    officialCourseRowsByLevel,
     loaded,
   ]);
 
@@ -4298,6 +4315,7 @@ export default function Home() {
     <VocabularyLibraryScreen
       multiProgress={multiProgress}
       recordVocabularyLibraryEvidence={recordVocabularyLibraryEvidence}
+      recordVocabularyPathExposure={recordVocabularyPathExposure}
       vocabularyLibrary={vocabularyLibrary}
       vocabularyLibraryEntries={vocabularyLibraryEntries}
       vocabularyLibraryError={vocabularyLibraryError}

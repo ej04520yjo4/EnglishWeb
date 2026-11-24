@@ -3,11 +3,14 @@
 import { useState } from "react";
 import { gradeVocabularyApplication, type VocabularyApplicationQuestion } from "./vocabulary-application";
 
-export function VocabularyApplicationPractice({ question, sentence, onAnswer, onExit }: {
+export function VocabularyApplicationPractice({ question, sentence, onAnswer, onExit, onNext, backLabel = "← 返回 3000 單字庫", nextLabel = "返回單字庫" }: {
   question: VocabularyApplicationQuestion;
   sentence: string;
   onAnswer: (answer: string, usedPaste: boolean, answerRevealed: boolean) => void;
   onExit: () => void;
+  onNext?: () => void;
+  backLabel?: string;
+  nextLabel?: string;
 }) {
   const [answer, setAnswer] = useState("");
   const [attempts, setAttempts] = useState(0);
@@ -32,7 +35,7 @@ export function VocabularyApplicationPractice({ question, sentence, onAnswer, on
   };
 
   return <section className="section-card vocabulary-library-practice" data-testid="vocabulary-library-application-practice">
-    <button className="back-button" onClick={onExit}>← 返回 3000 單字庫</button>
+    <button className="back-button" onClick={onExit}>{backLabel}</button>
     <span className="eyebrow">情境句子應用・試行內容</span>
     <h2>{question.promptZhTw}</h2>
     <p>請使用 <strong>{question.targetForm}</strong>，輸入完整英文參考句（{question.wordCount} 個字）。</p>
@@ -57,7 +60,7 @@ export function VocabularyApplicationPractice({ question, sentence, onAnswer, on
       <p className="feedback">完成句子應用：{sentence}</p>
       <small>同一單字每天只記錄首次作答；答錯後重試、貼上或揭示答案不會新增乾淨應用證據。</small>
     </div>}
-    {complete ? <button className="primary-button full-button" autoFocus onClick={onExit} onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}>返回單字庫</button>
+    {complete ? <button className="primary-button full-button" data-testid="vocabulary-library-application-next" autoFocus onClick={onNext ?? onExit} onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}>{nextLabel}</button>
       : <button className="primary-button full-button" data-testid="vocabulary-library-application-check" disabled={!answer.trim() || (revealed && !correct)} onClick={check}
         onKeyDown={(event) => { if (event.key === "Enter" && (event.repeat || event.nativeEvent.isComposing)) event.preventDefault(); }}>{revealed ? "重新輸入並完成" : "檢查完整句子"}</button>}
   </section>;

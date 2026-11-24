@@ -6,6 +6,8 @@ The long-term cumulative target through A2 is 3000 canonical single-word lexemes
 
 The user explicitly requested the full3000 catalog on2026-10-15. The product now contains3000 candidate headwords, but CEFR course completion, vocabulary coverage, human review and learner mastery remain separate. Target A1/A2 stage labels are not officialCEFR certification.
 
+The guided learning route over these 3000 words is described in [the 3000-word path](vocabulary-3000-path.md).
+
 ## Counting Rules
 
 - Count one canonical `lexemeId` once across A1 and A2.

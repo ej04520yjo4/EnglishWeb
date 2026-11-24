@@ -54,8 +54,10 @@ Start a fresh conversation after a milestone is completed or when the work chang
 - `public/data/vocabulary-targets-v2.json`: runtime 3000-canonical-word target catalog; v1 remains the protected 132-entry baseline.
 - `public/data/vocabulary-library-v1.json`: pending-review bilingual meanings and practice source; reproduce with `npm run build:vocabulary`.
 - `public/data/vocabulary-applications-v1.json`: independent sentence practice from 60 editable original-content batches; never infer formal course completion.
+- `public/data/vocabulary-path-v1.json`: generated guided path of 5 stages, 300 lessons and 10 words per lesson; reproduce with `npm run build:vocabulary-path`. It adds no formal lessons or course credit.
 - `public/data/vocabulary-phonetics-v1.json`: pinned CMUdict-derived KK/IPA candidates; preserve all variants and pending human review, not audio-ready claims.
 - `public/data/packed/`: generated lossless browser copies of the four large vocabulary files. Never edit them by hand; run `npm run build:packed-vocabulary` after regenerating any canonical vocabulary file.
+- `app/vocabulary-path.ts` and `app/vocabulary-path-panel.tsx`: guided-path rules and UI, derived entirely from global vocabulary evidence.
 - `app/vocabulary-targets.ts` and `app/vocabulary-progress.ts`: target validation, coverage, evidence, and mastery rules.
 - `public/data/a1-pattern-exercises.json` and `public/data/a1-reading-exercises.json`: versioned practice additions; enabled trial entries retain their pending-review status.
 - `tests/`: unit, rendered-content, and Playwright coverage.

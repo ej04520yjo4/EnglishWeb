@@ -2,6 +2,343 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-24 - 3000-Word Guided Path
+
+- Added a guided path to the 3000-word screen: 5 stages, 300 lessons and 10 words per lesson, covering all 3000 target words exactly once.
+- Each lesson uses study cards, recognition and spelling. Words return on later dates until they meet their goal, then come back for spaced checks.
+- Corrected 758 Chinese meanings that used rare senses and rewrote 3 example sentences. The word library now shows the corrected meanings.
+- Progress stays in the existing vocabulary evidence. No formal lesson, CEFR pass or B1/B2 content was added, and all content remains pending human review.
+
+## 2026-11-23 - A2 Wrong Parcels, Lost Keys and Lunch Invitations, Units 188–190
+
+- Added 12 lessons on handling a wrong delivery, looking for a key, and inviting a coworker to lunch. A2 now contains 190 units and 760 lessons.
+- Added 24 transfers and three short readings. Learners use `not my package`, `the wrong name`, `take it back`, `Where is my key?`, `look in your bag`, `put it by the door`, `near here`, and `I will pay today`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 New Babies, Breakfast Habits and Old Photos, Units 185–187
+
+- Added 12 lessons on talking about a friend's new baby, breakfast habits, and old family photos. A2 now contains 187 units and 748 lessons.
+- Added 24 transfers and three short readings. Learners use `a new baby`, `a boy or a girl`, `What do you usually have for breakfast?`, `eggs and milk`, `Sometimes I do not have time`, `an old photo`, `That is my father`, and `looks so young`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Plant Care, New Hobbies and Online Booking, Units 182–184
+
+- Added 12 lessons on asking a neighbor to water plants, talking about a new hobby, and explaining online booking steps. A2 now contains 184 units and 736 lessons.
+- Added 24 transfers and three short readings. Learners use `water my plants`, `be away`, `bring you a gift`, `started playing`, `hard but fun`, `book online`, `First,`, `Then`, and `get an email`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Train Tickets, Introducing Taiwan and Volunteering, Units 179–181
+
+- Added 12 lessons on buying a train ticket, introducing Taiwan to a visitor, and signing up as a volunteer. A2 now contains 181 units and 724 lessons.
+- Added 24 transfers and three short readings. Learners use `a ticket for the next train`, `a window seat`, `Which car`, `The trip takes`, `a beautiful island`, `is famous`, `be a volunteer`, and `join this weekend`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Night Markets, Storm Days and Paying Bills, Units 176–178
+
+- Added 12 lessons on visiting a night market, preparing for a storm, and paying a bill at a convenience store. A2 now contains 178 units and 712 lessons.
+- Added 24 transfers and three short readings. Learners use `the night market`, `Can I try some`, `A storm is coming`, `There is no work`, `close the windows`, `stay inside`, `pay this bill`, and `need a receipt`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Moving Home, Tooth Pain and Buying a Phone, Units 173–175
+
+- Added 12 lessons on moving home, describing tooth pain at a clinic, and buying a phone. A2 now contains 175 units and 700 lessons.
+- Added 24 transfers and three short readings. Learners use `moved last week`, `carry this box`, `Put it in`, `My tooth hurts`, `see a doctor`, `Open your mouth`, `a good camera`, and `come in black`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 In-Flight Requests, Immigration and Currency Exchange, Units 170–172
+
+- Added 12 lessons on asking for help on a plane, answering immigration questions, and exchanging money. A2 now contains 172 units and 688 lessons.
+- Added 24 transfers and three short readings. Learners use `Can I have a blanket`, `I feel a little cold`, `When will we arrive?`, `I am here to visit`, `How long will you stay?`, `stay at a hotel`, `exchange some money`, and `in cash`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Food Memories, Beach Days and Airport Check-in, Units 167–169
+
+- Added 12 lessons on sharing a childhood food memory, planning a beach day, and checking in at an airport. A2 now contains 169 units and 676 lessons.
+- Added 24 transfers and three short readings. Learners use `made cake`, `every Sunday`, `still remember`, `go to the beach`, `should bring`, `How many bags`, `Which gate`, and `The flight leaves`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Broken Elevators, Changed Reservations and Favorite Teachers, Units 164–166
+
+- Added 12 lessons on reporting a broken elevator, changing a dinner booking, and talking about a favorite teacher. A2 now contains 166 units and 664 lessons.
+- Added 24 transfers and three short readings. Learners use `not working`, `When can you fix it?`, `when it is working`, `booked a table`, `change the time`, `Is eight okay?`, `favorite teacher`, and `learned a lot`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Parking, New Neighbors and Returning Items, Units 161–163
+
+- Added 12 lessons on asking about parking, welcoming a neighbor, and returning a borrowed item. A2 now contains 163 units and 652 lessons.
+- Added 24 transfers and three short readings. Learners use `park my car`, `behind the store`, `per hour`, `new here`, `your neighbor`, `ask me for help`, `borrowed`, and `return it`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Restaurant Seats, Shift Cover and Gift Shopping, Units 158–160
+
+- Added 12 lessons on choosing a restaurant seat, asking a coworker to cover a shift, and choosing a gift. A2 now contains 160 units and 640 lessons.
+- Added 24 transfers and three short readings. Learners use `sit by the window`, `too small`, `would like to sit`, `Is this seat free?`, `work for me`, `tell the manager`, `a gift for`, and `wrap it`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Gym Rules, Voicemail and Study Groups, Units 155–157
+
+- Added 12 lessons on asking about gym rules, leaving a voicemail, and planning a study session. A2 now contains 157 units and 628 lessons.
+- Added 24 transfers and three short readings. Learners use `What time does the pool open?`, `be a member`, `have to bring`, `for free`, `This is Ben from`, `call me back`, `study together`, and `your notes`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Chores, Delivery Fees and Coworker Small Talk, Units 152–154
+
+- Added 12 lessons on talking about household chores, asking about a delivery fee, and making small talk with a coworker. A2 now contains 154 units and 616 lessons.
+- Added 24 transfers and three short readings. Learners use `like cooking`, `do the laundry`, `share the work`, `delivery fee`, `free for orders over`, `deliver it`, `Are you busy today?`, and `take a coffee break`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Recommendations, Overdue Books and Small Accidents, Units 149–151
+
+- Added 12 lessons on asking for a recommendation, returning a late library book, and describing a small accident. A2 now contains 151 units and 604 lessons.
+- Fixed a storage risk: the browser now saves only locally edited A2 rows instead of a full course copy, so a large course cannot crowd out learner progress. Existing saved copies still load.
+- Added 24 transfers and three short readings. Learners use `recommend`, `What is good here?`, `not too expensive`, `bring it back`, `need to pay`, `fell down`, `hurts a little`, and `stand up`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Borrowing, Childhood and Schedule Changes, Units 146–148
+
+- Added 12 lessons on borrowing a charging cable, talking about childhood, and announcing a schedule change. A2 now contains 148 units and 592 lessons.
+- Added 24 transfers and three short readings. Learners use `charge my phone`, `use mine`, `give it back`, `lived`, `young`, `walked`, `had`, `a change in the plan`, and `instead`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Forecasts, Transport Choices and Home Instructions, Units 143–145
+
+- Added 12 lessons on weather forecasts, comparing transport, and giving household instructions before leaving. A2 now contains 145 units and 580 lessons.
+- Added 24 transfers and three short readings. Learners use `What will … be like`, `strong`, `stay inside`, `A or B`, `more expensive`, `so`, `turn off the lights`, `lock`, and `go out`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Music, Computer Help and Surprises, Units 140–142
+
+- Added 12 lessons on music and hobbies, asking a coworker for computer help, and planning a surprise party. A2 now contains 142 units and 568 lessons.
+- Added 24 transfers and three short readings. Learners use `What kind of`, `listen to`, `sing`, `together`, `turn it off`, `off and on again`, `Do not tell`, `surprise`, and `everyone`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Goals, Bank Appointments and Lost Items, Units 137–139
+
+- Added 12 lessons on future goals, booking a bank appointment, and describing a lost item in detail. A2 now contains 139 units and 556 lessons.
+- Added 24 transfers and three short readings. Learners use `hope to`, `save money`, `important to me`, `work hard`, `make an appointment`, `What is it for?`, `There was`, and `if you find it`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Fitting Rooms, Phone Locations and Apologies, Units 134–136
+
+- Added 12 lessons on trying on clothes, explaining where you are by phone, and apologizing for a mistake. A2 now contains 136 units and 544 lessons.
+- Startup course validation is faster again (about 4 to 0.5 seconds at 136 units in Node) with identical validation results.
+- Added 24 transfers and three short readings. Learners use `try this on`, `too small for me`, `in blue`, `What can you see?`, `come to you`, `made a mistake`, `forgot to`, and `happen again`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Neighborhoods, Late Deliveries and Holidays, Units 131–133
+
+- Added 12 lessons on describing a neighborhood, following up on a late package, and planning a holiday. A2 now contains 133 units and 532 lessons.
+- Added 24 transfers and three short readings. Learners use `There is … near`, `walk to`, `a good place to live`, `did not arrive`, `order number`, `for the holiday`, `stay at a hotel`, and `happy about`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Movies, Family Dinners and Comparing Stores, Units 128–130
+
+- Added 12 lessons on discussing a movie, planning a family dinner, and comparing stores. A2 now contains 130 units and 520 lessons.
+- Added 24 transfers and three short readings. Learners use `Did you see`, `really funny`, `a little long`, `is coming`, `help me cook`, `need more`, `cheaper than`, `fresh`, and `the same price`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Sports, Hotel Problems and School Schedules, Units 125–127
+
+- Added 12 lessons on sports and health, reporting hotel room problems, and describing a class schedule. A2 now contains 127 units and 508 lessons.
+- Added 24 transfers and three short readings. Learners use `play badminton`, `run`, `good for your health`, `There is no`, `send someone`, `have class`, `have a test`, and `study`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Home Description, Seasons and Hosting, Units 122–124
+
+- Added 12 lessons on describing your home, talking about seasons, and making tea for a friend. A2 now contains 124 units and 496 lessons.
+- Added 24 transfers and three short readings. Learners use `not very big`, `two bedrooms`, `very much`, `better than`, `in summer`, `too cold for me`, `Let me`, and `make`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Interviews, Follow-up Visits and Trip Checks, Units 119–121
+
+- Added 12 lessons on a simple job interview, a clinic follow-up, and confirming plans before leaving. A2 now contains 121 units and 484 lessons.
+- Added 24 transfers and three short readings. Learners use `Tell me about`, `good at helping`, `next Monday`, `still hurts`, `a little better`, `still free`, and `Do not forget`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Pets, Bus Routes and Yesterday, Units 116–118
+
+- Added 12 lessons on talking about pets, finding the right bus, and describing what you did yesterday. A2 now contains 118 units and 472 lessons.
+- Added 24 transfers and three short readings. Learners use `have a dog`, `friendly`, `feed`, `Which bus goes`, `get off`, `next stop`, `met`, `talked`, and `went home`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Favorite Places, Websites and Helping Visitors, Units 113–115
+
+- Added 12 lessons on describing a favorite place, learning to use a website, and helping a lost visitor. A2 now contains 115 units and 460 lessons.
+- Added 24 transfers and three short readings. Learners use `my favorite place`, `There are many`, `click`, `type`, `sign in`, `Are you lost?`, `far from`, and `show you the way`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Birthdays, School Questions and Holding Items, Units 110–112
+
+- Added 12 lessons on talking about birthdays and gifts, asking a teacher for help, and asking a store to hold an item. A2 now contains 112 units and 448 lessons.
+- Added 24 transfers and three short readings. Learners use `buy you a gift`, `do not understand`, `explain it again`, `forgot`, `ask you a question`, `hold`, and `until seven`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Workplace Permission, Comparing Homes and Frequency, Units 107–109
+
+- Added 12 lessons on asking permission at work, comparing two places to live, and describing how often you do things. A2 now contains 109 units and 436 lessons.
+- Added 24 transfers and three short readings. Learners use `May I`, `have to`, `Is it okay if`, `bigger`, `closer to`, `older but cheaper`, `like … better`, `always`, `sometimes`, and `never`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Abilities, Refunds and Rides, Units 104–106
+
+- Added 12 lessons on saying what you can do, asking for a refund with a reason, and arranging a ride with a friend. A2 now contains 106 units and 424 lessons.
+- Added 24 transfers and three short readings. The batch adds high-frequency targets such as `yes`, `very`, `why`, `give`, `easy`, `drive`, and `car`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Parcel Help, Present Actions and Lost Cards, Units 101–103
+
+- Added 12 lessons on asking a neighbor to keep a parcel, saying what people are doing now, and reporting a lost bank card. A2 now contains 103 units and 412 lessons.
+- Added 24 transfers and three short readings. Learners use `keep this package`, `pick it up`, `What are you doing`, `is watching`, `waiting for`, `stop the card`, and `send you a new card`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Renting, Healthy Habits and Future Plans, Units 98–100
+
+- Added 12 lessons on renting a room, describing healthy habits, and making plans for next month. A2 now contains 100 units and 400 lessons.
+- Added 24 transfers and three short readings. Learners use `the rent`, `move in`, `try to`, `a lot of water`, `feel better`, `What are you doing`, `be going to`, and `tell you`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Classes, Overseas Parcels and Weekend Talk, Units 95–97
+
+- Added 12 lessons on asking about a class, sending a parcel overseas, and talking about last weekend. A2 now contains 97 units and 388 lessons.
+- Added 24 transfers and three short readings. Learners use `What time does`, `for free`, `overseas`, `inside`, `arrive`, `How was your weekend?`, `saw`, and `What about you?`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Work History, Transit Passes and Meetups, Units 92–94
+
+- Added 12 lessons on past work experience, buying and topping up a transit pass, and meeting a friend after work. A2 now contains 94 units and 376 lessons.
+- Added 24 transfers and three short readings. Learners use `worked`, `for two years`, `What did you do`, `a bus pass`, `good for one month`, `add money to`, `free after work`, and `See you`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Jobs, Food Preferences and Indoor Directions, Units 89–91
+
+- Added 12 lessons on talking about work, food likes and dislikes, and giving directions inside a building. A2 now contains 91 units and 364 lessons.
+- Added 24 transfers and three short readings. Learners use `What do you do for work?`, `three days a week`, `really like`, `do not like`, `over there`, and `on your left`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Daily Routines, Phone Plans and Small Favors, Units 86–88
+
+- Added 12 lessons on describing a daily routine, comparing phone plans, and asking a stranger to take a picture. A2 now contains 88 units and 352 lessons.
+- Added 24 transfers and three short readings. Learners use `get up`, `go to bed`, `Which plan is cheaper?`, `has more data`, `a month`, `Excuse me`, and `take a picture`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Holidays, Advice and Neighbors, Units 83–85
+
+- Added 12 lessons on describing a past holiday, asking for study advice, and raising a small problem with a neighbor. A2 now contains 85 units and 340 lessons.
+- Added 24 transfers and three short readings. Learners use `last week`, `stayed`, `a lot of fun`, `How can I`, `practice every day`, `your`, `is blocking`, and `did not know`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Opinions, Repair Calls and Small Parties, Units 80–82
+
+- Added 12 lessons on giving simple opinions, arranging a repair visit by phone, and planning a small party. A2 now contains 82 units and 328 lessons.
+- Added 24 transfers and three short readings. Learners use `What do you think about`, `not sure about`, `I am calling about`, `before you come`, `have a party`, and `invite`.
+- Unit 74 translations now keep the names `Ben` and `Amy` in English, matching earlier lessons.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Banking, Bills and Short Trips, Units 77–79
+
+- Added 12 lessons on opening a bank account, questioning a bill, and arranging a short trip. A2 now contains 79 units and 316 lessons.
+- Added 24 transfers and three short readings. Learners use `open a bank account`, `How much money`, `charged me twice`, `go on a trip`, and `include breakfast`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Time Off, Describing People and Complaints, Units 74–76
+
+- Added 12 lessons on asking a manager for a day off, describing someone you are looking for, and politely reporting a problem with a meal. A2 now contains 76 units and 304 lessons.
+- Added 24 transfers and three short readings. Learners use `take Friday off`, `look for`, `is wearing`, `what I ordered`, and `warm it up`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Family, Store and Home Repairs, Units 71–73
+
+- Added 12 lessons on introducing family, finding items and sale prices in a store, and reporting a home repair to a landlord. A2 now contains 73 units and 292 lessons.
+- Added 24 transfers and three short readings. Learners add `and`, third-person `lives`/`works`, `on sale`, `a cheaper one`, and `Can someone fix it?`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Clinic, Market and Weekend Talk, Units 68–70
+
+- Added 12 lessons on booking a clinic visit, buying fruit by unit price, and talking about weekend habits. A2 now contains 70 units and 280 lessons.
+- Startup course validation is about four times faster (about 4.7 to 1.2 seconds at 70 units in Node) with identical validation results.
+- Added 24 transfers and three short readings. Learners use `hurts`, `two days ago`, `these`, `each`, `usually`, and the difference between `see a doctor` and a doctor who can `see me`.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Pharmacy, Weather and Taxi, Units 65–67
+
+- Added 12 lessons on buying simple medicine, deciding what to wear from the weather, and riding in a taxi. A2 now contains 67 units, 268 lessons and 1590 occurrences.
+- Added 24 transfers and three short readings. Learners contrast `take` for medicine, carrying an item, transporting a person, and spending time.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Personal Services, Units 62–64
+
+- Added 12 lessons on following a simple recipe, asking for a haircut, and checking out of a hotel while leaving luggage. A2 now contains 64 units, 256 lessons and 1518 occurrences.
+- Added 24 transfers and three short readings. Learners distinguish `get my hair cut` from cutting it themselves, `leave it longer` from leaving an object, and treat `luggage` as uncountable.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Community Routines, Units 59–61
+
+- Added 12 lessons on reading out-of-order signs, asking about course openings, and describing how often to do a household chore. A2 now contains 61 units, 244 lessons and 1443 occurrences.
+- Added 24 transfers and three short readings. Learners distinguish `sign up` from `sign in`, and use `twice a week` and `take turns` to discuss chores.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Everyday Choices and Repairs, Units 56–58
+
+- Added 12 lessons on packing and carrying a bag, comparing rooms and amenities, and explaining and fixing an everyday mistake. A2 now contains 58 units, 232 lessons and 1366 occurrences.
+- Added 24 transfers and three short readings. Learners distinguish `pack` from `bring`, compare brightness, and offer to clean up or get a replacement.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Everyday Transitions, Units 53–55
+
+- Added 12 lessons on changing payment methods and asking for change, finding the next departure and platform after a delay, and joining a team at work. A2 now contains 55 units, 220 lessons and 1288 occurrences.
+- Added 24 transfers and three dialogues. Learners distinguish `in cash` from `by card`, read `delayed by ten minutes` as the size of a delay, and offer help with a task.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Everyday Confirmations, Units 50–52
+
+- Added 12 lessons on store hours, meeting by landmarks, and confirming spelling or numbers on a call. A2 now contains 52 units, 208 lessons and 1220 occurrences.
+- Added 24 transfers and three dialogues. Learners practice opening time versus an operating range, `in front of` versus `across from`, and repeating a request versus reading back a received number.
+- Earlier course content and progress are unchanged. New material remains pending human review.
+
+## 2026-11-23 - A2 Shared-Space Requests, Units 47–49
+
+- Added 12 lessons on sorting recyclables, politely lowering the volume, and requesting food to go. A2 now contains 49 units, 196 lessons and 1136 occurrences.
+- Added 24 transfers and three readings. Learners read a paper-bin label, distinguish lowering from keeping the volume low, and ask the counter to serve sauce on the side or pack a drink separately.
+- Earlier content and learner progress are unchanged. New content remains pending human review.
+
+## 2026-11-23 - A2 Independent Errands, Units 44–46
+
+- Added 12 lessons on self-service laundry, bike rental and return, and completing a contact form. A2 now contains 46 units, 184 lessons and 1062 occurrences.
+- Added 24 transfers and three dialogues. Learners practice sequencing instructions, distinguishing rental duration from a rate and deadline, and clarifying contact details.
+- Earlier A1/A2 data, progress and level availability are unchanged. New content remains pending human review.
+
+## 2026-11-23 - A2 Local Visits and Pickup, Units 41–43
+
+- Added 12 lessons on buying exhibition tickets, arranging a visit with a neighbor, and collecting a package. A2 reaches 43 units, 172 lessons and 985 occurrences.
+- Added 24 transfers and three dialogues with comprehension questions. Practice includes `each ticket`, children getting in free, `until` versus `around`, and `sign here` versus `sign in`.
+- A1, earlier A2 units, progress, and level availability are unchanged. English, translations, and phonetics remain pending human review.
+
+## 2026-11-23 - A2 Everyday Decisions, Units 38–40
+
+- Added 12 lessons on comparing trip times, dividing household chores, and canceling or changing an order. A2 now has 40 units, 160 lessons and 911 occurrences.
+- Added 24 transfers and three dialogues. The new exercises distinguish `take` for transport from `takes` for a duration; learners practice `put it away`, `take it out`, and using `instead` to propose an alternative.
+- A1 and A2 Units 1–37 are unchanged. New content remains pending human review; audio and higher-level access are unchanged.
+
+## 2026-11-23 - A2 Continued Practical Scenarios, Units 32–37
+
+- Add 24 lessons, 48 transfers and six short texts on groceries, event check-in, running late, waiting for seats, sending files and following venue rules.
+- A2 reaches 37 units, 148 lessons and 847 occurrences. The catalog drives browser fixture totals; curriculum and exercise tests still pin prior checkpoint contents independently.
+
+## 2026-11-23 - A2 Everyday Applied Communication, Units 14–31
+
+- Add 72 lessons across 18 scenarios, including returns, transit changes, work handoffs, directions, troubleshooting, lost property, appointments, clarification, mailing and borrowing. Add 144 transfers, 18 short texts, and 72 comprehension questions.
+- A2 reaches 31 units, 124 lessons and 719 occurrences. Prior A1/A2 sources, stable IDs, vocabulary targets and progress format are preserved. New content and audio remain pending review.
+
+## 2026-11-23 - A2 Applied Phone, Restaurant, and Hotel Practice
+
+- Add 12 lessons in units 11–13, with 70 one-word occurrences, 21 new-to-course lexemes, 24 transfers, 12 recognitions, 12 contextual responses, and three short dialogues with comprehension and unit assessments.
+- Preserve the ten earlier units, A1, the 3000-target catalog, and progression. New lessons remain pilot content; they do not certify A2 or unlock B1/B2.
+
+## 2026-11-22 - A2 Email, Schedule, and Trip Recap Capstone
+
+- Add A2 Unit 10「綜合郵件、行程與生活故事」with four lessons, eight transfers, a six-sentence reading sequence, four comprehension questions and the existing unit assessment.
+- Preserve A1 and A2 Units 1–9. The 10-unit, 40-lesson route remains pilot content; it does not award a formal A2 pass or unlock B1/B2.
+
 ## 2026-11-22 - Keep Node Declarations Compatible
 
 - Update `@types/node` to 22.20.5 without raising the supported Node runtime or changing the production dependencies. Add a manifest/lockfile check and keep Dependabot suggestions for this package on 22.x.

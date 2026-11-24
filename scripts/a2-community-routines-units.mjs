@@ -1,0 +1,237 @@
+const noun = "noun 名詞";
+const verb = "verb 動詞";
+const adjective = "adjective 形容詞";
+const adverb = "adverb 副詞";
+const preposition = "preposition 介系詞";
+const determiner = "determiner 限定詞";
+const pronoun = "pronoun 代名詞";
+const modal = "modal verb 情態助動詞";
+
+export const communityRoutinesForms = (form) => ({
+  another: form("another", "determiner 限定詞；pronoun 代名詞", "a・NO・ther"),
+  space: form("space", "noun 名詞；verb 動詞"),
+  evening: form("evening", noun, "EVE・ning"),
+  often: form("often", adverb, "OF・ten"),
+  usually: form("usually", adverb, "U・su・al・ly"),
+  twice: form("twice", adverb),
+  turns: form("turn", "verb 動詞；noun 名詞", "turns", {
+    kk: "/tɝnz/", ipa: "/tɝnz/", syllables: 1,
+  }),
+});
+
+export const communityRoutinesUnits = ({ lesson, variant, chunk, line, question, wordUse, youSubject }) => {
+  const machine = wordUse("machine-public-use-equipment", "機器（供人使用的設備）", noun, "目前不能用的設備");
+  const there = wordUse("there-exist-introducer", "和 is 一起表示「有」", pronoun, "指出有某個東西", "", "grammar");
+  const alternateMachine = wordUse("one-substitute-for-machine", "一台（代替 machine）", pronoun, "另一台機器");
+  const course = wordUse("class-scheduled-session", "課／班別", noun, "可以報名的課堂");
+  const signUp = wordUse("sign-up-register", "和 up 一起表示報名", verb, "把名字登記到課程名單");
+  return [
+    {
+      id: "a2-u59", title: "應用：停用告示與替代設備",
+      lessons: [
+        lesson("讀懂機器暫時不能用", "The machine is out of order.", "這台機器故障，暫時無法使用。",
+          "設備上的 Out of order 表示故障或不能正常使用，不是在說店家的訂單。", "facility-read-out-of-order",
+          "{device} is out of order.", "______ is out of order.", ["不能用的設備", "故障或暫停使用"],
+          [variant("phone", "這支電話故障，暫時無法使用。", ["The phone", "is out of order."]),
+            variant("station", "車站那台機器故障，暫時無法使用。", ["The machine at the station", "is out of order."])],
+          ["這支電話故障，暫時無法使用。", "這張卡現在刷不過。", "這家店除了星期日，每天都營業。"], ["a2-u53-l02", "a2-u50-l03", "a2-u44-l03"],
+          {
+            machine,
+            is: wordUse("be-linking-equipment-condition", "連接設備與故障狀態的 be 動詞", "linking verb 連綴動詞", "描述設備狀況", "", "grammar"),
+            out: wordUse("out-in-out-of-order", "和 of order 一起表示故障", adverb, "構成設備停用標示"),
+            of: wordUse("of-in-out-of-order", "構成 out of order 的一部分", preposition, "指設備不能正常運作"),
+            order: wordUse("order-working-condition", "正常運作的狀態（在 out of order 裡）", noun, "不是點餐的訂單"),
+          }, [chunk("out-of-order", "out of order", "故障／暫時不能用", "設備告示可只寫 Out of order。")]),
+        lesson("詢問能否改用另一台", "Can I use another machine?", "我可以用另一台機器嗎？",
+          "another + 單數可數名詞表示另一個同類的東西。問是否能使用可用 Can I use …?。", "facility-ask-to-use-alternative",
+          "Can I use {alternative}?", "Can I use ______?", ["詢問可不可以用", "另一個可用物品"],
+          [variant("this", "我可以用這台機器嗎？", ["Can I use", "this machine?"]),
+            variant("phone", "我可以用另一支電話嗎？", ["Can I use", "another phone?"])],
+          ["我可以用另一支電話嗎？", "這支電話故障，暫時無法使用。", "我可以改用現金付款嗎？"], ["a2-u59-l01", "a2-u53-l03", "a2-u45-l04"],
+          {
+            can: wordUse("can-request-alternate-equipment", "可以……嗎？（問能不能改用）", modal, "確認可用的替代設備", "", "grammar"),
+            use: wordUse("use-operate-equipment", "使用（設備）", verb, "用另一台設備代替"),
+            another: wordUse("another-other-same-type", "另一台／另一個", determiner, "同類但不是剛才那個"),
+            machine,
+          }, [chunk("another-machine", "another machine", "另一台機器", "another 和單數 machine 搭配。")]),
+        lesson("告知二樓有另一台", "There is one on the second floor.", "二樓有一台。",
+          "There is + 單數名詞或代名詞，表示某處有某物。one 代替剛說過的 machine，避免重複。", "facility-locate-another-machine",
+          "There is one {place}.", "There is one ______.", ["有另一台設備", "設備所在位置"],
+          [variant("first", "一樓有一台。", ["There is one", "on the first floor."]),
+            variant("door", "門旁邊有一台。", ["There is one", "by the door."])],
+          ["一樓有一台。", "入口在二樓。", "我可以用另一台機器嗎？"], ["a2-u59-l01", "a2-u59-l02", "a2-u41-l04"],
+          {
+            there,
+            is: wordUse("be-there-is-existence", "和 there 一起表示「有」", "linking verb 連綴動詞", "接單數的設備", "", "grammar"),
+            one: alternateMachine,
+            on: wordUse("on-floor-location", "在（接樓層）", preposition, "設備所在的樓層"),
+            second: wordUse("second-floor-ordinal", "第二（指樓層）", "ordinal number 序數", "二樓"),
+            floor: wordUse("floor-building-story", "樓層", noun, "不是腳踩的地板"),
+          }),
+        lesson("請對方指一下路怎麼走", "Can you show me the way?", "可以請你指一下路嗎？",
+          "show me the way 是請人指出怎麼走；也可以在 way 後加 to + 目的地。", "facility-request-directions-to-alternative",
+          "Can you show me {route}?", "Can you show me ______?", ["請對方指路", "要走的路和目的地"],
+          [variant("office", "可以請你指一下去辦公室的路嗎？", ["Can you show me", "the way to the office?"]),
+            variant("floor", "可以請你指一下去二樓的路嗎？", ["Can you show me", "the way to the second floor?"])],
+          ["可以請你指一下去二樓的路嗎？", "二樓有一台。", "我可以用另一台機器嗎？"], ["a2-u59-l01", "a2-u59-l02", "a2-u59-l03"],
+          {
+            can: wordUse("can-ask-someone-to-guide", "可以請你……嗎？", modal, "請人指路", "", "grammar"),
+            you: youSubject,
+            show: wordUse("show-point-out-route", "指給某人看／帶路", verb, "讓人知道怎麼走"),
+            me: wordUse("me-after-show", "我（接受指路的人）", pronoun, "請對方指給我看", "", "grammar"),
+            way: wordUse("way-route-guidance", "路／走法", noun, "走到可用設備的路"),
+          }, [chunk("show-me-the-way", "show me the way", "指一下路", "show me the way to + 地點；不一定要對方陪同。")]),
+      ],
+      passage: [
+        line("Out of order.", "機器告示：故障，暫時無法使用。"),
+        line("The machine is out of order.", "工作人員：這台機器故障，暫時無法使用。"),
+        line("Can I use another machine?", "訪客：我可以用另一台機器嗎？"),
+        line("There is one on the second floor.", "工作人員：二樓有一台。"),
+        line("Can you show me the way?", "訪客：可以請你指一下路嗎？"),
+      ],
+      questions: [
+        question("機器上貼的告示是什麼？", [1, 2], "Out of order.", "For here.", "To go.", "Paper."),
+        question("知道這台機器不能用後，訪客先問什麼？", [2, 3], "Can I use another machine?", "Can you show me the way?", "Can I pay in cash instead?", "Which bin is for paper?"),
+        question("工作人員說哪個樓層還有一台？", [3, 4], "On the second floor.", "On the first floor.", "At the station.", "Right by the door."),
+        question("知道替代設備的位置之後，訪客提出什麼請求？", [4, 5], "Can you show me the way?", "Could you spell the name for me?", "Can I use another machine?", "Could you turn down the music?"),
+      ],
+    },
+    {
+      id: "a2-u60", title: "應用：確認課程名額並報名",
+      lessons: [
+        lesson("詢問這堂課是否還有名額", "Is there space in the class?", "這堂課還有名額嗎？",
+          "space 在這裡表示可容納新學員的空間或名額。Is there …? 用來問是否有某個東西。", "signup-ask-whether-space",
+          "Is there space in {class}?", "Is there space in ______?", ["詢問是否有空位", "想報名的班別"],
+          [variant("morning", "早上的班還有名額嗎？", ["Is there space", "in the morning class?"]),
+            variant("next", "下一堂課還有名額嗎？", ["Is there space", "in the next class?"])],
+          ["早上的班還有名額嗎？", "這堂課幾點開始？", "二樓有一台。"], ["a2-u33-l03", "a2-u59-l03", "a2-u41-l02"],
+          {
+            is: wordUse("be-there-is-existence", "和 there 一起表示「有」", "linking verb 連綴動詞", "問是否還有名額", "", "grammar"),
+            there, space: wordUse("space-capacity-in-class", "空位／名額", noun, "可以容納新學員的空間"),
+            in: wordUse("in-membership-in-class", "在……裡（接班別）", preposition, "在該班的名額"), class: course,
+          }),
+        lesson("聽懂上午班已經額滿", "The morning class is full.", "上午班已經額滿了。",
+          "full 在這裡表示名額都用完了；它和 full name 的「完整」不同。", "signup-state-class-full",
+          "{group} is full.", "______ is full.", ["額滿的班別或空間", "沒有剩餘名額"],
+          [variant("next", "下一堂課額滿了。", ["The next class", "is full."]),
+            variant("room", "這間房已經滿了。", ["The room", "is full."])],
+          ["下一堂課額滿了。", "這堂課還有名額嗎？", "這台機器故障，暫時無法使用。"], ["a2-u60-l01", "a2-u59-l01", "a2-u33-l01"],
+          {
+            morning: wordUse("morning-session-modifier", "早上的（修飾班別）", "noun 名詞（作修飾語）", "上午的班次"), class: course,
+            is: wordUse("be-linking-capacity", "連接班別與額滿狀態的 be 動詞", "linking verb 連綴動詞", "說明名額狀況", "", "grammar"),
+            full: wordUse("full-no-space-left", "已滿的／額滿的", adjective, "還能不能再收人"),
+          }, [chunk("is-full", "is full", "已經滿了", "對課程來說指沒有空位。")]),
+        lesson("問能不能報名晚間班", "Can I sign up for the evening class?", "我可以報名晚間班嗎？",
+          "sign up for + 活動或班級表示報名；sign in 指到場報到或登入。", "signup-request-to-register",
+          "{request} sign up for {class}?", "______ sign up for ______?", ["詢問能否報名", "要報名的班別"],
+          [variant("next", "我可以報名下一堂課嗎？", ["Can I sign up", "for the next class?"]),
+            variant("we", "我們可以報名晚間班嗎？", ["Can we sign up", "for the evening class?"])],
+          ["我們可以報名晚間班嗎？", "上午班已經額滿了。", "這堂課還有名額嗎？"], ["a2-u60-l01", "a2-u60-l02", "a2-u33-l01"],
+          {
+            can: wordUse("can-ask-to-register", "可以……嗎？（詢問能否報名）", modal, "確認有沒有資格或名額", "", "grammar"),
+            sign: signUp, up: wordUse("up-in-sign-up", "和 sign 一起表示報名", adverb, "構成報名的片語動詞"),
+            for: wordUse("for-signup-target", "接要報名的課程", preposition, "報名項目"),
+            evening: wordUse("evening-session-modifier", "晚上的（修飾班別）", "noun 名詞（作修飾語）", "晚上的班次"), class: course,
+          }, [chunk("sign-up-for", "sign up for", "報名參加", "後面接想報名的活動或課程。")]),
+        lesson("確認是不是現在要付款", "Do I need to pay now?", "我現在需要付款嗎？",
+          "Do I need to …? 是問有沒有必要做某事。now 指當下，不是在問費用多少。", "signup-ask-whether-payment-now",
+          "Do I need to {action}?", "Do I need to ______?", ["詢問是否必要", "付款或另一個報名步驟"],
+          [variant("today", "我今天需要付款嗎？", ["Do I need to pay", "today?"]),
+            variant("sign", "我現在需要簽名嗎？", ["Do I need to sign", "now?"])],
+          ["我今天需要付款嗎？", "我可以報名晚間班嗎？", "我可以改用現金付款嗎？"], ["a2-u60-l02", "a2-u60-l03", "a2-u53-l03"],
+          {
+            do: wordUse("do-auxiliary-for-need-question", "問是否需要的助動詞", "auxiliary verb 助動詞", "形成一般現在式問句", "", "grammar"),
+            to: wordUse("to-after-need", "接需要做的動作", "infinitive marker 不定詞標記", "說明要做什麼", "", "grammar"),
+            pay: wordUse("pay-class-fee", "繳費／付款", verb, "付這堂課的費用"),
+            now: wordUse("now-current-moment", "現在／當下", adverb, "是否當場付款"),
+          }),
+      ],
+      passage: [
+        line("Is there space in the class?", "來詢問的人：這堂課還有名額嗎？"),
+        line("The morning class is full.", "櫃台人員：上午班已經額滿了。"),
+        line("There is space in the evening class.", "櫃台人員：晚間班還有名額。"),
+        line("Can I sign up for the evening class?", "來詢問的人：我可以報名晚間班嗎？"),
+        line("Do I need to pay now?", "來詢問的人：我現在需要付款嗎？"),
+        line("You can pay on Monday.", "櫃台人員：你可以在星期一付款。"),
+      ],
+      questions: [
+        question("哪個班已經沒有名額？", [1, 2], "The morning class.", "The evening class.", "The next class.", "The library."),
+        question("比較兩個班，還能選的是哪個？", [2, 3], "The evening class.", "The morning class.", "The next train.", "The second floor."),
+        question("聽到還有空位之後，來詢問的人先提出什麼請求？", [3, 4], "Can I sign up for the evening class?", "Do I need to pay now?", "Can I rent a bike for an hour?", "Can I use another machine?"),
+        question("依櫃台說法，可以哪一天付款？", [5, 6], "On Monday.", "On Sunday.", "On Friday.", "On Saturday."),
+      ],
+    },
+    {
+      id: "a2-u61", title: "應用：家事頻率與輪流分工",
+      lessons: [
+        lesson("問多久倒一次垃圾", "How often do you take out the trash?", "你多久倒一次垃圾？",
+          "How often 問一段時間內會做幾次，不是在問現在幾點。take out the trash 指把垃圾拿出去。", "routine-ask-frequency",
+          "How often do {person} {task}?", "How often do ______ ______?", ["詢問頻率", "人與家事"],
+          [variant("dishes", "你多久洗一次碗？", ["How often do you", "wash the dishes?"]),
+            variant("we", "我們多久倒一次垃圾？", ["How often do we", "take out the trash?"])],
+          ["你多久洗一次碗？", "可以請你把垃圾拿出去嗎？", "這堂課還有名額嗎？"], ["a2-u39-l02", "a2-u60-l01", "a2-u42-l04"],
+          {
+            how: wordUse("how-in-frequency-question", "和 often 一起問頻率", adverb, "詢問多久做一次"),
+            often: wordUse("often-in-how-often", "常常（和 how 一起問多久一次）", adverb, "家事頻率"),
+            do: wordUse("do-auxiliary-for-wh-question", "形成問句的助動詞", "auxiliary verb 助動詞", "詢問家事頻率", "", "grammar"),
+            you: youSubject,
+            take: wordUse("take-out-remove", "和 out 一起表示拿出去", verb, "把垃圾拿出屋外"),
+            out: wordUse("out-in-take-out", "出去（和 take 一起用）", adverb, "將垃圾拿到外面"),
+          }, [chunk("how-often", "How often", "多久一次", "問某個動作發生的頻率，不是問確切時刻。")]),
+        lesson("描述自己通常晚上倒垃圾", "I usually take it out at night.", "我通常晚上把垃圾拿出去。",
+          "usually 通常放在一般動詞前。it 指前面提過的垃圾，代名詞放在 take 和 out 之間。", "routine-state-usual-time",
+          "{person} usually take it out {time}.", "______ usually take it out ______.", ["做這件事的人", "習慣的時間"],
+          [variant("dinner", "我通常晚餐後把垃圾拿出去。", ["I usually take it out", "after dinner."]),
+            variant("we", "我們通常晚上把垃圾拿出去。", ["We usually take it out", "at night."])],
+          ["我通常晚餐後把垃圾拿出去。", "我可以在晚餐前做這件事。", "你多久倒一次垃圾？"], ["a2-u61-l01", "a2-u39-l03", "a2-u48-l04"],
+          {
+            usually: wordUse("usually-customary-frequency", "通常", adverb, "常態而非每次都一樣"),
+            take: wordUse("take-out-remove", "和 out 一起表示拿出去", verb, "把垃圾拿出去"),
+            it: wordUse("it-mentioned-trash", "它（前面提到的垃圾）", pronoun, "家事要處理的垃圾"),
+            out: wordUse("out-in-take-out", "出去（和 take 一起用）", adverb, "將垃圾拿到外面"),
+            at: wordUse("at-in-at-night", "和 night 搭配表示在晚上", preposition, "一般習慣的時間"),
+          }, [chunk("take-it-out", "take it out", "把它拿出去", "it 放在 take 和 out 之間。"),
+            chunk("at-night", "at night", "在晚上", "不指定幾點，只說是在晚上。")]),
+        lesson("說自己每週做兩次", "I do it twice a week.", "我每週做兩次。",
+          "twice 指兩次；twice a week 是每週兩次。a week 在這裡是頻率的計算單位。", "routine-state-two-times-per-period",
+          "{person} do it twice a {period}.", "______ do it twice a ______.", ["做這件事的人", "頻率的期間"],
+          [variant("day", "我一天做兩次。", ["I do it", "twice a day."]),
+            variant("we", "我們每週做兩次。", ["We do it", "twice a week."])],
+          ["我一天做兩次。", "我通常晚上把垃圾拿出去。", "剛才我不小心讓杯子掉到地上了。"], ["a2-u61-l01", "a2-u61-l02", "a2-u58-l01"],
+          {
+            do: wordUse("do-assigned-task", "做／處理（剛提到的事）", verb, "重複做的家事"),
+            it: wordUse("it-assigned-task", "這件事（指剛提到的家事）", pronoun, "前面說過的家事"),
+            twice: wordUse("twice-two-occurrences", "兩次", adverb, "一段期間做兩次"),
+            week: wordUse("week-frequency-period", "一週（頻率的計算單位）", noun, "計算做了幾次的期間"),
+            a: wordUse("a-in-rate-per-period", "一個", "article 冠詞", "每一個週期",
+              "a 的核心功能是不定冠詞；在 twice a week 裡，整組指每週兩次。"),
+          }, [chunk("twice-a-week", "twice a week", "每週兩次", "twice 是次數，a week 是計算的期間。")]),
+        lesson("提議輪流倒垃圾", "Can we take turns with the trash?", "我們可以輪流倒垃圾嗎？",
+          "take turns 是輪流做；with 後面接要輪流分工的事。並不是把垃圾拿起來的 take。", "routine-suggest-taking-turns",
+          "{request} take turns with {task}?", "______ take turns with ______?", ["提議輪流分工", "要輪流做的事"],
+          [variant("dishes", "我們可以輪流洗碗嗎？", ["Can we take turns", "with the dishes?"]),
+            variant("could", "請問我們可以輪流倒垃圾嗎？", ["Could we take turns", "with the trash?"])],
+          ["我們可以輪流洗碗嗎？", "我每週做兩次。", "我通常晚上把垃圾拿出去。"], ["a2-u61-l01", "a2-u61-l02", "a2-u61-l03"],
+          {
+            can: wordUse("can-suggest-shared-plan", "可以……嗎？（和對方商量）", modal, "提議協調分工", "", "grammar"),
+            take: wordUse("take-in-take-turns", "和 turns 搭配表示輪流", verb, "形成輪流分工的片語"),
+            turns: wordUse("turn-assigned-opportunity-plural", "輪到的次序（複數）", noun, "不同的人依序輪到"),
+            with: wordUse("with-shared-chore", "接一起分工的事", preposition, "要輪流處理的家事"),
+          }, [chunk("take-turns", "take turns", "輪流", "指不同的人輪到時做，不是所有人同時做。")]),
+      ],
+      passage: [
+        line("How often do you take out the trash?", "甲：你多久倒一次垃圾？"),
+        line("I do it twice a week.", "乙：我每週做兩次。"),
+        line("I usually take it out at night.", "乙：我通常晚上把垃圾拿出去。"),
+        line("Can we take turns with the trash?", "甲：我們可以輪流倒垃圾嗎？"),
+        line("I can do it on Friday.", "甲：我星期五可以做。"),
+      ],
+      questions: [
+        question("甲一開始問的是哪一種家事？", [1], "Take out the trash.", "Wash the dishes.", "Close the door.", "Clean it up."),
+        question("乙說一星期會做幾次？", [1, 2], "Twice a week.", "Twice a day.", "On Friday.", "At night."),
+        question("乙說通常在什麼時候把垃圾拿出去？", [2, 3], "At night.", "After dinner.", "On Friday.", "Around seven."),
+        question("得知原本做法後，甲提議怎麼分工？", [3, 4, 5], "Can we take turns with the trash?", "Can we take turns with the dishes?", "I do it twice a week.", "I usually take it out at night."),
+      ],
+    },
+  ];
+};

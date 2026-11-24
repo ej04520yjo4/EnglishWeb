@@ -211,6 +211,23 @@ export function HomeScreen({
           </button>
         </section>
 
+        <section className="section-card" data-testid="home-vocabulary-path-card">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">單字主線</span>
+              <h2>3000 字學習路線</h2>
+              <p>5 階段、300 課，每課 10 字，隔天複習幫你記住。</p>
+            </div>
+            <button
+              className="secondary-button"
+              data-testid="home-vocabulary-path"
+              onClick={() => setScreen("vocabulary-library")}
+            >
+              前往學習路線 →
+            </button>
+          </div>
+        </section>
+
         <div className="three-grid">
           <StatCard label="已完成課程" value={`${completedCount} / ${allLessons.length}`} note="完成後不會再次鎖定" />
           <StatCard label="待複習內容" value={dueReviews.length} note="複習不會擋住新課程" />

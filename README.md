@@ -2,7 +2,7 @@
 
 英句練習是一個以繁體中文操作、鍵盤優先的英文學習網站。學習流程從單字回想開始，逐步進入片語、句型、完整句子與短篇文章，目標是建立可實際運用的英文句子能力。
 
-目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 9 單元、36 課、225 個出現位置；第九單元新增「社交、邀請與回應」，練習邀請吃晚餐、接受、婉拒及改約。A2 所有內容仍待人工複核，試行完成不等於正式通過程度。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。
+目前正式課程為 CEFR A1，共 8 個單元、32 課與 145 個單字出現位置。所有正式 A1 課程都由 `public/data/a1-course-v3.csv` 建立。A2 是唯一執行期試行程度，共 190 單元、760 課、4362 個出現位置，涵蓋電話、交通、購物、辦公室、旅行、課程報名及生活分工等情境。A2 內容仍待人工複核，試行完成不等於正式通過程度。B1／B2 資料保留供稽核，但目前停用、不載入也不顯示。
 
 ## 主要功能
 
@@ -100,6 +100,7 @@ npx tsc --noEmit --incremental false
 - `public/data/vocabulary-targets-v2.json`：唯一runtime詞彙目標，3000個canonical單字；v1保留為132字基準。
 - `public/data/vocabulary-library-v1.json`：3000字的繁中意思、英文定義、詞性與練習來源，全部仍待人工複核。
 - `public/data/vocabulary-applications-v1.json`：3000 題原創雙語句子應用；由 `data-sources/vocabulary-3000/applications/batch-*.json` 的 60 批產生。
+- `public/data/vocabulary-path-v1.json`：3000 字學習路線的階段、課次與排序。
 - `public/data/vocabulary-phonetics-v1.json`：3000 字的 CMUdict 音位轉寫候選；來源子集、雜湊與授權均保留，可離線重建。
 - `public/data/a1-pattern-exercises.json`：A1 句型練習；第三批保留 `pilot_review_required`。
 - `public/data/a1-reading-exercises.json`：A1 閱讀練習；第三批保留 `pilot_review_required`。
@@ -107,13 +108,18 @@ npx tsc --noEmit --incremental false
 - `public/data/b1-pattern-exercises.json`、`public/data/b1-reading-exercises.json`：B1 試行練習與文章。
 - `public/data/b2-pattern-exercises.json`、`public/data/b2-reading-exercises.json`：B2 試行練習與文章。
 - `docs/b1-b2-curriculum-overview.md`：B1／B2 規模、單元與人工 QA 邊界。
-- `docs/a2-curriculum-blueprint.md`：A2 十單元路線；單元 1–9 已有試行資料，單元 10 仍只保留規劃。
+- `docs/a2-curriculum-blueprint.md`：A2 基礎路線及應用延伸。
+- `docs/a2-unit10-pilot-qa.md`：第十單元核心句、回信與行後紀錄、驗證與待人工複核項目。
+- `docs/a2-applied-units-qa.md`：第 11–13 單元核心句、試用方式和人工複核清單。
+- `docs/a2-situational-qa.md`：第 14–31 單元情境、核心句與用法對照。
+- `docs/a2-continuation-qa.md`：第 32 單元起的情境與複核重點。
 - `docs/a2-unit9-pilot-qa.md`：第九單元的四課、八題換字、六句對話、四題理解與驗證紀錄；英文、繁中與 KK／IPA 仍待人工複核。
 - `docs/a2-unit7-pilot-qa.md`：第七單元內容、先備字彙、驗證證據與待人工複核事項。正常模式需通過第六單元測驗；QA 試行開關不會偽造課程通過。
 - `docs/a2-unit8-pilot-qa.md`：第八單元核心句、語塊、換字、短文、閱讀理解與待人工複核事項。正常模式需通過第七單元測驗；QA 試行開關不會偽造課程通過。
 - `public/data/conversation-practice-v1.json`：獨立的文字對話試行來源，不是正式 A2 課程資料。
 - `public/data/vocabulary-groups-v1.json`：相關字詞主題、排序、語塊與用法提醒。
 - `public/data/reference-vocabulary-v1.json`：正式課程尚未提供的 reference-only 詞彙。
+- `docs/vocabulary-3000-path.md`：5 階段、300 課的 3000 字學習路線與已知限制。
 - `docs/a1-a2-vocabulary-3000-plan.md`：3000詞目標、來源、批次審核、計數及熟練規則。
 - `tests/`：單元、內容與 Playwright 瀏覽器測試。
 - `docs/`：產品規格、內容計畫與工作流程。
@@ -145,6 +151,17 @@ npx tsc --noEmit --incremental false
 - A2 試行內容必須通過人工語言 QA，才可升為正式課程；B1／B2 目前固定為 disabled。
 - 相關字詞優先使用正式課程資料；只有明確開啟詳情會記錄 exposure，且不等於辨認、拼寫、完成、通過或精通。
 - 3000 只計 canonical 單字；occurrence、word form、sense 與 chunk 分開統計。
+
+## 3000 字學習路線
+
+打開左側「3000 單字庫」，最上方就是學習路線：5 階段、300 課，每課 10 字，涵蓋全部 3000 字。每課先看單字卡，再做辨認與拼字；隔天回來複習，答對才會累積成「已達標」。建議每天 1 課約 300 天學完，每天 2 課約 150 天學完。
+
+路線不會建立正式課程、CEFR 通過或第二份進度，內容仍待人工複核。設計與限制見 [3000 字學習路線](docs/vocabulary-3000-path.md)。修改主題或順序後執行：
+
+```powershell
+npm run build:vocabulary-path
+npm run check:vocabulary-path
+```
 
 ## 3000 單字庫
 

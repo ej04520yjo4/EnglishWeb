@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { loadVocabularyApplications, type VocabularyApplicationData } from "./vocabulary-application";
+import { loadVocabularyPath, type VocabularyPathData } from "./vocabulary-path";
 import { loadVocabularyPhonetics, validateVocabularyPhonetics, type VocabularyPhoneticsData } from "./vocabulary-phonetics";
 import type { VocabularyTargetsData } from "./vocabulary-targets";
 
@@ -10,6 +11,8 @@ export function useVocabularySupplements(activeScreen: boolean, targets: Vocabul
   const [applicationError, setApplicationError] = useState("");
   const [phonetics, setPhonetics] = useState<VocabularyPhoneticsData | null>(null);
   const [phoneticError, setPhoneticError] = useState("");
+  const [path, setPath] = useState<VocabularyPathData | null>(null);
+  const [pathError, setPathError] = useState("");
 
   useEffect(() => {
     if (!activeScreen || !targets || applications) return;
@@ -42,5 +45,18 @@ export function useVocabularySupplements(activeScreen: boolean, targets: Vocabul
     return () => { active = false; window.clearTimeout(timer); controller.abort(); };
   }, [activeScreen, targets, phonetics]);
 
-  return { applications, applicationError, phonetics, phoneticError };
+  useEffect(() => {
+    if (!activeScreen || !targets || path) return;
+    let active = true;
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      setPathError("");
+      loadVocabularyPath(targets, (input, init) => fetch(input, { ...init, signal: controller.signal }))
+        .then((data) => { if (active) setPath(data); })
+        .catch((cause: unknown) => { if (active) setPathError(cause instanceof Error ? cause.message : "3000 字學習路線無法載入。"); });
+    }, 0);
+    return () => { active = false; window.clearTimeout(timer); controller.abort(); };
+  }, [activeScreen, targets, path]);
+
+  return { applications, applicationError, phonetics, phoneticError, path, pathError };
 }

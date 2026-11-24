@@ -1,0 +1,238 @@
+const noun = "noun 名詞";
+const verb = "verb 動詞";
+const adjective = "adjective 形容詞";
+const adverb = "adverb 副詞";
+const preposition = "preposition 介系詞";
+const determiner = "determiner 限定詞";
+const pronoun = "pronoun 代名詞";
+
+export const sharedSpaceForms = (form) => ({
+  bin: form("bin", noun),
+  paper: form("paper", "noun 名詞；verb 動詞", "PA・per"),
+  recycle: form("recycle", verb, "re・CY・cle"),
+  plastic: form("plastic", "noun 名詞；adjective 形容詞", "PLAS・tic"),
+  bottle: form("bottle", "noun 名詞；verb 動詞", "BOT・tle"),
+  empty: form("empty", "adjective 形容詞；verb 動詞", "EMP・ty"),
+  glass: form("glass", noun),
+  goes: form("go", "verb 動詞；noun 名詞", "goes", {
+    kk: "/goz/", ipa: "/ɡoʊz/", syllables: 1,
+  }),
+  down: form("down", "adverb 副詞；preposition 介系詞"),
+  music: form("music", noun, "MU・sic"),
+  loud: form("loud", "adjective 形容詞；adverb 副詞"),
+  noise: form("noise", noun),
+  keep: form("keep", verb),
+  meal: form("meal", noun),
+  sauce: form("sauce", noun),
+  separate: form("separate", "adjective 形容詞；verb 動詞", "SEP・a・rate", {
+    kk: "/ˈsɛpərɪt/", ipa: "/ˈsɛpəɹɪt/", syllables: 3, stress: 1,
+  }),
+});
+
+export const sharedSpaceUnits = ({ lesson, variant, chunk, line, question, wordUse, couldRequest, youSubject }) => {
+  const polite = wordUse("please-request", "請（禮貌用語）", adverb, "禮貌指示");
+  const forPurpose = wordUse("for-container-category", "用於（接分類項目）", preposition, "桶子的用途");
+  const paperMaterial = wordUse("paper-recycling-material", "紙類", noun, "要分類的材質");
+  const bin = wordUse("bin-sorting-container", "分類桶／垃圾桶", noun, "裝回收物的容器");
+  const bottle = wordUse("bottle-container", "瓶子", noun, "需要分類的空容器");
+  const toGo = wordUse("go-in-to-go-takeaway", "與 to 一起表示外帶", verb, "外帶，不在店內吃");
+  return [
+    {
+      id: "a2-u47", title: "應用：回收標示與物品分類",
+      lessons: [
+        lesson("問哪個是紙類回收桶", "Which bin is for paper?", "哪個桶子是裝紙類的？",
+          "Which bin 問的是「哪一個桶」。for paper 說明用途；paper 指紙類材料時通常不加 a。", "recycling-ask-sorting-bin",
+          "Which {container} is for paper?", "Which ______ is for paper?", ["詢問對應的容器", "紙類分類"],
+          [variant("bag", "哪個袋子是裝紙類的？", ["Which bag", "is for paper?"]),
+            variant("box", "哪個箱子是裝紙類的？", ["Which box", "is for paper?"])],
+          ["哪個箱子是裝紙類的？", "哪個桶子是裝其他東西的？", "哪種走法比較快？"], ["a2-u38-l01", "a2-u39-l02", "a2-u44-l01"],
+          { bin, for: forPurpose, paper: paperMaterial }),
+        lesson("問塑膠瓶能不能回收", "Can I recycle this plastic bottle?", "這個塑膠瓶可以回收嗎？",
+          "Can I recycle …? 用來確認能不能回收某樣物品。plastic 修飾 bottle，表示瓶子的材質。", "recycling-ask-whether-recyclable",
+          "Can I recycle {item}?", "Can I recycle ______?", ["詢問是否能回收", "要回收的物品"],
+          [variant("paper", "這張紙可以回收嗎？", ["Can I recycle", "this paper?"]),
+            variant("box", "這個箱子可以回收嗎？", ["Can I recycle", "this box?"])],
+          ["這個箱子可以回收嗎？", "哪個桶子是裝紙類的？", "我是來領包裹的。"], ["a2-u47-l01", "a2-u43-l01", "a2-u39-l02"],
+          {
+            can: wordUse("can-ask-permission", "可以……嗎？", "modal verb 情態助動詞", "確認處理方式", "", "grammar"),
+            recycle: wordUse("recycle-process-used-materials", "回收", verb, "分類以回收處理"),
+            this: wordUse("this-item-indicated", "這個（眼前的）", determiner, "指出手上的物品"),
+            plastic: wordUse("plastic-material-modifier", "塑膠製的", adjective, "瓶子的材質"), bottle,
+          }, [chunk("plastic-bottle", "plastic bottle", "塑膠瓶", "plastic 是材質；bottle 是容器。")]),
+        lesson("請先把瓶子中的東西倒掉", "Please empty the bottle first.", "請先把瓶子倒空。",
+          "empty 在這裡是動詞「把……清空」，不是形容詞「空的」。first 放在句尾，表示要先做這一步。", "recycling-request-empty-first",
+          "Please empty {container} first.", "Please empty ______ first.", ["請先清空", "容器"],
+          [variant("cup", "請先把杯子倒空。", ["Please empty", "the cup first."]),
+            variant("bag", "請先把袋子清空。", ["Please empty", "the bag first."])],
+          ["請先把袋子清空。", "請把瓶子放進桶子裡。", "這個塑膠瓶可以回收嗎？"], ["a2-u47-l01", "a2-u47-l02", "a2-u44-l01"],
+          {
+            please: polite, empty: wordUse("empty-make-container-empty", "清空／倒空", verb, "清掉瓶內飲料或其他內容物"),
+            bottle, first: wordUse("first-before-other-action", "先（在其他步驟之前）", adverb, "先處理的動作"),
+          }),
+        lesson("聽懂玻璃要放另一個桶", "Glass goes in a different bin.", "玻璃要放另一個桶子。",
+          "物品 + goes in + 容器表示應放的位置。Glass 是不可數的材質名稱，所以這句用 goes。", "recycling-state-sorting-location",
+          "{material} goes in {bin}.", "______ goes in ______.", ["分類的物品", "對應的容器"],
+          [variant("paper", "紙類要放這個桶子。", ["Paper goes", "in this bin."]),
+            variant("bottle", "這個塑膠瓶要放另一個桶子。", ["This plastic bottle goes", "in a different bin."])],
+          ["紙類要放這個桶子。", "玻璃要放那個桶子。", "請先把瓶子倒空。"], ["a2-u47-l01", "a2-u47-l02", "a2-u47-l03"],
+          {
+            glass: wordUse("glass-recycling-material", "玻璃（指材質）", noun, "玻璃類回收物"),
+            goes: wordUse("go-designated-location", "要放到（指定位置）", verb, "對應的分類桶", "goes 是 go 的單數形式，不是說玻璃自己移動。"),
+            in: wordUse("in-sorting-bin", "在……裡／放進……裡", preposition, "放入的容器"),
+            different: wordUse("different-another-bin", "不同的（另一個）", adjective, "另一個分類容器"), bin,
+          }),
+      ],
+      passage: [
+        line("Paper.", "桶身標示：紙類。"),
+        line("Which bin is for paper?", "訪客：哪個桶子是裝紙類的？"),
+        line("Paper goes in this bin.", "工作人員：紙類要放這個桶子。"),
+        line("Can I recycle this plastic bottle?", "訪客：這個塑膠瓶可以回收嗎？"),
+        line("Please empty the bottle first.", "工作人員：請先把瓶子倒空。"),
+        line("What about glass?", "訪客：那玻璃呢？"),
+        line("Glass goes in a different bin.", "工作人員：玻璃要放另一個桶子。"),
+      ],
+      questions: [
+        question("桶身標示與工作人員的回答都指出第一個桶子收什麼？", [1, 3], "Paper.", "Glass.", "Cold water.", "Milk."),
+        question("訪客詢問能不能回收哪樣東西？", [4], "This plastic bottle.", "This bag.", "This box.", "The cup."),
+        question("工作人員請訪客先做什麼？", [4, 5], "Empty the bottle first.", "Press the start button.", "Leave it at home.", "Put it in this bin."),
+        question("比對紙類和玻璃的指示，哪一句描述玻璃？", [3, 6, 7], "Glass goes in a different bin.", "Glass goes in this bin.", "Paper goes in a different bin.", "This plastic bottle goes in a different bin."),
+      ],
+    },
+    {
+      id: "a2-u48", title: "應用：溫和提醒音量與道歉",
+      lessons: [
+        lesson("麻煩對方把音樂轉小聲", "Could you turn down the music?", "可以麻煩你把音樂轉小聲一點嗎？",
+          "turn down 是調低音量，不等於 turn off（關掉）。如果用 it 代替 music，要說 turn it down。", "volume-request-turn-down",
+          "Could you turn {volume}?", "Could you turn ______?", ["禮貌請求", "調低的音量來源"],
+          [variant("it", "可以麻煩你把它轉小聲一點嗎？", ["Could you turn", "it down?"]),
+            variant("noun", "可以麻煩你把音樂轉小聲一點嗎？", ["Could you turn", "the music down?"])],
+          ["可以麻煩你把它轉小聲一點嗎？", "可以麻煩你把門關上嗎？", "可以麻煩你按開始鍵嗎？"], ["a2-u37-l02", "a2-u44-l03", "a2-u43-l03"],
+          {
+            could: couldRequest, you: youSubject,
+            turn: wordUse("turn-adjust-audio-level", "調整（和 down 一起表示轉小聲）", verb, "調低音量"),
+            down: wordUse("down-reduce-volume", "降低（在 turn down 裡）", adverb, "音量往下調"),
+            music: wordUse("music-playing-sound", "音樂", noun, "目前播放的聲音"),
+          }, [chunk("turn-down-volume", "turn down", "把音量調小", "可說 turn down the music 或 turn the music down；代名詞只能放在中間。")]),
+        lesson("說明這裡有點吵", "It is a little loud in here.", "這裡有點吵。",
+          "It is a little + 形容詞用於委婉說明情況。in here 強調說話者所在的室內空間。", "volume-describe-room-gently",
+          "It is a little {state} in here.", "It is a little ______ in here.", ["委婉描述室內狀況", "室內感受"],
+          [variant("cold", "這裡有點冷。", ["It is a little", "cold in here."]),
+            variant("warm", "這裡有點暖。", ["It is a little", "warm in here."])],
+          ["這裡有點冷。", "這裡得保持安靜。", "可以麻煩你把音樂轉小聲一點嗎？"], ["a2-u48-l01", "a2-u37-l01", "a2-u13-l03"],
+          {
+            it: wordUse("it-ambient-condition", "引出這個空間的狀況", pronoun, "描述室內環境", "", "grammar"),
+            a: wordUse("a-in-a-little-degree", "一個", "article 冠詞", "構成表示程度的語塊",
+              "a 的核心功能是不定冠詞；在 a little 裡應整組理解為「有一點」，不是一個物品。"),
+            little: wordUse("little-in-a-little-degree", "一點點（和 a 一起用）", adverb, "讓描述更委婉"),
+            loud: wordUse("loud-sound-volume", "大聲的／吵的", adjective, "聲音太明顯"),
+            in: wordUse("in-current-enclosed-space", "在……裡面", preposition, "說話者所在的室內"),
+          }, [chunk("a-little-degree", "a little", "有點／一點點", "在 a little loud 中，a little 修飾大聲的程度。")]),
+        lesson("為聲音太大表示抱歉", "Sorry about the noise.", "不好意思，聲音太大了。",
+          "Sorry about + 名詞，用於對造成的不便道歉。此處的 noise 指打擾到別人的聲音。", "volume-apologize-about-problem",
+          "Sorry about {issue}.", "Sorry about ______.", ["簡短道歉", "造成不便的事"],
+          [variant("wait", "不好意思，讓你久等了。", ["Sorry about", "the wait."]),
+            variant("music", "不好意思，音樂吵到你了。", ["Sorry about", "the music."])],
+          ["不好意思，讓你久等了。", "謝謝你等我。", "這裡有點吵。"], ["a2-u48-l01", "a2-u48-l02", "a2-u34-l04"],
+          {
+            sorry: wordUse("sorry-apology", "不好意思／抱歉", adjective, "說話者在道歉", "口語常省略 I am，只說 Sorry。"),
+            about: wordUse("about-apology-topic", "因為……（接造成不便的事）", preposition, "道歉的原因"),
+            noise: wordUse("noise-disturbing-sound", "噪音／打擾人的聲音", noun, "讓對方不舒服的聲音"),
+          }, [chunk("sorry-about", "Sorry about", "對……感到抱歉", "後面接要道歉的事情。")]),
+        lesson("承諾接下來會保持小聲", "I will keep it down.", "我會小聲一點。",
+          "keep it down 表示保持低音量。turn it down 是把音量調低的動作，keep it down 是維持小聲。", "volume-promise-keep-low",
+          "{person} will keep {sound} down.", "______ will keep ______ down.", ["承諾降低音量的人", "維持低音量的來源"],
+          [variant("we", "我們會小聲一點。", ["We will keep", "it down."]),
+            variant("music", "我會讓音樂維持低音量。", ["I will keep", "the music down."])],
+          ["我們會小聲一點。", "不好意思，聲音太大了。", "我會把音樂轉大聲。"], ["a2-u48-l01", "a2-u48-l02", "a2-u48-l03"],
+          {
+            keep: wordUse("keep-maintain-volume-level", "保持（某個音量）", verb, "讓聲音繼續維持小聲"),
+            it: wordUse("it-current-noise-level", "它（指目前的音量）", pronoun, "承接前面的聲音或音樂"),
+            down: wordUse("down-maintain-low-volume", "小聲（在 keep it down 裡）", adverb, "維持較低音量"),
+          }, [chunk("keep-it-down", "keep it down", "保持小聲", "通常用於不想打擾其他人的情境。")]),
+      ],
+      passage: [
+        line("Could you turn down the music?", "甲：可以麻煩你把音樂轉小聲一點嗎？"),
+        line("It is a little loud in here.", "甲：這裡有點吵。"),
+        line("Sorry about the noise.", "乙：不好意思，聲音太大了。"),
+        line("I will keep it down.", "乙：我會小聲一點。"),
+        line("Thank you.", "甲：謝謝你。"),
+      ],
+      questions: [
+        question("甲一開始想請乙調低哪個聲音？", [1], "The music.", "The phone.", "The machine.", "The train."),
+        question("甲提出請求的原因是什麼？", [1, 2], "It is a little loud in here.", "It is a little cold in here.", "The class is on the first floor.", "The bus takes ten minutes."),
+        question("乙用哪一句道歉？", [3], "Sorry about the noise.", "Sorry about the wait.", "Thank you.", "I will keep it down."),
+        question("道歉後，乙還答應怎麼做？", [3, 4], "I will keep it down.", "I will close the door.", "I will wait outside.", "I will come back when it ends."),
+      ],
+    },
+    {
+      id: "a2-u49", title: "應用：內用、外帶與分開裝",
+      lessons: [
+        lesson("聽懂是問內用還是外帶", "Is that for here or to go?", "請問是內用還是外帶？",
+          "for here 指在這家店吃，to go 指帶走，是美式英文點餐常聽到的問法。that 指客人剛點的餐。", "takeaway-ask-for-here-or-to-go",
+          "Is {item} for here or to go?", "Is ______ for here or to go?", ["指剛點的品項", "內用或外帶"],
+          [variant("this", "這個品項是內用還是外帶？", ["Is this", "for here or to go?"]),
+            variant("order", "這份訂單是內用還是外帶？", ["Is the order", "for here or to go?"])],
+          ["這份訂單是內用還是外帶？", "這份訂單是多少錢？", "請問可以用電子郵件交表單嗎？"], ["a2-u40-l01", "a2-u41-l02", "a2-u46-l04"],
+          {
+            that: wordUse("that-just-mentioned-order", "這個（剛點的品項）", pronoun, "顧客剛提出的訂單"),
+            for: wordUse("for-in-for-here", "與 here 搭配表示內用", preposition, "內用"),
+            here: wordUse("here-in-for-here", "在這裡（指在店內用餐）", adverb, "本店用餐"),
+            to: wordUse("to-in-to-go", "和 go 一起構成外帶", "infinitive marker 不定詞標記", "外帶語塊"),
+            go: toGo,
+          }, [chunk("for-here", "for here", "內用", "在店裡吃或喝。"), chunk("to-go-takeaway", "to go", "外帶", "點餐時表示帶走，不是當場用餐。")]),
+        lesson("說這份餐點要外帶", "I would like this meal to go.", "我想外帶這份餐點。",
+          "I would like + 餐點 + to go，表示禮貌地說某份餐點要外帶。這裡的 to go 不表示「想去哪裡」。", "takeaway-request-food-to-go",
+          "I would like {item} to go.", "I would like ______ to go.", ["禮貌點餐", "想外帶的品項"],
+          [variant("tea", "我想外帶茶。", ["I would like", "the tea to go."]),
+            variant("rice", "我想外帶這份飯。", ["I would like", "the rice to go."])],
+          ["我想外帶茶。", "我想在這裡用餐。", "請問是內用還是外帶？"], ["a2-u49-l01", "a2-u40-l01", "a2-u41-l01"],
+          {
+            would: wordUse("would-in-polite-order", "和 like 一起表示禮貌地說「想要」", "modal verb 情態助動詞", "委婉提出點餐需求", "", "grammar"),
+            this: wordUse("this-menu-item", "這份（指菜單或指著的餐點）", determiner, "指定餐點"),
+            meal: wordUse("meal-prepared-food", "一餐／餐點", noun, "選來外帶的餐點"),
+            to: wordUse("to-in-to-go", "和 go 一起構成外帶", "infinitive marker 不定詞標記", "外帶語塊"),
+            go: toGo,
+          }, [chunk("to-go-takeaway", "to go", "外帶", "點餐時表示帶走，不是當場用餐。")]),
+        lesson("請店員把醬料另外放", "Could I get the sauce on the side?", "可以麻煩把醬料另外放嗎？",
+          "Could I get …? 是禮貌的點餐問法。on the side 表示另外供應，不要先加進主餐。", "takeaway-ask-serve-on-side",
+          "Could I get {item} {way}?", "Could I get ______ ______?", ["禮貌修改點餐要求", "項目與盛裝方式"],
+          [variant("cup", "可以麻煩把醬料放在杯子裡嗎？", ["Could I get the sauce", "in a cup?"]),
+            variant("rice", "可以麻煩把飯另外放嗎？", ["Could I get the rice", "on the side?"])],
+          ["可以麻煩把飯另外放嗎？", "可以不要醬料嗎？", "我想外帶這份餐點。"], ["a2-u49-l01", "a2-u49-l02", "a2-u23-l03"],
+          {
+            could: wordUse("could-polite-order", "可以麻煩……嗎？", "modal verb 情態助動詞", "禮貌點餐",
+              "Could I get …? 是委婉的請求，不是描述過去。", "grammar"),
+            get: wordUse("get-request-menu-item", "要／拿到（點餐時）", verb, "請店員供應餐點"),
+            sauce: wordUse("sauce-food-condiment", "醬料", noun, "搭配主餐的醬汁"),
+            on: wordUse("on-in-on-the-side", "和 the side 搭配表示另外放", preposition, "與主餐分開"),
+            side: wordUse("side-separate-food-serving", "另外（搭配 on the side）", noun, "醬料另外供應"),
+          }, [chunk("on-the-side-food", "on the side", "另外放／另附", "點餐時表示另放，不和主餐混在一起。")]),
+        lesson("請把飲料另外放一袋", "Please put the drink in a separate bag.", "麻煩把飲料另外裝一袋。",
+          "a separate bag 是另外一個袋子。separate 在這裡是形容詞，不是動詞「分開」，兩個詞性的尾音也不同。", "takeaway-request-separate-bag",
+          "{request} put {item} in a separate bag.", "______ put ______ in a separate bag.", ["禮貌請求", "需要分開裝袋的品項"],
+          [variant("could", "可以麻煩你把飲料另外裝一袋嗎？", ["Could you put", "the drink in a separate bag?"]),
+            variant("tea", "麻煩把茶另外裝一袋。", ["Please put", "the tea in a separate bag."])],
+          ["麻煩把茶另外裝一袋。", "麻煩把醬料加在餐點裡。", "請問是內用還是外帶？"], ["a2-u49-l01", "a2-u49-l02", "a2-u49-l03"],
+          {
+            please: polite,
+            drink: wordUse("drink-beverage-noun", "飲料（名詞）", noun, "需要另外裝的飲料"),
+            separate: wordUse("separate-bag-adjective", "分開的／另外的", adjective, "不同的袋子"),
+            bag: wordUse("bag-takeaway-container", "袋子", noun, "用來裝外帶餐點或飲料"),
+          }, [chunk("in-a-separate-bag", "in a separate bag", "另外裝一袋", "與其他品項分開包裝。")]),
+      ],
+      passage: [
+        line("Is that for here or to go?", "店員：請問是內用還是外帶？"),
+        line("I would like this meal to go.", "顧客：我想外帶這份餐點。"),
+        line("Could I get the sauce on the side?", "顧客：可以麻煩把醬料另外放嗎？"),
+        line("Please put the drink in a separate bag.", "顧客：麻煩把飲料另外裝一袋。"),
+        line("Thank you.", "顧客：謝謝。"),
+      ],
+      questions: [
+        question("店員先確認哪一件事？", [1], "For here or to go?", "How much is each ticket?", "What is the package number?", "Next, press the start button."),
+        question("店員問內用還是外帶後，顧客怎麼回答？", [1, 2], "I would like this meal to go.", "I will wait outside.", "I would like a cup of tea.", "I will check the details."),
+        question("顧客希望醬料怎麼處理？", [3], "On the side.", "In a separate bag.", "In the meal.", "Without sauce."),
+        question("哪一句說明顧客希望怎麼裝飲料？", [3, 4], "In a separate bag.", "In the box.", "In a cup.", "On the side."),
+      ],
+    },
+  ];
+};
