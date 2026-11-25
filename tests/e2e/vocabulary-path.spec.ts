@@ -184,6 +184,26 @@ test("answers a recognition step with number keys and Enter", async ({ page }) =
   await expect(page.getByTestId("vocabulary-path-session-progress")).toContainText("第 12 /");
 });
 
+test("shows the contextual KK for lead and offers example speech instead of isolated speech", async ({ page }) => {
+  test.setTimeout(60_000);
+  const path = await (await page.request.get("/data/vocabulary-path-v1.json")).json() as {
+    lessons: { order: number; stageId: string; lexemeIds: string[] }[];
+  };
+  const lesson = path.lessons.find(({ lexemeIds }) => lexemeIds.includes("lead"));
+  expect(lesson).toBeDefined();
+  await openPath(page);
+  await page.getByTestId("vocabulary-path-lessons").locator("summary").click();
+  await page.getByTestId(`vocabulary-path-${lesson!.stageId}`).click();
+  await page.getByTestId(`vocabulary-path-lesson-${lesson!.order}`).click();
+  for (let i = 0; i < lesson!.lexemeIds.indexOf("lead"); i += 1) {
+    await page.getByTestId("vocabulary-path-study-next").click();
+  }
+  await expect(page.getByTestId("vocabulary-path-study-word")).toHaveText("lead");
+  await expect(page.getByTestId("vocabulary-path-study-kk")).toHaveText("KK 原形候選（本句詞義）：/lid/");
+  await expect(page.getByRole("button", { name: "播放 lead 的美式發音" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "播放例句發音" })).toBeVisible();
+});
+
 test("keeps the word library usable when the path file cannot load", async ({ page }) => {
   await page.route("**/data/vocabulary-path-v1.json", (route) => route.fulfill({ status: 500, body: "{}" }));
   await page.goto("/");

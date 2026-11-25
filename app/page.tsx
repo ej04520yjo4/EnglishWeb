@@ -89,6 +89,7 @@ import {
   validateCourseRows,
 } from "./curriculum/validation";
 import {
+  alignCourseRowsByOccurrence,
   createStoredCourseDelta,
   restoreStoredCourseData,
 } from "./curriculum/storage";
@@ -1138,38 +1139,6 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    const a1Rows = courseRowsByLevel.A1 as A1CourseCsvRow[];
-    const a1Revision = courseSourceRevisionByLevel.A1;
-    const a1UpdatedAt = courseRowsUpdatedAtByLevel.A1;
-    if (
-      !loaded ||
-      courseDataStatusByLevel.A1 !== "ready" ||
-      a1Rows.length === 0 ||
-      !a1Revision ||
-      !a1UpdatedAt
-    ) {
-      return;
-    }
-    persistStorageItem(
-      STORAGE.courseRows,
-      JSON.stringify(
-        createStoredA1CourseData(
-          a1Rows,
-          a1Revision,
-          a1UpdatedAt,
-        ),
-      ),
-    );
-  }, [
-    persistStorageItem,
-    courseDataStatusByLevel.A1,
-    courseRowsByLevel.A1,
-    courseRowsUpdatedAtByLevel.A1,
-    courseSourceRevisionByLevel.A1,
-    loaded,
-  ]);
-
-  useEffect(() => {
     const a1Rows = courseRowsByLevel.A1;
     if (
       courseDataStatusByLevel.A1 !== "ready" ||
@@ -1322,45 +1291,6 @@ export default function Home() {
       controller.abort();
     };
   }, [screen, vocabularyLibrary, vocabularyTargets, vocabularyTargetsError]);
-
-  useEffect(() => {
-    if (!loaded || !catalog) return;
-    catalog.levels
-      .filter((entry) => entry.level !== "A1")
-      .forEach((entry) => {
-        const level = entry.level;
-        if (
-          courseDataStatusByLevel[level] !== "ready" ||
-          courseRowsByLevel[level].length === 0 ||
-          officialCourseRowsByLevel[level].length === 0 ||
-          !courseSourceRevisionByLevel[level] ||
-          !courseRowsUpdatedAtByLevel[level]
-        ) {
-          return;
-        }
-        persistStorageItem(
-          courseRowsStorageKey(level),
-          JSON.stringify(
-            createStoredCourseDelta(
-              entry,
-              courseRowsByLevel[level],
-              officialCourseRowsByLevel[level],
-              courseSourceRevisionByLevel[level],
-              courseRowsUpdatedAtByLevel[level],
-            ),
-          ),
-        );
-      });
-  }, [
-    persistStorageItem,
-    catalog,
-    courseDataStatusByLevel,
-    courseRowsByLevel,
-    courseRowsUpdatedAtByLevel,
-    courseSourceRevisionByLevel,
-    officialCourseRowsByLevel,
-    loaded,
-  ]);
 
   useEffect(() => {
     const units = courseUnitsByLevel[selectedLevel];
@@ -3065,17 +2995,39 @@ export default function Home() {
 
   const applyCourseRows = (
     rows: A1CourseCsvRow[],
-    updatedAt = new Date().toISOString(),
+    restoreOfficial = false,
   ) => {
-    const sourceVersion =
-      selectedCatalogEntry?.sourceVersion ??
-      OFFICIAL_A1_SOURCE_VERSION;
+    if (!selectedCatalogEntry || !courseSourceRevision || !officialCourseRows.length) {
+      setToast(`${selectedLevel} 課程來源尚未就緒，變更尚未套用。`);
+      return false;
+    }
+    const updatedAt = new Date().toISOString();
+    const orderedRows = selectedLevel === "A1"
+      ? rows
+      : alignCourseRowsByOccurrence(rows, officialCourseRows);
     const units =
       selectedLevel === "A1"
-        ? buildCourseUnitsFromRows(rows)
-        : buildGenericCourseUnitsFromRows(rows, sourceVersion);
-    setCourseRows(rows);
-    setCourseDraftRows(rows);
+        ? buildCourseUnitsFromRows(orderedRows)
+        : buildGenericCourseUnitsFromRows(orderedRows, selectedCatalogEntry.sourceVersion);
+    const storageKey = courseRowsStorageKey(selectedLevel);
+    if (restoreOfficial) {
+      if (!removeStorageItem(storageKey)) {
+        setToast(`${selectedLevel} 課程未還原：無法移除本機課程修改。`);
+        return false;
+      }
+    } else {
+      const snapshot = selectedLevel === "A1"
+        ? createStoredA1CourseData(orderedRows, courseSourceRevision, updatedAt)
+        : createStoredCourseDelta(selectedCatalogEntry, orderedRows, officialCourseRows, courseSourceRevision, updatedAt);
+      const saved = writeStorageItem(storageKey, JSON.stringify(snapshot));
+      if (!saved.ok) {
+        const reason = saved.reason === "quota" ? "儲存空間不足" : "儲存功能無法使用";
+        setToast(`${selectedLevel} 課程未套用：瀏覽器${reason}，原課程未變更。`);
+        return false;
+      }
+    }
+    setCourseRows(orderedRows);
+    setCourseDraftRows(orderedRows);
     setCourseRowsUpdatedAt(updatedAt);
     setCourseUnits(units);
     setSelectedLesson((current) => {
@@ -3086,6 +3038,7 @@ export default function Home() {
         EMPTY_LESSON
       );
     });
+    return true;
   };
 
   const contentRows = courseRows;
@@ -3170,20 +3123,16 @@ export default function Home() {
       rejectProductionQaForPilot:
         selectedCatalogEntry?.status === "pilot",
     });
-    const expectedIds = new Set(
-      referenceRows.map((row) => row.occurrence_id),
-    );
+    const referenceById = new Map(referenceRows.map((row) => [row.occurrence_id, row]));
     const importedIds = new Set(rows.map((row) => row.occurrence_id));
     const unmatchedIds = rows
       .map((row) => row.occurrence_id)
-      .filter((id) => !expectedIds.has(id));
-    const missingIds = Array.from(expectedIds).filter(
+      .filter((id) => !referenceById.has(id));
+    const missingIds = Array.from(referenceById.keys()).filter(
       (id) => !importedIds.has(id),
     );
     const changedIdentityErrors = rows.flatMap((row) => {
-      const reference = referenceRows.find(
-        (item) => item.occurrence_id === row.occurrence_id,
-      );
+      const reference = referenceById.get(row.occurrence_id);
       if (
         !reference ||
         reference.answer.toLowerCase() === row.answer.toLowerCase()
@@ -3295,7 +3244,7 @@ export default function Home() {
         );
         return;
       }
-      applyCourseRows(normalizedRows);
+      if (!applyCourseRows(normalizedRows)) return;
       setToast(
         `匯入成功：總列數 ${report.totalRows}、成功 ${report.successfulRows}、失敗 ${report.failedRows}。`,
       );
@@ -4225,7 +4174,7 @@ export default function Home() {
       );
       return;
     }
-    applyCourseRows(courseDraftRows);
+    if (!applyCourseRows(courseDraftRows)) return;
     setToast(`草稿驗證通過，已套用 ${report.successfulRows} 列。`);
   };
 
@@ -4237,11 +4186,8 @@ export default function Home() {
 
   const restoreOfficialCourseData = () => {
     if (!officialCourseRows.length) return;
-    applyCourseRows(officialCourseRows);
+    if (!applyCourseRows(officialCourseRows, true)) return;
     setImportReport(null);
-    if (selectedLevel !== "A1") {
-      removeStorageItem(courseRowsStorageKey(selectedLevel));
-    }
     setToast(
       `已還原 public/data/${contentSourceVersion} ${
         selectedLevel === "A1" ? "正式" : "試行"

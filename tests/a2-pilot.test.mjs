@@ -2323,14 +2323,21 @@ test("keeps the A2 local course copy small while preserving learner edits", () =
   assert.equal(restoreStoredCourseData(JSON.stringify(delta), entry, a2Rows, "revision").rows[7].note, "本機修改的提示");
 
   // Copies saved by earlier versions keep working until the next save replaces them.
-  const legacy = createStoredCourseData(entry, edited, "revision", updatedAt);
+  const legacy = createStoredCourseData(entry, [...edited].reverse(), "revision", updatedAt);
   assert.equal(restoreStoredCourseData(JSON.stringify(legacy), entry, a2Rows, "revision").rows[7].note, "本機修改的提示");
   assert.equal(restoreStoredCourseData(JSON.stringify(delta), entry, a2Rows, "other-revision"), null);
   const unknown = { ...delta, changedRows: [{ ...delta.changedRows[0], occurrence_id: "a2-u999-l01-p01-s01-t01" }] };
   assert.equal(restoreStoredCourseData(JSON.stringify(unknown), entry, a2Rows, "revision"), null);
 
-  const reordered = [a2Rows[1], a2Rows[0], ...a2Rows.slice(2)];
-  assert.ok(Array.isArray(createStoredCourseDelta(entry, reordered, a2Rows, "revision", updatedAt).rows));
+  const reordered = createStoredCourseDelta(entry, [...edited].reverse(), a2Rows, "revision", updatedAt);
+  assert.deepEqual(reordered, delta);
+  assert.ok(JSON.stringify(reordered).length < 10_000, "sorting the spreadsheet must not store the entire course");
+  assert.deepEqual(restoreStoredCourseData(JSON.stringify(reordered), entry, a2Rows, "revision").rows, edited);
+
+  const duplicate = [a2Rows[1], ...a2Rows.slice(1)];
+  assert.throws(() => createStoredCourseDelta(entry, duplicate, a2Rows, "revision"), /occurrence_id/);
+  const foreign = [{ ...a2Rows[0], occurrence_id: "a2-u999-l01-p01-s01-t01" }, ...a2Rows.slice(1)];
+  assert.throws(() => createStoredCourseDelta(entry, foreign, a2Rows, "revision"), /缺少正式 occurrence_id/);
 });
 
 test("migrates schemaVersion 3 to 6 without changing A1 data", () => {

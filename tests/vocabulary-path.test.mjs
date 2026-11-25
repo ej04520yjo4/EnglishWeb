@@ -125,6 +125,39 @@ test("words that met their goal return for spaced checks and then graduate", () 
   assert.deepEqual(vocabularyPathDueSteps(progress[word], "receptive", "2028-01-01"), []);
 });
 
+test("failed attempts before and after a receptive goal do not advance the scheduled rounds", () => {
+  const word = wordWith("receptive");
+  let progress = study({}, word, "2026-11-01");
+  for (const date of ["2026-11-01", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05"]) {
+    progress = recognize(progress, word, date, false);
+  }
+  progress = recognize(recognize(progress, word, "2026-11-06"), word, "2026-11-07");
+  const due = (date) => vocabularyPathDueSteps(progress[word], "receptive", date);
+  assert.deepEqual(due("2026-11-09"), []);
+  assert.deepEqual(due("2026-11-10"), ["recognition"]);
+  progress = recognize(progress, word, "2026-11-10", false);
+  assert.deepEqual(due("2026-11-10"), []);
+  assert.deepEqual(due("2026-11-11"), ["recognition"]);
+  progress = recognize(progress, word, "2026-11-11");
+  assert.deepEqual(due("2026-11-17"), []);
+  assert.deepEqual(due("2026-11-18"), ["recognition"]);
+});
+
+test("active maintenance starts when the last goal is met and counts only on-time spelling success", () => {
+  const word = wordWith("active");
+  let progress = study({}, word, "2026-11-01");
+  progress = spell(recognize(progress, word, "2026-11-01"), word, "2026-11-01");
+  progress = spell(recognize(progress, word, "2026-11-02"), word, "2026-11-02");
+  progress = apply(progress, word, "2026-11-07");
+  progress = spell(progress, word, "2026-11-08"); // Too early to count as maintenance.
+  progress = recognize(progress, word, "2026-11-10"); // Not the scheduled mode.
+  assert.deepEqual(vocabularyPathDueSteps(progress[word], "active", "2026-11-09"), []);
+  assert.deepEqual(vocabularyPathDueSteps(progress[word], "active", "2026-11-10"), ["spelling"]);
+  progress = spell(progress, word, "2026-11-10");
+  assert.deepEqual(vocabularyPathDueSteps(progress[word], "active", "2026-11-16"), []);
+  assert.deepEqual(vocabularyPathDueSteps(progress[word], "active", "2026-11-17"), ["spelling"]);
+});
+
 test("lesson tasks teach before testing and skip what is already done", () => {
   const lesson = data.lessons[0];
   const tasks = buildVocabularyPathLessonTasks(lesson, targets, {}, "2026-11-24");

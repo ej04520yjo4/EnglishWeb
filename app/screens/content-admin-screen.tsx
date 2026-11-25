@@ -60,7 +60,7 @@ export function ContentAdminScreen({
         <div>
           <span className="eyebrow">內容資料與人工 QA</span>
           <h1>課程內容管理</h1>
-          <p>表格修改先保存在草稿；只有完整驗證通過後才會套用。</p>
+          <p>表格修改先保存在草稿；完整驗證通過且成功儲存後才會套用。</p>
           <small>
             {levelStatusLabel}來源：public/data/{contentSourceVersion}
             ・revision {courseSourceRevision.slice(0, 12)}
@@ -106,7 +106,7 @@ export function ContentAdminScreen({
       {importReport && (
         <section className="qa-note" aria-live="polite">
           <strong>
-            匯入結果：總列數 {importReport.totalRows}・成功列數{" "}
+            驗證結果：總列數 {importReport.totalRows}・成功列數{" "}
             {importReport.successfulRows}・失敗列數 {importReport.failedRows}
           </strong>
           <span>

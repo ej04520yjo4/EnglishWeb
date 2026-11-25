@@ -2,7 +2,8 @@
 
 ## Snapshot
 
-- Updated: 2026-11-24
+- Updated: 2026-11-25
+- PR #28 review follow-up: course imports persist before applying, spaced vocabulary checks use first mastery and successful checks, and guided cards no longer assume the first KK variant. Existing curriculum files and progress schema v6 are unchanged. GitHub records the merge and check status.
 - Integration: review fixes from PR #19 (`f10bf59`) already include main `4f977e5` (PR #20, A2 Units 8–9). The combined candidate also contains both pinned GitHub Actions updates (PRs #11 and #12); GitHub records the required checks and merge status. No curriculum changes are included beyond the already merged Units 8–9.
 - Integration is isolated from the original `D:\Codex\Tools\EnglishWeb\english-learning-app` checkout and its uncommitted local-only work. It does not deploy the site.
 - Preservation copies (`EnglishWeb-preserved-20261016`, `backups*`, `a2-unit8-development`, named stashes) are unchanged. Earlier history lives in `docs/archive/progress-history.md`.
@@ -155,6 +156,12 @@ Try the 3000-word path for several study days on Windows Chrome and a real phone
 Run the focused browser cases separately from `npm run verify` on this workstation. At the 220-lesson checkpoint, concurrent build/unit tests and four browser workers timed out at the initial home heading; the trace showed the heading after the check timed out. Keep the assertions intact.
 
 ## Verification
+
+### PR #28 review follow-up (2026-11-25)
+
+- `npm run verify` exited 0: context/data checks, production build, 383 unit tests, lint (0 errors, 10 existing warnings), and TypeScript passed.
+- Focused Playwright run exited 0: 24 passed across Windows Chrome desktop (1440×900) and mobile viewport (375×812). Reordered A2 imports survive reload, a simulated quota failure keeps the last saved course, and the guided card presents contextual KK and example playback controls. The full Playwright matrix and real phone/audio QA were not rerun for this follow-up.
+- Coverage includes A2 occurrence reordering and legacy restore, vocabulary maintenance after wrong answers and a delayed application milestone, and contextual KK with an unresolved-candidate fallback. All existing content stays pending human review.
 
 ### 3000-word guided path (2026-11-24)
 

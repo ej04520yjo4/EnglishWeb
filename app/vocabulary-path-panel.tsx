@@ -24,7 +24,7 @@ import {
   type VocabularyPathLessonStatus,
   type VocabularyPathTask,
 } from "./vocabulary-path";
-import type { VocabularyPhoneticsData } from "./vocabulary-phonetics";
+import { resolveVocabularyPathPronunciation, type VocabularyPhoneticEntry, type VocabularyPhoneticsData } from "./vocabulary-phonetics";
 import type { GlobalVocabularyProgress } from "./vocabulary-progress";
 import type { VocabularyTargetsData } from "./vocabulary-targets";
 
@@ -182,7 +182,7 @@ function PathStudyCard({
   sentence,
   translation,
   note,
-  kk,
+  phonetic,
   onSeen,
   onExit,
 }: {
@@ -190,11 +190,13 @@ function PathStudyCard({
   sentence?: string;
   translation?: string;
   note?: string;
-  kk?: string;
+  phonetic?: VocabularyPhoneticEntry;
   onSeen: () => void;
   onExit: () => void;
 }) {
   const speechSupported = useSpeechSupport();
+  const { candidates, inContext } = resolveVocabularyPathPronunciation(phonetic, sentence);
+  const multiplePronunciations = candidates.length > 1;
   return (
     <section className="section-card vocabulary-library-practice vocabulary-path-card" data-testid="vocabulary-path-study">
       <button className="back-button" onClick={onExit}>← 離開本輪</button>
@@ -203,8 +205,13 @@ function PathStudyCard({
       <p className="vocabulary-path-meaning" data-testid="vocabulary-path-study-meaning">{entry.translationZhTw}</p>
       <p className="center-note">
         {entry.partOfSpeech}
-        {kk ? `・KK 候選 ${kk}` : ""}
       </p>
+      {candidates.length > 0 && (
+        <p className="center-note" data-testid="vocabulary-path-study-kk">
+          {inContext ? `KK 原形候選（本句詞義）：${inContext}`
+            : `${multiplePronunciations ? "KK 候選（未依語境選音）" : "KK 候選"}：${candidates.join("、")}`}
+        </p>
+      )}
       {sentence && (
         <div className="vocabulary-path-example">
           <p lang="en">{sentence}</p>
@@ -213,14 +220,16 @@ function PathStudyCard({
         </div>
       )}
       <div className="vocabulary-path-actions">
-        <button
-          className="secondary-button"
-          disabled={!speechSupported}
-          aria-label={`播放 ${entry.displayEnglish} 的美式發音`}
-          onClick={() => speakEnglish(entry.displayEnglish)}
-        >
-          ▶ 單字發音
-        </button>
+        {!multiplePronunciations && (
+          <button
+            className="secondary-button"
+            disabled={!speechSupported}
+            aria-label={`播放 ${entry.displayEnglish} 的美式發音`}
+            onClick={() => speakEnglish(entry.displayEnglish)}
+          >
+            ▶ 單字發音
+          </button>
+        )}
         {sentence && (
           <button
             className="secondary-button"
@@ -232,6 +241,9 @@ function PathStudyCard({
           </button>
         )}
       </div>
+      {multiplePronunciations && sentence && (
+        <p className="center-note">此字有多種讀音，請聽例句中的發音。</p>
+      )}
       <button
         className="primary-button full-button"
         data-testid="vocabulary-path-study-next"
@@ -367,7 +379,7 @@ export function VocabularyPathSessionView({
           sentence={application?.sentence}
           translation={application?.translationZhTw}
           note={application?.noteZhTw}
-          kk={phoneticById.get(task.lexemeId)?.variants[0]?.kkCandidate}
+          phonetic={phoneticById.get(task.lexemeId)}
           onSeen={() => { onExposure(entry); next(); }}
           onExit={onExit}
         />

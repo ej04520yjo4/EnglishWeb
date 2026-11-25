@@ -40,28 +40,37 @@ export type StoredCourseDelta = Omit<StoredCourseData, "rows"> & {
 const sameCourseRow = (left: CourseCsvRow, right: CourseCsvRow) =>
   COURSE_CSV_HEADERS.every((header) => left[header] === right[header]);
 
+// Spreadsheet sorting changes physical row order, not the curriculum order.
+// Use the official occurrence order for both live edits and restored deltas.
+export const alignCourseRowsByOccurrence = (
+  rows: CourseCsvRow[],
+  officialRows: CourseCsvRow[],
+) => {
+  const byId = new Map(rows.map((row) => [row.occurrence_id, row]));
+  if (byId.size !== rows.length || rows.length !== officialRows.length) {
+    throw new Error("課程 occurrence_id 重複或列數與正式課程不符。");
+  }
+  return officialRows.map(({ occurrence_id }) => {
+    const row = byId.get(occurrence_id);
+    if (!row) throw new Error(`缺少正式 occurrence_id：${occurrence_id}。`);
+    return row;
+  });
+};
+
 export const createStoredCourseDelta = (
   entry: CurriculumCatalogEntry,
   rows: CourseCsvRow[],
   officialRows: CourseCsvRow[],
   sourceRevision: string,
   updatedAt = new Date().toISOString(),
-): StoredCourseData | StoredCourseDelta => {
-  const sameOrder =
-    rows.length === officialRows.length &&
-    rows.every(
-      (row, index) => row.occurrence_id === officialRows[index].occurrence_id,
-    );
-  // A reordered import cannot be described by changed rows alone.
-  if (!sameOrder) {
-    return createStoredCourseData(entry, rows, sourceRevision, updatedAt);
-  }
+): StoredCourseDelta => {
+  const aligned = alignCourseRowsByOccurrence(rows, officialRows);
   return {
     level: entry.level,
     sourceVersion: entry.sourceVersion,
     sourceRevision,
     updatedAt,
-    changedRows: rows.filter((row, index) => !sameCourseRow(row, officialRows[index])),
+    changedRows: aligned.filter((row, index) => !sameCourseRow(row, officialRows[index])),
   };
 };
 
@@ -93,17 +102,17 @@ export const restoreStoredCourseData = (
   const value = JSON.parse(serialized) as Partial<
     StoredCourseData & StoredCourseDelta
   >;
-  const storedRows = rowsFromStoredValue(value, officialRows);
   if (
     value.level !== entry.level ||
     value.sourceVersion !== entry.sourceVersion ||
     value.sourceRevision !== officialRevision ||
     !value.updatedAt ||
-    Number.isNaN(Date.parse(value.updatedAt)) ||
-    !storedRows
+    Number.isNaN(Date.parse(value.updatedAt))
   ) {
     return null;
   }
+  const storedRows = rowsFromStoredValue(value, officialRows);
+  if (!storedRows) return null;
   const rows = normalizeCourseRows(storedRows);
   const report = validateCourseRows(rows, {
     expectedLevel: entry.level,
@@ -127,6 +136,6 @@ export const restoreStoredCourseData = (
     sourceVersion: entry.sourceVersion,
     sourceRevision: officialRevision,
     updatedAt: value.updatedAt,
-    rows,
+    rows: alignCourseRowsByOccurrence(rows, officialRows),
   };
 };

@@ -2,6 +2,12 @@
 
 This file records user-visible or contributor-visible project changes. Detailed implementation history remains in Git.
 
+## 2026-11-25 - Course Import and Vocabulary Path Fixes
+
+- Reordered A2 spreadsheets now save only edited occurrences. A failed browser write leaves the previous curriculum active and reports that the changes were not applied.
+- Spaced vocabulary checks start at the first qualifying date and progress only after a correct, on-time check in the scheduled mode. Wrong attempts do not advance the interval.
+- Guided study cards use an example-matched KK candidate where available, otherwise list distinct candidates. For multiple pronunciations, play the example instead of an isolated word.
+
 ## 2026-11-24 - 3000-Word Guided Path
 
 - Added a guided path to the 3000-word screen: 5 stages, 300 lessons and 10 words per lesson, covering all 3000 target words exactly once.

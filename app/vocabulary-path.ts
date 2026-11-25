@@ -206,6 +206,35 @@ const dayNumber = (studyDate: string) => {
   return Date.UTC(year, month - 1, day) / 86_400_000;
 };
 
+const maintenanceDue = (
+  evidence: GlobalVocabularyEvidence,
+  masteryTarget: VocabularyMasteryTarget,
+  studyDate: string,
+) => {
+  const recognitionDates = [...distinctDates(evidence, evidence.recognitionCorrectEvidenceIds)].sort();
+  const spellingDates = [...distinctDates(evidence, evidence.spellingCorrectEvidenceIds)].sort();
+  const applicationDates = [...distinctDates(evidence, evidence.applicationCorrectEvidenceIds)].sort();
+  const milestones = masteryTarget === "active"
+    ? [recognitionDates[1], spellingDates[1], applicationDates[0]]
+    : [recognitionDates[1]];
+  if (milestones.some((date) => !date)) return false;
+  let anchor = dayNumber(milestones.sort().at(-1)!);
+  let round = 0;
+  const successes = masteryTarget === "active" ? spellingDates : recognitionDates;
+  for (const date of successes) {
+    if (date > studyDate || round >= MAINTENANCE_INTERVAL_DAYS.length) break;
+    const day = dayNumber(date);
+    // Count only a correct answer in the scheduled mode on or after its due
+    // date. An early practice or a failed check cannot skip a review round.
+    if (day >= anchor + MAINTENANCE_INTERVAL_DAYS[round]) {
+      anchor = day;
+      round += 1;
+    }
+  }
+  return round < MAINTENANCE_INTERVAL_DAYS.length &&
+    dayNumber(studyDate) >= anchor + MAINTENANCE_INTERVAL_DAYS[round];
+};
+
 /**
  * The practice a started word still needs on this local date. Only the first
  * answer per word, date and mode counts, so a word already attempted today
@@ -221,10 +250,7 @@ export const vocabularyPathDueSteps = (
   const spellingToday = attemptedOn(evidence, evidence.spellingAttemptEvidenceIds, studyDate);
   const applicationToday = attemptedOn(evidence, evidence.applicationAttemptEvidenceIds, studyDate);
   if (meetsVocabularyPathGoal(value, masteryTarget)) {
-    const dates = [...new Set(evidence.studyDates)].sort();
-    const interval = MAINTENANCE_INTERVAL_DAYS[dates.length - 2];
-    if (interval === undefined) return [];
-    if (dayNumber(studyDate) - dayNumber(dates[dates.length - 1]) < interval) return [];
+    if (!maintenanceDue(evidence, masteryTarget, studyDate)) return [];
     if (masteryTarget === "active") return spellingToday ? [] : ["spelling"];
     return recognitionToday ? [] : ["recognition"];
   }

@@ -43,6 +43,31 @@ export type VocabularyPhoneticEntry = {
   variants: VocabularyPhoneticVariant[];
 };
 
+// Match the actual teaching example as well as the lexeme. If the lesson
+// changes or a source variant disappears, show candidates without guessing.
+const pathExamplePronunciations: Readonly<Record<string, { sentence: string; kk: string } | undefined>> = {
+  close: { sentence: "Please close the window.", kk: "/kloz/" },
+  conduct: { sentence: "They conducted a survey.", kk: "/kɑnˈdʌkt/" },
+  lead: { sentence: "Please lead us to the station.", kk: "/lid/" },
+  live: { sentence: "I live near the station.", kk: "/lɪv/" },
+  read: { sentence: "I read a book every week.", kk: "/rid/" },
+  separate: { sentence: "Keep these files separate.", kk: "/ˈsɛpɚɪt/" },
+  use: { sentence: "I use my cellphone for work.", kk: "/juz/" },
+  wind: { sentence: "The wind is strong today.", kk: "/wɪnd/" },
+};
+
+export const resolveVocabularyPathPronunciation = (
+  entry: VocabularyPhoneticEntry | undefined,
+  sentence?: string,
+) => {
+  const candidates = [...new Set(entry?.variants.map((variant) => variant.kkCandidate))];
+  const example = entry && pathExamplePronunciations[entry.lexemeId];
+  const inContext = example && example.sentence === sentence && candidates.includes(example.kk)
+    ? example.kk
+    : undefined;
+  return { candidates, inContext };
+};
+
 export type VocabularyPhoneticsData = {
   schemaVersion: 1;
   sourceVersion: string;
