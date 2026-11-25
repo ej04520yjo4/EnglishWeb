@@ -9,7 +9,10 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [ ] **A2-U07-QA:** Try all four lessons and the passage on Windows/phone; review English/Taiwan Chinese, present-perfect scaffolding, `been` versus `be`, six new lexemes, and KK/IPA before considering unit 8.
 - [x] **A2-U09-001:** Add the bounded social/invitation unit: four lessons, 30 occurrences, eight transfers, recognition/response, six dialogue sentences, and four comprehension questions; retain one-word answers and pending QA.
 - [ ] **A2-U09-QA:** Try all four lessons and rescheduling dialogue on Windows and a real phone. Review natural English/Taiwan Chinese, invitation versus acceptance, refusal reason, `instead`, new lexeme difficulty, and KK/IPA candidates.
-- [ ] **A2-U09-NEXT:** Decide on Unit 10 only after recording learner feedback; no automatic expansion, main merge, or deployment.
+- [x] **A2-U10-001:** Implement the user-requested capstone with four lessons, eight transfers, recognition/response, six reading sentences, four questions and a unit assessment. Preserve all prior data and level gates.
+- [ ] **A2-U10-QA:** Try the four lessons, email/schedule/recap, and unit assessment on Windows and a real phone. Review Traditional Chinese, transport context, `missed` pronunciation, `took` inflection, and readability before any production decision.
+- [ ] **A2-APPLIED-QA:** Try units 11–13 on Windows and a real phone. Review call etiquette, order correction, US restaurant `check`, hotel requests, and the KK/IPA candidates; record any awkward translation or ambiguous answer.
+- [ ] **A2-SITUATIONAL-QA:** Review units 14–31 on Windows and a real phone, including word-form variants, quantities, time expressions, Taiwan Chinese usage, and questions requiring multiple lines of evidence. Keep audio and new phonetics pending until reviewed.
 
 - [x] **A2-U08-PUSH:** Isolate Unit 8 for the 2026-10-29 user-requested feature-branch push, retaining all original dirty files and excluding backup-recovery code. Main merge and further curriculum expansion are separate actions.
 - [x] **A2-U07-001:** Implemented the bounded experiences/life-changes pilot: four lessons, word/chunk layering, eight transfers, recognition/response, passage/comprehension. The combined 291-unit/264-browser result is historical and included separate backup-recovery work; focused clean checks are recorded separately.
@@ -29,17 +32,18 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
   - [ ] Have the user review the 24 reference-only Taiwan Chinese and existing KK/IPA values; the current 27 reference records have no blank phonetic fields, but their correctness remains unverified.
 - [ ] **VOCAB-3000-LIBRARY-QA:** Review each of the60 candidate batches for common sense selection, Taiwan Chinese, definition clarity, spelling prompts, distractor ambiguity and stage allocation. Machine checks are not human approval.
 - [ ] **VOCAB-3000-APPLICATION-QA:** Try full-sentence input and review all 60 batches for translation, selected word sense, naturalness, difficulty and valid alternative answers. Exact-reference practice is not free-writing grading.
+- [ ] **VOCAB-PATH-QA:** Try the 3000-word path on Windows Chrome and a real phone for several study days. Review lesson order and themes, the 758 revised meanings, the remaining WordNet meanings, and example sentences that use words taught later. Decide whether practical words outside the list, such as `typhoon` and `dentist`, should join the targets.
 - [ ] **VOCAB-3000-KK-QA:** Review all derived candidates, especially 559 multivariant words and heuristic syllable/stress boundaries. Keep source/QA statuses pending until actual review is recorded.
 - [ ] **VOCAB-QA-001:** Try and manually review all four related-vocabulary topics.
   - Check all 27 reference records' KK/IPA values, Taiwan Traditional Chinese, normal/slow fallback speech, mobile layout, and course return behavior; 24 remain reference-only targets after formal-source deduplication.
   - Browsing/searching remains neutral; explicitly opening a detail may add exposure only and must not change course completion, accuracy, or review intervals.
-- [ ] **A2-QA-001:** Manually review all 36 A2 pilot lessons.
-  - Preserve units 1–8 and check the bounded social-invitation unit 9 together with them for natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
+- [ ] **A2-QA-001:** Manually review all 760 A2 pilot lessons.
+  - Check natural Taiwan Chinese, prompts, contextual parts of speech, chunks, phonetics, transfer sentences, distractors, passages, and comprehension evidence.
   - Accept only after findings and corrections are recorded.
-- [ ] **A2-QA-003:** Try the 32 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
-- [ ] **A2-QA-004:** Check that every unit 2–9 new lexeme is appropriate for A2 and repeated naturally.
+- [ ] **A2-QA-003:** Try the 240 post-unit-1 lesson flows on current Windows Chrome and at mobile width.
+- [ ] **A2-QA-004:** Check that every unit 2–61 new lexeme is appropriate for A2 and repeated naturally.
 - [ ] **A2-QA-005:** Review comparative, transportation, health, appointment, household, experience, problem/solution, and invitation/acceptance/refusal hints for sufficient clarity.
-- [ ] **A2-QA-006:** Review all eight post-unit-1 passages for natural continuity and supported answers.
+- [ ] **A2-QA-006:** Review all 60 post-unit-1 passages for natural continuity and supported answers.
 - [ ] **A2-QA-007:** Adjust sentence length and hint strength from actual learner trial results.
 - [ ] **M11-CONVERSATION-TRIAL-001:** Try the bounded everyday conversation supplement; the later user-authorized unit 7 pilot does not count as completing this learner review.
   - [ ] Complete a Windows Chrome desktop and 375-pixel mobile trial of all four scenarios and record navigation, focus, reload, and date-boundary findings.
@@ -58,8 +62,9 @@ Keep tasks small enough to verify in one work cycle. Move durable outcomes to `P
 - [x] **A2-PLAN-002:** The user authorized blueprint unit 5 as the next A2 pilot addition.
 - [x] **A2-PLAN-003:** Build A2 unit 5 as four lessons with full practice, passage, validation, and browser coverage.
 - [x] **A2-PLAN-004:** Add the bounded unit 6 household pilot after the unit 5 review track; keep it `pilot_review_required` and separate from production approval.
-- [x] **A2-PLAN-005:** Bounded pilot authorizations now extend through unit 9 (ADR-055), not retrospective learner/language approval. Keep unit 10 blueprint-only and revisit expansion after user trial.
-- [ ] **A2-ASSESS-001:** Add a formal A2 level assessment only after the full A2 route exists.
+- [x] **A2-PLAN-005:** Applied pilot implementation now extends through unit 61 (ADR-060 and ADR-061), not retrospective learner/language approval.
+- [ ] **A2-CONTINUATION-038:** Add and verify the next applied cluster: comparing routes, coordinating shared chores, and canceling or changing a service.
+- [ ] **A2-ASSESS-001:** Consider a formal A2 level assessment after learner/language QA and a separate authorization. Unit 10's unit assessment does not pass A2.
 - [ ] **A2-RELEASE-001:** Evaluate A2 for production only after complete curriculum and language QA.
 - [ ] **AUDIO-001:** Audit all 41 KK recordings against displayed symbols and attribution.
 - [ ] **AUDIO-002:** Define a reproducible open-license word/sentence audio manifest.

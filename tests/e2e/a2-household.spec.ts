@@ -1,4 +1,5 @@
 import { expect, Page, test } from "@playwright/test";
+import { a2LessonCount } from "./a2-catalog-fixture";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
@@ -189,7 +190,7 @@ test("A2 QA preview keeps household lessons available without passing A2", async
   await seedA2(page, { showAdvancedPilots: true });
   await openA2Map(page);
 
-  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(36);
+  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(a2LessonCount);
   await expect(page.getByRole("button", { name: /平常的家務/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /必須洗碗/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /請求幫忙洗衣服/ })).toBeEnabled();
@@ -317,7 +318,7 @@ test("completes all four A2 household lessons, passage comprehension, and reload
     });
 
   await page.reload();
-  await expect(page.getByText("24 / 36", { exact: true })).toBeVisible();
+  await expect(page.getByText(`24 / ${a2LessonCount}`, { exact: true })).toBeVisible();
   await expect
     .poll(() =>
       page.evaluate((key) => {

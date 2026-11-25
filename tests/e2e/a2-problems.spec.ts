@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { a2LessonCount } from "./a2-catalog-fixture";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
@@ -254,7 +255,7 @@ test("A2 QA preview exposes unit eight without passing the level", async ({
   await seedA2(page, { showAdvancedPilots: true });
   await openA2Map(page);
 
-  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(36);
+  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(a2LessonCount);
   await expect(page.getByRole("heading", { name: "問題與簡單解決方式" })).toBeVisible();
   for (const title of [
     "工作上的問題",
@@ -439,7 +440,7 @@ test("completes unit eight, passage comprehension, and persists progress", async
     });
 
   await page.reload();
-  await expect(page.getByText("32 / 36", { exact: true })).toBeVisible();
+  await expect(page.getByText(`32 / ${a2LessonCount}`, { exact: true })).toBeVisible();
   const evidenceAfterReload = await readA2Evidence(page);
   expect(evidenceAfterReload).toEqual(evidenceBeforeAssessment);
   await expect

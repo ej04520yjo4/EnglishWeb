@@ -535,9 +535,10 @@ test("persists global vocabulary evidence and includes it in backup import and e
     )
     .toEqual({ schemaVersion: 6, exposure: 1 });
 
-  await page
-    .getByRole("button", { name: "前往學習進度", exact: true })
-    .click();
+  await expect(page.getByRole("heading", {
+    name: "把英文從「看得懂」練成「寫得出來」",
+  })).toBeVisible();
+  await page.getByRole("button", { name: "前往學習進度", exact: true }).click();
   await expect(page.getByTestId("global-vocabulary-progress")).toBeVisible();
   await expect(page.getByText("A1＋A2總目標")).toBeVisible();
   await expect(page.getByTestId("vocabulary-target-partial-note")).toHaveText(

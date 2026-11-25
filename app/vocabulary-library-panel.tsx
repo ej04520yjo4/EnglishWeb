@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { VocabularyApplicationPractice } from "./vocabulary-application-practice";
 import { gradeVocabularyApplication, type VocabularyApplicationQuestion } from "./vocabulary-application";
 import type { VocabularyPhoneticsData } from "./vocabulary-phonetics";
@@ -51,6 +51,14 @@ export type VocabularyLibraryPanelProps = {
     mode: VocabularyPracticeMode,
   ) => VocabularyPracticeQuestion | undefined;
   onEvidence?: (input: VocabularyLibraryEvidenceInput) => void;
+  pathSlot?: ReactNode;
+};
+
+type PracticeNavigation = {
+  onExit: () => void;
+  onNext?: () => void;
+  backLabel?: string;
+  nextLabel?: string;
 };
 
 type PracticeMode = "recognition" | "spelling";
@@ -84,7 +92,7 @@ const supportsSpeechPlayback = () =>
   typeof window.speechSynthesis?.speak === "function" &&
   typeof SpeechSynthesisUtterance === "function";
 
-const speak = (text: string) => {
+export const speakEnglish = (text: string) => {
   if (!supportsSpeechPlayback()) return false;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "en-US";
@@ -95,27 +103,32 @@ const speak = (text: string) => {
 
 const subscribeToSpeechSupport = () => () => {};
 
-const useSpeechSupport = () =>
+export const useSpeechSupport = () =>
   useSyncExternalStore(
     subscribeToSpeechSupport,
     supportsSpeechPlayback,
     () => false,
   );
 
-function RecognitionPractice({
+export function RecognitionPractice({
   entry,
   question,
   onEvidence,
   onExit,
-}: {
+  onNext,
+  backLabel = "← 返回 3000 單字庫",
+  nextLabel = "返回單字庫",
+  enableNumberKeys = false,
+}: PracticeNavigation & {
   entry: VocabularyLibraryEntry;
   question: VocabularyRecognitionQuestion;
   onEvidence?: VocabularyLibraryPanelProps["onEvidence"];
-  onExit: () => void;
+  enableNumberKeys?: boolean;
 }) {
   const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState(false);
   const speechSupported = useSpeechSupport();
+  const checkButton = useRef<HTMLButtonElement>(null);
   const correct = clean(selected) === clean(question.answer);
 
   const check = () => {
@@ -132,22 +145,41 @@ function RecognitionPractice({
     });
   };
 
+  useEffect(() => {
+    if (!enableNumberKeys || checked) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+      const option = question.options[Number(event.key) - 1];
+      if (/^[1-4]$/.test(event.key) && option) {
+        event.preventDefault();
+        setSelected(option);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [checked, enableNumberKeys, question.options]);
+
+  // After picking an answer, Enter confirms it without another Tab.
+  useEffect(() => {
+    if (enableNumberKeys && selected && !checked) checkButton.current?.focus();
+  }, [checked, enableNumberKeys, selected]);
+
   return (
     <section
       className="section-card vocabulary-library-practice"
       data-testid="vocabulary-library-recognition-practice"
     >
       <button className="back-button" onClick={onExit}>
-        ← 返回 3000 單字庫
+        {backLabel}
       </button>
       <span className="eyebrow">新單字辨認</span>
       <h2 data-testid="vocabulary-library-recognition-word">
         {entry.displayEnglish}
       </h2>
-      <p>請選出這個單字的繁體中文意思。</p>
+      <p>請選出這個單字的繁體中文意思。{enableNumberKeys ? "可按數字鍵 1–4 選擇。" : ""}</p>
       <button
         className="secondary-button"
-        onClick={() => speak(entry.displayEnglish)}
+        onClick={() => speakEnglish(entry.displayEnglish)}
         disabled={!speechSupported}
         aria-label={`播放 ${entry.displayEnglish} 的美式發音`}
       >
@@ -186,6 +218,7 @@ function RecognitionPractice({
         <button
           className="primary-button full-button"
           data-testid="vocabulary-library-recognition-check"
+          ref={checkButton}
           onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}
           disabled={!selected}
           onClick={check}
@@ -197,25 +230,28 @@ function RecognitionPractice({
           className="primary-button full-button"
           data-testid="vocabulary-library-recognition-next"
           autoFocus
-          onClick={onExit}
+          onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}
+          onClick={onNext ?? onExit}
         >
-          返回單字庫
+          {nextLabel}
         </button>
       )}
     </section>
   );
 }
 
-function SpellingPractice({
+export function SpellingPractice({
   entry,
   question,
   onEvidence,
   onExit,
-}: {
+  onNext,
+  backLabel = "← 返回 3000 單字庫",
+  nextLabel = "返回單字庫",
+}: PracticeNavigation & {
   entry: VocabularyLibraryEntry;
   question: VocabularySpellingQuestion;
   onEvidence?: VocabularyLibraryPanelProps["onEvidence"];
-  onExit: () => void;
 }) {
   const [value, setValue] = useState("");
   const [attempts, setAttempts] = useState(0);
@@ -259,7 +295,7 @@ function SpellingPractice({
       data-testid="vocabulary-library-spelling-practice"
     >
       <button className="back-button" onClick={onExit}>
-        ← 返回 3000 單字庫
+        {backLabel}
       </button>
       <span className="eyebrow">新單字拼字</span>
       <h2 data-testid="vocabulary-library-spelling-word">{entry.translationZhTw}</h2>
@@ -309,8 +345,14 @@ function SpellingPractice({
           {revealed ? "重新輸入並完成" : "檢查拼字"}
         </button>
       ) : (
-        <button className="primary-button full-button" autoFocus onClick={onExit}>
-          返回單字庫
+        <button
+          className="primary-button full-button"
+          data-testid="vocabulary-library-spelling-next"
+          autoFocus
+          onKeyDown={(event) => { if (event.key === "Enter" && event.repeat) event.preventDefault(); }}
+          onClick={onNext ?? onExit}
+        >
+          {nextLabel}
         </button>
       )}
     </section>
@@ -329,6 +371,7 @@ export function VocabularyLibraryPanel({
   phoneticError = "",
   buildQuestion,
   onEvidence,
+  pathSlot,
 }: VocabularyLibraryPanelProps) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -433,6 +476,7 @@ export function VocabularyLibraryPanel({
           查看來源與授權
         </a>
       </p>
+      {pathSlot}
 
       {loading && (
         <section className="section-card" role="status" data-testid="vocabulary-library-loading">

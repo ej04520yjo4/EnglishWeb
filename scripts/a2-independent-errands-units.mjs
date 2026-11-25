@@ -1,0 +1,235 @@
+const noun = "noun 名詞";
+const verb = "verb 動詞";
+const adverb = "adverb 副詞";
+const adjective = "adjective 形容詞";
+const preposition = "preposition 介系詞";
+const modal = "modal verb 情態助動詞";
+const pronoun = "pronoun 代名詞";
+const conjunction = "conjunction 連接詞";
+
+export const independentErrandsForms = (form) => ({
+  clothes: form("clothes", "plural noun 複數名詞", "clothes", {
+    kk: "/kloðz/", ipa: "/kloʊðz/", syllables: 1,
+  }),
+  machine: form("machine", "noun 名詞；verb 動詞", "ma・CHINE"),
+  choose: form("choose", verb),
+  or: form("or", conjunction),
+  warm: form("warm", "adjective 形容詞；verb 動詞"),
+  hot: form("hot", adjective),
+  press: form("press", "verb 動詞；noun 名詞"),
+  button: form("button", "noun 名詞；verb 動詞", "BUT・ton"),
+  rent: form("rent", "verb 動詞；noun 名詞"),
+  bike: form("bike", "noun 名詞；verb 動詞"),
+  hour: form("hour", noun, "hour", { kk: "/aʊɚ/", ipa: "/aʊɚ/", syllables: 1 }),
+  per: form("per", preposition),
+  fill: form("fill", "verb 動詞；noun 名詞"),
+  form: form("form", "noun 名詞；verb 動詞"),
+  full: form("full", adjective),
+  phone: form("phone", "noun 名詞；verb 動詞"),
+});
+
+export const independentErrandsUnits = ({ lesson, variant, chunk, line, question, wordUse, youSubject }) => {
+  const polite = wordUse("please-request", "請（禮貌用語）", adverb, "禮貌指示");
+  const canAsk = wordUse("can-ask-permission", "可以……嗎？", modal, "詢問是否可以", "", "grammar");
+  const byDeadline = wordUse("by-deadline", "在……之前或最晚到……", preposition, "最後期限");
+  const bike = wordUse("bike-bicycle", "腳踏車", noun, "租來騎的交通工具");
+  const form = wordUse("form-written-fields", "表單", noun, "要填寫的資料表");
+  const inContainer = wordUse("in-container-location", "在……裡／放進……裡", preposition, "衣物放入的位置");
+  return [
+    {
+      id: "a2-u44", title: "應用：自助洗衣與操作順序",
+      lessons: [
+        lesson("聽懂先把衣服放進洗衣機", "First, put the clothes in the machine.", "先把衣服放進洗衣機。",
+          "First, + 原形動詞表示第一步。put + 物品 + in + 容器，表示把物品放進去。", "laundry-first-put-in",
+          "First, put {item} in {place}.", "First, put ______ in ______.", ["操作的第一步", "物品與容器"],
+          [variant("bag", "先把衣服放進袋子裡。", ["First, put the clothes", "in the bag."]),
+            variant("book", "先把書放進箱子裡。", ["First, put the book", "in the box."])],
+          ["先把衣服放進袋子裡。", "把衣服拿出去。", "我會把碗盤收好。"], ["a2-u39-l01", "a2-u27-l02", "a2-u37-l02"],
+          {
+            first: wordUse("first-instruction-sequence", "先／第一步", adverb, "開始操作的步驟"),
+            put: wordUse("put-place-object", "把……放到指定位置", verb, "將衣物放進去"),
+            clothes: wordUse("clothes-garments-plural", "衣服（複數名詞）", "plural noun 複數名詞", "要洗的衣物",
+              "clothes 本身是複數，不說 a clothes。本課示範含 /ð/ 的讀法，美式口語也可聽到省去 /ð/ 的讀法。"),
+            in: inContainer, machine: wordUse("machine-washer-context", "機器（這裡是洗衣機）", noun, "裝入衣物的機器"),
+          }),
+        lesson("聽懂水溫的三個選項", "Choose cold, warm, or hot water.", "選擇冷水、溫水或熱水。",
+          "choose 是選擇；or 連接可選的項目。三個形容詞共用 water，意思是選一種水溫。", "laundry-choose-water",
+          "Choose {setting}.", "Choose ______.", ["請選擇", "機器選項"],
+          [variant("cold", "選擇冷水。", ["Choose", "cold water."]),
+            variant("warm", "選擇溫水。", ["Choose", "warm water."])],
+          ["選擇溫水。", "選擇熱水。", "先把衣服放進洗衣機。"], ["a2-u44-l01", "a2-u13-l04", "a2-u37-l04"],
+          {
+            choose: wordUse("choose-select-option", "選擇", verb, "決定洗衣設定"),
+            cold: wordUse("cold-water-temperature", "冷的（說明水溫）", adjective, "較低的水溫"),
+            or: wordUse("or-offer-choice", "或（在選項中擇一）", conjunction, "連接兩個選項"),
+            warm: wordUse("warm-water-temperature", "溫的（比冷水暖，但不是熱水）", adjective, "溫水水溫"),
+            hot: wordUse("hot-water-temperature", "熱的（說明水溫）", adjective, "較高的水溫"),
+          }, [chunk("hot-water", "hot water", "熱水", "句中還可以選 cold water 或 warm water；三個選項共用 water。")]),
+        lesson("接著按開始鍵", "Next, press the start button.", "接著按下開始鍵。",
+          "Next, + 原形動詞表示下一步。press the start button 是按標有 Start（開始）的按鈕。", "laundry-next-press-button",
+          "{step}, press {control}.", "______, press ______.", ["操作順序", "要按的按鈕"],
+          [variant("then", "然後按下開始鍵。", ["Then, press", "the start button."]),
+            variant("left", "接著按左側的按鈕。", ["Next, press", "the button on the left."])],
+          ["接著按左側的按鈕。", "接著選擇溫水。", "先把衣服放進洗衣機。"], ["a2-u44-l01", "a2-u44-l02", "a2-u37-l02"],
+          {
+            next: wordUse("next-instruction-step", "接著／下一步", adverb, "表示操作順序"),
+            press: wordUse("press-operate-button", "按下（按鈕）", verb, "操作按鈕"),
+            start: wordUse("start-button-label", "開始（按鈕標示）", "noun 名詞（作修飾語）", "按鈕的功能"),
+            button: wordUse("button-machine-control", "按鈕", noun, "啟動洗程的控制鍵"),
+          }, [chunk("the-start-button", "the start button", "開始鍵", "start 修飾 button，指用來開始運作的按鈕。")]),
+        lesson("說洗完就會回來", "I will come back when it ends.", "洗完時我會回來。",
+          "come back 是回來。When it ends 表示等這個程序結束；在 when 引導的時間子句內用 ends，而不是 will end。", "laundry-return-when-finished",
+          "{person} will come back when {event} ends.", "______ will come back when ______ ends.", ["會回來的人", "先結束的事件"],
+          [variant("we", "洗完時我們會回來。", ["We will come back", "when it ends."]),
+            variant("class", "下課時我會回來。", ["I will come back", "when the class ends."])],
+          ["下課時我會回來。", "我再十分鐘會到。", "接著按下開始鍵。"], ["a2-u44-l01", "a2-u44-l03", "a2-u34-l03"],
+          {
+            come: wordUse("come-back-return", "和 back 一起表示回到這裡", verb, "回到原地"),
+            back: wordUse("back-in-come-back", "回到原地（和 come 一起用）", adverb, "回到洗衣機旁"),
+            when: wordUse("when-time-clause", "當……時（引出發生的時間）", conjunction, "洗程結束時", "", "grammar"),
+            it: wordUse("it-current-wash-cycle", "它（這裡指洗程）", pronoun, "前面啟動的洗程"),
+            ends: wordUse("end-wash-cycle", "結束（這裡指洗完）", verb, "洗程結束"),
+          }, [chunk("come-back", "come back", "回來", "指回到原本所在的位置。")]),
+      ],
+      passage: [
+        line("First, put the clothes in the machine.", "店員：先把衣服放進洗衣機。"),
+        line("Choose cold, warm, or hot water.", "店員：選擇冷水、溫水或熱水。"),
+        line("I will use cold water.", "顧客：我會用冷水。"),
+        line("Next, press the start button.", "店員：接著按下開始鍵。"),
+        line("I will come back when it ends.", "顧客：洗完時我會回來。"),
+      ],
+      questions: [
+        question("依店員的指示，第一步要做什麼？", [1], "Put the clothes in the machine.", "Choose cold water.", "Press the start button.", "Put the clothes in the bag."),
+        question("店員給了幾種水溫選項，顧客實際選哪種？", [2, 3], "Cold water.", "Warm water.", "Cold tea.", "Hot water."),
+        question("選好水溫後，要怎麼啟動洗衣機？", [3, 4], "Press the start button.", "Close the door.", "Read the first page.", "Turn right."),
+        question("顧客說會在什麼時候回來？", [4, 5], "When it ends.", "Before dinner.", "In ten minutes.", "Around seven."),
+      ],
+    },
+    {
+      id: "a2-u45", title: "應用：租腳踏車與歸還期限",
+      lessons: [
+        lesson("問能否租腳踏車一小時", "Can I rent a bike for an hour?", "我想租腳踏車一小時，可以嗎？",
+          "rent 表示付費租借；for an hour 指租借一小時。hour 的 h 不發音，用 an hour。", "bike-ask-rental-duration",
+          "{request} rent a bike for {duration}?", "______ rent a bike for ______?", ["詢問能否租車", "租用多久"],
+          [variant("day", "我想租腳踏車一天，可以嗎？", ["Can I rent", "a bike for a day?"]),
+            variant("we", "我們想租腳踏車一小時，可以嗎？", ["Could we rent", "a bike for an hour?"])],
+          ["我想租腳踏車一天，可以嗎？", "我可以借你的筆嗎？", "搭公車要十分鐘。"], ["a2-u38-l02", "a2-u30-l01", "a2-u41-l02"],
+          {
+            can: canAsk, rent: wordUse("rent-pay-to-use", "付費租用", verb, "暫時租用腳踏車"), bike,
+            for: wordUse("for-rental-duration", "接租用多久", preposition, "租借長度"),
+            hour: wordUse("hour-duration-unit", "小時", noun, "租借時數",
+              "hour 的字首 h 不發音，因此用 an hour；本句是時間長度。"),
+          }, [chunk("for-an-hour", "for an hour", "為期一小時", "表示做某件事持續一小時，不是時鐘上的一點。")]),
+        lesson("問一小時的租金是多少", "How much does it cost per hour?", "每小時要多少錢？",
+          "How much does … cost? 是問價錢；per hour 表示每小時，和 for an hour 的「租一小時」不同。", "bike-ask-rate-per-period",
+          "How much does {item} cost per {period}?", "How much does ______ cost per ______?", ["詢問租金", "計費單位"],
+          [variant("day", "每天要多少錢？", ["How much does it cost", "per day?"]),
+            variant("bike", "這輛腳踏車每小時租金是多少？", ["How much does the bike cost", "per hour?"])],
+          ["每天要多少錢？", "可以租一輛腳踏車一小時嗎？", "每張票要多少錢？"], ["a2-u45-l01", "a2-u41-l02", "a2-u29-l04"],
+          {
+            how: wordUse("how-with-much-price", "和 much 一起問要多少錢", adverb, "詢問費用"),
+            it: wordUse("it-bike-rental", "它（這裡指這項租借）", pronoun, "要計價的租借"),
+            per: wordUse("per-rate-unit", "每（接計費單位）", preposition, "租金費率"),
+          }, [chunk("per-hour", "per hour", "每小時", "報價或費率的單位，不表示實際已租多久。")]),
+        lesson("聽懂最晚七點前要帶回來", "Please bring it back by seven.", "請最晚在七點帶回來。",
+          "bring it back 是把先前提到的東西帶回來。在這裡 by seven 表示最晚七點，不必剛好七點。", "bike-request-return-deadline",
+          "Please bring {item} back by {time}.", "Please bring ______ back by ______.", ["請對方歸還", "最晚歸還時刻"],
+          [variant("three", "請最晚在三點帶回來。", ["Please bring it back", "by three."]),
+            variant("bike", "請最晚在七點把腳踏車帶回來。", ["Please bring the bike back", "by seven."])],
+          ["請最晚在三點帶回來。", "請七點左右過來。", "每小時要多少錢？"], ["a2-u45-l01", "a2-u45-l02", "a2-u42-l03"],
+          {
+            please: polite, it: wordUse("it-rented-bike", "它（指這輛租來的腳踏車）", pronoun, "要帶回來的腳踏車"),
+            back: wordUse("back-in-bring-back", "回原處（與 bring 合用）", adverb, "回到租借處"),
+            by: byDeadline, seven: wordUse("seven-clock-time", "七點（指鐘點）", "number 數詞", "最晚歸還時刻"),
+          }, [chunk("by-seven", "by seven", "最晚七點", "包含七點或更早；不是大約七點。")]),
+        lesson("問歸還時腳踏車放在哪裡", "Where should I leave the bike?", "我應該把腳踏車放在哪裡？",
+          "Where should I + 原形動詞？用來問該怎麼安排。leave the bike 表示把車留在指定處，不是自己離開。", "bike-ask-return-location",
+          "Where should I leave {item}?", "Where should I leave ______?", ["詢問交回的位置", "要放下的物品"],
+          [variant("it", "我應該把它放在哪裡？", ["Where should I leave", "it?"]),
+            variant("package", "我應該把包裹放在哪裡？", ["Where should I leave", "the package?"])],
+          ["我應該把包裹放在哪裡？", "我有幾小時可以用？", "請最晚在七點帶回來。"], ["a2-u45-l01", "a2-u45-l03", "a2-u43-l02"],
+          {
+            should: wordUse("should-ask-directions", "應該（用來詢問對方指示）", modal, "確認歸還規則", "", "grammar"),
+            leave: wordUse("leave-item-at-location", "把東西留在指定處", verb, "放下要歸還的物品"), bike,
+          }),
+      ],
+      passage: [
+        line("Can I rent a bike for an hour?", "顧客：我想租腳踏車一小時，可以嗎？"),
+        line("How much does it cost per hour?", "顧客：每小時要多少錢？"),
+        line("It is ten dollars per hour.", "店員：每小時十美元。"),
+        line("Please bring it back by seven.", "店員：請最晚在七點帶回來。"),
+        line("Where should I leave the bike?", "顧客：我應該把腳踏車放在哪裡？"),
+        line("You can leave it here.", "店員：你可以把它留在這裡。"),
+      ],
+      questions: [
+        question("顧客想租腳踏車多久？", [1], "For an hour.", "For a day.", "For ten minutes.", "For a few minutes."),
+        question("店員報的租金是多少？", [2, 3], "Ten dollars per hour.", "Ten dollars per day.", "Two dollars per hour.", "Three dollars per hour."),
+        question("依店員的說法，最晚什麼時候要帶回來？", [4], "By seven.", "By three.", "Around seven.", "After seven."),
+        question("顧客問要還到哪裡之後，店員怎麼指示？", [5, 6], "You can leave it here.", "You can leave it at the station.", "You can leave it outside.", "You can leave it by the door."),
+      ],
+    },
+    {
+      id: "a2-u46", title: "應用：填寫表單與聯絡方式",
+      lessons: [
+        lesson("聽懂要填寫這份表單", "Please fill out this form.", "請填寫這份表單。",
+          "fill out + 表單是美式英文常用的「填寫」。代名詞放中間：fill it out。", "form-request-fill-out",
+          "{request} fill {details}.", "______ fill ______.", ["禮貌請求", "填寫表單的動作"],
+          [variant("could", "可以麻煩你填寫這份表單嗎？", ["Could you fill", "out this form?"]),
+            variant("it", "請把它填好。", ["Please fill", "it out."])],
+          ["請把它填好。", "請在這裡簽名。", "可以給我看那封電子郵件嗎？"], ["a2-u43-l03", "a2-u43-l04", "a2-u33-l01"],
+          {
+            please: polite, fill: wordUse("fill-out-complete", "和 out 一起表示填寫", verb, "完成表格中的欄位"),
+            out: wordUse("out-in-fill-out", "和 fill 一起構成「填寫」", adverb, "構成填表語塊"),
+            this: wordUse("this-form-indicated", "這一份（指櫃台拿給你的）", "determiner 限定詞", "指定眼前的表單"),
+            form,
+          }, [chunk("fill-out", "fill out", "填寫（表格）", "fill out this form；用 it 代替該表單時說 fill it out。")]),
+        lesson("問這裡要不要寫全名", "Should I write my full name here?", "我需要在這裡寫全名嗎？",
+          "full name 是全名，不只是名字的一部分。Should I 加原形動詞，可以向對方確認欄位要求。", "form-ask-field-instructions",
+          "Should I write {field} {place}?", "Should I write ______ ______?", ["確認該寫什麼", "要填的欄位與位置"],
+          [variant("there", "我需要在那裡寫全名嗎？", ["Should I write", "my full name there?"]),
+            variant("address", "我需要在這裡寫地址嗎？", ["Should I write", "my address here?"])],
+          ["我需要在這裡寫地址嗎？", "我應該在哪裡簽到？", "請填寫這份表單。"], ["a2-u46-l01", "a2-u33-l01", "a2-u43-l04"],
+          { full: wordUse("full-name-complete", "完整的（指全名）", adjective, "完整姓名"),
+            name: wordUse("name-personal-identifier", "姓名", noun, "表單的姓名欄位"),
+          }, [chunk("full-name", "full name", "全名", "表單若要 full name，依欄位說明填寫完整姓名。")]),
+        lesson("確認是否需要填電話號碼", "Do you need my phone number?", "你需要我的電話號碼嗎？",
+          "Do you need + 資料？用來確認對方需要哪些資料。phone number 是電話號碼。", "form-ask-contact-needed",
+          "Do you need {contact}?", "Do you need ______?", ["確認是否需要", "聯絡資料"],
+          [variant("address", "你需要我的地址嗎？", ["Do you need", "my address?"]),
+            variant("email", "你需要我的電子郵件地址嗎？", ["Do you need", "my email?"])],
+          ["你需要我的地址嗎？", "包裹編號是什麼？", "我需要在這裡寫全名嗎？"], ["a2-u46-l01", "a2-u46-l02", "a2-u43-l02"],
+          {
+            do: wordUse("do-yes-no-question", "開頭的助動詞，用來問需不需要", "auxiliary verb 助動詞", "形成一般現在式問句", "", "grammar"),
+            you: youSubject, phone: wordUse("phone-contact-number", "電話（修飾 number）", "noun 名詞（作修飾語）", "電話聯絡"),
+            number: wordUse("number-phone-contact", "號碼", noun, "電話號碼"),
+          }, [chunk("phone-number", "phone number", "電話號碼", "是電話聯絡方式，不是包裹編號或數量。")]),
+        lesson("問可以用電子郵件交表單嗎", "Can I send the form by email?", "我可以用電子郵件交這份表單嗎？",
+          "send the form 指送出表單。by email 說明使用的寄送方式，不是收件人的電子郵件地址。", "form-ask-submit-by-email",
+          "{request} send {item} by email?", "______ send ______ by email?", ["詢問能否送出", "要寄送的資料"],
+          [variant("could", "請問我可以用電子郵件交這份表單嗎？", ["Could I send", "the form by email?"]),
+            variant("file", "我可以用電子郵件寄那份檔案嗎？", ["Can I send", "the file by email?"])],
+          ["我可以用電子郵件寄那份檔案嗎？", "你需要我的電話號碼嗎？", "請填寫這份表單。"], ["a2-u46-l01", "a2-u46-l02", "a2-u46-l03"],
+          {
+            can: canAsk, send: wordUse("send-submit-document", "寄送／交出", verb, "送回已填好的表單"), form,
+            by: wordUse("by-delivery-method", "用（接傳送方式）", preposition, "寄送管道"),
+            email: wordUse("email-as-communication-medium", "電子郵件（寄送方式）", noun, "送出表單的管道"),
+          }, [chunk("by-email", "by email", "透過電子郵件", "by + 方式，可用來說明怎麼寄送。")]),
+      ],
+      passage: [
+        line("Please fill out this form.", "窗口人員：請填寫這份表單。"),
+        line("Should I write my full name here?", "填表人：我需要在這裡寫全名嗎？"),
+        line("Please write it here.", "窗口人員：請寫在這裡。"),
+        line("Do you need my phone number?", "填表人：你需要我的電話號碼嗎？"),
+        line("You do not need to write it.", "窗口人員：電話號碼不用寫。"),
+        line("Can I send the form by email?", "填表人：我可以用電子郵件交這份表單嗎？"),
+        line("You can send it by email.", "窗口人員：你可以用電子郵件寄。"),
+      ],
+      questions: [
+        question("窗口人員一開始請對方做什麼？", [1], "Fill out this form.", "Pick up the package.", "Read the first page.", "Sign in."),
+        question("填表人詢問姓名要寫在哪裡後，窗口人員如何回答？", [2, 3], "Please write it here.", "Please write it on the first page.", "Please read it here.", "Please send it by email."),
+        question("填表人問需不需要填電話號碼，窗口人員怎麼回答？", [4, 5], "You do not need to write it.", "Please write it here.", "Please show me the email.", "You can send it by email."),
+        question("對照最後兩句，窗口人員同意用什麼方式交表單？", [6, 7], "By email.", "By card.", "By bus.", "In a box."),
+      ],
+    },
+  ];
+};

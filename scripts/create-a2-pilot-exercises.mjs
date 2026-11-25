@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseCourseCsv } from "../app/curriculum/validation.ts";
+import { sentenceSpellingUnits } from "../app/curriculum/sentence-words.ts";
+import { appliedLessonId, appliedUnits } from "./a2-applied-units.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = (name) =>
@@ -12,6 +14,9 @@ const rows = parseCourseCsv(
 const patternData = readJson("a2-pattern-exercises.json");
 const readingData = readJson("a2-reading-exercises.json");
 const qaStatus = "pilot_review_required";
+const a1Rows = parseCourseCsv(
+  fs.readFileSync(path.join(root, "public/data/a1-course-v3.csv"), "utf8"),
+);
 
 const unique = (values) => [...new Set(values.filter(Boolean))];
 const lessonRows = (lessonId) =>
@@ -1706,6 +1711,87 @@ const newPatterns = [
   }),
 ];
 
+// The capstone reuses the regular transfer schema with two ordered alternatives per lesson.
+const capstonePattern = ({ id, lesson, template, skeleton, roles, variants }) => {
+  const lessonId = `a2-u10-${lesson}`;
+  return makePattern({
+    id, lessonId, template,
+    slots: roles.map(([slotId, role], index) => ({
+      slotId, role,
+      allowedLexemeIds: unique(variants.flatMap((variant) => variant.parts[index][1])),
+      allowedChunkIds: unique(variants.flatMap((variant) => variant.parts[index][2] ?? [])),
+    })),
+    examples: variants.map(({ suffix, translation, hintKeywords, parts }) => ({
+      id: `${lessonId}-transfer-${suffix}`,
+      sentence: parts.map(([text]) => text).join(" "),
+      translation, hintKeywords, skeleton,
+      slotValues: parts.map(([text, lexemes, chunks], index) =>
+        slotValue(roles[index][0], text, lexemes, chunks)
+      ),
+    })),
+  });
+};
+newPatterns.push(
+  capstonePattern({
+    id: "thank-you-for-noun", lesson: "l01", template: "Thank you for {reason}.",
+    skeleton: "Thank you for ______.",
+    roles: [["gratitude", "禮貌致謝"], ["reason", "感謝的事情"]],
+    variants: [
+      { suffix: "ticket", translation: "謝謝你給我這張票。", hintKeywords: "謝謝／這張票", parts: [
+        ["Thank you for", ["thank", "you", "for"], ["thank-you"]],
+        ["the ticket.", ["the", "ticket"]],
+      ] },
+      { suffix: "dinner", translation: "謝謝你的晚餐。", hintKeywords: "謝謝／晚餐", parts: [
+        ["Thank you for", ["thank", "you", "for"], ["thank-you"]],
+        ["dinner.", ["dinner"]],
+      ] },
+    ],
+  }),
+  capstonePattern({
+    id: "scheduled-departure-day-time", lesson: "l02", template: "{transport} leaves at {time} on {day}.",
+    skeleton: "The ______ leaves at ______ on ______.",
+    roles: [["transport", "交通工具"], ["departure-time", "發車鐘點"], ["day", "發車星期"]],
+    variants: [
+      { suffix: "bus-friday", translation: "公車星期五九點發車。", hintKeywords: "公車／星期五／九點", parts: [
+        ["The bus", ["the", "bus"]], ["leaves at nine", ["leave", "at", "nine"], ["leaves-at-nine"]],
+        ["on Friday.", ["on", "friday"]],
+      ] },
+      { suffix: "train-tuesday", translation: "火車星期二八點發車。", hintKeywords: "火車／星期二／八點", parts: [
+        ["The train", ["the", "train"], ["the-train"]], ["leaves at eight", ["leave", "at", "eight"]],
+        ["on Tuesday.", ["on", "tuesday"]],
+      ] },
+    ],
+  }),
+  capstonePattern({
+    id: "can-meet-at-place", lesson: "l03", template: "I can meet you at {place}.",
+    skeleton: "I can meet you at ______.",
+    roles: [["arrangement", "確認能見面"], ["place", "約定地點"]],
+    variants: [
+      { suffix: "school", translation: "我可以在學校跟你見面。", hintKeywords: "我可以／和你見面／學校", parts: [
+        ["I can meet you at", ["i", "can", "meet", "you", "at"]], ["school.", ["school"]],
+      ] },
+      { suffix: "store", translation: "我可以在商店跟你見面。", hintKeywords: "我可以／和你見面／商店", parts: [
+        ["I can meet you at", ["i", "can", "meet", "you", "at"]], ["the store.", ["the", "store"]],
+      ] },
+    ],
+  }),
+  capstonePattern({
+    id: "past-event-so-past-action", lesson: "l04", template: "I missed {transport}, so I {action}.",
+    skeleton: "I missed ______, so I ______.",
+    roles: [["past-event", "沒趕上的交通工具"], ["result-action", "後來採取的行動"]],
+    variants: [
+      { suffix: "take-bus", translation: "我沒趕上火車，所以改搭公車。", hintKeywords: "沒趕上火車／所以／搭公車", parts: [
+        ["I missed the train,", ["i", "miss", "the", "train"], ["the-train"]],
+        ["so I took the bus.", ["so", "i", "take", "the", "bus"]],
+      ] },
+      { suffix: "go-home", translation: "我沒趕上公車，所以就回家了。", hintKeywords: "沒趕上公車／所以／回家", parts: [
+        ["I missed the bus,", ["i", "miss", "the", "bus"], ["missed-the-bus"]],
+        ["so I went home.", ["so", "i", "go", "home"]],
+      ] },
+    ],
+  }),
+);
+
 const recognitionDistractors = {
   "a2-u02-l01": ["你可以搭公車。", "我昨天去了車站。", "火車明天早上九點出發。"],
   "a2-u02-l02": ["你要怎麼去車站？", "我昨天買了火車票。", "你昨天搭了公車。"],
@@ -1739,6 +1825,10 @@ const recognitionDistractors = {
   "a2-u09-l02": ["你想和我一起吃晚餐嗎？", "我很樂意和你一起吃早餐。", "我昨天去了車站。"],
   "a2-u09-l03": ["我很樂意和你一起吃晚餐。", "抱歉，但我得整理房間。", "我們可以星期二下午見面嗎？"],
   "a2-u09-l04": ["我們可以改成明天見面嗎？", "你想和我一起吃晚餐嗎？", "我通常星期六整理房間。"],
+  "a2-u10-l01": ["我昨天買了火車票。", "我很樂意和你一起吃晚餐。", "我們可以改成星期六見面嗎？"],
+  "a2-u10-l02": ["火車星期六十點發車。", "公車星期六九點發車。", "公車星期五十點發車。"],
+  "a2-u10-l03": ["我可以在學校跟你見面。", "我明天十點要和主管見面。", "我昨天去了車站。"],
+  "a2-u10-l04": ["我沒趕上火車，所以改搭公車。", "我沒趕上公車，所以就回家了。", "我昨天買了火車票。"],
 };
 
 const newLessonIds = [
@@ -1774,11 +1864,93 @@ const newLessonIds = [
   "a2-u09-l02",
   "a2-u09-l03",
   "a2-u09-l04",
+  "a2-u10-l01",
+  "a2-u10-l02",
+  "a2-u10-l03",
+  "a2-u10-l04",
 ];
+
+const indexOfLesson = new Map(unique(rows.map((row) => row.lesson_id)).map((id, index) => [id, index]));
+const appliedLessonOrder = new Map();
+const placeCorrectOption = (options, index) => [
+  ...options.slice(1, index + 1),
+  options[0],
+  ...options.slice(index + 1),
+];
+const spelling = (text) => sentenceSpellingUnits(text.toLowerCase());
+const appliedPrerequisites = (lessonId) => {
+  const rank = indexOfLesson.get(lessonId);
+  if (rank === undefined) throw new Error(`找不到先備範圍：${lessonId}`);
+  const taught = [
+    ...a1Rows,
+    ...rows.filter((row) => indexOfLesson.get(row.lesson_id) <= rank),
+  ];
+  const lexemesByForm = new Map();
+  const chunkWords = new Map();
+  for (const row of taught) {
+    const form = row.answer.toLowerCase();
+    const lexemes = lexemesByForm.get(form) ?? new Set();
+    lexemes.add(row.lexeme_id);
+    lexemesByForm.set(form, lexemes);
+    if (row.chunk_id) chunkWords.set(row.chunk_id, spelling(row.chunk_text));
+  }
+  return (text) => {
+    const words = spelling(text);
+    const requiredLexemeIds = unique(words.map((word) => {
+      const ids = lexemesByForm.get(word);
+      if (ids?.size !== 1) {
+        throw new Error(`${lessonId}：${text} 中的 ${word} 沒有唯一的已教單字。`);
+      }
+      return [...ids][0];
+    }));
+    const requiredChunkIds = [...chunkWords].filter(([, parts]) =>
+      parts.length && words.some((_, start) =>
+        parts.every((word, index) => words[start + index] === word),
+      ),
+    ).map(([id]) => id);
+    return { requiredLexemeIds, requiredChunkIds };
+  };
+};
+
+for (const unit of appliedUnits) {
+  for (const [index, lesson] of unit.lessons.entries()) {
+    const lessonId = appliedLessonId(unit.id, index);
+    const requirements = appliedPrerequisites(lessonId);
+    const slots = lesson.roles.map((role, slotIndex) => {
+      const alternatives = lesson.variants.map((variant) => requirements(variant.parts[slotIndex]));
+      return {
+        slotId: `part-${slotIndex + 1}`, role,
+        allowedLexemeIds: unique(alternatives.flatMap((part) => part.requiredLexemeIds)),
+        allowedChunkIds: unique(alternatives.flatMap((part) => part.requiredChunkIds)),
+      };
+    });
+    newLessonIds.push(lessonId);
+    appliedLessonOrder.set(lessonId, index);
+    recognitionDistractors[lessonId] = lesson.distractors;
+    newPatterns.push(makePattern({
+      id: lesson.patternId, lessonId, template: lesson.template, slots,
+      examples: lesson.variants.map((variant) => ({
+        id: `${lessonId}-transfer-${variant.id}`,
+        sentence: variant.parts.join(" "), translation: variant.translation,
+        hintKeywords: variant.translation.replace(/[。？]$/, ""), skeleton: lesson.skeleton,
+        slotValues: variant.parts.map((text, index) => ({
+          slotId: slots[index].slotId, text, ...requirements(text),
+        })),
+      })),
+    }));
+  }
+}
 
 const recognition = newLessonIds.map((lessonId) => {
   const source = sourceForLesson(lessonId);
   const metadata = lessonMetadata(lessonId);
+  const options = [
+    { id: "correct", text: source.translation, sourceSentenceId: source.sentence_id },
+    ...recognitionDistractors[lessonId].map((text, index) => ({
+      id: `distractor-${index + 1}`, text,
+    })),
+  ];
+  const lessonOrder = appliedLessonOrder.get(lessonId);
   return {
     id: `recognition-${lessonId}`,
     lessonId,
@@ -1789,17 +1961,7 @@ const recognition = newLessonIds.map((lessonId) => {
     instruction: "請選出最符合英文句子的中文意思。",
     stem: source.sentence,
     ...metadata,
-    options: [
-      {
-        id: "correct",
-        text: source.translation,
-        sourceSentenceId: source.sentence_id,
-      },
-      ...recognitionDistractors[lessonId].map((text, index) => ({
-        id: `distractor-${index + 1}`,
-        text,
-      })),
-    ],
+    options: lessonOrder === undefined ? options : placeCorrectOption(options, (lessonOrder + 1) % 4),
     correctOptionId: "correct",
     qaStatus,
   };
@@ -1857,6 +2019,10 @@ const responseDistractorLessons = {
   "a2-u09-l02": ["a2-u09-l01", "a2-u08-l03", "a2-u07-l04"],
   "a2-u09-l03": ["a2-u09-l02", "a2-u09-l01", "a2-u05-l03"],
   "a2-u09-l04": ["a2-u09-l03", "a2-u09-l01", "a2-u05-l02"],
+  "a2-u10-l01": ["a2-u09-l02", "a2-u02-l03", "a2-u09-l04"],
+  "a2-u10-l02": ["a2-u02-l04", "a2-u05-l03", "a2-u10-l01"],
+  "a2-u10-l03": ["a2-u05-l01", "a2-u09-l04", "a2-u10-l02"],
+  "a2-u10-l04": ["a2-u02-l03", "a2-u10-l02", "a2-u08-l04"],
 };
 const patternByLesson = new Map(
   newPatterns.map((pattern) => [
@@ -1864,6 +2030,11 @@ const patternByLesson = new Map(
     pattern,
   ]),
 );
+for (const unit of appliedUnits) {
+  for (const [index, lesson] of unit.lessons.entries()) {
+    responseDistractorLessons[appliedLessonId(unit.id, index)] = lesson.responseSources;
+  }
+}
 const textResponses = newLessonIds.map((lessonId) => {
   const source = sourceForLesson(lessonId);
   const pattern = patternByLesson.get(lessonId);
@@ -1878,6 +2049,8 @@ const textResponses = newLessonIds.map((lessonId) => {
         exampleOption(pattern.examples[1], "transfer-2"),
         coreOption(previousLesson[lessonId], "previous"),
       ];
+  const options = [coreOption(lessonId, "correct"), ...distractorOptions];
+  const lessonOrder = appliedLessonOrder.get(lessonId);
   return {
     id: `response-${lessonId}`,
     lessonId,
@@ -1888,10 +2061,7 @@ const textResponses = newLessonIds.map((lessonId) => {
     prompt: `請選出符合「${source.translation.replace(/[。！？.!?]+$/g, "")}」的英文句子。`,
     targetTranslation: source.translation,
     format: "choice",
-    options: [
-      coreOption(lessonId, "correct"),
-      ...distractorOptions,
-    ],
+    options: lessonOrder === undefined ? options : placeCorrectOption(options, (lessonOrder + 2) % 4),
     correctOptionId: "correct",
     qaStatus,
   };
@@ -2773,6 +2943,83 @@ newPassages.push({
     ], "At seven."),
   ],
 });
+
+newPassages.push({
+  passageId: "a2-u10-p01", level: "A2", qaStatus,
+  sentences: [
+    passageSentence("a2-u10-p01-s01", 1,
+      "Thank you for the email.", "行前回信：謝謝你寄來的電子郵件。", "a2-u10-l01",
+      ["thank", "you", "for", "the", "email"], ["thank-you"]),
+    passageSentence("a2-u10-p01-s02", 2,
+      "The bus leaves at ten on Saturday.", "公車星期六十點發車。", "a2-u10-l02",
+      ["the", "bus", "leave", "at", "ten", "on", "saturday"], ["leaves-at-ten", "on-saturday"]),
+    passageSentence("a2-u10-p01-s03", 3,
+      "I can meet you at the station.", "我可以在車站跟你見面。", "a2-u10-l03",
+      ["i", "can", "meet", "you", "at", "the", "station"], ["the-station"]),
+    passageSentence("a2-u10-p01-s04", 4,
+      "Would you like to have dinner with me?", "你想和我一起吃晚餐嗎？", "a2-u10-l03",
+      ["would", "you", "like", "to", "have", "dinner", "with", "me"],
+      ["would-you-like-to", "have-dinner", "with-me"]),
+    passageSentence("a2-u10-p01-s05", 5,
+      "I missed the bus, so I took the train.", "行後紀錄：我沒趕上公車，所以改搭火車。", "a2-u10-l04",
+      ["i", "miss", "the", "bus", "so", "take", "train"], ["missed-the-bus", "took-the-train"]),
+    passageSentence("a2-u10-p01-s06", 6,
+      "I went home after dinner.", "我吃完晚餐後就回家了。", "a2-u10-l04",
+      ["i", "go", "home", "after", "dinner"], ["after-dinner"]),
+  ],
+  questions: [
+    passageQuestion("a2-u10-p01-q01", "a2-u10-p01-s01", "回信開頭是為了哪件事而致謝？", [
+      passageOption("The email.", ["the", "email"]),
+      passageOption("The ticket.", ["the", "ticket"]),
+      passageOption("The meeting.", ["the", "meeting"]),
+      passageOption("The bag.", ["the", "bag"]),
+    ], "The email."),
+    passageQuestion("a2-u10-p01-q02", "a2-u10-p01-s02", "星期六的公車幾點發車？", [
+      passageOption("At ten.", ["at", "ten"]),
+      passageOption("At nine.", ["at", "nine"]),
+      passageOption("At eight.", ["at", "eight"]),
+      passageOption("At seven.", ["at", "seven"]),
+    ], "At ten."),
+    passageQuestion("a2-u10-p01-q03", "a2-u10-p01-s03", "回信裡提議在哪裡見面？", [
+      passageOption("At the station.", ["at", "the", "station"], ["the-station"]),
+      passageOption("At home.", ["at", "home"], ["at-home"]),
+      passageOption("At work.", ["at", "work"], ["at-work"]),
+      passageOption("At school.", ["at", "school"]),
+    ], "At the station."),
+    passageQuestion("a2-u10-p01-q04", "a2-u10-p01-s05", "對照行程和紀錄，沒趕上原本十點的公車後，這個人怎麼做？", [
+      passageOption("Took the train.", ["take", "the", "train"], ["took-the-train"]),
+      passageOption("Took the bus.", ["take", "the", "bus"]),
+      passageOption("Went to work.", ["go", "to", "work"]),
+      passageOption("Went to school.", ["go", "to", "school"]),
+    ], "Took the train.", ["a2-u10-p01-s02", "a2-u10-p01-s05"]),
+  ],
+});
+
+for (const unit of appliedUnits) {
+  const passageId = `${unit.id}-p01`;
+  const lastLesson = appliedLessonId(unit.id, unit.lessons.length - 1);
+  const requirements = appliedPrerequisites(lastLesson);
+  const sentenceId = (order) => `${passageId}-s${String(order).padStart(2, "0")}`;
+  newPassages.push({
+    passageId, level: "A2", qaStatus,
+    sentences: unit.passage.map(({ sentence, translation }, index) => {
+      const { requiredLexemeIds, requiredChunkIds } = requirements(sentence);
+      return passageSentence(
+        sentenceId(index + 1), index + 1, sentence, translation, lastLesson,
+        requiredLexemeIds, requiredChunkIds,
+      );
+    }),
+    questions: unit.questions.map(({ prompt, evidence, correct, distractors }, index) =>
+      passageQuestion(
+        `${passageId}-q${String(index + 1).padStart(2, "0")}`,
+        sentenceId(evidence.at(-1)), prompt,
+        placeCorrectOption([correct, ...distractors], (index + 3) % 4)
+          .map((text) => ({ text, ...requirements(text) })),
+        correct, evidence.map(sentenceId),
+      ),
+    ),
+  });
+}
 
 patternData.patterns = [
   ...patternData.patterns.filter((pattern) =>

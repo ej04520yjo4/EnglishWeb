@@ -3933,3 +3933,167 @@ progress::-webkit-progress-value {
     margin-left: 6px;
   }
 }
+
+.vocabulary-path {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.vocabulary-path .vocabulary-library-summary {
+  justify-content: flex-start;
+}
+
+.vocabulary-path-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.vocabulary-path-actions > button {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.vocabulary-path-lessons {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.vocabulary-path-lessons summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.vocabulary-path-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.vocabulary-path-stages button {
+  white-space: normal;
+}
+
+.vocabulary-path-stages button.selected {
+  border-color: var(--coral-dark);
+  background: var(--coral-soft);
+  color: var(--coral-dark);
+}
+
+.vocabulary-path-lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.vocabulary-path-lesson {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-path-lesson:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.vocabulary-path-lesson small,
+.vocabulary-path-lesson span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.vocabulary-path-lesson.in-progress {
+  border-color: var(--warning-border);
+  background: var(--yellow-soft);
+}
+
+.vocabulary-path-lesson.learned {
+  border-color: var(--coral-dark);
+  background: var(--coral-soft);
+}
+
+.vocabulary-path-lesson.mastered {
+  border-color: var(--success-border);
+  background: var(--green-soft);
+}
+
+.vocabulary-path-session {
+  width: min(720px, 100%);
+  margin-inline: auto;
+}
+
+.vocabulary-path-session-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vocabulary-path-session progress {
+  width: 100%;
+}
+
+.vocabulary-path-session .vocabulary-library-practice {
+  display: grid;
+  gap: 10px;
+}
+
+.vocabulary-path-session .back-button {
+  justify-self: start;
+}
+
+.vocabulary-path-session .vocabulary-library-practice > .secondary-button {
+  justify-self: start;
+}
+
+.vocabulary-path-card h2 {
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-path-meaning {
+  margin: 0;
+  color: var(--coral-dark);
+  font-size: 24px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-path-example {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--soft);
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-path-example p {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .vocabulary-path-lesson-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabulary-path-actions > button {
+    width: 100%;
+  }
+}

@@ -16,6 +16,8 @@ const snapshot = json(`${sourceDirectory}/lexicon-snapshot.json`);
 const sources = json(`${sourceDirectory}/sources.json`).sources;
 const snapshotHash = digest(`${sourceDirectory}/lexicon-snapshot.json`);
 const editorialHash = digest(`${sourceDirectory}/editorial-overrides.json`);
+const meaningRevisions = json(`${sourceDirectory}/course-meaning-revisions.json`).entries;
+const meaningRevisionsHash = digest(`${sourceDirectory}/course-meaning-revisions.json`);
 const getSource = (file, sourceType, reference) => {
   const source = sources.find((entry) => entry.file === file);
   if (!source) throw new Error(`詞庫缺少來源清單：${file}。`);
@@ -38,6 +40,17 @@ const originalSource = (lexemeId) => ({
   artifactSha256: editorialHash,
   attribution: "EnglishWeb machine-assisted editorial additions; human review pending",
 });
+// Later review corrected senses that did not fit everyday use. The snapshot
+// stays pinned; these original meanings are layered on top of it.
+const revisionSource = (lexemeId) => ({
+  sourceName: "EnglishWeb course meaning revision",
+  sourceVersion: "2026-11-24",
+  sourceType: "original_content",
+  license: "CC-BY-SA-4.0",
+  reference: `${sourceDirectory}/course-meaning-revisions.json#${lexemeId}`,
+  artifactSha256: meaningRevisionsHash,
+  attribution: "EnglishWeb machine-assisted editorial additions; human review pending",
+});
 const posLabels = {
   noun: "noun 名詞", verb: "verb 動詞", adj: "adjective 形容詞", adjective: "adjective 形容詞",
   adv: "adverb 副詞", adverb: "adverb 副詞", pronoun: "pronoun 代名詞", determiner: "determiner 限定詞",
@@ -57,7 +70,9 @@ const allocations = quotas.flatMap(({ count, ...allocation }) => Array.from({ le
 const additions = snapshot.selected.map((entry, index) => {
   const sourceRefs = [];
   if (entry.ngslRank) sourceRefs.push(getSource("ngsl-1.2.csv", "frequency", `https://www.newgeneralservicelist.com/new-general-service-list#${entry.lemma}`));
-  if (entry.originalMeaning) {
+  if (meaningRevisions[entry.lemma]) {
+    sourceRefs.push(revisionSource(entry.lemma));
+  } else if (entry.originalMeaning) {
     sourceRefs.push(originalSource(entry.lemma));
   } else {
     if (!entry.synsetId || !entry.senseKey) throw new Error(`${entry.lemma} 缺少對應詞義來源。`);
@@ -75,6 +90,9 @@ const additions = snapshot.selected.map((entry, index) => {
     qaStatus: "pilot_review_required",
   };
 });
+for (const lexemeId of Object.keys(meaningRevisions)) {
+  if (!snapshot.selected.some((entry) => entry.lemma === lexemeId)) throw new Error(`${lexemeId} 不是可修訂的新增詞。`);
+}
 const targets = parseVocabularyTargets({
   schemaVersion: 2,
   status: "count_complete_review_required",
@@ -84,9 +102,11 @@ const targets = parseVocabularyTargets({
 });
 const snapshotById = new Map(snapshot.selected.map((entry) => [entry.lemma, entry]));
 const entries = targets.entries.map((target) => {
-  const entry = snapshotById.get(target.lexemeId) ?? meanings[target.lexemeId];
-  if (!entry) throw new Error(`${target.lexemeId} 缺少詞庫意思。`);
-  const sourceSense = snapshotById.get(target.lexemeId);
+  const revision = meaningRevisions[target.lexemeId];
+  const baseEntry = snapshotById.get(target.lexemeId) ?? meanings[target.lexemeId];
+  if (!baseEntry) throw new Error(`${target.lexemeId} 缺少詞庫意思。`);
+  const entry = revision ? { ...baseEntry, ...revision } : baseEntry;
+  const sourceSense = revision ? undefined : snapshotById.get(target.lexemeId);
   const partOfSpeech = posLabels[entry.partOfSpeech] ?? entry.partOfSpeech;
   return {
     lexemeId: target.lexemeId,
@@ -118,6 +138,8 @@ const manifest = {
   sourceSnapshotSha256: snapshotHash,
   baselineMeaningsSha256: digest(`${sourceDirectory}/baseline-meanings.json`),
   editorialOverridesSha256: editorialHash,
+  courseMeaningRevisions: Object.keys(meaningRevisions).length,
+  courseMeaningRevisionsSha256: meaningRevisionsHash,
   targetQaStatus: targets.status,
   note: "Stage allocations are planning candidates, not CEFR certification. Count complete does not mean learner mastery or human QA complete.",
 };

@@ -262,7 +262,7 @@ Durable decisions are recorded here so later work does not reopen settled questi
 
 **Status:** Accepted
 
-**Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while its dependent Playwright job remains separate for browser setup and artifacts.
+**Decision:** `npm run verify` owns context checks, project and vocabulary audits/report, curriculum validation, build, unit, lint, and TypeScript. `npm test` adds Playwright. GitHub's quality job calls `verify`, while the dependent Playwright shards remain separate for browser setup and artifacts (ADR-063).
 
 **Reason:** One maintained command prevents local documentation and GitHub Actions from silently enforcing different release standards.
 
@@ -527,3 +527,43 @@ All new content remains `pilot_review_required` and audio remains `pending`. The
 **Decision:** Each screen previously returned from a `render*` closure in `app/page.tsx` is now a component in `app/screens/` that receives the values it uses as typed props. Shared types and helpers live in `app/home-model.ts` and `app/home-widgets.tsx`. Learning state, effects, persistence, and handlers remain in `page.tsx` for now; moving them into hooks is a separate, test-protected step (QA-002).
 
 **Reason:** The 7,473-line page made every change high-risk. Moving rendering first is mechanical and type-checked, keeps every learning rule in one place, and lets later hook extraction proceed screen by screen under the existing desktop/mobile browser suite.
+
+## ADR-059 - Unit 10 Completes the Pilot Route, Not A2 Certification
+
+**Status:** Accepted, 2026-11-22
+
+**Decision:** The latest course continuation adds only the planned Unit 10 capstone. Teach an email opening, a schedule, a meeting location, and a trip change through the existing word/chunk, transfer, and passage contracts. Keep prior data and progress unchanged. The route has 10 units, but Unit 10 remains `pilot_review_required`; audio and human QA remain pending.
+
+**Reason:** Short practical texts let the learner combine earlier skills without treating route completion as formal A2 proficiency. Normal entry requires passing Unit 9. No formal A2 assessment, B1/B2 activation, or automatic publication follows.
+
+## ADR-060 - Extend the A2 Pilot with Applied Conversations
+
+**Status:** Accepted, 2026-11-23
+
+**Decision:** The ten-unit base route ends at the capstone. Units 11–13 append phone, restaurant, and hotel practice to the same pilot sources and unlock sequence. They keep stable one-word occurrences, prerequisite checks, and progress schema v6. Unit 10 enables the next available unit without awarding an A2 pass. Applied English authoring resolves exact taught spellings, and new lexemes must already belong to the existing 3000-target catalog; authoring must not bypass the vocabulary audit.
+
+**Reason:** Reviewable, realistic exchanges grow the learner's ability to ask, clarify, and respond without changing level certification, replacing target identities, or opening B1/B2. New phonetics and language stay pending human QA; no new audio claims.
+
+## ADR-061 - Expand in Additive, Verified Topic Batches
+
+**Status:** Accepted, 2026-11-23
+
+**Decision:** Expand the applied learning path without replacing working exercises. Validate each topic batch before integration and compare prior CSV and exercises against known checkpoint hashes. Keep the generated files as the only runtime sources, and split editable topic definitions into modules consumed by both generators. New formal words come from the existing 3000-target catalog.
+
+**Reason:** This supports long-running expansion while safeguarding stable IDs, progress, and consistent pedagogy. The final available pilot unit still does not confer a level pass, and no automatic merge or release follows a local checkpoint.
+
+## ADR-062 - Reach 3000 Words Through a Guided Path
+
+**Status:** Accepted, 2026-11-24
+
+**Decision:** Add a separate guided path of 5 stages, 300 lessons and 10 words per lesson that covers each of the 3000 canonical targets exactly once. Derive every path status from global `vocabularyProgress`; add no progress schema, formal lessons, occurrences, unit passes, CEFR credit or B1/B2 content. Words enter the review queue only after a path study card is confirmed, so formal-course evidence alone cannot create a backlog. Correct wrong-sense meanings in `course-meaning-revisions.json`, layered over the pinned lexical snapshot, and drop the WordNet claim for those entries.
+
+**Reason:** At Unit 190 the formal A1/A2 course covers 554 of the 3000 targets. Teaching the other 2446 through one-sentence formal lessons would add more than a thousand lessons, far more browser data, and a test run measured in many hours. The catalog already held meanings, original sentences and KK candidates, so ordering them gives learners a complete route while ADR-048 keeps them outside the formal curriculum. All content remains `pilot_review_required`.
+
+## ADR-063 - Shard CI Browser Tests Behind One Required Check
+
+**Status:** Accepted, 2026-11-24
+
+**Decision:** Run the Playwright matrix in 16 GitHub Actions shards with `--fully-parallel` and two workers each. A summary job keeps the required check name `Playwright browser tests`, always runs, and fails unless every shard succeeded. Each shard keeps the 30-minute limit and uploads its own report. Assertions wait up to 10 seconds instead of Playwright's 5-second default, and the six-reload A2 map ordering case has a 90-second test limit. Retries stay at 0.
+
+**Reason:** The applied A2 flows grew the suite to 650 tests and about 3.6 hours of browser time, which one 30-minute job cannot finish. Sharding keeps every test and the branch protection rule unchanged, and a skipped or failed shard can never be reported as a pass. On two-core runners the first load of the full A2 data sometimes took over 5 seconds; a longer wait keeps every assertion, while retries could hide a real failure.

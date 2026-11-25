@@ -50,10 +50,10 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 
 **Status:** Parallel manual QA track
 
-- Preserve units 1–8 and review the bounded social-invitation pilot together with the existing units.
-- Verify all 36 lessons, nine unit passages, and prerequisite/slot constraints.
+- Preserve units 1–9 and review the capstone together with the existing units.
+- Verify all 760 lessons, 190 unit passages, and prerequisite/slot constraints.
 - Confirm the A2 pilot on Windows Chrome and a 375-pixel mobile viewport.
-- The latest continuation authorizes the next bounded unit 9 (M16). Keep unit 10 blueprint-only; all A2 content remains `pilot_review_required` until learner and language QA is recorded.
+- M17 closes the ten-unit base route; M18 extends it with practical phone, restaurant, and hotel use. All A2 content remains `pilot_review_required` until learner and language QA is recorded.
 - Completing available content must not mark full A2 completion or unlock B1.
 
 ### M5 - Related Vocabulary Reference Tool
@@ -177,9 +177,54 @@ A1 is the current production level and A2 is the only runtime pilot. B1/B2 data 
 - Add only unit 9 with four lessons, recognition, two transfers per lesson, text response, a short exchange, and evidence-backed comprehension.
 - Reuse existing formal vocabulary before introducing a small number of new words. Explain polite expressions as chunks while keeping one-word recall.
 - Protect A1, A2 units 1–8, progress, normal unlocks, and pending-review boundaries. Verify the new unit on desktop/mobile before handoff.
-- Leave unit 10 blueprint-only and B1/B2 disabled; preserve the separate dirty and review-fixes worktrees. Human language and phonetic QA remain open.
+- M16 did not generate Unit 10; M17 handles the subsequently authorized capstone. Human language and phonetic QA remain open.
 - Acceptance: 293 unit tests, 270 browser cases (135 per viewport), seven launcher scenarios, and all 12 verify gates passed. Handoff: `docs/a2-unit9-pilot-qa.md`.
-- Next active track: M4 manual A2 pilot review and learner trial, not automatic Unit 10 generation or publication.
+- Manual A2 pilot review and learner trials (M4) remain open.
+
+### M17 - A2 Email, Schedule, and Trip Recap Capstone
+
+**Status:** Implementation and automated acceptance complete, 2026-11-22; human QA pending
+
+- Add only Unit 10: four lessons, 28 word occurrences, eight transfers, four recognition/four response exercises, and two short texts totaling six sentences with four questions.
+- Recombine prior grammar and vocabulary; only `thank`, `email`, and `miss` are new canonical words. `took` is a new form of `take`, not a new word identity.
+- Preserve A1, A2 units 1–9, normal unlocks, and local progress. No formal A2 assessment, B-level activation, push, or deployment is included.
+- Acceptance: 308 unit tests and 280 browser cases passed, with two viewport-specific skips and no browser failures.
+- Handoff: `docs/a2-unit10-pilot-qa.md`. M18 implements the subsequently requested applied continuation; the M4 trial remains open.
+
+### M18 - A2 Applied Phone, Restaurant, and Hotel Practice
+
+**Status:** Implementation and automated acceptance complete, 2026-11-23; human QA pending
+
+- Append units 11–13: 12 lessons, 70 word occurrences, 24 transfers, 12 recognitions, 12 responses, and three dialogues with 12 comprehension questions.
+- Protect A1, A2 units 1–10, the 3000-target catalog, and existing progress. All new material is trial content; no formal A2 pass or B-level launch.
+- Acceptance: 311 unit tests and 286 browser cases passed; two device-specific skips and no failures.
+- Handoff: `docs/a2-applied-units-qa.md`. The learner trial remains open; M19 adds the requested continuous applied practice.
+
+### M19 - A2 Applied Communication Continuation
+
+**Status:** Implementation and scoped automated acceptance complete, 2026-11-23; human review pending
+
+- Append units 14–31 in verified batches: 72 lessons, 396 occurrences and 78 new-to-course lexemes already in the 3000 target list.
+- Cover everyday transactions, travel adjustments, workplace exchanges, polite clarification, and short recounts. Keep one-word spelling, chunk understanding, and the same four-lesson unit gate.
+- Preserve A1, the preceding A2 checkpoints, progress schema, and disabled B-level status. Automated pilot and device-width checks do not authorize publication or CEFR certification.
+- Handoff: `docs/a2-situational-qa.md`. Apply learner and language review findings before changing release status.
+
+### M20 - Continued A2 Applied Practice
+
+**Status:** Active; additive checkpoints only. Human language, device and audio QA remain open.
+
+- Units 32–190 add 636 lessons and 3643 word occurrences with a single A2 pilot curriculum and stable progress IDs.
+- Continue without a review gate between batches. Next planned set: talking about a favorite sport event, asking a pharmacist about a cold, and sharing weekend chores.
+- Keep tier certification, publication and deployment separate from local lesson work. See `docs/a2-continuation-qa.md` and `PROGRESS.md`.
+
+### M21 - 3000-Word Guided Path
+
+**Status:** Implemented locally; learner trial and human QA remain open.
+
+- Cover all 3000 canonical targets in 5 stages, 300 lessons and 10 words per lesson. See `docs/vocabulary-3000-path.md`.
+- Teach with study cards, recognition and spelling, then return words on later dates until they meet their active or receptive goal.
+- Derive status from global vocabulary evidence. Do not add formal lessons, schema changes, CEFR credit or B1/B2 content.
+- Correct wrong-sense meanings through a reviewed revision layer. The remaining generated meanings, example sentences and KK candidates still need human review.
 
 ## Milestone Completion Rule
 

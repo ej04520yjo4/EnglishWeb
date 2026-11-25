@@ -156,19 +156,33 @@ export type PatternCoverageSummary = {
   unconfiguredPatternIds: string[];
 };
 
+// Startup validation compares every row with every exercise, so these two
+// pure lookups run millions of times. Both caches are keyed by course data.
+const lessonRanks = new Map<string, number>();
 const lessonRank = (lessonId: string) => {
+  const cached = lessonRanks.get(lessonId);
+  if (cached !== undefined) return cached;
   const match = lessonId.match(/^(a1|a2|b1|b2)-u(\d+)-l(\d+)$/);
-  if (!match) return -1;
-  const levelRank = {
-    a1: 0,
-    a2: 100000,
-    b1: 200000,
-    b2: 300000,
-  }[match[1]]!;
-  return levelRank + Number(match[2]) * 100 + Number(match[3]);
+  const levelRank = match
+    ? { a1: 0, a2: 100000, b1: 200000, b2: 300000 }[match[1]]!
+    : 0;
+  const rank = match
+    ? levelRank + Number(match[2]) * 100 + Number(match[3])
+    : -1;
+  lessonRanks.set(lessonId, rank);
+  return rank;
 };
 
 const normalizeSentence = normalizeSentenceForComparison;
+
+const normalizedAnswers = new Map<string, string>();
+const normalizeCourseAnswer = (answer: string) => {
+  const cached = normalizedAnswers.get(answer);
+  if (cached !== undefined) return cached;
+  const normalized = normalizeSentence(answer);
+  normalizedAnswers.set(answer, normalized);
+  return normalized;
+};
 
 const sentenceWordCount = (value: string) =>
   normalizeSentence(value).split(" ").filter(Boolean).length;
@@ -182,13 +196,68 @@ const sameStringSet = (left: string[], right: string[]) => {
   );
 };
 
+type LearnedThroughLesson = {
+  rows: CourseCsvRow[];
+  lexemes: Set<string>;
+  chunks: Set<string>;
+  sentences: Set<string>;
+};
+
+// One validation run asks about the same lessons thousands of times.
+const createLearnedIndex = (rows: CourseCsvRow[]) => {
+  const ranks = rows.map((row) => lessonRank(row.lesson_id));
+  const byRank = new Map<number, LearnedThroughLesson>();
+  return (lessonId: string) => {
+    const rank = lessonRank(lessonId);
+    const cached = byRank.get(rank);
+    if (cached) return cached;
+    const learned = rows.filter((_, index) => ranks[index] <= rank);
+    const entry = {
+      rows: learned,
+      lexemes: new Set(learned.map((row) => row.lexeme_id)),
+      chunks: new Set(learned.map((row) => row.chunk_id).filter(Boolean)),
+      sentences: new Set(learned.map((row) => row.sentence_id)),
+    };
+    byRank.set(rank, entry);
+    return entry;
+  };
+};
+
+const chunkRowsByLearnedRows = new WeakMap<CourseCsvRow[], Map<string, CourseCsvRow[]>>();
+const chunkRowsFor = (learnedRows: CourseCsvRow[]) => {
+  const cached = chunkRowsByLearnedRows.get(learnedRows);
+  if (cached) return cached;
+  const index = new Map<string, CourseCsvRow[]>();
+  learnedRows.forEach((row) => {
+    if (!row.chunk_text) return;
+    index.set(row.chunk_id, [...(index.get(row.chunk_id) ?? []), row]);
+  });
+  chunkRowsByLearnedRows.set(learnedRows, index);
+  return index;
+};
+
+const answerLexemesByLearnedRows = new WeakMap<CourseCsvRow[], Map<string, Set<string>>>();
+const answerLexemesFor = (learnedRows: CourseCsvRow[]) => {
+  const cached = answerLexemesByLearnedRows.get(learnedRows);
+  if (cached) return cached;
+  const index = new Map<string, Set<string>>();
+  learnedRows.forEach((row) => {
+    const answer = normalizeCourseAnswer(row.answer);
+    const current = index.get(answer) ?? new Set<string>();
+    current.add(row.lexeme_id);
+    index.set(answer, current);
+  });
+  answerLexemesByLearnedRows.set(learnedRows, index);
+  return index;
+};
+
 const validateReferencedChunks = (
   text: string,
   chunkIds: string[],
   learnedRows: CourseCsvRow[],
   label: string,
 ): string[] => chunkIds.flatMap((chunkId) => {
-  const candidates = learnedRows.filter((row) => row.chunk_id === chunkId && row.chunk_text);
+  const candidates = chunkRowsFor(learnedRows).get(chunkId) ?? [];
   // Unknown/unlearned references are reported by the prerequisite check.
   if (!candidates.length || candidates.some((row) =>
     ` ${normalizeSentence(text)} `.includes(` ${normalizeSentence(row.chunk_text)} `),
@@ -271,13 +340,7 @@ const validateReferencedLexemes = (
   const errors: string[] = [];
   const required = new Set(requiredLexemeIds);
   const used = new Set<string>();
-  const lexemesByAnswer = new Map<string, Set<string>>();
-  learnedRows.forEach((row) => {
-    const answer = normalizeSentence(row.answer);
-    const current = lexemesByAnswer.get(answer) ?? new Set<string>();
-    current.add(row.lexeme_id);
-    lexemesByAnswer.set(answer, current);
-  });
+  const lexemesByAnswer = answerLexemesFor(learnedRows);
   for (const word of normalizeSentence(sentence).split(" ").filter(Boolean)) {
     const candidates = lexemesByAnswer.get(word);
     const matched = candidates
@@ -317,6 +380,7 @@ export const validatePatternExerciseData = (
     rows.map((row) => [row.sentence_id, row]),
   );
 
+  const learnedThrough = createLearnedIndex([...prerequisiteRows, ...rows]);
   for (const pattern of data.patterns) {
     if (patternIds.has(pattern.id)) {
       errors.push(`句型 ID 重複：${pattern.id}`);
@@ -413,11 +477,7 @@ export const validatePatternExerciseData = (
           `${example.id} 的 requiredChunkIds 不符合 ${pattern.id} slot allowedChunkIds：${disallowedChunks.join("、")}。`,
         );
       }
-      const availableRows = [...prerequisiteRows, ...rows];
-      const learnedLexemes = learnedLexemeIdsThroughLesson(
-        availableRows,
-        example.practiceLessonId,
-      );
+      const learnedLexemes = learnedThrough(example.practiceLessonId).lexemes;
       const unlearned = example.requiredLexemeIds.filter(
         (lexemeId) => !learnedLexemes.has(lexemeId),
       );
@@ -426,11 +486,7 @@ export const validatePatternExerciseData = (
           `${example.id} 使用尚未教過的 lexeme：${unlearned.join("、")}。`,
         );
       }
-      const learnedRows = availableRows.filter(
-        (row) =>
-          lessonRank(row.lesson_id) <=
-          lessonRank(example.practiceLessonId),
-      );
+      const learnedRows = learnedThrough(example.practiceLessonId).rows;
       if (example.slotValues?.length) {
         const slotValuesById = new Map(
           example.slotValues.map((value) => [value.slotId, value]),
@@ -533,10 +589,7 @@ export const validatePatternExerciseData = (
           example.id,
         ),
       );
-      const learnedChunks = learnedChunkIdsThroughLesson(
-        availableRows,
-        example.practiceLessonId,
-      );
+      const learnedChunks = learnedThrough(example.practiceLessonId).chunks;
       const unlearnedChunks = example.requiredChunkIds.filter(
         (chunkId) => !learnedChunks.has(chunkId),
       );
@@ -564,6 +617,22 @@ export const validateReadingExerciseData = (
 ): ExerciseValidationReport => {
   const errors: string[] = [];
   const availableRows = [...prerequisiteRows, ...rows];
+  const learnedThrough = createLearnedIndex(availableRows);
+  const knownTranslations = new Map<string, string>();
+  availableRows.forEach((row) => {
+    knownTranslations.set(
+      normalizeSentence(row.sentence),
+      row.translation,
+    );
+  });
+  patternData?.patterns.forEach((pattern) =>
+    pattern.examples.forEach((example) => {
+      knownTranslations.set(
+        normalizeSentence(example.sentence),
+        example.translation,
+      );
+    }),
+  );
   const lessonIds = new Set(rows.map((row) => row.lesson_id));
   const rowsBySentence = new Map(
     rows.map((row) => [row.sentence_id, row]),
@@ -604,14 +673,8 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的題幹與正式來源句不一致。`);
     }
-    const learnedRows = availableRows.filter(
-      (row) =>
-        lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
-    );
-    const learnedLexemes = learnedLexemeIdsThroughLesson(
-      availableRows,
-      exercise.lessonId,
-    );
+    const learnedRows = learnedThrough(exercise.lessonId).rows;
+    const learnedLexemes = learnedThrough(exercise.lessonId).lexemes;
     const earlyLexemes = exercise.requiredLexemeIds.filter(
       (lexemeId) => !learnedLexemes.has(lexemeId),
     );
@@ -628,10 +691,7 @@ export const validateReadingExerciseData = (
         exercise.id,
       ),
     );
-    const learnedChunks = learnedChunkIdsThroughLesson(
-      availableRows,
-      exercise.lessonId,
-    );
+    const learnedChunks = learnedThrough(exercise.lessonId).chunks;
     const earlyChunks = exercise.requiredChunkIds.filter(
       (chunkId) => !learnedChunks.has(chunkId),
     );
@@ -655,10 +715,7 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的中文答案與正式翻譯不一致。`);
     }
-    const learnedSentenceIds = learnedSentenceIdsThroughLesson(
-      availableRows,
-      exercise.lessonId,
-    );
+    const learnedSentenceIds = learnedThrough(exercise.lessonId).sentences;
     const missingOptionSource = exercise.options.find(
       (option) =>
         option.sourceSentenceId &&
@@ -724,10 +781,7 @@ export const validateReadingExerciseData = (
       errors.push(`${exercise.id} 的正式課程引用不一致。`);
       continue;
     }
-    const learnedLexemes = learnedLexemeIdsThroughLesson(
-      availableRows,
-      exercise.lessonId,
-    );
+    const learnedLexemes = learnedThrough(exercise.lessonId).lexemes;
     if (
       !exercise.options.some(
         (option) => option.id === exercise.correctOptionId,
@@ -737,21 +791,6 @@ export const validateReadingExerciseData = (
     }
     const correctOption = exercise.options.find(
       (option) => option.id === exercise.correctOptionId,
-    );
-    const knownTranslations = new Map<string, string>();
-    availableRows.forEach((row) => {
-      knownTranslations.set(
-        normalizeSentence(row.sentence),
-        row.translation,
-      );
-    });
-    patternData?.patterns.forEach((pattern) =>
-      pattern.examples.forEach((example) => {
-        knownTranslations.set(
-          normalizeSentence(example.sentence),
-          example.translation,
-        );
-      }),
     );
     const expectedTranslation = correctOption
       ? knownTranslations.get(normalizeSentence(correctOption.text))
@@ -765,14 +804,8 @@ export const validateReadingExerciseData = (
     ) {
       errors.push(`${exercise.id} 的中英文人稱或目標意思不一致。`);
     }
-    const learnedRows = availableRows.filter(
-      (row) =>
-        lessonRank(row.lesson_id) <= lessonRank(exercise.lessonId),
-    );
-    const learnedChunks = learnedChunkIdsThroughLesson(
-      availableRows,
-      exercise.lessonId,
-    );
+    const learnedRows = learnedThrough(exercise.lessonId).rows;
+    const learnedChunks = learnedThrough(exercise.lessonId).chunks;
     for (const option of exercise.options) {
       if (option.sourceSentenceId !== undefined) {
         const optionSource = availableRows.find(
@@ -863,14 +896,8 @@ export const validateReadingExerciseData = (
         );
         continue;
       }
-      const learnedRows = availableRows.filter(
-        (row) =>
-          lessonRank(row.lesson_id) <= lessonRank(sentence.lessonId ?? ""),
-      );
-      const learnedLexemes = learnedLexemeIdsThroughLesson(
-        availableRows,
-        sentence.lessonId,
-      );
+      const learnedRows = learnedThrough(sentence.lessonId ?? "").rows;
+      const learnedLexemes = learnedThrough(sentence.lessonId).lexemes;
       const unlearnedLexemes = (
         sentence.requiredLexemeIds ?? []
       ).filter((lexemeId) => !learnedLexemes.has(lexemeId));
@@ -887,10 +914,7 @@ export const validateReadingExerciseData = (
           sentence.id,
         ),
       );
-      const learnedChunks = learnedChunkIdsThroughLesson(
-        availableRows,
-        sentence.lessonId,
-      );
+      const learnedChunks = learnedThrough(sentence.lessonId).chunks;
       const unlearnedChunks = (
         sentence.requiredChunkIds ?? []
       ).filter((chunkId) => !learnedChunks.has(chunkId));
@@ -937,19 +961,9 @@ export const validateReadingExerciseData = (
         }
       }
       if (passageCompletionLessonId) {
-        const learnedRows = availableRows.filter(
-          (row) =>
-            lessonRank(row.lesson_id) <=
-            lessonRank(passageCompletionLessonId),
-        );
-        const learnedLexemes = learnedLexemeIdsThroughLesson(
-          availableRows,
-          passageCompletionLessonId,
-        );
-        const learnedChunks = learnedChunkIdsThroughLesson(
-          availableRows,
-          passageCompletionLessonId,
-        );
+        const learnedRows = learnedThrough(passageCompletionLessonId).rows;
+        const learnedLexemes = learnedThrough(passageCompletionLessonId).lexemes;
+        const learnedChunks = learnedThrough(passageCompletionLessonId).chunks;
         for (const option of optionMetadata) {
           const unlearnedLexemes = option.requiredLexemeIds.filter(
             (lexemeId) => !learnedLexemes.has(lexemeId),

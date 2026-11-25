@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { a2LessonCount } from "./a2-catalog-fixture";
 
 const progressKey = "yingju-progress-v1";
 const settingsKey = "yingju-settings-v1";
@@ -227,7 +228,7 @@ test("A2 QA preview exposes unit seven without passing the level", async ({ page
   await seedA2(page, { showAdvancedPilots: true });
   await openA2Map(page);
 
-  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(36);
+  await expect(page.locator(".unit-card .lesson-row:not(.test-row)")).toHaveCount(a2LessonCount);
   await expect(page.getByRole("heading", { name: "經驗與生活改變" })).toBeVisible();
   await expect(page.getByRole("button", { name: /分享旅行經驗/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /詢問曾經去過的地方/ })).toBeEnabled();
@@ -383,7 +384,7 @@ test("completes unit seven, passage comprehension, and persists progress", async
   }, progressKey);
 
   await page.reload();
-  await expect(page.getByText("28 / 36", { exact: true })).toBeVisible();
+  await expect(page.getByText(`28 / ${a2LessonCount}`, { exact: true })).toBeVisible();
   const a2EvidenceAfterReload = await page.evaluate((key) => {
     const value = JSON.parse(localStorage.getItem(key) ?? "{}");
     const progress = value.levelProgress?.A2 ?? {};

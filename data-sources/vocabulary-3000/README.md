@@ -32,6 +32,12 @@ learning goal, not a statement of what the learner knows. All content remains
    only those with a supported source or editorial meaning enter the snapshot.
 6. `baseline-meanings.json` supplies canonical meanings for the existing 132 words
    without mutating course answers, reference records or their license status.
+7. `course-meaning-revisions.json` (2026-11-24) replaces 758 WordNet-derived senses
+   that did not fit everyday use or their application sentence, such as `find`
+   shown as "happen to meet". These are machine-assisted original meanings layered
+   over the pinned snapshot, licensed CC BY-SA 4.0, and still need human review.
+8. `path-themes.json` groups the 3000 targets into learning themes for the guided
+   path. It never adds, removes or relabels a target.
 
 Source selection and adapted new data are CC BY-SA 4.0, with WordNet/COW notices
 retained. Original editorial additions are also CC BY-SA 4.0. Existing 132 source

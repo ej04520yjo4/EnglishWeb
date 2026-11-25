@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 import {
   buildVocabularyPhoneticIndex,
+  resolveVocabularyPathPronunciation,
   validateVocabularyPhonetics,
 } from "../app/vocabulary-phonetics.ts";
 
@@ -65,6 +66,28 @@ test("homograph pronunciation variants remain visible and unselected", () => {
       assert.match(variant.kkCandidate, /^\/.+\/$/);
     }
   }
+});
+
+test("path selects a sourced KK candidate only for a matching example", async () => {
+  const index = buildVocabularyPhoneticIndex(phonetics);
+  const { entries } = await readJson("public/data/vocabulary-applications-v1.json");
+  const examples = new Map(entries.map((entry) => [entry.lexemeId, entry.sentence]));
+  for (const [id, kk] of Object.entries({
+    close: "/kloz/", conduct: "/kɑnˈdʌkt/", lead: "/lid/", live: "/lɪv/",
+    read: "/rid/", separate: "/ˈsɛpɚɪt/", use: "/juz/", wind: "/wɪnd/",
+  })) {
+    const entry = index.get(id);
+    const pronunciation = resolveVocabularyPathPronunciation(entry, examples.get(id));
+    assert.equal(pronunciation.inContext, kk, id);
+    assert.ok(pronunciation.candidates.length > 1, id);
+    assert.equal(resolveVocabularyPathPronunciation(entry, "An unrelated example.").inContext, undefined);
+    const changed = { ...entry, variants: entry.variants.filter((variant) => variant.kkCandidate !== kk) };
+    assert.equal(resolveVocabularyPathPronunciation(changed, examples.get(id)).inContext, undefined);
+  }
+  const unresolved = resolveVocabularyPathPronunciation(index.get("record"), examples.get("record"));
+  assert.equal(unresolved.inContext, undefined);
+  assert.ok(unresolved.candidates.length > 1);
+  assert.deepEqual(resolveVocabularyPathPronunciation(undefined), { candidates: [], inContext: undefined });
 });
 
 test("stress candidates are placed at syllable onsets", () => {

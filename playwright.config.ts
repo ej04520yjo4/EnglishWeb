@@ -8,6 +8,8 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   retries: 0,
+  // First loads of the full A2 data can pass 5 s on two-core CI runners.
+  expect: { timeout: 10_000 },
   reporter: [
     ["list"],
     ["html", { outputFolder: "playwright-report", open: "never" }],

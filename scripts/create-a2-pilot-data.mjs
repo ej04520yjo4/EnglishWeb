@@ -6,6 +6,7 @@ import {
   parseCourseCsv,
   serializeCourseCsv,
 } from "../app/curriculum/validation.ts";
+import { appliedForms, appliedLessonId, appliedUnits } from "./a2-applied-units.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const a1Rows = parseCourseCsv(
@@ -4463,6 +4464,120 @@ const socialLessons = [
 const socialRows = rowsFromLessons(
   socialLessons, sharedForUnit("a2-u09", "社交、邀請與回應"),
 );
+
+const priorBeforeCapstone = [...priorBeforeSocial, ...socialRows];
+const capstonePinnedWord = (id, dictionaryPos, display) => {
+  const phonetic = socialPhonetics.entries.find((entry) => entry.lexemeId === id)?.variants[0];
+  if (!phonetic) throw new Error(`A2/a2-u10：缺少 ${id} 的 CMUdict 音標候選。`);
+  return newToken({
+    tokenId: id, lexemeId: id, lemma: id, dictionaryPos,
+    kk: phonetic.kkCandidate, ipa: phonetic.ipaCandidate,
+    syllables: String(phonetic.syllableCount),
+    stress: phonetic.syllableCount === 1 ? "單音節" : "第二音節（此候選）",
+    display,
+  });
+};
+const capstoneForms = {
+  thank: capstonePinnedWord("thank", "verb 動詞", "thank"),
+  email: capstonePinnedWord("email", "noun 名詞；verb 動詞", "e・MAIL"),
+  // Editorial US pronunciation candidates for these inflected forms; audio is still pending.
+  missed: newToken({
+    tokenId: "missed", lexemeId: "miss", lemma: "miss", dictionaryPos: "verb 動詞",
+    kk: "/mɪst/", ipa: "/mɪst/", syllables: "1", stress: "單音節", display: "missed",
+  }),
+  took: newToken({
+    tokenId: "took", lexemeId: "take", lemma: "take", dictionaryPos: "verb 動詞",
+    kk: "/tʊk/", ipa: "/tʊk/", syllables: "1", stress: "單音節", display: "took",
+    isNewWord: false,
+  }),
+};
+const capstoneWord = (answer, lexemeId, sense, prompt, pos, role, note = "", promptType = "meaning", chunkFields = {}) => {
+  const token = capstoneForms[answer.toLowerCase()] ??
+    knownTokenFromRows(answer, lexemeId, priorBeforeCapstone);
+  return {
+    answer, ...token, sense_id: sense, prompt, prompt_type: promptType,
+    context_pos: pos, semanticRole: role, note, ...chunkFields,
+    ...(["missed", "took"].includes(answer) ? { is_new_content: "TRUE" } : {}),
+  };
+};
+const capstonePriorChunk = (id, order) => {
+  const source = priorBeforeCapstone.find((row) => row.chunk_id === id);
+  if (!source) throw new Error(`A2/a2-u10：找不到已教語塊 ${id}。`);
+  return chunk(id, source.chunk_text, source.chunk_translation, order, source.chunk_note);
+};
+const thankYou = chunk("thank-you", "Thank you", "謝謝你", 1, "Thank you for + 名詞可在回信中說明感謝的事情。");
+const leavesAtTen = chunk("leaves-at-ten", "leaves at ten", "十點發車", 1, "用現在簡單式說明固定時刻表；單數交通工具用 leaves。");
+const missedBus = chunk("missed-the-bus", "missed the bus", "錯過公車", 1, "miss 在此表示沒趕上，不是想念；missed 是過去式。");
+const tookTrain = chunk("took-the-train", "took the train", "搭了火車", 2, "took 是 take 的不規則過去式；take the train 表示搭火車。");
+const capstoneLessons = [
+  {
+    lessonId: "a2-u10-l01", title: "回信開頭表達感謝",
+    sentenceId: "a2-u10-l01-p01-s01", sentenceOrder: 1,
+    sentence: "Thank you for the email.", translation: "謝謝你寄來的電子郵件。",
+    grammar: "Thank you for + 名詞：說明感謝的事情，適合做為簡短回信的開頭。",
+    patternId: "thank-you-for-noun", patternName: "Thank you for + 感謝的事情",
+    tokens: [
+      capstoneWord("Thank", "thank", "thank-gratitude", "感謝", "verb 動詞（原形）", "致謝", "句首 Thank 要大寫。", "meaning", thankYou),
+      capstoneWord("you", "you", "you-object-thanks", "你（受詞）", "pronoun 代名詞（受格）", "感謝對象", "Thank you 是固定的致謝說法。", "grammar", thankYou),
+      capstoneWord("for", "for", "for-reason-gratitude", "用來接感謝的事情", "preposition 介系詞", "感謝的原因", "for 在此不是「為了」。", "grammar"),
+      capstoneWord("the", "the", "the-definite-article", "定冠詞（特定的郵件）", "determiner 限定詞", "限定名詞", "", "grammar"),
+      capstoneWord("email", "email", "email-message", "電子郵件", "noun 名詞", "收到的來信"),
+    ],
+  },
+  {
+    lessonId: "a2-u10-l02", title: "讀懂出發時刻",
+    sentenceId: "a2-u10-l02-p01-s01", sentenceOrder: 2,
+    sentence: "The bus leaves at ten on Saturday.", translation: "公車星期六十點發車。",
+    grammar: "固定時刻表用現在簡單式；單數主詞配 leaves。at 接鐘點，on 接星期。",
+    patternId: "scheduled-departure-day-time", patternName: "交通工具 + leaves at + 時間 + on + 星期",
+    tokens: [
+      capstoneWord("The", "the", "the-definite-article", "定冠詞（特定的公車）", "determiner 限定詞", "限定名詞", "", "grammar"),
+      capstoneWord("bus", "bus", "bus-transportation", "公車", "noun 名詞", "交通工具"),
+      capstoneWord("leaves", "leave", "leave-schedule-depart", "發車", "verb 動詞（第三人稱單數）", "時刻表動作", "", "meaning", leavesAtTen),
+      capstoneWord("at", "at", "at-clock-time", "在（接鐘點）", "preposition 介系詞", "時刻介系詞", "", "grammar", leavesAtTen),
+      capstoneWord("ten", "ten", "ten-clock-time", "十（此處指十點）", "number 數詞", "發車時刻", "", "context", leavesAtTen),
+      capstoneWord("on", "on", "on-day", "在（接星期）", "preposition 介系詞", "日期介系詞", "", "grammar", capstonePriorChunk("on-saturday", 2)),
+      capstoneWord("Saturday", "saturday", "saturday-day", "星期六", "proper noun 專有名詞", "發車日期", "星期名稱的第一個字母要大寫。", "meaning", capstonePriorChunk("on-saturday", 2)),
+    ],
+  },
+  {
+    lessonId: "a2-u10-l03", title: "確認見面地點",
+    sentenceId: "a2-u10-l03-p01-s01", sentenceOrder: 3,
+    sentence: "I can meet you at the station.", translation: "我可以在車站跟你見面。",
+    grammar: "can 後接原形動詞 meet；meet you 表示和你見面；at 接約定的地點。",
+    patternId: "can-meet-at-place", patternName: "I can meet you at + 見面地點",
+    tokens: [
+      capstoneWord("I", "i", "i-general", "我", "pronoun 代名詞", "主詞"),
+      capstoneWord("can", "can", "can-meeting-availability", "可以（表示這個安排可行）", "modal verb 情態助動詞", "可行安排", "can 後用原形 meet。", "grammar"),
+      capstoneWord("meet", "meet", "meet-arrangement", "見面", "verb 動詞（原形）", "約定動作"),
+      capstoneWord("you", "you", "you-object-meeting", "你（受詞）", "pronoun 代名詞（受格）", "見面對象", "meet you 的意思是和你見面，不用加 with。", "grammar"),
+      capstoneWord("at", "at", "at-location", "在（接見面地點）", "preposition 介系詞", "地點介系詞", "", "grammar"),
+      capstoneWord("the", "the", "the-definite-article", "定冠詞（特定的車站）", "determiner 限定詞", "限定名詞", "", "grammar", capstonePriorChunk("the-station", 1)),
+      capstoneWord("station", "station", "station-transportation", "車站", "noun 名詞", "約定地點", "", "meaning", capstonePriorChunk("the-station", 1)),
+    ],
+  },
+  {
+    lessonId: "a2-u10-l04", title: "回顧行程的變化",
+    sentenceId: "a2-u10-l04-p01-s01", sentenceOrder: 4,
+    sentence: "I missed the bus, so I took the train.", translation: "我沒趕上公車，所以改搭火車。",
+    grammar: "用過去式交代已發生的事；so 接結果。miss → missed；take → took。",
+    patternId: "past-event-so-past-action", patternName: "過去事件 + so + 過去的應對行動",
+    tokens: [
+      capstoneWord("I", "i", "i-general", "我", "pronoun 代名詞", "主詞"),
+      capstoneWord("missed", "miss", "miss-fail-to-catch", "沒趕上", "verb 動詞（過去式）", "原因動作", "missed 的 -ed 在此發 /t/，不另成一個音節。", "context", missedBus),
+      capstoneWord("the", "the", "the-definite-article", "定冠詞（特定的公車）", "determiner 限定詞", "限定名詞", "", "grammar", missedBus),
+      capstoneWord("bus", "bus", "bus-transportation", "公車", "noun 名詞", "錯過的交通工具", "", "meaning", missedBus),
+      capstoneWord("so", "so", "so-result-connector", "所以", "conjunction 連接詞", "連接結果", "前面是原因，後面是應對行動。", "grammar"),
+      capstoneWord("I", "i", "i-general", "我", "pronoun 代名詞", "結果主詞"),
+      capstoneWord("took", "take", "take-transportation", "搭乘（take 的過去式）", "verb 動詞（過去式）", "結果動作", "took 是不規則過去式，受詞是交通工具。", "context", tookTrain),
+      capstoneWord("the", "the", "the-definite-article", "定冠詞（特定的火車）", "determiner 限定詞", "限定名詞", "", "grammar", tookTrain),
+      capstoneWord("train", "train", "train-transportation", "火車", "noun 名詞", "改搭的交通工具", "", "meaning", tookTrain),
+    ],
+  },
+];
+const capstoneRows = rowsFromLessons(
+  capstoneLessons, sharedForUnit("a2-u10", "綜合郵件、行程與生活故事"),
+);
 const rows = [
   ...unitOneRows,
   ...travelRows,
@@ -4473,7 +4588,81 @@ const rows = [
   ...experienceRows,
   ...problemRows,
   ...socialRows,
+  ...capstoneRows,
 ];
+
+// Only append to the original ten units. The bank follows teaching order so a
+// newly taught spelling must have a candidate before a later lesson uses it.
+const appliedKnown = [...rows, ...a1Rows];
+const appliedLexemes = new Set(appliedKnown.map((row) => row.lexeme_id));
+for (const unit of appliedUnits) {
+  for (const [lessonIndex, definition] of unit.lessons.entries()) {
+    const lessonId = appliedLessonId(unit.id, lessonIndex);
+    const answers = definition.sentence.match(/[A-Za-z]+(?:'[A-Za-z]+)*/g) ?? [];
+    const chunksByIndex = new Map();
+    for (const [index, entry] of definition.chunks.entries()) {
+      const words = entry.text.toLowerCase().split(" ");
+      const start = answers.findIndex((_, offset) =>
+        words.every((word, wordIndex) => answers[offset + wordIndex]?.toLowerCase() === word),
+      );
+      if (start === -1 || words.some((_, offset) => chunksByIndex.has(start + offset))) {
+        throw new Error(`${lessonId}：找不到獨立語塊 ${entry.id}。`);
+      }
+      const fields = chunk(entry.id, entry.text, entry.translation, index + 1, entry.note);
+      words.forEach((_, offset) => chunksByIndex.set(start + offset, fields));
+    }
+    const tokens = answers.map((answer, position) => {
+      const spelling = answer.toLowerCase();
+      const form = appliedForms[spelling];
+      const source = appliedKnown.find((row) =>
+        row.answer.toLowerCase() === spelling && (!form || row.lexeme_id === form.id),
+      );
+      const lexemeId = source?.lexeme_id ?? form?.id;
+      const usage = definition.uses[spelling];
+      if (!lexemeId || (!source && (!form || !usage))) {
+        throw new Error(`${lessonId}：${answer} 缺少先備詞形或教學資料。`);
+      }
+      let token;
+      if (source) {
+        token = knownTokenFromRows(answer, lexemeId, [source]);
+      } else {
+        const pinned = socialPhonetics.entries.find((entry) => entry.lexemeId === form.id)?.variants[0];
+        const syllables = form.syllables ?? pinned?.syllableCount;
+        const stress = form.stress ?? pinned?.stressSyllableIndexes[0];
+        const kk = form.kk ?? pinned?.kkCandidate;
+        const ipa = form.ipa ?? pinned?.ipaCandidate;
+        if (!syllables || !kk || !ipa || (syllables > 1 && !stress)) {
+          throw new Error(`${lessonId}：${answer} 缺少美式音標候選。`);
+        }
+        token = newToken({
+          tokenId: spelling, lexemeId, lemma: lexemeId,
+          dictionaryPos: form.dictionaryPos, kk, ipa, syllables: String(syllables),
+          stress: syllables === 1 ? "單音節" : `第 ${stress} 音節（候選）`,
+          display: form.display, isNewWord: !appliedLexemes.has(lexemeId),
+        });
+      }
+      appliedLexemes.add(lexemeId);
+      return {
+        answer, ...token,
+        sense_id: usage?.sense ?? source.sense_id,
+        prompt: usage?.prompt ?? source.prompt,
+        context_pos: usage?.pos ?? source.context_pos,
+        prompt_type: usage?.promptType ?? source.prompt_type,
+        semanticRole: usage?.role ?? source.semanticRole,
+        note: usage?.note ?? (["a", "an"].includes(spelling) ? source.note : ""),
+        ...chunksByIndex.get(position),
+        ...(source ? {} : { is_new_content: "TRUE" }),
+      };
+    });
+    const lessonRows = rowsFromLessons([{
+      ...definition, tokens, lessonId,
+      sentenceId: `${lessonId}-p01-s01`, sentenceOrder: lessonIndex + 1,
+      patternName: definition.template,
+    }], sharedForUnit(unit.id, unit.title));
+    rows.push(...lessonRows);
+    appliedKnown.unshift(...lessonRows);
+  }
+}
 
 fs.writeFileSync(
   path.join(root, "public/data/a2-course-v1.csv"),

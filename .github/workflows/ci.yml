@@ -36,10 +36,14 @@ jobs:
         run: npm run verify
 
   playwright:
-    name: Playwright browser tests
+    name: Playwright shard ${{ matrix.shard }}/16
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -58,16 +62,33 @@ jobs:
           google-chrome --version
           npx playwright --version
 
+      # The applied A2 course flows alone take about three hours of browser
+      # time, so each shard runs a slice of individual tests on two workers.
       - name: Run Playwright tests
-        run: npm run test:e2e
+        run: npm run test:e2e -- --fully-parallel --workers=2 --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright report and failure details
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: playwright-report-${{ github.run_attempt }}
+          name: playwright-report-${{ matrix.shard }}-${{ github.run_attempt }}
           path: |
             playwright-report/
             test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  playwright-summary:
+    # Branch protection requires this exact check name. It runs even when a
+    # shard fails, so a skipped check can never count as a pass.
+    name: Playwright browser tests
+    needs: playwright
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every shard to pass
+        env:
+          SHARDS_RESULT: ${{ needs.playwright.result }}
+        run: |
+          echo "Playwright shards: $SHARDS_RESULT"
+          test "$SHARDS_RESULT" = "success"

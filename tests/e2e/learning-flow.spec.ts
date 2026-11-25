@@ -1,4 +1,5 @@
 import { expect, Page, test } from "@playwright/test";
+import { a2LessonCount, a2UnitIds } from "./a2-catalog-fixture";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -329,7 +330,8 @@ const openA2Lesson = async (
     page.locator('[data-testid="level-selector-a2"]'),
   ).toHaveAttribute("aria-pressed", "true");
   await page
-    .getByRole("button", { name: new RegExp(title) })
+    // Match the whole title: later units add titles that contain earlier ones.
+    .getByRole("button", { name: new RegExp(`(?:^|\\s)${title}(?:\\s|$)`) })
     .click();
   await page
     .getByRole("button", { name: /從中文提示與逐字輸入開始/ })
@@ -1190,7 +1192,7 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
     });
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("1 / 36", { exact: true })).toBeVisible();
+  await expect(page.getByText(`1 / ${a2LessonCount}`, { exact: true })).toBeVisible();
   await page.getByRole("button", {
     name: "前往課程地圖",
     exact: true,
@@ -1203,7 +1205,7 @@ test("completes the first A2 lesson and preserves both levels after reload", asy
     page.getByRole("heading", { name: "A1 課程地圖" }),
   ).toBeVisible();
   await expect(page.getByTestId("level-selector-a1").getByText("1/32 課")).toBeVisible();
-  await expect(page.getByTestId("level-selector-a2").getByText("1/36 課")).toBeVisible();
+  await expect(page.getByTestId("level-selector-a2").getByText(`1/${a2LessonCount} 課`)).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
@@ -1281,6 +1283,8 @@ test("completes the A2 passage rebuild and all three comprehension questions", a
 test("keeps formal A2 units sequential while QA preview exposes all pilot units", async ({
   page,
 }) => {
+  // Reloads the full A2 map six times; on CI runners this took over 30 s.
+  test.setTimeout(90_000);
   await page.addInitScript(
     ({ key, settings, progress }) => {
       if (localStorage.getItem(key) === null) {
@@ -1607,7 +1611,7 @@ test("completes all 16 new A2 lessons and four new passages", async ({
 
   await page.reload();
   await expectLevelHomeReady(page, "A2");
-  await expect(page.getByText("16 / 36", { exact: true })).toBeVisible();
+  await expect(page.getByText(`16 / ${a2LessonCount}`, { exact: true })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
@@ -1625,7 +1629,7 @@ test("finishing current A2 pilot content never marks A2 formally passed", async 
     [],
     [],
     "A2",
-    ["a2-u01", "a2-u02", "a2-u03", "a2-u04", "a2-u05", "a2-u06", "a2-u07", "a2-u08", "a2-u09"],
+    [...a2UnitIds],
   );
   await page.goto("/");
   await expectLevelHomeReady(page, "A2");

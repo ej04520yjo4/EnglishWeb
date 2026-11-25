@@ -32,7 +32,7 @@
   {"lexemeId":"storm","sentence":"The storm knocked down several trees.","translationZhTw":"暴風雨吹倒了幾棵樹。","targetForm":"storm","noteZhTw":"此處指伴隨強風、降雨和雷電的劇烈天氣。"},
   {"lexemeId":"thick","sentence":"The thick fog covered the mountain road.","translationZhTw":"濃霧覆蓋了山路。","targetForm":"thick","noteZhTw":"此處形容相對於寬度或表面距離較厚的。"},
   {"lexemeId":"achievement","sentence":"Finishing the marathon was a major achievement.","translationZhTw":"完成馬拉松是一項重大成就。","targetForm":"achievement","noteZhTw":"此處指完成某件困難事情的成就。"},
-  {"lexemeId":"negotiate","sentence":"The driver negotiated the narrow mountain road carefully.","translationZhTw":"駕駛小心地通過狹窄的山路。","targetForm":"negotiated","noteZhTw":"此處使用 negotiate 的過去式，表示成功通過或繞過困難的路段。"},
+  {"lexemeId":"negotiate","sentence":"They negotiated a lower price.","translationZhTw":"他們協商出較低的價格。","targetForm":"negotiated","noteZhTw":"negotiate 表示透過討論達成協議；此句使用過去式 negotiated。"},
   {"lexemeId":"dominate","sentence":"One team began to dominate the second half.","translationZhTw":"其中一支隊伍開始在下半場佔上風。","targetForm":"dominate","noteZhTw":"此處表示在力量或重要性上占優勢。"},
   {"lexemeId":"supplier","sentence":"The supplier delivers fresh vegetables every morning.","translationZhTw":"供應商每天早上配送新鮮蔬菜。","targetForm":"supplier","noteZhTw":"此處指提供商品或服務的人或公司。"},
   {"lexemeId":"prize","sentence":"She won first prize in the photography contest.","translationZhTw":"她在攝影比賽中贏得第一名獎品。","targetForm":"prize","noteZhTw":"此處指競賽勝利者得到的獎品或獎金。"},
