@@ -564,6 +564,6 @@ All new content remains `pilot_review_required` and audio remains `pending`. The
 
 **Status:** Accepted, 2026-11-24
 
-**Decision:** Run the Playwright matrix in 16 GitHub Actions shards with `--fully-parallel` and two workers each. A summary job keeps the required check name `Playwright browser tests`, always runs, and fails unless every shard succeeded. Each shard keeps the 30-minute limit and uploads its own report.
+**Decision:** Run the Playwright matrix in 16 GitHub Actions shards with `--fully-parallel` and two workers each. A summary job keeps the required check name `Playwright browser tests`, always runs, and fails unless every shard succeeded. Each shard keeps the 30-minute limit and uploads its own report. Assertions wait up to 10 seconds instead of Playwright's 5-second default, and the six-reload A2 map ordering case has a 90-second test limit. Retries stay at 0.
 
-**Reason:** The applied A2 flows grew the suite to 650 tests and about 3.6 hours of browser time, which one 30-minute job cannot finish. Sharding keeps every test and the branch protection rule unchanged, and a skipped or failed shard can never be reported as a pass.
+**Reason:** The applied A2 flows grew the suite to 650 tests and about 3.6 hours of browser time, which one 30-minute job cannot finish. Sharding keeps every test and the branch protection rule unchanged, and a skipped or failed shard can never be reported as a pass. On two-core runners the first load of the full A2 data sometimes took over 5 seconds; a longer wait keeps every assertion, while retries could hide a real failure.
